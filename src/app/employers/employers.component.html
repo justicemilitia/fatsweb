@@ -1,5 +1,4 @@
 <body>
-  <h1>Deneme</h1>
 <table>
   <tr class="tr-head">
     <td>Id</td>
@@ -8,6 +7,7 @@
     <td>Address</td>
     <td>Home Phone</td>
     <td>Cell Phone</td>
+    <td>Description</td>
   </tr>
     <tr *ngFor="let employee of employers" class="tr-body">
       <td>{{employee.id}}</td>
@@ -16,6 +16,7 @@
       <td>{{employee.address}}</td>
       <td>{{employee.homePhone}}</td>
       <td>{{employee.cellPhone}}</td>
+      <td>{{employee.description}}</td>
     </tr>
   </table>
 </body>
