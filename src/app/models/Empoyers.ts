@@ -6,5 +6,5 @@ export class Employers {
     address:string;
     homePhone:string;
     cellPhone:string;
-
+    description:string;
 }
