@@ -1,0 +1,55 @@
+<body class="az-body">
+  <div class="az-signin-wrapper">
+    <div class="az-card-signin">
+      <div class="row justify-content-center">
+        <h1 class="az-logo"><img src="\assets\img\trinoks-logo.png" /></h1>
+      </div>
+      <div class="az-signin-header">
+        <div class="row justify-content-center">
+          <h2 style="color:black; font-size: 1.5rem">Hoşgeldiniz</h2>
+        </div>
+        <form #loginForm="ngForm" (ngSubmit)="Login()">
+          <div class="form-group">
+            <label>E-posta</label>
+            <input
+              type="text"
+              name="username"
+              [(ngModel)]="loginUser.UserMail"
+              type="text"
+              class="form-control"
+              placeholder="Enter your email"
+              value="demo@themepixels.me"
+            />
+          </div>
+          <!-- form-group -->
+          <div class="form-group">
+            <label>Şifre</label>
+            <input
+              type="password"
+              name="password"
+              [(ngModel)]="loginUser.Password"
+              type="password"
+              class="form-control"
+              placeholder="Enter your password"
+              value="thisisademo"
+            />
+          </div>
+          <!-- form-group -->
+          <button class="btn btn-warning btn-block" type="submit">
+            Sign In
+          </button>
+        </form>
+      </div>
+      <!-- az-signin-header -->
+      <div class="az-signin-footer">
+        <p><a href="">Forgot password?</a></p>
+        <p>
+          Don't have an account? <a routerLink="/register">Create an Account</a>
+        </p>
+      </div>
+      <!-- az-signin-footer -->
+    </div>
+    <!-- az-card-signin -->
+  </div>
+  <!-- az-signin-wrapper -->
+</body>
