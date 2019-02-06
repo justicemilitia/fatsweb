@@ -37,7 +37,7 @@ export class AuthenticationService {
         this.decodedToken = this.jwtHelper.decodeToken(data["token"]);
         window.alert("Hoşgeldiniz efeniiim ");
    
-        this.router.navigateByUrl("/register");
+        this.router.navigateByUrl("/company");
       },
       error=>{
         window.alert("Şifre veya kullanıcı adı yanlış");     

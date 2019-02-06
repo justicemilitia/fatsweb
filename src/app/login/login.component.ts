@@ -31,7 +31,4 @@ export class LoginComponent implements OnInit {
   forgotPassword(content: any) {
     this.modal.open(content);
   }
-  // ForgotPassword(){
-  //   this.authservice.forgotPassword(this.content);
-  // }
 }
