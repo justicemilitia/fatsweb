@@ -2,50 +2,37 @@
   <div class="az-signin-wrapper">
     <div class="az-card-signin">
       <div class="row justify-content-center">
-        <h1 class="az-logo"><img src="\assets\img\trinoks-logo.png" /></h1>
+        <h1 class="az-logo" style="margin-top:10px">
+          <img src="\assets\img\trinoks-logo.png" />
+        </h1>
+      </div>
+      <div class="row justify-content-center">
+        <h2 style="color:darkgrey; font-size: 1.5rem">Hoşgeldiniz</h2>
       </div>
       <div class="az-signin-header">
-        <div class="row justify-content-center">
-          <h2 style="color:black; font-size: 1.5rem">Hoşgeldiniz</h2>
-        </div>
-        <form #loginForm="ngForm" (ngSubmit)="Login()">
+        <!-- form-group -->
+        <form  #loginForm="ngForm" (ngSubmit)="Login()">
           <div class="form-group">
             <label>E-posta</label>
-            <input
-              type="text"
-              name="username"
-              [(ngModel)]="loginUser.UserMail"
-              type="text"
-              class="form-control"
-              placeholder="Enter your email"
-              value="demo@themepixels.me"
-            />
+            <input type="text" name="username" [(ngModel)]="loginUser.UserMail" type="text" class="form-control" placeholder="Enter your email" value="demo@themepixels.me"/>
           </div>
-          <!-- form-group -->
           <div class="form-group">
             <label>Şifre</label>
-            <input
-              type="password"
-              name="password"
-              [(ngModel)]="loginUser.Password"
-              type="password"
-              class="form-control"
-              placeholder="Enter your password"
-              value="thisisademo"
-            />
+            <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control" placeholder="Enter your password" value="thisisademo"/>
           </div>
-          <!-- form-group -->
-          <button class="btn btn-warning btn-block" type="submit">
-            Sign In
-          </button>
+          <div *ngIf="!isAuthenticated" class="alert alert-warning" role="alert">             
+              <strong>Warning!</strong> Better check yourself, you're not looking too good.
+            </div><!-- alert -->
+          <button class="btn btn-orange btn-block" type="submit">Giriş</button>
         </form>
+        <!-- form-group -->
       </div>
       <!-- az-signin-header -->
       <div class="az-signin-footer">
-        <p><a href="">Forgot password?</a></p>
-        <p>
-          Don't have an account? <a routerLink="/register">Create an Account</a>
+        <p class="align-center" (click)="forgotPassword(content)">
+          <a>Şifremi unuttum</a>
         </p>
+        <p><a>Yeni kullanıcı oluştur</a></p>
       </div>
       <!-- az-signin-footer -->
     </div>
@@ -53,3 +40,48 @@
   </div>
   <!-- az-signin-wrapper -->
 </body>
+
+    <!-- MODAL EFFECTS -->
+    <div #content id="forgotPasswordModal" class="modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+              <h6 class="modal-title">Message Preview</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h6>Why We Use Electoral College, Not Popular Vote</h6>
+              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-indigo">Save changes</button>
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div><!-- modal-dialog -->
+      </div><!-- modal -->
+
+
+
+<script>
+  $(function(){
+    'use strict'
+
+    // showing modal with effect
+    $('.modal-effect').on('click', function(e){
+      e.preventDefault();
+      var effect = $(this).attr('data-effect');
+      $('#forgotPasswordModal').addClass(effect);
+    });
+
+    // hide modal with effect
+    $('#forgotPasswordModal').on('hidden.bs.modal', function (e) {
+      $(this).removeClass (function (index, className) {
+          return (className.match (/(^|\s)effect-\S+/g) || []).join(' ');
+      });
+    });
+
+  });
+</script>

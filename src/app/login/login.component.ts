@@ -1,22 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../services/authentication.service';
-import{} from 'bootstrap'
+import { Component, OnInit } from "@angular/core";
+import { AuthenticationService } from "../services/authentication.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
-
-  constructor(private authservice: AuthenticationService) { }
+  constructor(
+    private authservice: AuthenticationService,
+    private modal: NgbModal
+  ) {}
 
   loginUser: any = {};
-  
-  ngOnInit() {
-  }
+  content: any;
+  ngOnInit() {}
 
   Login() {
     this.authservice.Login(this.loginUser);
   }
+
+  LogOut() {
+    this.authservice.logOut();
+  }
+
+  get isAuthenticated() {
+    return this.authservice.loggedIn();
+  }
+  forgotPassword(content: any) {
+    this.modal.open(content);
+  }
+  // ForgotPassword(){
+  //   this.authservice.forgotPassword(this.content);
+  // }
 }
