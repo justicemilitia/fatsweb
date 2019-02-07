@@ -7,14 +7,21 @@
         <span>DataTables</span>
       </div> -->
       <h2 class="az-content-title">Kişiler</h2>
-      <div class="col-md-2 right">
-        <button class="btn btn-orange btn-block btn-height">Kişi Ekle</button>
+      <div class="col-md-2 btnAddUser-right">
+        <button
+          class="btn btn-orange btn-block btnAddUser-height"
+          id="btnAddUser"
+          data-toggle="modal"
+          data-target="#modalUser"
+        >
+          Kişi Ekle
+        </button>
       </div>
       <p class="mg-b-20"></p>
 
       <table
         id="datatable1"
-        class="display responsive nowrap dataTable no-footer dtr-inline"
+        class="display responsive nowrap dataTable no-footer dtr-inline table-bordered deneme"
         role="grid"
       >
         <thead>
@@ -109,28 +116,124 @@
 </div>
 <!-- az-content -->
 <app-footer></app-footer>
-<!-- <script>
-  $(document).ready(function() {
+
+<div id="modalUser" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <h6>Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
+        <form [formGroup]="registerForm" (ngSubmit)="register()" class="form-register">
+          <div class="row">
+            <div class="col-sm-3">
+              <label>*İsim</label>
+              <input type="text" id="firstName" name="firstName" class="form-control txt-width" />
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
+            </div>
+            <div class="col-sm-3">
+              <label>*Soyisim</label>
+              <input type="text" id="lastName" name="lastName" class="form-control txt-width" />
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
+            </div> 
+            <div class="col-sm-6">
+              <label>*E-posta</label>
+              <input type="text" id="userMail" name="userMail" class="form-control txt-width" />
+            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">E-posta gereklidir.</span>                   -->
+            </div>
+          </div>
+          <!-- form-group -->
+          <div class="row">
+            <div class="col-sm-4">
+              <label>*Departman</label>
+              <!-- <input type="text" id="department" name="department" class="form-control txt-width" /> -->
+              <select  id="department" name="department" class="form-control txt-width">
+                <option value="defaultDepartment">Seçiniz</option>                                    
+                <option value="yazilim">Yazılım</option>
+                <option value="it">IT</option>
+                <option value="finance">Finans</option>
+              </select>
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Departman gereklidir.</span>                 -->
+            </div>
+            <div class="col-sm-4">
+              <label>*Lokasyon</label>
+              <!-- <input type="" id="location" name="location" class="form-control txt-width" /> -->
+              <select  id="location" name="location" class="form-control txt-width">
+                <option value="defaultLocation">Seçiniz</option>                  
+                <option value="kurfali">Kurfalı</option>
+                <option value="atasehir">Ataşehir</option>
+                <option value="zeytinburnu">Zeytinburnu</option>
+              </select>
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Lokasyon gereklidir.</span> -->
+            </div>
+            <div class="col-sm-4">
+              <label>*Şifre</label>
+              <input type="password" id="password" name="password" class="form-control txt-width" />
+            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Parola gereklidir.</span> 
+            <span class="help-block" *ngIf="registerForm.get('password').hasError('min-length') && registerForm.get('password').touched">Şifre 4 karakterden az olamaz.</span>                                 
+            <span class="help-block" *ngIf="registerForm.get('password').hasError('max-length') && registerForm.get('password').touched">Şifre 8 karakterden fazla olamaz.</span>                                  -->
+            </div>
+          </div>
+          <!-- form-group -->
+          <div class="row">
+            <div class="col-sm-4">
+              <label>*Unvan</label>
+              <input type="text" id="userTitle" name="userTitle" class="form-control txt-width" />
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Unvan gereklidir.</span>                 -->
+            </div>
+            <div class="col-sm-4">
+              <label>*Şirket</label>
+              <input type="text" id="firm" name="firm" class="form-control txt-width" />
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Şirket bilgisi gereklidir.</span>                 -->
+            </div>
+            <div class="col-sm-4">
+              <label>*Rol</label>
+            <select  id="role" name="role" class="form-control txt-width">
+              <option value="defaultLocation">Seçiniz</option>                  
+              <option value="admin">Admin</option>
+              <option value="itt">IT</option>
+            </select>
+          </div>            
+          </div>
+          <!-- form-group -->
+          <div class="row">
+            
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertUser">Hesap Oluştur</button>       
+      </div>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
+<script>
+  $(function() {
     "use strict";
 
-    $("#datatable1").DataTable({
-      responsive: true,
-      language: {
-        searchPlaceholder: "Search...",
-        sSearch: "",
-        lengthMenu: "_MENU_ items/page"
-      }
+    // showing modal with effect
+    $(".modal-effect").on("click", function(e) {
+      e.preventDefault();
+      var effect = $(this).attr("data-effect");
+      $("#modaldemo8").addClass(effect);
     });
 
-    $("#datatable2").DataTable({
-      bLengthChange: false,
-      searching: false,
-      responsive: true
-    });
-
-    // Select2
-    $(".dataTables_length select").select2({
-      minimumResultsForSearch: Infinity
+    // hide modal with effect
+    $("#modaldemo8").on("hidden.bs.modal", function(e) {
+      $(this).removeClass(function(index, className) {
+        return (className.match(/(^|\s)effect-\S+/g) || []).join(" ");
+      });
     });
   });
-</script> -->
+</script>
