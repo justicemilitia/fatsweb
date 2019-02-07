@@ -7,10 +7,8 @@
               <span>Table</span>
               <span>DataTables</span>
             </div>
-            <h2 class="az-content-title">Kişiler</h2>
-
-            <button class="btn btn-outline-info">Kişi Ekle</button>
-
+            <h2 class="az-content-title">Şirketler</h2>
+            <button (click)="openModal(id)"class="btn btn-outline-info">Şirket Ekle</button>
             <p class="mg-b-20">Searching, ordering and paging goodness will be immediately added to the table, as shown in this example.</p>
   
             <table id="datatable1" class="display responsive nowrap">
@@ -57,5 +55,28 @@
         </div>
       </div><!-- az-content -->
       </body>
+          <!-- LARGE MODAL -->
+    <div id="companyModal" class="modal">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                  <h6 class="modal-title">Message Preview</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form>
+                <div class="modal-body">
+                  <h6>Why We Use Electoral College, Not Popular Vote</h6>
+                  <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
+                </div><!-- modal-body -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-indigo">Save changes</button>
+                  <button type="button" data-dismiss="modal" class="btn btn-outline-light">Close</button>
+                </div>
+            </form>
+              </div>
+            </div><!-- modal-dialog -->
+          </div><!-- modal -->
       <app-footer></app-footer>
 
