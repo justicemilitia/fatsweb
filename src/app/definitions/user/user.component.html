@@ -1,0 +1,136 @@
+<app-header></app-header>
+<div class="az-content">
+  <div class="container">
+    <div class="az-content-body">
+      <!-- <div class="az-content-breadcrumb">
+        <span>Table</span>
+        <span>DataTables</span>
+      </div> -->
+      <h2 class="az-content-title">Kişiler</h2>
+      <div class="col-md-2 right">
+        <button class="btn btn-orange btn-block btn-height">Kişi Ekle</button>
+      </div>
+      <p class="mg-b-20"></p>
+
+      <table
+        id="datatable1"
+        class="display responsive nowrap dataTable no-footer dtr-inline"
+        role="grid"
+      >
+        <thead>
+          <tr>
+            <th class="wd-15p">İsim</th>
+            <th class="wd-15p">Soyisim</th>
+            <th class="wd-20p">Unvan</th>
+            <th class="wd-15p">Bağlı Olduğu Departman</th>
+            <th class="wd-10p">Bağlı Olduğu Lokasyon</th>
+            <th class="wd-10p">Bağlı Olduğu Şirket</th>
+            <th class="wd-15p">E-mail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Eda</td>
+            <td>Ekiz</td>
+            <td>Yazılım Uzman Yardımcısı</td>
+            <td>Yazılım</td>
+            <td>Ataşehir</td>
+            <td>Trinoks A.Ş.</td>
+            <td>eda.ekiz@trinoks.com</td>
+          </tr>
+          <tr>
+            <td>Sena Selin</td>
+            <td>Sarıyılmaz</td>
+            <td>Yazılım Uzman Yardımcısı</td>
+            <td>Yazılım</td>
+            <td>Ataşehir</td>
+            <td>Trinoks A.Ş.</td>
+            <td>sena.sariyilmaz@trinoks.com</td>
+          </tr>
+          <tr>
+            <td>Burak</td>
+            <td>Akbal</td>
+            <td>Yazılım Uzman Yardımcısı</td>
+            <td>Yazılım</td>
+            <td>Ataşehir</td>
+            <td>Trinoks A.Ş.</td>
+            <td>burak.akbal@trinoks.com</td>
+          </tr>
+          <tr>
+            <td>Baran Can</td>
+            <td>Aydın</td>
+            <td>Kıdemli Yazılım Uzman</td>
+            <td>Yazılım</td>
+            <td>Ataşehir</td>
+            <td>Trinoks A.Ş.</td>
+            <td>baran.aydin@trinoks.com</td>
+          </tr>
+          <tr>
+            <td>Melis</td>
+            <td>Aydın</td>
+            <td>İş Analisti</td>
+            <td>İş Analistliği</td>
+            <td>Ataşehir</td>
+            <td>Trinoks A.Ş.</td>
+            <td>melis.aydin@trinoks.com</td>
+          </tr>
+          <tr>
+            <td>Raif</td>
+            <td>Aslan</td>
+            <td>İş Analisti</td>
+            <td>İş Analistliği</td>
+            <td>Ataşehir</td>
+            <td>Trinoks A.Ş.</td>
+            <td>raif.aslan@trinoks.com</td>
+          </tr>
+          <tr>
+            <td>Soner</td>
+            <td>Atmaca</td>
+            <td>İş Analisti</td>
+            <td>İş Analistliği</td>
+            <td>Ataşehir</td>
+            <td>Trinoks A.Ş.</td>
+            <td>soner.atmaca@trinoks.com</td>
+          </tr>
+          <tr>
+            <td>Cengiz</td>
+            <td>Karabulut</td>
+            <td>İş Analisti</td>
+            <td>İş Analistliği</td>
+            <td>Ataşehir</td>
+            <td>Trinoks A.Ş.</td>
+            <td>cengiz.karabulut@trinoks.com</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+<!-- az-content -->
+<app-footer></app-footer>
+<!-- <script>
+  $(document).ready(function() {
+    "use strict";
+
+    $("#datatable1").DataTable({
+      responsive: true,
+      language: {
+        searchPlaceholder: "Search...",
+        sSearch: "",
+        lengthMenu: "_MENU_ items/page"
+      }
+    });
+
+    $("#datatable2").DataTable({
+      bLengthChange: false,
+      searching: false,
+      responsive: true
+    });
+
+    // Select2
+    $(".dataTables_length select").select2({
+      minimumResultsForSearch: Infinity
+    });
+  });
+</script> -->

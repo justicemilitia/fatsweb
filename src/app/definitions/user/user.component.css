@@ -1,0 +1,24 @@
+/* vendor css */
+@import url("../../../assets/lib/fontawesome-free/css/all.min.css");
+@import url("../../../assets/lib/ionicons/css/ionicons.min.css");
+@import url("../../../assets/lib/typicons.font/typicons.css");
+@import url("../../../assets/lib/datatables.net-dt/css/jquery.dataTables.min.css");
+@import url("../../../assets/lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css");
+@import url("../../../assets/lib/select2/css/select2.min.css");
+
+ /* azia CSS */
+@import url("../../../assets/css/azia.css");
+
+.btn-orange {
+  background: #e67300;
+  color: white;
+  border-radius: 5px;
+}
+.btn-height {
+  min-height: 15px;
+}
+.right {
+  float: right;
+  margin-bottom:10px;
+  padding-right:0px;
+}
