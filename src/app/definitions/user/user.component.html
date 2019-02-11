@@ -13,26 +13,25 @@
           id="btnAddUser"
           data-toggle="modal"
           data-target="#modalUser"
-        >
-          Kişi Ekle
+        >Kişi Ekle
         </button>
       </div>
       <p class="mg-b-20"></p>
 
       <table
-        id="datatable1"
-        class="display responsive nowrap dataTable no-footer dtr-inline table-bordered deneme"
+        id="tblUser"
+        class="display responsive dataTables_wrapper dataTable no-footer dtr-inline table-bordered deneme"
         role="grid"
       >
         <thead>
           <tr>
-            <th class="wd-15p">İsim</th>
-            <th class="wd-15p">Soyisim</th>
-            <th class="wd-20p">Unvan</th>
-            <th class="wd-15p">Bağlı Olduğu Departman</th>
-            <th class="wd-10p">Bağlı Olduğu Lokasyon</th>
-            <th class="wd-10p">Bağlı Olduğu Şirket</th>
-            <th class="wd-15p">E-mail</th>
+            <th class="wd-15p sorting">İsim</th>
+            <th class="wd-15p sorting">Soyisim</th>
+            <th class="wd-20p sorting">Unvan</th>
+            <th class="wd-15p sorting">Departman</th>
+            <th class="wd-10p sorting">Lokasyon</th>
+            <th class="wd-10p sorting">Şirket</th>
+            <th class="wd-15p sorting">E-mail</th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +109,7 @@
           </tr>
         </tbody>
       </table>
+      
     </div>
     <!-- az-content-body -->
   </div>
@@ -133,85 +133,92 @@
       </div>
       <div class="modal-body">
         <!-- <h6>Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-        <form [formGroup]="registerForm" (ngSubmit)="register()" class="form-register">
+        <form #data="ngForm" (ngSubmit)="register(data)" class="form-register">
           <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-6">
               <label>*İsim</label>
-              <input type="text" id="firstName" name="firstName" class="form-control txt-width" />
+              <input type="text" id="registerUser.FirstName" ngModel name="registerUser.FirstName" required class="form-control txt-width" />
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
             </div>
-            <div class="col-sm-3">
-              <label>*Soyisim</label>
-              <input type="text" id="lastName" name="lastName" class="form-control txt-width" />
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
-            </div> 
             <div class="col-sm-6">
-              <label>*E-posta</label>
-              <input type="text" id="userMail" name="userMail" class="form-control txt-width" />
-            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">E-posta gereklidir.</span>                   -->
+              <label>*Soyisim</label>
+              <input type="text" id="registerUser.LastName" ngModel name="registerUser.LastName" required class="form-control txt-width" />
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
             </div>
           </div>
           <!-- form-group -->
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <label>*Departman</label>
               <!-- <input type="text" id="department" name="department" class="form-control txt-width" /> -->
-              <select  id="department" name="department" class="form-control txt-width">
-                <option value="defaultDepartment">Seçiniz</option>                                    
-                <option value="yazilim">Yazılım</option>
-                <option value="it">IT</option>
-                <option value="finance">Finans</option>
+              <select  id="registerUser.DepartmentID" ngModel name="registerUser.DepartmentID" required class="form-control txt-width">
+                <option value="">Seçiniz</option>                                    
+                <option value="1">Yazılım</option>
+                <option value="2">IT</option>
+                <option value="3">Finans</option>
               </select>
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Departman gereklidir.</span>                 -->
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <label>*Lokasyon</label>
               <!-- <input type="" id="location" name="location" class="form-control txt-width" /> -->
-              <select  id="location" name="location" class="form-control txt-width">
-                <option value="defaultLocation">Seçiniz</option>                  
-                <option value="kurfali">Kurfalı</option>
-                <option value="atasehir">Ataşehir</option>
-                <option value="zeytinburnu">Zeytinburnu</option>
+              <select  id="registerUser.LocationID" ngModel name="registerUser.LocationID" required class="form-control txt-width">
+                <option value="">Seçiniz</option>                  
+                <option value="1">Kurfalı</option>
+                <option value="2">Ataşehir</option>
+                <option value="3">Zeytinburnu</option>
               </select>
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Lokasyon gereklidir.</span> -->
             </div>
-            <div class="col-sm-4">
-              <label>*Şifre</label>
-              <input type="password" id="password" name="password" class="form-control txt-width" />
-            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Parola gereklidir.</span> 
-            <span class="help-block" *ngIf="registerForm.get('password').hasError('min-length') && registerForm.get('password').touched">Şifre 4 karakterden az olamaz.</span>                                 
-            <span class="help-block" *ngIf="registerForm.get('password').hasError('max-length') && registerForm.get('password').touched">Şifre 8 karakterden fazla olamaz.</span>                                  -->
-            </div>
           </div>
           <!-- form-group -->
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <label>*Unvan</label>
-              <input type="text" id="userTitle" name="userTitle" class="form-control txt-width" />
+              <input type="text" id="registerUser.UserTitle" ngModel name="registerUser.UserTitle" required class="form-control txt-width" />
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Unvan gereklidir.</span>                 -->
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <label>*Şirket</label>
-              <input type="text" id="firm" name="firm" class="form-control txt-width" />
+              <input type="text" id="registerUser.FirmID" ngModel name="registerUser.FirmID" required class="form-control txt-width" />
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Şirket bilgisi gereklidir.</span>                 -->
-            </div>
-            <div class="col-sm-4">
-              <label>*Rol</label>
-            <select  id="role" name="role" class="form-control txt-width">
-              <option value="defaultLocation">Seçiniz</option>                  
-              <option value="admin">Admin</option>
-              <option value="itt">IT</option>
-            </select>
-          </div>            
+            </div>           
           </div>
           <!-- form-group -->
+          <div  class="row">
+              <div class="col-sm-6">
+                  <label>*Rol</label>
+                <select  id="registerUser.RoleID" ngModel name="registerUser.RoleID" required class="form-control txt-width">
+                  <option value="">Seçiniz</option>                  
+                  <option value="1">Admin</option>
+                  <option value="2">IT</option>
+                </select>
+              </div> 
+              <div class="col-sm-6">
+                  <label>*Şifre</label>
+                  <input type="password" id="registerUser.Password" ngModel name="registerUser.Password" required class="form-control txt-width" />
+                <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Parola gereklidir.</span> 
+                <span class="help-block" *ngIf="registerForm.get('password').hasError('min-length') && registerForm.get('password').touched">Şifre 4 karakterden az olamaz.</span>                                 
+                <span class="help-block" *ngIf="registerForm.get('password').hasError('max-length') && registerForm.get('password').touched">Şifre 8 karakterden fazla olamaz.</span>                                  -->
+                </div>
+          </div>
+          <input type="hidden" id="registerUser.ConfirmPassword" ngModel name="registerUser.ConfirmPassword" value="registerUser.Password">
+          <!-- form-group -->          
+          <div class="row">
+              <div class="col-sm-12">
+                  <label>*E-posta</label>
+                  <input type="text" id="registerUser.UserMail" ngModel name="registerUser.UserMail" required class="form-control txt-width" />
+                <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">E-posta gereklidir.</span>                   -->
+                </div>
+          </div>
+          <!-- form-group -->          
           <div class="row">
             
           </div>
+          <div class="modal-footer">
+              <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal" data-target="#modalInsertUser">Hesap Oluştur</button>       
+            </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertUser">Hesap Oluştur</button>       
       </div>
     </div>
   </div>
@@ -236,4 +243,13 @@
       });
     });
   });
+  $(document).ready( function () {
+    $('#tblUser').DataTable({
+        "columnDefs": [ {
+            "type": "salary-grade",
+            "targets": -1
+        } ],
+        "order": [[0,asc]]
+      });
+} );
 </script>

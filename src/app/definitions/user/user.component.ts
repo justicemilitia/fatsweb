@@ -6,9 +6,11 @@ import {
   FormControl,
   FormsModule,
   ReactiveFormsModule,
-  FormArray
+  FormArray,
+  NgForm
 } from "@angular/forms";
 import { UserService } from "../../services/userService/user.service";
+import { User } from "../../models/User";
 
 @Component({
   selector: "app-user",
@@ -33,37 +35,28 @@ export class UserComponent implements OnInit {
   }
 
   createRegisterForm() {
-    this.registerForm = this.formBuilder.group(
-      {
-        firstName: ["", Validators.required],
-        lastName: ["", Validators.required],
-        department: ["", Validators.required],
-        location: ["", Validators.required],
-        userTitle: ["", Validators.required],
-        firm: ["", Validators.required],
-        userMail: ["", Validators.required],
-        password: [
-          "",
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(8)
-        ],
-        confirmPassword: ["", Validators.required]
-      },
-      { validator: this.passwordMatchValidator }
-    );
+    this.registerForm = this.formBuilder.group({
+      firstName: ["", Validators.required],
+      lastName: ["", Validators.required],
+      departmentID: ["", Validators.required],
+      locationID: ["", Validators.required],
+      userTitle: ["", Validators.required],
+      firmID: ["", Validators.required],
+      userMail: ["", Validators.required],
+      password: [
+        "",
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(8)
+      ],
+      confirmPassword: []
+    });
   }
 
-  passwordMatchValidator(g: FormGroup) {
-    return g.get("password").value === g.get("confirmPassword").value
-      ? null
-      : { missMatch: true };
-  }
-
-  register() {
-    if (this.registerForm.valid) {
-      this.registerUser = Object.assign({}, this.registerUser.value);
-      this.userService.Register(this.registerUser);
-    }
+  register(data: NgForm) {
+    console.log(data.value);
+    // this.registerUser.confirmPassword = data.value.password;
+    this.registerUser = <User>data.value;
+    this.userService.Register(this.registerUser);
   }
 }
