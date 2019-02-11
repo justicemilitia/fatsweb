@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { CompanyServiceService } from "../../services/companyService/company-service.service";
+import { CompanyService } from "../../services/companyService/company.service";
 
 @Component({
   selector: "app-company",
@@ -10,10 +10,8 @@ export class CompanyComponent implements OnInit {
   [x: string]: any;
 
   constructor() {}
-  private companyService: CompanyServiceService;
+  private companyService: CompanyService;
   
   ngOnInit() {}
-  openModal(id: string) {
-    this.companyService.openCompanyModal(id);
-  }
+
 }

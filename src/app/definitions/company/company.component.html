@@ -1,82 +1,179 @@
 <app-header></app-header>
 <body>
-<div class="az-content">
-        <div class="container">
-          <div class="az-content-body">
-            <div class="az-content-breadcrumb">
-              <span>Table</span>
-              <span>DataTables</span>
-            </div>
-            <h2 class="az-content-title">Şirketler</h2>
-            <button (click)="openModal(id)"class="btn btn-outline-info">Şirket Ekle</button>
-            <p class="mg-b-20">Searching, ordering and paging goodness will be immediately added to the table, as shown in this example.</p>
-  
-            <table id="datatable1" class="display responsive nowrap">
-              <thead>
-                <tr>
-                  <th class="wd-15p">First name</th>
-                  <th class="wd-15p">Last name</th>
-                  <th class="wd-20p">Position</th>
-                  <th class="wd-15p">Start date</th>
-                  <th class="wd-10p">Salary</th>
-                  <th class="wd-25p">E-mail</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Tiger</td>
-                  <td>Nixon</td>
-                  <td>System Architect</td>
-                  <td>2011/04/25</td>
-                  <td>$320,800</td>
-                  <td>t.nixon@datatables.net</td>
-                </tr>
-                <tr>
-                  <td>Garrett</td>
-                  <td>Winters</td>
-                  <td>Accountant</td>
-                  <td>2011/07/25</td>
-                  <td>$170,750</td>
-                  <td>g.winters@datatables.net</td>
-                </tr> 
-              </tbody>
-            </table>
-  
-            <hr class="mg-y-30 mg-lg-y-50">
-  
-            <div class="az-content-label mg-b-5">Disabling Search & Items Per Page Menu</div>
-            <p class="mg-b-20">Searching, ordering and paging goodness will be immediately added to the table, as shown in this example.</p>
-  
-    
-  
-            <div class="mg-lg-b-30"></div>
-  
-          </div><!-- az-content-body -->
+  <div class="az-content">
+    <div class="container">
+      <div class="az-content-body">
+        <div class="az-content-breadcrumb">
+          <span>Table</span>
+          <span>DataTables</span>
         </div>
-      </div><!-- az-content -->
-      </body>
-          <!-- LARGE MODAL -->
-    <div id="companyModal" class="modal">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                  <h6 class="modal-title">Message Preview</h6>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <form>
-                <div class="modal-body">
-                  <h6>Why We Use Electoral College, Not Popular Vote</h6>
-                  <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
-                </div><!-- modal-body -->
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-indigo">Save changes</button>
-                  <button type="button" data-dismiss="modal" class="btn btn-outline-light">Close</button>
-                </div>
-            </form>
-              </div>
-            </div><!-- modal-dialog -->
-          </div><!-- modal -->
-      <app-footer></app-footer>
+        <h2 class="az-content-title">Şirketler</h2>
+        <div class="col-md-2 right">
+          <button
+            class="btn btn-orange btn-block btn-height"
+            data-toggle="modal"
+            data-target="#modalCompany"
+          >
+            Şirket Ekle
+          </button>
+        </div>
+        <p class="mg-b-20"></p>
+        <table
+          id="datatable1"
+          class="display responsive nowrap dataTable no-footer dtr-inline"
+        >
+          <thead>
+            <tr>
+              <th class="wd-15p">First name</th>
+              <th class="wd-15p">Last name</th>
+              <th class="wd-20p">Position</th>
+              <th class="wd-15p">Start date</th>
+              <th class="wd-10p">Salary</th>
+              <th class="wd-25p">E-mail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tiger</td>
+              <td>Nixon</td>
+              <td>System Architect</td>
+              <td>2011/04/25</td>
+              <td>$320,800</td>
+              <td>t.nixon@datatables.net</td>
+            </tr>
+            <tr>
+              <td>Garrett</td>
+              <td>Winters</td>
+              <td>Accountant</td>
+              <td>2011/07/25</td>
+              <td>$170,750</td>
+              <td>g.winters@datatables.net</td>
+            </tr>
+          </tbody>
+        </table>
 
+        <hr class="mg-y-30 mg-lg-y-50" />
+
+        <div class="az-content-label mg-b-5">
+          Disabling Search & Items Per Page Menu
+        </div>
+        <p class="mg-b-20">
+          Searching, ordering and paging goodness will be immediately added to
+          the table, as shown in this example.
+        </p>
+
+        <div class="mg-lg-b-30"></div>
+      </div>
+      <!-- az-content-body -->
+    </div>
+  </div>
+  <!-- az-content -->
+</body>
+<!-- LARGE MODAL -->
+<div id="modalCompany" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Message Preview</h6>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #companyForm>
+        <div class="modal-body">
+          <h6>Şirket bilgilerini giriniz.</h6>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>Ad</label>
+              <input type="text" name="companyName" class="form-control" />
+              <label>E-posta</label>
+              <input type="text" name="companyMail" class="form-control" />
+            </div>
+            <div class="form-group col-md-6">
+              <div class="col-md">
+                <label>Adres</label>
+                <textarea
+                  name="companyAddress"
+                  rows="3"
+                  class="form-control"
+                  placeholder="Textarea"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>Vergi Numarası</label>
+              <input type="text" name="taxNumber" class="form-control" />
+            </div>
+            <div class="form-group col-md-3">
+              <label>Ülke</label>
+              <select class="form-control select2-no-search">
+                <option label="Choose one"></option>
+                <option value="Firefox">Türkiye</option>
+                <option value="Chrome">Almanya</option>
+                <option value="Safari">Fransa</option>
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Şehir</label>
+              <select class="form-control select2-no-search">
+                <option label="Choose one"></option>
+                <option value="Firefox">Trabzon</option>
+                <option value="Chrome">İstanbul</option>
+                <option value="Safari">Malatya</option>
+              </select>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>Vergi Dairesi</label>
+              <input type="text" name="taxOffice" class="form-control" />
+            
+            <div class="form-group col-md-3">
+                <label>Telefon</label>
+                <input type="text" name="phoneNumber" class="form-control" />
+                <label>Fax</label>
+                <input type="text" name="fax" class="form-control" />
+              </div>
+           
+        
+           
+            </div>
+            <div class="form-group col-md-6">
+              <div class="col-md">
+                <label>Adres</label>
+                <textarea
+                  name="description"
+                  rows="3"
+                  class="form-control"
+                  placeholder="Textarea"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-indigo">Save changes</button>
+          <button
+            type="button"
+            data-dismiss="modal"
+            class="btn btn-outline-light"
+          >
+            Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
+<app-footer></app-footer>

@@ -2,7 +2,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { routes } from "./app-routing.module";
 import { RouterModule } from "@angular/router";
@@ -14,6 +13,7 @@ import { FooterComponent } from "./layout/footer/footer.component";
 import { LayoutComponent } from "./layout/layout.component";
 import { CompanyComponent } from "./definitions/company/company.component";
 import { UserComponent } from "./definitions/user/user.component";
+import { AuthGuard } from "./Auth/auth.guard";
 
 @NgModule({
   declarations: [
@@ -30,10 +30,9 @@ import { UserComponent } from "./definitions/user/user.component";
     HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    ReactiveFormsModule,
-    NgbModule.forRoot()
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
