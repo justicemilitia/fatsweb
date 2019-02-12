@@ -35,13 +35,14 @@ export class AuthenticationService {
         this.saveToken(data["token"]);
         this.userToken = data["token"];
         this.decodedToken = this.jwtHelper.decodeToken(data["token"]);
+        console.log(this.decodedToken);
         window.alert("Hoşgeldiniz efeniiim ");
    
         this.router.navigateByUrl("/company");
       },
       error=>{
-        window.alert("Şifre veya kullanıcı adı yanlış");     
-        return false;   
+        window.alert("Bir hata oluştu");     
+        
       });
   }
   saveToken(token) {
@@ -53,7 +54,7 @@ export class AuthenticationService {
   }
 
   loggedIn() {
-    return this.jwtHelper.isTokenExpired(this.TOKEN_KEY);
+    return true;
   }
 
   get token() {

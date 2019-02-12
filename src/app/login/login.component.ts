@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthenticationService } from "../services/AuthenticationService/authentication.service";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AuthenticationService } from "../services/authenticationService/authentication.service";
 
 @Component({
   selector: "app-login",
@@ -10,7 +9,6 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 export class LoginComponent implements OnInit {
   constructor(
     private authservice: AuthenticationService,
-    private modal: NgbModal
   ) {}
 
   loginUser: any = {};
@@ -22,14 +20,10 @@ export class LoginComponent implements OnInit {
   }
 
   LogOut() {
-    this.authservice.logOut();
-  }
+    
+  }  
 
-  get isAuthenticated() {
+  get isAuthenticated(){
     return this.authservice.loggedIn();
-  }
-  
-  forgotPassword(content: any) {
-    this.modal.open(content);
   }
 }
