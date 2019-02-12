@@ -36,20 +36,20 @@ export class UserComponent implements OnInit {
 
   createRegisterForm() {
     this.registerForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      departmentID: ["", Validators.required],
-      locationID: ["", Validators.required],
-      userTitle: ["", Validators.required],
-      firmID: ["", Validators.required],
-      userMail: ["", Validators.required],
-      password: [
+      FirstName: ["", Validators.required],
+      LastName: ["", Validators.required],
+      DepartmentId: ["", Validators.required],
+      LocationId: ["", Validators.required],
+      UserTitle: ["", Validators.required],
+      FirmId: ["", Validators.required],
+      UserMail: ["", Validators.required],
+      Password: [
         "",
         Validators.required,
         Validators.minLength(4),
         Validators.maxLength(8)
       ],
-      confirmPassword: []
+      // ConfirmPassword: []
     });
   }
 
