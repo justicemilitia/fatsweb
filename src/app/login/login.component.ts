@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthenticationService } from "../services/authenticationService/authentication.service";
+import { LanguageService } from '../services/languageService/language.service';
+
 
 @Component({
   selector: "app-login",
@@ -8,8 +10,10 @@ import { AuthenticationService } from "../services/authenticationService/authent
 })
 export class LoginComponent implements OnInit {
   constructor(
-    private authservice: AuthenticationService,
-  ) {}
+    private authservice: AuthenticationService, private lang:LanguageService
+  ) {
+    lang.getLanguage();
+  }
 
   loginUser: any = {};
   content: any;
@@ -26,4 +30,10 @@ export class LoginComponent implements OnInit {
   get isAuthenticated(){
     return this.authservice.loggedIn();
   }
+
+  get unAuth(){
+    return this.authservice
+  }
+ 
+
 }

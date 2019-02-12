@@ -1,0 +1,434 @@
+[
+  {
+    "LanguageId": 1,
+    "LanguageKeyword": "Username_or_Password_Incorrect",
+    "Tr": "Kullanıcı adı veya şifre yanlış.",
+    "En": "Username or Password Incorrect!"
+  },
+  {
+    "LanguageId": 2,
+    "LanguageKeyword": "Your_passwords_are_not_matched",
+    "Tr": "Girdiğiniz şifreler uyuşmuyor!",
+    "En": "Your passwords are not matched!"
+  },
+  {
+    "LanguageId": 3,
+    "LanguageKeyword": "New_users_registered",
+    "Tr": "Yeni kullanıcı kayıt edildi",
+    "En": "New users registered!"
+  },
+  {
+    "LanguageId": 4,
+    "LanguageKeyword": "You_are_already_a_member_with_such_an_email",
+    "Tr": "Böyle bir email ile daha önceden üye olunmuş.",
+    "En": "You are already a member with such an email."
+  },
+  {
+    "LanguageId": 5,
+    "LanguageKeyword": "Password_Change_Mail",
+    "Tr": "Şifre Değişikliği Maili",
+    "En": "Password Change Mail"
+  },
+  {
+    "LanguageId": 6,
+    "LanguageKeyword": "Please_check_your_mail",
+    "Tr": "İşlem Başarılı. Mailinize şifre değişikliği ile ilgili link gönderdik. Lütfen mailinizi kontrol ediniz.!",
+    "En": "Process Successful. We have sent a link to your mail regarding a password change. Please check your mail!"
+  },
+  {
+    "LanguageId": 7,
+    "LanguageKeyword": "Error_while_sending_mail_Please_try_again_later",
+    "Tr": "Şimdilik bu işleminizi yapamıyoruz. Mail gönderimi esnasında hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
+    "En": "We can't do this for now. Error while sending mail. Please try again later."
+  },
+  {
+    "LanguageId": 8,
+    "LanguageKeyword": "The_user_whose_password_you_want_to_change_is_not_found",
+    "Tr": "Şifresini değiştirmek istediğiniz kullanıcı bulunamadı!",
+    "En": "The user whose password you want to change is not found!"
+  },
+  {
+    "LanguageId": 9,
+    "LanguageKeyword": "We_cant_do_this_for_now_Please_try_again_later",
+    "Tr": "Şimdilik bu işleminizi yapamıyoruz.Lütfen daha sonra tekrar deneyiniz.",
+    "En": "We can't do this for now. Please try again later."
+  },
+  {
+    "LanguageId": 10,
+    "LanguageKeyword": "Your_transaction_is_successful",
+    "Tr": "İşlem Başarılı.Şifreniz güncellendi.",
+    "En": "Your transaction is successful."
+  },
+  {
+    "LanguageId": 11,
+    "LanguageKeyword": "The_user_whose_password_you_want_to_change_is_not_found",
+    "Tr": "Şifresini değiştirmek istediğiniz kullanıcı bulunamadı!",
+    "En": "The user whose password you want to change is not found!"
+  },
+  {
+    "LanguageId": 12,
+    "LanguageKeyword": "The_old_and_new_user_you_want_to_change_is_already_the_same",
+    "Tr": "Değiştirmek istediğiniz eski ve yeni kullanıcı zaten aynı!",
+    "En": "The old and new user you want to change is already the same!"
+  },
+  {
+    "LanguageId": 13,
+    "LanguageKeyword": "User_name_changed_successfully",
+    "Tr": "Kullanıcı adı başarıyla değiştirildi.",
+    "En": "User name changed successfully."
+  },
+  {
+    "LanguageId": 14,
+    "LanguageKeyword": "The_user_you_want_to_change_the_user_name_could_not_be_found",
+    "Tr": "Kullanıcı ismini değiştirmek istediğiniz kullanıcı bulunamadı!",
+    "En": "The user you want to change the user name could not be found!"
+  },
+  {
+    "LanguageId": 15,
+    "LanguageKeyword": "New_System_Parameter_registered",
+    "Tr": "Yeni System Parametresi kayıt edildi",
+    "En": "New System Parameter registered"
+  },
+  {
+    "LanguageId": 16,
+    "LanguageKeyword": "This_parameter_name_has_been_used_before_change_the_parameter_name_and_try_again",
+    "Tr": "Bu parametre ismi daha önce kullanılmış, Parametre ismini değiştirip yeniden deneyiniz!",
+    "En": "This parameter name has been used before, change the parameter name and try again!"
+  },
+  {
+    "LanguageId": 17,
+    "LanguageKeyword": "This_parameter_did_not_find_a_record_attached_to_id",
+    "Tr": "Bu parameter id'ye bağlı bir kayıt bulunamadı!",
+    "En": "This parameter did not find a record attached to id!"
+  },
+  {
+    "LanguageId": 18,
+    "LanguageKeyword": "No_records_found",
+    "Tr": "Herhangi bir kayıt bulunamadı!",
+    "En": "No records found!"
+  },
+  {
+    "LanguageId": 19,
+    "LanguageKeyword": "Update_operation_successful",
+    "Tr": "Update işlemi başarılı!",
+    "En": "Update operation successful!"
+  },
+  {
+    "LanguageId": 20,
+    "LanguageKeyword": "No_records_found_to_update_Make_sure_that_Parameter_ID_is_in_the_database",
+    "Tr": "Update edilecek kayıt bulunamadı. ParameterId'nin databasede olduğuna emin olunuz!",
+    "En": "No records found to update. Make sure that Parameter ID is in the database!"
+  },
+  {
+    "LanguageId": 23,
+    "LanguageKeyword": "Agreements_lists_not_found",
+    "Tr": "Sözleşme listesi bulunamadı!",
+    "En": "Agreements lists not found!"
+  },
+  {
+    "LanguageId": 24,
+    "LanguageKeyword": "Check_the_error_CountryId_or_ParentFirmId_parameter",
+    "Tr": "Hata CountryId veya ParentFirmId parametresini kontrol ediniz! ",
+    "En": "Check the error CountryId or ParentFirmId parameter!"
+  },
+  {
+    "LanguageId": 25,
+    "LanguageKeyword": "If_there_is_no_record_to_update",
+    "Tr": "Update edilecek kayıt bulunamadı veya FirmId Parametresinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If there is no record to update or if the FirmId parameter has been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 26,
+    "LanguageKeyword": "Error_Check_the_FirmId_parameter",
+    "Tr": "Hata FirmId parametresini kontrol ediniz!",
+    "En": "Error Check the FirmId parameter!"
+  },
+  {
+    "LanguageId": 27,
+    "LanguageKeyword": "If_no_record_is_found_or_the_FirmId_Parameters_has_been_sent",
+    "Tr": "Silinecek kayıt bulunamadı veya FirmId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If no record is found or the FirmId Parameters has been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 28,
+    "LanguageKeyword": "Country_list_not_found",
+    "Tr": "Ülke listesi bulunamadı!",
+    "En": "Country list not found!"
+  },
+  {
+    "LanguageId": 29,
+    "LanguageKeyword": "Country_not_found",
+    "Tr": "Ülke listesi bulunamadı!",
+    "En": "Country not found!"
+  },
+  {
+    "LanguageId": 30,
+    "LanguageKeyword": "Country_added",
+    "Tr": "Ülke eklendi!",
+    "En": "Country added!"
+  },
+  {
+    "LanguageId": 31,
+    "LanguageKeyword": "City_list_not_found",
+    "Tr": "Şehir listesi bulunamadı!",
+    "En": "City list not found!"
+  },
+  {
+    "LanguageId": 32,
+    "LanguageKeyword": "Cities_not_found",
+    "Tr": "Şehirler bulunamadı!",
+    "En": "Cities not found!"
+  },
+  {
+    "LanguageId": 33,
+    "LanguageKeyword": "City_added",
+    "Tr": "Şehir eklendi!",
+    "En": "City added!"
+  },
+  {
+    "LanguageId": 34,
+    "LanguageKeyword": "Department_list_not_found",
+    "Tr": "Departman listesi bulunamadı!",
+    "En": "Department list not found!"
+  },
+  {
+    "LanguageId": 35,
+    "LanguageKeyword": "Department_added",
+    "Tr": "Departman eklendi.",
+    "En": "Department added!"
+  },
+  {
+    "LanguageId": 36,
+    "LanguageKeyword": "Company_list_not_found",
+    "Tr": "Company listesi bulunamadı!",
+    "En": "Company list not found!"
+  },
+  {
+    "LanguageId": 37,
+    "LanguageKeyword": "Active_Company_not_to_be_shown",
+    "Tr": "Gösterilecek Aktif Firma bulunamadı.!",
+    "En": "Active Company not to be shown.!"
+  },
+  {
+    "LanguageId": 38,
+    "LanguageKeyword": "Company_Added",
+    "Tr": "Company eklendi!",
+    "En": "Company Added!"
+  },
+  {
+    "LanguageId": 39,
+    "LanguageKeyword": "Error_check_the_countryId_parameter!",
+    "Tr": "Hata CountryId parametresini kontrol ediniz!",
+    "En": "Error check the CountryId  parameter!"
+  },
+  {
+    "LanguageId": 40,
+    "LanguageKeyword": "No_records_found_to_be_updated_or_CompanyId_and_CountryId",
+    "Tr": "Update edilecek kayıt bulunamadı veya CompanyId ve CountryId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "No records found to be updated or CompanyId and CountryIdparameters have been sent and sent, make sure the record is in the database!"
+  },
+  {
+    "LanguageId": 41,
+    "LanguageKeyword": "Delete_operation_successful",
+    "Tr": "Delete işlemi başarılı!",
+    "En": "Delete operation successful!"
+  },
+  {
+    "LanguageId": 42,
+    "LanguageKeyword": "No_records_found_to_be_deleted_or_CompanyId",
+    "Tr": "Silinecek kayıt bulunamadı veya CompanyId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "No records found to be deleted or CompanyId parameter has been sent and sent, make sure the record is in the database!"
+  },
+  {
+    "LanguageId": 43,
+    "LanguageKeyword": "Company_status_change_operation_successful",
+    "Tr": "Company Status değiştirme işlemi başarılı!",
+    "En": "Company Status change operation successful!"
+  },
+  {
+    "LanguageId": 44,
+    "LanguageKeyword": "No_action_to_be_found",
+    "Tr": "İşlem yapılacak kayıt bulunamadı",
+    "En": "No action to be found!"
+  },
+  {
+    "LanguageId": 45,
+    "LanguageKeyword": "Menu_List_not_found",
+    "Tr": "Menu listesi bulunamadı!",
+    "En": "Menu List not found!"
+  },
+  {
+    "LanguageId": 46,
+    "LanguageKeyword": "Bad_request",
+    "Tr": "Bad request",
+    "En": "Bad request"
+  },
+  {
+    "LanguageId": 47,
+    "LanguageKeyword": "Agrement_Added",
+    "Tr": "Sözleşme Ejkendi",
+    "En": "Agrement Added!"
+  },
+  {
+    "LanguageId": 48,
+    "LanguageKeyword": "Delete_is_ok",
+    "Tr": "Silme işlemi başarılı.",
+    "En": "Delete is ok!"
+  },
+  {
+    "LanguageId": 49,
+    "LanguageKeyword": "No_record_DepartmentId_DepartmentId",
+    "Tr": "Update edilecek kayıt bulunamadı veya ParentDepartmentId, DepartmentId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "No records found to be updated or ParentDepartmentId, make sure that the DepartmentId parameters have been sent and sent, and that the record is in the database!"
+  },
+  {
+    "LanguageId": 50,
+    "LanguageKeyword": "Departman_is_not_found",
+    "Tr": "Departman bulunamadı!",
+    "En": "Departman is not found!"
+  },
+  {
+    "LanguageId": 51,
+    "LanguageKeyword": "No_record_FixedAssetId_FixedAssetPropertyId",
+    "Tr": "Silinecek kayıt bulunamadı veya FixedAssetId ve FixedAssetPropertyId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "No records found to be deleted or make sure that the FixedAssetId ve FixedAssetPropertyId parameters have been sent and sent, and that the record is in the database!"
+  },
+  {
+    "LanguageId": 52,
+    "LanguageKeyword": "Firm_list_not_found!",
+    "Tr": "Firma listesi bulunamadı!",
+    "En": "Firm list not found!"
+  },
+  {
+    "LanguageId": 53,
+    "LanguageKeyword": "Active_Company_not_to_be_shown",
+    "Tr": "Gösterilecek Aktif Firma bulunamadı.!",
+    "En": "Active Company not to be shown.!"
+  },
+  {
+    "LanguageId": 54,
+    "LanguageKeyword": "Firm_added",
+    "Tr": "Fima eklendi!",
+    "En": "Firm added!"
+  },
+  {
+    "LanguageId": 55,
+    "LanguageKeyword": "Please_check_CountryId_or_ParentFirmId_parameters",
+    "Tr": "Hata CountryId veya ParentFirmId parametresini kontrol ediniz!",
+    "En": "Please check CountryId or  ParentFirmId parameters!"
+  },
+  {
+    "LanguageId": 56,
+    "LanguageKeyword": "Firm_updated",
+    "Tr": "Fima güncellendi!",
+    "En": "Firm updated!"
+  },
+  {
+    "LanguageId": 57,
+    "LanguageKeyword": "No_records_found_to_be_updated_or_FirmId_and_CountryId_CityId",
+    "Tr": "Update edilecek kayıt bulunamadı veya FirmId ve CountryId, CityId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "No records found to be updated or FirmId and CountryId, CityId parameters have been sent and sent, make sure the record is in the database!"
+  },
+  {
+    "LanguageId": 58,
+    "LanguageKeyword": "Please_check_CountryId_parameter",
+    "Tr": "Hata CountryId parametresini kontrol ediniz!",
+    "En": "Please check CountryId parameter!"
+  },
+  {
+    "LanguageId": 59,
+    "LanguageKeyword": "Fixed_Assets_List_not_found",
+    "Tr": "Demirbaş listesi bulunamadı!",
+    "En": "Fixed Assets List not found!"
+  },
+  {
+    "LanguageId": 60,
+    "LanguageKeyword": "Fixed_Assets_added",
+    "Tr": "Demirbaş listesi eklendi",
+    "En": "Fixed Assets added!"
+  },
+  {
+    "LanguageId": 61,
+    "LanguageKeyword": "Fixed_asset_not_found",
+    "Tr": "Demirbaş bulunamadı!",
+    "En": "Fixed asset not found!"
+  },
+  {
+    "LanguageId": 62,
+    "LanguageKeyword": "Asset_category_list_not_found",
+    "Tr": "Demirbaş kategorisi listesi bulunamadı!",
+    "En": "Fixed Asset category list not found!"
+  },
+  {
+    "LanguageId": 63,
+    "LanguageKeyword": "Asset_Category_Added",
+    "Tr": "Demirbaş kategorisi eklendi.",
+    "En": "Fixed Asset Category Added!"
+  },
+  {
+    "LanguageId": 64,
+    "LanguageKeyword": "The_ParentCategoryId_value_cannot_be_0",
+    "Tr": "ParentCategoryId değeri 0 olamaz!",
+    "En": "The ParentCategoryId value cannot be 0!"
+  },
+  {
+    "LanguageId": 65,
+    "LanguageKeyword": "Parent_categoryid_0_or_not_found",
+    "Tr": "Update edilecek kayıt bulunamadı veya ParentCategoryId Parametresinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If there is no record found to update or the ParentCategoryId parameter has been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 66,
+    "LanguageKeyword": "Asset_Category_not_found",
+    "Tr": "Demirbaş kategorisi bulunamadı!",
+    "En": "Fixed Asset Category not found!"
+  },
+  {
+    "LanguageId": 67,
+    "LanguageKeyword": "Asset_Category_not_found_for_delete",
+    "Tr": "Silinecek kayıt bulunamadı veya ParentCategoryId ve FixedAssetCategoriesId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If no record is found or the ParentCategoryId and FixedAssetCategoriesId Parameters have been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 68,
+    "LanguageKeyword": "Delete_is_ok",
+    "Tr": "Silme işlemi başarılı!",
+    "En": "Delete is ok!"
+  },
+  {
+    "LanguageId": 69,
+    "LanguageKeyword": "Asset_Property_list_not_found",
+    "Tr": "Demirbaş Özellikleri listesi bulunamadı!",
+    "En": "Fix Asset Property list not found!"
+  },
+  {
+    "LanguageId": 70,
+    "LanguageKeyword": "Fixed_Asset_property_added",
+    "Tr": "Demirbaş özellikleri eklendi!",
+    "En": "Fixed Asset property added!"
+  },
+  {
+    "LanguageId": 71,
+    "LanguageKeyword": "FixedAssetId_value_can not_0",
+    "Tr": "FixedAssetId değeri 0 olamaz!",
+    "En": "FixedAssetId value can not 0!"
+  },
+  {
+    "LanguageId": 72,
+    "LanguageKeyword": "FixedAssetCategories_updated",
+    "Tr": "FixedAssetCategories güncellendi!",
+    "En": "FixedAssetCategories updated!"
+  },
+  {
+    "LanguageId": 73,
+    "LanguageKeyword": "If_there_is_no_record_found_to_update_or_the_ParentCategoryId",
+    "Tr": "Update edilecek kayıt bulunamadı veya ParentCategoryId Parametresinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If there is no record found to update or the ParentCategoryId parameter has been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 74,
+    "LanguageKeyword": "FixedAssetProperty_not_found",
+    "Tr": "Demirbaş özelliği bulunamadı!",
+    "En": "FixedAssetProperty not found!"
+  }
+]
