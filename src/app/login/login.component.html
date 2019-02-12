@@ -20,7 +20,17 @@
             <label>Şifre</label>
             <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control" placeholder="Enter your password" value="thisisademo"/>
           </div>
-          <div *ngIf="unAuthorized" class="alert alert-warning" role="alert">             
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+              <button (click)="changeLanguage('en')" class="btn btn-orange btn-block" type="button">EN</button>
+            </div>
+            <div class="col-md-6">
+              <button (click)="changeLanguage('tr')"class="btn btn-orange btn-block" type="button">TR</button>
+            </div>
+            </div>
+        </div>
+          <div *ngIf="isAuthenticated" class="alert alert-warning" role="alert">             
               <strong>Uyarı!</strong> Kullanıcı adı veya şifre yanlış girilmiştir
             </div><!-- alert -->
           <button class="btn btn-orange btn-block" type="submit">Giriş</button>

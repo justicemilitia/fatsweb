@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import {
-  CanActivate, 
+  CanActivate,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot, 
+  RouterStateSnapshot,
   Router
 } from "@angular/router";
 import { AuthenticationService } from "../services/authenticationService/authentication.service";
@@ -20,16 +20,29 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    let logged= this.authentication.loggedIn();
-  
-    if (localStorage.getItem("token") != null) 
-    {
+    
+    let logged = this.authentication.isLoggedIn();
+    let pageID = next.data.pageID;
+    if (pageID == -1) {
+      if (logged == true) {
+        this.router.navigate(["company"]); // Eğer Kullanıcı giriş yapmışsa bu sayfaya yönlendir.
+        return false;
+      }
       return true;
     }
-    else
-    {
-    this.router.navigate(["login"]);
-    return false;
-  }
+
+    if (logged) {
+      /* Bu menüyü görmeye yetkimiz var mı kontrolü */
+      var menu = this.authentication.menus.find(x => x.menuId == pageID);
+      if (menu) {
+        return true;
+      }else {
+        this.router.navigate(["company"]); // Eğer Giriş yapılmamışsa  giriş sayfasına at.
+        return false;
+      }
+    } else {
+      this.router.navigate(["login"]); // Eğer Giriş yapılmamışsa  giriş sayfasına at.
+      return false;
+    }
   }
 }

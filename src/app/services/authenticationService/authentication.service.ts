@@ -11,6 +11,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Token } from "@angular/compiler";
+import Menu from "src/app/models/Menu";
 
 @Injectable({
   providedIn: "root"
@@ -20,12 +21,18 @@ export class AuthenticationService {
     private httpClient: HttpClient,
     private router: Router,
     private modal: NgbModal
-  ) {}
+  ) {
+    this.userToken = this.getToken();
+    if (this.userToken != "") this.menus = this.getMenus();
+  }
+
   path = "http://localhost:11889/api/auth/";
-  userToken: any; //uygulama boyunca token'a ulaşabilmem gerektiği için tanımladım.
-  decodedToken: any; //ço zümlenmiş token
+
+  userToken: string; //uygulama boyunca token'a ulaşabilmem gerektiği için tanımladım.
+  menus: Menu[] = [];
   jwtHelper: JwtHelperService = new JwtHelperService();
   TOKEN_KEY = "token";
+  MENU_KEY = "menu";
 
   Login(user: User) {
     let headers = new HttpHeaders();
@@ -34,52 +41,58 @@ export class AuthenticationService {
       "Authorization",
       "Basic " + btoa("username:password")
     );
-    console.log(headers);
-    debugger;
+
     this.httpClient
       .post(this.path + "token", user, { headers: headers })
       .pipe(catchError(this.handleError))
-      .subscribe(data => {
-        console.log(data);
-        this.saveToken(data["token"]);
-        this.userToken = data["token"];
-        this.decodedToken = this.jwtHelper.decodeToken(data["token"]);
-        console.log(this.decodedToken);
-        window.alert("Hoşgeldiniz efeniiim ");
-        this.router.navigateByUrl("/company");
-      },(e)=> {
-    
-        console.log(e);
-      });
+      .subscribe(
+        data => {
+          this.userToken = data["token"];
+          this.menus = <Menu[]>data["menu_auth"];
+
+          this.saveSession(data["token"], <Menu[]>data["menu_auth"]);
+
+          this.router.navigateByUrl("/company");
+        },
+        e => {
+          console.log(e);
+        }
+      );
   }
-  unauthorized:boolean;
+  unauthorized: boolean;
   handleError(err: HttpErrorResponse): any {
     if (err.status == 400 || err.status == 401) {
-        if(err.error.resultStatus==false){
-        window.alert(err.error.resultObject.tr);             
-        }
+      if (err.error.resultStatus == false) {
+        window.alert(err.error.resultObject.tr);
+      }
     } else if (err.status == 500) {
       window.alert("HATA");
     }
   }
 
-  saveToken(token: any) {
+  saveSession(token: any, menus: Menu[]) {
     localStorage.setItem(this.TOKEN_KEY, token);
+    localStorage.setItem(this.MENU_KEY, JSON.stringify(menus));
   }
 
   logOut() {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.MENU_KEY);
   }
 
-  loggedIn() {
-    return true;
+  isLoggedIn() {
+    return !this.jwtHelper.isTokenExpired(this.getToken());
   }
 
-  get token() {
+  getToken() {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
+  getMenus() {
+    return <Menu[]>JSON.parse(localStorage.getItem(this.MENU_KEY));
+  }
+
   getCurrentUserId() {
-    return this.jwtHelper.decodeToken(this.token).nameid;
+    return this.jwtHelper.decodeToken(this.getToken()).nameid;
   }
 }

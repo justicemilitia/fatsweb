@@ -1,39 +1,37 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthenticationService } from "../services/authenticationService/authentication.service";
-import { LanguageService } from '../services/languageService/language.service';
-
+import { LanguageService } from "../services/languageService/language.service";
+import { BaseComponent } from "../base/base.component";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"]
 })
-export class LoginComponent implements OnInit {
-  constructor(
-    private authservice: AuthenticationService, private lang:LanguageService
-  ) {
-    lang.getLanguage();
-  }
+export class LoginComponent extends BaseComponent implements OnInit {
 
   loginUser: any = {};
-  content: any;
+
+  constructor(
+    private authservice: AuthenticationService,
+    protected lang: LanguageService
+  ) {
+
+    super(lang);
+    
+  }
+ 
   ngOnInit() {}
 
   Login() {
     this.authservice.Login(this.loginUser);
   }
 
-  LogOut() {
-    
-  }  
+  LogOut() {}
 
-  get isAuthenticated(){
-    return this.authservice.loggedIn();
+  get unAuth() {
+       return this.authservice;
   }
-
-  get unAuth(){
-    return this.authservice
-  }
- 
+  
 
 }
