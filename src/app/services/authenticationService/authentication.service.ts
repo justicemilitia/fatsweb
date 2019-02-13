@@ -12,6 +12,7 @@ import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Token } from "@angular/compiler";
 import Menu from "src/app/models/Menu";
+import { SERVICE_URL,LOGIN, GET_HEADERS } from 'src/app/declarations/service-values';
 
 @Injectable({
   providedIn: "root"
@@ -26,7 +27,7 @@ export class AuthenticationService {
     if (this.userToken != "") this.menus = this.getMenus();
   }
 
-  path = "http://localhost:11889/api/auth/";
+
 
   userToken: string; //uygulama boyunca token'a ulaşabilmem gerektiği için tanımladım.
   menus: Menu[] = [];
@@ -34,16 +35,10 @@ export class AuthenticationService {
   TOKEN_KEY = "token";
   MENU_KEY = "menu";
 
-  Login(user: User) {
-    let headers = new HttpHeaders();
-    headers = headers.append("Content-Type", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Basic " + btoa("username:password")
-    );
+  Login(user: User) {  
 
     this.httpClient
-      .post(this.path + "token", user, { headers: headers })
+      .post(SERVICE_URL + LOGIN, user, { headers: GET_HEADERS() })
       .pipe(catchError(this.handleError))
       .subscribe(
         data => {
