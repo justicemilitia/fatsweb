@@ -12,6 +12,7 @@ import { Token } from "@angular/compiler";
 import Menu from "src/app/models/RoleAuthorization";
 import { SERVICE_URL,LOGIN, GET_HEADERS } from 'src/app/declarations/service-values';
 import RoleAuthorization from 'src/app/models/RoleAuthorization';
+import { Role } from '../../models/Role';
 
 @Injectable({
   providedIn: "root"

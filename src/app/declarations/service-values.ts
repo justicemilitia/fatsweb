@@ -10,6 +10,8 @@ export const GET_USER_LIST = "user/GetUsers";
 export const GET_ROLE_LIST = "role/GetRoleList";
 export const GET_FIRM_LIST = "firm/GetFirmsList";
 
+export const INSERT_DEPARTMENT = "department/AddDepartment";
+
 export const GET_HEADERS = (token = null): HttpHeaders => {
   let headers = new HttpHeaders();
   headers = headers.append("Content-Type", "application/json");

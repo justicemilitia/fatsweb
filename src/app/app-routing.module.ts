@@ -7,6 +7,7 @@ import { AuthGuard } from "./services/authguard/auth.guard";
 import * as pages from "./declarations/page-values";
 import { LOGIN } from "./declarations/service-values";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { DepartmentComponent } from './components/definitions/department/department.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,12 @@ export const routes: Routes = [
     path: "user",
     component: UserComponent,
     data: { pageKeyword: pages.MENU_USERDEFINITIONS }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "department",
+    component: DepartmentComponent,
+    data: { pageKeyword: pages.MENU_DEPARTMENTSDEFINITION }
     // canActivate: [AuthGuard]
   },
   {
