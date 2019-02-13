@@ -83,7 +83,7 @@ export class AuthenticationService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  getRoleMenus() {
+  getRoleMenus():RoleAuthorization[] {
     return <RoleAuthorization[]>JSON.parse(localStorage.getItem(this.ROLE_KEY));
   }
 

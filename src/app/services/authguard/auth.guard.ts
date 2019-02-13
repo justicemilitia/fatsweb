@@ -33,17 +33,17 @@ export class AuthGuard implements CanActivate {
     }
 
     if (logged) {
+
       if (pageKeyword == MENU_DASHBOARD)
         return true;
       /* Bu menüyü görmeye yetkimiz var mı kontrolü */
       var role = this.authentication.roles.find(x => x.menuCaption == pageKeyword);
       if (role) {
-        return true;
+        return role.outBrowse ? true : false;
       }else {
         this.router.navigate(["dashboard"]); // Eğer Yetki YOksa anasayfaya at.
         return false;
       }
-      debugger;
     } else {
       this.router.navigate(["login"]); // Eğer Giriş yapılmamışsa  giriş sayfasına at.
       return false;
