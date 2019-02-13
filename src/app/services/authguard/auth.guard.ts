@@ -6,7 +6,7 @@ import {
   Router
 } from "@angular/router";
 import { AuthenticationService } from "../authenticationService/authentication.service";
-import { MENU_LOGIN } from 'src/app/declarations/page-values';
+import { MENU_LOGIN, MENU_DASHBOARD } from 'src/app/declarations/page-values';
 
 @Injectable({
   providedIn: "root"
@@ -21,24 +21,26 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    debugger;
+
     let logged = this.authentication.isLoggedIn();
     let pageKeyword = next.data.pageKeyword;
     if (pageKeyword == MENU_LOGIN) {
       if (logged == true) {
-        this.router.navigate(["company"]); // Eğer Kullanıcı giriş yapmışsa bu sayfaya yönlendir.
+        this.router.navigate(["dashboard"]); // Eğer Kullanıcı giriş yapmışsa bu sayfaya yönlendir.
         return false;
       }
       return true;
     }
 
     if (logged) {
+      if (pageKeyword == MENU_DASHBOARD)
+        return true;
       /* Bu menüyü görmeye yetkimiz var mı kontrolü */
       var role = this.authentication.roles.find(x => x.menuCaption == pageKeyword);
       if (role) {
         return true;
       }else {
-        this.router.navigate(["company"]); // Eğer Giriş yapılmamışsa  giriş sayfasına at.
+        this.router.navigate(["dashboard"]); // Eğer Yetki YOksa anasayfaya at.
         return false;
       }
       debugger;

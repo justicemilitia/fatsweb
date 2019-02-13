@@ -1,4 +1,5 @@
-export const MENU_LOGIN="Login"
+export const MENU_DASHBOARD = "Dashboard"
+export const MENU_LOGIN="Login";
 export const MENU_DEFINITIONS="Menu_Definitions";
 export const MENU_OPERATIONS="Menu_Operations";
 export const MENU_DEPRECIATIONS ="Menu_Depreciations";

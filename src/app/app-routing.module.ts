@@ -18,8 +18,8 @@ export const routes: Routes = [
   {
     path: "dashboard",
     component: DashboardComponent,
-    canActivate:[AuthGuard]
-    
+    canActivate: [AuthGuard],
+    data: { pageKeyword: pages.MENU_DASHBOARD }
   },
   {
     path: "company",
@@ -36,9 +36,7 @@ export const routes: Routes = [
   {
     path: "",
     redirectTo: "login",
-    pathMatch: "full",
-    canActivate: [AuthGuard],
-    data: { pageKeyword: pages.MENU_LOGIN }
+    pathMatch: "full"
   }
 ];
 
