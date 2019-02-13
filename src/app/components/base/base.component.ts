@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LanguageService } from '../../services/languageService/language.service';
+import { BaseService } from '../../services/base.service';
 
 @Component({
   selector: 'app-base',
@@ -13,7 +14,7 @@ import { LanguageService } from '../../services/languageService/language.service
 
 export abstract class BaseComponent implements OnInit {
 
-  constructor(protected lang:LanguageService) {
+  constructor(protected baseService:BaseService) {
     
   }
 
@@ -22,7 +23,7 @@ export abstract class BaseComponent implements OnInit {
 
   
   changeLanguage(language:string){
-    this.lang.setCulture(language);
+    this.baseService.languageService.setCulture(language);
   }
 
 }
