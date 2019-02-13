@@ -137,12 +137,12 @@
           <div class="row">
             <div class="col-sm-6">
               <label>*İsim</label>
-              <input type="text" id="registerUser.FirstName" ngModel name="registerUser.FirstName" required class="form-control txt-width" />
+              <input type="text" id="FirstName" ngModel name="FirstName" required class="form-control txt-width" value="Edoş"/>
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
             </div>
             <div class="col-sm-6">
               <label>*Soyisim</label>
-              <input type="text" id="registerUser.LastName" ngModel name="registerUser.LastName" required class="form-control txt-width" />
+              <input type="text" id="LastName" ngModel name="LastName" required class="form-control txt-width" value="Ekiz"/>
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
             </div>
           </div>
@@ -150,19 +150,24 @@
           <div class="row">
             <div class="col-sm-6">
               <label>*Departman</label>
-              <!-- <input type="text" id="department" name="department" class="form-control txt-width" /> -->
-              <select  id="registerUser.DepartmentId" ngModel name="registerUser.DepartmentId" required class="form-control txt-width">
+               <select  id="DepartmentId" ngModel name="DepartmentId" required class="form-control txt-width" value="1">
+              <option value="0">Seçiniz</option>
+              <option *ngFor="let department of departments" value={{department.DepartmentID}}>
+                {{department.DepartmentName}}
+              </option>   
+              </select>
+              <!-- <select  id="DepartmentId" ngModel name="DepartmentId" required class="form-control txt-width" value="1">
                 <option value="">Seçiniz</option>                                    
                 <option value="1">Yazılım</option>
                 <option value="2">IT</option>
                 <option value="3">Finans</option>
-              </select>
+              </select> -->
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Departman gereklidir.</span>                 -->
             </div>
             <div class="col-sm-6">
               <label>*Lokasyon</label>
               <!-- <input type="" id="location" name="location" class="form-control txt-width" /> -->
-              <select  id="registerUser.LocationId" ngModel name="registerUser.LocationId" required class="form-control txt-width">
+              <select  id="LocationId" ngModel name="LocationId" required class="form-control txt-width" value="1">
                 <option value="">Seçiniz</option>                  
                 <option value="1">Kurfalı</option>
                 <option value="2">Ataşehir</option>
@@ -175,12 +180,12 @@
           <div class="row">
             <div class="col-sm-6">
               <label>*Unvan</label>
-              <input type="text" id="registerUser.UserTitle" ngModel name="registerUser.UserTitle" required class="form-control txt-width" />
+              <input type="text" id="UserTitle" ngModel name="UserTitle" required class="form-control txt-width" value="Jr."/>
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Unvan gereklidir.</span>                 -->
             </div>
             <div class="col-sm-6">
               <label>*Şirket</label>
-              <input type="text" id="registerUser.FirmId" ngModel name="registerUser.FirmId" required class="form-control txt-width" />
+              <input type="text" id="FirmId" ngModel name="FirmId" required class="form-control txt-width" value="27"/>
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Şirket bilgisi gereklidir.</span>                 -->
             </div>           
           </div>
@@ -188,7 +193,7 @@
           <div  class="row">
               <div class="col-sm-6">
                   <label>*Rol</label>
-                <select  id="registerUser.RoleId" ngModel name="registerUser.RoleId" required class="form-control txt-width">
+                <select  id="RoleId" ngModel name="RoleId" required class="form-control txt-width" value="1">
                   <option value="">Seçiniz</option>                  
                   <option value="1">Admin</option>
                   <option value="2">IT</option>
@@ -196,7 +201,7 @@
               </div> 
               <div class="col-sm-6">
                   <label>*Şifre</label>
-                  <input type="password" id="registerUser.Password" ngModel name="registerUser.Password" required class="form-control txt-width" />
+                  <input type="password" id="Password" ngModel name="Password" required class="form-control txt-width" value="1234"/>
                 <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Parola gereklidir.</span> 
                 <span class="help-block" *ngIf="registerForm.get('password').hasError('min-length') && registerForm.get('password').touched">Şifre 4 karakterden az olamaz.</span>                                 
                 <span class="help-block" *ngIf="registerForm.get('password').hasError('max-length') && registerForm.get('password').touched">Şifre 8 karakterden fazla olamaz.</span>                                  -->
@@ -207,7 +212,7 @@
           <div  class="row">
             <div class="col-sm-6">
                 <label>*Bağlı Olduğu Kişi</label>
-              <select  id="registerUser.ParentUserId" ngModel name="registerUser.ParentUserId" required class="form-control txt-width">
+              <select  id="ParentUserId" ngModel name="ParentUserId" required class="form-control txt-width" value="1">
                 <option value="">Seçiniz</option>                  
                 <option value="1">Eda Ekiz</option>
                 <option value="2">Sena Selin Sarıyılmaz</option>
@@ -217,7 +222,7 @@
             </div> 
             <div class="col-sm-6">
                 <label>*Telefon</label>
-                <input type="number" id="registerUser.PhoneNumber" ngModel name="registerUser.PhoneNumber" required class="form-control txt-width" />
+                <input type="number" id="PhoneNumber" ngModel name="PhoneNumber" required class="form-control txt-width" value="05369998877"/>
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Parola gereklidir.</span> --> 
              </div>
         </div>
@@ -225,7 +230,7 @@
           <div class="row">
               <div class="col-sm-12">
                   <label>*E-posta</label>
-                  <input type="email" id="registerUser.UserMail" ngModel name="registerUser.UserMail" required class="form-control txt-width" />
+                  <input type="email" id="UserMail" ngModel name="UserMail" required class="form-control txt-width" value="b.a@trinoks.com"/>
                 <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">E-posta gereklidir.</span>                   -->
                 </div>
           </div>
@@ -234,7 +239,7 @@
             
           </div>
           <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal" data-target="#modalInsertUser">Hesap Oluştur</button>       
+              <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal" data-target="#modalInsertUser">Kullanıcı Ekle</button>       
             </div>
         </form>
       </div>

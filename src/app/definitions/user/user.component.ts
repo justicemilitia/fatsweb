@@ -11,6 +11,8 @@ import {
 } from "@angular/forms";
 import { UserService } from "../../services/userService/user.service";
 import { User } from "../../models/User";
+import { BaseComponent } from '../../base/base.component';
+import { LanguageService } from '../../services/languageService/language.service';
 
 @Component({
   selector: "app-user",
@@ -22,11 +24,14 @@ import { User } from "../../models/User";
   declarations: [UserComponent],
   providers: [UserComponent]
 })
-export class UserComponent implements OnInit {
+export class UserComponent  extends BaseComponent implements OnInit {
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    protected lang: LanguageService    
+  ) {
+    super(lang);
+  }
 
   registerForm: FormGroup;
   registerUser: any = {};
