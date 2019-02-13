@@ -13,6 +13,7 @@
           id="btnAddUser"
           data-toggle="modal"
           data-target="#modalUser"
+          (click)="LoadDropdownList()"
         >Kişi Ekle
         </button>
       </div>
@@ -150,28 +151,20 @@
           <div class="row">
             <div class="col-sm-6">
               <label>*Departman</label>
-               <select  id="DepartmentId" ngModel name="DepartmentId" required class="form-control txt-width" value="1">
-              <option value="0">Seçiniz</option>
-              <option *ngFor="let department of departments" value={{department.DepartmentID}}>
-                {{department.DepartmentName}}
-              </option>   
-              </select>
-              <!-- <select  id="DepartmentId" ngModel name="DepartmentId" required class="form-control txt-width" value="1">
-                <option value="">Seçiniz</option>                                    
-                <option value="1">Yazılım</option>
-                <option value="2">IT</option>
-                <option value="3">Finans</option>
-              </select> -->
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Departman gereklidir.</span>                 -->
+                <select  id="DepartmentId" ngModel name="DepartmentId" required class="form-control txt-width" value="">
+                    <option value="">Seçiniz</option>
+                    <option *ngFor="let department of departments" value={{department.departmentId}}>
+                      {{department.name}}
+                    </option>   
+                </select>
             </div>
             <div class="col-sm-6">
               <label>*Lokasyon</label>
-              <!-- <input type="" id="location" name="location" class="form-control txt-width" /> -->
-              <select  id="LocationId" ngModel name="LocationId" required class="form-control txt-width" value="1">
-                <option value="">Seçiniz</option>                  
-                <option value="1">Kurfalı</option>
-                <option value="2">Ataşehir</option>
-                <option value="3">Zeytinburnu</option>
+              <select  id="LocationId" ngModel name="LocationId" required class="form-control txt-width" value="">
+                  <option value="">Seçiniz</option>
+                  <option *ngFor="let location of locations" value={{location.locationId}}>
+                    {{location.name}}
+                  </option>   
               </select>
               <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Lokasyon gereklidir.</span> -->
             </div>
@@ -185,8 +178,12 @@
             </div>
             <div class="col-sm-6">
               <label>*Şirket</label>
-              <input type="text" id="FirmId" ngModel name="FirmId" required class="form-control txt-width" value="27"/>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Şirket bilgisi gereklidir.</span>                 -->
+              <select  id="FirmId" ngModel name="FirmId" required class="form-control txt-width" value="">
+                  <option value="">Seçiniz</option>
+                  <option *ngFor="let firm of firms" value={{firm.firmId}}>
+                    {{firm.name}}
+                  </option>
+              </select>
             </div>           
           </div>
           <!-- form-group -->
@@ -194,30 +191,29 @@
               <div class="col-sm-6">
                   <label>*Rol</label>
                 <select  id="RoleId" ngModel name="RoleId" required class="form-control txt-width" value="1">
-                  <option value="">Seçiniz</option>                  
-                  <option value="1">Admin</option>
-                  <option value="2">IT</option>
+                    <option value="">Seçiniz</option>
+                    <option *ngFor="let role of roles" value={{role.roleId}}>
+                      {{role.name}}
+                    </option>   
                 </select>
               </div> 
               <div class="col-sm-6">
                   <label>*Şifre</label>
-                  <input type="password" id="Password" ngModel name="Password" required class="form-control txt-width" value="1234"/>
+                  <input type="password" id="Password" ngModel name="Password" required class="form-control txt-width" value=""/>
                 <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Parola gereklidir.</span> 
                 <span class="help-block" *ngIf="registerForm.get('password').hasError('min-length') && registerForm.get('password').touched">Şifre 4 karakterden az olamaz.</span>                                 
                 <span class="help-block" *ngIf="registerForm.get('password').hasError('max-length') && registerForm.get('password').touched">Şifre 8 karakterden fazla olamaz.</span>                                  -->
                 </div>
           </div>
-          <!-- <input type="hidden" id="registerUser.ConfirmPassword" ngModel name="registerUser.ConfirmPassword" value="registerUser.Password"> -->
           <!-- form-group -->   
           <div  class="row">
             <div class="col-sm-6">
                 <label>*Bağlı Olduğu Kişi</label>
-              <select  id="ParentUserId" ngModel name="ParentUserId" required class="form-control txt-width" value="1">
-                <option value="">Seçiniz</option>                  
-                <option value="1">Eda Ekiz</option>
-                <option value="2">Sena Selin Sarıyılmaz</option>
-                <option value="1">Melis Aydın</option>
-                <option value="1">Burak Akbal</option>                
+              <select  id="ParentUserId" ngModel name="ParentUserId" required class="form-control txt-width" value="">
+                  <option value="">Seçiniz</option>
+                  <option *ngFor="let user of users" value={{user.userId}}>
+                    {{user.firstName + ' ' + user.lastName}}
+                  </option>
               </select>
             </div> 
             <div class="col-sm-6">
@@ -239,7 +235,7 @@
             
           </div>
           <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal" data-target="#modalInsertUser">Kullanıcı Ekle</button>       
+              <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal" data-target="#modalInsertUser">Kişi Ekle</button>       
             </div>
         </form>
       </div>
