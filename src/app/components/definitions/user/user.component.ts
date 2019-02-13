@@ -9,10 +9,10 @@ import {
   FormArray,
   NgForm
 } from "@angular/forms";
-import { UserService } from "../../services/userService/user.service";
-import { User } from "../../models/User";
+import { UserService } from "../../../services/userService/user.service";
+import { User } from "../../../models/User";
 import { BaseComponent } from '../../base/base.component';
-import { LanguageService } from '../../services/languageService/language.service';
+import { LanguageService } from '../../../services/languageService/language.service';
 
 @Component({
   selector: "app-user",

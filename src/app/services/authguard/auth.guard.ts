@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
   Router
 } from "@angular/router";
-import { AuthenticationService } from "../services/authenticationService/authentication.service";
+import { AuthenticationService } from "../authenticationService/authentication.service";
 
 @Injectable({
   providedIn: "root"
@@ -20,7 +20,6 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    
     let logged = this.authentication.isLoggedIn();
     let pageID = next.data.pageID;
     if (pageID == -1) {

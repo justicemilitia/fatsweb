@@ -59,7 +59,7 @@ export class AuthenticationService {
         }
       );
   }
-  unauthorized: boolean;
+  
   handleError(err: HttpErrorResponse): any {
     if (err.status == 400 || err.status == 401) {
       if (err.error.resultStatus == false) {

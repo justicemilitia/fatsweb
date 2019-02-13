@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LanguageService } from '../services/languageService/language.service';
+import { LanguageService } from '../../services/languageService/language.service';
 
 @Component({
   selector: 'app-base',
