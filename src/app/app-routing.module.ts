@@ -14,19 +14,19 @@ export const routes: Routes = [
     path: "login",
     component: LoginComponent,
     canActivate: [AuthGuard],
-    data: { pageKeyword: pages.MENU_LOGIN }
+    data: { pageKeyword: pages.MENU_LOGIN },
   },
   {
     path: "dashboard",
     component: DashboardComponent,
-    canActivate:[AuthGuard]
-    
+    canActivate: [AuthGuard],
+    data: { pageKeyword: pages.MENU_DASHBOARD }
   },
   {
     path: "company",
     component: CompanyComponent,
     canActivate: [AuthGuard],
-    data: { pageKeyword: pages.MENU_COMPANYDEFINITONS }
+    data: { pageKeyword: pages.MENU_MAINTENANCE }
   },
   {
     path: "user",
@@ -43,9 +43,7 @@ export const routes: Routes = [
   {
     path: "",
     redirectTo: "login",
-    pathMatch: "full",
-    canActivate: [AuthGuard],
-    data: { pageKeyword: pages.MENU_LOGIN }
+    pathMatch: "full"
   }
 ];
 

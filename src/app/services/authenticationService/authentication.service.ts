@@ -10,23 +10,27 @@ import { Router } from "@angular/router";
 import { catchError } from "rxjs/operators";
 import { Token } from "@angular/compiler";
 import Menu from "src/app/models/RoleAuthorization";
+<<<<<<< HEAD
 import { SERVICE_URL,LOGIN, GET_HEADERS } from 'src/app/declarations/service-values';
 import RoleAuthorization from 'src/app/models/RoleAuthorization';
 import { Role } from '../../models/Role';
+=======
+import {
+  SERVICE_URL,
+  LOGIN,
+  GET_HEADERS
+} from "src/app/declarations/service-values";
+import RoleAuthorization from "src/app/models/RoleAuthorization";
+>>>>>>> 0c2de6851a407c472b072e48e70712ebb88d10e3
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthenticationService {
-  constructor(
-    private httpClient: HttpClient,
-    private router: Router,
-  ) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.userToken = this.getToken();
     if (this.userToken != "") this.roles = this.getRoleMenus();
   }
-
-
 
   userToken: string; //uygulama boyunca token'a ulaşabilmem gerektiği için tanımladım.
   roles: RoleAuthorization[] = [];
@@ -34,17 +38,18 @@ export class AuthenticationService {
   TOKEN_KEY = "token";
   ROLE_KEY = "role";
 
-  Login(user: User) {  
-
+  Login(user: User) {
     this.httpClient
       .post(SERVICE_URL + LOGIN, user, { headers: GET_HEADERS() })
       .pipe(catchError(this.handleError))
       .subscribe(
         data => {
           this.userToken = data["token"];
-          this.roles = <RoleAuthorization[]>data["role_auth"];
+          this.roles = <RoleAuthorization[]>data["menu_auth"];
 
-          this.saveSession(data["token"], <RoleAuthorization[]>data["role_auth"]);
+          this.saveSession(data["token"], <RoleAuthorization[]>(
+            data["menu_auth"]
+          ));
 
           this.router.navigateByUrl("/company");
         },
@@ -53,7 +58,7 @@ export class AuthenticationService {
         }
       );
   }
-  
+
   handleError(err: HttpErrorResponse): any {
     if (err.status == 400 || err.status == 401) {
       if (err.error.resultStatus == false) {
@@ -75,14 +80,16 @@ export class AuthenticationService {
   }
 
   isLoggedIn() {
-    return !this.jwtHelper.isTokenExpired(this.getToken());
+    if (this.getToken()) 
+      return !this.jwtHelper.isTokenExpired(this.getToken());
+    return false;
   }
 
   getToken() {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  getRoleMenus() {
+  getRoleMenus():RoleAuthorization[] {
     return <RoleAuthorization[]>JSON.parse(localStorage.getItem(this.ROLE_KEY));
   }
 

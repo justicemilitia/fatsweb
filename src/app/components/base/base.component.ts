@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LanguageService } from '../../services/languageService/language.service';
 import { BaseService } from '../../services/base.service';
 
 @Component({
@@ -21,9 +20,15 @@ export abstract class BaseComponent implements OnInit {
   ngOnInit() {
   }
 
+  getLanguageValue(key:string){
+   return this.baseService.languageService.getValue(key);
+  }
   
   changeLanguage(language:string){
     this.baseService.languageService.setCulture(language);
   }
 
+  isLogged(){
+    return this.baseService.authenticationService.isLoggedIn();
+  }
 }
