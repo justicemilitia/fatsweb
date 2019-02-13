@@ -15,6 +15,7 @@ import { LayoutComponent } from "./components/layout/layout.component";
 import { CompanyComponent } from "./components/definitions/company/company.component";
 import { UserComponent } from "./components/definitions/user/user.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AuthGuard } from "./services/authguard/auth.guard";
     FooterComponent,
     LayoutComponent,
     CompanyComponent,
-    UserComponent
+    UserComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

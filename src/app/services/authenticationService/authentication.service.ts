@@ -7,12 +7,11 @@ import {
 } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Token } from "@angular/compiler";
-import Menu from "src/app/models/Menu";
+import Menu from "src/app/models/RoleAuthorization";
 import { SERVICE_URL,LOGIN, GET_HEADERS } from 'src/app/declarations/service-values';
+import RoleAuthorization from 'src/app/models/RoleAuthorization';
 
 @Injectable({
   providedIn: "root"
@@ -21,19 +20,18 @@ export class AuthenticationService {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private modal: NgbModal
   ) {
     this.userToken = this.getToken();
-    if (this.userToken != "") this.menus = this.getMenus();
+    if (this.userToken != "") this.roles = this.getRoleMenus();
   }
 
 
 
   userToken: string; //uygulama boyunca token'a ulaşabilmem gerektiği için tanımladım.
-  menus: Menu[] = [];
+  roles: RoleAuthorization[] = [];
   jwtHelper: JwtHelperService = new JwtHelperService();
   TOKEN_KEY = "token";
-  MENU_KEY = "menu";
+  ROLE_KEY = "role";
 
   Login(user: User) {  
 
@@ -43,9 +41,9 @@ export class AuthenticationService {
       .subscribe(
         data => {
           this.userToken = data["token"];
-          this.menus = <Menu[]>data["menu_auth"];
+          this.roles = <RoleAuthorization[]>data["role_auth"];
 
-          this.saveSession(data["token"], <Menu[]>data["menu_auth"]);
+          this.saveSession(data["token"], <RoleAuthorization[]>data["role_auth"]);
 
           this.router.navigateByUrl("/company");
         },
@@ -65,14 +63,14 @@ export class AuthenticationService {
     }
   }
 
-  saveSession(token: any, menus: Menu[]) {
+  saveSession(token: any, roles: RoleAuthorization[]) {
     localStorage.setItem(this.TOKEN_KEY, token);
-    localStorage.setItem(this.MENU_KEY, JSON.stringify(menus));
+    localStorage.setItem(this.ROLE_KEY, JSON.stringify(roles));
   }
 
   logOut() {
     localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.MENU_KEY);
+    localStorage.removeItem(this.ROLE_KEY);
   }
 
   isLoggedIn() {
@@ -83,8 +81,8 @@ export class AuthenticationService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  getMenus() {
-    return <Menu[]>JSON.parse(localStorage.getItem(this.MENU_KEY));
+  getRoleMenus() {
+    return <RoleAuthorization[]>JSON.parse(localStorage.getItem(this.ROLE_KEY));
   }
 
   getCurrentUserId() {
