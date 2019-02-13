@@ -1,4 +1,4 @@
-export default class Menu {
+export default class RoleAuthorization {
   userId: number;
   roleId: number;
   outBrowse: boolean;
@@ -7,4 +7,5 @@ export default class Menu {
   outDelete: boolean;
   firmId: number;
   menuId: number;
+  menuCaption:string;
 }

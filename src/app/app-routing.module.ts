@@ -4,24 +4,33 @@ import { CompanyComponent } from "./components/definitions/company/company.compo
 import { LoginComponent } from "./components/login/login.component";
 import { UserComponent } from "./components/definitions/user/user.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
+import * as pages from "./declarations/page-values";
+import { LOGIN } from "./declarations/service-values";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
 
 export const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
     canActivate: [AuthGuard],
-    data: { pageID: -1 }
+    data: { pageKeyword: pages.MENU_LOGIN }
+  },
+  {
+    path: "dashboard",
+    component: DashboardComponent,
+    canActivate:[AuthGuard]
+    
   },
   {
     path: "company",
     component: CompanyComponent,
     canActivate: [AuthGuard],
-    data: { pageID: 7 }
+    data: { pageKeyword: pages.MENU_COMPANYDEFINITONS }
   },
   {
     path: "user",
     component: UserComponent,
-    data: { pageID: 5 },
+    data: { pageKeyword: pages.MENU_USERDEFINITIONS }
     // canActivate: [AuthGuard]
   },
   {
@@ -29,7 +38,7 @@ export const routes: Routes = [
     redirectTo: "login",
     pathMatch: "full",
     canActivate: [AuthGuard],
-    data: { pageID: -1 }
+    data: { pageKeyword: pages.MENU_LOGIN }
   }
 ];
 
