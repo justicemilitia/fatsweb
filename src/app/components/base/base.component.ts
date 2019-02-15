@@ -14,7 +14,8 @@ import * as pages from '../../declarations/page-values';
 
 export abstract class BaseComponent implements OnInit {
 
-  readonly PAGES=pages;
+  protected readonly PAGES=pages;
+
   constructor(protected baseService:BaseService) {
     
   }
