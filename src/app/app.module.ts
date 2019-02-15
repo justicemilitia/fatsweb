@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import{CommonModule} from '@angular/common';
 
 import { routes } from "./app-routing.module";
 import { RouterModule } from "@angular/router";
@@ -34,7 +35,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    CommonModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

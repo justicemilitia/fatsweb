@@ -1,78 +1,157 @@
+<div class="az-header az-header-dashboard-four">
+  <div class="container-fluid">
+    <div class="az-header-left">
+      <a href="index.html" class="az-logo"
+        ><img src="../../../assets/img/trinoks-logo3.png"
+      /></a>
+      <a href="" id="azNavShow" class="az-header-menu-icon d-lg-none"
+        ><span></span
+      ></a>
+    </div>
+    <!-- az-header-left -->
+    <div class="az-header-center">
+      <input
+        type="search"
+        class="form-control"
+        placeholder="Search for schedules and events..."
+      />
+      <button class="btn"><i class="fas fa-search"></i></button>
+    </div>
+    <!-- az-header-center -->
+    <div class="az-header-right">
+      <div class="az-header-message">
+        <a href="app-chat.html"><i class="typcn typcn-messages"></i></a>
+      </div>
+      <!-- az-header-message -->
+      <div class="dropdown az-header-notification">
+        <a href="" class="new"><i class="typcn typcn-bell"></i></a>
+        <div class="dropdown-menu">
+          <div class="az-dropdown-header mg-b-20 d-sm-none">
+            <a href="" class="az-header-arrow"
+              ><i class="icon ion-md-arrow-back"></i
+            ></a>
+          </div>
+          <h6 class="az-notification-title">Notifications</h6>
+          <p class="az-notification-text">You have 2 unread notification</p>
+          <div class="az-notification-list"></div>
+          <!-- az-notification-list -->
+          <div class="dropdown-footer">
+            <a href="">View All Notifications</a>
+          </div>
+        </div>
+        <!-- dropdown-menu -->
+      </div>
+      <!-- az-header-notification -->
+    </div>
+    <!-- az-header-right -->
+  </div>
+  <!-- container -->
+</div>
+<!-- az-header -->
 
-    <div class="az-header az-header-dashboard-four">
-      <div class="container-fluid">
-        <div class="az-header-left">
-          <a href="index.html" class="az-logo"><img src="../../../assets/img/trinoks-logo3.png"></a>
-          <a href="" id="azNavShow" class="az-header-menu-icon d-lg-none"><span></span></a>
-        </div><!-- az-header-left -->
-        <div class="az-header-center">
-          <input type="search" class="form-control" placeholder="Search for schedules and events...">
-          <button class="btn"><i class="fas fa-search"></i></button>
-        </div><!-- az-header-center -->
-        <div class="az-header-right">
-          <div class="az-header-message">
-            <a href="app-chat.html"><i class="typcn typcn-messages"></i></a>
-          </div><!-- az-header-message -->
-          <div class="dropdown az-header-notification">
-            <a href="" class="new"><i class="typcn typcn-bell"></i></a>
-            <div class="dropdown-menu">
-              <div class="az-dropdown-header mg-b-20 d-sm-none">
-                <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
-              </div>
-              <h6 class="az-notification-title">Notifications</h6>
-              <p class="az-notification-text">You have 2 unread notification</p>
-              <div class="az-notification-list">    
-              </div><!-- az-notification-list -->
-              <div class="dropdown-footer"><a href="">View All Notifications</a></div>
-            </div><!-- dropdown-menu -->
-          </div><!-- az-header-notification -->    
-        </div><!-- az-header-right -->
-      </div><!-- container -->
-    </div><!-- az-header -->
+<div class="az-navbar az-navbar-two">
+  <div class="container-fluid">
+    <div><a href="index.html" class="az-logo">az<span>i</span>a</a></div>
+    <div class="az-navbar-search">
+      <input
+        type="search"
+        class="form-control"
+        placeholder="Search for schedules and events..."
+      />
+      <button class="btn"><i class="fas fa-search "></i></button>
+    </div>
+    <!-- az-navbar-search -->
+    <div class="row">
+      <ul class="nav ">  
+          <li *ngIf="!isMenuAccessable(PAGES.MENU_DEFINITIONS)" class="nav-item active dropdown">
+              <a class="nav-link with-sub dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="typcn typcn-clipboard"></i>Tanım İşlemleri</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">             
+                <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle">Genel Tanımlar</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="" >Şirket Listesi ve Tanımlama</a></li>
+                    <li><a class="dropdown-item" href="#">Lokasyon Listesi ve Tanımlama</a></li>            
+                  </ul>
+                </li>
+                <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle">Demirbaş Tanımları</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Test1</a></li>
+                    <li><a class="dropdown-item" href="#">test2</a></li>               
+                  </ul>
+                </li>
+              </ul>
+            </li>  
 
-    <div class="az-navbar az-navbar-two">
-      <div class="container-fluid">
-        <div><a href="index.html" class="az-logo">az<span>i</span>a</a></div>
-        <div class="az-navbar-search">
-          <input type="search" class="form-control" placeholder="Search for schedules and events...">
-          <button class="btn"><i class="fas fa-search "></i></button>
-        </div><!-- az-navbar-search -->
-        <ul class="nav">
-          <li class="nav-label">Main Menu</li>
-          <li class="nav-item active">
-            <a  class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Tanım İşlemleri</a>
-            <nav class="nav-sub">
-              <a href="dashboard-one.html" class="nav-sub-link">Kişiler</a>
-              <nav class="nav-sub"></nav>         
-            </nav>
-          </li><!-- nav-item -->
-          <li class="nav-item">
-            <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i>Demirbaş Yonetimi</a>
-            <nav class="nav-sub-sub">
+        <!-- nav-item -->
+        <li *ngIf="!isMenuAccessable(PAGES.MENU_DEFINITIONS)" class="nav-item dropdown">
+            <a class="nav-link with-sub dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="typcn typcn-clipboard"></i>Demirbaş Yonetimi</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">             
+              <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle">Genel Tanımlar</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Departman Listesi ve Tanımlama</a></li>
+                  <li><a class="dropdown-item" href="#">Lokasyon Listesi ve Tanımlama</a></li>            
+                </ul>
+              </li>
+              <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle">Demirbaş Tanımları</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Test1</a></li>
+                  <li><a class="dropdown-item" href="#">test2</a></li>               
+                </ul>
+              </li>
+            </ul>
+          </li>  
 
-            </nav>
-          </li><!-- nav-item -->
-          <li class="nav-item">
-            <a href="" class="nav-link with-sub"><i class="typcn typcn-book"></i>Amortisman Yonetimi</a>
-            <nav class="nav-sub">
-          
-            </nav>
-          </li><!-- nav-item -->
-          <li class="nav-item">
-            <a href="" class="nav-link with-sub"><i class="typcn typcn-edit"></i>Bakım Yonetimi</a>
-            <nav class="nav-sub">
-      
-            </nav>
-          </li><!-- nav-item -->
-          <li class="nav-item">
-            <a href="" class="nav-link with-sub"><i class="typcn typcn-chart-bar-outline"></i>Sarf Malzeme Yonetimi</a>
-            <nav class="nav-sub">       
-            </nav>
-          </li><!-- nav-item -->
-          <li class="nav-item">
-            <a href="" class="nav-link with-sub"><i class="typcn typcn-map"></i>Dosya Yükleme</a>  
-          </li><!-- nav-item -->
-         
-        </ul><!-- nav -->
-      </div><!-- container -->
-    </div><!-- az-navbar -->
+        <!-- nav-item -->
+        <li *ngIf="!isMenuAccessable(PAGES.MENU_DEPRECIATIONS)" class="nav-item dropdown">
+            <a class="nav-link with-sub dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="typcn typcn-clipboard"></i>Amortisman Yonetimi</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">   
+
+              </ul>
+          </li>   
+        <!-- nav-item -->
+        <li *ngIf="!isMenuAccessable(PAGES.MENU_MAINTENANCE)" class="nav-item dropdown">
+            <a class="nav-link with-sub dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="typcn typcn-clipboard"></i>Bakım Yonetimi</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
+            </ul>
+          </li>  
+    
+        <!-- nav-item -->
+        <li *ngIf="!isMenuAccessable(PAGES.MENU_CONSUMABLE)" class="nav-item dropdown">
+            <a class="nav-link with-sub dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="typcn typcn-clipboard"></i>Sarf Malzeme Yonetimi</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
+            </ul>
+          </li>     
+        <!-- nav-item -->
+        <li class="nav-item dropdown">
+            <a class="nav-link with-sub dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="typcn typcn-clipboard"></i>Dosya Aktarımı</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
+            </ul>
+          </li>  
+        <!-- nav-item -->
+      </ul>
+      <!-- nav -->
+    </div>
+  </div>
+  <!-- container -->
+</div>
+<!-- az-navbar -->
+
+<script>
+$('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+  if (!$(this).next().hasClass('show')) {
+    $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+  }
+  var $subMenu = $(this).next(".dropdown-menu");
+  $subMenu.toggleClass('show');
+
+
+  $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+    $('.dropdown-submenu .show').removeClass("show");
+  });
+  return false;
+});</script>

@@ -10284,7 +10284,7 @@ textarea.parsley-success:focus {
         @media (min-width: 992px) {
           .az-navbar .nav-link i.typcn::before {
             width: auto; } }
-    .az-navbar .nav-link.with-sub::after {
+      .az-navbar .nav-link.with-sub::after {
       content: '\f3d0';
       font-family: 'Ionicons';
       font-size: 11px;
@@ -10596,7 +10596,7 @@ textarea.parsley-success:focus {
         line-height: .9; }
         .az-sidebar-body .nav-link i.typcn::before {
           width: auto; }
-    .az-sidebar-body .nav-link.with-sub {
+      .az-sidebar-body .nav-link.with-sub {
       position: relative; }
       .az-sidebar-body .nav-link.with-sub::after {
         content: '\f3d0';

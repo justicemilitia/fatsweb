@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService } from 'src/app/services/base.service';
 import { BaseComponent } from '../../base/base.component';
-import{routes} from 'src/app/app-routing.module';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +8,7 @@ import{routes} from 'src/app/app-routing.module';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent extends BaseComponent implements OnInit {
-
-  menuItems:any = [];
+  
 
   constructor(protected baseService:BaseService) {
     super(baseService);
@@ -18,6 +16,5 @@ export class HeaderComponent extends BaseComponent implements OnInit {
    
   ngOnInit() {
   }
-
 
 }

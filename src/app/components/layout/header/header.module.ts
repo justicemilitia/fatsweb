@@ -1,10 +1,12 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { BrowserModule } from "@angular/platform-browser";
 
 import { HeaderComponent } from "./header.component";
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule,
+    BrowserModule],
   exports: [HeaderComponent]
 })
 export class HeaderModule {}

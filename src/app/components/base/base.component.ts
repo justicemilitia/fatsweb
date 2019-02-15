@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService } from '../../services/base.service';
+import * as pages from '../../declarations/page-values';
 
 @Component({
   selector: 'app-base',
@@ -13,6 +14,7 @@ import { BaseService } from '../../services/base.service';
 
 export abstract class BaseComponent implements OnInit {
 
+  readonly PAGES=pages;
   constructor(protected baseService:BaseService) {
     
   }
@@ -30,5 +32,9 @@ export abstract class BaseComponent implements OnInit {
 
   isLogged(){
     return this.baseService.authenticationService.isLoggedIn();
+  }
+
+  isMenuAccessable(pageKeyword:string){
+    return this.baseService.authenticationService.isMenuAccessable(pageKeyword);
   }
 }

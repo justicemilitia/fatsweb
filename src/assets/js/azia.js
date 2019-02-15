@@ -26,7 +26,7 @@ $(function(){
   $('.dropdown-menu .az-header-arrow').on('click', function(e){
     e.preventDefault();
     $(this).closest('.dropdown').removeClass('show');
-  });
+  });   
 
   // this will show navbar in left for mobile only
   $('#azNavShow, #azNavbarShow').on('click', function(e){
