@@ -43,7 +43,7 @@ export class UserService {
       .get(SERVICE_URL + GET_DEPARTMENT_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(
         result => {
-          callback(<Department[]>result["resultObject"]);
+          callback(<Department[]>result["ResultObject"]);
         },
         error => console.error(error)
       );

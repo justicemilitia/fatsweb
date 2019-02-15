@@ -8,6 +8,7 @@ import * as pages from "./declarations/page-values";
 import { LOGIN } from "./declarations/service-values";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { DepartmentComponent } from './components/definitions/department/department.component';
+import { LocationComponent } from './components/definitions/location/location.component';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,12 @@ export const routes: Routes = [
     path: "user",
     component: UserComponent,
     data: { pageKeyword: pages.MENU_USERDEFINITIONS }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "location",
+    component: LocationComponent,
+    data: { pageKeyword: pages.MENU_LOCATIONDEFINITIONS }
     // canActivate: [AuthGuard]
   },
   {

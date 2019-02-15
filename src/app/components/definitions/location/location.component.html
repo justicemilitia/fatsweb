@@ -1,0 +1,117 @@
+<div class="az-content">
+    <div class="container">
+      <div class="az-content-body">
+        <!-- <div class="az-content-breadcrumb">
+          <span>Table</span>
+          <span>DataTables</span>
+        </div> -->
+        <h2 class="az-content-title">Lokasyonlar</h2>
+        <div class="col-md-2 btnAddUser-right">
+          <button
+            class="btn btn-orange btn-block btnAddUser-height"
+            id="btnAddUser"
+            data-toggle="modal"
+            data-target="#modalLocation"
+            (click)="LoadDropdownList()"
+          >Lokasyon Ekle
+          </button>
+        </div>
+        <p class="mg-b-20"></p>
+  
+        <table
+          id="tblUser"
+          class="display responsive dataTables_wrapper dataTable no-footer dtr-inline table-bordered deneme"
+          role="grid"
+        >
+          <thead>
+            <tr>
+              <th class="wd-20p sorting">Lokasyon Adı</th>
+              <th class="wd-20p sorting">Lokasyon Barkodu</th>
+              <th class="wd-20p sorting">Koordinat</th>
+              <th class="wd-20p sorting">Bağlı Olduğu Lokasyon</th>
+              <th class="wd-20p sorting">Açıklama</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Kartal</td>
+              <td>L0001</td>
+              <td>N 40°54'54.813" - E 29°12'10.231"</td>
+              <td></td>
+              <td>Kartal Lokasyonu</td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      <!-- az-content-body -->
+    </div>
+  </div>
+  <!-- az-content -->
+  <app-footer></app-footer>
+  
+  <div id="modalLocation" class="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-content-demo">
+        <div class="modal-header">
+          <h6 class="modal-title model-title-center">Yeni lokasyon oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <h6>Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
+          <form #data="ngForm" (ngSubmit)="register(data)" class="form-register">
+              <div class="row">
+                  <div class="col-sm-6">                
+                  <label>*Lokasyon Barkodu</label>
+                  <input type="text" id="Barcode" ngModel name="Barcode" required class="form-control txt-width" value=""/>
+                  <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
+                </div>
+                <div class="col-sm-6">
+                    <label>*Lokasyon Adı</label>
+                    <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
+                    <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
+                  </div>
+              </div>
+              <!-- form-group -->
+              <div class="row">
+                <div class="col-sm-6">
+                  <label>*Bağlı Olduğu Location</label>
+                  <select  id="ParentLocationId" ngModel name="ParentLocationId" required class="form-control txt-width" value="">
+                      <option value="">Seçiniz</option>
+                      <option *ngFor="let location of locations" value={{location.locationId}}>
+                        {{location.name}}
+                      </option>   
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                    <label>*Koordinat</label>
+                    <input type="text" id="Coordinate" ngModel name="Coordinate" required class="form-control txt-width" value=""/>
+                    <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
+                  </div>
+                 </div>
+              <!-- form-group -->
+              <div class="row">
+                <label class="txt-margin">*Açıklama</label>
+                <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width txt-margin" value=""/>
+                <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
+              </div>
+            <!-- form-group -->
+
+            <div class="modal-footer">
+                <button class="btn btn-orange btn-block btn-height" id="btnCreateLocation" type="submit" data-toggle="modal" data-target="#modalInsertLocation">Lokasyon Ekle</button>       
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- modal-dialog -->
+  </div>
+  <!-- modal -->
+  

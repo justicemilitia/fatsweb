@@ -1,12 +1,13 @@
 export class Department {
-    creationDate: Date;
-    creatorId: number;
-    departmentId: number;
-    description: string;
-    isActive: boolean;
-    modifiedDate: Date;
-    modifiedId: number;
-    name: string;
-    parentDepartment: Department;
-    parentDepartmentId: number;   
+    CreationDate: Date;
+    CreatorId: number;
+    DepartmentId: number;
+    Description: string;
+    IsActive: boolean;
+    ModifiedDate: Date;
+    ModifiedId: number;
+    Name: string;
+    ParentDepartment: Department;
+    InverseParentDepartment: Department[];
+    ParentDepartmentId: number;   
 }

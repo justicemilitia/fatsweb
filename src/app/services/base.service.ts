@@ -3,6 +3,7 @@ import { AuthenticationService } from "./authenticationService/authentication.se
 import { UserService } from "./userService/user.service";
 import { LanguageService } from "./languageService/language.service";
 import { DepartmentService } from './departmentService/department.service';
+import { LocationService } from './locationService/location.service';
 
 @Injectable({
   providedIn: "root"
@@ -12,6 +13,7 @@ export class BaseService {
     public authenticationService: AuthenticationService,
     public userService: UserService,
     public languageService: LanguageService,
-    public departmentService: DepartmentService
+    public departmentService: DepartmentService,
+    public locationService: LocationService
   ) {}
 }

@@ -31,7 +31,7 @@ export class DepartmentService {
       .get(SERVICE_URL + GET_DEPARTMENT_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(
         result => {
-          callback(<Department[]>result["resultObject"]);
+          callback(<Department[]>result["ResultObject"]);
         },
         error => console.error(error)
       );
@@ -40,7 +40,7 @@ export class DepartmentService {
   InsertDepartment(department: Department) {
     debugger;
     this.httpClient
-      .post(SERVICE_URL + INSERT_DEPARTMENT, department, { headers: GET_HEADERS() })
+      .post(SERVICE_URL + INSERT_DEPARTMENT, department, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(
         data => {
           console.log(data);

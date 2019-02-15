@@ -37,9 +37,9 @@ export class AuthGuard implements CanActivate {
       if (pageKeyword == MENU_DASHBOARD)
         return true;
       /* Bu menüyü görmeye yetkimiz var mı kontrolü */
-      var role = this.authentication.roles.find(x => x.menuCaption == pageKeyword);
+      var role = this.authentication.roles.find(x => x.MenuCaption == pageKeyword);
       if (role) {
-        return role.outBrowse ? true : false;
+        return role.OutBrowse ? true : false;
       }else {
         this.router.navigate(["dashboard"]); // Eğer Yetki YOksa anasayfaya at.
         return false;

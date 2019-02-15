@@ -15,6 +15,7 @@ import { LayoutComponent } from "./components/layout/layout.component";
 import { CompanyComponent } from "./components/definitions/company/company.component";
 import { UserComponent } from "./components/definitions/user/user.component";
 import { DepartmentComponent } from "./components/definitions/department/department.component";
+import { LocationComponent } from "./components/definitions/location/location.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
@@ -28,6 +29,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     CompanyComponent,
     UserComponent,
     DepartmentComponent,
+    LocationComponent,
     DashboardComponent
   ],
   imports: [
