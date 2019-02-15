@@ -1,13 +1,13 @@
 export class Location {
-    locationId:number;
-    parentLocationId:number;
-    name:string; 
-    barcode:string;
-    coordinate:Coordinates;
-    description:string;
-    creationDate:Date;
-    creatorId:number;
-    modifiedDate:Date;
-    modifiedId:number;
-    isActive:boolean;
+    LocationId:number;
+    ParentLocationId:number;
+    Name:string; 
+    Barcode:string;
+    Coordinate:Coordinates;
+    Description:string;
+    CreationDate:Date;
+    CreatorId:number;
+    ModifiedDate:Date;
+    ModifiedId:number;
+    IsActive:boolean;
 }
