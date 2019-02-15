@@ -1,0 +1,39 @@
+/* vendor css */
+@import url("../../../../assets/lib/fontawesome-free/css/all.min.css");
+@import url("../../../../assets/lib/ionicons/css/ionicons.min.css");
+@import url("../../../../assets/lib/typicons.font/typicons.css");
+@import url("../../../../assets/lib/datatables.net-dt/css/jquery.dataTables.min.css");
+@import url("../../../../assets/lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css");
+@import url("../../../../assets/lib/select2/css/select2.min.css");
+@import url("../../../../assets/css/jquery.dataTables.min.css");
+
+ /* azia CSS */
+@import url("../../../../assets/css/azia.css");
+
+.btn-orange {
+  background: #e67300;
+  color: white;
+  border-radius: 5px;
+}
+.btnAddUser-height {
+  min-height: 15px;
+}
+.btnAddUser-right {
+  float: right;
+  margin-bottom:10px;
+  padding-right:0px;
+}
+.left {
+  margin-left: 90px;
+}
+.btn-orange{
+    background:#e67300;
+    color: white;
+}
+.txt-width{
+  border-radius: 5px;
+  height:30px;
+}
+.btn-height{
+min-height:15px;
+}

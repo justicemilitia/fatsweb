@@ -1,14 +1,14 @@
 export class User {
-    UserMail:string;
-    FirstName:string;
-    LastName:string;
-    DepartmentId:number;
-    LocationId:number;
-    UserTitle:string;
-    FirmId:number;
-    RoleId:number;
-    Password:string;
+    userMail:string;
+    firstName:string;
+    lastName:string;
+    departmentId:number;
+    locationId:number;
+    userTitle:string;
+    firmId:number;
+    roleId:number;
+    password:string;
     // ConfirmPassword:string;
-    PhoneNumber:number;
-    ParentUserId:number;
+    phoneNumber:number;
+    parentUserId:number;
 }
