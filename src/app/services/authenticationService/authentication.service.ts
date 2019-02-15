@@ -94,4 +94,10 @@ export class AuthenticationService {
   getCurrentUserId() {
     return this.jwtHelper.decodeToken(this.getToken()).nameid;
   }
+
+  isMenuAccessable(keyword:string){
+    let menu=this.roles.find(x=>x.menuCaption==keyword);
+    if(menu) return true;
+    return false;
+  }
 }
