@@ -96,7 +96,7 @@ export class AuthenticationService {
   }
 
   isMenuAccessable(keyword:string){
-    let menu=this.roles.find(x=>x.menuCaption==keyword);
+    let menu=this.roles.find(x=>x.MenuCaption==keyword);
     if(menu) return true;
     return false;
   }
