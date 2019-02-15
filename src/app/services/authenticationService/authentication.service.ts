@@ -16,6 +16,10 @@ import {
   GET_HEADERS
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
+import * as pages from "src/app/declarations/page-values";
+
+import { Role } from '../../models/Role';
+
 
 @Injectable({
   providedIn: "root"
@@ -89,5 +93,11 @@ export class AuthenticationService {
 
   getCurrentUserId() {
     return this.jwtHelper.decodeToken(this.getToken()).nameid;
+  }
+
+  isMenuAccessable(keyword:string){
+    let menu=this.roles.find(x=>x.menuCaption==keyword);
+    if(menu) return true;
+    return false;
   }
 }
