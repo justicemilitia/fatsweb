@@ -10,18 +10,16 @@ import { Router } from "@angular/router";
 import { catchError } from "rxjs/operators";
 import { Token } from "@angular/compiler";
 import Menu from "src/app/models/RoleAuthorization";
-<<<<<<< HEAD
-import { SERVICE_URL,LOGIN, GET_HEADERS } from 'src/app/declarations/service-values';
-import RoleAuthorization from 'src/app/models/RoleAuthorization';
-import { Role } from '../../models/Role';
-=======
 import {
   SERVICE_URL,
   LOGIN,
   GET_HEADERS
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
->>>>>>> 0c2de6851a407c472b072e48e70712ebb88d10e3
+import * as pages from "src/app/declarations/page-values";
+
+import { Role } from '../../models/Role';
+
 
 @Injectable({
   providedIn: "root"
@@ -95,5 +93,11 @@ export class AuthenticationService {
 
   getCurrentUserId() {
     return this.jwtHelper.decodeToken(this.getToken()).nameid;
+  }
+
+  isMenuAccessable(keyword:string){
+    let menu=this.roles.find(x=>x.menuCaption==keyword);
+    if(menu) return true;
+    return false;
   }
 }

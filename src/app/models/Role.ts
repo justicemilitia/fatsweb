@@ -1,12 +1,12 @@
 export class Role {
-    roleId: number;
-    name: string;
-    description: string;
-    creationDate:Date;
-    creatorId: number;
-    modifiedDate: Date;
-    modifiedId: number;
-    isActive: boolean;
-    roleAuthorizations: string; //RoleAuthorization nesnesi gelecek
-    userRoles: string; // UserRole nesnesi gelecek
+    RoleId: number;
+    Name: string;
+    Description: string;
+    CreationDate:Date;
+    CreatorId: number;
+    ModifiedDate: Date;
+    ModifiedId: number;
+    IsActive: boolean;
+    RoleAuthorizations: string; //RoleAuthorization nesnesi gelecek
+    UserRoles: string; // UserRole nesnesi gelecek
 }
