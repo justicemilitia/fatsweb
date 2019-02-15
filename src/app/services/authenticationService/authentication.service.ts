@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 import { catchError } from "rxjs/operators";
 import { Token } from "@angular/compiler";
 import Menu from "src/app/models/RoleAuthorization";
-<<<<<<< HEAD
+
 import {
   SERVICE_URL,
   LOGIN,
@@ -18,11 +18,9 @@ import {
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
 import * as pages from "src/app/declarations/page-values";
-=======
-import { SERVICE_URL,LOGIN, GET_HEADERS } from 'src/app/declarations/service-values';
-import RoleAuthorization from 'src/app/models/RoleAuthorization';
+
 import { Role } from '../../models/Role';
->>>>>>> a7b2daada679139d5db0d295054388437f75e31a
+
 
 @Injectable({
   providedIn: "root"
