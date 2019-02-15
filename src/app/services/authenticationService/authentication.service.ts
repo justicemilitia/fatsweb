@@ -10,19 +10,12 @@ import { Router } from "@angular/router";
 import { catchError } from "rxjs/operators";
 import { Token } from "@angular/compiler";
 import Menu from "src/app/models/RoleAuthorization";
-<<<<<<< HEAD
 import {
   SERVICE_URL,
   LOGIN,
   GET_HEADERS
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
-import * as pages from "src/app/declarations/page-values";
-=======
-import { SERVICE_URL,LOGIN, GET_HEADERS } from 'src/app/declarations/service-values';
-import RoleAuthorization from 'src/app/models/RoleAuthorization';
-import { Role } from '../../models/Role';
->>>>>>> a7b2daada679139d5db0d295054388437f75e31a
 
 @Injectable({
   providedIn: "root"
@@ -50,8 +43,9 @@ export class AuthenticationService {
 
           this.saveSession(data["token"], <RoleAuthorization[]>(
             data["menu_auth"]
-          ));     
-          this.router.navigateByUrl(pages.MENU_DASHBOARD);
+          ));
+
+          this.router.navigateByUrl("/company");
         },
         e => {
           console.log(e);
@@ -80,7 +74,8 @@ export class AuthenticationService {
   }
 
   isLoggedIn() {
-    if (this.getToken()) return !this.jwtHelper.isTokenExpired(this.getToken());
+    if (this.getToken()) 
+      return !this.jwtHelper.isTokenExpired(this.getToken());
     return false;
   }
 
@@ -88,19 +83,11 @@ export class AuthenticationService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  getRoleMenus(): RoleAuthorization[] {
+  getRoleMenus():RoleAuthorization[] {
     return <RoleAuthorization[]>JSON.parse(localStorage.getItem(this.ROLE_KEY));
   }
 
   getCurrentUserId() {
     return this.jwtHelper.decodeToken(this.getToken()).nameid;
   }
-
-  isMenuAccessable(menuCaption: string) {
-
-    let menu = this.roles.find(x => x.menuCaption == menuCaption);
-    if (menu == null) return false;
-    return true;
-  }
-
 }
