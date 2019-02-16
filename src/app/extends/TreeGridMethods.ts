@@ -1,6 +1,24 @@
-export class DataTable {
+import { IData } from '../models/interfaces/IData';
 
-    public static filter(source:string,search:string):boolean {
+export class TreeGridMethods {
+    
+    public static doSearch(obj:IData,filter:any):boolean {
+        let keys = Object.keys(filter);
+        for(let ii = 0; ii < keys.length;ii++) {
+            let key = keys[ii];
+            if (typeof obj[key] === "string")
+            {
+                if (!this.filterText(obj[key],filter[key]))
+                    return false;
+            }
+        
+        }
+        return true;
+    }
+
+    //#region Filters
+
+    private static filterText(source:string,search:string):boolean {
         
         if (!search || search == "%" || search == "%%")
             return true;
@@ -28,5 +46,7 @@ export class DataTable {
 
         return source == search;
     }
+
+    //#endregion
 
 }

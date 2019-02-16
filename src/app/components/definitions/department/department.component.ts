@@ -30,6 +30,8 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
     Description:''
   };
 
+  isDesc:boolean = false;
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadDepartments();
@@ -42,8 +44,12 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
   }
 
   doFilter() {
-    let filtered = this.searchInData(this.departments,this.filter);
-    this.loadData(filtered);
+    this.doFilterInTree(this.departments,this.filter);
+  }
+
+  doOrder(order:string) {
+    this.doOrderInTree(this.departments,this.filter,order,this.isDesc);
+    this.isDesc = !this.isDesc;
   }
 
   insertDepartment(data: NgForm) {
@@ -56,8 +62,8 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
   loadDepartments() {
     this.baseService.departmentService.GetDepartments((deps:Department[]) => {
       
-      this.departments = <Department[]>this.doParentAndChild(deps);
-      this.loadData(this.departments);
+      this.departments = <Department[]>this.convertDataToNodes(deps);
+      this.doFilterInTree(this.departments,this.filter);
 
     });
   }

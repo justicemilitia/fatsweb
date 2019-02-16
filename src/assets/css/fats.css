@@ -67,6 +67,6 @@
 .tree-table ul,
 .tree-table li {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
     list-style-type: none;
 }

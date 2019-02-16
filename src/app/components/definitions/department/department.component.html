@@ -19,10 +19,10 @@
       <div class="table-custom">
           <ul class="table-custom-row-search">
             <li>
-            <input type="text" placeholder="İsim" class="form-control" [(ngModel)]="filter.Name">
+            <input type="text" (click)="doOrder('Name')" placeholder="İsim" class="form-control" [(ngModel)]="filter.Name">
             </li>
             <li>
-              <input type="text" placeholder="Açıklama" class="form-control" [(ngModel)]="filter.Description">
+              <input type="text" (click)="doOrder('Description')" placeholder="Açıklama" class="form-control" [(ngModel)]="filter.Description">
             </li>
         </ul>
         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree-table">
@@ -42,7 +42,7 @@
             <li>
               <div class="mat-tree-node">
                 <button mat-icon-button matTreeNodeToggle
-                        [attr.aria-label]="'toggle ' + node.Name">
+                        [attr.aria-label]="'toggle ' + node.DepartmentId">
                   <mat-icon class="mat-icon-rtl-mirror">
                     {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                   </mat-icon>
