@@ -17,29 +17,23 @@
       </div>
       <p class="mg-b-20"></p>
       <div class="table-custom">
-          
-            <ul class="table-custom-row-header">
-                <li>
-                İsim
-                </li>
-                <li>
-                  Açıklama
-                </li>
-            </ul>
-        
-        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+          <ul class="table-custom-row-search">
+            <li>
+            <input type="text" placeholder="İsim" class="form-control" [(ngModel)]="filter.Name">
+            </li>
+            <li>
+              <input type="text" placeholder="Açıklama" class="form-control" [(ngModel)]="filter.Description">
+            </li>
+        </ul>
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree-table">
           <!-- This is the tree node template for leaf nodes -->
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
             <li class="mat-tree-node">
               <!-- use a disabled button to provide padding for tree leaf -->
               <button mat-icon-button disabled></button>
               <ul class="table-custom-row">
-                <li>
-                  {{node.Name}}
-                </li>
-                <li>
-                  {{node.Description}}
-                </li>
+                <li>{{node.Name}}</li>
+                <li>{{node.Description}}</li>
               </ul>
             </li>
           </mat-tree-node>
@@ -54,15 +48,11 @@
                   </mat-icon>
                 </button>
                 <ul class="table-custom-row">
-                    <li>
-                      {{node.Name}}
-                    </li>
-                    <li>
-                      {{node.Description}}
-                    </li>
+                    <li>{{node.Name}}</li>
+                    <li>{{node.Description}}</li>
                 </ul>
               </div>
-              <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+              <ul [class.tree-table-invisible]="!treeControl.isExpanded(node)">
                 <ng-container matTreeNodeOutlet></ng-container>
               </ul>
             </li>

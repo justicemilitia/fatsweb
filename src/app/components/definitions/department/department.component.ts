@@ -1,14 +1,12 @@
-import { Component, OnInit, NgModule } from "@angular/core";
+import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
 import {
   FormsModule,
   ReactiveFormsModule,
   NgForm
 } from "@angular/forms";
 import { Department } from "../../../models/Department";
-import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
-import {FlatTreeControl, NestedTreeControl} from '@angular/cdk/tree';
-import {MatTreeNestedDataSource, MatTreeModule} from '@angular/material/tree';
+import { TreeGridTable } from 'src/app/extends/TreeGridTable';
 
 @Component({
   selector: "app-department",
@@ -22,20 +20,31 @@ import {MatTreeNestedDataSource, MatTreeModule} from '@angular/material/tree';
   providers: [DepartmentComponent]
 })
 
-export class DepartmentComponent extends BaseComponent implements OnInit {
+export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck {
+
+  insertingDepartment: any = {};
+  departments: Department[] = [];
+  
+  filter = {
+    Name:'',
+    Description:''
+  };
 
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadDepartments();
   }
 
-  insertingDepartment: any = {};
-  departments: Department[] = [];
-
-  treeControl = new NestedTreeControl<Department>(node => node.InverseParentDepartment);
-  dataSource = new MatTreeNestedDataSource<Department>();
-
   ngOnInit() {}
+
+  ngDoCheck(): void {
+    this.doFilter();  
+  }
+
+  doFilter() {
+    let filtered = this.searchInData(this.departments,this.filter);
+    this.loadData(filtered);
+  }
 
   insertDepartment(data: NgForm) {
 
@@ -46,43 +55,11 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
   loadDepartments() {
     this.baseService.departmentService.GetDepartments((deps:Department[]) => {
-      let treeDeps:Department[] = [];
-      deps.forEach(x=> {
-        if (!x.ParentDepartmentId)
-          treeDeps.push(x);
-        else
-        {
-          let item = this.searchInDepartments(treeDeps,x.ParentDepartmentId);
-          if (item)
-            item.InverseParentDepartment.push(x);
-          else
-            treeDeps.push(x);
-        }
-      });
-      this.departments = treeDeps;
-      this.dataSource.data = treeDeps;
+      
+      this.departments = <Department[]>this.doParentAndChild(deps);
+      this.loadData(this.departments);
+
     });
   }
-
-  searchInDepartments(source:Department[],parentID:number):Department {
-    var foundItem = null;
-    
-    for(var ii = 0; ii < source.length;ii++) {
-      var item = source[ii];
-      if (item.DepartmentId == parentID) {
-        foundItem = item;
-        break;
-      }else {
-        foundItem = this.searchInDepartments(item.InverseParentDepartment,parentID);
-        if (foundItem){
-          break;
-        }
-      }
-    }
-
-    return foundItem;
-  }
-
-  hasChild = (_:number,department:Department) => department.InverseParentDepartment.length > 0;
 
 }

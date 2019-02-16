@@ -2,10 +2,6 @@
 @import url("../../../../assets/lib/fontawesome-free/css/all.min.css");
 @import url("../../../../assets/lib/ionicons/css/ionicons.min.css");
 @import url("../../../../assets/lib/typicons.font/typicons.css");
-@import url("../../../../assets/lib/datatables.net-dt/css/jquery.dataTables.min.css");
-@import url("../../../../assets/lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css");
-@import url("../../../../assets/lib/select2/css/select2.min.css");
-@import url("../../../../assets/css/jquery.dataTables.min.css");
 
  /* azia CSS */
 @import url("../../../../assets/css/azia.css");
@@ -37,51 +33,4 @@
 .btn-height{
 min-height:15px;
 }
-.example-tree-invisible {
-  display: none;
-}
 
-.example-tree ul,
-.example-tree li {
-  margin-top: 0;
-  margin-bottom: 0;
-  list-style-type: none;
-}
-
-.table-custom-row {
-  width: 100%;
-  display: table;
-  table-layout: fixed; /* optional */
-  padding:0;
-  margin:0;
-}
-
-.table-custom-row > li {
-  display: table-cell;
-  width: auto;
-}
-.table-custom-row-header {
-  width: 100%;
-  display: table;
-  table-layout: fixed;
-  margin:0;
-  padding:0;
-  border-bottom: 2px solid #e67300;
-}
-
-.table-custom-row-header > li {
-  display: table-cell;
-  width: auto;
-  font-size: large;
-  font-weight: bold;
-  padding-left:40px;
-  padding:5px;
-}
-.mat-tree-node {
-  padding:0;
-  margin:0;
-}
-
-.mat-icon-no-color {
-  color:#e67300
-}
