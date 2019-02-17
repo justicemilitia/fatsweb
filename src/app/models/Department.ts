@@ -1,19 +1,9 @@
 import { IData } from './interfaces/IData';
-import { DataTable } from '../extends/DataTable';
 
 export class Department implements IData {
     
-    filter(_filter:any): boolean {
-        
-        if (!DataTable.filter(this.Name,_filter.Name))
-            return false;
-        
-        if (!DataTable.filter(this.Description,_filter.Description))
-            return false;
-
-        return true;
-    }
-    
+    isExtended: boolean;
+     
     getChildren():IData[] {
         return this.InverseParentDepartment;
     };

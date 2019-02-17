@@ -7,6 +7,7 @@ import {
 import { Department } from "../../../models/Department";
 import { BaseService } from "../../../services/base.service";
 import { TreeGridTable } from 'src/app/extends/TreeGridTable';
+import { IData } from 'src/app/models/interfaces/IData';
 
 @Component({
   selector: "app-department",
@@ -29,6 +30,10 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
     Name:'',
     Description:''
   };
+  order = {
+    isDesc : false,
+    column : 'Name'
+  }
 
   constructor(public baseService: BaseService) {
     super(baseService);
@@ -41,10 +46,24 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
     this.doFilter();  
   }
 
+  //#region Grid Methods
+
   doFilter() {
-    let filtered = this.searchInData(this.departments,this.filter);
-    this.loadData(filtered);
+    this.TGT_doFilter(this.departments,this.filter);
   }
+
+  doOrder(column:string) {
+    this.order.isDesc = !this.order.isDesc;
+    this.order.column = column;
+    this.TGT_doOrder(this.departments,this.filter,this.order);
+  }
+
+  doCollapse(data:IData) {
+    data.isExtended = !data.isExtended;
+    this.TGT_loadData(this.departments);
+  }
+
+  //#endregion
 
   insertDepartment(data: NgForm) {
 
@@ -56,8 +75,8 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
   loadDepartments() {
     this.baseService.departmentService.GetDepartments((deps:Department[]) => {
       
-      this.departments = <Department[]>this.doParentAndChild(deps);
-      this.loadData(this.departments);
+      this.departments = <Department[]>this.convertDataToTree(deps);
+      this.TGT_loadData(this.departments);
 
     });
   }
