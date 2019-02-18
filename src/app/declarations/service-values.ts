@@ -9,9 +9,16 @@ export const GET_LOCATION_LIST = "locations/getlocationslist";
 export const GET_USER_LIST = "user/GetUsers";
 export const GET_ROLE_LIST = "role/GetRoleList";
 export const GET_FIRM_LIST = "firm/GetFirmsList";
+export const GET_COUNTRY_LIST="definition/GetCountriesList";
+export const GET_CITY_LIST="definition/GetCitiesList";
+export const GET_COMPANY_LIST="company/GetCompanyList";
 
 export const INSERT_DEPARTMENT = "department/AddDepartment";
 export const INSERT_LOCATION = "locations/AddLocation";
+export const INSERT_COMPANY="company/AddCompany";
+
+export const UPDATE_COMPANY="company/UpdateCompany";
+
 
 export const GET_HEADERS = (token = null): HttpHeaders => {
   let headers = new HttpHeaders();

@@ -26,8 +26,8 @@ export const routes: Routes = [
   {
     path: "company",
     component: CompanyComponent,
-    canActivate: [AuthGuard],
-    data: { pageKeyword: pages.MENU_MAINTENANCE }
+    //canActivate: [AuthGuard],    
+    data: { pageKeyword: pages.MENU_COMPANYDEFINITONS }
   },
   {
     path: "user",

@@ -21,9 +21,8 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    
     let logged = this.authentication.isLoggedIn();
-    let pageKeyword = next.data.pageKeyword;
+    let pageKeyword = next.data.pageKeyword;    
     if (pageKeyword == MENU_LOGIN) {
       if (logged == true) {
         this.router.navigate(["dashboard"]); // Eğer Kullanıcı giriş yapmışsa bu sayfaya yönlendir.

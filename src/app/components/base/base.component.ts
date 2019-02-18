@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService } from '../../services/base.service';
 import * as pages from '../../declarations/page-values';
+import * as route from '../../app-routing.module';
+
 
 @Component({
   selector: 'app-base',
@@ -15,7 +17,7 @@ import * as pages from '../../declarations/page-values';
 export abstract class BaseComponent implements OnInit {
 
   protected readonly PAGES=pages;
-
+  
   constructor(protected baseService:BaseService) {
     
   }
@@ -37,5 +39,11 @@ export abstract class BaseComponent implements OnInit {
 
   isMenuAccessable(pageKeyword:string){
     return this.baseService.authenticationService.isMenuAccessable(pageKeyword);
+  }
+
+  pageRoute(key:string){
+    debugger;
+    
+    return this.baseService.authenticationService.pageRoute(key);
   }
 }

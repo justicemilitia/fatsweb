@@ -19,6 +19,8 @@ import { DepartmentComponent } from "./components/definitions/department/departm
 import { LocationComponent } from "./components/definitions/location/location.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CountryComponent } from './components/definitions/country/country.component';
+import { CityComponent } from './components/definitions/city/city.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     UserComponent,
     DepartmentComponent,
     LocationComponent,
-    DashboardComponent
+    DashboardComponent,
+    CountryComponent,
+    CityComponent
   ],
   imports: [
     BrowserModule,
