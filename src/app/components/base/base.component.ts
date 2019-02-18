@@ -40,6 +40,11 @@ export abstract class BaseComponent implements OnInit {
     return this.baseService.authenticationService.isMenuAccessable(pageKeyword);
   }
 
+  pageRoute(key:string){
+    debugger;
+    
+    return this.baseService.authenticationService.pageRoute(key);
+  }
   errorManager(error: HttpErrorResponse) {
     switch(error.status) {
       case 401:

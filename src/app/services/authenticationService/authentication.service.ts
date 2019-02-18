@@ -95,4 +95,18 @@ export class AuthenticationService {
     if(menu) return true;
     return false;
   }
+
+  pageRoute(pageRoute: string) {
+    debugger;
+    let route = this.isMenuAccessable(pageRoute);
+    if(route){      
+      //sayfayı görme yetkisi var ise istenilen sayfaya yönlendirilir.
+      this.router.navigateByUrl('/'+ pageRoute);
+      return  true;
+    }
+    else{
+      //yetkisi yok ise popup çıkar
+      return false;
+    }
+  }
 }

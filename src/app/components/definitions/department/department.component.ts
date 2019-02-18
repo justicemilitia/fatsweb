@@ -101,5 +101,4 @@ export class DepartmentComponent extends TreeGridTable implements OnInit, DoChec
       this.errorManager(error);
     });
   }
-
 }

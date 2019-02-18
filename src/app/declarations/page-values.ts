@@ -11,3 +11,4 @@ export const MENU_FIXEDASSETDEFINITIONS="Menu_FixedAssetDefinitions";
 export const MENU_FIXEDASSETCATEGORYDEFINITIONS="Menu_FixedAssetCategoryDefinitions";
 export const MENU_COMPANYDEFINITONS="Menu_CompanyDefinitions";
 export const MENU_CONSUMABLE = "Menu_Consumable";
+
