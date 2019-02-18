@@ -7,6 +7,10 @@ import { LocationService } from './locationService/location.service';
 import { CompanyService } from './companyService/company.service';
 import { CountryService } from './country-service/country.service';
 import { CityService } from './city-service/city.service';
+import { FixedAssetCategoryService } from "./FixedAssetCategoryService/fixedAssetCategory.service";
+import { FixedAssetService } from "./FixedAssetService/fixedAsset.service";
+import { PopupService } from "./popupService/popup.service";
+import { ErrorService} from './errorService/error.service';
 
 @Injectable({
   providedIn: "root"
@@ -20,6 +24,10 @@ export class BaseService {
     public locationService: LocationService,
     public companyService:CompanyService,
     public countryService:CountryService, 
-    public cityService:CityService
+    public cityService:CityService,
+    public fixedAssetCategoryService: FixedAssetCategoryService,
+    public fixedAssetService: FixedAssetService,
+    public popupService: PopupService,
+    public errorService:ErrorService
   ) {}
 }

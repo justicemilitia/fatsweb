@@ -5,10 +5,11 @@ import { LoginComponent } from "./components/login/login.component";
 import { UserComponent } from "./components/definitions/user/user.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
 import * as pages from "./declarations/page-values";
-import { LOGIN } from "./declarations/service-values";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { DepartmentComponent } from './components/definitions/department/department.component';
 import { LocationComponent } from './components/definitions/location/location.component';
+import { FixedAssetCategoryComponent } from './components/definitions/fixed-asset-category/fixed-asset-category.component';
+import { FixedAssetComponent } from './components/definitions/fixed-asset/fixed-asset.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +46,18 @@ export const routes: Routes = [
     path: "department",
     component: DepartmentComponent,
     data: { pageKeyword: pages.MENU_DEPARTMENTSDEFINITION }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "fixedassetcategory",
+    component: FixedAssetComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSETDEFINITIONS }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "fixedasset",
+    component: FixedAssetCategoryComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSETCATEGORYDEFINITIONS }
     // canActivate: [AuthGuard]
   },
   {

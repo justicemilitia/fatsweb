@@ -1,0 +1,92 @@
+<div class="az-content">
+  <div class="container">
+    <div class="az-content-body">
+      <!-- <div class="az-content-breadcrumb">
+        <span>Table</span>
+        <span>DataTables</span>
+      </div> -->
+      <h2 class="az-content-title">Demirbaş Kategorileri</h2>
+      <div class="col-md-2 btnAddCategory-right">
+        <button
+          class="btn btn-orange btn-block btnAddCategory-height"
+          id="btnAddCategory"
+          data-toggle="modal"
+          data-target="#modalFixedAssetCategory"
+          (click)="LoadFixedAssetCategory()"
+        >Demirbaş Kategorisi Ekle >
+        </button>
+      </div>
+      <p class="mg-b-20"></p>
+
+      <table
+        id="tblFixedassetCategory"
+        class="display responsive dataTables_wrapper dataTable no-footer dtr-inline table-bordered deneme"
+        role="grid"
+      >
+        <thead>
+          <tr>
+            <th class="wd-40p sorting">Demirbaş Kategorisi Adı</th>
+            <th class="wd-40p sorting">Bağlı Olduğu Demirbaş Kategorisi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let fixedAssetCategory of fixedAssetCategories">
+            <tr>
+            <td ng-trim="false">{{fixedAssetCategory.Name}}</td>
+            <td ng-trim="false">{{fixedAssetCategory.ParentCategory ? fixedAssetCategories.ParentCategory.Name : ''}}</td>
+          </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+<!-- az-content -->
+<app-footer></app-footer>
+
+<div id="modalFixedAssetCategory" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title model-title-center">Yeni demirbaş kategorisi oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <h6>Yeni demirbaş kategorisi oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
+    <form #data="ngForm" (ngSubmit)="InsertFixedAssetCategory(data)" class="form-register">
+          <div class="row">
+              <label>*Demirbaş Kategori Adı</label>
+              <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
+            </div>
+          <div class="row">
+              <label>*Bağlı Olduğu Demirbaş Kategorisi</label>
+              <select  id="ParentFixedAssetCategoryId" ngModel name="ParentFixedAssetCategoryId" required class="form-control txt-width" value="">
+                  <option value="">Seçiniz</option>
+                  <option value="-1">Yok</option>
+                  <option *ngFor="let fixedAssetCategories of fixedAssetCategoriesInAdd" value={{fixedAssetCategories.FixedAssetCategoriesId}}>
+                    {{fixedAssetCategories.Name}}
+                  </option>   
+              </select>
+              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Lokasyon gereklidir.</span> -->
+             </div>
+          <!-- form-group -->
+          <div class="modal-footer">
+              <button class="btn btn-orange btn-block btn-height" id="btnCreateFixedAssetCategory" type="submit" data-toggle="modal" data-target="#modalInsertFixedAssetCategory">Demirbaş Kategorisi Ekle</button>       
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->

@@ -1,81 +1,88 @@
-import { Component, OnInit, NgModule } from "@angular/core";
+import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
 import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
   FormsModule,
   ReactiveFormsModule,
-  FormArray,
   NgForm
 } from "@angular/forms";
-import { DepartmentService } from "../../../services/departmentService/department.service";
 import { Department } from "../../../models/Department";
-import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
+import { TreeGridTable } from 'src/app/extends/TreeGridTable';
+import { IData } from 'src/app/models/interfaces/IData';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-department",
   templateUrl: "./department.component.html",
   styleUrls: ["./department.component.css"]
 })
+
 @NgModule({
   imports: [FormsModule, ReactiveFormsModule],
   declarations: [DepartmentComponent],
   providers: [DepartmentComponent]
 })
-export class DepartmentComponent extends BaseComponent implements OnInit {
+
+export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck {
+
+  insertingDepartment: any = {};
+  departments: Department[] = [];
+  
+  filter:any = {
+    Name:'',
+    Description:''
+  };
+
+  order:any = {
+    isDesc : false,
+    column : 'Name'
+  }
 
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadDepartments();
   }
 
-  insertingDepartment: any = {};
-  departmentsInAdd: Department[] = [];
-  departments: Department[] = [];
-
   ngOnInit() {}
 
-  insertDepartment(data: NgForm) {
-    console.log(data.value);
-    this.insertingDepartment = <Department>data.value;
-    this.baseService.departmentService.InsertDepartment(
-      this.insertingDepartment
-    );
+  ngDoCheck(): void {
+    this.doFilter();  
   }
 
-  LoadDropdownList() {
-    this.baseService.userService.GetDepartments(departments => {
-      this.departmentsInAdd = departments;
-    });
+  //#region Grid Methods
+
+  doFilter() {
+    this.TGT_doFilter(this.departments,this.filter);
+  }
+
+  doOrder(column:string) {
+    this.order.isDesc = !this.order.isDesc;
+    this.order.column = column;
+    this.TGT_doOrder(this.departments,this.filter,this.order);
+  }
+
+  doCollapse(data:IData) {
+    data.isExtended = !data.isExtended;
+    this.TGT_loadData(this.departments);
+  }
+
+  //#endregion
+
+  insertDepartment(data: NgForm) {
+
+    this.insertingDepartment = <Department>data.value;
+    this.baseService.departmentService.InsertDepartment(this.insertingDepartment);
+
   }
 
   loadDepartments() {
-    debugger;
-    
     this.baseService.departmentService.GetDepartments((deps:Department[]) => {
-      deps.forEach((e) => {
-        let nwDeps:Department[] = this.subToUp(e,0);
-        nwDeps.forEach(x=>{
-          this.departments.push(x);
-        });
-      })
+      
+      this.departments = <Department[]>this.convertDataToTree(deps);
+      this.TGT_loadData(this.departments);
+
+    },(error:HttpErrorResponse) => {
+      this.errorManager(error);
     });
   }
-
-  subToUp(departments:Department,index:number):Department[] {
-    let nwDeps:Department[] = [];
-    departments.Name = departments.Name.padStart(departments.Name.length + index,">");
-    nwDeps.push(departments);
-    if (departments.InverseParentDepartment && departments.InverseParentDepartment.length > 0) {
-      departments.InverseParentDepartment.forEach(e=> {      
-        this.subToUp(e,index + 5).forEach(x=> {
-          nwDeps.push(x);
-        });
-      });
-    }
-    return nwDeps;
-  }
-
 }

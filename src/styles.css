@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('assets/lib/bootstrap/css/bootstrap.min.css');
 @import url('assets/lib/fontawesome-free/css/all.min.css');
 @import url('assets/lib/typicons.font/typicons.css'); 
- @import url('assets/lib/ionicons/css/ionicons.min.css');
- @import url('assets/lib/bootstrap/css/bootstrap.min.css');
+@import url('assets/lib/ionicons/css/ionicons.min.css');
+@import url("assets/css/fats.css")

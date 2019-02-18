@@ -1,95 +1,92 @@
 <div class="az-content">
   <div class="container">
     <div class="az-content-body">
-      <!-- <div class="az-content-breadcrumb">
-        <span>Table</span>
-        <span>DataTables</span>
-      </div> -->
+      
       <h2 class="az-content-title">Departmanlar</h2>
-      <div class="col-md-2 btnAddUser-right">
+      <div class="col-md-2 btnAddDepartment-right">
         <button
-          class="btn btn-orange btn-block btnAddUser-height"
-          id="btnAddUser"
+          class="btn btn-orange btn-block btnAddDepartment-height"
+          id="btnAddDepartment"
           data-toggle="modal"
           data-target="#modalDepartment"
           (click)="LoadDropdownList()"
         >Departman Ekle
         </button>
       </div>
+    
       <p class="mg-b-20"></p>
-
-      <table
-        id="tblUser"
-        class="display responsive dataTables_wrapper dataTable no-footer dtr-inline table-bordered deneme"
-        role="grid"
-      >
-        <thead>
-          <tr>
-            <th class="wd-15p sorting">Departman Adı</th>
-            <th class="wd-15p sorting">Açıklama</th>
-            <th class="wd-20p sorting">Bağlı Olduğu Departman</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let department of departments">
+      
+        <table class="tree-table">
+          <thead>
+            <th class="tree-table-sign"><span class="typcn icon-default typcn-cog-outline"></span></th>
+            <th (click)="doOrder('Name')">İsim <span class="{{TGT_getOrderSign(order,'Name')}}"></span>
+            <th (click)="doOrder('Description')">Açıklama <span class="{{TGT_getOrderSign(order,'Description')}}"></span></th>
+          </thead>
+          <tbody>
             <tr>
-            <td ng-trim="false">{{department.Name}}</td>
-            <td ng-trim="false">{{department.Description}}</td>
-            <td ng-trim="false">{{department.ParentDepartment ? department.ParentDepartment.Name : ''}}</td>
-          </tr>
-          </ng-container>
-        </tbody>
-      </table>
+              <td></td>
+              <td>
+                  <input type="text" placeholder="İsim" class="form-control" [(ngModel)]="filter.Name">
+              </td>
+              <td>
+                  <input type="text" placeholder="Açıklama" class="form-control" [(ngModel)]="filter.Description">
+              </td>
+            </tr>
+            <tr *ngFor="let data of dataSource">
+              <td class="tree-table-sign">
+                <span (click)=doCollapse(data) class='{{TGT_getSign(data)}}'></span> 
+              </td>
+              <td>{{data.Name}}</td>
+              <td>{{data.Description}}</td>
+            </tr>
+          </tbody>
+        </table>
       
     </div>
     <!-- az-content-body -->
   </div>
 </div>
 <!-- az-content -->
-<app-footer></app-footer>
 
 <div id="modalDepartment" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title model-title-center">Yeni departman oluşturmak için aşağıdaki alanları doldurunuz.</h6>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        <!-- <h6>Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-        <form #data="ngForm" (ngSubmit)="insertDepartment(data)" class="form-register">
+        <!-- <h6>Yeni departman oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
+        <form #data="ngForm" (ngSubmit)="InsertDepartment(data)" class="form-register">
           <div class="row">
-              <label>*Departman Adı</label>
-              <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
-            </div>
-            <div class="row">
-              <label>*Açıklama</label>
-              <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width" value=""/>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
-            </div>
+            <label>*Departman Adı</label>
+            <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value="" />
+            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
+          </div>
+          <div class="row">
+            <label>*Açıklama</label>
+            <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width"
+              value="" />
+            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
+          </div>
           <!-- form-group -->
           <div class="row">
-              <label>*Bağlı Olduğu Departman</label>
-              <select  id="ParentDepartmentId" ngModel name="ParentDepartmentId" required class="form-control txt-width" value="">
-                  <option value="">Seçiniz</option>
-                  <option *ngFor="let department of departmentsInAdd" value={{department.DepartmentId}}>
-                    {{department.Name}}
-                  </option>   
-              </select>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Lokasyon gereklidir.</span> -->
-             </div>
+            <label>*Bağlı Olduğu Departman</label>
+            <select id="ParentDepartmentId" ngModel name="ParentDepartmentId" required class="form-control txt-width"
+              value="">
+              <option value="">Seçiniz</option>
+              <option *ngFor="let department of departments" value={{department.DepartmentId}}>
+                {{department.Name}}
+              </option>
+            </select>
+            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Lokasyon gereklidir.</span> -->
+          </div>
           <!-- form-group -->
           <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateDepartment" type="submit" data-toggle="modal" data-target="#modalInsertDepartment">Departman Ekle</button>       
-            </div>
+            <button class="btn btn-orange btn-block btn-height" id="btnCreateDepartment" type="submit"
+              data-toggle="modal" data-target="#modalInsertDepartment">Departman Ekle</button>
+          </div>
         </form>
       </div>
     </div>
@@ -97,34 +94,3 @@
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
-
-
-
-<!-- <script>
-  $(function() {
-    "use strict";
-
-    // showing modal with effect
-    $(".modal-effect").on("click", function(e) {
-      e.preventDefault();
-      var effect = $(this).attr("data-effect");
-      $("#modaldemo8").addClass(effect);
-    });
-
-    // hide modal with effect
-    $("#modaldemo8").on("hidden.bs.modal", function(e) {
-      $(this).removeClass(function(index, className) {
-        return (className.match(/(^|\s)effect-\S+/g) || []).join(" ");
-      });
-    });
-  });
-  $(document).ready( function () {
-    $('#tblUser').DataTable({
-        "columnDefs": [ {
-            "type": "salary-grade",
-            "targets": -1
-        } ],
-        "order": [[0,asc]]
-      });
-} );
-</script> -->

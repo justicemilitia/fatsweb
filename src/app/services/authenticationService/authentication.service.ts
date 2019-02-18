@@ -1,31 +1,25 @@
 import { Injectable } from "@angular/core";
 import { User } from "../../models/LoginUser";
 import {
-  HttpHeaders,
   HttpClient,
   HttpErrorResponse
 } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from "@angular/router";
 import { catchError } from "rxjs/operators";
-import { Token } from "@angular/compiler";
-import Menu from "src/app/models/RoleAuthorization";
 import {
   SERVICE_URL,
   LOGIN,
   GET_HEADERS
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
-import * as pages from "src/app/declarations/page-values";
-
-
-import { Role } from '../../models/Role';
 
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthenticationService {
+  
   constructor(private httpClient: HttpClient, private router: Router) {
     this.userToken = this.getToken();
     if (this.userToken != "") this.roles = this.getRoleMenus();
