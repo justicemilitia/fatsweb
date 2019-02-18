@@ -44,7 +44,7 @@ export class AuthenticationService {
             data["menu_auth"]
           ));
 
-          this.router.navigateByUrl("/company");
+          this.router.navigateByUrl("/dashboard");
         },
         e => {
           console.log(e);
@@ -90,7 +90,7 @@ export class AuthenticationService {
     return this.jwtHelper.decodeToken(this.getToken()).nameid;
   }
 
-  isMenuAccessable(keyword:string){
+  isMenuAccessable(keyword:string){    
     let menu=this.roles.find(x=>x.MenuCaption==keyword);
     if(menu) return true;
     return false;

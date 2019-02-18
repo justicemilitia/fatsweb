@@ -2,7 +2,8 @@ export class Company {
   CompanyId:number;
   Name: string;
   CountryId: number;
-  Mail: string;
+  CityId:number;
+  Email: string;
   Address: string;
   TaxNumber: number;
   TaxOffice: string;

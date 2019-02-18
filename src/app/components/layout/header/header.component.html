@@ -1,4 +1,4 @@
-
+<div>
   <div class="az-header az-header-dashboard-four">
     <div class="container-fluid">
       <div class="az-header-left">
@@ -67,51 +67,26 @@
           <ul class="nav">
             
               <li class="nav-item" *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)">
-                  <a href=" " class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Tanım İşlemleri</a>
+                  <a href="" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Tanım İşlemleri</a>
                   <nav class="nav-sub">
                     <li><a href=" " class="nav-sub-link">Genel Tanımlar</a>
                    
-                    <ul style="position:absolute;margin-left:220px;top:0">
-                      <li style="height: 30px; width: 300px; text-align: center;">Şirket Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Lokasyon Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Departman Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Kullanıcı Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Rol Yetki Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Masraf Yeri Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Çıkış Tipi Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Askıya Alma Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Sözleşme Listesi ve Tanımlama</li>
-                    </ul>
-                  
+                    <ul   style="position:absolute;margin-left:220px;top:0">
+                      <li style="height: 30px; width: 300px;"><a href="/company">Şirket Listesi ve Tanımlama</a></li>
+                      <li style="height: 30px; width: 300px;"><a href="/location">Lokasyon Listesi ve Tanımlama</a></li>
+                      <li style="height: 30px; width: 300px;"><a href="/department">Departman Listesi ve Tanımlama</a></li>
+                      <li style="height: 30px; width: 300px;">Kullanıcı Listesi ve Tanımlama</li>
+                      <li style="height: 30px; width: 300px;">Rol Yetki Listesi ve Tanımlama</li>
+                      <li style="height: 30px; width: 300px;">Masraf Yeri Listesi ve Tanımlama</li>
+                      <li style="height: 30px; width: 300px;">Çıkış Tipi Listesi ve Tanımlama</li>
+                      <li style="height: 30px; width: 300px;">Askıya Alma Listesi ve Tanımlama</li>
+                      <li style="height: 30px; width: 300px;">Sözleşme Listesi ve Tanımlama</li>
+                    </ul>                  
                   </li>
                     <li><a href=" " class="nav-sub-link">Demirbaş Tanımları</a></li>
                  
                   </nav>        
                 </li>
-
-<!-- 
-            <li class="nav-item" *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)">
-              <a href=" " class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Tanım İşlemleri<i class="with-sub"></i></a>
-              <ul>
-                <li>
-                  <a style="margin-right: 5px;"
-                    >Genel Tanımlar<i class="fa fa-angle-right"></i
-                  ></a>
-                  <ul>
-                    <li><a class="nav-sub-link active" (click)="PageRoute(PAGES.Menu_CompanyDefinitions)">Şirket Listesi ve Tanımlama</a></li>
-                    <li><a>Lokasyon Listesi ve Tanımlama</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a>Demirbaş Tanımları</a>
-                  <ul>
-                    <li><a>Test1</a></li>
-                    <li><a>test2</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li> -->
-            <!-- nav-item -->
             <li
               class="nav-item"
               *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)"
@@ -176,3 +151,5 @@
     <!-- container -->
   </div>
   <!-- az-navbar -->
+</div>
+
