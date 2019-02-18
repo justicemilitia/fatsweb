@@ -25,10 +25,9 @@ import { BaseService } from "../../../services/base.service";
   providers: [DepartmentComponent]
 })
 export class DepartmentComponent extends BaseComponent implements OnInit {
-
   constructor(public baseService: BaseService) {
     super(baseService);
-    this.loadDepartments();
+    this.LoadDepartments();
   }
 
   insertingDepartment: any = {};
@@ -37,7 +36,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {}
 
-  insertDepartment(data: NgForm) {
+  InsertDepartment(data: NgForm) {
     console.log(data.value);
     this.insertingDepartment = <Department>data.value;
     this.baseService.departmentService.InsertDepartment(
@@ -46,36 +45,41 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   }
 
   LoadDropdownList() {
-    this.baseService.userService.GetDepartments(departments => {
+    this.baseService.departmentService.GetDepartments(departments => {
       this.departmentsInAdd = departments;
     });
   }
 
-  loadDepartments() {
+  LoadDepartments() {
     debugger;
-    
-    this.baseService.departmentService.GetDepartments((deps:Department[]) => {
-      deps.forEach((e) => {
-        let nwDeps:Department[] = this.subToUp(e,0);
-        nwDeps.forEach(x=>{
+
+    this.baseService.departmentService.GetDepartments((deps: Department[]) => {
+      deps.forEach(e => {
+        let nwDeps: Department[] = this.SubToUp(e, 0);
+        nwDeps.forEach(x => {
           this.departments.push(x);
         });
-      })
+      });
     });
   }
 
-  subToUp(departments:Department,index:number):Department[] {
-    let nwDeps:Department[] = [];
-    departments.Name = departments.Name.padStart(departments.Name.length + index,">");
+  SubToUp(departments: Department, index: number): Department[] {
+    let nwDeps: Department[] = [];
+    departments.Name = departments.Name.padStart(
+      departments.Name.length + index,
+      ">"
+    );
     nwDeps.push(departments);
-    if (departments.InverseParentDepartment && departments.InverseParentDepartment.length > 0) {
-      departments.InverseParentDepartment.forEach(e=> {      
-        this.subToUp(e,index + 5).forEach(x=> {
+    if (
+      departments.InverseParentDepartment &&
+      departments.InverseParentDepartment.length > 0
+    ) {
+      departments.InverseParentDepartment.forEach(e => {
+        this.SubToUp(e, index + 5).forEach(x => {
           nwDeps.push(x);
         });
       });
     }
     return nwDeps;
   }
-
 }

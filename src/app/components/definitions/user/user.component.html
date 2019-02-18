@@ -36,78 +36,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Eda</td>
-            <td>Ekiz</td>
-            <td>Yazılım Uzman Yardımcısı</td>
-            <td>Yazılım</td>
-            <td>Ataşehir</td>
-            <td>Trinoks A.Ş.</td>
-            <td>eda.ekiz@trinoks.com</td>
-          </tr>
-          <tr>
-            <td>Sena Selin</td>
-            <td>Sarıyılmaz</td>
-            <td>Yazılım Uzman Yardımcısı</td>
-            <td>Yazılım</td>
-            <td>Ataşehir</td>
-            <td>Trinoks A.Ş.</td>
-            <td>sena.sariyilmaz@trinoks.com</td>
-          </tr>
-          <tr>
-            <td>Burak</td>
-            <td>Akbal</td>
-            <td>Yazılım Uzman Yardımcısı</td>
-            <td>Yazılım</td>
-            <td>Ataşehir</td>
-            <td>Trinoks A.Ş.</td>
-            <td>burak.akbal@trinoks.com</td>
-          </tr>
-          <tr>
-            <td>Baran Can</td>
-            <td>Aydın</td>
-            <td>Kıdemli Yazılım Uzman</td>
-            <td>Yazılım</td>
-            <td>Ataşehir</td>
-            <td>Trinoks A.Ş.</td>
-            <td>baran.aydin@trinoks.com</td>
-          </tr>
-          <tr>
-            <td>Melis</td>
-            <td>Aydın</td>
-            <td>İş Analisti</td>
-            <td>İş Analistliği</td>
-            <td>Ataşehir</td>
-            <td>Trinoks A.Ş.</td>
-            <td>melis.aydin@trinoks.com</td>
-          </tr>
-          <tr>
-            <td>Raif</td>
-            <td>Aslan</td>
-            <td>İş Analisti</td>
-            <td>İş Analistliği</td>
-            <td>Ataşehir</td>
-            <td>Trinoks A.Ş.</td>
-            <td>raif.aslan@trinoks.com</td>
-          </tr>
-          <tr>
-            <td>Soner</td>
-            <td>Atmaca</td>
-            <td>İş Analisti</td>
-            <td>İş Analistliği</td>
-            <td>Ataşehir</td>
-            <td>Trinoks A.Ş.</td>
-            <td>soner.atmaca@trinoks.com</td>
-          </tr>
-          <tr>
-            <td>Cengiz</td>
-            <td>Karabulut</td>
-            <td>İş Analisti</td>
-            <td>İş Analistliği</td>
-            <td>Ataşehir</td>
-            <td>Trinoks A.Ş.</td>
-            <td>cengiz.karabulut@trinoks.com</td>
-          </tr>
+            <ng-container *ngFor="let user of users">
+                <tr>
+                <td ng-trim="false">{{user.FirstName}}</td>
+                <td ng-trim="false">{{user.LastName}}</td>
+                <td ng-trim="false">{{user.UserTitle}}</td>
+                <td ng-trim="false">{{user.Department.Name}}</td>
+                <td ng-trim="false">{{user.Location.Name}}</td>
+                <td ng-trim="false">{{user.Firm.Name}}</td>                                
+                <td ng-trim="false">{{user.UserMail}}</td>                                
+              </tr>
+              </ng-container>
         </tbody>
       </table>
       

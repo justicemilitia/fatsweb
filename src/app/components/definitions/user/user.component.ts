@@ -34,6 +34,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     public baseService : BaseService
   ) {
     super(baseService);
+    this.LoadUsers();    
   }
 
   registerForm: FormGroup;
@@ -90,5 +91,8 @@ export class UserComponent extends BaseComponent implements OnInit {
       this.baseService.userService.GetFirms(firms => {
         this.firms = firms;
       });
+  }
+  LoadUsers() {
+    this.baseService.userService.GetUsers((users: User[]) => { });
   }
 }

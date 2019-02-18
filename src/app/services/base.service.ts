@@ -2,8 +2,11 @@ import { Injectable } from "@angular/core";
 import { AuthenticationService } from "./authenticationService/authentication.service";
 import { UserService } from "./userService/user.service";
 import { LanguageService } from "./languageService/language.service";
-import { DepartmentService } from './departmentService/department.service';
-import { LocationService } from './locationService/location.service';
+import { DepartmentService } from "./departmentService/department.service";
+import { LocationService } from "./locationService/location.service";
+import { FixedAssetCategoryService } from "./FixedAssetCategoryService/fixedAssetCategory.service";
+import { FixedAssetService } from "./FixedAssetService/fixedAsset.service";
+import { PopupService } from "./popupService/popup.service";
 
 @Injectable({
   providedIn: "root"
@@ -14,6 +17,9 @@ export class BaseService {
     public userService: UserService,
     public languageService: LanguageService,
     public departmentService: DepartmentService,
-    public locationService: LocationService
+    public locationService: LocationService,
+    public fixedAssetCategoryService: FixedAssetCategoryService,
+    public fixedAssetService: FixedAssetService,
+    public popupService: PopupService
   ) {}
 }
