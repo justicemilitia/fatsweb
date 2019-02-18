@@ -7,6 +7,7 @@ import { LocationService } from "./locationService/location.service";
 import { FixedAssetCategoryService } from "./FixedAssetCategoryService/fixedAssetCategory.service";
 import { FixedAssetService } from "./FixedAssetService/fixedAsset.service";
 import { PopupService } from "./popupService/popup.service";
+import { ErrorService} from './errorService/error.service';
 
 @Injectable({
   providedIn: "root"
@@ -20,6 +21,7 @@ export class BaseService {
     public locationService: LocationService,
     public fixedAssetCategoryService: FixedAssetCategoryService,
     public fixedAssetService: FixedAssetService,
-    public popupService: PopupService
+    public popupService: PopupService,
+    public errorService:ErrorService
   ) {}
 }

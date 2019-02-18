@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService } from '../../services/base.service';
 import * as pages from '../../declarations/page-values';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-base',
@@ -14,28 +15,38 @@ import * as pages from '../../declarations/page-values';
 
 export abstract class BaseComponent implements OnInit {
 
-  protected readonly PAGES=pages;
+  protected readonly PAGES = pages;
 
-  constructor(protected baseService:BaseService) {
-    
+  constructor(protected baseService: BaseService) {
+
   }
 
   ngOnInit() {
   }
 
-  getLanguageValue(key:string){
-   return this.baseService.languageService.getValue(key);
+  getLanguageValue(key: string) {
+    return this.baseService.languageService.getValue(key);
   }
-  
-  changeLanguage(language:string){
+
+  changeLanguage(language: string) {
     this.baseService.languageService.setCulture(language);
   }
 
-  isLogged(){
+  isLogged() {
     return this.baseService.authenticationService.isLoggedIn();
   }
 
-  isMenuAccessable(pageKeyword:string){
+  isMenuAccessable(pageKeyword: string) {
     return this.baseService.authenticationService.isMenuAccessable(pageKeyword);
   }
+
+  errorManager(error: HttpErrorResponse) {
+    switch(error.status) {
+      case 401:
+        this.baseService.authenticationService.logOut();
+        this.baseService.errorService.redirect("/login");
+      break;
+    }
+  }
+
 }
