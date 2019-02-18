@@ -1,12 +1,14 @@
 import { BaseComponent } from '../components/base/base.component';
 import { IData } from '../models/interfaces/IData';
 import { TreeGridMethods } from './TreeGridMethods';
+import { IColumn } from '../models/interfaces/IColumn';
 
 export abstract class TreeGridTable extends BaseComponent {
 
     //#region Variables
 
     protected dataSource:IData[] = [];
+    protected dataColumns:IColumn[] = [];
 
     //#endregion
 
@@ -44,6 +46,42 @@ export abstract class TreeGridTable extends BaseComponent {
 
     public TGT_getOrderSign(order:any,column:string):string {
         return 'typcn typcn-arrow-sorted-' + (order.isDesc ? 'down' : 'up') + " " + (order.column == column ? 'typcn-custom-active' : '');
+    }
+
+    public TGT_loadColumns(columns:IColumn[]) {
+        this.dataColumns = columns;
+    }
+
+    public TGT_offsetColumns(column:IColumn,isDown:boolean) {
+        let index = this.dataColumns.findIndex(x=>x.columnName == column.columnName);
+        let item = this.dataColumns[index];
+        if (index > -1) {
+            if (isDown){
+                if (index < 0)
+                    return;
+                let downIndex = index + 1;
+                let downItem = this.dataColumns[downIndex];
+                if (downItem){
+                    this.dataColumns.splice(downIndex,1);
+                    this.dataColumns.splice(index,1,downItem,item);
+
+                }
+            }else {
+                if (index > this.dataColumns.length - 1)
+                        return;
+
+                let upIndex = index -1;
+                let upItem = this.dataColumns[upIndex];
+                if (upItem){
+                    this.dataColumns.splice(index,1);
+                    this.dataColumns.splice(upIndex,1,item,upItem);
+                }
+            }
+        }
+    }
+
+    public TGT_toggleColumns(column:IColumn) {
+        column.isActive = !column.isActive;
     }
 
     //#endregion

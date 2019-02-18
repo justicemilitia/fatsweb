@@ -10,6 +10,8 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable';
 import { IData } from 'src/app/models/interfaces/IData';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { IColumn } from 'src/app/models/interfaces/IColumn';
+import { Column } from 'src/app/models/Column';
 
 @Component({
   selector: "app-department",
@@ -23,45 +25,59 @@ import { Router } from '@angular/router';
   providers: [DepartmentComponent]
 })
 
-export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck {
+export class DepartmentComponent extends TreeGridTable implements OnInit, DoCheck {
 
   insertingDepartment: any = {};
   departments: Department[] = [];
-  
-  filter:any = {
-    Name:'',
-    Description:''
+
+  filter: any = {
+    Name: '',
+    Description: ''
   };
 
-  order:any = {
-    isDesc : false,
-    column : 'Name'
+  order: any = {
+    isDesc: false,
+    column: 'Name'
   }
 
   constructor(public baseService: BaseService) {
     super(baseService);
+    
+    this.TGT_loadColumns([
+      {
+        columnDisplayName: 'İsim',
+        columnName: 'Name',
+        isActive: true
+      },
+      {
+        columnDisplayName: 'Açıklama',
+        columnName: 'Description',
+        isActive: false
+      }
+    ]);
+    
     this.loadDepartments();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngDoCheck(): void {
-    this.doFilter();  
+    this.doFilter();
   }
 
   //#region Grid Methods
 
   doFilter() {
-    this.TGT_doFilter(this.departments,this.filter);
+    this.TGT_doFilter(this.departments, this.filter);
   }
 
-  doOrder(column:string) {
+  doOrder(column: string) {
     this.order.isDesc = !this.order.isDesc;
     this.order.column = column;
-    this.TGT_doOrder(this.departments,this.filter,this.order);
+    this.TGT_doOrder(this.departments, this.filter, this.order);
   }
 
-  doCollapse(data:IData) {
+  doCollapse(data: IData) {
     data.isExtended = !data.isExtended;
     this.TGT_loadData(this.departments);
   }
@@ -76,12 +92,12 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
   }
 
   loadDepartments() {
-    this.baseService.departmentService.GetDepartments((deps:Department[]) => {
-      
+    this.baseService.departmentService.GetDepartments((deps: Department[]) => {
+
       this.departments = <Department[]>this.convertDataToTree(deps);
       this.TGT_loadData(this.departments);
 
-    },(error:HttpErrorResponse) => {
+    }, (error: HttpErrorResponse) => {
       this.errorManager(error);
     });
   }
