@@ -5,7 +5,6 @@ import { LoginComponent } from "./components/login/login.component";
 import { UserComponent } from "./components/definitions/user/user.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
 import * as pages from "./declarations/page-values";
-import { LOGIN } from "./declarations/service-values";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { DepartmentComponent } from './components/definitions/department/department.component';
 import { LocationComponent } from './components/definitions/location/location.component';

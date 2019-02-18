@@ -17,7 +17,7 @@ export class DepartmentService {
     private aService: AuthenticationService
   ) { }
 
-  GetDepartments(callback) {
+  GetDepartments(callback,failed) {
     
     this.httpClient
       .get(SERVICE_URL + GET_DEPARTMENT_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
@@ -35,12 +35,13 @@ export class DepartmentService {
         callback(departments);
         
       },
-        error => console.error(error)
+        error => {
+          failed(error);
+        }
       );
   }
 
   InsertDepartment(department: Department) {
-    debugger;
     this.httpClient
       .post(SERVICE_URL + INSERT_DEPARTMENT, department, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(

@@ -19,8 +19,6 @@ import { DepartmentComponent } from "./components/definitions/department/departm
 import { LocationComponent } from "./components/definitions/location/location.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import {MatIconModule, MatButtonModule, MatTreeModule} from '@angular/material';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -42,11 +40,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    CommonModule,
-    MatTreeModule,
-    MatIconModule,
-    MatButtonModule,
-    BrowserAnimationsModule
+    CommonModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

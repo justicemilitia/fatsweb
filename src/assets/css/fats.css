@@ -20,6 +20,7 @@
     border: 1px solid #dee2e6;
     border-bottom-width: 2px;
     height: 32px;
+    cursor: pointer;
     text-align: center;
 }
 
@@ -44,4 +45,7 @@
 .tree-table-sign > span {
     margin-left:3px;
     color:#e67300;
+}
+.typcn-custom-active {
+    color:lime;
 }

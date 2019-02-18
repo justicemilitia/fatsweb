@@ -42,6 +42,10 @@ export abstract class TreeGridTable extends BaseComponent {
         return "typcn icon-default typcn-plus";
     }
 
+    public TGT_getOrderSign(order:any,column:string):string {
+        return 'typcn typcn-arrow-sorted-' + (order.isDesc ? 'down' : 'up') + " " + (order.column == column ? 'typcn-custom-active' : '');
+    }
+
     //#endregion
 
     //#region Movement Between Nodes And Decisions Parents And Childs

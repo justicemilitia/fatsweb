@@ -8,6 +8,8 @@ import { Department } from "../../../models/Department";
 import { BaseService } from "../../../services/base.service";
 import { TreeGridTable } from 'src/app/extends/TreeGridTable';
 import { IData } from 'src/app/models/interfaces/IData';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-department",
@@ -26,11 +28,12 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
   insertingDepartment: any = {};
   departments: Department[] = [];
   
-  filter = {
+  filter:any = {
     Name:'',
     Description:''
   };
-  order = {
+
+  order:any = {
     isDesc : false,
     column : 'Name'
   }
@@ -78,6 +81,8 @@ export class DepartmentComponent extends TreeGridTable implements OnInit,DoCheck
       this.departments = <Department[]>this.convertDataToTree(deps);
       this.TGT_loadData(this.departments);
 
+    },(error:HttpErrorResponse) => {
+      this.errorManager(error);
     });
   }
 
