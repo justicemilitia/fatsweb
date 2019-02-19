@@ -1,12 +1,17 @@
 export class Company {
+  CompanyId:number;
   Name: string;
+  CountryId: number;
   Mail: string;
   Address: string;
-  TaxNumber: string;
+  TaxNumber: number;
   TaxOffice: string;
-  Country: number;
-  City: number;
   Phone: string;
-  Fax: string;
+  SecondPhone: string;
   Description: string;
+  IsActive: boolean;
+  ModifiedDate: Date;
+  ModifiedId: number;
+  CreationDate: Date;
+  CreatorId: number;
 }

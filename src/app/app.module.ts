@@ -17,8 +17,12 @@ import { CompanyComponent } from "./components/definitions/company/company.compo
 import { UserComponent } from "./components/definitions/user/user.component";
 import { DepartmentComponent } from "./components/definitions/department/department.component";
 import { LocationComponent } from "./components/definitions/location/location.component";
+import { FixedAssetComponent } from "./components/definitions/fixed-asset/fixed-asset.component";
+import { FixedAssetCategoryComponent } from "./components/definitions/fixed-asset-category/fixed-asset-category.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CountryComponent } from './components/definitions/country/country.component';
+import { CityComponent } from './components/definitions/city/city.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     UserComponent,
     DepartmentComponent,
     LocationComponent,
+    DashboardComponent,
+    CountryComponent,
+    CityComponent,
+    FixedAssetComponent,
+    FixedAssetCategoryComponent,
     DashboardComponent
   ],
   imports: [

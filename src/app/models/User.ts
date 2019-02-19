@@ -1,3 +1,7 @@
+import { Department } from './Department';
+import { Location } from './Location';
+import { Firm } from './Firm';
+
 export class User {
     UserMail:string;
     FirstName:string;
@@ -10,4 +14,7 @@ export class User {
     Password:string;
     PhoneNumber:number;
     ParentUserId:number;
+    Department: Department;
+    Location: Location;
+    Firm: Firm;
 }
