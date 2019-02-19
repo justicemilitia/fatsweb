@@ -54,7 +54,11 @@ export class CompanyService {
     this.httpclient.put(SERVICE_URL + UPDATE_COMPANY, company, {
       headers: GET_HEADERS(this.aService.getToken())
     }).subscribe(data=>{
-      
-    });
+      console.log(data);
+    },
+    error =>{
+      console.log(error);
+    }
+     );
   }
 }

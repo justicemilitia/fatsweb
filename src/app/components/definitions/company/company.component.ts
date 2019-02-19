@@ -26,6 +26,7 @@ import { City } from "src/app/models/City";
 export class CompanyComponent extends BaseComponent implements OnInit {
 
   insertCompany:any={};
+  updateComp:any={};
   countries: Country[] = [];
   cities: City[] = [];
   companies:Company[]=[];
@@ -35,14 +36,14 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     super(baseService);
-    this.LoadCompanies();
+    this.loadCompanies();
   }
 
   private companyService: CompanyService;
 
   ngOnInit() {}
 
-  LoadCompanies(){
+  loadCompanies(){
     this.baseService.companyService.GetCompanies((company:Company[])=>{
       company.forEach((e)=>{
         this.companies.push(e);
@@ -50,13 +51,20 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     });
   }
 
-  InsertCompany(data: NgForm) {
+  addCompany(data: NgForm) {
     debugger;
     console.log(data.value);
     this.insertCompany = <Company>data.value;
     this.baseService.companyService.InsertCompany(this.insertCompany);
   }
 
+  updateCompany(data:NgForm){
+    this.updateComp=<Company>data.value;
+    this.baseService.companyService.UpdateCompany(this.updateComp)
+  }
+  fillModal( ){
+
+  }
   LoadDropdownList() {
     this.baseService.countryService.GetCountryList(
       countries => (this.countries = countries)
