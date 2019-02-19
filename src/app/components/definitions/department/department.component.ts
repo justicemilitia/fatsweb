@@ -40,23 +40,25 @@ export class DepartmentComponent extends TreeGridTable implements OnInit, DoChec
     column: 'Name'
   }
 
+  columns:any = [
+    {
+      columnDisplayName: 'İsim',
+      columnName: 'Name',
+      isActive: true
+    },
+    {
+      columnDisplayName: 'Açıklama',
+      columnName: 'Description',
+      isActive: true
+    }
+  ]
+
   constructor(public baseService: BaseService) {
     super(baseService);
+
+    this.loadDepartments();    
+    this.TGT_loadColumns(this.columns);
     
-    this.TGT_loadColumns([
-      {
-        columnDisplayName: 'İsim',
-        columnName: 'Name',
-        isActive: true
-      },
-      {
-        columnDisplayName: 'Açıklama',
-        columnName: 'Description',
-        isActive: false
-      }
-    ]);
-    
-    this.loadDepartments();
   }
 
   ngOnInit() { }

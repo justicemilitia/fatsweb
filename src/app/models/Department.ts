@@ -1,6 +1,7 @@
 import { IData } from './interfaces/IData';
 
 export class Department implements IData {
+    childIndex: number;
     
     isExtended: boolean;
      
