@@ -1,8 +1,9 @@
 import { IData } from './interfaces/IData';
 
 export class Department implements IData {
-    childIndex: number;
     
+    isChecked: boolean;
+    childIndex: number;
     isExtended: boolean;
      
     getChildren():IData[] {

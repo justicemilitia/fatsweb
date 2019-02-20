@@ -5,4 +5,5 @@ export interface IData {
     getId():number;
     childIndex:number;
     isExtended:boolean;
+    isChecked:boolean;
 } 

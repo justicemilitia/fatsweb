@@ -1,39 +1,192 @@
-import { BaseComponent } from '../components/base/base.component';
 import { IData } from '../models/interfaces/IData';
-import { TreeGridMethods } from './TreeGridMethods';
+import { TreeGridTableMethods } from './TreeGridTableMethods';
 import { IColumn } from '../models/interfaces/IColumn';
 import * as $ from 'jquery';
 
-export abstract class TreeGridTable extends BaseComponent {
+export class TreeGridTable {
 
     //#region Variables
 
-    protected dataSource: IData[] = [];
-    protected dataColumns: IColumn[] = [];
+    public treeSource: IData[] = [];
+    public dataSource: IData[] = [];
+    public dataColumns: IColumn[] = [];
+    public dataFilters: any;
+    public dataOrders: any;
+    public currentPage: number = 1;
+    public perInPage: number = 5;
+    public perInPages: number[] = [1, 5, 25, 50, 100, 250];
+
+    public get totalPage() {
+        return Math.ceil(this.dataSource.filter(x => !x.getParentId()).length / this.perInPage);
+    }
+
+    //#endregion
+
+    //#region Constructor
+
+    constructor(_dataColumns: IColumn[], _dataFilters: any, _dataOrders: any) {
+
+        this.dataColumns = _dataColumns;
+        this.dataFilters = _dataFilters;
+        this.dataOrders = _dataOrders;
+
+    }
 
     //#endregion
 
     //#region Base Methods
 
-    protected TGT_loadData(_datasource: IData[]) {
+    public TGT_goToPage(page: number) {
+        this.currentPage = page;
+    }
+
+    public TGT_goToPreviousPage() {
+        if (this.currentPage > 1)
+            this.currentPage--;
+    }
+
+    public TGT_goToNextPage() {
+        if (this.currentPage < this.totalPage)
+            this.currentPage++;
+    }
+
+    public TGT_setPerInPage(_per: number) {
+        this.perInPage = _per;
+        this.currentPage = 1;
+    }
+
+    public TGT_setPerInPages(source: number[]) {
+        this.perInPages.splice(0, this.perInPages.length);
+        source.forEach(e => this.perInPages.push(e));
+    }
+
+    public TGT_getPaginationItems(): any {
+
+        let items = [];
+
+        items.push({
+            value: 1,
+            display: '1',
+            isDisabled: false,
+            isActive: this.currentPage == 1 ? true : false
+        });
+
+        if (this.currentPage - 3 > 1) {
+            items.push({
+                value: 0,
+                display: '...',
+                isDisabled: true,
+                isActive: false
+            });
+        }
+
+        let lastItem = this.currentPage - 3;
+        for (let ii = this.currentPage - 3; ii <= this.totalPage - items.length + this.currentPage; ii++) {
+            lastItem = ii;
+            if (ii >= this.totalPage) {
+                ii = this.totalPage - items.length + this.currentPage + 1;
+                break;
+            }
+            if (ii > 1) {
+                items.push({
+                    value: ii,
+                    display: ii.toString(),
+                    isDisabled: ii == this.currentPage ? true : false,
+                    isActive: this.currentPage == ii ? true : false
+                });
+            }
+            if (items.length > 6) {
+                ii = this.totalPage;
+                break;
+            }
+        }
+
+        if (lastItem < this.totalPage - 1 && lastItem > 0) {
+            items.push({
+                value: 0,
+                display: '...',
+                isDisabled: true,
+                isActive: false
+            });
+        }
+
+        if (!items.find(x => x.value == this.totalPage)) {
+            items.push({
+                value: this.totalPage,
+                display: this.totalPage.toString(),
+                isDisabled: false,
+                isActive: this.currentPage == this.totalPage ? true : false
+            });
+        }
+
+        return items;
+
+    }
+
+    /**
+     * Load IData[] to datasource.
+     * @param _datasource 
+     */
+    public TGT_loadData(_datasource: IData[]) {
+        this.dataSource = this.loadWithExtends(_datasource);
+        this.treeSource = _datasource;
+        this.TGT_doOrder(this.dataOrders.column);
+
+    }
+
+    /**
+     * Refresh datasource with data tree.
+     */
+    public TGT_refreshData(_datasource: IData[]) {
         this.dataSource = this.loadWithExtends(_datasource);
     }
 
-    protected TGT_doFilter(_datasource: IData[], filter: any) {
-        let filtered = this.doSearchInData(_datasource, filter);
-        this.TGT_loadData(filtered);
+    /**
+     * Do filter for given datasource
+     * @param _datasource 
+     */
+    public TGT_doFilter() {
+
+        let nDataSource: IData[] = [];
+
+        this.treeSource.forEach(x => {
+            if (TreeGridTableMethods.doSearch(x, this.dataFilters)) {
+                nDataSource.push(x);
+            } else {
+                let foundItem = this.TGT_doFilterInChildren(x.getChildren());
+                if (foundItem) {
+                    foundItem.forEach(e => {
+                        nDataSource.push(e);
+                    });
+                }
+            }
+        })
+
+        this.TGT_refreshData(nDataSource);
     }
 
-    protected TGT_doOrder(_datasource: IData[], filter: any, order: any) {
+    /**
+     * Order given source for given column
+     * @param _datasource datasource will be ordered.
+     * @param column column name
+     */
+    public TGT_doOrder(column: string) {
 
-        if (order.isDesc)
-            _datasource.sort((x, y) => (x[order.column] > y[order.column]) ? -1 : ((y[order.column] > x[order.column]) ? 1 : 0));
-        else
-            _datasource.sort((x, y) => (x[order.column] > y[order.column]) ? 1 : ((y[order.column] > x[order.column]) ? -1 : 0));
+        this.dataOrders.isDesc = !this.dataOrders.isDesc;
+        this.dataOrders.column = column;
 
-        this.TGT_doFilter(_datasource, filter);
+        this.TGT_doOrderInChildren(this.treeSource);
+
+        this.TGT_doFilter();
     }
 
+    /**
+     * Get + or minus sign for data. 
+     * if data has child and it is expanded result will be "typcn icon-default typcn-minus"
+     * if data has child and it is not expanded result will be "typcn icon-default typcn-plus"
+     * if data has no child result will be ""
+     * @param data The data which will search for.
+     */
     public TGT_getSign(data: IData): string {
 
         if (data.getChildren().length == 0)
@@ -45,16 +198,21 @@ export abstract class TreeGridTable extends BaseComponent {
         return "typcn icon-default typcn-plus";
     }
 
-    public TGT_getOrderSign(order: any, column: string): string {
-        return 'typcn typcn-arrow-sorted-' + (order.isDesc ? 'down' : 'up') + " " + (order.column == column ? 'typcn-custom-active' : '');
+    /**
+     * Get order class of given column.
+     * if order is desc returns classes typcn typcn-arrow-sorted-down.
+     * if order is asc returns classes typcn typcn-arrow-sorted-up.
+     * @param column Column Name
+     */
+    public TGT_getOrderSign(column: string): string {
+        return 'typcn typcn-arrow-sorted-' + (this.dataOrders.isDesc ? 'down' : 'up') + " " + (this.dataOrders.column == column ? 'typcn-custom-active' : '');
     }
 
-    public TGT_loadColumns(columns: IColumn[]) {
-        columns.forEach(e => {
-            this.dataColumns.push(e);
-        });
-    }
-
+    /**
+     * Offset given column down or up
+     * @param column Column object which will offset
+     * @param isDown if offset will down set true otherwise set false
+     */
     public TGT_offsetColumns(column: IColumn, isDown: boolean) {
         let index = this.dataColumns.findIndex(x => x.columnName == column.columnName);
         let item = this.dataColumns[index];
@@ -129,10 +287,19 @@ export abstract class TreeGridTable extends BaseComponent {
         }
     }
 
+    /**
+     * Get given column display class
+     * if visible returns "table-column-hidden value" otherwise return ""
+     * @param column  Column Name
+     */
     public TGT_getColumnVisibility(column: string): string {
         return this.dataColumns.find(x => x.columnName == column).isActive ? "" : "table-column-hidden";
     }
 
+    /**
+     * Show or Hide given Column
+     * @param column 
+     */
     public TGT_toggleColumns(column: IColumn) {
         column.isActive = !column.isActive;
         this.dataColumns.forEach(col => {
@@ -153,17 +320,25 @@ export abstract class TreeGridTable extends BaseComponent {
         })
     }
 
-    //#endregion
+    /**
+     * Do Collapse or Do Extend.
+     * @param _data 
+     */
+    public TGT_doCollapse(_data: IData) {
+        _data.isExtended = !_data.isExtended;
+    }
 
-    //#region Movement Between Nodes And Decisions Parents And Childs
-
-    protected convertDataToTree(_datasource: IData[]): IData[] {
+    /**
+     * Converts array to tree array and returns the new array. 
+     * @param _datasource
+     */
+    public TGT_convertDataToTree(_datasource: IData[]): IData[] {
         let tree: IData[] = [];
         _datasource.forEach(x => {
             if (!x.getParentId())
                 tree.push(x);
             else {
-                let item = this.convertDataToTreeForChildren(tree, x.getParentId());
+                let item = this.TGT_convertDataToTreeForChildren(tree, x.getParentId());
                 if (item)
                     item.getChildren().push(x);
                 else
@@ -173,7 +348,11 @@ export abstract class TreeGridTable extends BaseComponent {
         return tree;
     }
 
-    private convertDataToTreeForChildren(source: IData[], parentID: number): IData {
+    //#endregion
+
+    //#region Movement Between Nodes And Decisions Parents And Childs
+
+    private TGT_convertDataToTreeForChildren(source: IData[], parentID: number): IData {
         var foundItem = null;
 
         for (var ii = 0; ii < source.length; ii++) {
@@ -182,7 +361,7 @@ export abstract class TreeGridTable extends BaseComponent {
                 foundItem = item;
                 break;
             } else {
-                foundItem = this.convertDataToTreeForChildren(item.getChildren(), parentID);
+                foundItem = this.TGT_convertDataToTreeForChildren(item.getChildren(), parentID);
                 if (foundItem) {
                     break;
                 }
@@ -192,11 +371,11 @@ export abstract class TreeGridTable extends BaseComponent {
         return foundItem;
     }
 
-    private loadWithExtends(_datasource: IData[],childIndex:number = 0): IData[] {
+    private loadWithExtends(_datasource: IData[], childIndex: number = 0): IData[] {
         let ds: IData[] = [];
         for (let ii = 0; ii < _datasource.length; ii++) {
             if (_datasource[ii].isExtended) {
-                let children = this.loadWithExtends(_datasource[ii].getChildren(),childIndex+1);
+                let children = this.loadWithExtends(_datasource[ii].getChildren(), childIndex + 1);
                 ds.push(_datasource[ii]);
                 children.forEach(e => ds.push(e));
             } else {
@@ -207,38 +386,28 @@ export abstract class TreeGridTable extends BaseComponent {
         return ds;
     }
 
-    //#endregion
+    private TGT_doOrderInChildren(_datasource: IData[]) {
+        if (this.dataOrders.isDesc)
+            _datasource.sort((x, y) => { return TreeGridTableMethods.doOrder(x[this.dataOrders.column], y[this.dataOrders.column]); });
+        else
+            _datasource.sort((y, x) => { return TreeGridTableMethods.doOrder(x[this.dataOrders.column], y[this.dataOrders.column]); });
 
-    //#region Do Recursive Search In Nodes
-
-    private doSearchInData(datasource: IData[], filter: {}): IData[] {
-
-        let nDataSource: IData[] = [];
-
-        datasource.forEach(x => {
-            if (TreeGridMethods.doSearch(x, filter)) {
-                nDataSource.push(x);
-            } else {
-                let foundItem = this.doSearchInDataChild(x.getChildren(), filter);
-                if (foundItem) {
-                    foundItem.forEach(e => {
-                        nDataSource.push(e);
-                    });
-                }
+        _datasource.forEach(e => {
+            if (e.getChildren().length > 0) {
+                this.TGT_doOrderInChildren(e.getChildren());
             }
-        })
+        });
 
-        return nDataSource;
     }
 
-    private doSearchInDataChild(data: IData[], filter: {}): IData[] {
+    private TGT_doFilterInChildren(data: IData[]): IData[] {
         let foundItem = [];
         for (var ii = 0; ii < data.length; ii++) {
             var item = data[ii];
-            if (TreeGridMethods.doSearch(item, filter)) {
+            if (TreeGridTableMethods.doSearch(item, this.dataFilters)) {
                 foundItem.push(item);
             } else {
-                let _foundItem = this.doSearchInDataChild(item.getChildren(), filter);
+                let _foundItem = this.TGT_doFilterInChildren(item.getChildren());
                 if (_foundItem) {
                     _foundItem.forEach(e => {
                         foundItem.push(e);

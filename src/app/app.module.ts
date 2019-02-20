@@ -23,6 +23,7 @@ import { AuthGuard } from "./services/authguard/auth.guard";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CountryComponent } from './components/definitions/country/country.component';
 import { CityComponent } from './components/definitions/city/city.component';
+import { TreeGridTablePage } from './pipes/TreeGridTablePage';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CityComponent } from './components/definitions/city/city.component';
     CityComponent,
     FixedAssetComponent,
     FixedAssetCategoryComponent,
-    DashboardComponent
+    DashboardComponent,
+    TreeGridTablePage
   ],
   imports: [
     BrowserModule,
