@@ -8,9 +8,7 @@ import { IData } from '../models/interfaces/IData';
 export class TreeGridTablePage implements PipeTransform {
 
     transform(value: IData[], currentPage: number, perInPage: number): IData[] {
-        
-        perInPage = Number(perInPage);
-        
+                
         if (perInPage == -1)
             return value;
 

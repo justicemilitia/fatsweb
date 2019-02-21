@@ -13,12 +13,31 @@ export class TreeGridTable {
     public dataFilters: any;
     public dataOrders: any;
     public currentPage: number = 1;
-    public perInPage: number = 5;
     public perInPages: number[] = [1, 5, 25, 50, 100, 250];
+    private _perInPage: number = 5;
+
+    //#region Getter And Setters
+
+    /**
+     * PerInPage e bir setter ayarladık çünkü ngModel sadece string gönderir. Gelen stringi number a pars etmemiz gerekiyor.
+     */
+    public set perInPage(value) {
+        this._perInPage = Number(value);
+        this.currentPage = 1;
+    }
+
+    /**
+     * perInPage değerini döner.
+     */
+    public get perInPage() {
+        return this._perInPage;
+    }
 
     public get totalPage() {
         return Math.ceil(this.dataSource.filter(x => !x.getParentId()).length / this.perInPage);
     }
+
+    //#endregion
 
     //#endregion
 
@@ -29,7 +48,6 @@ export class TreeGridTable {
         this.dataColumns = _dataColumns;
         this.dataFilters = _dataFilters;
         this.dataOrders = _dataOrders;
-
     }
 
     //#endregion
@@ -50,11 +68,6 @@ export class TreeGridTable {
             this.currentPage++;
     }
 
-    public TGT_setPerInPage(_per: number) {
-        this.perInPage = _per;
-        this.currentPage = 1;
-    }
-
     public TGT_setPerInPages(source: number[]) {
         this.perInPages.splice(0, this.perInPages.length);
         source.forEach(e => this.perInPages.push(e));
@@ -71,7 +84,10 @@ export class TreeGridTable {
             isActive: this.currentPage == 1 ? true : false
         });
 
-        if (this.currentPage - 3 > 1) {
+        if (this.totalPage <= 1)
+            return items;
+
+        if (this.currentPage - 3 > 2) {
             items.push({
                 value: 0,
                 display: '...',
@@ -81,12 +97,9 @@ export class TreeGridTable {
         }
 
         let lastItem = this.currentPage - 3;
-        for (let ii = this.currentPage - 3; ii <= this.totalPage - items.length + this.currentPage; ii++) {
+        for (let ii = this.currentPage - 3; ii < this.totalPage; ii++) {
             lastItem = ii;
-            if (ii >= this.totalPage) {
-                ii = this.totalPage - items.length + this.currentPage + 1;
-                break;
-            }
+            
             if (ii > 1) {
                 items.push({
                     value: ii,
