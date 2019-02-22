@@ -1,178 +1,130 @@
-
-  <div class="az-header az-header-dashboard-four">
-    <div class="container-fluid">
-      <div class="az-header-left">
-        <a href="index.html" class="az-logo"
-          ><img src="../../../assets/img/trinoks-logo3.png"
-        /></a>
-        <a href="" id="azNavShow" class="az-header-menu-icon d-lg-none"
-          ><span></span
-        ></a>
+<div class="az-header az-header-dashboard-four">
+  <div class="container-fluid">
+    <div class="az-header-left">
+      <a href="index.html" class="az-logo"><img src="../../../assets/img/trinoks-logo3.png" /></a>
+      <a href="" id="azNavShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+    </div>
+    <!-- az-header-left -->
+    <div class="az-header-center">
+      <input type="search" class="form-control" placeholder="Search for schedules and events..." />
+      <button class="btn"><i class="fas fa-search"></i></button>
+    </div>
+    <!-- az-header-center -->
+    <div class="az-header-right">
+      <div class="az-header-message">
+        <a href="app-chat.html"><i class="typcn typcn-messages"></i></a>
       </div>
-      <!-- az-header-left -->
-      <div class="az-header-center">
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Search for schedules and events..."
-        />
-        <button class="btn"><i class="fas fa-search"></i></button>
-      </div>
-      <!-- az-header-center -->
-      <div class="az-header-right">
-        <div class="az-header-message">
-          <a href="app-chat.html"><i class="typcn typcn-messages"></i></a>
-        </div>
-        <!-- az-header-message -->
-        <div class="dropdown az-header-notification">
-          <a href="" class="new"><i class="typcn typcn-bell"></i></a>
-          <div class="dropdown-menu">
-            <div class="az-dropdown-header mg-b-20 d-sm-none">
-              <a href="" class="az-header-arrow"
-                ><i class="icon ion-md-arrow-back"></i
-              ></a>
-            </div>
-            <h6 class="az-notification-title">Notifications</h6>
-            <p class="az-notification-text">You have 2 unread notification</p>
-            <div class="az-notification-list"></div>
-            <!-- az-notification-list -->
-            <div class="dropdown-footer">
-              <a href="">View All Notifications</a>
-            </div>
+      <!-- az-header-message -->
+      <div class="dropdown az-header-notification">
+        <a href="" class="new"><i class="typcn typcn-bell"></i></a>
+        <div class="dropdown-menu">
+          <div class="az-dropdown-header mg-b-20 d-sm-none">
+            <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
           </div>
-          <!-- dropdown-menu -->
+          <h6 class="az-notification-title">Notifications</h6>
+          <p class="az-notification-text">You have 2 unread notification</p>
+          <div class="az-notification-list"></div>
+          <!-- az-notification-list -->
+          <div class="dropdown-footer">
+            <a href="">View All Notifications</a>
+          </div>
         </div>
-        <!-- az-header-notification -->
+        <!-- dropdown-menu -->
       </div>
-      <!-- az-header-right -->
+      <!-- az-header-notification -->
     </div>
-    <!-- container -->
+    <!-- az-header-right -->
   </div>
-  <!-- az-header -->
+  <!-- container -->
+</div>
+<!-- az-header -->
 
-  <div class="az-navbar az-navbar-two">
-    <div class="container-fluid">
-      <div><a href="index.html" class="az-logo">az<span>i</span>a</a></div>
-      <div class="az-navbar-search">
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Search for schedules and events..."
-        />
-        <button class="btn"><i class="fas fa-search "></i></button>
-      </div>
-      <!-- az-navbar-search -->
-      <div class="row">
-        <nav id="main_nav">
-          <ul class="nav">
-            
-              <li class="nav-item" *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)">
-                  <a href=" " class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Tanım İşlemleri</a>
-                  <nav class="nav-sub">
-                    <li><a href=" " class="nav-sub-link">Genel Tanımlar</a>
-                   
-                    <ul style="position:absolute;margin-left:220px;top:0">
-                      <li style="height: 30px; width: 300px; text-align: center;">Şirket Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Lokasyon Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Departman Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Kullanıcı Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Rol Yetki Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Masraf Yeri Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Çıkış Tipi Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Askıya Alma Listesi ve Tanımlama</li>
-                      <li style="height: 30px; width: 300px;text-align: center;">Sözleşme Listesi ve Tanımlama</li>
-                    </ul>
-                  
-                  </li>
-                    <li><a href=" " class="nav-sub-link">Demirbaş Tanımları</a></li>
-                 
-                  </nav>        
-                </li>
-
-<!-- 
-            <li class="nav-item" *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)">
-              <a href=" " class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Tanım İşlemleri<i class="with-sub"></i></a>
-              <ul>
-                <li>
-                  <a style="margin-right: 5px;"
-                    >Genel Tanımlar<i class="fa fa-angle-right"></i
-                  ></a>
-                  <ul>
-                    <li><a class="nav-sub-link active" (click)="PageRoute(PAGES.Menu_CompanyDefinitions)">Şirket Listesi ve Tanımlama</a></li>
-                    <li><a>Lokasyon Listesi ve Tanımlama</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a>Demirbaş Tanımları</a>
-                  <ul>
-                    <li><a>Test1</a></li>
-                    <li><a>test2</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li> -->
-            <!-- nav-item -->
-            <li
-              class="nav-item"
-              *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)"
-            >
-              <a class="nav-link with-sub">
-                <i class="typcn typcn-clipboard"></i>Demirbaş Yonetimi</a
-              >
-              <ul>
-                <li>
-                  <a>Genel Tanımlar</a>
-                  <ul>
-                    <li><a>Departman Listesi ve Tanımlama</a></li>
-                    <li><a>Lokasyon Listesi ve Tanımlama</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a>Demirbaş Tanımları</a>
-                  <ul>
-                    <li><a>Test1</a></li>
-                    <li><a>test2</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-
-            <!-- nav-item -->
-            <li
-              *ngIf="isMenuAccessable(PAGES.MENU_DEPRECIATIONS)"
-              class="nav-item"
-            >
-              <a class="nav-link with-sub">
-                <i class="typcn typcn-clipboard"></i>Amortisman Yonetimi</a
-              >
-              <ul></ul>
-            </li>
-            <!-- nav-item -->
-            <li *ngIf="isMenuAccessable(PAGES.MENU_MAINTENANCE)" class="nav-item">
-              <a class="nav-link with-sub">
-                <i class="typcn typcn-clipboard"></i>Bakım Yonetimi</a>
-              <ul></ul>
-            </li>
-            <!-- nav-item -->
-            <li *ngIf="isMenuAccessable(PAGES.MENU_CONSUMABLE)" class="nav-item">
-              <a class="nav-link with-sub">
-                <i class="typcn typcn-clipboard"></i>Sarf Malzeme Yonetimi</a>
-              <ul></ul>
-            </li>
-            <!-- nav-item -->
-            <li class="nav-item">
-              <a class="nav-link with-sub">
-                <i class="typcn typcn-clipboard"></i>Dosya Aktarımı</a>             
-            </li>
-
-  
-  
-            <!-- nav-item -->
-          </ul>
-        </nav>
-        <!-- nav -->
-      </div>
+<div class="az-navbar az-navbar-two">
+  <div class="container-fluid">
+    <div><a href="index.html" class="az-logo">az<span>i</span>a</a></div>
+    <div class="az-navbar-search">
+      <input type="search" class="form-control" placeholder="Search for schedules and events..." />
+      <button class="btn"><i class="fas fa-search "></i></button>
     </div>
-    <!-- container -->
+    <!-- az-navbar-search -->
+    <div class="row">
+      <nav id="main_nav">
+        <ul class="nav">
+
+          <li class="nav-item" *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)">
+            <a href="" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Tanım İşlemleri</a>
+            <nav class="nav-sub">
+          <li><a href=" " class="nav-sub-link">Genel Tanımlar</a>
+
+            <ul style="position:absolute;margin-left:220px;top:0">
+              <li style="height: 30px; width: 300px;"><a href="/company">Şirket Listesi ve Tanımlama</a></li>
+              <li style="height: 30px; width: 300px;"><a href="/location">Lokasyon Listesi ve Tanımlama</a></li>
+              <li style="height: 30px; width: 300px;"><a href="/department">Departman Listesi ve Tanımlama</a></li>
+              <li style="height: 30px; width: 300px;">Kullanıcı Listesi ve Tanımlama</li>
+              <li style="height: 30px; width: 300px;">Rol Yetki Listesi ve Tanımlama</li>
+              <li style="height: 30px; width: 300px;">Masraf Yeri Listesi ve Tanımlama</li>
+              <li style="height: 30px; width: 300px;">Çıkış Tipi Listesi ve Tanımlama</li>
+              <li style="height: 30px; width: 300px;">Askıya Alma Listesi ve Tanımlama</li>
+              <li style="height: 30px; width: 300px;">Sözleşme Listesi ve Tanımlama</li>
+            </ul>
+          </li>
+          <li><a href=" " class="nav-sub-link">Demirbaş Tanımları</a></li>
+
+      </nav>
+      </li>
+      <li class="nav-item" *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)">
+        <a class="nav-link with-sub">
+          <i class="typcn typcn-clipboard"></i>Demirbaş Yonetimi</a>
+        <ul>
+          <li>
+            <a>Genel Tanımlar</a>
+            <ul>
+              <li><a>Departman Listesi ve Tanımlama</a></li>
+              <li><a>Lokasyon Listesi ve Tanımlama</a></li>
+            </ul>
+          </li>
+          <li>
+            <a>Demirbaş Tanımları</a>
+            <ul>
+              <li><a>Test1</a></li>
+              <li><a>test2</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <!-- nav-item -->
+      <li *ngIf="isMenuAccessable(PAGES.MENU_DEPRECIATIONS)" class="nav-item">
+        <a class="nav-link with-sub">
+          <i class="typcn typcn-clipboard"></i>Amortisman Yonetimi</a>
+        <ul></ul>
+      </li>
+      <!-- nav-item -->
+      <li *ngIf="isMenuAccessable(PAGES.MENU_MAINTENANCE)" class="nav-item">
+        <a class="nav-link with-sub">
+          <i class="typcn typcn-clipboard"></i>Bakım Yonetimi</a>
+        <ul></ul>
+      </li>
+      <!-- nav-item -->
+      <li *ngIf="isMenuAccessable(PAGES.MENU_CONSUMABLE)" class="nav-item">
+        <a class="nav-link with-sub">
+          <i class="typcn typcn-clipboard"></i>Sarf Malzeme Yonetimi</a>
+        <ul></ul>
+      </li>
+      <!-- nav-item -->
+      <li class="nav-item">
+        <a class="nav-link with-sub">
+          <i class="typcn typcn-clipboard"></i>Dosya Aktarımı</a>
+      </li>
+
+
+
+      <!-- nav-item -->
+      </ul>
+      </nav>
+      <!-- nav -->
+    </div>
   </div>
-  <!-- az-navbar -->
+  <!-- container -->
+</div>
+<!-- az-navbar -->

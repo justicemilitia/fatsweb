@@ -1,7 +1,11 @@
 import { IData } from "./interfaces/IData";
 
 export class Department implements IData {
-  isExtended: boolean;
+    
+    isChecked: boolean;
+    childIndex: number;
+    isExtended: boolean;
+     
 
   getChildren(): IData[] {
     return this.InverseParentDepartment;

@@ -1,32 +1,26 @@
-<body>
+
   <div class="az-content">
     <div class="container">
       <div class="az-content-body">
-        <div class="az-content-breadcrumb">
-          <span>Table</span>
-          <span>DataTables</span>
-        </div>
+   
         <h2 class="az-content-title">Şirketler</h2>
         <div class="col-md-2 right">
           <button
             class="btn btn-orange btn-block btn-height"
+            id="btnAddCompany"
             data-toggle="modal"
             data-target="#modalCompany"
             (click)="LoadDropdownList()"
-          >
-            Şirket Ekle
+          >Şirket Ekle
           </button>
         </div>
         <p class="mg-b-20"></p>
-        <table
-          id="tblCompany"
-          class="display responsive nowrap dataTable no-footer dtr-inline"
-        >
+        <table id="tblCompany" class="display responsive dataTables_wrapper dataTable no-footer dtr-inline" role="grid">
           <thead>
             <tr>
-              <th class="wd-15p">Şirket Adı</th>
+              <th class="wd-15p ">Şirket Adı</th>
               <th class="wd-15p">Mail</th>
-              <th class="wd-20p">Adres</th>
+              <th class="wd-25p">Adres</th>
               <th class="wd-15p">Ülke</th>
               <th class="wd-10p">İl</th>
               <th class="wd-10p">Vergi Numarası</th>
@@ -34,49 +28,39 @@
               <th class="wd-10p">Telefon</th>
               <th class="wd-10p">Faks</th>
               <th class="wd-10p">Açıklama</th>
+              <th class="wd-35p"> </th>
             </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let company of companies">
             <tr>
               <td>{{company.Name}}</td>
-              <td></td>
+              <td>{{company.Email}}</td>
               <td>{{company.Address}}</td>
               <td>{{company.CountryId}}</td>
-              <td></td>
+              <td>{{company.CityId}}</td>
               <td>{{company.TaxNumber}}</td>
               <td>{{company.TaxOffice}}</td>
               <td>{{company.Phone}}</td>
               <td>{{company.SecondPhone}}</td>
               <td>{{company.Description}}</td>
-              <!-- <td>
-              <div class="col-md-6">
-                  <button type="button" class="btn btn-default btn" ><i class="fa fa-pencil"></i></button>
-                  <button type="button" class="btn btn-default btn" ><i class="fa fa-trash"></i></button>
-              </div>
-            </td> -->
+              <td>   
+                <div class="btn-icon-list">
+                    <button type="button" (click)="updateCompany(company)" class="btn btn-indigo btn-icon"><i class="fas fa-pencil-alt"></i></button>
+                    <button type="button" class="btn btn-primary btn-icon"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
             </tr>
           </ng-container>
           </tbody>
         </table>
 
-        <hr class="mg-y-30 mg-lg-y-50" />
-
-        <div class="az-content-label mg-b-5">
-          Disabling Search & Items Per Page Menu
-        </div>
-        <p class="mg-b-20">
-          Searching, ordering and paging goodness will be immediately added to
-          the table, as shown in this example.
-        </p>
-
-        <div class="mg-lg-b-30"></div>
       </div>
       <!-- az-content-body -->
     </div>
   </div>
   <!-- az-content -->
-</body>
+
 <!-- LARGE MODAL -->
 <div id="modalCompany" class="modal">
   <div class="modal-dialog" role="document">
@@ -92,15 +76,16 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #data="ngForm" (ngSubmit)="InsertCompany(data)">
+      <form #data="ngForm" (ngSubmit)="addCompany(data)">
+        <input type="hidden" id="CompanyId" ngModel name="CompanyId "/>
         <div class="modal-body">
           <h6>Şirket bilgilerini giriniz.</h6>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>Ad</label>
               <input id="Name" ngModel name="Name" type="text" class="form-control" />
-              <!-- <label>E-posta</label>
-              <input id="CompanyMail" ngModel name="CompanyMail" type="text" class="form-control" /> -->
+              <label>E-posta</label>
+              <input id="CompanyMail" ngModel name="CompanyMail" type="text" class="form-control" />
             </div>
             <div class="form-group col-md-6">
               <div class="col-md">
@@ -127,14 +112,14 @@
               <label>Vergi Dairesi</label>
               <input id="TaxOffice" ngModel name="TaxOffice" type="text" class="form-control" />        
             </div>
-            <!-- <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
               <label>Şehir</label>
               <select id="City" ngModel name="City" class="form-control select2-no-search">
                 <option label=" "></option>
                 <option *ngFor="let city of cities"value={{city.CityId}}>{{city.Name}}</option>
            
               </select>
-            </div> -->
+            </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
