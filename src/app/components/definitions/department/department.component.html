@@ -74,9 +74,11 @@
         <div class="col-md-10">
           <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"
-                *ngFor="let page of dataTable.TGT_getPaginationItems()"><a class="page-link"
-                  (click)="dataTable.TGT_goToPage(page.value)">{{page.display}}</a></li>
+              <ng-container *ngFor="let page of dataTable.pages">
+                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                    (click)="dataTable.TGT_goToPage(page.value)" class="page-link">{{page.display}}</button>
+                </li>
+              </ng-container>
             </ul>
           </nav>
         </div>

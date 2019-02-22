@@ -2,6 +2,7 @@ import { IData } from '../models/interfaces/IData';
 import { TreeGridTableMethods } from './TreeGridTableMethods';
 import { IColumn } from '../models/interfaces/IColumn';
 import * as $ from 'jquery';
+import { Page } from '../models/Page';
 
 export class TreeGridTable {
 
@@ -11,17 +12,19 @@ export class TreeGridTable {
     public dataSource: IData[] = [];
     public dataColumns: IColumn[] = [];
     public dataFilters: any;
+    public prevDataFilters: any;
     public dataOrders: any;
-    public currentPage: number = 1;
     public perInPages: number[] = [1, 5, 25, 50, 100, 250];
-    private _perInPage: number = 5;
+    public pages: Page[] = [];
 
     //#region Getter And Setters
 
+    private _perInPage: number = 1;
+
     /**
-     * PerInPage e bir setter ayarladık çünkü ngModel sadece string gönderir. Gelen stringi number a pars etmemiz gerekiyor.
+     * _perInPage e bir setter ayarladık çünkü ngModel sadece string gönderir. Gelen stringi number a pars etmemiz gerekiyor.
      */
-    public set perInPage(value) {
+    public set perInPage(value: any) {
         this._perInPage = Number(value);
         this.currentPage = 1;
     }
@@ -33,8 +36,22 @@ export class TreeGridTable {
         return this._perInPage;
     }
 
+    private _currentPage: number = 1;
+
+    public get currentPage(): number {
+        return this._currentPage;
+    };
+
+    public set currentPage(value: number) {
+        this._currentPage = value;
+        this.TGT_calculatePages();
+    }
+
+    /**
+     * get totalpage count.
+     */
     public get totalPage() {
-        return Math.ceil(this.dataSource.filter(x => !x.getParentId()).length / this.perInPage);
+        return Math.ceil(this.dataSource.filter(x => !x.getParentId()).length / this._perInPage);
     }
 
     //#endregion
@@ -48,6 +65,7 @@ export class TreeGridTable {
         this.dataColumns = _dataColumns;
         this.dataFilters = _dataFilters;
         this.dataOrders = _dataOrders;
+
     }
 
     //#endregion
@@ -69,14 +87,13 @@ export class TreeGridTable {
     }
 
     public TGT_setPerInPages(source: number[]) {
-        this.perInPages.splice(0, this.perInPages.length);
-        source.forEach(e => this.perInPages.push(e));
+        this.perInPages = source;
     }
 
-    public TGT_getPaginationItems(): any {
+    public TGT_calculatePages() {
 
-        let items = [];
-
+        let items: Page[] = [];
+        let totalPage = this.totalPage;
         items.push({
             value: 1,
             display: '1',
@@ -84,8 +101,10 @@ export class TreeGridTable {
             isActive: this.currentPage == 1 ? true : false
         });
 
-        if (this.totalPage <= 1)
-            return items;
+        if (totalPage <= 1) {
+            this.pages = items;
+            return;
+        }
 
         if (this.currentPage - 3 > 2) {
             items.push({
@@ -97,9 +116,9 @@ export class TreeGridTable {
         }
 
         let lastItem = this.currentPage - 3;
-        for (let ii = this.currentPage - 3; ii < this.totalPage; ii++) {
+        for (let ii = this.currentPage - 3; ii < totalPage; ii++) {
             lastItem = ii;
-            
+
             if (ii > 1) {
                 items.push({
                     value: ii,
@@ -108,13 +127,13 @@ export class TreeGridTable {
                     isActive: this.currentPage == ii ? true : false
                 });
             }
-            if (items.length > 6) {
-                ii = this.totalPage;
+            if (items.length > 7) {
+                ii = totalPage;
                 break;
             }
         }
 
-        if (lastItem < this.totalPage - 1 && lastItem > 0) {
+        if (lastItem < totalPage - 1 && lastItem > 0) {
             items.push({
                 value: 0,
                 display: '...',
@@ -123,17 +142,16 @@ export class TreeGridTable {
             });
         }
 
-        if (!items.find(x => x.value == this.totalPage)) {
+        if (!items.find(x => x.value == totalPage)) {
             items.push({
-                value: this.totalPage,
-                display: this.totalPage.toString(),
-                isDisabled: false,
-                isActive: this.currentPage == this.totalPage ? true : false
+                value: totalPage,
+                display: totalPage.toString(),
+                isDisabled: this.currentPage == totalPage ? true : false,
+                isActive: this.currentPage == totalPage ? true : false
             });
         }
 
-        return items;
-
+        this.pages = items;
     }
 
     /**
@@ -141,17 +159,27 @@ export class TreeGridTable {
      * @param _datasource 
      */
     public TGT_loadData(_datasource: IData[]) {
-        this.dataSource = this.loadWithExtends(_datasource);
         this.treeSource = _datasource;
         this.TGT_doOrder(this.dataOrders.column);
-
+        this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
+        this.currentPage = 1;
     }
 
     /**
      * Refresh datasource with data tree.
      */
     public TGT_refreshData(_datasource: IData[]) {
-        this.dataSource = this.loadWithExtends(_datasource);
+
+        this.dataSource = this.TGT_convertTreeToDataTable(_datasource);
+
+        if (this._currentPage > this.totalPage)
+            this.currentPage = 1;
+        else if (this._currentPage <= 0)
+            this.currentPage = 1;
+
+
+        this.TGT_calculatePages();
+
     }
 
     /**
@@ -160,22 +188,31 @@ export class TreeGridTable {
      */
     public TGT_doFilter() {
 
-        let nDataSource: IData[] = [];
-
-        this.treeSource.forEach(x => {
-            if (TreeGridTableMethods.doSearch(x, this.dataFilters)) {
-                nDataSource.push(x);
-            } else {
-                let foundItem = this.TGT_doFilterInChildren(x.getChildren());
-                if (foundItem) {
-                    foundItem.forEach(e => {
-                        nDataSource.push(e);
-                    });
+        let madeChanges = false;
+        if (this.prevDataFilters) {
+            Object.keys(this.dataFilters).forEach(e => {
+                if (this.prevDataFilters[e] != this.dataFilters[e]) {
+                    madeChanges = true;
                 }
-            }
-        })
+            });
+        } else
+            madeChanges = true;
 
-        this.TGT_refreshData(nDataSource);
+        if (madeChanges == false)
+            return;
+
+        this.prevDataFilters = JSON.parse(JSON.stringify(this.dataFilters));
+
+        this.TGT_doFilterInChildren(this.treeSource);
+
+        this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
+
+        this.TGT_calculatePages();
+
+        if (this.currentPage > this.totalPage)
+            this.currentPage = 1;
+        else if (this.currentPage < 1)
+            this.currentPage = 1
     }
 
     /**
@@ -190,7 +227,10 @@ export class TreeGridTable {
 
         this.TGT_doOrderInChildren(this.treeSource);
 
-        this.TGT_doFilter();
+        this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
+
+        this.prevDataFilters = null;
+
     }
 
     /**
@@ -339,6 +379,9 @@ export class TreeGridTable {
      */
     public TGT_doCollapse(_data: IData) {
         _data.isExtended = !_data.isExtended;
+        this.prevDataFilters = null;
+        //this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
+        this.TGT_doFilter();
     }
 
     /**
@@ -347,34 +390,69 @@ export class TreeGridTable {
      */
     public TGT_convertDataToTree(_datasource: IData[]): IData[] {
         let tree: IData[] = [];
+
+        for (var ii = 0; ii < _datasource.length; ii++) {
+            let item: IData = _datasource[ii];
+            item.isVisible = true;
+            if (!item.getParentId()) {
+                item.childIndex = 0;
+                tree.push(item);
+            } else {
+                let parentInSource = _datasource.find(x => x.getId() == item.getParentId());
+                if (parentInSource) {
+                    item.childIndex = parentInSource.childIndex + 1;
+                    parentInSource.getChildren().push(item);
+                }
+            }
+        }
+
+        return tree;
+
+        /*let tree: IData[] = [];
         _datasource.forEach(x => {
-            if (!x.getParentId())
+            if (!x.getParent())
                 tree.push(x);
             else {
-                let item = this.TGT_convertDataToTreeForChildren(tree, x.getParentId());
+                let item = this.TGT_convertDataToTreeForChildren(tree, x.getParent());
                 if (item)
                     item.getChildren().push(x);
                 else
                     tree.push(x);
             }
         });
-        return tree;
+        return tree;*/
+    }
+
+    public TGT_convertTreeToDataTable(_datasource: IData[]): IData[] {
+        let items: IData[] = [];
+
+        for (let ii = 0; ii < _datasource.length; ii++) {
+            if (_datasource[ii].isExtended == true && _datasource[ii].isVisible == true) {
+                let children = this.TGT_convertTreeToDataTable(_datasource[ii].getChildren());
+                items.push(_datasource[ii]);
+                children.forEach(e => items.push(e));
+            } else if (_datasource[ii].isVisible == true) {
+                items.push(_datasource[ii]);
+            }
+        }
+
+        return items;
     }
 
     //#endregion
 
     //#region Movement Between Nodes And Decisions Parents And Childs
 
-    private TGT_convertDataToTreeForChildren(source: IData[], parentID: number): IData {
+    /*private TGT_convertDataToTreeForChildren(source: IData[], parent: IData): IData {
         var foundItem = null;
 
         for (var ii = 0; ii < source.length; ii++) {
             var item = source[ii];
-            if (item.getId() == parentID) {
+            if (item.getId() == parent.getId()) {
                 foundItem = item;
                 break;
             } else {
-                foundItem = this.TGT_convertDataToTreeForChildren(item.getChildren(), parentID);
+                foundItem = this.TGT_convertDataToTreeForChildren(item.getChildren(), parent);
                 if (foundItem) {
                     break;
                 }
@@ -382,24 +460,10 @@ export class TreeGridTable {
         }
 
         return foundItem;
-    }
-
-    private loadWithExtends(_datasource: IData[], childIndex: number = 0): IData[] {
-        let ds: IData[] = [];
-        for (let ii = 0; ii < _datasource.length; ii++) {
-            if (_datasource[ii].isExtended) {
-                let children = this.loadWithExtends(_datasource[ii].getChildren(), childIndex + 1);
-                ds.push(_datasource[ii]);
-                children.forEach(e => ds.push(e));
-            } else {
-                _datasource[ii].childIndex = childIndex;
-                ds.push(_datasource[ii]);
-            }
-        }
-        return ds;
-    }
+    }*/
 
     private TGT_doOrderInChildren(_datasource: IData[]) {
+
         if (this.dataOrders.isDesc)
             _datasource.sort((x, y) => { return TreeGridTableMethods.doOrder(x[this.dataOrders.column], y[this.dataOrders.column]); });
         else
@@ -413,22 +477,20 @@ export class TreeGridTable {
 
     }
 
-    private TGT_doFilterInChildren(data: IData[]): IData[] {
-        let foundItem = [];
+    private TGT_doFilterInChildren(data: IData[]) {
         for (var ii = 0; ii < data.length; ii++) {
             var item = data[ii];
             if (TreeGridTableMethods.doSearch(item, this.dataFilters)) {
-                foundItem.push(item);
+                item.getChildren().forEach(e => e.isVisible = true);
+                let par = this.treeSource.find(x => x.getId() == item.getParentId());
+                if (par)
+                    par.isVisible = true;
+                item.isVisible = true;
             } else {
-                let _foundItem = this.TGT_doFilterInChildren(item.getChildren());
-                if (_foundItem) {
-                    _foundItem.forEach(e => {
-                        foundItem.push(e);
-                    });
-                }
+                item.isVisible = false;
+                this.TGT_doFilterInChildren(item.getChildren());
             }
         }
-        return foundItem;
     }
 
     //#endregion

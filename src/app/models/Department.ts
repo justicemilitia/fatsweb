@@ -2,6 +2,7 @@ import { IData } from './interfaces/IData';
 
 export class Department implements IData {
     
+    isVisible: boolean;
     isChecked: boolean;
     childIndex: number;
     isExtended: boolean;
@@ -13,6 +14,10 @@ export class Department implements IData {
     getId(): number {
         return this.DepartmentId;
     };
+
+    getParent() {
+        return this.ParentDepartment;
+    }
 
     getParentId() {
         return this.ParentDepartmentId;

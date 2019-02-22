@@ -6,7 +6,6 @@ import {
 } from "@angular/forms";
 import { Department } from "../../../models/Department";
 import { BaseService } from "../../../services/base.service";
-import { IData } from 'src/app/models/interfaces/IData';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BaseComponent } from '../../base/base.component';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable';

@@ -32,6 +32,7 @@ export class AuthenticationService {
   ROLE_KEY = "role";
 
   Login(user: User) {
+    user.FirmId = 27;
     this.httpClient
       .post(SERVICE_URL + LOGIN, user, { headers: GET_HEADERS() })
       .pipe(catchError(this.handleError))
