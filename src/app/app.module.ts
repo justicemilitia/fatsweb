@@ -17,12 +17,16 @@ import { CompanyComponent } from "./components/definitions/company/company.compo
 import { UserComponent } from "./components/definitions/user/user.component";
 import { DepartmentComponent } from "./components/definitions/department/department.component";
 import { LocationComponent } from "./components/definitions/location/location.component";
-import { FixedAssetComponent } from "./components/definitions/fixed-asset/fixed-asset.component";
-import { FixedAssetCategoryComponent } from "./components/definitions/fixed-asset-category/fixed-asset-category.component";
+import { FixedAssetCardComponent } from "./components/definitions/fixed-asset-card/fixed-asset-card.component";
+import { FixedAssetCardCategoryComponent } from "./components/definitions/fixed-asset-card-category/fixed-asset-card-category.component";
 import { AuthGuard } from "./services/authguard/auth.guard";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CountryComponent } from './components/definitions/country/country.component';
 import { CityComponent } from './components/definitions/city/city.component';
+import { AgreementComponent } from './components/definitions/agreement/agreement.component';
+import { FixedAssetCardBrandComponent } from './components/definitions/fixed-asset-card-brand/fixed-asset-card-brand.component';
+import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
+
 
 @NgModule({
   declarations: [
@@ -38,9 +42,12 @@ import { CityComponent } from './components/definitions/city/city.component';
     DashboardComponent,
     CountryComponent,
     CityComponent,
-    FixedAssetComponent,
-    FixedAssetCategoryComponent,
-    DashboardComponent
+    FixedAssetCardComponent,
+    FixedAssetCardCategoryComponent,
+    DashboardComponent,
+    AgreementComponent,
+    FixedAssetCardBrandComponent,
+    FixedAssetCardModelComponent
   ],
   imports: [
     BrowserModule,

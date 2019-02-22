@@ -1,0 +1,144 @@
+<div class="az-content">
+  <div class="container">
+    <div class="az-content-body">
+      <!-- <div class="az-content-breadcrumb">
+        <span>Table</span>
+        <span>DataTables</span>
+      </div> -->
+      <h2 class="az-content-title">Demirbaş Kartları</h2>
+      <div class="col-md-2 btnAddFixedAssetCard-right">
+        <button
+          class="btn btn-orange btn-block btnAddFixedAssetCard-height"
+          id="btnAddFixedAssetCard"
+          data-toggle="modal"
+          data-target="#modalFixedAssetCard"
+          (click)="loadDropdownList()"
+        >Demirbaş Kartı Ekle
+        </button>
+      </div>
+
+      <p class="mg-b-20"></p>
+      
+        <table class="tree-table">
+        <thead>
+            <th class="tree-table-sign"><span class="typcn icon-default typcn-cog-outline"></span></th>
+            <th (click)="doOrder('FixedAssetCardCode')">Demirbaş Kodu<span class="{{TGT_getOrderSign(order,'FixedAssetCardCode')}}"></span></th>            
+            <th (click)="doOrder('Name')">Demirbaş Adı<span class="{{TGT_getOrderSign(order,'Name')}}"></span></th>
+            <th (click)="doOrder('FixedAssetCardCategoryName')">Demirbaş Kategorisi<span class="{{TGT_getOrderSign(order,'FixedassetCardCategoryName')}}"></span></th>
+            <th (click)="doOrder('Description')">Açıklama<span class="{{TGT_getOrderSign(order,'Description')}}"></span></th>
+          </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="text" placeholder="Demirbaş Kodu" class="form-control" [(ngModel)]="filter.FixedAssetCardCode">
+                </td><td>
+                    <input type="text" placeholder="Demirbaş Adı" class="form-control" [(ngModel)]="filter.Name">
+                </td><td>
+                    <input type="text" placeholder="Demirbaş Kategorisi" class="form-control" [(ngModel)]="filter.FixedAssetCardCategoryName">
+                </td>
+                <td>
+                    <input type="text" placeholder="Açıklama" class="form-control" [(ngModel)]="filter.Description">
+                </td>
+              </tr>
+              <tr *ngFor="let data of dataSource">
+                <td class="tree-table-sign">
+                  <span (click)=doCollapse(data) class='{{TGT_getSign(data)}}'></span> 
+                </td>
+                <td>{{data.FixedAssetCardCode}}</td>
+                <td>{{data.Name}}</td>
+                <td>{{data.FixedAssetCardCategory ? data.FixedAssetCardCategory.Name : ''}}</td>
+                <td>{{data.Description}}</td>
+              </tr>
+        </tbody>
+      </table>
+      
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+<!-- az-content -->
+<app-footer></app-footer>
+
+<div id="modalFixedAssetCard" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title model-title-center">Yeni demirbaş kartı oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <h6>Yeni demirbaş kartı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
+        <form #data="ngForm" (ngSubmit)="insertFixedAssetCard(data)" class="form-register">
+            <div class="row">
+                <label>Demirbaş Kart Kodu</label>
+                <input type="text" id="FixedAssetCardCode" ngModel name="FixedAssetCardCode" required class="form-control txt-width" value=""/>
+              </div>
+          <div class="row">
+              <label>*Demirbaş Kart Adı</label>
+              <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
+            </div>
+            <div class="row">
+              <label>Açıklama</label>
+              <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width" value=""/>
+            </div>
+          <!-- form-group -->
+          <div class="row">
+              <label>*Bağlı Olduğu Demirbaş Kart Kategorisi</label>
+              <select  id="ParentFixedAssetCardId" ngModel name="ParentFixedAssetCardId" required class="form-control txt-width" value="">
+                  <option value="">Seçiniz</option>
+                  <option value="-1">Yok</option>
+                  <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories" value={{fixedAssetCardCategory.CategoryId}}>
+                    {{fixedAssetCardCategory.Name}}
+                  </option>   
+              </select>
+             </div>
+          <!-- form-group -->
+          <div class="modal-footer">
+              <button class="btn btn-orange btn-block btn-height" id="btnCreateFixedAssetCard" type="submit" data-toggle="modal" data-target="#modalInsertFixedAssetCard">Departman Ekle</button>       
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
+
+
+
+<!-- <script>
+  $(function() {
+    "use strict";
+
+    // showing modal with effect
+    $(".modal-effect").on("click", function(e) {
+      e.preventDefault();
+      var effect = $(this).attr("data-effect");
+      $("#modaldemo8").addClass(effect);
+    });
+
+    // hide modal with effect
+    $("#modaldemo8").on("hidden.bs.modal", function(e) {
+      $(this).removeClass(function(index, className) {
+        return (className.match(/(^|\s)effect-\S+/g) || []).join(" ");
+      });
+    });
+  });
+  $(document).ready( function () {
+    $('#tblFixedAssetCard').DataTable({
+        "columnDefs": [ {
+            "type": "salary-grade",
+            "targets": -1
+        } ],
+        "order": [[0,asc]]
+      });
+} );
+</script> -->

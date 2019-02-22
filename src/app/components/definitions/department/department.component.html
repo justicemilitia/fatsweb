@@ -9,7 +9,7 @@
           id="btnAddDepartment"
           data-toggle="modal"
           data-target="#modalDepartment"
-          (click)="LoadDropdownList()"
+          (click)="loadDropdownList()"
         >Departman Ekle
         </button>
       </div>
@@ -19,7 +19,7 @@
         <table class="tree-table">
           <thead>
             <th class="tree-table-sign"><span class="typcn icon-default typcn-cog-outline"></span></th>
-            <th (click)="doOrder('Name')">İsim <span class="{{TGT_getOrderSign(order,'Name')}}"></span>
+            <th (click)="doOrder('Name')">İsim <span class="{{TGT_getOrderSign(order,'Name')}}"></span></th>
             <th (click)="doOrder('Description')">Açıklama <span class="{{TGT_getOrderSign(order,'Description')}}"></span></th>
           </thead>
           <tbody>
@@ -72,15 +72,26 @@
           </div>
           <!-- form-group -->
           <div class="row">
-            <label>*Bağlı Olduğu Departman</label>
-            <select id="ParentDepartmentId" ngModel name="ParentDepartmentId" required class="form-control txt-width"
-              value="">
-              <option value="">Seçiniz</option>
-              <option *ngFor="let department of departments" value={{department.DepartmentId}}>
-                {{department.Name}}
-              </option>
-            </select>
-            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Lokasyon gereklidir.</span> -->
+            <div class="col-sm-6">
+              <label>*Bağlı Olduğu Departman</label>
+              <select id="ParentDepartmentId" ngModel name="ParentDepartmentId" required class="form-control txt-width"
+                value="">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let department of departments" value={{department.DepartmentId}}>
+                  {{department.Name}}
+                </option>
+              </select>              
+            </div>      
+            <div class="col-sm-6">
+              <label>*Bağlı Olduğu Lokasyon</label>
+              <select id="LocationId" ngModel name="LocationId" required class="form-control txt-width"
+                value="">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let location of locations" value={{location.LocationId}}>
+                  {{location.Name}}
+                </option>
+              </select>              
+            </div>
           </div>
           <!-- form-group -->
           <div class="modal-footer">

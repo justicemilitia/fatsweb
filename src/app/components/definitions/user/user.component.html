@@ -1,11 +1,7 @@
-<!-- <app-header></app-header> -->
 <div class="az-content">
   <div class="container">
     <div class="az-content-body">
-      <!-- <div class="az-content-breadcrumb">
-        <span>Table</span>
-        <span>DataTables</span>
-      </div> -->
+      
       <h2 class="az-content-title">Kişiler</h2>
       <div class="col-md-2 btnAddUser-right">
         <button
@@ -13,40 +9,68 @@
           id="btnAddUser"
           data-toggle="modal"
           data-target="#modalUser"
-          (click)="LoadDropdownList()"
+          (click)="loadDropdownList()"
         >Kişi Ekle
         </button>
       </div>
+
       <p class="mg-b-20"></p>
 
-      <table
-        id="tblUser"
-        class="display responsive dataTables_wrapper dataTable no-footer dtr-inline table-bordered deneme"
-        role="grid"
-      >
+      <table class="tree-table">
         <thead>
           <tr>
-            <th class="wd-15p sorting">İsim</th>
-            <th class="wd-15p sorting">Soyisim</th>
-            <th class="wd-20p sorting">Unvan</th>
-            <th class="wd-15p sorting">Departman</th>
-            <th class="wd-10p sorting">Lokasyon</th>
-            <th class="wd-10p sorting">Şirket</th>
-            <th class="wd-15p sorting">E-mail</th>
+            <th class="tree-table-sign"><span class="typcn icon-default typcn-cog-outline"></span></th>
+            <th (click)="doOrder('FirstName')">İsim <span class="{{TGT_getOrderSign(order,'FirstName')}}"></span></th>
+            <th (click)="doOrder('LastName')">Soyisim <span class="{{TGT_getOrderSign(order,'LastName')}}"></span></th>
+            <th (click)="doOrder('UserTitle')">Unvan <span class="{{TGT_getOrderSign(order,'UserTitle')}}"></span></th>
+            <th (click)="doOrder('Department.Name')">Departman <span class="{{TGT_getOrderSign(order,'Department.Name')}}"></span></th>
+            <th (click)="doOrder('Location.Name')">Lokasyon <span class="{{TGT_getOrderSign(order,'Location.Name')}}"></span></th>
+            <th (click)="doOrder('Firm.Name')">Şirket <span class="{{TGT_getOrderSign(order,'Firm.Name')}}"></span></th>
+            <th (click)="doOrder('PhoneNumber')">Telefon <span class="{{TGT_getOrderSign(order,'UserPhone')}}"></span></th>
+            <th (click)="doOrder('UserMail')">E-mail <span class="{{TGT_getOrderSign(order,'UserMail')}}"></span></th>
           </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let user of users">
-                <tr>
-                <td ng-trim="false">{{user.FirstName}}</td>
-                <td ng-trim="false">{{user.LastName}}</td>
-                <td ng-trim="false">{{user.UserTitle}}</td>
-                <td ng-trim="false">{{user.Department.Name}}</td>
-                <td ng-trim="false">{{user.Location.Name}}</td>
-                <td ng-trim="false">{{user.Firm.Name}}</td>                                
-                <td ng-trim="false">{{user.UserMail}}</td>                                
+            <tr>
+                <td></td>
+                <td>
+                    <input type="text" placeholder="İsim" class="form-control" [(ngModel)]="filter.FirstName">
+                </td>
+                <td>
+                    <input type="text" placeholder="Soyisim" class="form-control" [(ngModel)]="filter.LastName">
+                </td>
+                <td>
+                    <input type="text" placeholder="Unvan" class="form-control" [(ngModel)]="filter.UserTitle">
+                </td>
+                <td>
+                    <input type="text" placeholder="Departman" class="form-control" [(ngModel)]="filter.Department.Name">
+                </td>
+                <td>
+                    <input type="text" placeholder="Lokasyon" class="form-control" [(ngModel)]="filter.Location.Name">
+                </td>
+                <td>
+                    <input type="text" placeholder="Şirket" class="form-control" [(ngModel)]="filter.Firm.Name">
+                </td>
+                <td>
+                    <input type="text" placeholder="Telefon" class="form-control" [(ngModel)]="filter.PhoneNumber">
+                </td>
+                <td>
+                    <input type="text" placeholder="E-Mail" class="form-control" [(ngModel)]="filter.UserMail">
+                </td>
               </tr>
-              </ng-container>
+              <tr *ngFor="let user of dataSource">
+                  <td class="tree-table-sign">
+                    <span (click)=doCollapse(user) class='{{TGT_getSign(user)}}'></span> 
+                  </td>
+                  <td>{{user.FirstName}}</td>
+                  <td>{{user.LastName}}</td>
+                  <td>{{user.UserTitle}}</td>
+                  <td>{{(user.Department) ? user.Department.Name : '' }}</td>
+                  <td>{{(user.Location) ? user.Location.Name : '' }}</td>
+                  <td>{{(user.Firm) ? user.Firm.Name : '' }}</td>
+                  <td>{{user.PhoneNumber}}</td>
+                  <td>{{user.UserMail}}</td>
+                </tr>
         </tbody>
       </table>
       
@@ -73,7 +97,7 @@
       </div>
       <div class="modal-body">
         <!-- <h6>Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-        <form #data="ngForm" (ngSubmit)="register(data)" class="form-register">
+        <form #data="ngForm" (ngSubmit)="insertUser(data)" class="form-register">
           <div class="row">
             <div class="col-sm-6">
               <label>*İsim</label>
@@ -92,8 +116,9 @@
               <label>*Departman</label>
                 <select  id="DepartmentId" ngModel name="DepartmentId" required class="form-control txt-width" value="">
                     <option value="">Seçiniz</option>
-                    <option *ngFor="let department of departments" value={{department.departmentId}}>
-                      {{department.name}}
+                    <option value="1">Yok</option>
+                    <option *ngFor="let department of departments" value={{department.DepartmentId}}>
+                      {{department.Name}}
                     </option>   
                 </select>
             </div>
@@ -101,26 +126,24 @@
               <label>*Lokasyon</label>
               <select  id="LocationId" ngModel name="LocationId" required class="form-control txt-width" value="">
                   <option value="">Seçiniz</option>
-                  <option *ngFor="let location of locations" value={{location.locationId}}>
-                    {{location.name}}
+                  <option *ngFor="let location of locations" value={{location.LocationId}}>
+                    {{location.Name}}
                   </option>   
               </select>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Lokasyon gereklidir.</span> -->
             </div>
           </div>
           <!-- form-group -->
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6"> 
               <label>*Unvan</label>
               <input type="text" id="UserTitle" ngModel name="UserTitle" required class="form-control txt-width" value="Jr."/>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Unvan gereklidir.</span>                 -->
             </div>
             <div class="col-sm-6">
               <label>*Şirket</label>
               <select  id="FirmId" ngModel name="FirmId" required class="form-control txt-width" value="">
                   <option value="">Seçiniz</option>
-                  <option *ngFor="let firm of firms" value={{firm.firmId}}>
-                    {{firm.name}}
+                  <option *ngFor="let firm of firms" value={{firm.FirmId}}>
+                    {{firm.Name}}
                   </option>
               </select>
             </div>           
@@ -131,34 +154,30 @@
                   <label>*Rol</label>
                 <select  id="RoleId" ngModel name="RoleId" required class="form-control txt-width" value="1">
                     <option value="">Seçiniz</option>
-                    <option *ngFor="let role of roles" value={{role.roleId}}>
-                      {{role.name}}
+                    <option *ngFor="let role of roles" value={{role.RoleId}}>
+                      {{role.Name}}
                     </option>   
                 </select>
               </div> 
               <div class="col-sm-6">
                   <label>*Şifre</label>
                   <input type="password" id="Password" ngModel name="Password" required class="form-control txt-width" value=""/>
-                <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Parola gereklidir.</span> 
-                <span class="help-block" *ngIf="registerForm.get('password').hasError('min-length') && registerForm.get('password').touched">Şifre 4 karakterden az olamaz.</span>                                 
-                <span class="help-block" *ngIf="registerForm.get('password').hasError('max-length') && registerForm.get('password').touched">Şifre 8 karakterden fazla olamaz.</span>                                  -->
                 </div>
           </div>
           <!-- form-group -->   
           <div  class="row">
             <div class="col-sm-6">
-                <label>*Bağlı Olduğu Kişi</label>
+                <label>Bağlı Olduğu Kişi</label>
               <select  id="ParentUserId" ngModel name="ParentUserId" required class="form-control txt-width" value="">
                   <option value="">Seçiniz</option>
                   <option *ngFor="let user of users" value={{user.userId}}>
-                    {{user.firstName + ' ' + user.lastName}}
+                    {{user.FirstName + ' ' + user.LastName}}
                   </option>
               </select>
             </div> 
             <div class="col-sm-6">
-                <label>*Telefon</label>
+                <label>Telefon</label>
                 <input type="number" id="PhoneNumber" ngModel name="PhoneNumber" required class="form-control txt-width" value="05369998877"/>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Parola gereklidir.</span> --> 
              </div>
         </div>
         <!-- form-group -->          
@@ -166,7 +185,6 @@
               <div class="col-sm-12">
                   <label>*E-posta</label>
                   <input type="email" id="UserMail" ngModel name="UserMail" required class="form-control txt-width" value="b.a@trinoks.com"/>
-                <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">E-posta gereklidir.</span>                   -->
                 </div>
           </div>
           <!-- form-group -->          

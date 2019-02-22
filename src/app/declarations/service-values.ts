@@ -1,28 +1,43 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const SERVICE_URL = "http://localhost:5000/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
-export const CREATE_USER = "Auth/register";
 
 export const GET_DEPARTMENT_LIST = "department/GetDepartmentsList";
 export const GET_LOCATION_LIST = "locations/getlocationslist";
-export const GET_USER_LIST = "user/GetUsers";
+export const GET_USER_LIST = "userfirms/GetUserFirmsListbyFirmId";
 export const GET_ROLE_LIST = "role/GetRoleList";
 export const GET_FIRM_LIST = "firm/GetFirmsList";
 export const GET_COUNTRY_LIST="definition/GetCountriesList";
 export const GET_CITY_LIST="definition/GetCitiesList";
 export const GET_COMPANY_LIST="company/GetCompanyList";
+export const GET_FIXEDASSETCATEGORY_LIST = "fixedassetcard/GetFixedAssetCardCategoriesList";
+export const GET_FIXEDASSETCARD_LIST = "fixedAssetcard/GetFixedAssetsCardsList";
+export const GET_AGREEMENT_LIST="aggrement/GetAgreementListByFirmId";
+export const GET_BRAND_LIST="fixedassetcard/GetFixedAssetCardBrandsList";
+export const GET_MODEL_LIST="fixedassetcard/GetFixedAssetCardModelsList";
+
 
 export const UPDATE_COMPANY="company/UpdateCompany";
+export const UPDATE_DEPARTMENT = "department/UpdateDepartment";
+export const UPDATE_LOCATION = "locations/UpdateLocation";
+export const UPDATE_FIXEDASSETCARDCATEGORY = "fixedassetcard/UpdateFixedAssetCardCategory";
+export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
+export const UPDATE_AGREEMENT = "agreement/UpdateAgreement";
+export const UPDATE_BRAND = "fixedassetcard/UpdateFixedAssetCardBrand";
+export const UPDATE_MODEL = "FixedAssetCard/UpdateFixedAssetCardModel";
 
-export const GET_FIXEDASSETCATEGORY_LIST = "fixedasset/GetFixedAssetCategoriesList";
-export const GET_FIXEDASSET_LIST = "fixedAsset/GetFixedAssetsList";
-
+export const INSERT_USER ="auth/register";
 export const INSERT_COMPANY="company/AddCompany";
 export const INSERT_DEPARTMENT = "department/AddDepartment";
 export const INSERT_LOCATION = "locations/AddLocation";
-export const INSERT_FIXEDASSETCATEGORY = "FixedAsset/AddFixedAssetCategory";
-export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
+export const INSERT_FIXEDASSETCARDCATEGORY = "fixedassetcard/AddFixedAssetCardCategory";
+export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
+export const INSERT_AGREEMENT = "agreement/AddAgreement";
+export const INSERT_BRAND = "fixedassetcard/AddFixedAssetCardBrand";
+export const INSERT_MODEL = "FixedAssetCard/AddFixedAssetCardModel";
+
+const FILE_UPLOAD_URL = 'http://localhost:8000/upload';
 
 export const GET_HEADERS = (token = null): HttpHeaders => {
   let headers = new HttpHeaders();

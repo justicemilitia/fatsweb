@@ -1,7 +1,7 @@
 import { Component, OnInit, NgModule } from "@angular/core";
-import { CompanyService } from "../../../services/companyService/company.service";
+import { CompanyService } from "../../../services/company-service/company.service";
 import { BaseComponent } from "src/app/components/base/base.component";
-import { LanguageService } from "src/app/services/languageService/language.service";
+import { LanguageService } from "src/app/services/language-service/language.service";
 import { BaseService } from "../../../services/base.service";
 import {
   FormBuilder,

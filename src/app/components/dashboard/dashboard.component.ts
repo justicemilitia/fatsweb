@@ -14,7 +14,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.baseService.popupService.ShowHello();
+    this.baseService.popupService.ShowQuestionPopupForUpdate();
   }
 
 }
