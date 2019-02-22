@@ -1,6 +1,9 @@
 import { IData } from './interfaces/IData';
 
 export class FixedAssetCardBrand implements IData {
+    childIndex: number;
+    isChecked: boolean;
+    isVisible: boolean;
     getParentId(): number {
         return null;
     }
@@ -10,8 +13,8 @@ export class FixedAssetCardBrand implements IData {
     getId(): number {
         return this.FixedAssetCardBrandId;
     }
-    
-    isExtended: boolean;    
+
+    isExtended: boolean;
     FixedAssetCardBrandId: number;
     Name: string;
     Description: string;

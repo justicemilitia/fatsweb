@@ -1,6 +1,9 @@
 import { IData } from "./interfaces/IData";
 
 export class Location implements IData {
+  childIndex: number;
+  isChecked: boolean;
+  isVisible: boolean;
 
   getParentId(): number {
     return this.ParentLocationId;

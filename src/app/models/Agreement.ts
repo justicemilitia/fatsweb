@@ -2,6 +2,9 @@ import { IData } from './interfaces/IData';
 import { Company } from './Company';
 
 export class Agreement implements IData {
+    childIndex: number;
+    isChecked: boolean;
+    isVisible: boolean;
     getParentId(): number {
         return null;
     }

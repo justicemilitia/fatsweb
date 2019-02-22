@@ -4,6 +4,9 @@ import { Firm } from './Firm';
 import { IData } from './interfaces/IData';
 
 export class User implements IData {
+    childIndex: number;
+    isChecked: boolean;
+    isVisible: boolean;
     getParentId(): number {
         return this.ParentUserId;
     }

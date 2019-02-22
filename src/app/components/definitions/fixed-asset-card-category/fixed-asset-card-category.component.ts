@@ -17,7 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   declarations: [FixedAssetCardCategoryComponent],
   providers: [FixedAssetCardCategoryComponent]
 })
-export class FixedAssetCardCategoryComponent extends TreeGridTable
+export class FixedAssetCardCategoryComponent extends BaseComponent
 implements OnInit, DoCheck {
   insertingFixedAssetCardCategory: any = {};
   fixedAssetCategoriesInAdd: FixedAssetCardCategory[] = [];
@@ -47,18 +47,18 @@ implements OnInit, DoCheck {
   //#region Grid Methods
   
   doFilter() {
-    this.TGT_doFilter(this.fixedAssetCategories, this.filter);
+    //this.TGT_doFilter(this.fixedAssetCategories, this.filter);
   }
 
   doOrder(column: string) {
     this.order.isDesc = !this.order.isDesc;
     this.order.column = column;
-    this.TGT_doOrder(this.fixedAssetCategories, this.filter, this.order);
+    //this.TGT_doOrder(this.fixedAssetCategories, this.filter, this.order);
   }
 
   doCollapse(data: IData) {
     data.isExtended = !data.isExtended;
-    this.TGT_loadData(this.fixedAssetCategories);
+    //this.TGT_loadData(this.fixedAssetCategories);
   }
 
   //#endregion
@@ -84,8 +84,8 @@ implements OnInit, DoCheck {
   loadFixedAssetCardCategory() {
     this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
       (faccs: FixedAssetCardCategory[]) => {
-        this.fixedAssetCategories = <FixedAssetCardCategory[]>this.convertDataToTree(faccs);
-        this.TGT_loadData(this.fixedAssetCategories);
+        //this.fixedAssetCategories = <FixedAssetCardCategory[]>this.convertDataToTree(faccs);
+      //  this.TGT_loadData(this.fixedAssetCategories);
       },
       (error: HttpErrorResponse) => {
         this.errorManager(error);

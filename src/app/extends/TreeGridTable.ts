@@ -8,6 +8,7 @@ export class TreeGridTable {
 
     //#region Variables
 
+    public originalSource: IData[] = [];
     public treeSource: IData[] = [];
     public dataSource: IData[] = [];
     public dataColumns: IColumn[] = [];
@@ -74,20 +75,6 @@ export class TreeGridTable {
 
     public TGT_goToPage(page: number) {
         this.currentPage = page;
-    }
-
-    public TGT_goToPreviousPage() {
-        if (this.currentPage > 1)
-            this.currentPage--;
-    }
-
-    public TGT_goToNextPage() {
-        if (this.currentPage < this.totalPage)
-            this.currentPage++;
-    }
-
-    public TGT_setPerInPages(source: number[]) {
-        this.perInPages = source;
     }
 
     public TGT_calculatePages() {
@@ -159,27 +146,11 @@ export class TreeGridTable {
      * @param _datasource 
      */
     public TGT_loadData(_datasource: IData[]) {
-        this.treeSource = _datasource;
+        this.originalSource = _datasource.slice(0);
+        this.treeSource = this.TGT_convertDataToTree(_datasource);
         this.TGT_doOrder(this.dataOrders.column);
         this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
         this.currentPage = 1;
-    }
-
-    /**
-     * Refresh datasource with data tree.
-     */
-    public TGT_refreshData(_datasource: IData[]) {
-
-        this.dataSource = this.TGT_convertTreeToDataTable(_datasource);
-
-        if (this._currentPage > this.totalPage)
-            this.currentPage = 1;
-        else if (this._currentPage <= 0)
-            this.currentPage = 1;
-
-
-        this.TGT_calculatePages();
-
     }
 
     /**
@@ -203,6 +174,7 @@ export class TreeGridTable {
 
         this.prevDataFilters = JSON.parse(JSON.stringify(this.dataFilters));
 
+        this.TGT_doHiddenAll();
         this.TGT_doFilterInChildren(this.treeSource);
 
         this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
@@ -379,9 +351,7 @@ export class TreeGridTable {
      */
     public TGT_doCollapse(_data: IData) {
         _data.isExtended = !_data.isExtended;
-        this.prevDataFilters = null;
-        //this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
-        this.TGT_doFilter();
+        this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
     }
 
     /**
@@ -400,27 +370,13 @@ export class TreeGridTable {
             } else {
                 let parentInSource = _datasource.find(x => x.getId() == item.getParentId());
                 if (parentInSource) {
-                    item.childIndex = parentInSource.childIndex + 1;
+                    item.childIndex = this.TGT_getChildIndex(parentInSource) + 1;
                     parentInSource.getChildren().push(item);
                 }
             }
         }
 
         return tree;
-
-        /*let tree: IData[] = [];
-        _datasource.forEach(x => {
-            if (!x.getParent())
-                tree.push(x);
-            else {
-                let item = this.TGT_convertDataToTreeForChildren(tree, x.getParent());
-                if (item)
-                    item.getChildren().push(x);
-                else
-                    tree.push(x);
-            }
-        });
-        return tree;*/
     }
 
     public TGT_convertTreeToDataTable(_datasource: IData[]): IData[] {
@@ -443,25 +399,6 @@ export class TreeGridTable {
 
     //#region Movement Between Nodes And Decisions Parents And Childs
 
-    /*private TGT_convertDataToTreeForChildren(source: IData[], parent: IData): IData {
-        var foundItem = null;
-
-        for (var ii = 0; ii < source.length; ii++) {
-            var item = source[ii];
-            if (item.getId() == parent.getId()) {
-                foundItem = item;
-                break;
-            } else {
-                foundItem = this.TGT_convertDataToTreeForChildren(item.getChildren(), parent);
-                if (foundItem) {
-                    break;
-                }
-            }
-        }
-
-        return foundItem;
-    }*/
-
     private TGT_doOrderInChildren(_datasource: IData[]) {
 
         if (this.dataOrders.isDesc)
@@ -478,19 +415,63 @@ export class TreeGridTable {
     }
 
     private TGT_doFilterInChildren(data: IData[]) {
-        for (var ii = 0; ii < data.length; ii++) {
-            var item = data[ii];
+        for (let ii = 0; ii < data.length; ii++) {
+            let item: IData = data[ii];
+
             if (TreeGridTableMethods.doSearch(item, this.dataFilters)) {
-                item.getChildren().forEach(e => e.isVisible = true);
-                let par = this.treeSource.find(x => x.getId() == item.getParentId());
-                if (par)
-                    par.isVisible = true;
-                item.isVisible = true;
-            } else {
-                item.isVisible = false;
-                this.TGT_doFilterInChildren(item.getChildren());
+                this.TGT_doVisibleWithParents(item);
+                this.TGT_doVisibleWithChilds(item);
             }
+            this.TGT_doFilterInChildren(item.getChildren());
         }
+    }
+
+    private TGT_getChildIndex(item: IData): number {
+        let childIndex = 0;
+        while (item.getParentId()) {
+            childIndex++;
+            item = this.originalSource.find(x => x.getId() == item.getParentId());
+        }
+        return childIndex;
+    }
+
+    private TGT_doVisibleWithParents(item: IData) {
+        item.isVisible = true;
+        item.isExtended = false;
+        item = this.originalSource.find(x => x.getId() == item.getParentId());
+
+        while (item) {
+            item.isVisible = true;
+            if (item && this.TGT_isFilterClean() == true)
+                item.isExtended = false;
+            else
+                item.isExtended = true;
+
+            item = this.originalSource.find(x => x.getId() == item.getParentId());
+        }
+
+    }
+
+    private TGT_doVisibleWithChilds(item: IData) {
+        item.getChildren().forEach(e => {
+            e.isVisible = true;
+            this.TGT_doVisibleWithChilds(e);
+        })
+    }
+
+    private TGT_doHiddenAll() {
+        this.originalSource.forEach(e => e.isVisible = false);
+    }
+
+    private TGT_isFilterClean(): boolean {
+        let result = true;
+
+        Object.keys(this.dataFilters).forEach(e => {
+            if ((<string>this.dataFilters[e]).trim() !== '')
+                result = false;
+        });
+
+        return result;
     }
 
     //#endregion

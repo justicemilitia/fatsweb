@@ -4,6 +4,9 @@ import { FixedAssetCardProperty } from './FixedAssetCardProperty';
 import { IData } from './interfaces/IData';
 
 export class FixedAssetCard implements IData {
+    childIndex: number;
+    isChecked: boolean;
+    isVisible: boolean;
     getParentId(): number {
         return null;
     }

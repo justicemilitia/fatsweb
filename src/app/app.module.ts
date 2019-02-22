@@ -26,6 +26,7 @@ import { CityComponent } from './components/definitions/city/city.component';
 import { AgreementComponent } from './components/definitions/agreement/agreement.component';
 import { FixedAssetCardBrandComponent } from './components/definitions/fixed-asset-card-brand/fixed-asset-card-brand.component';
 import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
+import { TreeGridTablePage } from './pipes/TreeGridTablePage';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { FixedAssetCardModelComponent } from './components/definitions/fixed-ass
     DashboardComponent,
     AgreementComponent,
     FixedAssetCardBrandComponent,
-    FixedAssetCardModelComponent
+    FixedAssetCardModelComponent,
+    TreeGridTablePage
   ],
   imports: [
     BrowserModule,

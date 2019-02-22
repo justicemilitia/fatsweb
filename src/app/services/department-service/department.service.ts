@@ -20,7 +20,6 @@ export class DepartmentService {
   ) { }
 
   GetDepartments(callback,failed) {
-    debugger
     this.httpClient
       .get(SERVICE_URL + GET_DEPARTMENT_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(result => {

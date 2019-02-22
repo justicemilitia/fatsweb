@@ -70,7 +70,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit, DoChec
   loadDepartments() {
     this.baseService.departmentService.GetDepartments((deps: Department[]) => {
 
-      this.departments = <Department[]>this.dataTable.TGT_convertDataToTree(deps);
+      this.departments = deps;
       this.dataTable.TGT_loadData(this.departments);
 
     }, (error: HttpErrorResponse) => {

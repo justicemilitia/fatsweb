@@ -24,7 +24,7 @@ import { Location } from "../../../models/Location";
   declarations: [UserComponent],
   providers: [UserComponent]
 })
-export class UserComponent extends TreeGridTable implements OnInit, DoCheck {
+export class UserComponent extends BaseComponent implements OnInit, DoCheck {
   insertingUser: any = {};
   users: User[] = [];
   departments: Department[] = [];
@@ -67,19 +67,19 @@ export class UserComponent extends TreeGridTable implements OnInit, DoCheck {
   //#region Grid Methods
 
   doFilter() {
-    this.TGT_doFilter(this.users, this.filter);
+    //this.TGT_doFilter(this.users, this.filter);
   }
 
   doOrder(column: string) {
     this.order.isDesc = !this.order.isDesc;
     this.order.column = column;
-    this.TGT_doOrder(this.users, this.filter, this.order);
+    //this.TGT_doOrder(this.users, this.filter, this.order);
   }
 
   doCollapse(data: IData) {
 
     data.isExtended = !data.isExtended;
-    this.TGT_loadData(this.users);
+    //this.TGT_loadData(this.users);
   }
 
   //#endregion
@@ -97,11 +97,11 @@ export class UserComponent extends TreeGridTable implements OnInit, DoCheck {
     debugger;
     this.baseService.userService.GetUsers(
       (usrs: User[]) => {
-        this.users = <User[]>this.convertDataToTree(usrs);
-        this.TGT_loadData(this.users);
+        //this.users = <User[]>this.convertDataToTree(usrs);
+        //this.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        //this.errorManager(error);
       }
     );
   }
@@ -112,24 +112,24 @@ export class UserComponent extends TreeGridTable implements OnInit, DoCheck {
     this.baseService.departmentService.GetDepartments(deps => {
       this.departments = deps;},
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        //this.errorManager(error);
       } );
 
     // Lokasyonların listelenmesi      
     this.baseService.locationService.GetLocations(locs => {
       this.locations=locs;},
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        //this.errorManager(error);
       }
     );
 
     this.baseService.userService.GetUsers(
       (usrs: User[]) => {
-        this.users = <User[]>this.convertDataToTree(usrs);
-        this.TGT_loadData(this.users);
+        //this.users = <User[]>this.convertDataToTree(usrs);
+        //this.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        //this.errorManager(error);
       }
     );
 

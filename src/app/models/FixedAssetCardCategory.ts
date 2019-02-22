@@ -2,6 +2,9 @@ import { FixedAssetCard } from './FixedAssetCard';
 import { IData } from './interfaces/IData';
 
 export class FixedAssetCardCategory implements IData {
+  childIndex: number;
+  isChecked: boolean;
+  isVisible: boolean;
   getParentId(): number {
     return this.ParentCategoryId;
   }

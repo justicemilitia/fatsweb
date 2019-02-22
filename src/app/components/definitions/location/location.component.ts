@@ -18,7 +18,7 @@ import{ Location } from "../../../models/Location";
   declarations: [LocationComponent],
   providers: [LocationComponent]
 })
-export class LocationComponent extends TreeGridTable
+export class LocationComponent extends BaseComponent
 implements OnInit, DoCheck {
   insertingLocation: any = {};
   locations: Location[] = [];
@@ -52,18 +52,18 @@ implements OnInit, DoCheck {
  //#region Grid Methods
 
  doFilter() {
-  this.TGT_doFilter(this.locations, this.filter);
+  //this.TGT_doFilter(this.locations, this.filter);
 }
 
 doOrder(column: string) {
   this.order.isDesc = !this.order.isDesc;
   this.order.column = column;
-  this.TGT_doOrder(this.locations, this.filter, this.order);
+  //this.TGT_doOrder(this.locations, this.filter, this.order);
 }
 
 doCollapse(data: IData) {
   data.isExtended = !data.isExtended;
-  this.TGT_loadData(this.locations);
+  //this.TGT_loadData(this.locations);
 }
 
 //#endregion
@@ -78,11 +78,11 @@ doCollapse(data: IData) {
   loadLocations() {
     this.baseService.locationService.GetLocations(
       (locs: Location[]) => {
-        this.locations = <Location[]>this.convertDataToTree(locs);
-        this.TGT_loadData(this.locations);
+        //this.locations = <Location[]>this.convertDataToTree(locs);
+        //this.TGT_loadData(this.locations);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        //this.errorManager(error);
       }
     );
   }
