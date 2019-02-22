@@ -21,6 +21,11 @@
             <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control" placeholder="Enter your password" value="thisisademo"/>
           </div>
           <div class="form-group">
+              <label>Firma</label>
+              <input name="firmid" [(ngModel)]="loginUser.FirmId" type="text" class="form-control" placeholder="Enter your firm" value="27"/>
+            </div>
+
+          <div class="form-group">
             <div class="row">
               <div class="col-md-6">
               <button (click)="changeLanguage('en')" class="btn btn-orange btn-block" type="button">EN</button>
