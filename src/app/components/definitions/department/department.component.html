@@ -12,7 +12,7 @@
       </div>
 
       <p class="mg-b-20"></p>
-      <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
     </div>
     <!-- az-content-body -->
   </div>

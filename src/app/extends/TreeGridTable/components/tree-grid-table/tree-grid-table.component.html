@@ -56,7 +56,7 @@
       <!-- END First Row is Filter END -->
       <!-- Data Rows -->
       <ng-container *ngFor="let data of dataTable.dataSource | toPage:dataTable.currentPage:dataTable.perInPage">
-        <tr class="tree-table-body-tr">
+        <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)">
           <td class="tree-table-body-tr-td-empty"></td>
           <ng-container *ngFor="let column of dataTable.dataColumns;let i = index">
             <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"

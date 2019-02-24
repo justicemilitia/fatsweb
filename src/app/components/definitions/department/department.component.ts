@@ -83,4 +83,9 @@ export class DepartmentComponent extends BaseComponent implements OnInit, DoChec
       this.errorManager(error);
     });
   }
+
+  onDoubleClickItem(item:any) {
+    console.log(item);
+  }
+
 }
