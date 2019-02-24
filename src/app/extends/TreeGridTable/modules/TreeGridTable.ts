@@ -1,8 +1,7 @@
 import { IData } from '../models/interfaces/IData';
-import { TreeGridTableMethods } from './TreeGridTableMethods';
 import { IColumn } from '../models/interfaces/IColumn';
-import * as $ from 'jquery';
 import { Page } from '../models/Page';
+import { TreeGridTableMethods } from './TreeGridTableMethods';
 
 export class TreeGridTable {
 
@@ -182,7 +181,7 @@ export class TreeGridTable {
                 items.push({
                     value: ii,
                     display: ii.toString(),
-                    isDisabled: ii == this.currentPage ? true : false,
+                    isDisabled: false,
                     isActive: this.currentPage == ii ? true : false
                 });
             }
@@ -209,7 +208,7 @@ export class TreeGridTable {
             items.push({
                 value: totalPage,
                 display: totalPage.toString(),
-                isDisabled: this.currentPage == totalPage ? true : false,
+                isDisabled: false,
                 isActive: this.currentPage == totalPage ? true : false
             });
         }
@@ -361,22 +360,6 @@ export class TreeGridTable {
             /* Then add down column and offset column to column array */
             this.dataColumns.splice(index, 1, downItem, column);
 
-            /* Offset body columns with same way */
-            /* Loop in each rows */
-            let rows = $('.tree-table > tbody').children("tr");
-            rows.each(e => {
-                /* 
-                    We find a column never change then remove two related column
-                    then we add them again with diffrent order
-                */
-                /*let zero_td = $(rows[e]).children("td").eq(index);
-                let first_td = $(rows[e]).children("td").eq(index + 1);
-                let second_td = $(rows[e]).children("td").eq(index + 2);
-                $(first_td).remove();
-                $(second_td).remove();
-                $(first_td).insertAfter(zero_td);
-                $(second_td).insertAfter(zero_td);*/
-            });
             return;
         }
 
@@ -398,22 +381,6 @@ export class TreeGridTable {
 
         /* then we remove at the top of the current column then add with new order */
         this.dataColumns.splice(upIndex, 1, column, upItem);
-
-        /* Update column positions at the body */
-        let rows = $('.tree-table > tbody').children("tr");
-        rows.each(e => {
-            /* 
-                We find a column never change then remove two related column
-                then we add them again with diffrent order
-            */
-            /*let zero_td = $(rows[e]).children("td").eq(index - 1);
-            let first_td = $(rows[e]).children("td").eq(index);
-            let second_td = $(rows[e]).children("td").eq(index + 1);
-            $(first_td).remove();
-            $(second_td).remove();
-            $(first_td).insertAfter(zero_td);
-            $(second_td).insertAfter(zero_td);*/
-        });
 
     }
 
@@ -443,17 +410,6 @@ export class TreeGridTable {
     public TGT_toggleColumns(column: IColumn) {
         /* Change column active status to its reverse */
         column.isActive = !column.isActive;
-
-        /* We loop all columns to make them hidden */
-        this.dataColumns.forEach((col, index) => {
-
-            /* We find header of current column */
-            let item = $(".tree-table > thead").children('th').eq(index + 1);
-
-            /* We set their visibility with their column active status */
-            $(item).css("display", col.isActive ? "table-cell" : "none");
-
-        })
     }
 
     /**

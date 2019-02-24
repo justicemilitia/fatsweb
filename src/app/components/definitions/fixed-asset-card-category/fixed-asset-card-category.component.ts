@@ -3,9 +3,8 @@ import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import { FixedAssetCardCategory } from "../../../models/FixedAssetCardCategory";
-import { TreeGridTable } from '../../../extends/TreeGridTable';
-import { IData } from '../../../models/interfaces/IData';
 import { HttpErrorResponse } from '@angular/common/http';
+import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
 
 @Component({
   selector: "app-fixed-asset-card-category",

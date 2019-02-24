@@ -1,18 +1,14 @@
 import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
-import { UserService } from "../../../services/user-service/user.service";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
-import { LanguageService } from "../../../services/language-service/language.service";
-import { IData } from "src/app/models/interfaces/IData";
 import { HttpErrorResponse } from "@angular/common/http";
-import { TreeGridTable } from "src/app/extends/TreeGridTable";
-import { Router } from "@angular/router";
 import { Department } from "../../../models/Department";
 import { Role } from "../../../models/Role";
 import { Firm } from "../../../models/Firm";
 import { User } from "../../../models/User";
 import { Location } from "../../../models/Location";
+import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
 
 @Component({
   selector: "app-user",

@@ -1,7 +1,0 @@
-  <th class="table-config-button">
-    <span class="typcn icon-default typcn-cog-outline"></span>
-  </th>
-  <th *ngFor="let column of dataTable.dataColumns" (click)="dataTable.TGT_doOrder(column.columnName)">
-    {{column.columnDisplayName}}
-    <span class="{{dataTable.TGT_getOrderSign(column.columnName)}}"></span>
-  </th>

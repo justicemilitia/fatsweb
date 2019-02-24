@@ -26,13 +26,8 @@ import { CityComponent } from './components/definitions/city/city.component';
 import { AgreementComponent } from './components/definitions/agreement/agreement.component';
 import { FixedAssetCardBrandComponent } from './components/definitions/fixed-asset-card-brand/fixed-asset-card-brand.component';
 import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
-import { TreeGridTablePage } from './pipes/TreeGridTablePage';
-import { TreeGridTableComponent } from './components/tgt/tree-grid-table/tree-grid-table.component';
-import { TreeGridTableHeaderComponent } from './components/tgt/tree-grid-table-header/tree-grid-table-header.component';
-import { TreeGridTableBodyComponent } from './components/tgt/tree-grid-table-body/tree-grid-table-body.component';
-import { TreeGridTablePaginationComponent } from './components/tgt/tree-grid-table-pagination/tree-grid-table-pagination.component';
-import { TreeGridTableHelperComponent } from './components/tgt/tree-grid-table-helper/tree-grid-table-helper.component';
-
+import { TreeGridTablePage } from './extends/TreeGridTable/pipes/TreeGridTablePage';
+import { TreeGridTableComponent } from './extends/TreeGridTable/components/tree-grid-table/tree-grid-table.component';
 
 @NgModule({
   declarations: [
@@ -55,11 +50,7 @@ import { TreeGridTableHelperComponent } from './components/tgt/tree-grid-table-h
     FixedAssetCardBrandComponent,
     FixedAssetCardModelComponent,
     TreeGridTablePage,
-    TreeGridTableComponent,
-    TreeGridTableHeaderComponent,
-    TreeGridTableBodyComponent,
-    TreeGridTablePaginationComponent,
-    TreeGridTableHelperComponent
+    TreeGridTableComponent
   ],
   imports: [
     BrowserModule,

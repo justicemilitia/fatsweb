@@ -3,9 +3,9 @@ import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { Department } from "../../../models/Department";
 import { Location } from "../../../models/Location";
 import { BaseService } from "../../../services/base.service";
-import { TreeGridTable } from "src/app/extends/TreeGridTable";
 import { HttpErrorResponse } from "@angular/common/http";
 import { BaseComponent } from '../../base/base.component';
+import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: "app-department",

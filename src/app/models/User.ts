@@ -1,7 +1,7 @@
 import { Department } from './Department';
 import { Location } from './Location';
 import { Firm } from './Firm';
-import { IData } from './interfaces/IData';
+import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 
 export class User implements IData {
     childIndex: number;

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TreeGridTable } from 'src/app/extends/TreeGridTable';
+import { TreeGridTable } from '../../modules/TreeGridTable';
 
 @Component({
   selector: 'tree-grid-table',

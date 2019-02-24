@@ -1,4 +1,4 @@
-import { IData } from './interfaces/IData';
+import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 
 export class FixedAssetCardBrand implements IData {
     childIndex: number;

@@ -2,10 +2,9 @@ import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
-import { TreeGridTable } from "../../../extends/TreeGridTable";
-import { IData } from "../../../models/interfaces/IData";
 import { HttpErrorResponse, HttpClient } from "@angular/common/http";
 import { Agreement } from "../../../models/Agreement";
+import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
 
 @Component({
   selector: "app-agreement",
