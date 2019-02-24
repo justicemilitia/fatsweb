@@ -27,6 +27,11 @@ import { AgreementComponent } from './components/definitions/agreement/agreement
 import { FixedAssetCardBrandComponent } from './components/definitions/fixed-asset-card-brand/fixed-asset-card-brand.component';
 import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
 import { TreeGridTablePage } from './pipes/TreeGridTablePage';
+import { TreeGridTableComponent } from './components/tgt/tree-grid-table/tree-grid-table.component';
+import { TreeGridTableHeaderComponent } from './components/tgt/tree-grid-table-header/tree-grid-table-header.component';
+import { TreeGridTableBodyComponent } from './components/tgt/tree-grid-table-body/tree-grid-table-body.component';
+import { TreeGridTablePaginationComponent } from './components/tgt/tree-grid-table-pagination/tree-grid-table-pagination.component';
+import { TreeGridTableHelperComponent } from './components/tgt/tree-grid-table-helper/tree-grid-table-helper.component';
 
 
 @NgModule({
@@ -49,7 +54,12 @@ import { TreeGridTablePage } from './pipes/TreeGridTablePage';
     AgreementComponent,
     FixedAssetCardBrandComponent,
     FixedAssetCardModelComponent,
-    TreeGridTablePage
+    TreeGridTablePage,
+    TreeGridTableComponent,
+    TreeGridTableHeaderComponent,
+    TreeGridTableBodyComponent,
+    TreeGridTablePaginationComponent,
+    TreeGridTableHelperComponent
   ],
   imports: [
     BrowserModule,

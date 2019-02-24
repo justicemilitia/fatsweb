@@ -29,12 +29,18 @@ export class DepartmentComponent extends BaseComponent implements OnInit, DoChec
       {
         columnDisplayName: 'İsim',
         columnName: 'Name',
-        isActive: true
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
       },
       {
         columnDisplayName: 'Açıklama',
         columnName: 'Description',
-        isActive: true
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
       }
     ],
     {

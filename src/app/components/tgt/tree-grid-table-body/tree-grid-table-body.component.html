@@ -1,0 +1,24 @@
+<tr class="tree-table-body-tr">
+    <td class="tree-table-body-tr-td-empty"></td>
+    <td *ngFor="let column of dataTable.dataColumns" class="{{dataTable.TGT_getColumnVisibility(column.columnName)}}">
+        <input type="{{column.type}}" placeholder="{{column.placeholder}}"
+            class="form-control {{column.classes.join(' ')}}" [(ngModel)]="dataTable.dataFilters[column.columnName]">
+    </td>
+</tr>
+
+<ng-container *ngFor="let data of dataTable.dataSource | toPage:dataTable.currentPage:dataTable.perInPage">
+    <tr class="tree-table-body-tr">
+        <td class="tree-table-body-tr-td-empty"></td>
+        <ng-container *ngFor="let column of dataTable.dataColumns;let i = index">
+            <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
+                class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
+                <span (click)=dataTable.TGT_doCollapse(data) class='tree-table-sign {{dataTable.TGT_getSign(data)}}'>
+                </span>
+                {{data[column.columnName]}}
+            </td>
+            <td *ngIf="i!=0" class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
+                {{data[column.columnName]}}
+            </td>
+        </ng-container>
+    </tr>
+</ng-container>
