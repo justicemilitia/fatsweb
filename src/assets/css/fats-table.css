@@ -22,6 +22,12 @@
     background: #f9f9f9;
     cursor: pointer;
 }
+
+.table-checkbox {
+    margin-left: 3px;
+    margin-top: 5px;
+}
+
 .tree-table>thead>tr {
     width: 1px;
     white-space: nowrap;

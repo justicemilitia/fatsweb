@@ -80,15 +80,14 @@ export class TreeGridTable {
     /**
      * Set paging active status then set perInPage status all to show all the items.
      */
-    public set isPagingActive(value:boolean) {
-        if (value == true)
-        {
+    public set isPagingActive(value: boolean) {
+        if (value == true) {
             this._isPagingActive = value;
             this.perInPage = -1;
-        }else {
+        } else {
             this._isPagingActive = value;
         }
-    } 
+    }
 
     /**
      * Return the current paging active status
@@ -97,6 +96,10 @@ export class TreeGridTable {
         return this._isPagingActive;
     }
 
+
+    /**
+     * Store per in page vale.
+     */
     private _perInPage: number = 25;
 
     /**
@@ -135,6 +138,26 @@ export class TreeGridTable {
     }
 
     /**
+     * Store the select all state.
+     */
+    private _selectAllState: boolean = false;
+
+    /**
+     * Select or deselect all items shown in table
+     */
+    public set selectAllState(value: boolean) {
+        this._selectAllState = value;
+        this.TGT_toggleSelectAll();
+    }
+
+    /**
+     * Get Select or deselect value
+     */
+    public get selectAllState() {
+        return this._selectAllState;
+    }
+
+    /**
      * Get Pages count.
      */
     public get totalPage() {
@@ -151,6 +174,12 @@ export class TreeGridTable {
 
     //#region Constructor
 
+    /**
+     * 
+     * @param _dataColumns Column Values with IColumn interface
+     * @param _dataFilters Filter values {} can be empty object
+     * @param _dataOrders  Order columns
+     */
     constructor(_dataColumns: IColumn[], _dataFilters: any, _dataOrders: any) {
 
         this.dataColumns = _dataColumns;
@@ -164,16 +193,33 @@ export class TreeGridTable {
     //#region Base Methods
 
     /**
+     * Toggle of select / unselect for all items
+     */
+    public TGT_toggleSelectAll() {
+        this.dataSource.forEach(e => {
+            e.isChecked = this._selectAllState;
+        })
+    }
+
+    /**
+     * Get selected items
+     */
+    public TGT_getSelectedItems():IData[] {
+        return this.originalSource.filter(x=>x.isChecked == true);
+    }
+
+
+    /**
      * Change config div visibility
      */
     public TGT_toggleConfig() {
         this.isConfigOpen = !this.isConfigOpen;
         /* Change click event icon */
         $(".table-column-helper").animate({ width: 'toggle' }, "fast");
-        if ($(".table-config-arrow").hasClass("typcn-chevron-left") == true) { 
+        if ($(".table-config-arrow").hasClass("typcn-chevron-left") == true) {
             $(".table-config-arrow").removeClass("typcn-chevron-left");
             $(".table-config-arrow").addClass("typcn-chevron-right");
-        }else if ($(".table-config-arrow").hasClass("typcn-chevron-right") == true) {
+        } else if ($(".table-config-arrow").hasClass("typcn-chevron-right") == true) {
             $(".table-config-arrow").removeClass("typcn-chevron-right");
             $(".table-config-arrow").addClass("typcn-chevron-left");
         }

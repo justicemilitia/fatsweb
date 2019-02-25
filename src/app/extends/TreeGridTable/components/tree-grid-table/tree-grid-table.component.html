@@ -18,10 +18,10 @@
                 {{column.columnDisplayName}}</li>
               <li class="table-column-item-offset"></li>
               <li>
-                <span (click)="dataTable.TGT_offsetColumns(column,true)"
-                  class="typcn icon-default typcn-arrow-sorted-down table-column-helper-down"></span>
                 <span (click)="dataTable.TGT_offsetColumns(column,false)"
                   class="typcn icon-default typcn-arrow-sorted-up table-column-helper-up"></span>
+                <span (click)="dataTable.TGT_offsetColumns(column,true)"
+                  class="typcn icon-default typcn-arrow-sorted-down table-column-helper-down"></span>
               </li>
             </ul>
           </li>
@@ -39,7 +39,8 @@
     <table class="tree-table">
       <!-- Table Header Area -->
       <thead class="tree-table-header">
-        <th class="table-config-button">
+        <th>
+          <input type="checkbox" [(ngModel)]="dataTable.selectAllState" >
         </th>
         <ng-container *ngFor="let column of dataTable.dataColumns">
           <th *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column.columnName)">
@@ -52,7 +53,8 @@
       <tbody class="tree-table-body">
         <!-- First Row is Filter -->
         <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
-          <td class="tree-table-body-tr-td-empty"></td>
+          <td class="tree-table-body-tr-td-empty">
+          </td>
           <ng-container *ngFor="let column of dataTable.dataColumns">
             <td class="{{dataTable.TGT_getColumnVisibility(column.columnName)}}">
               <input type="{{column.type}}" placeholder="{{column.placeholder}}"
@@ -65,7 +67,9 @@
         <!-- Data Rows -->
         <ng-container *ngFor="let data of dataTable.dataSource | toPage:dataTable.currentPage:dataTable.perInPage">
           <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)">
-            <td class="tree-table-body-tr-td-empty"></td>
+            <td class="tree-table-body-tr-td-empty">
+              <input type="checkbox" class="table-checkbox" [(ngModel)]="data.isChecked">
+            </td>
             <ng-container *ngFor="let column of dataTable.dataColumns;let i = index">
               <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
                 class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
