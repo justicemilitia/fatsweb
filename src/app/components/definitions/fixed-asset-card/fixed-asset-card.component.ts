@@ -5,7 +5,7 @@ import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import { FixedAssetCardCategory } from '../../../models/FixedAssetCardCategory';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
+import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: 'app-fixed-asset-card',
@@ -18,53 +18,55 @@ import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
   providers: [FixedAssetCardComponent]
 })
 export class FixedAssetCardComponent extends BaseComponent
-implements OnInit, DoCheck {
+implements OnInit {
+
   insertingFixedAssetCard: any = {};
   fixedAssetCards: FixedAssetCard[] = [];  
-  fixedAssetCardCategoryInAdd: FixedAssetCard[] = [];
   fixedAssetCardCategories: FixedAssetCardCategory[] = [];
 
-  filter: any = {
-    Name: "",
-    FixedAssetCategoryName:"",
-    Description: ""
-  };
-
-  order: any = {
-    isDesc: false,
-    column: "Name"
-  };
-
+  public dataTable: TreeGridTable = new TreeGridTable(
+    [
+      {
+        columnDisplayName: 'İsim',
+        columnName: 'Name',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Kod',
+        columnName: 'Code',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Açıklama',
+        columnName: 'Description',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      }
+    ],
+    {
+      Name: '',
+      Description: ''
+    },
+    {
+      isDesc: false,
+      column: 'Name'
+    }
+  );
+  
   constructor(public baseService: BaseService) { 
     super(baseService);
     this.loadFixedAssetCards();
   }
   
   ngOnInit() {}
-
-  ngDoCheck(): void {
-    this.doFilter();
-  }
-
-//#region Grid Methods
-
-doFilter() {
-  //this.TGT_doFilter(this.fixedAssetCards, this.filter);
-}
-
-doOrder(column: string) {
-  this.order.isDesc = !this.order.isDesc;
-  this.order.column = column;
-  //this.TGT_doOrder(this.fixedAssetCards, this.filter, this.order);
-}
-
-doCollapse(data: IData) {
-  data.isExtended = !data.isExtended;
-  //this.TGT_loadData(this.fixedAssetCards);
-}
-
-//#endregion
-
 
   insertFixedAssetCard(data: NgForm) {
     this.insertingFixedAssetCard = <FixedAssetCard>data.value;
@@ -77,11 +79,13 @@ doCollapse(data: IData) {
     debugger;
     this.baseService.fixedAssetCardService.GetFixedAssetCard(
       (facs: FixedAssetCard[]) => {
-        //this.fixedAssetCards = <FixedAssetCard[]>this.convertDataToTree(facs);
-        //this.TGT_loadData(this.fixedAssetCards);
+        
+      this.fixedAssetCards = facs;
+      this.dataTable.TGT_loadData(this.fixedAssetCards);
+
       },
       (error: HttpErrorResponse) => {
-        //this.errorManager(error);
+        this.errorManager(error);
       }
     );
   }
@@ -90,7 +94,12 @@ doCollapse(data: IData) {
     this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(fixedAssetCategories => {
       this.fixedAssetCardCategories = fixedAssetCategories;},
       (error: HttpErrorResponse) => {
-        //this.errorManager(error);
-      } );
+        this.errorManager(error);
+      });
   }
+
+  onDoubleClickItem(item: any) {
+    console.log(item);
+  }
+
 }

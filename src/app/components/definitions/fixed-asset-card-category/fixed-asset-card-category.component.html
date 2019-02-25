@@ -8,43 +8,14 @@
           id="btnAddCategory"
           data-toggle="modal"
           data-target="#modalFixedAssetCategory"
-          (click)="loadDropdownList()"
+          (click)="loadFixedAssetCategories()"
         >Demirbaş Kategorisi Ekle
         </button>
       </div>
       <p class="mg-b-20"></p>
-
-      <table class="tree-table">
-
-        <thead>
-          <tr>
-            <th class="tree-table-sign"><span class="typcn icon-default typcn-cog-outline"></span></th>
-            <th (click)="doOrder('Name')">İsim <span class="{{TGT_getOrderSign(order,'Name')}}"></span></th>
-            <th (click)="doOrder('FixedAssetCardCategoryName')">Bağlı Olduğu Demirbaş Kategorisi <span class="{{TGT_getOrderSign(order,'FixedAssetCardCategoryName')}}"></span></th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="text" placeholder="Demirbaş Kartı Adı" class="form-control" [(ngModel)]="filter.Name">
-                </td>
-                <td>
-                    <input type="text" placeholder="Bağlı Olduğu Demirbaş Kartı" class="form-control" [(ngModel)]="filter.FixedAssetCardCategoryName">
-                </td>
-              </tr>
-              <tr *ngFor="let data of dataSource">
-                  <td class="tree-table-sign">
-                    <span (click)=doCollapse(data) class='{{TGT_getSign(data)}}'></span> 
-                  </td>
-                  <td>{{data.Name}}</td>
-                  <td>{{data.ParentCategory ? data.ParentCategory.Name : ''}}</td>
-                </tr>
-        </tbody>
-      </table>
-      
+      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
     </div>
-    <!-- az-content-body -->
+    <!-- az-content-body -->      
   </div>
 </div>
 <!-- az-content -->
@@ -65,7 +36,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- <h6>Yeni demirbaş kategorisi oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
     <form #data="ngForm" (ngSubmit)="InsertFixedAssetCardCategory(data)" class="form-register">
           <div class="row">
             <label>*Demirbaş Kategori Kodu</label>
@@ -77,11 +47,12 @@
             </div>
           <div class="row">
               <label>Bağlı Olduğu Demirbaş Kategorisi</label>
-              <select  id="ParentFixedAssetCategoryId" ngModel name="ParentFixedAssetCategoryId" required class="form-control txt-width" value="">
+              <select  
+              id="ParentFixedAssetCategoryId" ngModel name="ParentFixedAssetCategoryId" required class="form-control txt-width" value="">
                   <option value="">Seçiniz</option>
                   <option value="-1">Yok</option>
-                  <option *ngFor="let fixedAssetCategories of fixedAssetCategoriesInAdd" value={{fixedAssetCategories.FixedAssetCategoriesId}}>
-                    {{fixedAssetCategories.Name}}
+                  <option *ngFor="let fixedAssetCategory of fixedAssetCategories" value={{fixedAssetCategory.FixedAssetCategoriesId}}>
+                    {{fixedAssetCategory.Name}}
                   </option>   
               </select>
              </div>
