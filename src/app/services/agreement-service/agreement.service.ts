@@ -5,9 +5,9 @@ import {
 
 import { GET_HEADERS,SERVICE_URL, INSERT_AGREEMENT, GET_AGREEMENT_LIST } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
-import { Response } from 'src/app/models/Response';
+import { Response } from "../../../../src/app/models/Response";
 import { Router } from "@angular/router";
-import { Agreement } from 'src/app/models/Agreement';
+import { Agreement } from '../../../../src/app/models/Agreement';
 
 @Injectable({
   providedIn: 'root'

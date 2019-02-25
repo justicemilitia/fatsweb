@@ -21,21 +21,52 @@ implements OnInit, DoCheck {
   insertingLocation: any = {};
   locations: Location[] = [];
 
-  filter: any = {
-    Name: "",
-    Barcode: "",
-    Coordinate: "",
-    ParentLocation: {
-      Name:""
+  public dataTable: TreeGridTable = new TreeGridTable(
+    [
+      {
+        columnDisplayName: 'Lokasyon Adı',
+        columnName: 'Name',
+        isActive: true
+      },
+      {
+        columnDisplayName: 'Lokasyon Kodu',
+        columnName: 'Code',
+        isActive: true
+      },
+      {
+        columnDisplayName: 'Lokasyon Barkodu',
+        columnName: 'Barcode',
+        isActive: true
+      },
+      {
+        columnDisplayName: 'Koordinat',
+        columnName: 'Coordinate',
+        isActive: true
+      },
+      {
+        columnDisplayName: 'Bağlı Olduğu Lokasyon',
+        columnName: 'ParentLocation',
+        isActive: true
+      },
+      {
+        columnDisplayName: 'Açıklama',
+        columnName: 'Description',
+        isActive: true
+      }
+    ],
+    {
+      Code: '',
+      Name: '',
+      Barcode: '',
+      Coordinate: '',
+      ParentLocation: '',
+      Description: ''
     },
-    Description: ""
-  };
-
-  order: any = {
-    isDesc: false,
-    column: "Name"
-  };
-
+    {
+      isDesc: false,
+      column: 'Name'
+    }
+  );
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadLocations();
@@ -44,27 +75,8 @@ implements OnInit, DoCheck {
   ngOnInit() {}
 
   ngDoCheck(): void {
-    this.doFilter();
+    this.dataTable.TGT_doFilter();
   }
-
- //#region Grid Methods
-
- doFilter() {
-  //this.TGT_doFilter(this.locations, this.filter);
-}
-
-doOrder(column: string) {
-  this.order.isDesc = !this.order.isDesc;
-  this.order.column = column;
-  //this.TGT_doOrder(this.locations, this.filter, this.order);
-}
-
-doCollapse(data: IData) {
-  data.isExtended = !data.isExtended;
-  //this.TGT_loadData(this.locations);
-}
-
-//#endregion
 
   insertLocation(data: NgForm) {
     this.insertingLocation = <Location>data.value;
@@ -74,13 +86,12 @@ doCollapse(data: IData) {
   }
 
   loadLocations() {
-    this.baseService.locationService.GetLocations(
-      (locs: Location[]) => {
-        //this.locations = <Location[]>this.convertDataToTree(locs);
-        //this.TGT_loadData(this.locations);
+    this.baseService.locationService.GetLocations((locs: Location[]) => {
+        this.locations = locs;
+        this.dataTable.TGT_loadData(this.locations);
       },
       (error: HttpErrorResponse) => {
-        //this.errorManager(error);
+        this.errorManager(error);
       }
     );
   }

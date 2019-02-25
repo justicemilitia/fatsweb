@@ -1,0 +1,32 @@
+/* vendor css */
+@import url("../../../../assets/lib/fontawesome-free/css/all.min.css");
+@import url("../../../../assets/lib/ionicons/css/ionicons.min.css");
+@import url("../../../../assets/lib/typicons.font/typicons.css");
+
+ /* azia CSS */
+@import url("../../../../assets/css/azia.css");
+
+.btn-orange {
+  background: #e67300;
+  color: white;
+  border-radius: 5px;
+}
+.btnAddFixedAssetCardModel-height {
+  min-height: 15px;
+}
+.btnAddFixedAssetCardModel-right {
+  float: right;
+  margin-bottom:10px;
+  padding-right:0px;
+}
+.left {
+  margin-left: 90px;
+}
+.txt-width{
+  border-radius: 5px;
+  height:30px;
+}
+.btn-height{
+min-height:15px;
+}
+
