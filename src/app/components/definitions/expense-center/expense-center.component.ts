@@ -1,7 +1,7 @@
 import { Component, OnInit, NgModule } from "@angular/core";
 import { ExpenseCenterService } from "../../../services/ExpenseCenterService/expense-center.service";
 import { BaseComponent } from "src/app/components/base/base.component";
-import { LanguageService } from "src/app/services/languageService/language.service";
+import { LanguageService } from "src/app/services/language-service/language.service";
 import { BaseService } from "../../../services/base.service";
 import {
   NgForm,
