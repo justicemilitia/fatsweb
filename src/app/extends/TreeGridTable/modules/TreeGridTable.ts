@@ -2,6 +2,7 @@ import { IData } from '../models/interfaces/IData';
 import { IColumn } from '../models/interfaces/IColumn';
 import { Page } from '../models/Page';
 import { TreeGridTableMethods } from './TreeGridTableMethods';
+import * as $ from 'jquery';
 
 export class TreeGridTable {
 
@@ -13,15 +14,14 @@ export class TreeGridTable {
     public isFilterActive = true;
 
     /**
-     * Store is paging active.
-     */
-    public isPagingActive = true;
-
-
-    /**
      * Store is column offset active;
      */
     public isColumnOffsetActive = true;
+
+    /**
+     * Store is config open
+     */
+    public isConfigOpen = true;
 
     /**
      * Store the original list which was used in loadData method as paramter.
@@ -71,6 +71,31 @@ export class TreeGridTable {
     public pages: Page[] = [];
 
     //#region Getter And Setters
+
+    /**
+     * Store is paging active.
+     */
+    private _isPagingActive = true;
+
+    /**
+     * Set paging active status then set perInPage status all to show all the items.
+     */
+    public set isPagingActive(value:boolean) {
+        if (value == true)
+        {
+            this._isPagingActive = value;
+            this.perInPage = -1;
+        }else {
+            this._isPagingActive = value;
+        }
+    } 
+
+    /**
+     * Return the current paging active status
+     */
+    public get isPagingActive() {
+        return this._isPagingActive;
+    }
 
     private _perInPage: number = 25;
 
@@ -137,6 +162,22 @@ export class TreeGridTable {
     //#endregion
 
     //#region Base Methods
+
+    /**
+     * Change config div visibility
+     */
+    public TGT_toggleConfig() {
+        this.isConfigOpen = !this.isConfigOpen;
+        /* Change click event icon */
+        $(".table-column-helper").animate({ width: 'toggle' }, "fast");
+        if ($(".table-config-arrow").hasClass("typcn-chevron-left") == true) { 
+            $(".table-config-arrow").removeClass("typcn-chevron-left");
+            $(".table-config-arrow").addClass("typcn-chevron-right");
+        }else if ($(".table-config-arrow").hasClass("typcn-chevron-right") == true) {
+            $(".table-config-arrow").removeClass("typcn-chevron-right");
+            $(".table-config-arrow").addClass("typcn-chevron-left");
+        }
+    }
 
     /**
      * Change the current page.

@@ -3,10 +3,13 @@
   <!-- Offset / Disable Columns Area -->
   <div class="table-column-helper" *ngIf="dataTable.isColumnOffsetActive == true">
     <div class="table-column-helper-sub">
+      <!-- Offset Header -->
       <div class="table-column-helper-header">
         <span>Sütunlar</span>
-        <span class="typcn icon-default typcn-delete close-table-helper"></span>
+        <span class="typcn icon-default typcn-delete close-table-helper" (click)="dataTable.TGT_toggleConfig()"></span>
       </div>
+      <!-- END Offset Header END -->
+      <!-- Offset Body -->
       <div class="table-column-helper-body">
         <ul class="table-column-helper-items" *ngFor="let column of dataTable.dataColumns;let i=index">
           <li class="table-column-helper-item">
@@ -24,56 +27,62 @@
           </li>
         </ul>
       </div>
+      <!-- END Offset Body END -->
     </div>
   </div>
   <!-- END Offset / Disable Columns Area END -->
+  <!-- Config Button-->
+  <span (click)="dataTable.TGT_toggleConfig()" class="typcn icon-default typcn-chevron-left table-config-arrow"></span>
+  <!-- END Config Button END-->
   <!-- Data Table Area -->
-  <table class="tree-table">
-    <!-- Table Header Area -->
-    <thead class="tree-table-header">
-      <th class="table-config-button">
-        <span class="typcn icon-default typcn-cog-outline"></span>
-      </th>
-      <ng-container *ngFor="let column of dataTable.dataColumns">
-        <th *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column.columnName)">
-          {{column.columnDisplayName}}
-          <span class="{{dataTable.TGT_getOrderSign(column.columnName)}}"></span>
+  <div class="tree-table-responsive">
+    <table class="tree-table">
+      <!-- Table Header Area -->
+      <thead class="tree-table-header">
+        <th class="table-config-button">
         </th>
-      </ng-container>
-    </thead>
-    <!-- END Table Header Area END -->
-    <tbody class="tree-table-body">
-      <!-- First Row is Filter -->
-      <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
-        <td class="tree-table-body-tr-td-empty"></td>
         <ng-container *ngFor="let column of dataTable.dataColumns">
-          <td class="{{dataTable.TGT_getColumnVisibility(column.columnName)}}">
-            <input type="{{column.type}}" placeholder="{{column.placeholder}}"
-              class="form-control {{column.classes.join(' ')}}" [(ngModel)]="dataTable.dataFilters[column.columnName]">
-          </td>
+          <th *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column.columnName)">
+            {{column.columnDisplayName}}
+            <span class="{{dataTable.TGT_getOrderSign(column.columnName)}}"></span>
+          </th>
         </ng-container>
-      </tr>
-      <!-- END First Row is Filter END -->
-      <!-- Data Rows -->
-      <ng-container *ngFor="let data of dataTable.dataSource | toPage:dataTable.currentPage:dataTable.perInPage">
-        <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)">
+      </thead>
+      <!-- END Table Header Area END -->
+      <tbody class="tree-table-body">
+        <!-- First Row is Filter -->
+        <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
           <td class="tree-table-body-tr-td-empty"></td>
-          <ng-container *ngFor="let column of dataTable.dataColumns;let i = index">
-            <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
-              class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
-              <span (click)=dataTable.TGT_doCollapse(data) class='tree-table-sign {{dataTable.TGT_getSign(data)}}'>
-              </span>
-              {{data[column.columnName]}}
-            </td>
-            <td *ngIf="i!=0" class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
-              {{data[column.columnName]}}
+          <ng-container *ngFor="let column of dataTable.dataColumns">
+            <td class="{{dataTable.TGT_getColumnVisibility(column.columnName)}}">
+              <input type="{{column.type}}" placeholder="{{column.placeholder}}"
+                class="form-control {{column.classes.join(' ')}}"
+                [(ngModel)]="dataTable.dataFilters[column.columnName]">
             </td>
           </ng-container>
         </tr>
-      </ng-container>
-      <!-- END Data Rows END -->
-    </tbody>
-  </table>
+        <!-- END First Row is Filter END -->
+        <!-- Data Rows -->
+        <ng-container *ngFor="let data of dataTable.dataSource | toPage:dataTable.currentPage:dataTable.perInPage">
+          <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)">
+            <td class="tree-table-body-tr-td-empty"></td>
+            <ng-container *ngFor="let column of dataTable.dataColumns;let i = index">
+              <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
+                class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
+                <span (click)=dataTable.TGT_doCollapse(data) class='tree-table-sign {{dataTable.TGT_getSign(data)}}'>
+                </span>
+                {{data[column.columnName]}}
+              </td>
+              <td *ngIf="i!=0" class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
+                {{data[column.columnName]}}
+              </td>
+            </ng-container>
+          </tr>
+        </ng-container>
+        <!-- END Data Rows END -->
+      </tbody>
+    </table>
+  </div>
 </div>
 <!-- END Table Area END -->
 <!-- Pagination -->

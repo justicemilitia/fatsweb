@@ -12,8 +12,29 @@
     font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica
 }
 
+.table-config-arrow {
+    font-size: larger;
+    border: 1px solid #dee2e6;
+    border-right: none;
+    color: #424242;
+    padding-top: 2px;
+    height: 42px;
+    background: #f9f9f9;
+    cursor: pointer;
+}
+.tree-table>thead>tr {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.tree-table-responsive {
+    overflow-x: auto;
+    flex:1;
+}
+
 .tree-table>thead>th {
-    white-space: nowrap !important;
+    max-width: 200px;
+    white-space: nowrap;
     padding:.5em;
     background: #f9f9f9;
     color:#424242;
