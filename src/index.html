@@ -1,121 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>FatsWeb</title>
-    <base href="/" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+<head>
+  <meta charset="utf-8" />
+  <title>FatsWeb</title>
+  <base href="/" />
 
-    <!-- <link href="assets/lib/select2/css/select2.min.css" rel="stylesheet"> -->
-    <!-- <link href="assets/lib/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet">
-    <link href="assets/lib/ion-rangeslider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet"> -->
-    <!-- azia CSS -->
-    <link rel="stylesheet" href="assets/css/azia.css" />
-    <link rel="stylesheet" href="assets/css/fats-custom.css" />
-  </head>
-  <body>
-    <app-root></app-root>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <!-- azia CSS -->
+  <link rel="stylesheet" href="assets/css/azia.css" />
+  <link rel="stylesheet" href="assets/css/fats-custom.css" />
+  <link rel="stylesheet" href="assets/css/stellarnav.min.css" />
+</head>
 
-    <script src="assets/lib/jquery/jquery.min.js"></script>
-    <script src="assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
-    <script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/lib/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="assets/js/azia.js"></script>
-    <script src="assets/js/bootstrap-submenu.js"></script>
-    <!-- <script src="assets/lib/jquery-steps/jquery.steps.min.js"></script>
-    <script src="assets/lib/parsleyjs/parsley.min.js"></script>
-    <script src="assets/lib/spectrum-colorpicker/spectrum.js"></script>
-    <script src="assets/lib/jquery.maskedinput/jquery.maskedinput.js"></script>
-    <script src="assets/lib/select2/js/select2.min.js"></script> -->
-    <!-- <script>
-        $(function(){
-          'use strict'
-  
-          // Toggle Switches
-          $('.az-toggle').on('click', function(){
-            $(this).toggleClass('on');
-          })
-  
-          // Input Masks
-          $('#dateMask').mask('99/99/9999');
-          $('#phoneMask').mask('(999) 999-9999');
-          $('#ssnMask').mask('999-99-9999');
-  
-          // Color picker
-          $('#colorpicker').spectrum({
-            color: '#17A2B8'
-          });
-  
-          $('#showAlpha').spectrum({
-            color: 'rgba(23,162,184,0.5)',
-            showAlpha: true
-          });
-  
-          $('#showPaletteOnly').spectrum({
-              showPaletteOnly: true,
-              showPalette:true,
-              color: '#DC3545',
-              palette: [
-                  ['#1D2939', '#fff', '#0866C6','#23BF08', '#F49917'],
-                  ['#DC3545', '#17A2B8', '#6610F2', '#fa1e81', '#72e7a6']
-              ]
-          });
-  
-          // Datepicker
-          $('.fc-datepicker').datepicker({
-            showOtherMonths: true,
-            selectOtherMonths: true
-          });
-  
-          $('#datepickerNoOfMonths').datepicker({
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            numberOfMonths: 2
-          });
-  
-          $(document).ready(function(){
-            $('.select2').select2({
-              placeholder: 'Choose one'
-            });
-  
-            $('.select2-no-search').select2({
-              minimumResultsForSearch: Infinity,
-              placeholder: 'Choose one'
-            });
-          });
-  
-          $('.rangeslider1').ionRangeSlider();
-  
-          $('.rangeslider2').ionRangeSlider({
-              min: 100,
-              max: 1000,
-              from: 550
-          });
-  
-          $('.rangeslider3').ionRangeSlider({
-              type: 'double',
-              grid: true,
-              min: 0,
-              max: 1000,
-              from: 200,
-              to: 800,
-              prefix: '$'
-          });
-  
-          $('.rangeslider4').ionRangeSlider({
-              type: 'double',
-              grid: true,
-              min: -1000,
-              max: 1000,
-              from: -500,
-              to: 500,
-              step: 250
-          });
-  
-        });
-      </script> -->
+<body>
+  <app-root></app-root>
 
-  </body>
+  <script src="assets/lib/jquery/jquery.min.js"></script>
+  <script src="assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+  <script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/lib/jquery-sparkline/jquery.sparkline.min.js"></script>
+  <script src="assets/js/azia.js"></script>
+  <script src="assets/js/bootstrap-submenu.js"></script>
+  <script src="assets/js/stellarnav.min.js"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function ($) {
+      jQuery('.stellarnav').stellarNav({
+        theme: 'light',
+        breakpoint: 960,
+        position: 'right',
+        phoneBtn: '18009997788',
+        locationBtn: 'https://www.google.com/maps'
+      });
+    });
+  </script>
+</body>
+
 </html>
