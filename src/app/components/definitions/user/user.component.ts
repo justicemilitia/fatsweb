@@ -1,22 +1,14 @@
-import { Component, OnInit, NgModule } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-  FormArray,
-  NgForm
-} from "@angular/forms";
-import { UserService } from "../../../services/userService/user.service";
-import { User } from "../../../models/User";
+import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
+import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
-import { LanguageService } from "../../../services/languageService/language.service";
+import { BaseService } from "../../../services/base.service";
+import { HttpErrorResponse } from "@angular/common/http";
 import { Department } from "../../../models/Department";
-import { BaseService } from '../../../services/base.service';
-import { Role } from '../../../models/Role';
-import { Firm } from '../../../models/Firm';
+import { Role } from "../../../models/Role";
+import { Firm } from "../../../models/Firm";
+import { User } from "../../../models/User";
+import { Location } from "../../../models/Location";
+import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
 
 @Component({
   selector: "app-user",
@@ -28,71 +20,121 @@ import { Firm } from '../../../models/Firm';
   declarations: [UserComponent],
   providers: [UserComponent]
 })
-export class UserComponent extends BaseComponent implements OnInit {
-  constructor(
-    private formBuilder: FormBuilder,
-    public baseService : BaseService
-  ) {
-    super(baseService);
-    this.LoadUsers();    
-  }
-
-  registerForm: FormGroup;
-  registerUser: any = {};
+export class UserComponent extends BaseComponent implements OnInit, DoCheck {
+  insertingUser: any = {};
+  users: User[] = [];
   departments: Department[] = [];
   locations: Location[] = [];
-  users: User[] = [];
   roles: Role[] = [];
   firms: Firm[] = [];
 
-  ngOnInit() {
-    this.createRegisterForm();
+  filter: any = {
+    FirstName: "",
+    LastName: "",
+    UserMail: "",
+    UserTitle: "",
+    PhoneNumber: "",
+    Firm: {
+      Name: ""
+    },
+    Location: {
+      Name: ""
+    },
+    Department: {
+      Name: ""
+    }
+  };
+
+  order: any = {
+    isDesc: false,
+    column: "Name"
+  };
+
+  constructor(public baseService: BaseService) {
+    super(baseService);
+    this.loadUsers();
+  }
+  ngOnInit() {}
+
+  ngDoCheck(): void {
+    this.doFilter();
   }
 
-  createRegisterForm() {
-    this.registerForm = this.formBuilder.group({
-      FirstName: ["", Validators.required],
-      LastName: ["", Validators.required],
-      DepartmentId: ["", Validators.required],
-      LocationId: ["", Validators.required],
-      UserTitle: ["", Validators.required],
-      FirmId: ["", Validators.required],
-      UserMail: ["", Validators.required],
-      Password: [
-        "",
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(8)
-      ]
-      // ConfirmPassword: []
+  //#region Grid Methods
+
+  doFilter() {
+    //this.TGT_doFilter(this.users, this.filter);
+  }
+
+  doOrder(column: string) {
+    this.order.isDesc = !this.order.isDesc;
+    this.order.column = column;
+    //this.TGT_doOrder(this.users, this.filter, this.order);
+  }
+
+  doCollapse(data: IData) {
+
+    data.isExtended = !data.isExtended;
+    //this.TGT_loadData(this.users);
+  }
+
+  //#endregion
+
+  registerUser: any = {};
+
+  insertUser(data: NgForm) {
+    this.insertingUser = <User>data.value;
+    this.baseService.userService.InsertUser(
+      this.insertingUser
+    );
+  }
+
+  loadUsers() {
+    debugger;
+    this.baseService.userService.GetUsers(
+      (usrs: User[]) => {
+        //this.users = <User[]>this.convertDataToTree(usrs);
+        //this.TGT_loadData(this.users);
+      },
+      (error: HttpErrorResponse) => {
+        //this.errorManager(error);
+      }
+    );
+  }
+
+  loadDropdownList() {
+    
+    // Departmanların listelenmesi
+    this.baseService.departmentService.GetDepartments(deps => {
+      this.departments = deps;},
+      (error: HttpErrorResponse) => {
+        //this.errorManager(error);
+      } );
+
+    // Lokasyonların listelenmesi      
+    this.baseService.locationService.GetLocations(locs => {
+      this.locations=locs;},
+      (error: HttpErrorResponse) => {
+        //this.errorManager(error);
+      }
+    );
+
+    this.baseService.userService.GetUsers(
+      (usrs: User[]) => {
+        //this.users = <User[]>this.convertDataToTree(usrs);
+        //this.TGT_loadData(this.users);
+      },
+      (error: HttpErrorResponse) => {
+        //this.errorManager(error);
+      }
+    );
+
+    this.baseService.userService.GetRoles(roles => {
+      this.roles = roles;
     });
-  }
 
-  register(data: NgForm) {
-    console.log(data.value);
-    // this.registerUser.confirmPassword = data.value.password;
-    this.registerUser = <User>data.value;
-    this.baseService.userService.Register(this.registerUser);
-  }
-
-  LoadDropdownList() {
-      this.baseService.userService.GetDepartments(departments => {
-        this.departments = departments;
-      });
-      this.baseService.userService.GetLocations(locations => {
-        this.locations = locations;
-      });
-      this.baseService.userService.GetUsers(users => {
-        this.users = users;
-      });
-      this.baseService.userService.GetRoles(roles => {
-        this.roles = roles;
-      });
-      this.baseService.userService.GetFirms(firms => {
-        this.firms = firms;
-      });
-  }
-  LoadUsers() {
-    this.baseService.userService.GetUsers((users: User[]) => { });
+    this.baseService.userService.GetFirms(firms => {
+      this.firms = firms;
+    });
   }
 }

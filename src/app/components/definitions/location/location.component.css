@@ -15,20 +15,16 @@
   color: white;
   border-radius: 5px;
 }
-.btnAddUser-height {
+.btnAddLocation-height {
   min-height: 15px;
 }
-.btnAddUser-right {
+.btnAddLocation-right {
   float: right;
   margin-bottom: 10px;
   padding-right: 0px;
 }
 .left {
   margin-left: 90px;
-}
-.btn-orange {
-  background: #e67300;
-  color: white;
 }
 .txt-width {
   border-radius: 5px;

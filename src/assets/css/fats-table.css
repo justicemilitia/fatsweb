@@ -41,12 +41,13 @@
 }
 
 .tree-table-sign {
+    color:#e67300;
     width: 24px;
 }
 .tree-table-sign > span {
     margin-left:3px;
-    color:#e67300;
 }
+
 .typcn-custom-active {
     color:lime;
 }
@@ -118,4 +119,8 @@
 .table-column-item-offset {
     width: 20px;
     height: 1px;
+}
+
+.table-column-hidden {
+    display: none;
 }
