@@ -9,6 +9,7 @@ import {
   ReactiveFormsModule
 } from "@angular/forms";
 import { ExpenseCenter } from "src/app/models/ExpenseCenter";
+import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 @Component({
   selector: "app-expense-center",
   templateUrl: "./expense-center.component.html",
@@ -23,6 +24,33 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
   expCenters: ExpenseCenter[] = [];
   expenseCenter: ExpenseCenter = new ExpenseCenter();
   
+  public dataTable: TreeGridTable = new TreeGridTable(
+    [
+      {
+        columnDisplayName: "Masraf Yeri Kodu",
+        columnName: "ExpenseCenterCode",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }, 
+      {
+        columnDisplayName: "Masraf Yeri",
+        columnName: "Name",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+    ],
+    {  
+
+    },
+    {
+      isDesc: false,
+      column: "Name"
+    }
+  );
   constructor(
     protected baseService: BaseService,
   ) {
@@ -34,10 +62,9 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
   LoadExpenseCenters() {
     this.baseService.expenseCenterService.GetExpenseCenters(
-      (expenseCenter: ExpenseCenter[]) => {
-        expenseCenter.forEach(e => {
-          this.expCenters.push(e);
-        });
+      (expCenters: ExpenseCenter[]) => {
+        this.expCenters = expCenters;
+        this.dataTable.TGT_loadData(this.expCenters);
       }
     );
   }

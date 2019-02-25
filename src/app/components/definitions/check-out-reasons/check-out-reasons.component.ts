@@ -3,6 +3,7 @@ import { BaseService } from 'src/app/services/base.service';
 import { BaseComponent } from '../../base/base.component';
 import { CheckOutReason } from 'src/app/models/CheckOutReason';
 import { NgForm } from '@angular/forms';
+import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: 'app-check-out-reasons',
@@ -14,6 +15,33 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
   checkOutReasons: CheckOutReason[]=[];
   checkoutreason:CheckOutReason=new CheckOutReason();
 
+  public dataTable: TreeGridTable = new TreeGridTable(
+    [
+      {
+        columnDisplayName: "Şirket Adı",
+        columnName: "Name",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Açıklama",
+        columnName: "Description",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+    ],
+    {     
+
+    },
+    {
+      isDesc: false,
+      column: "Name"
+    }
+  );
   constructor(protected baseService: BaseService) { super(baseService); }
 
   ngOnInit() {
@@ -21,13 +49,13 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
   }
   LoadCheckOutReasons() {
     this.baseService.checkOutReasonService.GetCheckOutReason(
-      (checkOutReason: CheckOutReason[]) => {
-        checkOutReason.forEach(e => {
-          this.checkOutReasons.push(e);
+      (checkOutReasons: CheckOutReason[]) => {
+        this.checkOutReasons = checkOutReasons;
+        this.dataTable.TGT_loadData(this.checkOutReasons);
         });
       }
-    );
-  }
+  
+  
 
   ResetForm(form?: NgForm){
     if(form!=null)
@@ -63,5 +91,8 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
     }, checkOutReason.CheckOutReasonId);
   }
 
+  onDoubleClickItem(item: any) {
+    console.log(item);
+  }
 
 }

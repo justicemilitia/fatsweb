@@ -11,12 +11,14 @@ import {
 } from "../../declarations/service-values";
 import { CheckOutReason } from "src/app/models/CheckOutReason";
 import { AuthenticationService } from "../authenticationService/authentication.service";
+import { Response } from "src/app/models/Response";
 @Injectable({
   providedIn: "root"
 })
 export class CheckOutReasonService {
-  checkOutReasons: CheckOutReason[]=[];
-  checkoutreason: CheckOutReason=new CheckOutReason();
+
+  checkOutReasons: CheckOutReason[] = [];
+  checkoutreason: CheckOutReason = new CheckOutReason();
   constructor(
     private httpClient: HttpClient,
     private aService: AuthenticationService
@@ -29,7 +31,15 @@ export class CheckOutReasonService {
       })
       .subscribe(
         result => {
-          callback(<CheckOutReason[]>result["ResultObject"]);
+          let response: Response = <Response>result;
+          let checkOutReasons: CheckOutReason[] = [];
+
+          (<CheckOutReason[]>response.ResultObject).forEach(e => {
+            let check: CheckOutReason = new CheckOutReason();
+            Object.assign(check, e);
+            checkOutReasons.push(check);
+          });
+          callback(checkOutReasons);
         },
         error => console.error(error)
       );
@@ -62,7 +72,6 @@ export class CheckOutReasonService {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(result => {
-      
         this.checkOutReasons = <CheckOutReason[]>result["ResultObject"];
         callback(this.checkOutReasons);
       });

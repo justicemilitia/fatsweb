@@ -18,6 +18,7 @@ export class PopupService {
       icon: "success"
     });
   }
+  
   ShowQuestionPopupForDelete(){
     swal({
       title: "Silmek istediğinize emin misiniz?",

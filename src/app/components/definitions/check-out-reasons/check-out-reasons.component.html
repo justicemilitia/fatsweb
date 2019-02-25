@@ -13,22 +13,7 @@
             </button>
           </div>
           <p class="mg-b-20"></p>
-          <table id="tblCheckOutReasons" class="display responsive dataTables_wrapper dataTable no-footer dtr-inline" role="grid">
-            <thead>
-              <tr>
-                <th class="wd-15p ">Çıkış Tipi</th>
-                <th class="wd-15p">Açıklama</th>  
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let reason of checkOutReasons">
-              <tr>
-                <td>{{reason.Name}}</td>     
-                <td>{{reason.Description}}</td>    
-              </tr>
-            </ng-container>
-            </tbody>
-          </table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
   
         </div>
         <!-- az-content-body -->

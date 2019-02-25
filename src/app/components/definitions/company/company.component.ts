@@ -9,6 +9,7 @@ import { Company } from "src/app/models/Company";
 import { Country } from "src/app/models/Country";
 import { City } from "src/app/models/City";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
+import * as $ from 'jquery';
 
 @Component({
   selector: "app-company",
@@ -102,13 +103,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
     ],
     {
-      // Name: "",
-      // Email:"",
-      // Address:"",
-      // CountryName:"",
-      // City
-      //Description: "",
-
+      
     },
     {
       isDesc: false,
@@ -133,19 +128,17 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   ResetForm(form?: NgForm) {
-    if (form != null) this.ResetForm();
+    if (form != null)
     this.company = new Company();
   }
 
   OnSubmit(data: NgForm) {
-    debugger;
     if (data.value.CompanyId == null) this.addCompany(data);
     else this.UpdateCompany(data);
+    this.LoadCompanies();
   }
 
-  addCompany(data: NgForm) {
-    debugger;
-    console.log(data.value);
+  addCompany(data: NgForm) {  
     this.company = <Company>data.value;
     this.baseService.companyService.InsertCompany(this.company);
     this.ResetForm();
@@ -165,13 +158,17 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     this.baseService.cityService.GetCityList(cities => (this.cities = cities));
   }
 
-  FillCompanyModal(company: Company) {
-    this.baseService.companyService.GetCompanyById(result => {
-      this.company = result;
-    }, company.CompanyId);
-  }
+  // FillCompanyModal(company: Company) {
+  //   this.baseService.companyService.GetCompanyById(result => {
+  //     this.company = result;
+  //   }, company.CompanyId);
+  // }
 
   onDoubleClickItem(item: any) {
-    console.log(item);
+    this.baseService.companyService.GetCompanyById(result => {   
+      this.company = result;     
+    }, item.CompanyId);
+    $("#btnAddCompany").trigger('click');
+    $("#btnInsertOrUpdateCompany").html('Güncelle');
   }
 }

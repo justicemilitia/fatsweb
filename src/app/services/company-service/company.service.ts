@@ -38,7 +38,6 @@ export class CompanyService {
             Object.assign(comp, e);
             companies.push(comp);
         });
-
         callback(companies);
         },
         error => console.error(error)
@@ -79,8 +78,7 @@ export class CompanyService {
       .get(SERVICE_URL + GET_COMPANY_BY_ID + "/" + companyId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(result => {
-        debugger;
+      .subscribe(result => {        
         this.companyData = <Company[]>result["ResultObject"];
         callback(this.companyData);
         console.log(this.companyData)
