@@ -3,9 +3,9 @@ import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { FixedAssetCardBrand } from "../../../models/FixedAssetCardBrand";
 import { FixedAssetCardModel } from "../../../models/FixedAssetCardModel";
 import { BaseService } from "../../../services/base.service";
-import { TreeGridTable } from "src/app/extends/TreeGridTable";
 import { HttpErrorResponse } from "@angular/common/http";
 import { BaseComponent } from '../../base/base.component';
+import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: 'app-fixed-asset-card-model',
@@ -29,17 +29,26 @@ export class FixedAssetCardModelComponent extends BaseComponent implements OnIni
       {
         columnDisplayName: 'İsim',
         columnName: 'Name',
-        isActive: true
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
       },
       {
         columnDisplayName: 'Marka',
         columnName: 'FixedAssetCardBrand',
-        isActive: true
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
       },
       {
         columnDisplayName: 'Açıklama',
         columnName: 'Description',
-        isActive: true
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
       }
     ],
     {
@@ -90,5 +99,9 @@ export class FixedAssetCardModelComponent extends BaseComponent implements OnIni
     }, (error: HttpErrorResponse) => {
       this.errorManager(error);
     });
+  }
+  
+  onDoubleClickItem(item: any) {
+    console.log(item);
   }
 }

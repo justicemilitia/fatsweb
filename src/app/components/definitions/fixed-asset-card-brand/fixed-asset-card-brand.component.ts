@@ -2,9 +2,9 @@ import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { FixedAssetCardBrand } from "../../../models/FixedAssetCardBrand";
 import { BaseService } from "../../../services/base.service";
-import { TreeGridTable } from "src/app/extends/TreeGridTable";
 import { HttpErrorResponse } from "@angular/common/http";
 import { BaseComponent } from '../../base/base.component';
+import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: 'app-fixed-asset-card-brand',
@@ -27,12 +27,18 @@ export class FixedAssetCardBrandComponent extends BaseComponent implements OnIni
       {
         columnDisplayName: 'İsim',
         columnName: 'Name',
-        isActive: true
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
       },
       {
         columnDisplayName: 'Açıklama',
         columnName: 'Description',
-        isActive: true
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
       }
     ],
     {
