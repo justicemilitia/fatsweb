@@ -36,7 +36,23 @@ implements OnInit {
       },
       {
         columnDisplayName: 'Kod',
-        columnName: 'Code',
+        columnName: 'FixedAssetCardCode',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Kategori',
+        columnName: 'FixedAssetCardCategory.Name',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Özellik',
+        columnName: 'FixedAssetCardProperty.Name',
         isActive: true,
         classes: [],
         placeholder: '',
@@ -53,7 +69,9 @@ implements OnInit {
     ],
     {
       Name: '',
-      Description: ''
+      Description: '',
+      FixedAssetCardCategory:'',
+      FixedAssetCardProperty:''
     },
     {
       isDesc: false,

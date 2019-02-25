@@ -18,41 +18,7 @@
       </div>
 
       <p class="mg-b-20"></p>
-      
-        <table class="tree-table">
-        <thead>
-            <th class="tree-table-sign"><span class="typcn icon-default typcn-cog-outline"></span></th>
-            <th (click)="doOrder('FixedAssetCardCode')">Demirbaş Kodu<span class="{{TGT_getOrderSign(order,'FixedAssetCardCode')}}"></span></th>            
-            <th (click)="doOrder('Name')">Demirbaş Adı<span class="{{TGT_getOrderSign(order,'Name')}}"></span></th>
-            <th (click)="doOrder('FixedAssetCardCategoryName')">Demirbaş Kategorisi<span class="{{TGT_getOrderSign(order,'FixedassetCardCategoryName')}}"></span></th>
-            <th (click)="doOrder('Description')">Açıklama<span class="{{TGT_getOrderSign(order,'Description')}}"></span></th>
-          </thead>
-        <tbody>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="text" placeholder="Demirbaş Kodu" class="form-control" [(ngModel)]="filter.FixedAssetCardCode">
-                </td><td>
-                    <input type="text" placeholder="Demirbaş Adı" class="form-control" [(ngModel)]="filter.Name">
-                </td><td>
-                    <input type="text" placeholder="Demirbaş Kategorisi" class="form-control" [(ngModel)]="filter.FixedAssetCardCategoryName">
-                </td>
-                <td>
-                    <input type="text" placeholder="Açıklama" class="form-control" [(ngModel)]="filter.Description">
-                </td>
-              </tr>
-              <tr *ngFor="let data of dataSource">
-                <td class="tree-table-sign">
-                  <span (click)=doCollapse(data) class='{{TGT_getSign(data)}}'></span> 
-                </td>
-                <td>{{data.FixedAssetCardCode}}</td>
-                <td>{{data.Name}}</td>
-                <td>{{data.FixedAssetCardCategory ? data.FixedAssetCardCategory.Name : ''}}</td>
-                <td>{{data.Description}}</td>
-              </tr>
-        </tbody>
-      </table>
-      
+      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
     </div>
     <!-- az-content-body -->
   </div>
@@ -91,8 +57,8 @@
             </div>
           <!-- form-group -->
           <div class="row">
-              <label>*Bağlı Olduğu Demirbaş Kart Kategorisi</label>
-              <select  id="ParentFixedAssetCardId" ngModel name="ParentFixedAssetCardId" required class="form-control txt-width" value="">
+              <label>Demirbaş Kart Kategorisi</label>
+              <select  id="FixedAssetCardCategoryId" ngModel name="FixedAssetCardCategoryId" required class="form-control txt-width" value="">
                   <option value="">Seçiniz</option>
                   <option value="-1">Yok</option>
                   <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories" value={{fixedAssetCardCategory.CategoryId}}>
