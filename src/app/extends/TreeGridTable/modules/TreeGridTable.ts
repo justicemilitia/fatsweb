@@ -196,16 +196,22 @@ export class TreeGridTable {
      * Toggle of select / unselect for all items
      */
     public TGT_toggleSelectAll() {
-        this.dataSource.forEach(e => {
-            e.isChecked = this._selectAllState;
-        })
+        this.dataSource.forEach(e => { e.isChecked = this._selectAllState; });
+    }
+
+    /**
+     * Deselect All items
+     */
+    public TGT_deselectAllItems() {
+        this.originalSource.forEach(e => e.isChecked = false);
+        this.TGT_doFilter();
     }
 
     /**
      * Get selected items
      */
-    public TGT_getSelectedItems():IData[] {
-        return this.originalSource.filter(x=>x.isChecked == true);
+    public TGT_getSelectedItems(): IData[] {
+        return this.originalSource.filter(x => x.isChecked == true);
     }
 
 

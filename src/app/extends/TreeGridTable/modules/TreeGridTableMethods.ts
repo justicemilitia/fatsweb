@@ -10,17 +10,23 @@ export class TreeGridTableMethods {
             if (typeof obj[key] === "string") {
                 if (!this.filterText(obj[key], filter[key]))
                     return false;
-            } else if (!obj[key] && filter[key] && filter[key].length > 0)
+            } else if (typeof obj[key] === "number") {
+                if (!this.filterText(obj[key], filter[key]))
+                    return false;
+            }
+            else if (!obj[key] && filter[key] && filter[key].length > 0)
                 return false;
 
         }
         return true;
     }
 
-    public static doOrder(a: any, b: any) {
+    public static doOrder(a: any, b: any): number {
         switch (typeof (a !== null ? a : b)) {
             case "string":
                 return this.doStringOrder(a, b);
+            case "number":
+                return this.doNumberOrder(a, b);
             default:
                 return 0;
         }
@@ -67,8 +73,12 @@ export class TreeGridTableMethods {
 
     //#region Orders
 
-    public static doStringOrder(a: any, b: any) {
+    public static doStringOrder(a: any, b: any): number {
         return (<string>(a ? a : '')).localeCompare(b ? b : '');
+    }
+
+    public static doNumberOrder(a: any, b: any): number {
+        return (a ? a : 0) > (b ? b : 0) ? 1 : (a ? a : 0) < (b ? b : 0) ? -1 : 0;
     }
 
     //#endregion

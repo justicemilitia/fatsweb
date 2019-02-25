@@ -40,7 +40,7 @@
       <!-- Table Header Area -->
       <thead class="tree-table-header">
         <th>
-          <input type="checkbox" [(ngModel)]="dataTable.selectAllState" >
+          <input type="checkbox" [(ngModel)]="dataTable.selectAllState">
         </th>
         <ng-container *ngFor="let column of dataTable.dataColumns">
           <th *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column.columnName)">
@@ -83,6 +83,11 @@
             </ng-container>
           </tr>
         </ng-container>
+        <ng-template [ngIf]="dataTable.dataSource.length == 0">
+          <tr>
+            <td colspan="999" class="table-no-content">Gösterilecek içerik bulunamadı</td>
+          </tr>
+        </ng-template>
         <!-- END Data Rows END -->
       </tbody>
     </table>
