@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
+import { Component, OnInit, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { Department } from "../../../models/Department";
 import { Location } from "../../../models/Location";
@@ -18,7 +18,7 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTab
   providers: [DepartmentComponent]
 })
 
-export class DepartmentComponent extends BaseComponent implements OnInit, DoCheck {
+export class DepartmentComponent extends BaseComponent implements OnInit {
 
   insertingDepartment: any = {};
   departments: Department[] = [];
@@ -62,9 +62,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit, DoChec
 
   ngOnInit() { }
 
-  ngDoCheck(): void {
-    this.dataTable.TGT_doFilter();
-  }
 
   insertDepartment(data: NgForm) {
     this.insertingDepartment = <Department>data.value;

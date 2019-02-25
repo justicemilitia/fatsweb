@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck } from '@angular/core';
 import { TreeGridTable } from '../../modules/TreeGridTable';
 import { IData } from '../../models/interfaces/IData';
 
@@ -7,7 +7,7 @@ import { IData } from '../../models/interfaces/IData';
   templateUrl: './tree-grid-table.component.html',
   styleUrls: ['./tree-grid-table.component.css']
 })
-export class TreeGridTableComponent implements OnInit {
+export class TreeGridTableComponent implements OnInit,DoCheck {
 
   @Input() dataTable: TreeGridTable;
   @Output('onDoubleClickItem') dblClickItem: EventEmitter<any> = new EventEmitter();
@@ -15,6 +15,10 @@ export class TreeGridTableComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngDoCheck():void {
+    this.dataTable.TGT_doFilter();
   }
 
   onDoubleClickItem(item: IData) {
