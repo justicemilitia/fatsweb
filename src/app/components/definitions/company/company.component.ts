@@ -4,11 +4,10 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { LanguageService } from "src/app/services/languageService/language.service";
 import { BaseService } from "../../../services/base.service";
 import {
-  FormBuilder,
   NgForm,
-  FormsModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
 } from "@angular/forms";
+
 import { Company } from "src/app/models/Company";
 import { Country } from "src/app/models/Country";
 import { City } from "src/app/models/City";
@@ -19,59 +18,70 @@ import { City } from "src/app/models/City";
   styleUrls: ["./company.component.css"]
 })
 @NgModule({
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   declarations: [CompanyComponent],
   providers: [CompanyComponent]
 })
-export class CompanyComponent extends BaseComponent implements OnInit {
 
-  insertCompany:any={};
-  updateComp:any={};
+export class CompanyComponent extends BaseComponent implements OnInit {
   countries: Country[] = [];
   cities: City[] = [];
-  companies:Company[]=[];
+  companies: Company[] = [];
+  company: Company = new Company();
 
-  constructor(
-    protected baseService: BaseService,
-    private formBuilder: FormBuilder
-  ) {
+  constructor(protected baseService: BaseService) {
     super(baseService);
-    this.loadCompanies();
+    this.LoadCompanies();
   }
 
-  private companyService: CompanyService;
+  ngOnInit() {
+    this.ResetForm();
+  }
 
-  ngOnInit() {}
-
-  loadCompanies(){
-    this.baseService.companyService.GetCompanies((company:Company[])=>{
-      company.forEach((e)=>{
+  LoadCompanies() {
+    this.baseService.companyService.GetCompanies((company: Company[]) => {
+      company.forEach(e => {
         this.companies.push(e);
-      })
+      });
     });
+  }
+
+  ResetForm(form?: NgForm) {
+    if (form != null) this.ResetForm();
+    this.company = new Company();
+  }
+
+  OnSubmit(data: NgForm) {
+    debugger;
+    if (data.value.CompanyId == null) this.addCompany(data);
+    else this.UpdateCompany(data);
   }
 
   addCompany(data: NgForm) {
     debugger;
     console.log(data.value);
-    this.insertCompany = <Company>data.value;
-    this.baseService.companyService.InsertCompany(this.insertCompany);
+    this.company = <Company>data.value;
+    this.baseService.companyService.InsertCompany(this.company);
+    this.ResetForm();
+    this.LoadCompanies();
   }
 
-  updateCompany(data:NgForm){
-    this.updateComp=<Company>data.value;
-    this.baseService.companyService.UpdateCompany(this.updateComp)
+  UpdateCompany(data: NgForm) {
+    this.company = <Company>data.value;
+    this.baseService.companyService.UpdateCompany(this.company);
+    this.LoadCompanies();
   }
-  fillModal( ){
 
-  }
   LoadDropdownList() {
     this.baseService.countryService.GetCountryList(
       countries => (this.countries = countries)
     );
-    this.baseService.cityService.GetCityList(
-      cities => (this.cities = cities)
-    );
+    this.baseService.cityService.GetCityList(cities => (this.cities = cities));
+  }
+
+  FillCompanyModal(company: Company) {
+    this.baseService.companyService.GetCompanyById(result => {
+      this.company = result;
+    }, company.CompanyId);
   }
 }
-

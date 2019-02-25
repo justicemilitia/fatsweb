@@ -1,0 +1,98 @@
+
+  <div class="az-content">
+    <div class="container">
+      <div class="az-content-body">
+   
+        <h2 class="az-content-title">Masraf Yerleri</h2>
+        <div class="col-md-2 right">
+          <button
+            class="btn btn-orange btn-block btn-height"
+            id="btnAddCompany"
+            data-toggle="modal"
+            data-target="#modalExpenseCenter"          
+          >Masraf Yeri Ekle
+          </button>
+        </div>
+        <p class="mg-b-20"></p>
+        <table id="tblExpenseCenter" class="display responsive dataTables_wrapper dataTable no-footer dtr-inline" role="grid">
+          <thead>
+            <tr>
+              <th class="wd-15p ">Masraf Yeri Kodu</th>
+              <th class="wd-15p">Masraf Yeri Adı</th>  
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let expense of expCenters">
+            <tr>
+              <td>{{expense.ExpenseCenterCode}}</td>     
+              <td>{{expense.Name}}</td>    
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+
+      </div>
+      <!-- az-content-body -->
+    </div>
+  </div>
+  <!-- az-content -->
+
+<!-- LARGE MODAL -->
+<div id="modalExpenseCenter" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          data-target="#modalExpenseCenter"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #data="ngForm" (ngSubmit)="OnSubmit(data)">
+        <input type="hidden" name="ExpenseCenterId" [(ngModel)]="expenseCenter.ExpenseCenterId"/>
+        <input type="hidden" name="FirmId" [(ngModel)]="expenseCenter.FirmId"/>
+        <div class="modal-body">
+          <h6>Masraf yeri bilgilerini giriniz.</h6>
+          <div class="row justify-content-center">
+            <div class="form-group">
+              <div class="row">
+              <label>Masraf Yeri</label>
+              <input name="Name"[(ngModel)]="expenseCenter.Name" type="text" class="form-control" />
+            </div>
+            <div class="row">
+              <label>Kod</label>
+              <input name="ExpenseCenterCode" [(ngModel)]="expenseCenter.ExpenseCenterCode" type="text" class="form-control" />
+            </div>     
+          </div>  
+          </div>
+        </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button id="btnInsertExpenseCenter" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertExpenseCenter">Kaydet</button>
+          <button
+            type="button"
+            data-dismiss="modal"
+            class="btn btn-outline-light">
+            Close
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
+<script>
+$(document).ready( function () {
+    $('#tblExpenseCenter').DataTable({
+        "columnDefs": [ {
+            "type": "salary-grade",
+            "targets": -1
+        } ],
+        "order": [[0,asc]]
+      });
+} );</script>

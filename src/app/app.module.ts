@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import{CommonModule} from '@angular/common';
 
 import { routes } from "./app-routing.module";
@@ -23,6 +23,9 @@ import { AuthGuard } from "./services/authguard/auth.guard";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CountryComponent } from './components/definitions/country/country.component';
 import { CityComponent } from './components/definitions/city/city.component';
+import { ExpenseCenterComponent } from './components/definitions/expense-center/expense-center.component';
+import { CheckOutReasonsComponent } from './components/definitions/check-out-reasons/check-out-reasons.component';
+import { RoleAuthorizationComponent } from './components/definitions/role-authorization/role-authorization.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +34,8 @@ import { CityComponent } from './components/definitions/city/city.component';
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
-    CompanyComponent,
     UserComponent,
+    CompanyComponent,
     DepartmentComponent,
     LocationComponent,
     DashboardComponent,
@@ -40,14 +43,16 @@ import { CityComponent } from './components/definitions/city/city.component';
     CityComponent,
     FixedAssetComponent,
     FixedAssetCategoryComponent,
-    DashboardComponent
+    DashboardComponent,
+    ExpenseCenterComponent,
+    CheckOutReasonsComponent,
+    RoleAuthorizationComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    ReactiveFormsModule,
     HttpModule,
     CommonModule
   ],

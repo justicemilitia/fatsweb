@@ -14,20 +14,25 @@
         <form  #loginForm="ngForm" (ngSubmit)="Login()">
           <div class="form-group">
             <label>E-posta</label>
-            <input type="text" name="username" [(ngModel)]="loginUser.UserMail" type="text" class="form-control" placeholder="Enter your email" value="demo@themepixels.me"/>
+            <input name="username" [(ngModel)]="loginUser.UserMail" (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control" placeholder="Enter your email" value="demo@themepixels.me"/>
           </div>
           <div class="form-group">
             <label>Şifre</label>
             <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control" placeholder="Enter your password" value="thisisademo"/>
           </div>
-          <div class="form-group">
+          <div id="userFirms"  class="form-group" >
+            <label>Firma</label>
+            <select name="firmId" [(ngModel)]="loginUser.FirmId" class="form-control select2-no-search">
+              <option value=" ">Seçiniz</option>   
+              <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>    
+            </select>
+          </div>
+          <div  class="form-group">
             <div class="row">
-              <div class="col-md-6">
-              <button (click)="changeLanguage('en')" class="btn btn-orange btn-block" type="button">EN</button>
-            </div>
-            <div class="col-md-6">
-              <button (click)="changeLanguage('tr')"class="btn btn-orange btn-block" type="button">TR</button>
-            </div>
+                <div class="btn-icon-list" style="margin-left: auto;margin-right: auto">
+                  <img src="../../../assets/img/tr.png" class="justify-content-center" (click)="changeLanguage('tr')" style="padding:2px;height:25px;width:30px"/>   
+                  <img src="../../../assets/img/en.png" class="justify-content-center" (click)="changeLanguage('en')" style="padding:2px;height:25px;width:30px"/>
+          </div>
             </div>
         </div>
           <div *ngIf="isAuthenticated" class="alert alert-warning" role="alert">             
@@ -70,24 +75,15 @@
       </div><!-- modal -->
 
 
-
+<!-- 
 <script>
-  $(function(){
-    'use strict'
-
-    // showing modal with effect
-    $('.modal-effect').on('click', function(e){
-      e.preventDefault();
-      var effect = $(this).attr('data-effect');
-      $('#forgotPasswordModal').addClass(effect);
-    });
-
-    // hide modal with effect
-    $('#forgotPasswordModal').on('hidden.bs.modal', function (e) {
-      $(this).removeClass (function (index, className) {
-          return (className.match (/(^|\s)effect-\S+/g) || []).join(' ');
-      });
-    });
-
-  });
-</script>
+$(document).ready(function showFirm(){  
+    $("#userFirms").show(1000);
+},
+function hideFirm(){
+  
+  $("#userFirms").hide(1000);
+}
+);
+*ngIf="IsUserMailCorrect() ? showFirm() : hideFirm() "
+</script> -->

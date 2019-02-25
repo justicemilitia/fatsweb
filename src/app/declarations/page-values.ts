@@ -11,4 +11,9 @@ export const MENU_FIXEDASSETDEFINITIONS="Menu_FixedAssetDefinitions";
 export const MENU_FIXEDASSETCATEGORYDEFINITIONS="Menu_FixedAssetCategoryDefinitions";
 export const MENU_COMPANYDEFINITONS="Menu_CompanyDefinitions";
 export const MENU_CONSUMABLE = "Menu_Consumable";
+export const MENU_EXPENSECENTERDEFINITIONS="Menu_ExpenseCenterDefinitions";
+export const MENU_MARKDEFINITIONS="Menu_MarkDefinitions";
+export const MENU_MODELDEFINITIONS="Menu_ModelDefinitions";
+export const MENU_CHECKOUTREASONDEFINITIONS="Menu_CheckOutReasonDefinitions";
+export const MENU_ROLEAUTHORIZATIONDEFINITIONS="Menu_RoleAuthorizationDefinitions";
 

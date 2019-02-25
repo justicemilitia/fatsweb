@@ -10,6 +10,11 @@ import { DepartmentComponent } from './components/definitions/department/departm
 import { LocationComponent } from './components/definitions/location/location.component';
 import { FixedAssetCategoryComponent } from './components/definitions/fixed-asset-category/fixed-asset-category.component';
 import { FixedAssetComponent } from './components/definitions/fixed-asset/fixed-asset.component';
+import { ExpenseCenterComponent } from './components/definitions/expense-center/expense-center.component';
+import { CheckOutReason } from './models/CheckOutReason';
+import RoleAuthorization from './models/RoleAuthorization';
+import { RoleAuthorizationComponent } from './components/definitions/role-authorization/role-authorization.component';
+import { CheckOutReasonsComponent } from './components/definitions/check-out-reasons/check-out-reasons.component';
 
 export const routes: Routes = [
   {
@@ -58,6 +63,24 @@ export const routes: Routes = [
     path: "fixedasset",
     component: FixedAssetCategoryComponent,
     data: { pageKeyword: pages.MENU_FIXEDASSETCATEGORYDEFINITIONS }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "expensecenter",
+    component: ExpenseCenterComponent,
+    data: { pageKeyword: pages.MENU_EXPENSECENTERDEFINITIONS }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "checkedoutreason",
+    component: CheckOutReasonsComponent,
+    data: { pageKeyword: pages.MENU_CHECKOUTREASONDEFINITIONS }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "roleauthorization",
+    component: RoleAuthorizationComponent,
+    data: { pageKeyword: pages.MENU_ROLEAUTHORIZATIONDEFINITIONS}
     // canActivate: [AuthGuard]
   },
   {

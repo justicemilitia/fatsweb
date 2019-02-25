@@ -11,6 +11,9 @@ import { FixedAssetCategoryService } from "./FixedAssetCategoryService/fixedAsse
 import { FixedAssetService } from "./FixedAssetService/fixedAsset.service";
 import { PopupService } from "./popupService/popup.service";
 import { ErrorService} from './errorService/error.service';
+import { ExpenseCenter } from '../models/ExpenseCenter';
+import { ExpenseCenterService } from './ExpenseCenterService/expense-center.service';
+import { CheckOutReasonService } from './check-out-reason-service/check-out-reason.service';
 
 @Injectable({
   providedIn: "root"
@@ -28,6 +31,8 @@ export class BaseService {
     public fixedAssetCategoryService: FixedAssetCategoryService,
     public fixedAssetService: FixedAssetService,
     public popupService: PopupService,
-    public errorService:ErrorService
+    public errorService:ErrorService,
+    public expenseCenterService:ExpenseCenterService,
+    public checkOutReasonService:CheckOutReasonService
   ) {}
 }
