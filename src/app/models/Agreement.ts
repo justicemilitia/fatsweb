@@ -1,4 +1,4 @@
-import { IData } from './interfaces/IData';
+import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { Company } from './Company';
 
 export class Agreement implements IData {

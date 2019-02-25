@@ -4,20 +4,22 @@
       <div class="az-content-body">
    
         <h2 class="az-content-title">Şirketler</h2>
-        <div class="col-md-2 right">
+        <div class=" row col-md-2 left">
           <button
-            class="btn btn-orange btn-block btn-height"
+            class="btn btn-orange"
             id="btnAddCompany"
             data-toggle="modal"
             data-target="#modalCompany"
             (click)="LoadDropdownList()"
           >Şirket Ekle
           </button>
+          <button type="button" class="btn btn-primary btn-icon"><i class="fas fa-trash"></i></button>
         </div>
         <p class="mg-b-20"></p>
         <table id="tblCompany" class="display responsive dataTables_wrapper dataTable no-footer dtr-inline" role="grid">
           <thead>
             <tr>
+              <th class="wd-5p"></th>
               <th class="wd-15p ">Şirket Adı</th>
               <th class="wd-15p">Mail</th>
               <th class="wd-25p">Adres</th>
@@ -28,13 +30,13 @@
               <th class="wd-10p">Telefon</th>
               <th class="wd-10p">Faks</th>
               <th class="wd-10p">Açıklama</th>
-              <th class="wd-35p"> </th>
             </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let company of companies">
             <tr>
-              <td>{{company.Name}}</td>
+              <td><input type="checkbox"/></td>
+              <td data-toggle="modal" data-target="#modalCompany" (click)="FillCompanyModal(company)">{{company.Name}}</td>
               <td>{{company.Email}}</td>
               <td>{{company.Address}}</td>
               <td>{{company.CountryId}}</td>
@@ -44,12 +46,12 @@
               <td>{{company.Phone}}</td>
               <td>{{company.SecondPhone}}</td>
               <td>{{company.Description}}</td>
-              <td>   
+              <!-- <td>   
                 <div class="btn-icon-list">
-                    <button type="button" (click)="updateCompany(company)" class="btn btn-indigo btn-icon"><i class="fas fa-pencil-alt"></i></button>
-                    <button type="button" class="btn btn-primary btn-icon"><i class="fas fa-trash"></i></button>
+                    <button  type="button" data-toggle="modal" data-target="#modalCompany" (click)="FillCompanyModal(company)"  class="btn btn-indigo btn-icon"><i class="fas fa-pencil-alt"></i></button>
+                    
                 </div>
-              </td>
+              </td> -->
             </tr>
           </ng-container>
           </tbody>
@@ -76,32 +78,32 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #data="ngForm" (ngSubmit)="addCompany(data)">
-        <input type="hidden" id="CompanyId" ngModel name="CompanyId "/>
+      <form #data="ngForm" (ngSubmit)="OnSubmit(data)">
         <div class="modal-body">
           <h6>Şirket bilgilerini giriniz.</h6>
           <div class="row justify-content-center">
+            <input type="hidden" name="CompanyId" [(ngModel)]="company.CompanyId" />
             <div class="form-group col-md-6">
               <label>Ad</label>
-              <input id="Name" ngModel name="Name" type="text" class="form-control" />
+              <input  [(ngModel)]="company.Name" name="Name" type="text" class="form-control" />
               <label>E-posta</label>
-              <input id="CompanyMail" ngModel name="CompanyMail" type="text" class="form-control" />
+              <input  [(ngModel)]="company.Email" name="Email" type="text" class="form-control" />
             </div>
             <div class="form-group col-md-6">
               <div class="col-md">
                 <label>Adres</label>
-                <textarea id="Address" ngModel name="Address" rows="4" style="resize:none"  class="form-control"></textarea>
+                <input type="text"  [(ngModel)]="company.Address" name="Address" style="resize:none"  class="form-control"/>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>Vergi Numarası</label>
-              <input id="TaxNumber" ngModel name="TaxNumber" type="text"  class="form-control" />
+              <input [(ngModel)]="company.TaxNumber" name="TaxNumber" type="text"  class="form-control" />
             </div>
             <div class="form-group col-md-6">
               <label>Ülke</label>
-              <select id="CountryId" ngModel name="CountryId" class="form-control select2-no-search">
+              <select [(ngModel)]="company.CountryId" name="CountryId" class="form-control select2-no-search">
                 <option value=" ">Seçiniz</option>   
                 <option *ngFor="let country of countries" value={{country.CountryId}}>{{country.Name}}</option>    
               </select>
@@ -110,28 +112,27 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>Vergi Dairesi</label>
-              <input id="TaxOffice" ngModel name="TaxOffice" type="text" class="form-control" />        
+              <input [(ngModel)]="company.TaxOffice" name="TaxOffice" type="text" class="form-control" />        
             </div>
             <div class="form-group col-md-6">
               <label>Şehir</label>
-              <select id="City" ngModel name="City" class="form-control select2-no-search">
+              <select [(ngModel)]="company.CityId" name="CityId" class="form-control select2-no-search">
                 <option label=" "></option>
-                <option *ngFor="let city of cities"value={{city.CityId}}>{{city.Name}}</option>
-           
+                <option *ngFor="let city of cities"value={{city.CityId}}>{{city.Name}}</option>           
               </select>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>Telefon</label>
-              <input id="Phone" ngModel name="Phone" type="text" class="form-control" />
+              <input  [(ngModel)]="company.Phone" name="Phone"  type="text" class="form-control" />
               <label>Faks</label>
-              <input id="SecondPhone" ngModel name="SecondPhone" type="text" class="form-control" />
+              <input [(ngModel)]="company.SecondPhone" name="SecondPhone" type="text" class="form-control" />
             </div>
             <div class="form-group col-md-6">
               <div class="col-md">
                 <label>Açıklama</label>
-                <textarea id="Description" ngModel name="Description" rows="4" style="resize:none" class="form-control" placeholder="Textarea"></textarea>
+                <input  [(ngModel)]="company.Description" name="Description" style="resize:none" class="form-control" type="text" placeholder="Textarea"/>
               </div>
             </div>
           </div>              

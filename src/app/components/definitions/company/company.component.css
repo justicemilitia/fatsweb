@@ -11,7 +11,7 @@
     min-height: 15px;
   }
   .right {
-    float: right;
+    float: left;
     margin-bottom:10px;
     padding-right:0px;
   }

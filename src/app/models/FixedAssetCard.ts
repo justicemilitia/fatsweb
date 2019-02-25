@@ -1,7 +1,7 @@
 import { FixedAssetCardCategory } from './FixedAssetCardCategory';
 import { Inventory } from './Inventory';
 import { FixedAssetCardProperty } from './FixedAssetCardProperty';
-import { IData } from './interfaces/IData';
+import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 
 export class FixedAssetCard implements IData {
     childIndex: number;

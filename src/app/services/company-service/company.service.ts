@@ -7,7 +7,8 @@ import {
   INSERT_COMPANY,
   GET_HEADERS,
   GET_COMPANY_LIST,
-  UPDATE_COMPANY
+  UPDATE_COMPANY,
+  GET_COMPANY_BY_ID
 } from "../../declarations/service-values";
 import { Router } from "@angular/router";
 
@@ -15,6 +16,9 @@ import { Router } from "@angular/router";
   providedIn: "root"
 })
 export class CompanyService {
+
+  companyData: Company[] = [];
+
   constructor(
     private httpclient: HttpClient,
     private aService: AuthenticationService,
@@ -34,15 +38,14 @@ export class CompanyService {
       );
   }
 
+
   InsertCompany(company: Company) {
-    debugger;
     this.httpclient
       .post(SERVICE_URL + INSERT_COMPANY, company, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
-        data => {
-          console.log(data);
+        () => { this.GetCompanies(company);
         },
         error => {
           console.log(error);
@@ -51,14 +54,29 @@ export class CompanyService {
   }
 
   UpdateCompany(company: Company) {
-    this.httpclient.put(SERVICE_URL + UPDATE_COMPANY, company, {
-      headers: GET_HEADERS(this.aService.getToken())
-    }).subscribe(data=>{
-      console.log(data);
-    },
-    error =>{
-      console.log(error);
-    }
-     );
+  this.httpclient
+      .put(SERVICE_URL + UPDATE_COMPANY, company, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(
+        data => {
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  GetCompanyById(callback, companyId: number) {
+    this.httpclient
+      .get(SERVICE_URL + GET_COMPANY_BY_ID + "/" + companyId, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(result => {
+        debugger;
+        this.companyData = <Company[]>result["ResultObject"];
+        callback(this.companyData);
+        console.log(this.companyData)
+      });
   }
 }

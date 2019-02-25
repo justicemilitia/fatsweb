@@ -11,6 +11,17 @@ export const GET_FIRM_LIST = "firm/GetFirmsList";
 export const GET_COUNTRY_LIST="definition/GetCountriesList";
 export const GET_CITY_LIST="definition/GetCitiesList";
 export const GET_COMPANY_LIST="company/GetCompanyList";
+export const GET_EXPENSECENTER_LIST="ExpenseCenter/GetExpenseCenterList";
+export const GET_CHECKOUTREASON_LIST="CheckOutReason/GetCheckOutReasonsList";
+export const GET_USERFIRM_LIST="UserFirms/GetUserFirmsList";
+export const GET_COMPANY_BY_ID="Company/GetCompanyById";
+export const GET_EXPENSECENTER_BY_ID="ExpenseCenter/GetExpenseCenterById";
+export const GET_CHECKOUTREASON_BY_ID="CheckOutReasons/GetCheckOutReasonById";
+
+
+export const UPDATE_COMPANY="company/UpdateCompany";
+export const UPDATE_EXPENSECENTER="ExpenseCenter/UpdateExpenseCenter"; 
+export const UPDATE_CHECKOUTREASON="CheckOutReasons/UpdateCheckOutReasons";
 export const GET_FIXEDASSETCATEGORY_LIST = "fixedassetcard/GetFixedAssetCardCategoriesList";
 export const GET_FIXEDASSETCARD_LIST = "fixedAssetcard/GetFixedAssetsCardsList";
 export const GET_AGREEMENT_LIST="aggrement/GetAgreementListByFirmId";
@@ -18,7 +29,6 @@ export const GET_FIXEDASSETCARDBRAND_LIST="fixedassetcard/GetFixedAssetCardBrand
 export const GET_FIXEDASSETCARDMODEL_LIST="fixedassetcard/GetFixedAssetsCardModelsList";
 
 
-export const UPDATE_COMPANY="company/UpdateCompany";
 export const UPDATE_DEPARTMENT = "department/UpdateDepartment";
 export const UPDATE_LOCATION = "locations/UpdateLocation";
 export const UPDATE_FIXEDASSETCARDCATEGORY = "fixedassetcard/UpdateFixedAssetCardCategory";
@@ -31,6 +41,11 @@ export const INSERT_USER ="auth/register";
 export const INSERT_COMPANY="company/AddCompany";
 export const INSERT_DEPARTMENT = "department/AddDepartment";
 export const INSERT_LOCATION = "locations/AddLocation";
+export const INSERT_FIXEDASSETCATEGORY = "FixedAsset/AddFixedAssetCategory";
+export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
+export const INSERT_EXPENSECENTER="ExpenseCenter/AddExpenseCenter";
+export const INSERT_CHECKOUTREASON="CheckOutReason/AddCheckOutReasons"
+
 export const INSERT_FIXEDASSETCARDCATEGORY = "fixedassetcard/AddFixedAssetCardCategory";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const INSERT_AGREEMENT = "agreement/AddAgreement";

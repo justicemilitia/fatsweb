@@ -1,5 +1,6 @@
 import { IData } from '../models/interfaces/IData';
 
+
 export class TreeGridTableMethods {
 
     public static doSearch(obj: IData, filter: any): boolean {

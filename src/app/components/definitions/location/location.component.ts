@@ -2,11 +2,9 @@ import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
-import { TreeGridTable } from "src/app/extends/TreeGridTable";
-import { IData } from "src/app/models/interfaces/IData";
 import { HttpErrorResponse } from "@angular/common/http";
-import { Router } from "@angular/router";
 import{ Location } from "../../../models/Location";
+import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
 
 @Component({
   selector: "app-location",

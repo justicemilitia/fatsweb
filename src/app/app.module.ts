@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import{CommonModule} from '@angular/common';
 
 import { routes } from "./app-routing.module";
@@ -23,11 +23,14 @@ import { AuthGuard } from "./services/authguard/auth.guard";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CountryComponent } from './components/definitions/country/country.component';
 import { CityComponent } from './components/definitions/city/city.component';
+import { ExpenseCenterComponent } from './components/definitions/expense-center/expense-center.component';
+import { CheckOutReasonsComponent } from './components/definitions/check-out-reasons/check-out-reasons.component';
+import { RoleAuthorizationComponent } from './components/definitions/role-authorization/role-authorization.component';
 import { AgreementComponent } from './components/definitions/agreement/agreement.component';
 import { FixedAssetCardBrandComponent } from './components/definitions/fixed-asset-card-brand/fixed-asset-card-brand.component';
 import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
-import { TreeGridTablePage } from './pipes/TreeGridTablePage';
-
+import { TreeGridTablePage } from './extends/TreeGridTable/pipes/TreeGridTablePage';
+import { TreeGridTableComponent } from './extends/TreeGridTable/components/tree-grid-table/tree-grid-table.component';
 
 @NgModule({
   declarations: [
@@ -36,27 +39,31 @@ import { TreeGridTablePage } from './pipes/TreeGridTablePage';
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
-    CompanyComponent,
     UserComponent,
+    CompanyComponent,
     DepartmentComponent,
     LocationComponent,
     DashboardComponent,
     CountryComponent,
     CityComponent,
+    DashboardComponent,
+    ExpenseCenterComponent,
+    CheckOutReasonsComponent,
+    RoleAuthorizationComponent,
     FixedAssetCardComponent,
     FixedAssetCardCategoryComponent,
     DashboardComponent,
     AgreementComponent,
     FixedAssetCardBrandComponent,
     FixedAssetCardModelComponent,
-    TreeGridTablePage
+    TreeGridTablePage,
+    TreeGridTableComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    ReactiveFormsModule,
     HttpModule,
     CommonModule
   ],

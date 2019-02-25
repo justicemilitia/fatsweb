@@ -1,5 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AuthenticationService } from "./authenticationService/authentication.service";
+import { ExpenseCenter } from '../models/ExpenseCenter';
+import { ExpenseCenterService } from './ExpenseCenterService/expense-center.service';
+import { CheckOutReasonService } from './check-out-reason-service/check-out-reason.service';
 import { UserService } from "./user-service/user.service";
 import { LanguageService } from "./language-service/language.service";
 import { DepartmentService } from "./department-service/department.service";
@@ -31,7 +34,9 @@ export class BaseService {
     public fixedAssetCardCategoryService: FixedAssetCardCategoryService,
     public fixedAssetCardService: FixedAssetCardService,
     public popupService: PopupService,
-    public errorService: ErrorService,
+    public errorService:ErrorService,
+    public expenseCenterService:ExpenseCenterService,
+    public checkOutReasonService:CheckOutReasonService,
     public agreementService: AgreementService,
     public fixedAssetCardBrandService: FixedAssetCardBrandService,
     public fixedAssetCardModelService: FixedAssetCardModelService,
