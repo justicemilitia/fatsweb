@@ -84,7 +84,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit, DoChec
     });
   }
 
-  onDoubleClickItem(item:any) {
+  onDoubleClickItem(item: any) {
     console.log(item);
   }
 
