@@ -18,6 +18,7 @@ export class FixedAssetCard implements IData {
     }
     isExtended: boolean;
     FixedAssetCardId: number;
+    FixedAssetCardCode: string;
     Name: string;
     CategoryId: number;
     Description: string;
