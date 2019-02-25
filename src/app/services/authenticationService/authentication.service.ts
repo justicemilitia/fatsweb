@@ -88,7 +88,6 @@ export class AuthenticationService {
     return this.jwtHelper.decodeToken(this.getToken()).nameid;
   }
 
-<<<<<<< HEAD
   getUserFirmList(callback,username: string) {
     this.httpClient
       .get(SERVICE_URL + GET_USERFIRM_LIST + "/" + username, {
@@ -103,11 +102,6 @@ export class AuthenticationService {
   isMenuAccessable(keyword: string) {
     let menu = this.roles.find(x => x.MenuCaption == keyword);
     if (menu) return true;
-=======
-  isMenuAccessable(keyword:string){
-    let menu=this.roles.find(x=>x.MenuCaption==keyword);
-    if(menu) return true;
->>>>>>> d099c0b620a51e10e5d0e9b853b7e509bfa1e658
     return false;
   }
 
