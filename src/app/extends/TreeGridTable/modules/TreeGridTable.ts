@@ -8,6 +8,22 @@ export class TreeGridTable {
     //#region Variables
 
     /**
+     * Store is filter active.
+     */
+    public isFilterActive = true;
+
+    /**
+     * Store is paging active.
+     */
+    public isPagingActive = true;
+
+
+    /**
+     * Store is column offset active;
+     */
+    public isColumnOffsetActive = true;
+
+    /**
      * Store the original list which was used in loadData method as paramter.
      */
     public originalSource: IData[] = [];
