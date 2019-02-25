@@ -14,8 +14,8 @@ export const GET_COMPANY_LIST="company/GetCompanyList";
 export const GET_FIXEDASSETCATEGORY_LIST = "fixedassetcard/GetFixedAssetCardCategoriesList";
 export const GET_FIXEDASSETCARD_LIST = "fixedAssetcard/GetFixedAssetsCardsList";
 export const GET_AGREEMENT_LIST="aggrement/GetAgreementListByFirmId";
-export const GET_BRAND_LIST="fixedassetcard/GetFixedAssetCardBrandsList";
-export const GET_MODEL_LIST="fixedassetcard/GetFixedAssetCardModelsList";
+export const GET_FIXEDASSETCARDBRAND_LIST="fixedassetcard/GetFixedAssetCardBrandsList";
+export const GET_FIXEDASSETCARDMODEL_LIST="fixedassetcard/GetFixedAssetsCardModelsList";
 
 
 export const UPDATE_COMPANY="company/UpdateCompany";
@@ -24,8 +24,8 @@ export const UPDATE_LOCATION = "locations/UpdateLocation";
 export const UPDATE_FIXEDASSETCARDCATEGORY = "fixedassetcard/UpdateFixedAssetCardCategory";
 export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
 export const UPDATE_AGREEMENT = "agreement/UpdateAgreement";
-export const UPDATE_BRAND = "fixedassetcard/UpdateFixedAssetCardBrand";
-export const UPDATE_MODEL = "FixedAssetCard/UpdateFixedAssetCardModel";
+export const UPDATE_FIXEDASSETCARDBRAND = "fixedassetcard/UpdateFixedAssetCardBrand";
+export const UPDATE_FIXEDASSETCARDMODEL = "FixedAssetCard/UpdateFixedAssetCardModel";
 
 export const INSERT_USER ="auth/register";
 export const INSERT_COMPANY="company/AddCompany";
@@ -34,8 +34,8 @@ export const INSERT_LOCATION = "locations/AddLocation";
 export const INSERT_FIXEDASSETCARDCATEGORY = "fixedassetcard/AddFixedAssetCardCategory";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const INSERT_AGREEMENT = "agreement/AddAgreement";
-export const INSERT_BRAND = "fixedassetcard/AddFixedAssetCardBrand";
-export const INSERT_MODEL = "FixedAssetCard/AddFixedAssetCardModel";
+export const INSERT_FIXEDASSETCARDBRAND = "fixedassetcard/AddFixedAssetCardBrand";
+export const INSERT_FIXEDASSETCARDMODEL = "FixedAssetCard/AddFixedAssetCardModel";
 
 const FILE_UPLOAD_URL = 'http://localhost:8000/upload';
 

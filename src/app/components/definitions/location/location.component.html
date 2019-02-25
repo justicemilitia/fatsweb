@@ -1,130 +1,164 @@
 <div class="az-content">
     <div class="container">
       <div class="az-content-body">
-        <!-- <div class="az-content-breadcrumb">
-          <span>Table</span>
-          <span>DataTables</span>
-        </div> -->
-        <h2 class="az-content-title">Lokasyonlar</h2>
-        <div class="col-md-2 btnAddLocation-right">
-          <button
-            class="btn btn-orange btn-block btnAddLocation-height"
-            id="btnAddLocation"
-            data-toggle="modal"
-            data-target="#modalLocation"
-            (click)="loadLocations()"
-          >Lokasyon Ekle
-          </button>
-        </div>
-        <p class="mg-b-20"></p>
   
-        <table class="tree-table">        
-        <thead>
-            <tr>
-                <th class="tree-table-sign"><span class="typcn icon-default typcn-cog-outline"></span></th>
-                <th (click)="doOrder('Name')">Lokasyon Adı <span class="{{TGT_getOrderSign(order,'Name')}}"></span>
-                <th (click)="doOrder('Barcode')">Lokasyon Barkodu <span class="{{TGT_getOrderSign(order,'Barcode')}}"></span></th>
-                <th (click)="doOrder('Coordinate')">Koordinat <span class="{{TGT_getOrderSign(order,'Coordinate')}}"></span>
-                <th (click)="doOrder('ParentLocation.Name')">Bağlı Olduğu Lokasyon <span class="{{TGT_getOrderSign(order,'ParentLocation.Name')}}"></span></th>
-                <th (click)="doOrder('Description')">Açıklama <span class="{{TGT_getOrderSign(order,'Description')}}"></span></th>
-            </tr>
-          </thead>
-          <tbody>
+        <h2 class="az-content-title">Lokasyonlar</h2>
+        <div class="row">
+          <div class="col-md-2 btnAddLocation-right">
+            <button class="btn btn-orange btn-block btnAddLocation-height" id="btnAddLocation" data-toggle="modal"
+              data-target="#modalLocation" (click)="loadDropdownList()">Lokasyon Ekle
+            </button>
+          </div>
+        </div>
+  
+        <p class="mg-b-20"></p>
+        <div class="row">
+          <div class="table-column-helper">
+            <div class="table-column-helper-sub">
+              <div class="table-column-helper-header">
+                <span>Sütunlar</span>
+                <span class="typcn icon-default typcn-delete close-table-helper"></span>
+              </div>
+              <div class="table-column-helper-body">
+                <ul class="table-column-helper-items" *ngFor="let column of dataTable.dataColumns">
+                  <li class="table-column-helper-item">
+                    <ul>
+                      <li><input type="checkbox" (click)="dataTable.TGT_toggleColumns(column)"
+                          [checked]="column.isActive">
+                        {{column.columnDisplayName}}</li>
+                      <li class="table-column-item-offset"></li>
+                      <li>
+                        <span (click)="dataTable.TGT_offsetColumns(column,true)"
+                          class="typcn icon-default typcn-arrow-sorted-down table-column-helper-down"></span>
+                        <span (click)="dataTable.TGT_offsetColumns(column,false)"
+                          class="typcn icon-default typcn-arrow-sorted-up table-column-helper-up"></span>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <table class="tree-table">
+            <thead>
+              <th class="table-config-button"><span class="typcn icon-default typcn-cog-outline"></span></th>
+              <th *ngFor="let column of dataTable.dataColumns" (click)="dataTable.TGT_doOrder(column.columnName)">
+                {{column.columnDisplayName}}
+                <span class="{{dataTable.TGT_getOrderSign(column.columnName)}}"></span> </th>
+            </thead>
+            <tbody>
               <tr>
-                  <td></td>
-                  <td>
-                      <input type="text" placeholder="Lokasyon Adı" class="form-control" [(ngModel)]="filter.Name">
-                  </td>
-                  <td>
-                      <input type="text" placeholder="Lokasyon Barkodu" class="form-control" [(ngModel)]="filter.Barcode">
-                  </td>
-                  <td>
-                      <input type="text" placeholder="Koordinat" class="form-control" [(ngModel)]="filter.Coordinate">
-                  </td>
-                  <td>
-                      <input type="text" placeholder="Bağlı Olduğu Lokasyon" class="form-control" [(ngModel)]="filter.ParentLocation.Name">
-                  </td>
-                  <td>
-                      <input type="text" placeholder="Açıklama" class="form-control" [(ngModel)]="filter.Desription">
-                  </td>
-                </tr>
-                <tr *ngFor="let data of dataSource">
-                  <td class="tree-table-sign">
-                    <span (click)=doCollapse(data) class='{{TGT_getSign(data)}}'></span> 
-                  </td>
-                  <td>{{data.Name}}</td>
-                  <td>{{data.Barcode}}</td>
-                  <td>{{data.Coordinate}}</td>
-                  <td>{{(data.ParentLocation) ? data.ParentLocation.Name : '' }}</td>
-                  <td>{{data.Description}}</td>
-                </tr>
-          </tbody>
-        </table>
+                <td></td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Name')}}">
+                    <input type="text" placeholder="İsim" class="form-control" [(ngModel)]="dataTable.dataFilters.Name">
+                </td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Code')}}">
+                    <input type="text" placeholder="Lokasyon Kodu" class="form-control" [(ngModel)]="dataTable.dataFilters.Code">
+                </td>
+                <td class="{{dataTable.TGT_getColumnVisibility('ParentLocation')}}">
+                    <input type="text" placeholder="Bağlı Olduğu Lokasyon" class="form-control" [(ngModel)]="dataTable.dataFilters.ParentLocation">
+                </td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Barcode')}}">
+                    <input type="text" placeholder="Lokasyon Barkodu" class="form-control" [(ngModel)]="dataTable.dataFilters.Barcode">
+                </td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Coordinate')}}">
+                    <input type="text" placeholder="Koordinat" class="form-control" [(ngModel)]="dataTable.dataFilters.Coordinate">
+                </td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Description')}}">
+                   <input type="text" placeholder="Açıklama" class="form-control" [(ngModel)]="dataTable.dataFilters.Description">
+                </td>
+              </tr>
+              <tr *ngFor="let data of dataTable.dataSource | toPage:dataTable.currentPage:dataTable.perInPage">
+                <td></td>
+                <td [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
+                  class="{{dataTable.TGT_getColumnVisibility('Name')}}">
+                  <span (click)=dataTable.TGT_doCollapse(data) class='tree-table-sign {{dataTable.TGT_getSign(data)}}'>
+                  </span>
+                  {{data.Name}}
+                </td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Description')}}">{{data.Code}}</td>
+                <td class="{{dataTable.TGT_getColumnVisibility('ParentLocation.Name')}}">{{data.ParentLocation.Name}}</td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Barcode')}}">{{data.Barcode}}</td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Coordinate')}}">{{data.Coordinate}}</td>
+                <td class="{{dataTable.TGT_getColumnVisibility('Description')}}">{{data.Description}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <ng-container *ngFor="let page of dataTable.pages">
+                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                      (click)="dataTable.TGT_goToPage(page.value)" class="page-link">{{page.display}}</button>
+                  </li>
+                </ng-container>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <select class="form-control" [(ngModel)]="dataTable.perInPage">
+                <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
+                <option value="-1">Hepsi</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- az-content-body -->
     </div>
   </div>
   <!-- az-content -->
-  <app-footer></app-footer>
   
   <div id="modalLocation" class="modal">
     <div class="modal-dialog" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
           <h6 class="modal-title model-title-center">Yeni lokasyon oluşturmak için aşağıdaki alanları doldurunuz.</h6>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <!-- <h6>Yeni lokasyon oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-          <form #data="ngForm" (ngSubmit)="insertLocation(data)" class="form-register">
-              <div class="row">
-                  <div class="col-sm-6">                
-                  <label>*Lokasyon Barkodu</label>
-                  <input type="text" id="Barcode" ngModel name="Barcode" required class="form-control txt-width" value=""/>
-                  <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
-                </div>
-                <div class="col-sm-6">
-                    <label>*Lokasyon Adı</label>
-                    <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
-                    <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
+            <form #data="ngForm" (ngSubmit)="insertLocation(data)" class="form-register">
+                <div class="row">
+                    <div class="col-sm-6">                
+                    <label>*Lokasyon Barkodu</label>
+                    <input type="text" id="Barcode" ngModel name="Barcode" required class="form-control txt-width" value=""/>
                   </div>
-              </div>
-              <!-- form-group -->
-              <div class="row">
-                <div class="col-sm-6">
-                  <label>Bağlı Olduğu Location</label>
-                  <select  id="ParentLocationId" ngModel name="ParentLocationId" class="form-control txt-width" value="">
-                      <option value="">Seçiniz</option>
-                      <option value="">Yok</option>
-                      <option *ngFor="let location of locations" value={{location.LocationId}}>
-                        {{location.Name}}
-                      </option>   
-                  </select>
+                  <div class="col-sm-6">
+                      <label>*Lokasyon Adı</label>
+                      <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <label>Koordinat</label>
-                    <input type="text" id="Coordinate" ngModel name="Coordinate" class="form-control txt-width" value=""/>
-                    <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
+                <!-- form-group -->
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label>Bağlı Olduğu Location</label>
+                    <select  id="ParentLocationId" ngModel name="ParentLocationId" class="form-control txt-width" value="">
+                        <option value="">Seçiniz</option>
+                        <option value="">Yok</option>
+                        <option *ngFor="let location of locations" value={{location.LocationId}}>
+                          {{location.Name}}
+                        </option>   
+                    </select>
                   </div>
-                 </div>
-              <!-- form-group -->
-              <div class="row">
-                <label class="txt-margin">Açıklama</label>
-                <input type="text" id="Description" ngModel name="Description" class="form-control txt-width txt-margin" value=""/>
-                <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
-              </div>
+                  <div class="col-sm-6">
+                      <label>Koordinat</label>
+                      <input type="text" id="Coordinate" ngModel name="Coordinate" class="form-control txt-width" value=""/>
+                    </div>
+                   </div>
+                <!-- form-group -->
+                <div class="row">
+                  <label class="txt-margin">Açıklama</label>
+                  <input type="text" id="Description" ngModel name="Description" class="form-control txt-width txt-margin" value=""/>
+                </div>
             <!-- form-group -->
-
             <div class="modal-footer">
-                <button class="btn btn-orange btn-block btn-height" id="btnCreateLocation" type="submit" data-toggle="modal" data-target="#modalInsertLocation">Lokasyon Ekle</button>       
-              </div>
+              <button class="btn btn-orange btn-block btn-height" id="btnCreateLocation" type="submit"
+                data-toggle="modal" data-target="#modalInsertLocation">Lokasyon Ekle</button>
+            </div>
           </form>
         </div>
       </div>
@@ -132,4 +166,3 @@
     <!-- modal-dialog -->
   </div>
   <!-- modal -->
-  

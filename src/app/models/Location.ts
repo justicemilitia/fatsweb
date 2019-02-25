@@ -16,6 +16,7 @@ export class Location implements IData {
   }
 
   isExtended: boolean;
+  Code: number;
   LocationId: number;
   ParentLocationId: number;
   Name: string;

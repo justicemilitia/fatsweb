@@ -56,7 +56,7 @@ export class AgreementComponent extends BaseComponent
   doOrder(column: string) {
     this.order.isDesc = !this.order.isDesc;
     this.order.column = column;
-    //this.TGT_doOrder(this.agreements, this.filter, this.order);
+    // this.TGT_doOrder(this.agreements, this.filter, this.order);
   }
 
   doCollapse(data: IData) {

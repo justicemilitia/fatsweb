@@ -33,13 +33,11 @@ export class LocationService {
         result => {
           let response: Response = <Response>result;
           let locations: Location[] = [];
-
-          (<Location[]>response.ResultObject).forEach(e => {
+          (<Location[]>response.ResultObject).forEach((e) => {
             let loc: Location = new Location();
             Object.assign(loc, e);
             locations.push(loc);
           });
-
           callback(locations);
         },
         error => {
