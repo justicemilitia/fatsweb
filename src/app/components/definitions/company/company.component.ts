@@ -3,14 +3,12 @@ import { CompanyService } from "../../../services/company-service/company.servic
 import { BaseComponent } from "src/app/components/base/base.component";
 import { LanguageService } from "src/app/services/language-service/language.service";
 import { BaseService } from "../../../services/base.service";
-import {
-  NgForm,
-  ReactiveFormsModule,
-} from "@angular/forms";
+import { NgForm, ReactiveFormsModule } from "@angular/forms";
 
 import { Company } from "src/app/models/Company";
 import { Country } from "src/app/models/Country";
 import { City } from "src/app/models/City";
+import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 
 @Component({
   selector: "app-company",
@@ -22,12 +20,101 @@ import { City } from "src/app/models/City";
   declarations: [CompanyComponent],
   providers: [CompanyComponent]
 })
-
 export class CompanyComponent extends BaseComponent implements OnInit {
   countries: Country[] = [];
   cities: City[] = [];
   companies: Company[] = [];
   company: Company = new Company();
+
+  public dataTable: TreeGridTable = new TreeGridTable(
+    [
+      {
+        columnDisplayName: "Şirket Adı",
+        columnName: "Name",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Mail",
+        columnName: "Email",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Adres",
+        columnName: "Address",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Ülke",
+        columnName: "CountryName",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Şehir",
+        columnName: "CityName",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Vergi Numarası",
+        columnName: "TaxNumber",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Telefon",
+        columnName: "Phone",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Faks",
+        columnName: "SecondPhone",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Açıklama",
+        columnName: "Description",
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+    ],
+    {
+      // Name: "",
+      // Email:"",
+      // Address:"",
+      // CountryName:"",
+      // City
+      //Description: "",
+
+    },
+    {
+      isDesc: false,
+      column: "Name"
+    }
+  );
 
   constructor(protected baseService: BaseService) {
     super(baseService);
@@ -39,10 +126,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   LoadCompanies() {
-    this.baseService.companyService.GetCompanies((company: Company[]) => {
-      company.forEach(e => {
-        this.companies.push(e);
-      });
+    this.baseService.companyService.GetCompanies((companies: Company[]) => {
+      this.companies = companies;
+      this.dataTable.TGT_loadData(this.companies);
     });
   }
 
@@ -83,5 +169,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     this.baseService.companyService.GetCompanyById(result => {
       this.company = result;
     }, company.CompanyId);
+  }
+
+  onDoubleClickItem(item: any) {
+    console.log(item);
   }
 }

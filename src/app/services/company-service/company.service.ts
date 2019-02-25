@@ -10,7 +10,7 @@ import {
   UPDATE_COMPANY,
   GET_COMPANY_BY_ID
 } from "../../declarations/service-values";
-import { Router } from "@angular/router";
+import { Response } from 'src/app/models/Response';
 
 @Injectable({
   providedIn: "root"
@@ -22,7 +22,6 @@ export class CompanyService {
   constructor(
     private httpclient: HttpClient,
     private aService: AuthenticationService,
-    private router: Router
   ) {}
 
   GetCompanies(callback) {
@@ -30,9 +29,17 @@ export class CompanyService {
       .get(SERVICE_URL + GET_COMPANY_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(
-        result => {
-          callback(<Company[]>result["ResultObject"]);
+      .subscribe(result =>{
+        let response: Response = <Response>result;
+        let companies: Company[] = [];
+        
+        (<Company[]>response.ResultObject).forEach((e) => {
+            let comp: Company = new Company();
+            Object.assign(comp, e);
+            companies.push(comp);
+        });
+
+        callback(companies);
         },
         error => console.error(error)
       );
