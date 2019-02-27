@@ -28,7 +28,7 @@
 .table-no-content {
     text-align: center;
     font-size: smaller;
-    color: #212529;
+    color: #494c57;
     font-style: normal;
     font-weight: 700;
 }
@@ -55,16 +55,29 @@
 .tree-table>thead>th {
     max-width: 200px;
     white-space: nowrap;
-    padding:.5em;
-    background: #f9f9f9;
-    color:#424242;
-    font-size: 16px;
-    border: 1px solid #dee2e6;
+    padding:0.75rem;
+    color:#494c57;
+    font-size: 13px;
+    font-weight: 700;
     border-right: none;
     border-bottom-width: 2px;
     height: 32px;
     cursor: pointer;
-    text-align: center;
+    position: relative;
+}
+
+.tree-table>thead>th span {
+    position: absolute;
+    right: 8px;
+    background: white;
+}
+
+.tree-table>thead>tr {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.tree-table>tbody>tr:hover {
+    background: whitesmoke;
 }
 
 .tree-table>tbody>tr:nth-of-type(odd) {
@@ -80,9 +93,14 @@
     white-space: nowrap !important;
 }
 
+.tree-table>tbody>th {
+    width: 1px;
+    white-space: nowrap !important;
+}
+
 .tree-table>tbody>tr>td {
     border: 1px solid #dee2e6;
-    font-size: 14px;
+    font-size: 13px;
     padding:5px;   
 }
 
@@ -95,7 +113,7 @@
 }
 
 .typcn-custom-active {
-    color:lime;
+    color:#ced4da;
 }
 
 .table-column-helper {
