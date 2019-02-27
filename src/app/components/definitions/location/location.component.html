@@ -1,77 +1,78 @@
 <div class="az-content">
-    <div class="container">
-      <div class="az-content-body">
-  
-        <h2 class="az-content-title">Lokasyonlar</h2>
-        <div class="row">
-          <div class="col-md-2 btnAddLocation-right">
-            <button class="btn btn-orange btn-block btnAddLocation-height" id="btnAddLocation" data-toggle="modal"
-              data-target="#modalLocation" (click)="loadDropdownList()">Lokasyon Ekle
-            </button>
-          </div>
-        </div>
-  
-        <p class="mg-b-20"></p>
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
-      </div>
-      <!-- az-content-body -->
-    </div>
-  </div>
-  <!-- az-content -->
+  <div class="container">
+    <div class="az-content-body">
 
-<!-- MODAL -->  
-  <div id="modalLocation" class="modal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content modal-content-demo">
-        <div class="modal-header">
-          <h6 class="modal-title model-title-center">Yeni lokasyon oluşturmak için aşağıdaki alanları doldurunuz.</h6>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-              aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-            <form #data="ngForm" (ngSubmit)="OnSubmit(data)" class="form-register">
-                <div class="row justify-content-center">
-                <input type="hidden" name="LocationId" [(ngModel)]="location.LocationId" />
-                    <div class="form-group col-md-6">                
-                    <label>*Lokasyon Barkodu</label>
-                    <input type="text" id="Barcode" ngModel name="Barcode" required class="form-control txt-width" value=""/>
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>*Lokasyon Adı</label>
-                      <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
-                    </div>
-                </div>
-                <!-- form-group -->
-                <div class="row justify-content-center">
-                  <div class="form-group col-md-6">
-                    <label>Bağlı Olduğu Location</label>
-                    <select  id="ParentLocationId" ngModel name="ParentLocationId" class="form-control txt-width" value="">
-                        <option value="">Seçiniz</option>
-                        <option value="">Yok</option>
-                        <option *ngFor="let location of locations" value={{location.LocationId}}>
-                          {{location.Name}}
-                        </option>   
-                    </select>
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Koordinat</label>
-                      <input type="text" id="Coordinate" ngModel name="Coordinate" class="form-control txt-width" value=""/>
-                    </div>
-                   </div>
-                <!-- form-group -->
-                <div class="row justify-content-center">
-                  <label class="txt-margin">Açıklama</label>
-                  <input type="text" id="Description" ngModel name="Description" class="form-control txt-width txt-margin" value=""/>
-                </div>
-            <!-- form-group -->
-            <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateLocation" type="submit"
-                data-toggle="modal" data-target="#modalInsertLocation">Lokasyon Ekle</button>
-            </div>
-          </form>
+      <h2 class="az-content-title">Lokasyonlar</h2>
+      <div class="row">
+        <div class="col-md-2 btnAddLocation-right">
+          <button class="btn btn-orange btn-block btnAddLocation-height" id="btnAddLocation" data-toggle="modal"
+            data-target="#modalLocation" (click)="loadDropdownList()">Lokasyon Ekle
+          </button>
         </div>
       </div>
+
+      <p class="mg-b-20"></p>
+      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
     </div>
-    <!-- modal-dialog -->
+    <!-- az-content-body -->
   </div>
-  <!-- modal -->
+</div>
+<!-- az-content -->
+
+<!-- MODAL -->
+<div id="modalLocation" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title model-title-center">Yeni lokasyon oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form #data="ngForm" (ngSubmit)="OnSubmit(data)" class="form-register">
+          <div class="row justify-content-center">
+            <input type="hidden" name="LocationId" [(ngModel)]="location.LocationId" />
+            <div class="form-group col-md-6">
+              <label>*Lokasyon Barkodu</label>
+              <input type="text" id="Barcode" ngModel name="Barcode" required class="form-control txt-width" value="" />
+            </div>
+            <div class="form-group col-md-6">
+              <label>*Lokasyon Adı</label>
+              <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value="" />
+            </div>
+          </div>
+          <!-- form-group -->
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>Bağlı Olduğu Location</label>
+              <select id="ParentLocationId" ngModel name="ParentLocationId" class="form-control txt-width" value="">
+                <option value="">Seçiniz</option>
+                <option value="">Yok</option>
+                <option *ngFor="let location of locations" value={{location.LocationId}}>
+                  {{location.Name}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Koordinat</label>
+              <input type="text" id="Coordinate" ngModel name="Coordinate" class="form-control txt-width" value="" />
+            </div>
+          </div>
+          <!-- form-group -->
+          <div class="row justify-content-center">
+            <label class="txt-margin">Açıklama</label>
+            <input type="text" id="Description" ngModel name="Description" class="form-control txt-width txt-margin"
+              value="" />
+          </div>
+          <!-- form-group -->
+          <div class="modal-footer">
+            <button class="btn btn-orange btn-block btn-height" id="btnCreateLocation" type="submit" data-toggle="modal"
+              data-target="#modalInsertLocation">Lokasyon Ekle</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
