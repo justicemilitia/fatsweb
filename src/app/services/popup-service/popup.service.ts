@@ -13,7 +13,7 @@ export class PopupService {
 
   ShowSuccessPopup() {
     swal({
-      title: "İşlem Başarılı!",
+      title: "Kayıt Başarılı!",
       text: "",
       icon: "success"
     });

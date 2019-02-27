@@ -51,14 +51,6 @@ implements OnInit {
         type: 'text'
       },
       {
-        columnDisplayName: 'Özellik',
-        columnName: 'FixedAssetCardProperty.Name',
-        isActive: true,
-        classes: [],
-        placeholder: '',
-        type: 'text'
-      },
-      {
         columnDisplayName: 'Açıklama',
         columnName: 'Description',
         isActive: true,

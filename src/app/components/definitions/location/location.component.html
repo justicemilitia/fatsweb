@@ -18,7 +18,8 @@
     </div>
   </div>
   <!-- az-content -->
-  
+
+<!-- MODAL -->  
   <div id="modalLocation" class="modal">
     <div class="modal-dialog" role="document">
       <div class="modal-content modal-content-demo">
@@ -28,20 +29,21 @@
               aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form #data="ngForm" (ngSubmit)="insertLocation(data)" class="form-register">
-                <div class="row">
-                    <div class="col-sm-6">                
+            <form #data="ngForm" (ngSubmit)="OnSubmit(data)" class="form-register">
+                <div class="row justify-content-center">
+                <input type="hidden" name="LocationId" [(ngModel)]="location.LocationId" />
+                    <div class="form-group col-md-6">                
                     <label>*Lokasyon Barkodu</label>
                     <input type="text" id="Barcode" ngModel name="Barcode" required class="form-control txt-width" value=""/>
                   </div>
-                  <div class="col-sm-6">
+                  <div class="form-group col-md-6">
                       <label>*Lokasyon Adı</label>
                       <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
                     </div>
                 </div>
                 <!-- form-group -->
-                <div class="row">
-                  <div class="col-sm-6">
+                <div class="row justify-content-center">
+                  <div class="form-group col-md-6">
                     <label>Bağlı Olduğu Location</label>
                     <select  id="ParentLocationId" ngModel name="ParentLocationId" class="form-control txt-width" value="">
                         <option value="">Seçiniz</option>
@@ -51,13 +53,13 @@
                         </option>   
                     </select>
                   </div>
-                  <div class="col-sm-6">
+                  <div class="form-group col-md-6">
                       <label>Koordinat</label>
                       <input type="text" id="Coordinate" ngModel name="Coordinate" class="form-control txt-width" value=""/>
                     </div>
                    </div>
                 <!-- form-group -->
-                <div class="row">
+                <div class="row justify-content-center">
                   <label class="txt-margin">Açıklama</label>
                   <input type="text" id="Description" ngModel name="Description" class="form-control txt-width txt-margin" value=""/>
                 </div>
