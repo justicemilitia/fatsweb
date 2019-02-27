@@ -8,7 +8,8 @@ import { Role } from "../../../models/Role";
 import { Firm } from "../../../models/Firm";
 import { User } from "../../../models/User";
 import { Location } from "../../../models/Location";
-import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
+import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
+import { PopupService } from '../../../services/popup-service/popup.service';
 
 @Component({
   selector: "app-user",
@@ -20,7 +21,8 @@ import { IData } from 'src/app/extends/TreeGridTable/models/interfaces/IData';
   declarations: [UserComponent],
   providers: [UserComponent]
 })
-export class UserComponent extends BaseComponent implements OnInit, DoCheck {
+export class UserComponent extends BaseComponent implements OnInit {
+
   insertingUser: any = {};
   users: User[] = [];
   departments: Department[] = [];
@@ -28,57 +30,103 @@ export class UserComponent extends BaseComponent implements OnInit, DoCheck {
   roles: Role[] = [];
   firms: Firm[] = [];
 
-  filter: any = {
-    FirstName: "",
-    LastName: "",
-    UserMail: "",
-    UserTitle: "",
-    PhoneNumber: "",
-    Firm: {
-      Name: ""
+  public dataTable: TreeGridTable = new TreeGridTable(
+    [
+      {
+        columnDisplayName: 'İsim',
+        columnName: 'FirstName',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Soyisim',
+        columnName: 'LastName',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Unvan',
+        columnName: 'UserTitle',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Firma',
+        columnName: 'Firm.Name',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Lokasyon',
+        columnName: 'Location.Name',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Departman',
+        columnName: 'Department.Name',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Telefon',
+        columnName: 'PhoneNumber',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'E-mail',
+        columnName: 'UserMail',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Açıklama',
+        columnName: 'Description',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      }
+    ],
+    {
+      FirstName: '',
+      LastName: '',
+      UserMail: '',
+      UserTitle: '',
+      PhoneNumber: '',
+      FirmName: '',
+      Location: '',
+      Department: '',
+      Description: ''
     },
-    Location: {
-      Name: ""
-    },
-    Department: {
-      Name: ""
+    {
+      isDesc: false,
+      column: 'Name'
     }
-  };
-
-  order: any = {
-    isDesc: false,
-    column: "Name"
-  };
+  );
 
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadUsers();
   }
   ngOnInit() {}
-
-  ngDoCheck(): void {
-    this.doFilter();
-  }
-
-  //#region Grid Methods
-
-  doFilter() {
-    //this.TGT_doFilter(this.users, this.filter);
-  }
-
-  doOrder(column: string) {
-    this.order.isDesc = !this.order.isDesc;
-    this.order.column = column;
-    //this.TGT_doOrder(this.users, this.filter, this.order);
-  }
-
-  doCollapse(data: IData) {
-
-    data.isExtended = !data.isExtended;
-    //this.TGT_loadData(this.users);
-  }
-
-  //#endregion
 
   registerUser: any = {};
 
@@ -93,11 +141,11 @@ export class UserComponent extends BaseComponent implements OnInit, DoCheck {
     debugger;
     this.baseService.userService.GetUsers(
       (usrs: User[]) => {
-        //this.users = <User[]>this.convertDataToTree(usrs);
-        //this.TGT_loadData(this.users);
+        this.users = usrs;
+        this.dataTable.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
-        //this.errorManager(error);
+        this.errorManager(error);
       }
     );
   }
@@ -108,24 +156,22 @@ export class UserComponent extends BaseComponent implements OnInit, DoCheck {
     this.baseService.departmentService.GetDepartments(deps => {
       this.departments = deps;},
       (error: HttpErrorResponse) => {
-        //this.errorManager(error);
+        this.errorManager(error);
       } );
 
     // Lokasyonların listelenmesi      
     this.baseService.locationService.GetLocations(locs => {
-      this.locations=locs;},
-      (error: HttpErrorResponse) => {
-        //this.errorManager(error);
-      }
+      this.locations=locs;}
     );
 
     this.baseService.userService.GetUsers(
       (usrs: User[]) => {
-        //this.users = <User[]>this.convertDataToTree(usrs);
-        //this.TGT_loadData(this.users);
+        debugger;
+        this.users = usrs;
+        this.dataTable.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
-        //this.errorManager(error);
+        this.errorManager(error);
       }
     );
 

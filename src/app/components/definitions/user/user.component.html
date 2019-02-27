@@ -15,65 +15,7 @@
       </div>
 
       <p class="mg-b-20"></p>
-
-      <table class="tree-table">
-        <thead>
-          <tr>
-            <th class="tree-table-sign"><span class="typcn icon-default typcn-cog-outline"></span></th>
-            <th (click)="doOrder('FirstName')">İsim <span class="{{TGT_getOrderSign(order,'FirstName')}}"></span></th>
-            <th (click)="doOrder('LastName')">Soyisim <span class="{{TGT_getOrderSign(order,'LastName')}}"></span></th>
-            <th (click)="doOrder('UserTitle')">Unvan <span class="{{TGT_getOrderSign(order,'UserTitle')}}"></span></th>
-            <th (click)="doOrder('Department.Name')">Departman <span class="{{TGT_getOrderSign(order,'Department.Name')}}"></span></th>
-            <th (click)="doOrder('Location.Name')">Lokasyon <span class="{{TGT_getOrderSign(order,'Location.Name')}}"></span></th>
-            <th (click)="doOrder('Firm.Name')">Şirket <span class="{{TGT_getOrderSign(order,'Firm.Name')}}"></span></th>
-            <th (click)="doOrder('PhoneNumber')">Telefon <span class="{{TGT_getOrderSign(order,'UserPhone')}}"></span></th>
-            <th (click)="doOrder('UserMail')">E-mail <span class="{{TGT_getOrderSign(order,'UserMail')}}"></span></th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="text" placeholder="İsim" class="form-control" [(ngModel)]="filter.FirstName">
-                </td>
-                <td>
-                    <input type="text" placeholder="Soyisim" class="form-control" [(ngModel)]="filter.LastName">
-                </td>
-                <td>
-                    <input type="text" placeholder="Unvan" class="form-control" [(ngModel)]="filter.UserTitle">
-                </td>
-                <td>
-                    <input type="text" placeholder="Departman" class="form-control" [(ngModel)]="filter.Department.Name">
-                </td>
-                <td>
-                    <input type="text" placeholder="Lokasyon" class="form-control" [(ngModel)]="filter.Location.Name">
-                </td>
-                <td>
-                    <input type="text" placeholder="Şirket" class="form-control" [(ngModel)]="filter.Firm.Name">
-                </td>
-                <td>
-                    <input type="text" placeholder="Telefon" class="form-control" [(ngModel)]="filter.PhoneNumber">
-                </td>
-                <td>
-                    <input type="text" placeholder="E-Mail" class="form-control" [(ngModel)]="filter.UserMail">
-                </td>
-              </tr>
-              <tr *ngFor="let user of dataSource">
-                  <td class="tree-table-sign">
-                    <span (click)=doCollapse(user) class='{{TGT_getSign(user)}}'></span> 
-                  </td>
-                  <td>{{user.FirstName}}</td>
-                  <td>{{user.LastName}}</td>
-                  <td>{{user.UserTitle}}</td>
-                  <td>{{(user.Department) ? user.Department.Name : '' }}</td>
-                  <td>{{(user.Location) ? user.Location.Name : '' }}</td>
-                  <td>{{(user.Firm) ? user.Firm.Name : '' }}</td>
-                  <td>{{user.PhoneNumber}}</td>
-                  <td>{{user.UserMail}}</td>
-                </tr>
-        </tbody>
-      </table>
-      
+      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
     </div>
     <!-- az-content-body -->
   </div>
@@ -102,12 +44,10 @@
             <div class="col-sm-6">
               <label>*İsim</label>
               <input type="text" id="FirstName" ngModel name="FirstName" required class="form-control txt-width" value="Edoş"/>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
             </div>
             <div class="col-sm-6">
               <label>*Soyisim</label>
               <input type="text" id="LastName" ngModel name="LastName" required class="form-control txt-width" value="Ekiz"/>
-              <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
             </div>
           </div>
           <!-- form-group -->
@@ -192,7 +132,7 @@
             
           </div>
           <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal" data-target="#modalInsertUser">Kişi Ekle</button>       
+              <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal" data-target="#modalInsertUser" (onclick)="ShowSuccessPopup()">Kişi Ekle</button>       
           </div>
         </form>
       </div>

@@ -4,6 +4,7 @@ export class FixedAssetCardBrand implements IData {
     childIndex: number;
     isChecked: boolean;
     isVisible: boolean;
+    
     getParentId(): number {
         return null;
     }

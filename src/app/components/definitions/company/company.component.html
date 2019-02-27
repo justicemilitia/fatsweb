@@ -1,9 +1,9 @@
-
-  <div class="az-content">
-    <div class="container">
-      <div class="az-content-body">
-   
+<div class="az-content">
+  <div class="container-fluid">
+    <div class="az-content-body">
+      <div class="card card-dashboard-twelve mg-b-20">
         <h2 class="az-content-title">Şirketler</h2>
+<<<<<<< HEAD
         <div class=" row btn-icon-list col-md-2">   
           <button
             class="btn btn-orange"
@@ -12,28 +12,39 @@
             data-target="#modalCompany"
             (click)="LoadDropdownList()"
           >Şirket Ekle
+=======
+        <div class=" row col-md-2 left">
+          <button class="btn btn-orange" id="btnAddCompany" data-toggle="modal" data-target="#modalCompany"
+            (click)="LoadDropdownList()">Şirket Ekle
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
           </button>
           <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
         </div>
-        <p class="mg-b-20"></p>       
+        <p class="mg-b-20"></p>
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
       </div>
-      <!-- az-content-body -->
     </div>
+    <!-- az-content-body -->
   </div>
-  <!-- az-content -->
+</div>
+<!-- az-content -->
 
 <!-- LARGE MODAL -->
 <div id="modalCompany" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
+<<<<<<< HEAD
         <h6 class="modal-title">Şirket bilgilerini giriniz.</h6>
         <button id="CloseModal"
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close">
+=======
+        <h6 class="modal-title">Message Preview</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -43,6 +54,7 @@
             <input type="hidden" name="CompanyId" [(ngModel)]="company.CompanyId"/>
             <div class="form-group col-md-6">
               <label>Ad</label>
+<<<<<<< HEAD
               <input  [(ngModel)]="company.Name" name="Name" type="text" class="form-control" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
@@ -52,62 +64,83 @@
               <div *ngIf="data.submitted && Email.invalid" class="invalid-feedback">                 
                   <div *ngIf="Email.errors.email">Email formatında değildir.</div>
               </div>
+=======
+              <input [(ngModel)]="company.Name" name="Name" type="text" class="form-control" />
+              <label>E-posta</label>
+              <input [(ngModel)]="company.Email" name="Email" type="text" class="form-control" />
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
             </div>
             <div class="form-group col-md-6">
               <div class="col-md">
                 <label>Adres</label>
+<<<<<<< HEAD
                 <textarea type="text"  [(ngModel)]="company.Address" name="Address" style="resize:none" rows="4" class="form-control"></textarea>        
+=======
+                <input type="text" [(ngModel)]="company.Address" name="Address" style="resize:none"
+                  class="form-control" />
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>Vergi Numarası</label>
-              <input [(ngModel)]="company.TaxNumber" name="TaxNumber" type="text"  class="form-control" />
+              <input [(ngModel)]="company.TaxNumber" name="TaxNumber" type="text" class="form-control" />
             </div>
             <div class="form-group col-md-6">
               <label>Ülke</label>
               <select [(ngModel)]="company.CountryId" name="CountryId" class="form-control select2-no-search">
-                <option value=" ">Seçiniz</option>   
-                <option *ngFor="let country of countries" value={{country.CountryId}}>{{country.Name}}</option>    
+                <option value=" ">Seçiniz</option>
+                <option *ngFor="let country of countries" value={{country.CountryId}}>{{country.Name}}</option>
               </select>
-            </div>           
+            </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>Vergi Dairesi</label>
-              <input [(ngModel)]="company.TaxOffice" name="TaxOffice" type="text" class="form-control" />        
+              <input [(ngModel)]="company.TaxOffice" name="TaxOffice" type="text" class="form-control" />
             </div>
             <div class="form-group col-md-6">
               <label>Şehir</label>
               <select [(ngModel)]="company.CityId" name="CityId" class="form-control select2-no-search">
                 <option label=" "></option>
-                <option *ngFor="let city of cities"value={{city.CityId}}>{{city.Name}}</option>           
+                <option *ngFor="let city of cities" value={{city.CityId}}>{{city.Name}}</option>
               </select>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>Telefon</label>
-              <input  [(ngModel)]="company.Phone" name="Phone"  type="text" class="form-control" />
+              <input [(ngModel)]="company.Phone" name="Phone" type="text" class="form-control" />
               <label>Faks</label>
               <input [(ngModel)]="company.SecondPhone" name="SecondPhone" type="text" class="form-control" />
             </div>
             <div class="form-group col-md-6">
               <div class="col-md">
                 <label>Açıklama</label>
+<<<<<<< HEAD
                 <textarea [(ngModel)]="company.Description" name="Description" style="resize:none" rows="4" class="form-control" type="text"></textarea>               
+=======
+                <input [(ngModel)]="company.Description" name="Description" style="resize:none" class="form-control"
+                  type="text" placeholder="Textarea" />
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
               </div>
             </div>
-          </div>              
+          </div>
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
+<<<<<<< HEAD
           <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertCompany">Kaydet</button>
           <button
             type="button"
             data-dismiss="modal"
             class="btn btn-outline-light">
+=======
+          <button id="btnInsertCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal"
+            data-target="#modalInsertCompany">Kaydet</button>
+          <button type="button" data-dismiss="modal" class="btn btn-outline-light">
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
             Close
           </button>
         </div>
@@ -119,8 +152,9 @@
 <!-- modal -->
 
 <script>
-$(document).ready( function () {
+  $(document).ready(function () {
     $('#tblCompany').DataTable({
+<<<<<<< HEAD
         "columnDefs": [ {
             "type": "salary-grade",
             "targets": -1
@@ -130,3 +164,12 @@ $(document).ready( function () {
 } );
 
 </script>
+=======
+      "columnDefs": [{
+        "type": "salary-grade",
+        "targets": -1
+      }],
+      "order": [[0, asc]]
+    });
+  });</script>
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24

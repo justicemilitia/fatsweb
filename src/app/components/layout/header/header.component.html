@@ -39,67 +39,108 @@
 </div>
 <!-- az-header -->
 
-  <div class="az-navbar az-navbar-two">
-    <div class="container-fluid">
-      <div><a href="index.html" class="az-logo">az<span>i</span>a</a></div>
-      <div class="az-navbar-search">
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Search for schedules and events..."
-        />
-        <button class="btn"><i class="fas fa-search "></i></button>
-      </div>
-      <!-- az-navbar-search -->
-      <div class="row">
-        <nav id="main_nav">
-          <ul class="nav">
-            <!-- *ngIf="!isMenuAccessable(PAGES.MENU_DEFINITIONS)" -->
-              <li class="nav-item" >
-                  <a href="" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Tanım İşlemleri</a>
-                  <nav class="nav-sub">
-                    <li><a href="#" class="nav-sub-link">Genel Tanımlar</a>
-                   
-                    <ul   style="position:absolute;margin-left:220px;top:0">
-                      <li style="height: 30px; width: 300px;"><a href="/company">Şirket Tanımlama</a></li>
-                      <li style="height: 30px; width: 300px;"><a href="/location">Lokasyon Tanımlama</a></li>
-                      <li style="height: 30px; width: 300px;"><a href="/department">Departman Tanımlama</a></li>
-                      <li style="height: 30px; width: 300px;">Kullanıcı Tanımlama</li>
-                      <li style="height: 30px; width: 300px;"><a href="/roleauthorization">Rol Yetki Tanımlama</a></li>
-                      <li style="height: 30px; width: 300px;"><a href="/expensecenter">Masraf Yeri Tanımlama</a></li>
-                      <li style="height: 30px; width: 300px;"><a href="/checkedoutreason">Çıkış Tipi Tanımlama</a></li>
-                      <li style="height: 30px; width: 300px;">Askıya Alma Nedenleri Tanımlama</li>
-                      <li style="height: 30px; width: 300px;">Sözleşme Tanımlama</li>
-                    </ul>                  
-                  </li>
-                    <li><a href=" " class="nav-sub-link">Demirbaş Tanımları</a></li>
-                 
-                  </nav>        
-                </li>
-            <li
-              class="nav-item"
-              *ngIf="isMenuAccessable(PAGES.MENU_DEFINITIONS)"
-            >
-              <a class="nav-link with-sub">
-                <i class="typcn typcn-clipboard"></i>Demirbaş Yonetimi</a
-              >
+<div class="az-navbar az-navbar-two">
+  <div class="container-fluid">
+
+    <div class="stellarnav">
+      <ul>
+        <li class="nav-item active"><a class="nav-link" href="/dashboard"><i
+              class="typcn typcn-clipboard"></i>Dashboard</a></li>
+        <li class="drop-right nav-item">
+          <a href="#" onclick="return false" class="nav-link with-sub"><i
+              class="typcn typcn-clipboard"></i>Tanımlamalar</a>
+          <ul>
+            <li><a href="#" onclick="return false">Genel Tanımlar</a>
               <ul>
-                <li>
-                  <a>Genel Tanımlar</a>
+                <li><a href="#">Şirket Tanımlama</a></li>
+                <li><a href="#">Lokasyon Tanımlama</a></li>
+                <li><a href="#">Departman Tanımlama</a></li>
+                <li><a href="#">Kullanıcı Tanımlama</a></li>
+                <li><a href="#">Rol ve Yetki Tanımlama</a></li>
+                <li><a href="#">Masraf Yeri Tanımlama</a></li>
+                <li><a href="#">Çıkış Tipi Tanımlama</a></li>
+                <li><a href="#">Askıya Alma Tanımlama</a></li>
+                <li><a href="#">Sözleşme Tanımlama</a></li>
+              </ul>
+            </li>
+            <li><a href="#" onclick="return false">Demirbaş Tanımları</a>
+              <ul>
+                <li><a href="#">Demirbaş Kartı Tanımlama</a></li>
+                <li><a href="#">Demirbaş Kategorisi Tanımlama</a></li>
+                <li><a href="#">Marka Tanımlama</a></li>
+                <li><a href="#">Model Tanımlama</a></li>
+              </ul>
+            </li>
+            <!--<li><a href="#">Item</a></li>-->
+          </ul>
+        </li>
+        <li class="drop-right nav-item">
+          <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Demirbaş
+            İşlemleri</a>
+          <ul>
+            <li><a href="#" onclick="return false">Genel Tanımlar</a>
+              <ul>
+                <li><a href="#">x Tanımlama</a></li>
+                <li><a href="#">y Tanımlama</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="drop-right nav-item">
+          <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Amortisman
+            İşlemleri</a>
+          <ul>
+            <li><a href="#" onclick="return false">Genel Tanımlar</a>
+              <ul>
+                <li><a href="#">x Tanımlama</a></li>
+                <li><a href="#">y Tanımlama</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="drop-right nav-item">
+            <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Bakım Yönetimi</a>
+            <ul>
+              <li><a href="#" onclick="return false">Genel Tanımlar</a>
+                <ul>
+                  <li><a href="#">x Tanımlama</a></li>
+                  <li><a href="#">y Tanımlama</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="drop-right nav-item">
+              <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Sarf Malzeme Yönetimi</a>
+              <ul>
+                <li><a href="#" onclick="return false">Genel Tanımlar</a>
                   <ul>
-                    <li><a>Departman Listesi ve Tanımlama</a></li>
-                    <li><a>Lokasyon Listesi ve Tanımlama</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a>Demirbaş Tanımları</a>
-                  <ul>
-                    <li><a>Test1</a></li>
-                    <li><a>test2</a></li>
+                    <li><a href="#">x Tanımlama</a></li>
+                    <li><a href="#">y Tanımlama</a></li>
                   </ul>
                 </li>
               </ul>
             </li>
+        <li class="nav-item"><a class="nav-link" href="">Dosya Aktarma</a></li>
+        <!--<li class="drop-left"><a href="" onclick="return false">Drop Left</a>
+          <ul>
+            <li><a href="#" onclick="return false">How deep?</a>
+              <ul>
+                <li><a href="#" onclick="return false">Deep</a>
+                  <ul>
+                    <li><a href="#" onclick="return false">Even deeper</a>
+                    </li>
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+              </ul>
+            </li>
+<<<<<<< HEAD
       <!-- nav-item -->
       <li *ngIf="isMenuAccessable(PAGES.MENU_DEPRECIATIONS)" class="nav-item">
         <a class="nav-link with-sub">
@@ -127,10 +168,17 @@
 
 
       <!-- nav-item -->
+=======
+            <li><a href="#">Item</a></li>
+            <li><a href="#">Item</a></li>
+            <li><a href="#">Item</a></li>
+            <li><a href="#">Item</a></li>
+          </ul>
+        </li>-->
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
       </ul>
-      </nav>
-      <!-- nav -->
-    </div>
+    </div><!-- .stellarnav -->
+
   </div>
   <!-- container -->
 </div>
