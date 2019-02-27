@@ -1,81 +1,116 @@
 import { Injectable } from "@angular/core";
-import {
-  HttpClient
-} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
-import { GET_DEPARTMENT_LIST, GET_HEADERS, SERVICE_URL, INSERT_DEPARTMENT, GET_LOCATION_LIST } from "../../declarations/service-values";
+import {
+  GET_DEPARTMENT_LIST,
+  GET_HEADERS,
+  SERVICE_URL,
+  INSERT_DEPARTMENT,
+  GET_LOCATION_LIST,
+  UPDATE_DEPARTMENT,
+  GET_DEPARTMENT_BY_ID
+} from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
-import { Department } from '../../models/Department';
-import { Response } from 'src/app/models/Response';
-import { Router } from '@angular/router';
+import { Department } from "../../models/Department";
+import { Response } from "src/app/models/Response";
 
 @Injectable({
   providedIn: "root"
 })
 export class DepartmentService {
+  departmentData: Department[] = [];
+
   constructor(
     private httpClient: HttpClient,
-    private aService: AuthenticationService,
-    private router: Router
-  ) { }
+    private aService: AuthenticationService
+  ) {}
 
-  GetDepartments(callback,failed) {
+  GetDepartments(callback) {
     this.httpClient
-      .get(SERVICE_URL + GET_DEPARTMENT_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
-      .subscribe(result => {
-        
-        let response: Response = <Response>result;
-        let departments: Department[] = [];
-        
-        (<Department[]>response.ResultObject).forEach((e) => {
-            let dep: Department = new Department();
-            Object.assign(dep, e);
-            departments.push(dep);
-        });
-
-        callback(departments);
-        
-      },
-        error => {
-          failed(error);
-        }
-      );
-  }
-  GetLocations(callback, failed) {
-    this.httpClient
-      .get(SERVICE_URL + GET_LOCATION_LIST, {
+      .get(SERVICE_URL + GET_DEPARTMENT_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          let locations: Location[] = [];
+          let departments: Department[] = [];
 
-          (<Location[]>response.ResultObject).forEach(e => {
-            let loc: Location = new Location();
-            Object.assign(loc, e);
-            locations.push(loc);
+          (<Department[]>response.ResultObject).forEach(e => {
+            let dep: Department = new Department();
+            Object.assign(dep, e);
+            departments.push(dep);
           });
 
-          callback(locations);
+          callback(departments);
         },
-        error => {
-          failed(error);
-        }
+        error => console.error(error)
       );
   }
 
-
   InsertDepartment(department: Department) {
     this.httpClient
-      .post(SERVICE_URL + INSERT_DEPARTMENT, department, { headers: GET_HEADERS(this.aService.getToken()) })
+      .post(SERVICE_URL + INSERT_DEPARTMENT, department, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
       .subscribe(
-        data => {
-          console.log(data);
+        () => {
+          this.GetDepartments(department);
         },
         error => {
           console.log(error);
         }
       );
   }
+
+  
+  UpdateDepartment(department: Department) {
+    this.httpClient
+        .put(SERVICE_URL + UPDATE_DEPARTMENT, department, {
+          headers: GET_HEADERS(this.aService.getToken())
+        })
+        .subscribe(
+          data => {
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    }
+  
+    GetDepartmentById(callback, departmentId: number) {
+      this.httpClient
+        .get(SERVICE_URL + GET_DEPARTMENT_BY_ID + "/" + departmentId, {
+          headers: GET_HEADERS(this.aService.getToken())
+        })
+        .subscribe(result => {
+          debugger;
+          this.departmentData = <Department[]>result["ResultObject"];
+          callback(this.departmentData);
+          console.log(this.departmentData)
+        });
+    }
+
+  // GetLocations(callback, failed) {
+  //   this.httpClient
+  //     .get(SERVICE_URL + GET_LOCATION_LIST, {
+  //       headers: GET_HEADERS(this.aService.getToken())
+  //     })
+  //     .subscribe(
+  //       result => {
+  //         let response: Response = <Response>result;
+  //         let locations: Location[] = [];
+
+  //         (<Location[]>response.ResultObject).forEach(e => {
+  //           let loc: Location = new Location();
+  //           Object.assign(loc, e);
+  //           locations.push(loc);
+  //         });
+
+  //         callback(locations);
+  //       },
+  //       error => {
+  //         failed(error);
+  //       }
+  //     );
+  // }
 }
