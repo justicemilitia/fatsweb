@@ -4,14 +4,9 @@ import { Department } from "../../../models/Department";
 import { Location } from "../../../models/Location";
 import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
-<<<<<<< HEAD
 import { BaseComponent } from '../../base/base.component';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 import * as $ from "jquery";
-=======
-import { BaseComponent } from "../../base/base.component";
-import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
->>>>>>> 7efb46278c62c96e46ed8886fff4b549248ac5e3
 
 @Component({
   selector: "app-department",
@@ -40,7 +35,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-<<<<<<< HEAD
         columnDisplayName: 'Lokasyon',
         columnName: 'Location',
         isActive: true,
@@ -51,10 +45,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       {
         columnDisplayName: 'Açıklama',
         columnName: 'Description',
-=======
-        columnDisplayName: "Açıklama",
-        columnName: "Description",
->>>>>>> 7efb46278c62c96e46ed8886fff4b549248ac5e3
         isActive: true,
         classes: [],
         placeholder: "",
@@ -62,14 +52,9 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       }
     ],
     {
-<<<<<<< HEAD
       Name: '',
       Location: '',
       Description: ''
-=======
-      Name: "",
-      Description: ""
->>>>>>> 7efb46278c62c96e46ed8886fff4b549248ac5e3
     },
     {
       isDesc: false,
@@ -80,7 +65,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadDepartments();
-<<<<<<< HEAD
   }
 
   ngOnInit() {
@@ -104,11 +88,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     if (data.value.DepartmentId == null) this.insertDepartment(data);
     else this.updateDepartment(data);
   }
-=======
-  }
-
-  ngOnInit() {}
->>>>>>> 7efb46278c62c96e46ed8886fff4b549248ac5e3
 
   insertDepartment(data: NgForm) {
     console.log(data.value);
@@ -118,7 +97,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     this.loadDepartments();
   }
 
-<<<<<<< HEAD
   updateDepartment(data: NgForm) {
     this.department = <Department>data.value;
     this.baseService.departmentService.UpdateDepartment(this.department);
@@ -135,18 +113,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     this.baseService.departmentService.GetDepartmentById(result => {
       this.department = result;
     }, department.DepartmentId);
-=======
-  loadDepartments() {
-    this.baseService.departmentService.GetDepartments(
-      (deps: Department[]) => {
-        this.departments = deps;
-        this.dataTable.TGT_loadData(this.departments);
-      },
-      (error: HttpErrorResponse) => {
-        this.errorManager(error);
-      }
-    );
->>>>>>> 7efb46278c62c96e46ed8886fff4b549248ac5e3
   }
 
   onDoubleClickItem(item: any) {
