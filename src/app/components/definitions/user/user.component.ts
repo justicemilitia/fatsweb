@@ -9,6 +9,7 @@ import { Firm } from "../../../models/Firm";
 import { User } from "../../../models/User";
 import { Location } from "../../../models/Location";
 import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
+import { PopupService } from '../../../services/popup-service/popup.service';
 
 @Component({
   selector: "app-user",
@@ -48,24 +49,8 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: 'text'
       },
       {
-        columnDisplayName: 'E-mail',
-        columnName: 'UserMail',
-        isActive: true,
-        classes: [],
-        placeholder: '',
-        type: 'text'
-      },
-      {
         columnDisplayName: 'Unvan',
         columnName: 'UserTitle',
-        isActive: true,
-        classes: [],
-        placeholder: '',
-        type: 'text'
-      },
-      {
-        columnDisplayName: 'Telefon',
-        columnName: 'PhoneNumber',
         isActive: true,
         classes: [],
         placeholder: '',
@@ -90,6 +75,22 @@ export class UserComponent extends BaseComponent implements OnInit {
       {
         columnDisplayName: 'Departman',
         columnName: 'Department.Name',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'Telefon',
+        columnName: 'PhoneNumber',
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
+        columnDisplayName: 'E-mail',
+        columnName: 'UserMail',
         isActive: true,
         classes: [],
         placeholder: '',
@@ -160,14 +161,12 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     // Lokasyonların listelenmesi      
     this.baseService.locationService.GetLocations(locs => {
-      this.locations=locs;},
-      (error: HttpErrorResponse) => {
-        this.errorManager(error);
-      }
+      this.locations=locs;}
     );
 
     this.baseService.userService.GetUsers(
       (usrs: User[]) => {
+        debugger;
         this.users = usrs;
         this.dataTable.TGT_loadData(this.users);
       },

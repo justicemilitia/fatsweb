@@ -17,9 +17,10 @@ import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTa
   providers: [LocationComponent]
 })
 export class LocationComponent extends BaseComponent
-  implements OnInit, DoCheck {
+  implements OnInit {
   insertingLocation: any = {};
   locations: Location[] = [];
+  location: Location = new Location();
 
   public dataTable: TreeGridTable = new TreeGridTable(
     [
@@ -92,8 +93,22 @@ export class LocationComponent extends BaseComponent
 
   ngOnInit() {}
 
-  ngDoCheck(): void {
-    this.dataTable.TGT_doFilter();
+  loadLocations() {
+    this.baseService.locationService.GetLocations(
+      (locs: Location[]) => {
+        this.locations = locs;
+        this.dataTable.TGT_loadData(this.locations);
+      });
+  }
+
+  ResetForm(form?: NgForm) {
+    if (form != null) this.ResetForm();
+    this.location = new Location();
+  }
+
+  OnSubmit(data: NgForm) {
+    if (data.value.LocationId == null) this.insertLocation(data);
+    else this.updateLocation(data);
   }
 
   insertLocation(data: NgForm) {
@@ -101,17 +116,19 @@ export class LocationComponent extends BaseComponent
     this.baseService.locationService.InsertLocation(this.insertingLocation);
   }
 
-  loadLocations() {
-    this.baseService.locationService.GetLocations(
-      (locs: Location[]) => {
-        this.locations = locs;
-        this.dataTable.TGT_loadData(this.locations);
-      },
-      (error: HttpErrorResponse) => {
-        this.errorManager(error);
-      }
-    );
+  updateLocation(data: NgForm) {
+    this.location = <Location>data.value;
+    this.baseService.locationService.UpdateLocation(this.location);
+    this.loadLocations();
   }
+
+  
+  FillLocationModal(location: Location) {
+    this.baseService.locationService.GetLocationById(result => {
+      this.location = result;
+    }, location.LocationId);
+  }
+
   onDoubleClickItem(item: any) {
     console.log(item);
   }
