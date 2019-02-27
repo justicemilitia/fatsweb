@@ -99,6 +99,7 @@ export class LocationComponent extends BaseComponent
   insertLocation(data: NgForm) {
     this.insertingLocation = <Location>data.value;
     this.baseService.locationService.InsertLocation(this.insertingLocation);
+    
   }
 
   loadLocations() {

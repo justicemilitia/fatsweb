@@ -4,8 +4,8 @@ import { Department } from "../../../models/Department";
 import { Location } from "../../../models/Location";
 import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
-import { BaseComponent } from '../../base/base.component';
-import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { BaseComponent } from "../../base/base.component";
+import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 
 @Component({
   selector: "app-department",
@@ -17,9 +17,7 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTab
   declarations: [DepartmentComponent],
   providers: [DepartmentComponent]
 })
-
 export class DepartmentComponent extends BaseComponent implements OnInit {
-
   insertingDepartment: any = {};
   departments: Department[] = [];
   locations: Location[] = [];
@@ -27,29 +25,29 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   public dataTable: TreeGridTable = new TreeGridTable(
     [
       {
-        columnDisplayName: 'İsim',
-        columnName: 'Name',
+        columnDisplayName: "İsim",
+        columnName: "Name",
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       },
       {
-        columnDisplayName: 'Açıklama',
-        columnName: 'Description',
+        columnDisplayName: "Açıklama",
+        columnName: "Description",
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       }
     ],
     {
-      Name: '',
-      Description: ''
+      Name: "",
+      Description: ""
     },
     {
       isDesc: false,
-      column: 'Name'
+      column: "Name"
     }
   );
 
@@ -57,11 +55,9 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     super(baseService);
 
     this.loadDepartments();
-
   }
 
-  ngOnInit() { }
-
+  ngOnInit() {}
 
   insertDepartment(data: NgForm) {
     this.insertingDepartment = <Department>data.value;
@@ -71,18 +67,18 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   }
 
   loadDepartments() {
-    this.baseService.departmentService.GetDepartments((deps: Department[]) => {
-
-      this.departments = deps;
-      this.dataTable.TGT_loadData(this.departments);
-
-    }, (error: HttpErrorResponse) => {
-      this.errorManager(error);
-    });
+    this.baseService.departmentService.GetDepartments(
+      (deps: Department[]) => {
+        this.departments = deps;
+        this.dataTable.TGT_loadData(this.departments);
+      },
+      (error: HttpErrorResponse) => {
+        this.errorManager(error);
+      }
+    );
   }
 
   onDoubleClickItem(item: any) {
     console.log(item);
   }
-
 }

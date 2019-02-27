@@ -18,7 +18,23 @@ export class PopupService {
       icon: "success"
     });
   }
-  
+
+  ShowErrorPopup(){
+    swal({
+      title:"İşlem Başarısız!",
+      text:"",
+      icon:"warning"
+    })
+  }
+
+  ShowMenuAuthorizePopup(){
+    swal({
+      title:"Menü için yetkiniz bulunmamaktadır!",
+      text:"",
+      icon:"warning"
+    })
+  }
+
   ShowQuestionPopupForDelete(){
     swal({
       title: "Silmek istediğinize emin misiniz?",
@@ -37,7 +53,8 @@ export class PopupService {
       }
     });
   }
-  ShowQuestionPopupForUpdate(){
+
+  ShowQuestionPopupForUpdate(callBack){
     swal({
       title: "Bu kaydı güncellemek istediğinize emin misiniz?",
       text: "Bu işlem geri alınamaz.",
@@ -47,11 +64,9 @@ export class PopupService {
     })
     .then((willDelete) => {
       if (willDelete) {
-        swal("Başarıyla silindi!", {
-          icon: "success",
-        });
+        callBack(true);
       } else {
-        swal("İşlem iptal edildi!");
+        callBack(false);
       }
     }); 
   }

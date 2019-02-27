@@ -9,7 +9,8 @@ import { Company } from "src/app/models/Company";
 import { Country } from "src/app/models/Country";
 import { City } from "src/app/models/City";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
-import * as $ from 'jquery';
+import * as $ from "jquery";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-company",
@@ -100,11 +101,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
-      },
+      }
     ],
-    {
-      
-    },
+    {},
     {
       isDesc: false,
       column: "Name"
@@ -116,39 +115,59 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     this.LoadCompanies();
   }
 
-  ngOnInit() {
-    this.ResetForm();
-  }
+  ngOnInit() {}
 
   LoadCompanies() {
-    this.baseService.companyService.GetCompanies((companies: Company[]) => {
-      this.companies = companies;
-      this.dataTable.TGT_loadData(this.companies);
-    });
+    this.baseService.companyService.GetCompanies(
+      (companies: Company[]) => {
+        this.companies = companies;
+        this.dataTable.TGT_loadData(this.companies);
+      },
+      (error: HttpErrorResponse) => {
+        this.errorManager(error);
+      }
+    );
   }
 
   ResetForm(form?: NgForm) {
-    if (form != null)
+    if (form != null) this.ResetForm();
     this.company = new Company();
   }
 
   OnSubmit(data: NgForm) {
     if (data.value.CompanyId == null) this.addCompany(data);
     else this.UpdateCompany(data);
-    this.LoadCompanies();
   }
 
-  addCompany(data: NgForm) {  
+  addCompany(data: NgForm) {
     this.company = <Company>data.value;
-    this.baseService.companyService.InsertCompany(this.company);
-    this.ResetForm();
+    this.baseService.companyService.InsertCompany(
+      this.company,
+      (error: HttpErrorResponse) => {
+        this.errorManager(error);
+      }
+    );
     this.LoadCompanies();
+    this.baseService.popupService.ShowSuccessPopup();
   }
 
   UpdateCompany(data: NgForm) {
+    debugger;
     this.company = <Company>data.value;
-    this.baseService.companyService.UpdateCompany(this.company);
-    this.LoadCompanies();
+    this.baseService.popupService.ShowQuestionPopupForUpdate(response => {
+      if (response == true) {
+        debugger;
+        this.baseService.companyService.UpdateCompany(
+          this.company,
+          (error: HttpErrorResponse) => {
+            this.errorManager(error);
+          }
+        );
+        this.LoadCompanies();
+        $("#CloseModal").trigger("click");
+        this.baseService.popupService.ShowSuccessPopup();
+      }
+    });
   }
 
   LoadDropdownList() {
@@ -165,10 +184,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   // }
 
   onDoubleClickItem(item: any) {
-    this.baseService.companyService.GetCompanyById(result => {   
-      this.company = result;     
+    this.baseService.companyService.GetCompanyById(result => {
+      this.company = result;
     }, item.CompanyId);
-    $("#btnAddCompany").trigger('click');
-    $("#btnInsertOrUpdateCompany").html('Güncelle');
+    $("#btnAddCompany").trigger("click");
+    $("#btnInsertOrUpdateCompany").html("Güncelle");
   }
 }

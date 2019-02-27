@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpResponse, HttpHeaders } from "@angular/common/http";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Company } from "src/app/models/Company";
 import {
@@ -10,65 +10,62 @@ import {
   UPDATE_COMPANY,
   GET_COMPANY_BY_ID
 } from "../../declarations/service-values";
-import { Response } from 'src/app/models/Response';
+import { Response } from "src/app/models/Response";
 
 @Injectable({
   providedIn: "root"
 })
 export class CompanyService {
-
   companyData: Company[] = [];
 
   constructor(
     private httpclient: HttpClient,
-    private aService: AuthenticationService,
+    private aService: AuthenticationService
   ) {}
 
-  GetCompanies(callback) {
+  GetCompanies(callback, failed) {
     this.httpclient
       .get(SERVICE_URL + GET_COMPANY_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(result =>{
-        let response: Response = <Response>result;
-        let companies: Company[] = [];
-        
-        (<Company[]>response.ResultObject).forEach((e) => {
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          let companies: Company[] = [];
+          (<Company[]>response.ResultObject).forEach(e => {
             let comp: Company = new Company();
             Object.assign(comp, e);
             companies.push(comp);
-        });
-        callback(companies);
+          });
+          callback(companies);
         },
-        error => console.error(error)
+        error => {
+          failed(error);
+        }
       );
   }
 
-
-  InsertCompany(company: Company) {
+  InsertCompany(company: Company, failed) {
     this.httpclient
       .post(SERVICE_URL + INSERT_COMPANY, company, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
-        () => { this.GetCompanies(company);
-        },
         error => {
-          console.log(error);
-        }
-      );
+        failed(error);
+      });
   }
 
-  UpdateCompany(company: Company) {
-  this.httpclient
+  UpdateCompany(company: Company, failed) {
+    debugger;
+    this.httpclient
       .put(SERVICE_URL + UPDATE_COMPANY, company, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
-        data => {
-        },
+        data => {},
         error => {
-          console.log(error);
+          failed(error);
         }
       );
   }
@@ -78,10 +75,10 @@ export class CompanyService {
       .get(SERVICE_URL + GET_COMPANY_BY_ID + "/" + companyId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(result => {        
+      .subscribe(result => {
         this.companyData = <Company[]>result["ResultObject"];
         callback(this.companyData);
-        console.log(this.companyData)
+        console.log(this.companyData);
       });
   }
 }

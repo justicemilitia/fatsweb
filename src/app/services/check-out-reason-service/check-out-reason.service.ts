@@ -44,36 +44,4 @@ export class CheckOutReasonService {
         error => console.error(error)
       );
   }
-
-  AddCheckOutReason(checkOutReason: CheckOutReason) {
-    this.httpClient
-      .post(SERVICE_URL + INSERT_CHECKOUTREASON, checkOutReason, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(
-        data => {
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        }
-      );
-  }
-
-  UpdateCheckOutReason(checkOutReason: CheckOutReason) {
-    this.httpClient.put(SERVICE_URL + UPDATE_CHECKOUTREASON, checkOutReason, {
-      headers: GET_HEADERS(this.aService.getToken())
-    });
-  }
-
-  GetCheckOutReasonById(callback, checkOutReasonId: number) {
-    this.httpClient
-      .get(SERVICE_URL + GET_CHECKOUTREASON_BY_ID + "/" + checkOutReasonId, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(result => {
-        this.checkOutReasons = <CheckOutReason[]>result["ResultObject"];
-        callback(this.checkOutReasons);
-      });
-  }
 }

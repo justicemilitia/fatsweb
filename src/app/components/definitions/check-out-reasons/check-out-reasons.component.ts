@@ -53,46 +53,8 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
         this.checkOutReasons = checkOutReasons;
         this.dataTable.TGT_loadData(this.checkOutReasons);
         });
-      }
-  
-  
+      } 
 
-  ResetForm(form?: NgForm){
-    if(form!=null)
-    this.ResetForm();
-    this.checkoutreason=new CheckOutReason();
-  }
 
-  OnSubmit(data: NgForm) {
-    if (data.value.checkOutReasonService == null) this.AddCheckOutReason(data);
-    else this.UpdateCheckOutReason(data);
-    this.LoadCheckOutReasons();
-    this.ResetForm();
-  }
-
-  AddCheckOutReason(data: NgForm) {
-    debugger;
-    this.checkoutreason = <CheckOutReason>data.value;
-    this.baseService.checkOutReasonService.AddCheckOutReason(
-      this.checkoutreason
-    );
-  }
-
-  UpdateCheckOutReason(data: NgForm) {
-    this.checkoutreason = <CheckOutReason>data.value;
-    this.baseService.checkOutReasonService.UpdateCheckOutReason(
-      this.checkoutreason
-    );
-  }
-
-  FillCompanyModal(checkOutReason: CheckOutReason) {
-    this.baseService.checkOutReasonService.GetCheckOutReasonById(result => {
-      this.checkoutreason = result;
-    }, checkOutReason.CheckOutReasonId);
-  }
-
-  onDoubleClickItem(item: any) {
-    console.log(item);
-  }
 
 }
