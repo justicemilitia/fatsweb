@@ -50,7 +50,7 @@ section {
   transition: .5s;
 }
 
-#main_nav > ul > li > a, {
+#main_nav > ul > li > a {
   text-transform: uppercase;
 }
 
