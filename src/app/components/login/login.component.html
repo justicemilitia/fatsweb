@@ -14,11 +14,14 @@
         <form  #loginForm="ngForm" (ngSubmit)="Login()">
           <div class="form-group">
             <label>E-posta</label>
-            <input name="username" [(ngModel)]="loginUser.UserMail" (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control" placeholder="Enter your email" value="demo@themepixels.me"/>
+            <input name="username" [(ngModel)]="loginUser.UserMail" (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control" placeholder="Enter your email"/>
           </div>
+          <div *ngIf="!IsUserMailOrPasswordCorrect()" class="alert alert-warning" role="alert"> 
+            <strong>Warning!</strong>Lütfen şifrenizin doğruluğundan emin olunuz!
+          </div><!-- alert -->
           <div class="form-group">
             <label>Şifre</label>
-            <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control" placeholder="Enter your password" value="thisisademo"/>
+            <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control" placeholder="Enter your password"/>
           </div>
           <div id="userFirms"  class="form-group" >
             <label>Firma</label>

@@ -3,7 +3,6 @@ import { User } from "../../models/LoginUser";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from "@angular/router";
-import { catchError } from "rxjs/operators";
 import {
   SERVICE_URL,
   LOGIN,
@@ -28,12 +27,11 @@ export class AuthenticationService {
   jwtHelper: JwtHelperService = new JwtHelperService();
   TOKEN_KEY = "token";
   ROLE_KEY = "role";
+  response:boolean;
 
-  Login(user: User) {
-    user.FirmId = 27;
+  Login(user: User,failed) {  
     this.httpClient
       .post(SERVICE_URL + LOGIN, user, { headers: GET_HEADERS() })
-      .pipe(catchError(this.handleError))
       .subscribe(
         data => {
           this.userToken = data["token"];
@@ -43,23 +41,21 @@ export class AuthenticationService {
             data["menu_auth"]
           ));
 
-          this.router.navigateByUrl("/company");
+          this.router.navigateByUrl("/dashboard");
         },
-        e => {
-          console.log(e);
+        error => {  
+          debugger;                        
+          failed(error);
         }
       );
   }
 
-  handleError(err: HttpErrorResponse): any {
-    if (err.status == 400 || err.status == 401) {
-      if (err.error.resultStatus == false) {
-        window.alert(err.error.resultObject.tr);
-      }
-    } else if (err.status == 500) {
-      window.alert("HATA");
-    }
+  handleError(err: HttpErrorResponse): any {  
+      if (err.error.ResultStatus == false) {
+          return false;
+      }   
   }
+  
 
   saveSession(token: any, roles: RoleAuthorization[]) {
     localStorage.setItem(this.TOKEN_KEY, token);

@@ -10,7 +10,7 @@ import {
   UPDATE_EXPENSECENTER,
   GET_EXPENSECENTER_BY_ID
 } from "../../declarations/service-values";
-import { Router } from "@angular/router";
+import { Response } from 'src/app/models/Response';
 
 @Injectable({
   providedIn: "root"
@@ -31,7 +31,16 @@ export class ExpenseCenterService {
       })
       .subscribe(
         result => {
-          callback(<ExpenseCenter[]>result["ResultObject"]);
+          let response: Response = <Response>result;
+          let expenseCenters: ExpenseCenter[] = [];
+          
+          (<ExpenseCenter[]>response.ResultObject).forEach((e) => {
+              let expCenter: ExpenseCenter = new ExpenseCenter();
+              Object.assign(expCenter, e);
+              expenseCenters.push(expCenter);
+          });
+  
+          callback(expenseCenters);
         },
         error => console.error(error)
       );

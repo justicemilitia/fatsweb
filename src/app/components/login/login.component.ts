@@ -6,6 +6,7 @@ import { BaseService } from "../../services/base.service";
 import { User } from "src/app/models/LoginUser";
 import { UserFirm } from "src/app/models/UserFirm";
 import { Firm } from "src/app/models/Firm";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-login",
@@ -24,27 +25,38 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   Login() {
     debugger;
-    this.baseService.authenticationService.Login(this.loginUser);
+    this.baseService.authenticationService.Login(
+      this.loginUser,
+      (error: HttpErrorResponse) => {
+        if (error.error.ResultStatus == false) {          
+          this.IsUserMailOrPasswordCorrect();
+          this.baseService.popupService.ShowErrorPopup();
+        }
+      }
+    );
   }
 
-  GetUserFirms(usermail: string) {    
+  GetUserFirms(usermail: string) {
     this.baseService.authenticationService.getUserFirmList(result => {
       this.userFirms = result;
-      if(this.firms.length == 0){
-      this.userFirms.forEach(e => {
-        let firm: Firm = new Firm();
-        Object.assign(firm, e.Firm);
-        this.firms.push(firm);
-      });
-    }
-    }, usermail);  
+      if (this.firms.length == 0) {
+        this.userFirms.forEach(e => {
+          let firm: Firm = new Firm();
+          Object.assign(firm, e.Firm);
+          this.firms.push(firm);
+        });
+      }
+    }, usermail);
+  }
+
+  IsUserMailOrPasswordCorrect() {
+    return true;
   }
 
   IsUserMailCorrect() {
     if (this.userFirms != null) return true;
     else return false;
   }
+
   LogOut() {}
-
-
 }

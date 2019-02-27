@@ -14,22 +14,7 @@
           </button>
         </div>
         <p class="mg-b-20"></p>
-        <table id="tblExpenseCenter" class="display responsive dataTables_wrapper dataTable no-footer dtr-inline" role="grid">
-          <thead>
-            <tr>
-              <th class="wd-15p ">Masraf Yeri Kodu</th>
-              <th class="wd-15p">Masraf Yeri Adı</th>  
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let expense of expCenters">
-            <tr>
-              <td>{{expense.ExpenseCenterCode}}</td>     
-              <td>{{expense.Name}}</td>    
-            </tr>
-          </ng-container>
-          </tbody>
-        </table>
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
 
       </div>
       <!-- az-content-body -->

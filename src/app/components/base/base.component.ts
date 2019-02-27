@@ -1,28 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseService } from '../../services/base.service';
-import * as pages from '../../declarations/page-values';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from "@angular/core";
+import { BaseService } from "../../services/base.service";
+import * as pages from "../../declarations/page-values";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
-  selector: 'app-base',
+  selector: "app-base",
   template: `
     <p>
       base works!
     </p>
   `,
-  styleUrls: ['./base.component.css']
+  styleUrls: ["./base.component.css"]
 })
-
 export abstract class BaseComponent implements OnInit {
-
   protected readonly PAGES = pages;
 
-  constructor(protected baseService: BaseService) {
+  constructor(protected baseService: BaseService) {}
 
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   getLanguageValue(key: string) {
     return this.baseService.languageService.getValue(key);
@@ -40,18 +35,28 @@ export abstract class BaseComponent implements OnInit {
     return this.baseService.authenticationService.isMenuAccessable(pageKeyword);
   }
 
-  pageRoute(key:string){
+  pageRoute(key: string) {
     debugger;
-    
+
     return this.baseService.authenticationService.pageRoute(key);
   }
+  
   errorManager(error: HttpErrorResponse) {
-    switch(error.status) {
+    switch(error.error.ResultStatus){
+      case false:
+     this.baseService.popupService.ShowErrorPopup();  
+    }
+    switch (error.status) {
       case 401:
         this.baseService.authenticationService.logOut();
         this.baseService.errorService.redirect("/login");
-      break;
+        break;
+      case 405:
+        this.baseService.popupService.ShowErrorPopup();
+        break;
+      case 500:
+        this.baseService.popupService.ShowErrorPopup();
+        break;
     }
   }
-
 }

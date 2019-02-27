@@ -3,11 +3,22 @@
     <div class="az-content-body">
       <div class="card card-dashboard-twelve mg-b-20">
         <h2 class="az-content-title">Şirketler</h2>
+<<<<<<< HEAD
+        <div class=" row btn-icon-list col-md-2">   
+          <button
+            class="btn btn-orange"
+            id="btnAddCompany"
+            data-toggle="modal"
+            data-target="#modalCompany"
+            (click)="LoadDropdownList()"
+          >Şirket Ekle
+=======
         <div class=" row col-md-2 left">
           <button class="btn btn-orange" id="btnAddCompany" data-toggle="modal" data-target="#modalCompany"
             (click)="LoadDropdownList()">Şirket Ekle
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
           </button>
-          <button type="button" class="btn btn-primary btn-icon"><i class="fas fa-trash"></i></button>
+          <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
         </div>
         <p class="mg-b-20"></p>
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
@@ -23,27 +34,40 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
+<<<<<<< HEAD
+        <h6 class="modal-title">Şirket bilgilerini giriniz.</h6>
+        <button id="CloseModal"
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+=======
         <h6 class="modal-title">Message Preview</h6>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #data="ngForm" (ngSubmit)="OnSubmit(data)">
+      <form name="form" #data="ngForm" (ngSubmit)="data.form.valid && OnSubmit(data)" novalidate>
         <div class="modal-body">
-          <h6>Şirket bilgilerini giriniz.</h6>
           <div class="row justify-content-center">
-            <input type="hidden" name="CompanyId" [(ngModel)]="company.CompanyId" />
+            <input type="hidden" name="CompanyId" [(ngModel)]="company.CompanyId"/>
             <div class="form-group col-md-6">
               <label>Ad</label>
-              <input [(ngModel)]="company.Name" name="Name" type="text" class="form-control" />
+              <input  [(ngModel)]="company.Name" name="Name" type="text" class="form-control" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+              </div>
               <label>E-posta</label>
-              <input [(ngModel)]="company.Email" name="Email" type="text" class="form-control" />
+              <input  [(ngModel)]="company.Email" name="Email" type="text" class="form-control" #Email="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" required email  />
+              <div *ngIf="data.submitted && Email.invalid" class="invalid-feedback">                 
+                  <div *ngIf="Email.errors.email">Email formatında değildir.</div>
+              </div>
             </div>
             <div class="form-group col-md-6">
               <div class="col-md">
                 <label>Adres</label>
-                <input type="text" [(ngModel)]="company.Address" name="Address" style="resize:none"
-                  class="form-control" />
+                <textarea type="text"  [(ngModel)]="company.Address" name="Address" style="resize:none" rows="4" class="form-control"></textarea>        
               </div>
             </div>
           </div>
@@ -83,17 +107,29 @@
             <div class="form-group col-md-6">
               <div class="col-md">
                 <label>Açıklama</label>
+<<<<<<< HEAD
+                <textarea [(ngModel)]="company.Description" name="Description" style="resize:none" rows="4" class="form-control" type="text"></textarea>               
+=======
                 <input [(ngModel)]="company.Description" name="Description" style="resize:none" class="form-control"
                   type="text" placeholder="Textarea" />
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
               </div>
             </div>
           </div>
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
+<<<<<<< HEAD
+          <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertCompany">Kaydet</button>
+          <button
+            type="button"
+            data-dismiss="modal"
+            class="btn btn-outline-light">
+=======
           <button id="btnInsertCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal"
             data-target="#modalInsertCompany">Kaydet</button>
           <button type="button" data-dismiss="modal" class="btn btn-outline-light">
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
             Close
           </button>
         </div>
@@ -107,6 +143,17 @@
 <script>
   $(document).ready(function () {
     $('#tblCompany').DataTable({
+<<<<<<< HEAD
+        "columnDefs": [ {
+            "type": "salary-grade",
+            "targets": -1
+        } ],
+        "order": [[0,asc]]
+      });
+} );
+
+</script>
+=======
       "columnDefs": [{
         "type": "salary-grade",
         "targets": -1
@@ -114,3 +161,4 @@
       "order": [[0, asc]]
     });
   });</script>
+>>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
