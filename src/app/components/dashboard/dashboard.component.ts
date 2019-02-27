@@ -14,10 +14,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-<<<<<<< HEAD
-    
-=======
->>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
   }
 
 }
