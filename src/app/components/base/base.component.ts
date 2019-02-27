@@ -44,7 +44,7 @@ export abstract class BaseComponent implements OnInit {
   errorManager(error: HttpErrorResponse) {
     switch(error.error.ResultStatus){
       case false:
-     this.baseService.popupService.ShowErrorPopup();  
+      this.baseService.popupService.ShowErrorPopup();  
     }
     switch (error.status) {
       case 401:

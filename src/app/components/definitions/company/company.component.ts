@@ -11,6 +11,7 @@ import { City } from "src/app/models/City";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import * as $ from "jquery";
 import { HttpErrorResponse } from "@angular/common/http";
+import { ErrorService } from 'src/app/services/error-service/error.service';
 
 @Component({
   selector: "app-company",
@@ -137,6 +138,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   OnSubmit(data: NgForm) {
     if (data.value.CompanyId == null) this.addCompany(data);
     else this.UpdateCompany(data);
+
   }
 
   addCompany(data: NgForm) {
@@ -145,9 +147,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.company,
       (error: HttpErrorResponse) => {
         this.errorManager(error);
+        console.log(error);
       }
     );
-    this.LoadCompanies();
     this.baseService.popupService.ShowSuccessPopup();
   }
 
@@ -161,11 +163,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
           this.company,
           (error: HttpErrorResponse) => {
             this.errorManager(error);
+            
           }
-        );
-        this.LoadCompanies();
-        $("#CloseModal").trigger("click");
-        this.baseService.popupService.ShowSuccessPopup();
+        );        
+        this.baseService.popupService.ShowSuccessPopup();   
       }
     });
   }

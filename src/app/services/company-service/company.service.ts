@@ -51,6 +51,9 @@ export class CompanyService {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
+        data=>{
+          console.log(data);
+        },
         error => {
         failed(error);
       });
@@ -62,9 +65,11 @@ export class CompanyService {
       .put(SERVICE_URL + UPDATE_COMPANY, company, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(
-        data => {},
-        error => {
+      .subscribe(  
+        data=>{
+          console.log(data);
+        },     
+        error => {          
           failed(error);
         }
       );
