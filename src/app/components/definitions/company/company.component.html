@@ -3,7 +3,6 @@
     <div class="az-content-body">
       <div class="card card-dashboard-twelve mg-b-20">
         <h2 class="az-content-title">Şirketler</h2>
-<<<<<<< HEAD
         <div class=" row btn-icon-list col-md-2">   
           <button
             class="btn btn-orange"
@@ -12,11 +11,6 @@
             data-target="#modalCompany"
             (click)="LoadDropdownList()"
           >Şirket Ekle
-=======
-        <div class=" row col-md-2 left">
-          <button class="btn btn-orange" id="btnAddCompany" data-toggle="modal" data-target="#modalCompany"
-            (click)="LoadDropdownList()">Şirket Ekle
->>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
           </button>
           <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
         </div>
@@ -34,21 +28,16 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-<<<<<<< HEAD
         <h6 class="modal-title">Şirket bilgilerini giriniz.</h6>
         <button id="CloseModal"
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close">
-=======
-        <h6 class="modal-title">Message Preview</h6>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
->>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm" (ngSubmit)="data.form.valid && OnSubmit(data)" novalidate>
+      <form name="form" #data="ngForm" (ngSubmit)="OnSubmit(data) && data.form.valid" novalidate>
         <div class="modal-body">
           <div class="row justify-content-center">
             <input type="hidden" name="CompanyId" [(ngModel)]="company.CompanyId"/>
@@ -107,29 +96,18 @@
             <div class="form-group col-md-6">
               <div class="col-md">
                 <label>Açıklama</label>
-<<<<<<< HEAD
                 <textarea [(ngModel)]="company.Description" name="Description" style="resize:none" rows="4" class="form-control" type="text"></textarea>               
-=======
-                <input [(ngModel)]="company.Description" name="Description" style="resize:none" class="form-control"
-                  type="text" placeholder="Textarea" />
->>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
               </div>
             </div>
           </div>
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-<<<<<<< HEAD
           <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertCompany">Kaydet</button>
           <button
             type="button"
             data-dismiss="modal"
             class="btn btn-outline-light">
-=======
-          <button id="btnInsertCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal"
-            data-target="#modalInsertCompany">Kaydet</button>
-          <button type="button" data-dismiss="modal" class="btn btn-outline-light">
->>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
             Close
           </button>
         </div>
@@ -143,7 +121,6 @@
 <script>
   $(document).ready(function () {
     $('#tblCompany').DataTable({
-<<<<<<< HEAD
         "columnDefs": [ {
             "type": "salary-grade",
             "targets": -1
@@ -153,12 +130,3 @@
 } );
 
 </script>
-=======
-      "columnDefs": [{
-        "type": "salary-grade",
-        "targets": -1
-      }],
-      "order": [[0, asc]]
-    });
-  });</script>
->>>>>>> 6417d0c947e1c1c7df37bec11d8a1c780be5ce24
