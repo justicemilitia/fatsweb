@@ -1,19 +1,20 @@
 <div class="az-content">
   <div class="container">
     <div class="az-content-body">
-
-      <h2 class="az-content-title">Departmanlar</h2>
-      <div class="row">
-        <div class="col-md-2 btnAddDepartment-right">
-          <button class="btn btn-orange btn-block btnAddDepartment-height" id="btnAddDepartment" data-toggle="modal"
-            data-target="#modalDepartment" (click)="LoadDropdownList()">Departman Ekle
-          </button>
+        <div class="card card-dashboard-twelve mg-b-20">      
+        <h2 class="az-content-title">Departmanlar</h2>
+        <div class="row">
+          <div class="col-md-2 btnAddDepartment-right">
+            <button class="btn btn-orange btn-block btnAddDepartment-height" id="btnAddDepartment" data-toggle="modal"
+              data-target="#modalDepartment" (click)="loadDropdownList()">Departman Ekle
+            </button>
+          </div>
         </div>
-      </div>
 
       <p class="mg-b-20"></p>
       <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
     </div>
+  </div>
     <!-- az-content-body -->
   </div>
 </div>
@@ -29,8 +30,9 @@
       </div>
       <div class="modal-body">
         <!-- <h6>Yeni departman oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-        <form #data="ngForm" (ngSubmit)="InsertDepartment(data)" class="form-register">
-          <div class="row">
+        <form #data="ngForm" (ngSubmit)="OnSubmit(data)">
+          <div class="row justify-content-center">          
+              <input type="hidden" name="DepartmentId" [(ngModel)]="department.DepartmentId" />              
             <label>*Departman Adı</label>
             <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value="" />
             <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
@@ -42,7 +44,7 @@
             <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
           </div>
           <!-- form-group -->
-          <div class="row">
+          <div class="row justify-content-center">
             <div class="col-sm-6">
               <label>*Bağlı Olduğu Departman</label>
               <select id="ParentDepartmentId" ngModel name="ParentDepartmentId" required class="form-control txt-width"
@@ -65,7 +67,7 @@
           </div>
           <!-- form-group -->
           <div class="modal-footer">
-            <button class="btn btn-orange btn-block btn-height" id="btnCreateDepartment" type="submit"
+            <button class="btn btn-orange btn-block btn-height" id="btnInsertOrUpdateDepartment" type="submit"
               data-toggle="modal" data-target="#modalInsertDepartment">Departman Ekle</button>
           </div>
         </form>

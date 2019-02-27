@@ -153,20 +153,17 @@ export class UserComponent extends BaseComponent implements OnInit {
   loadDropdownList() {
     
     // Departmanların listelenmesi
-    this.baseService.departmentService.GetDepartments(deps => {
-      this.departments = deps;},
-      (error: HttpErrorResponse) => {
-        this.errorManager(error);
-      } );
+      this.baseService.departmentService.GetDepartments(
+        departments => (this.departments = departments)
+      );
 
     // Lokasyonların listelenmesi      
-    this.baseService.locationService.GetLocations(locs => {
-      this.locations=locs;}
+    this.baseService.locationService.GetLocations(
+      locations => (this.locations = locations)
     );
 
     this.baseService.userService.GetUsers(
       (usrs: User[]) => {
-        debugger;
         this.users = usrs;
         this.dataTable.TGT_loadData(this.users);
       },

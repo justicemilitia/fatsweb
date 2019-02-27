@@ -27,6 +27,7 @@ export class Department implements IData {
   CreatorId: number;
   DepartmentId: number;
   Description: string;
+  FirmId: number;
   IsActive: boolean;
   ModifiedDate: Date;
   ModifiedId: number;
