@@ -80,7 +80,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
         this.dataTable.TGT_loadData(this.roles);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
@@ -94,7 +94,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
     this.baseService.roleService.InsertRole(
       this.role,
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        //this.errorManager(error);
         console.log(error);
       }
     );
@@ -105,9 +105,9 @@ export class RoleComponent extends BaseComponent implements OnInit {
     this.baseService.roleService.UpdateRole(
       this.role,
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        //this.errorManager(error);
       }
     );
-    this.baseService.popupService.ShowSuccessPopup();   
+    //this.baseService.popupService.ShowSuccessPopup();   
   }
 }

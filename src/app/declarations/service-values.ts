@@ -32,23 +32,14 @@ export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
 
 //#endregion
 
-<<<<<<< HEAD
-export const UPDATE_DEPARTMENT = "department/UpdateDepartment";
-export const UPDATE_LOCATION = "locations/UpdateLocation";
-export const UPDATE_FIXEDASSETCARDCATEGORY = "fixedassetcard/UpdateFixedAssetCardCategory";
-export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
-export const UPDATE_AGREEMENT = "agreement/UpdateAgreement";
-export const UPDATE_FIXEDASSETCARDBRAND = "fixedassetcard/UpdateFixedAssetCardBrand";
-export const UPDATE_FIXEDASSETCARDMODEL = "FixedAssetCard/UpdateFixedAssetCardModel";
 export const UPDATE_ROLE="Role/UpdateRole";
-=======
+export const INSERT_ROLE="Role/InsertRole";
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST = "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
 export const GET_FIXEDASSETCARDCATEGORY_BY_ID = "FixedAssetCardCategories/GetFixedAssetCardCategoryById";
 export const INSERT_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/AddFixedAssetCardCategory";
 export const UPDATE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/UpdateFixedAssetCardCategory";
 //#endregion
->>>>>>> 91738e7a5e27507d815074eb735706a0ac5f9444
 
 //#region FixedAssetCardProperties
 //#endregion
@@ -107,15 +98,6 @@ export const GET_CITY_LIST="definition/GetCitiesList";
 export const GET_USERFIRM_LIST="UserFirms/GetUserFirmsList";
 export const GET_CITY_BY_COUNTRY_ID="definition/GetCityByCountryId";
 
-<<<<<<< HEAD
-export const INSERT_FIXEDASSETCARDCATEGORY = "fixedassetcard/AddFixedAssetCardCategory";
-export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
-export const INSERT_AGREEMENT = "agreement/AddAgreement";
-export const INSERT_FIXEDASSETCARDBRAND = "fixedassetcard/AddFixedAssetCardBrand";
-export const INSERT_FIXEDASSETCARDMODEL = "FixedAssetCard/AddFixedAssetCardModel";
-export const INSERT_ROLE="Role/AddRole";
-=======
->>>>>>> 91738e7a5e27507d815074eb735706a0ac5f9444
 
 const FILE_UPLOAD_URL = 'http://localhost:8000/upload';
 
