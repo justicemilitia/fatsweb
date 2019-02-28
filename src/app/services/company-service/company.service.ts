@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpResponse, HttpHeaders } from "@angular/common/http";
-import { AuthenticationService } from "../authenticationService/authentication.service";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Company } from "src/app/models/Company";
 import {
   SERVICE_URL,
@@ -11,79 +10,101 @@ import {
   GET_COMPANY_BY_ID
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
+import { AuthenticationService } from '../authenticationService/authentication.service';
+import { ErrorService } from '../error-service/error.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class CompanyService {
-  companyData: Company[] = [];
 
   constructor(
     private httpclient: HttpClient,
-    private aService: AuthenticationService
-  ) {}
+    private authenticationService: AuthenticationService,
+    private errorService: ErrorService
+  ) { }
 
-  GetCompanies(callback, failed) {
+  GetCompanies(success, failed) {
     this.httpclient
       .get(SERVICE_URL + GET_COMPANY_LIST, {
-        headers: GET_HEADERS(this.aService.getToken())
+        headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          let companies: Company[] = [];
-          (<Company[]>response.ResultObject).forEach(e => {
-            let comp: Company = new Company();
-            Object.assign(comp, e);
-            companies.push(comp);
-          });
-          callback(companies);
+          if (response.ResultStatus == true) {
+            let companies: Company[] = [];
+            (<Company[]>response.ResultObject).forEach(e => {
+              let comp: Company = new Company();
+              Object.assign(comp, e);
+              companies.push(comp);
+            });
+            success(companies, response.LanguageKeyword);
+          } else {
+            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          }
         },
-        error => {
+        (error: HttpErrorResponse) => {
           failed(error);
         }
       );
   }
 
-  InsertCompany(company: Company, failed) {
-    this.httpclient
-      .post(SERVICE_URL + INSERT_COMPANY, company, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(
-        data=>{
-          console.log(data);
-        },
-        error => {
+  InsertCompany(company: Company, success, failed) {
+    this.httpclient.post(SERVICE_URL + INSERT_COMPANY, company, {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let insertedCompany: Company = new Company();
+          Object.assign(insertedCompany, response.ResultObject);
+          success(insertedCompany, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
         failed(error);
       });
   }
 
-  UpdateCompany(company: Company, failed) {
-    debugger;
-    this.httpclient
-      .put(SERVICE_URL + UPDATE_COMPANY, company, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(  
-        data=>{
-          console.log(data);
-        },     
-        error => {          
-          failed(error);
+  UpdateCompany(company: Company, success, failed) {
+    this.httpclient.put(SERVICE_URL + UPDATE_COMPANY, company, {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let _updatedCompany: Company = new Company();
+          Object.assign(_updatedCompany, company);
+          success(_updatedCompany, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
         }
-      );
+      },
+      error => {
+        failed(error);
+      }
+    );
   }
 
-  GetCompanyById(callback, companyId: number) {
+  GetCompanyById(companyId: number, success, failed) {
     this.httpclient
       .get(SERVICE_URL + GET_COMPANY_BY_ID + "/" + companyId, {
-        headers: GET_HEADERS(this.aService.getToken())
+        headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result => {
-        this.companyData = <Company[]>result["ResultObject"];
-        callback(this.companyData);
-        console.log(this.companyData);
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let company: Company = new Company();
+          Object.assign(company, response.ResultObject);
+          success(company, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      }, error => {
+        failed(error);
       });
   }
 }

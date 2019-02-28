@@ -86,7 +86,7 @@ export class FixedAssetCardModelComponent extends BaseComponent implements OnIni
       this.dataTable.TGT_loadData(this.fixedAssetCardModels);
 
     }, (error: HttpErrorResponse) => {
-      this.errorManager(error);
+      this.baseService.popupService.ShowErrorPopup(error);
     });
   }
   loadDropdownList() {
@@ -97,7 +97,7 @@ export class FixedAssetCardModelComponent extends BaseComponent implements OnIni
       this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
 
     }, (error: HttpErrorResponse) => {
-      this.errorManager(error);
+      this.baseService.popupService.ShowErrorPopup(error);
     });
   }
   

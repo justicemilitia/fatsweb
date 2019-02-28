@@ -1,77 +1,81 @@
 <div class="az-content">
-  <div class="container">
-    <div class="az-content-body">
-        <div class="card card-dashboard-twelve mg-b-20">      
-        <h2 class="az-content-title">Departmanlar</h2>
-        <div class="row">
-          <div class="col-md-2 btnAddDepartment-right">
-            <button class="btn btn-orange btn-block btnAddDepartment-height" id="btnAddDepartment" data-toggle="modal"
-              data-target="#modalDepartment" (click)="loadDropdownList()">Departman Ekle
+    <div class="container-fluid">
+      <div class="az-content-body">
+        <div class="card card-dashboard-twelve mg-b-20">
+          <h2 class="az-content-title">Departmanlar</h2>
+          <div class=" row btn-icon-list col-md-2">   
+            <button
+              class="btn btn-orange"
+              id="btnAddDepartment"
+              data-toggle="modal"
+              data-target="#modalDepartment"
+              (click)="loadDropdownList()"
+            >Departman Ekle
             </button>
+            <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
           </div>
+          <p class="mg-b-20"></p>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
         </div>
-
-      <p class="mg-b-20"></p>
-      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+      </div>
+      <!-- az-content-body -->
     </div>
   </div>
-    <!-- az-content-body -->
-  </div>
-</div>
-<!-- az-content -->
+  <!-- az-content -->
 
+<!-- LARGE MODAL -->
 <div id="modalDepartment" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title model-title-center">Yeni departman oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+        <h6 class="modal-title model-title-center">Departman bilgilerini giriniz.</h6>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">&times;</span></button>
       </div>
-      <div class="modal-body">
-        <!-- <h6>Yeni departman oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-        <form #data="ngForm" (ngSubmit)="OnSubmit(data)">
-          <div class="row justify-content-center">          
-              <input type="hidden" name="DepartmentId" [(ngModel)]="department.DepartmentId" />              
-            <label>*Departman Adı</label>
-            <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value="" />
-            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">İsim gereklidir.</span> -->
-          </div>
-          <div class="row">
-            <label>*Açıklama</label>
-            <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width"
-              value="" />
-            <!-- <span class="help-block" *ngIf="registerForm.get('password').hasError('required')">Soyisim gereklidir.</span>                 -->
-          </div>
-          <!-- form-group -->
-          <div class="row justify-content-center">
-            <div class="col-sm-6">
-              <label>*Bağlı Olduğu Departman</label>
-              <select id="ParentDepartmentId" ngModel name="ParentDepartmentId" required class="form-control txt-width"
-                value="">
-                <option value="">Seçiniz</option>
-                <option *ngFor="let department of departments" value={{department.DepartmentId}}>
-                  {{department.Name}}
-                </option>
-              </select>
+        <form name="form" #data="ngForm" (ngSubmit)="OnSubmit(data) && data.form.valid" novalidate>
+          <div class="modal-body">         
+            <div class="row justify-content-center">          
+                <input type="hidden" name="DepartmentId" [(ngModel)]="department.DepartmentId" />              
+              <label>*Departman Adı</label>
+              <input type="text" [(ngModel)]="department.Name" name="Name" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>
+              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">                 
+                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
-            <div class="col-sm-6">
-              <label>*Bağlı Olduğu Lokasyon</label>
-              <select id="LocationId" ngModel name="LocationId" required class="form-control txt-width" value="">
-                <option value="">Seçiniz</option>
-                <option *ngFor="let location of locations" value={{location.LocationId}}>
-                  {{location.Name}}
-                </option>
-              </select>
+            <div class="row">
+                <div class="col-md">
+                    <label>Açıklama</label>
+                    <textarea [(ngModel)]="department.Description" name="Description" style="resize:none" rows="2" class="form-control" type="text"></textarea>               
+                  </div>
             </div>
-          </div>
-          <!-- form-group -->
-          <div class="modal-footer">
-            <button class="btn btn-orange btn-block btn-height" id="btnInsertOrUpdateDepartment" type="submit"
-              data-toggle="modal" data-target="#modalInsertDepartment">Departman Ekle</button>
+            <!-- form-group -->
+            <div class="row justify-content-center">
+              <div class="col-sm-6">
+                <label>Bağlı Olduğu Departman</label>
+                <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none" class="form-control" type="text">
+                  <option value="">Seçiniz</option>
+                  <option *ngFor="let department of departments" value={{department.DepartmentId}}>
+                    {{department.Name}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label>Bağlı Olduğu Lokasyon</label>
+                <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control txt-width" value="">
+                  <option value="">Seçiniz</option>
+                  <option *ngFor="let location of locations" value={{location.LocationId}}>
+                    {{location.Name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- form-group -->
+            <div class="modal-footer">
+              <button class="btn btn-orange btn-block btn-height" id="btnInsertOrUpdateDepartment" type="submit"
+                data-toggle="modal" data-target="#modalInsertDepartment">Departman Ekle</button>
+            </div>    
           </div>
         </form>
-      </div>
     </div>
   </div>
   <!-- modal-dialog -->

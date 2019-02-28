@@ -24,7 +24,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     super(baseService);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   Login() {
 
@@ -41,7 +41,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
   GetUserFirms(usermail: string) {
     this.baseService.authenticationService.getUserFirmList(
       result => {
-        debugger;
         this.firms = [];
         this.userFirms = result;
         this.userFirms.forEach(e => {
@@ -62,5 +61,5 @@ export class LoginComponent extends BaseComponent implements OnInit {
     );
   }
 
-  LogOut() {}
+  LogOut() { }
 }
