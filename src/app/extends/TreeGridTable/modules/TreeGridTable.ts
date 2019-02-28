@@ -332,6 +332,10 @@ export class TreeGridTable {
      * @param _datasource Array which is implemented with IData
      */
     public TGT_loadData(_datasource: IData[]) {
+        /* if the datasource null or empty return */
+        if (!_datasource || _datasource.length == 0)
+            return;
+
         /* (Clone) Original source help us to visible,extend all items with easy way */
         this.originalSource = _datasource.slice(0);
 
@@ -339,7 +343,7 @@ export class TreeGridTable {
         this.treeSource = this.TGT_convertDataToTree(_datasource);
 
         /* We order datasource with default order column */
-        this.TGT_doOrder(this.dataOrders.column);
+        this.TGT_doOrder(this.dataOrders.column, false);
 
         /* We set data source to render result on table */
         this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
@@ -348,6 +352,32 @@ export class TreeGridTable {
         if (this.currentPage != 1)
             this.currentPage = 1;
 
+    }
+
+    /**
+     * Refresh the datatable
+     */
+    public TGT_refresh() {
+
+        /* Convert treesource to datasource. Datasource is rendered in table */
+        this.dataSource = this.TGT_convertTreeToDataTable(this.treeSource);
+
+        /* After each calculating (Order,Filter, Refresh) we should recalculate pagination system */
+        this.TGT_calculatePages();
+
+    }
+
+    /**
+     * Update an item in datatable with compare their ids
+     * @param data new item.
+     */
+    public TGT_updateData(data: IData) {
+        let existsIndex = this.originalSource.findIndex(x => x.getId() == data.getId());
+        if (existsIndex > -1) {
+            this.originalSource.splice(existsIndex, 1);
+            this.originalSource.push(data);
+            this.TGT_loadData(this.originalSource);
+        }
     }
 
     /**
@@ -392,10 +422,11 @@ export class TreeGridTable {
      * Order table with given order name
      * @param column column name like (Name,Description..)
      */
-    public TGT_doOrder(column: string) {
+    public TGT_doOrder(column: string, reverse: boolean = true) {
 
         /* Reverse current order */
-        this.dataOrders.isDesc = !this.dataOrders.isDesc;
+        if (reverse == true)
+            this.dataOrders.isDesc = !this.dataOrders.isDesc;
 
         /* Change current order column */
         this.dataOrders.column = column;

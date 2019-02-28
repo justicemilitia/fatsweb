@@ -94,6 +94,7 @@ export const GET_FIRM_LIST = "firm/GetFirmsList";
 export const GET_COUNTRY_LIST="definition/GetCountriesList";
 export const GET_CITY_LIST="definition/GetCitiesList";
 export const GET_USERFIRM_LIST="UserFirms/GetUserFirmsList";
+export const GET_CITY_BY_COUNTRY_ID="definition/GetCityByCountryId";
 
 
 const FILE_UPLOAD_URL = 'http://localhost:8000/upload';

@@ -95,7 +95,7 @@ implements OnInit {
 
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
@@ -104,7 +104,7 @@ implements OnInit {
     this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(fixedAssetCategories => {
       this.fixedAssetCardCategories = fixedAssetCategories;},
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       });
   }
 

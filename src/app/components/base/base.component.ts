@@ -41,22 +41,4 @@ export abstract class BaseComponent implements OnInit {
     return this.baseService.authenticationService.pageRoute(key);
   }
   
-  errorManager(error: HttpErrorResponse) {
-    switch(error.error.ResultStatus){
-      case false:
-      this.baseService.popupService.ShowErrorPopup();  
-    }
-    switch (error.status) {
-      case 401:
-        this.baseService.authenticationService.logOut();
-        this.baseService.errorService.redirect("/login");
-        break;
-      case 405:
-        this.baseService.popupService.ShowErrorPopup();
-        break;
-      case 500:
-        this.baseService.popupService.ShowErrorPopup();
-        break;
-    }
-  }
 }

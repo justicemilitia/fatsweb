@@ -31,6 +31,7 @@ import { FixedAssetCardBrandComponent } from './components/definitions/fixed-ass
 import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
 import { TreeGridTablePage } from './extends/TreeGridTable/pipes/TreeGridTablePage';
 import { TreeGridTableComponent } from './extends/TreeGridTable/components/tree-grid-table/tree-grid-table.component';
+import { RoleComponent } from './components/definitions/role/role.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { TreeGridTableComponent } from './extends/TreeGridTable/components/tree-
     FixedAssetCardBrandComponent,
     FixedAssetCardModelComponent,
     TreeGridTablePage,
-    TreeGridTableComponent
+    TreeGridTableComponent,
+    RoleComponent
   ],
   imports: [
     BrowserModule,

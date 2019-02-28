@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { AuthenticationService } from "./authenticationService/authentication.service";
-import { ExpenseCenter } from '../models/ExpenseCenter';
 import { ExpenseCenterService } from './ExpenseCenterService/expense-center.service';
 import { CheckOutReasonService } from './check-out-reason-service/check-out-reason.service';
 import { UserService } from "./user-service/user.service";

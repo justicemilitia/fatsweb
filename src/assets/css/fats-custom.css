@@ -17,6 +17,7 @@ body {
     border-bottom: 1px solid #ced4da;
     background: #fcfcfc;
     border-top: 1px solid #ced4da;
+    z-index: 0 !important;
 }
 
 .card {
@@ -98,4 +99,8 @@ body {
     color: 494c57;
     float: right;
     padding-right: 10px;
+}
+
+.nav-link-item-link.active {
+    color: #e6730e !important;
 }

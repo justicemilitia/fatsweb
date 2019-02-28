@@ -69,7 +69,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
         this.dataTable.TGT_loadData(this.fixedAssetCategories);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
@@ -85,15 +85,20 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
   }
 
   insertFixedAssetCardCategory(data: NgForm) {
-    this.insertingFixedAssetCardCategory = <FixedAssetCardCategory>data.value;
+      if (data.form.invalid == true)
+      return;
+    this.fixedAssetCardCategory = <FixedAssetCardCategory>data.value;
     this.baseService.fixedAssetCardCategoryService.InsertFixedAssetCardCategory(
-      this.insertingFixedAssetCardCategory,
+      this.fixedAssetCardCategory,
+      (data: FixedAssetCardCategory, message) => {
+        this.baseService.popupService.ShowSuccessPopup(message);
+        this.companies.push(data);
+        this.dataTable.TGT_loadData(this.fixedAssetCardCategory);
+      },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
-        console.log(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-    this.baseService.popupService.ShowSuccessPopup();
   }
 
   updateFixedAssetCardCategory(data: NgForm) {
@@ -104,10 +109,9 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
         this.baseService.fixedAssetCardCategoryService.UpdateFixedAssetCategory(
           this.fixedAssetCardCategory,
           (error: HttpErrorResponse) => {
-            this.errorManager(error);
+            this.baseService.popupService.ShowErrorPopup(error);
           }
         );
-        this.baseService.popupService.ShowSuccessPopup();
       }
     });
   }

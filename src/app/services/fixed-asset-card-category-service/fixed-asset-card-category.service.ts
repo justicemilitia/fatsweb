@@ -29,7 +29,7 @@ export class FixedAssetCardCategoryService {
     private aService: AuthenticationService
   ) {}
 
-  GetFixedAssetCardCategories(callback, failed) {
+  GetFixedAssetCardCategories(callback, success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIXEDASSETCARDCATEGORY_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
