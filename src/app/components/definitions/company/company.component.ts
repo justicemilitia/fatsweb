@@ -30,7 +30,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: "Şirket Adı",
-        columnName: "Name",
+        columnName: ["Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -38,7 +38,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Mail",
-        columnName: "Email",
+        columnName: ["Email"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -46,7 +46,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Adres",
-        columnName: "Address",
+        columnName: ["Address"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -54,7 +54,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Ülke",
-        columnName: "CountryName",
+        columnName: ["City", "Country", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -62,7 +62,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Şehir",
-        columnName: "CityName",
+        columnName: ["City", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -70,7 +70,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Vergi Numarası",
-        columnName: "TaxNumber",
+        columnName: ["TaxNumber"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -78,7 +78,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Telefon",
-        columnName: "Phone",
+        columnName: ["Phone"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -86,7 +86,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Faks",
-        columnName: "SecondPhone",
+        columnName: ["SecondPhone"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -94,17 +94,16 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Açıklama",
-        columnName: "Description",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       }
     ],
-    {},
     {
       isDesc: false,
-      column: "Name"
+      column: ["Name"]
     }
   );
 
@@ -114,18 +113,6 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() { }
-
-  loadCompanies() {
-    this.baseService.companyService.GetCompanies(
-      (companies: Company[]) => {
-        this.companies = companies;
-        this.dataTable.TGT_loadData(this.companies);
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
 
   resetForm() {
     this.company = new Company();
@@ -160,9 +147,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       if (response == true) {
         this.baseService.companyService.UpdateCompany(
           this.company,
-          (company, message) => {
+          (_company, message) => {
             this.baseService.popupService.ShowSuccessPopup(message);
-            this.dataTable.TGT_updateData(company);
+            this.dataTable.TGT_updateData(_company);
           },
           (error: HttpErrorResponse) => {
             this.baseService.popupService.ShowErrorPopup(error);
@@ -173,27 +160,39 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     });
   }
 
-  loadCountryList() {
+  async loadCompanies() {
+    await this.baseService.companyService.GetCompanies((companies: Company[]) => {
+      this.companies = companies;
+      this.dataTable.TGT_loadData(this.companies);
+    },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  async loadCountryList() {
     this.cities = [];
-    this.baseService.countryService.GetCountryList(
+    await this.baseService.countryService.GetCountryList(
       countries => {
         this.countries = countries;
       }
     );
   }
 
-  loadCityByCountryId(event: any) {
-    this.baseService.cityService.GetCityByCountryId(<number>event.target.value,
+  async loadCityByCountryId(event: any) {
+    await this.baseService.cityService.GetCityByCountryId(<number>event.target.value,
       (cities, message) => (this.cities = cities), (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }
 
   onDoubleClickItem(item: Company) {
+    this.company = item;
     this.loadCountryList();
-    this.loadCityByCountryId({ target: { value: item.City.Country.CountryId } });
+    this.loadCityByCountryId({ target: { value: item.City.CountryId } });
     this.baseService.companyService.GetCompanyById(item.CompanyId, result => {
-      this.company = result;
+      item = result;
     }, (error: HttpErrorResponse) => {
       this.baseService.popupService.ShowErrorPopup(error);
     });

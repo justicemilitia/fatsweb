@@ -34,6 +34,6 @@ export class Company implements IData {
   ModifiedId: number;
   CreationDate: Date;
   CreatorId: number;
-  City: City;
+  City: City = new City();
 
 }

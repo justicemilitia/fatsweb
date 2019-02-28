@@ -76,9 +76,7 @@ export class CompanyService {
       result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          let _updatedCompany: Company = new Company();
-          Object.assign(_updatedCompany, company);
-          success(_updatedCompany, response.LanguageKeyword);
+          success(company, response.LanguageKeyword);
         } else {
           failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
         }

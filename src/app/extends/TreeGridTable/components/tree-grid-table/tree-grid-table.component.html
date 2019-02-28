@@ -43,20 +43,29 @@
           <input type="checkbox" [(ngModel)]="dataTable.selectAllState">
         </th>
         <ng-container *ngFor="let column of dataTable.dataColumns">
-          <th *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column.columnName)">
+          <th *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column)">
             {{column.columnDisplayName}}
-            <span class="{{dataTable.TGT_getOrderSign(column.columnName)}}"></span>
+            <span class="{{dataTable.TGT_getOrderSign(column)}}"></span>
           </th>
         </ng-container>
       </thead>
       <!-- END Table Header Area END -->
       <tbody class="tree-table-body">
+        <!-- Loading Side -->
+        <ng-template [ngIf]="dataTable.isLoading">
+          <tr>
+            <td colspan="999" class="table-no-content">
+              <div class="loader"></div>
+            </td>
+          </tr>
+        </ng-template>
+        <!-- END Loading Side END -->
         <!-- First Row is Filter -->
         <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
           <td class="tree-table-body-tr-td-empty">
           </td>
           <ng-container *ngFor="let column of dataTable.dataColumns">
-            <td class="{{dataTable.TGT_getColumnVisibility(column.columnName)}}">
+            <td class="{{dataTable.TGT_getColumnVisibility(column)}}">
               <input type="{{column.type}}" placeholder="{{column.placeholder}}"
                 class="form-control {{column.classes.join(' ')}}"
                 [(ngModel)]="dataTable.dataFilters[column.columnName]">
@@ -72,13 +81,13 @@
             </td>
             <ng-container *ngFor="let column of dataTable.dataColumns;let i = index">
               <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
-                class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
+                class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column)}}">
                 <span (click)=dataTable.TGT_doCollapse(data) class='tree-table-sign {{dataTable.TGT_getSign(data)}}'>
                 </span>
-                {{data[column.columnName]}}
+                {{dataTable.TGT_getDataValue(data,column)}}
               </td>
-              <td *ngIf="i!=0" class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column.columnName)}}">
-                {{data[column.columnName]}}
+              <td *ngIf="i!=0" class="tree-table-body-tr-td {{dataTable.TGT_getColumnVisibility(column)}}">
+                {{dataTable.TGT_getDataValue(data,column)}}
               </td>
             </ng-container>
           </tr>
