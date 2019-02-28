@@ -84,14 +84,18 @@ export class AuthenticationService {
     return this.jwtHelper.decodeToken(this.getToken()).nameid;
   }
 
-  getUserFirmList(callback,username: string) {
+  getUserFirmList(callback,username: string,failed) {
     this.httpClient
       .get(SERVICE_URL + GET_USERFIRM_LIST + "/" + username, {
         headers: GET_HEADERS()
       })
-      .subscribe(result => {
+      .subscribe(result => {       
         this.userFirms=<UserFirm[]>result["ResultObject"];
         callback(this.userFirms)
+      },
+      error=>{
+      debugger;
+        failed(error);
       });
   }
 

@@ -16,14 +16,14 @@
             <label>E-posta</label>
             <input name="username" [(ngModel)]="loginUser.UserMail" (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control" placeholder="Enter your email"/>
           </div>
-          <div *ngIf="!IsUserMailOrPasswordCorrect()" class="alert alert-warning" role="alert"> 
-            <strong>Warning!</strong>Lütfen şifrenizin doğruluğundan emin olunuz!
+          <div id="WrongUserMail" *ngIf="!isUserMailCorrect" class="alert alert-warning" role="alert"> 
+            <strong>Warning!</strong>Lütfen mail adresinizin doğruluğundan emin olunuz!
           </div><!-- alert -->
           <div class="form-group">
             <label>Şifre</label>
             <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control" placeholder="Enter your password"/>
           </div>
-          <div id="userFirms"  class="form-group" >
+          <div id="userFirms" *ngIf="!showFirmList" class="form-group" >
             <label>Firma</label>
             <select name="firmId" [(ngModel)]="loginUser.FirmId" class="form-control select2-no-search">
               <option value=" ">Seçiniz</option>   
@@ -38,8 +38,8 @@
           </div>
             </div>
         </div>
-          <div *ngIf="isAuthenticated" class="alert alert-warning" role="alert">             
-              <strong>Uyarı!</strong> Kullanıcı adı veya şifre yanlış girilmiştir
+          <div id="WrongPassword" *ngIf="!isPasswordCorrect"  class="alert alert-danger" role="alert">             
+              <strong>Uyarı!</strong>Şifre yanlış girilmiştir.
             </div><!-- alert -->
           <button class="btn btn-orange btn-block" type="submit">Giriş</button>
         </form>

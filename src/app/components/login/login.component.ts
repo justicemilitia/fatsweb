@@ -17,6 +17,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
   loginUser: any = {};
   userFirms: UserFirm[] = [];
   firms: Firm[] = [];
+  isUserMailCorrect: boolean = true;
+  showFirmList: boolean = true;
+  isPasswordCorrect:boolean=true;
   constructor(protected baseService: BaseService) {
     super(baseService);
   }
@@ -28,34 +31,35 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.baseService.authenticationService.Login(
       this.loginUser,
       (error: HttpErrorResponse) => {
-        if (error.error.ResultStatus == false) {          
-          this.IsUserMailOrPasswordCorrect();
-          this.baseService.popupService.ShowErrorPopup();
+        if (error.error.ResultStatus == false) {
+          this.isPasswordCorrect=false;          
         }
       }
     );
   }
 
   GetUserFirms(usermail: string) {
-    this.baseService.authenticationService.getUserFirmList(result => {
-      this.userFirms = result;
-      if (this.firms.length == 0) {
+    this.baseService.authenticationService.getUserFirmList(
+      result => {
+        debugger;
+        this.firms = [];
+        this.userFirms = result;
         this.userFirms.forEach(e => {
           let firm: Firm = new Firm();
           Object.assign(firm, e.Firm);
           this.firms.push(firm);
         });
+        this.isUserMailCorrect = true;
+        this.showFirmList=false; 
+      },
+      usermail,
+      (error: HttpErrorResponse) => {
+        if (error.error.ResultStatus == false) {
+          this.isUserMailCorrect = false;
+          this.showFirmList=true;      
+        }
       }
-    }, usermail);
-  }
-
-  IsUserMailOrPasswordCorrect() {
-    return true;
-  }
-
-  IsUserMailCorrect() {
-    if (this.userFirms != null) return true;
-    else return false;
+    );
   }
 
   LogOut() {}
