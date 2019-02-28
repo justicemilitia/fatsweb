@@ -89,28 +89,4 @@ export class DepartmentService {
           console.log(this.departmentData)
         });
     }
-
-  // GetLocations(callback, failed) {
-  //   this.httpClient
-  //     .get(SERVICE_URL + GET_LOCATION_LIST, {
-  //       headers: GET_HEADERS(this.aService.getToken())
-  //     })
-  //     .subscribe(
-  //       result => {
-  //         let response: Response = <Response>result;
-  //         let locations: Location[] = [];
-
-  //         (<Location[]>response.ResultObject).forEach(e => {
-  //           let loc: Location = new Location();
-  //           Object.assign(loc, e);
-  //           locations.push(loc);
-  //         });
-
-  //         callback(locations);
-  //       },
-  //       error => {
-  //         failed(error);
-  //       }
-  //     );
-  // }
 }
