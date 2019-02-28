@@ -17,6 +17,7 @@ import { AuthenticationService } from "../authenticationService/authentication.s
 import { Response } from "src/app/models/Response";
 
 import { FixedAssetCardCategory } from "../../models/FixedAssetCardCategory";
+import { ErrorService } from '../error-service/error.service';
 
 @Injectable({
   providedIn: "root"
@@ -26,10 +27,11 @@ export class FixedAssetCardCategoryService {
 
   constructor(
     private httpClient: HttpClient,
-    private aService: AuthenticationService
+    private aService: AuthenticationService,
+    private errorService: ErrorService    
   ) {}
 
-  GetFixedAssetCardCategories(callback, success, failed) {
+  GetFixedAssetCardCategories(success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIXEDASSETCARDCATEGORY_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -37,31 +39,44 @@ export class FixedAssetCardCategoryService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
           let fixedAssetCardCategories: FixedAssetCardCategory[] = [];
           (<FixedAssetCardCategory[]>response.ResultObject).forEach(e => {
             let facc: FixedAssetCardCategory = new FixedAssetCardCategory();
             Object.assign(facc, e);
             fixedAssetCardCategories.push(facc);
           });
-          callback(fixedAssetCardCategories);
+          success(fixedAssetCardCategories, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
         },
-        error => console.error(error)
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
       );
   }
 
-  InsertFixedAssetCardCategory(fixedAssetCardCategory: FixedAssetCardCategory, failed) {
+  InsertFixedAssetCardCategory(fixedAssetCardCategory: FixedAssetCardCategory, success, failed) {
     this.httpClient
       .post(
         SERVICE_URL + INSERT_FIXEDASSETCARDCATEGORY, fixedAssetCardCategory,{ 
           headers: GET_HEADERS(this.aService.getToken())
         })
       .subscribe(
-        data => {
-          console.log(data);
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedFixedAssetCardCategory: FixedAssetCardCategory = new FixedAssetCardCategory();
+            Object.assign(insertedFixedAssetCardCategory, response.ResultObject);
+            success(insertedFixedAssetCardCategory, response.LanguageKeyword);
+          } else {
+            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          }
         },
         error => {
-        failed(error);          
-        }
+          failed(error);
+        } 
       );
   }
 

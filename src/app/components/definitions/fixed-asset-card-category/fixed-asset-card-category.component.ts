@@ -22,7 +22,7 @@ import * as $ from "jquery";
 export class FixedAssetCardCategoryComponent extends BaseComponent
   implements OnInit {
   insertingFixedAssetCardCategory: any = {};
-  fixedAssetCategories: FixedAssetCardCategory[] = [];
+  fixedAssetCardCategories: FixedAssetCardCategory[] = [];
   fixedAssetCardCategory: FixedAssetCardCategory = new FixedAssetCardCategory();
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -65,8 +65,8 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
     this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
       (faccs: FixedAssetCardCategory[]) => {
         debugger;
-        this.fixedAssetCategories = faccs;
-        this.dataTable.TGT_loadData(this.fixedAssetCategories);
+        this.fixedAssetCardCategories = faccs;
+        this.dataTable.TGT_loadData(this.fixedAssetCardCategories);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -92,8 +92,8 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
       this.fixedAssetCardCategory,
       (data: FixedAssetCardCategory, message) => {
         this.baseService.popupService.ShowSuccessPopup(message);
-        this.companies.push(data);
-        this.dataTable.TGT_loadData(this.fixedAssetCardCategory);
+        this.fixedAssetCardCategories.push(data);
+        this.dataTable.TGT_loadData(this.fixedAssetCardCategories);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
