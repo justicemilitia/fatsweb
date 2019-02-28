@@ -19,4 +19,5 @@ export const MENU_ROLEAUTHORIZATIONDEFINITIONS="Menu_RoleAuthorizationDefinition
 export const MENU_AGREEMENTS = "Menu_Agreements";
 export const MENU_FIXEDASSETCARDBRANDS = "Menu_FixedAssetCardBrands";
 export const MENU_FIXEDASSETCARDMODELS = "Menu_FixedAssetCardModels";
+export const MENU_ROLEDEFINITIONS="Menu_RoleDefinitions";
 
