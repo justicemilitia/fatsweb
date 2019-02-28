@@ -38,6 +38,7 @@ export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
 export const UPDATE_AGREEMENT = "agreement/UpdateAgreement";
 export const UPDATE_FIXEDASSETCARDBRAND = "fixedassetcard/UpdateFixedAssetCardBrand";
 export const UPDATE_FIXEDASSETCARDMODEL = "FixedAssetCard/UpdateFixedAssetCardModel";
+export const UPDATE_ROLE="Role/UpdateRole";
 
 export const INSERT_USER ="auth/register";
 export const INSERT_COMPANY="company/AddCompany";
@@ -53,6 +54,7 @@ export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const INSERT_AGREEMENT = "agreement/AddAgreement";
 export const INSERT_FIXEDASSETCARDBRAND = "fixedassetcard/AddFixedAssetCardBrand";
 export const INSERT_FIXEDASSETCARDMODEL = "FixedAssetCard/AddFixedAssetCardModel";
+export const INSERT_ROLE="Role/AddRole";
 
 const FILE_UPLOAD_URL = 'http://localhost:8000/upload';
 

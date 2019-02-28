@@ -15,44 +15,10 @@
       <p class="mg-b-20"></p>
       <div class="row">
         <div class="col-md-6">
-          <table
-            id="tblRoleAuth"
-            class="display responsive dataTables_wrapper dataTable no-footer dtr-inline"
-            role="grid"
-          >
-            <thead>
-              <tr>
-                <th class="wd-15p ">Kullanıcı</th>
-                <th class="wd-15p">Rol</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
         </div>
         <div class="col-md-6">
-          <table
-            id="tblCheckOutReasons"
-            class="display responsive dataTables_wrapper dataTable no-footer dtr-inline"
-            role="grid"
-          >
-            <thead>
-              <tr>
-                <th class="wd-15p ">Rol</th>
-                <th class="wd-15p">Yetki</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
         </div>
       </div>
     </div>
