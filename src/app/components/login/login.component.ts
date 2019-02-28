@@ -27,7 +27,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
   ngOnInit() {}
 
   Login() {
-    debugger;
+
     this.baseService.authenticationService.Login(
       this.loginUser,
       (error: HttpErrorResponse) => {

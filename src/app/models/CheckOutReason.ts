@@ -2,13 +2,13 @@ import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 
 export class CheckOutReason implements IData{
     getParentId(): number {
-       return null;
+        throw new Error("Method not implemented.");
     }
     getChildren(): IData[] {
-       return [];
+        throw new Error("Method not implemented.");
     }
     getId(): number {
-        return this.CheckOutReasonId;
+        throw new Error("Method not implemented.");
     }
     childIndex: number;
     isExtended: boolean;

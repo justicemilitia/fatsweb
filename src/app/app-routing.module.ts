@@ -105,6 +105,30 @@ export const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   {
+    path: "fixedassetcard",
+    component: FixedAssetCardComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSETCARDDEFINITIONS}
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "fixedassetcategory",
+    component: FixedAssetCardCategoryComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSETCARDCATEGORYDEFINITIONS}
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "brand",
+    component: FixedAssetCardBrandComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSETCARDBRANDS}
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "model",
+    component: FixedAssetCardModelComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSETCARDMODELS}
+    // canActivate: [AuthGuard]
+  },
+  {
     path: "",
     redirectTo: "login",
     pathMatch: "full"
