@@ -40,7 +40,7 @@ export class AgreementComponent extends BaseComponent
     super(baseService);
     this.loadAgreements();
   }
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngDoCheck(): void {
     this.doFilter();
@@ -73,11 +73,11 @@ export class AgreementComponent extends BaseComponent
   loadAgreements() {
     this.baseService.agreementService.GetAgreement(
       (facs: Agreement[]) => {
-      //  this.agreements = <Agreement[]>this.convertDataToTree(facs);
+        //  this.agreements = <Agreement[]>this.convertDataToTree(facs);
         //this.TGT_loadData(this.agreements);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
@@ -85,5 +85,5 @@ export class AgreementComponent extends BaseComponent
     debugger;
     this.selectedFile = event.target.files[0];
   }
-  
+
 }

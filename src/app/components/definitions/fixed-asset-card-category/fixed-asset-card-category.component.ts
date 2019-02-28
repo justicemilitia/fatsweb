@@ -85,7 +85,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
         this.dataTable.TGT_loadData(this.fixedAssetCategories);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }

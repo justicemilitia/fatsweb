@@ -332,6 +332,10 @@ export class TreeGridTable {
      * @param _datasource Array which is implemented with IData
      */
     public TGT_loadData(_datasource: IData[]) {
+        /* if the datasource null or empty return */
+        if (!_datasource || _datasource.length == 0)
+            return;
+
         /* (Clone) Original source help us to visible,extend all items with easy way */
         this.originalSource = _datasource.slice(0);
 

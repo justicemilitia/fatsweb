@@ -21,16 +21,16 @@ export class LoginComponent extends BaseComponent implements OnInit {
     super(baseService);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   Login() {
 
     this.baseService.authenticationService.Login(
       this.loginUser,
       (error: HttpErrorResponse) => {
-        if (error.error.ResultStatus == false) {          
+        if (error.error.ResultStatus == false) {
           this.IsUserMailOrPasswordCorrect();
-          this.baseService.popupService.ShowErrorPopup();
+          this.baseService.popupService.ShowErrorPopup(error);
         }
       }
     );
@@ -58,5 +58,5 @@ export class LoginComponent extends BaseComponent implements OnInit {
     else return false;
   }
 
-  LogOut() {}
+  LogOut() { }
 }

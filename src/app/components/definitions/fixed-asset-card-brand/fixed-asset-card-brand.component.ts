@@ -56,7 +56,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
     this.loadFixedAssetCardBrands();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngDoCheck(): void {
     this.dataTable.TGT_doFilter();
@@ -76,7 +76,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
         this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
