@@ -15,6 +15,7 @@ export const GET_EXPENSECENTER_LIST="ExpenseCenter/GetExpenseCenterList";
 export const GET_CHECKOUTREASON_LIST="CheckOutReason/GetCheckOutReasonsList";
 export const GET_USERFIRM_LIST="UserFirms/GetUserFirmsList";
 export const GET_COMPANY_BY_ID="Company/GetCompanyById";
+export const GET_CITY_BY_COUNTRY_ID="definition/GetCityByCountryId";
 export const GET_LOCATION_BY_ID="Locations/GetLocationsById";
 export const GET_DEPARTMENT_BY_ID="Locations/GetLocationsById";
 export const GET_EXPENSECENTER_BY_ID="ExpenseCenter/GetExpenseCenterById";

@@ -145,7 +145,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.dataTable.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
@@ -168,7 +168,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.dataTable.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
-        this.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
 

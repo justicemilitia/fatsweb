@@ -9,7 +9,7 @@
             id="btnAddCompany"
             data-toggle="modal"
             data-target="#modalCompany"
-            (click)="loadDropdownList()"
+            
           >Şirket Ekle
           </button>
           <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
@@ -67,7 +67,7 @@
             </div>
             <div class="form-group col-md-6">
               <label>Ülke</label>
-              <select [(ngModel)]="company.CountryId" name="CountryId" class="form-control select2-no-search">
+              <select [(ngModel)]="company.CountryId" (click)="loadCountryList()" (focusout)="loadCityByCountryId($event)" name="CountryId" class="form-control select2-no-search">
                 <option value=" ">Seçiniz</option>
                 <option *ngFor="let country of countries" value={{country.CountryId}}>{{country.Name}}</option>
               </select>
@@ -82,7 +82,7 @@
               <label>Şehir</label>
               <select [(ngModel)]="company.CityId" name="CityId" class="form-control select2-no-search">
                 <option label=" "></option>
-                <option *ngFor="let city of cities" value={{city.CityId}}>{{city.Name}}</option>
+                <option *ngFor="let city of cities" value={{city.CityId}}>{{city.CityName}}</option>
               </select>
             </div>
           </div>

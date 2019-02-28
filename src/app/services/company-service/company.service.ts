@@ -10,7 +10,6 @@ import {
   GET_COMPANY_BY_ID
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
-import { BaseService } from '../base.service';
 import { AuthenticationService } from '../authenticationService/authentication.service';
 import { ErrorService } from '../error-service/error.service';
 
@@ -21,8 +20,8 @@ export class CompanyService {
 
   constructor(
     private httpclient: HttpClient,
-    private authenticationService:AuthenticationService,
-    private errorService:ErrorService
+    private authenticationService: AuthenticationService,
+    private errorService: ErrorService
   ) { }
 
   GetCompanies(success, failed) {
@@ -58,7 +57,9 @@ export class CompanyService {
       result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          success(response.ResultObject, response.LanguageKeyword);
+          let insertedCompany: Company = new Company();
+          Object.assign(insertedCompany, response.ResultObject);
+          success(insertedCompany, response.LanguageKeyword);
         } else {
           failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
         }
@@ -75,7 +76,9 @@ export class CompanyService {
       result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          success(response.ResultObject, response.LanguageKeyword);
+          let _updatedCompany: Company = new Company();
+          Object.assign(_updatedCompany, company);
+          success(_updatedCompany, response.LanguageKeyword);
         } else {
           failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
         }
@@ -94,7 +97,8 @@ export class CompanyService {
       .subscribe(result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          let company: Company = <Company>response.ResultObject;
+          let company: Company = new Company();
+          Object.assign(company, response.ResultObject);
           success(company, response.LanguageKeyword);
         } else {
           failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));

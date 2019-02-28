@@ -9,8 +9,7 @@ import { AuthenticationService } from '../authenticationService/authentication.s
 export class ErrorService {
 
   constructor(protected router: Router, 
-    private authenticationService: AuthenticationService,
-    private errorService:ErrorService) { }
+    private authenticationService: AuthenticationService) { }
 
   redirect(url: string) {
     this.router.navigateByUrl(url);
@@ -28,7 +27,7 @@ export class ErrorService {
     switch (error.status) {
       case 401:
         this.authenticationService.logOut();
-        this.errorService.redirect("/login");
+        this.redirect("/login");
         break;
       case 405:
         break;

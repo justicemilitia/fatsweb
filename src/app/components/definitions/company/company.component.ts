@@ -138,11 +138,15 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   addCompany(data: NgForm) {
+    if (data.form.invalid == true)
+      return;
     this.company = <Company>data.value;
     this.baseService.companyService.InsertCompany(
       this.company,
-      (data, message) => {
+      (data: Company, message) => {
         this.baseService.popupService.ShowSuccessPopup(message);
+        this.companies.push(data);
+        this.dataTable.TGT_loadData(this.companies);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -156,8 +160,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       if (response == true) {
         this.baseService.companyService.UpdateCompany(
           this.company,
-          (data, message) => {
+          (company, message) => {
             this.baseService.popupService.ShowSuccessPopup(message);
+            this.dataTable.TGT_updateData(company);
           },
           (error: HttpErrorResponse) => {
             this.baseService.popupService.ShowErrorPopup(error);
@@ -168,20 +173,25 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     });
   }
 
-  loadDropdownList() {
+  loadCountryList() {
+    this.cities = [];
     this.baseService.countryService.GetCountryList(
-      countries => (this.countries = countries)
+      countries => {
+        this.countries = countries;
+      }
     );
-    this.baseService.cityService.GetCityList(cities => (this.cities = cities));
   }
 
-  // FillCompanyModal(company: Company) {
-  //   this.baseService.companyService.GetCompanyById(result => {
-  //     this.company = result;
-  //   }, company.CompanyId);
-  // }
+  loadCityByCountryId(event: any) {
+    this.baseService.cityService.GetCityByCountryId(<number>event.target.value,
+      (cities, message) => (this.cities = cities), (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      });
+  }
 
-  onDoubleClickItem(item: any) {
+  onDoubleClickItem(item: Company) {
+    this.loadCountryList();
+    this.loadCityByCountryId({ target: { value: item.City.Country.CountryId } });
     this.baseService.companyService.GetCompanyById(item.CompanyId, result => {
       this.company = result;
     }, (error: HttpErrorResponse) => {
