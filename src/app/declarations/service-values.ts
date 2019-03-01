@@ -70,6 +70,7 @@ export const GET_COMPANY_LIST="company/GetCompanyList";
 export const GET_COMPANY_BY_ID="Company/GetCompanyById";
 export const INSERT_COMPANY="company/AddCompany";
 export const UPDATE_COMPANY="company/UpdateCompany";
+export const DELETE_COMPANY = "company/RemoveByIdList";
 //#endregion
 
 //#region CheckOutReasons

@@ -6,7 +6,7 @@
         <div class=" row btn-icon-list col-md-2">
           <button class="btn btn-orange" id="btnAddCompany" data-toggle="modal" data-target="#modalCompany">Şirket Ekle
           </button>
-          <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+          <button type="button" (click)="deleteCompanies()" class="btn btn-danger"><i class="fas fa-trash"></i></button>
         </div>
         <p class="mg-b-20"></p>
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>

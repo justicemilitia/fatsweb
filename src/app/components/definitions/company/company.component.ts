@@ -141,14 +141,79 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async deleteCompanies() {
-    
+
     /* get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir şirket seçiniz");
+      return;
     }
+
+    /* Show Question Message */
+    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+
+      /* Activate the loading spinner */
+      this.baseService.spinner.show();
+
+      /* Convert items to ids */
+      let itemIds: number[] = selectedItems.map(x => x.getId());
+
+      /* Delete all */
+      this.baseService.companyService.DeleteCompanies(itemIds, (notDeletedItemIds: number[]) => {
+
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
+
+        /* if any item exists in not deleted items */
+        if (notDeletedItemIds) {
+
+          /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
+          for (let ii = 0; ii < itemIds.length; ii++) {
+            if (notDeletedItemIds.includes(itemIds[ii])) {
+              itemIds.splice(ii, 1);
+              ii--;
+            }
+          }
+
+          /* if any value couldnt delete then show popup */
+          if (itemIds.length == 0) {
+            this.baseService.popupService.ShowAlertPopup("Hiç Bir Kayıt Silinemedi!");
+            return;
+          }
+
+          /* if some of them is deleted show this */
+          if (itemIds.length > 0) {
+            this.baseService.popupService.ShowAlertPopup(selectedItems.length.toString() + ' kayıttan ' + itemIds.length.toString() + "'i silinebildi!");
+          }
+
+        } else {
+
+          /* if all of them removed */
+          this.baseService.popupService.ShowAlertPopup(" Tüm kayıtlar başarıyla silindi!");
+
+        }
+
+        /* Now Delete items from the source */
+        for (let ii = 0; ii < itemIds.length; ii++) {
+          let index = this.companies.findIndex(x => x.CompanyId == itemIds[ii]);
+          if (index > -1) {
+            this.companies.splice(index, 1);
+          }
+        }
+
+        /* Reload Page */
+        this.dataTable.TGT_loadData(this.companies);
+
+      }, (error: HttpErrorResponse) => {
+
+        this.baseService.spinner.hide();
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      });
+
+    });
   }
 
   async addCompany(data: NgForm) {

@@ -7,7 +7,8 @@ import {
   GET_HEADERS,
   GET_COMPANY_LIST,
   UPDATE_COMPANY,
-  GET_COMPANY_BY_ID
+  GET_COMPANY_BY_ID,
+  DELETE_COMPANY
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from '../authenticationService/authentication.service';
@@ -105,4 +106,22 @@ export class CompanyService {
         failed(error);
       });
   }
+
+  DeleteCompanies(ids: number[], success, failed) {
+    this.httpclient.post(SERVICE_URL + DELETE_COMPANY, { "CompanyIds": ids }, {
+      headers: GET_HEADERS(this.authenticationService.getToken()),
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      });
+  }
+
 }
