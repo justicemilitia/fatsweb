@@ -85,29 +85,56 @@ export class RoleComponent extends BaseComponent implements OnInit {
     );
   }
 
-  OnSubmit(data: NgForm) {
+  resetForm() {
+    this.role = new Role();
+  }
+
+  OnSubmitRole(data: NgForm) {
     if (data.value.RoleId == null) this.AddRole(data);
+    else this.UpdateRole(data);
   }
 
   AddRole(data: NgForm) {
+    if (data.form.invalid == true) return;
     this.role = <Role>data.value;
     this.baseService.roleService.InsertRole(
       this.role,
+      (data: Role, message) => {
+        this.baseService.popupService.ShowSuccessPopup(message);
+        this.roles.push(data);
+        this.dataTable.TGT_loadData(this.roles);
+      },
       (error: HttpErrorResponse) => {
-        //this.errorManager(error);
-        console.log(error);
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
 
   UpdateRole(data: NgForm) {
     this.role = <Role>data.value;
-    this.baseService.roleService.UpdateRole(
-      this.role,
-      (error: HttpErrorResponse) => {
-        //this.errorManager(error);
+    this.baseService.popupService.ShowQuestionPopupForUpdate(response => {
+      if (response == true) {
+        this.baseService.roleService.UpdateRole(
+          this.role,
+          (role, message) => {
+            this.baseService.popupService.ShowSuccessPopup(message);
+            this.dataTable.TGT_updateData(role);
+          },
+          (error: HttpErrorResponse) => {
+            this.baseService.popupService.ShowErrorPopup(error);
+          }
+        );
       }
-    );
-    //this.baseService.popupService.ShowSuccessPopup();   
+    });
+  }
+
+  onDoubleClickItem(item: Role) {
+    this.baseService.roleService.GetRoleById(item.RoleId, result => {
+      this.role = result;
+    },(error:HttpErrorResponse)=>{
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+    $("#btnAddRoleAuth").trigger("click");
+    $("#btnInsertOrUpdateRole").html("Güncelle");
   }
 }

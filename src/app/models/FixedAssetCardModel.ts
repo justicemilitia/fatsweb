@@ -1,4 +1,5 @@
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+import{ FixedAssetCardBrand} from './FixedAssetCardBrand';
 
 export class FixedAssetCardModel implements IData{
     
@@ -20,6 +21,5 @@ export class FixedAssetCardModel implements IData{
     FixedAssetCardModelId: number;
     FixedAssetCardBrandId: number;
     Name: string;
-    Description: string;
-    FixedAssetCardModel: FixedAssetCardModel;
+    FixedAssetCardBrand: FixedAssetCardBrand;
 }
