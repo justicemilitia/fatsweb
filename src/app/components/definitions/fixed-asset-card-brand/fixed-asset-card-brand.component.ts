@@ -17,28 +17,20 @@ import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTa
   providers: [FixedAssetCardBrandComponent]
 })
 export class FixedAssetCardBrandComponent extends BaseComponent
-  implements OnInit, DoCheck {
+  implements OnInit {
   insertingfixedAssetCardBrands: any = {};
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
-
+  fixedAssetCardBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
   public dataTable: TreeGridTable = new TreeGridTable(
     [
       {
-        columnDisplayName: "İsim",
+        columnDisplayName: "Marka",
         columnName: "Name",
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      },
-      {
-        columnDisplayName: "Açıklama",
-        columnName: "Description",
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
+      }   
     ],
     {
       Name: "",
@@ -52,21 +44,54 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
   constructor(public baseService: BaseService) {
     super(baseService);
-
     this.loadFixedAssetCardBrands();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
-  ngDoCheck(): void {
-    this.dataTable.TGT_doFilter();
+  resetForm() {
+    this.fixedAssetCardBrand = new FixedAssetCardBrand();
   }
 
-  insertFixedAssetCardBrand(data: NgForm) {
-    this.insertingfixedAssetCardBrands = <FixedAssetCardBrand>data.value;
+  OnSubmit(data: NgForm) {
+    if (data.value.FixedAssetCardBrandId == null)
+      this.InsertFixedAssetCardBrand(data);
+    else this.UpdateFixedAssetCardBrand(data);
+  }
+
+  InsertFixedAssetCardBrand(data: NgForm) {
+    if (data.form.invalid == true) return;
+    debugger;
+    this.fixedAssetCardBrand = <FixedAssetCardBrand>data.value;
     this.baseService.fixedAssetCardBrandService.InsertFixedAssetCardBrand(
-      this.insertingfixedAssetCardBrands
+      this.fixedAssetCardBrand,
+      (data: FixedAssetCardBrand, message) => {
+        this.baseService.popupService.ShowSuccessPopup(message);
+        this.fixedAssetCardBrands.push(data);
+        this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
     );
+  }
+
+  UpdateFixedAssetCardBrand(data: NgForm) {
+    this.fixedAssetCardBrand = <FixedAssetCardBrand>data.value;
+    this.baseService.popupService.ShowQuestionPopupForUpdate(response => {
+      if (response == true) {
+        this.baseService.fixedAssetCardBrandService.UpdateFixedAssetCardBrand(
+          this.fixedAssetCardBrand,
+          (fixedAssetCardBrand, message) => {
+            this.baseService.popupService.ShowSuccessPopup(message);
+            this.dataTable.TGT_updateData(fixedAssetCardBrand);
+          },
+          (error: HttpErrorResponse) => {
+            this.baseService.popupService.ShowErrorPopup(error);
+          }
+        );
+      }
+    });
   }
 
   loadFixedAssetCardBrands() {
@@ -82,6 +107,15 @@ export class FixedAssetCardBrandComponent extends BaseComponent
   }
 
   onDoubleClickItem(item: any) {
-    console.log(item);
+    this.baseService.fixedAssetCardBrandService.GetFixedAssetBrandById(
+      item.FixedAssetCardBrandId,
+      result => {
+        this.fixedAssetCardBrand = result;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+    $("#btnAddFixedAssetCardBrand").trigger("click");
   }
 }

@@ -3,14 +3,12 @@
       <div class="az-content-body">
   
         <h2 class="az-content-title">Demirbaş Markası</h2>
-        <div class="row">
-          <div class="col-md-2 btnAddFixedAssetCardBrand-right">
-            <button class="btn btn-orange btn-block btnAddFixedAssetCardBrand-height" id="btnAddFixedAssetCardBrand" data-toggle="modal"
-              data-target="#modalFixedAssetCardBrand">Demirbaş Markası Ekle
-            </button>
-          </div>
-        </div>
-  
+            <div class=" row btn-icon-list">   
+              <button class="btn btn-orange"    id="btnAddFixedAssetCardBrand" data-toggle="modal"
+                data-target="#modalFixedAssetCardBrand">Demirbaş Markası Ekle
+              </button>
+              <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+            </div>  
         <p class="mg-b-20"></p>
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
       </div>
@@ -28,15 +26,14 @@
               aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <form #data="ngForm" (ngSubmit)="insertFixedAssetCardBrand(data)" class="form-register">
+          <form #data="ngForm" (ngSubmit)="OnSubmit(data) && data.form.valid" class="form-register" novalidate>
+              <input type="hidden" name="FixedAssetCardBrandId" [(ngModel)]="fixedAssetCardBrand.FixedAssetCardBrandId"/>
             <div class="row">
               <label>*Demirbaş Marka Adı</label>
-              <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value="" />
-            </div>
-            <div class="row">
-              <label>*Açıklama</label>
-              <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width"
-                value="" />
+              <input type="text" id="Name" [(ngModel)]="fixedAssetCardBrand.Name" name="Name" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required class="form-control txt-width" value="" />
+              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
             <!-- form-group -->
             <div class="modal-footer">

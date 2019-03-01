@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 import {
   GET_HEADERS,
@@ -7,12 +7,14 @@ import {
   INSERT_DEPARTMENT,
   GET_FIXEDASSETCARDBRAND_LIST,
   INSERT_FIXEDASSETCARDBRAND,
-  UPDATE_FIXEDASSETCARDBRAND
+  UPDATE_FIXEDASSETCARDBRAND,
+  GET_FIXEDASSETCARDBRAND_BY_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { FixedAssetCardBrand } from "../../models/FixedAssetCardBrand";
 import { Response } from "src/app/models/Response";
 import { Router } from "@angular/router";
+import { ErrorService } from "../error-service/error.service";
 
 @Injectable({
   providedIn: "root"
@@ -21,10 +23,10 @@ export class FixedAssetCardBrandService {
   constructor(
     private httpClient: HttpClient,
     private aService: AuthenticationService,
-    private router: Router
+    private errorService: ErrorService
   ) {}
 
-  GetFixedAssetCardBrands(callback, failed) {
+  GetFixedAssetCardBrands(success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIXEDASSETCARDBRAND_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -32,33 +34,91 @@ export class FixedAssetCardBrandService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          let fixedAssetCardBrands: FixedAssetCardBrand[] = [];
-
-          (<FixedAssetCardBrand[]>response.ResultObject).forEach(e => {
-            let facbs: FixedAssetCardBrand = new FixedAssetCardBrand();
-            Object.assign(facbs, e);
-            fixedAssetCardBrands.push(facbs);
-          });
-          callback(fixedAssetCardBrands);
+          if (response.ResultStatus == true) {
+            let fixedAssetCardBrands: FixedAssetCardBrand[] = [];
+            (<FixedAssetCardBrand[]>response.ResultObject).forEach(e => {
+              let facbs: FixedAssetCardBrand = new FixedAssetCardBrand();
+              Object.assign(facbs, e);
+              fixedAssetCardBrands.push(facbs);
+            });
+            success(fixedAssetCardBrands, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
         },
-        error => {
+        (error: HttpErrorResponse) => {
           failed(error);
         }
       );
   }
 
-  InsertFixedAssetCardBrand(fixedAssetCardBrand: FixedAssetCardBrand) {
+  InsertFixedAssetCardBrand(
+    fixedAssetCardBrand: FixedAssetCardBrand,
+    success,
+    failed
+  ) {
+    debugger;
     this.httpClient
       .post(SERVICE_URL + INSERT_FIXEDASSETCARDBRAND, fixedAssetCardBrand, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
-        data => {
-          console.log(data);
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
+            Object.assign(insertedBrand, response.ResultObject);
+            success(insertedBrand, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
         },
-        error => {
-          console.log(error);
+        (error: HttpErrorResponse) => {
+          failed(error);
         }
       );
+  }
+ 
+  UpdateFixedAssetCardBrand(fixedAssetCardBrand:FixedAssetCardBrand, success, failed) {
+    this.httpClient.put(SERVICE_URL + UPDATE_FIXEDASSETCARDBRAND, fixedAssetCardBrand, {
+      headers: GET_HEADERS(this.aService.getToken())
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let updatedFixedAssetBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
+          Object.assign(updatedFixedAssetBrand, response.ResultObject);
+          success(updatedFixedAssetBrand, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
+
+  GetFixedAssetBrandById(fixedAssetCardBrandId: number, success, failed) {
+    this.httpClient
+      .get(SERVICE_URL + GET_FIXEDASSETCARDBRAND_BY_ID + "/" + fixedAssetCardBrandId, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let brand: FixedAssetCardBrand = new FixedAssetCardBrand();
+          Object.assign(brand, response.ResultObject);
+          success(brand, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      }, error => {
+        failed(error);
+      });
   }
 }

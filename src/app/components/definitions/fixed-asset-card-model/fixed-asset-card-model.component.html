@@ -23,20 +23,17 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
-          <h6 class="modal-title model-title-center">Yeni departman oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+          <h6 class="modal-title model-title-center">Yeni model oluşturmak için aşağıdaki alanları doldurunuz.</h6>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
               aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <!-- <h6>Yeni demirbaş modeli oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-          <form #data="ngForm" (ngSubmit)="insertFixedAssetCardModel(data)" class="form-register">
-            <div class="row">
-              <label>*Departman Adı</label>
-              <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value="" />
-            </div>
+          <form #data="ngForm" (ngSubmit)="OnSubmit(data)" class="form-register">  
+              <input type="hidden" name="FixedAssetCardModelId" [(ngModel)]="fixedAssetCardModel.FixedAssetCardModelId"/>
             <div class="row">
                 <label>Marka</label>
-                <select id="FixedAssetCardBrandId" ngModel name="FixedAssetCardBrandId" required class="form-control txt-width"
+                <select [(ngModel)]="fixedAssetCardModel.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control txt-width"
                   value="">
                   <option value="">Seçiniz</option>
                   <option value="-1">Yok</option>
@@ -46,13 +43,13 @@
                 </select>              
               </div>
             <div class="row">
-              <label>Açıklama</label>
-              <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width"
+              <label>Model</label>
+              <input type="text" [(ngModel)]="fixedAssetCardModel.Name" name="Name" required class="form-control txt-width"
                 value="" />
             </div>
             <!-- form-group -->
             <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateFixedAssetCardModel" type="submit"
+              <button class="btn btn-orange btn-block btn-height" id="btnCreateOrUpdateFixedAssetCardModel" type="submit"
                 data-toggle="modal" data-target="#modalInsertFixedAssetCardModel">Demirbaş Modeli Ekle</button>
             </div>
           </form>
