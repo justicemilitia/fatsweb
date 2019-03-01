@@ -1,6 +1,6 @@
 export interface IColumn {
     isActive: boolean;
-    columnName: string;
+    columnName: string[];
     columnDisplayName: string;
     type: string;
     placeholder: string;

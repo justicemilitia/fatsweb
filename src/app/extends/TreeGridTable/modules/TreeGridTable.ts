@@ -8,20 +8,22 @@ export class TreeGridTable {
 
     //#region Variables
 
+    public isLoading: boolean = true;
+
     /**
      * Store is filter active.
      */
-    public isFilterActive = true;
+    public isFilterActive: boolean = true;
 
     /**
      * Store is column offset active;
      */
-    public isColumnOffsetActive = true;
+    public isColumnOffsetActive: boolean = true;
 
     /**
      * Store is config open
      */
-    public isConfigOpen = true;
+    public isConfigOpen: boolean = true;
 
     /**
      * Store the original list which was used in loadData method as paramter.
@@ -47,18 +49,18 @@ export class TreeGridTable {
      * Store filter values.
      * {Name:'',Description:''} is an example
      */
-    public dataFilters: any;
+    public dataFilters: any = {};
 
     /**
      * Store previous fitler state.
      */
-    public prevDataFilters: any;
+    public prevDataFilters: any = {};
 
     /**
      * Store the current order column.
      * {column:'',isDesc:false} is an example
      */
-    public dataOrders: any;
+    public dataOrders: any = {};
 
     /**
      * Store the values which is count of rendered items in a page.
@@ -180,11 +182,12 @@ export class TreeGridTable {
      * @param _dataFilters Filter values {} can be empty object
      * @param _dataOrders  Order columns
      */
-    constructor(_dataColumns: IColumn[], _dataFilters: any, _dataOrders: any) {
+    constructor(_dataColumns: IColumn[], _dataOrders: any) {
 
         this.dataColumns = _dataColumns;
-        this.dataFilters = _dataFilters;
-        this.dataOrders = _dataOrders;
+        this.dataOrders.column = _dataColumns.find(x => JSON.stringify(x.columnName) == JSON.stringify(_dataOrders.column));
+        this.dataOrders.isDesc = _dataOrders.isDesc;
+        this.isLoading = true;
 
     }
 
@@ -352,6 +355,8 @@ export class TreeGridTable {
         if (this.currentPage != 1)
             this.currentPage = 1;
 
+        /* We Stop Loading */
+        this.isLoading = false;
     }
 
     /**
@@ -422,7 +427,7 @@ export class TreeGridTable {
      * Order table with given order name
      * @param column column name like (Name,Description..)
      */
-    public TGT_doOrder(column: string, reverse: boolean = true) {
+    public TGT_doOrder(column: IColumn, reverse: boolean = true) {
 
         /* Reverse current order */
         if (reverse == true)
@@ -469,8 +474,30 @@ export class TreeGridTable {
      * if order is asc returns classes typcn typcn-arrow-sorted-up.
      * @param column Column Name
      */
-    public TGT_getOrderSign(column: string): string {
-        return 'typcn typcn-arrow-sorted-' + (this.dataOrders.isDesc ? 'down' : 'up') + " " + (this.dataOrders.column == column ? 'typcn-custom-active' : '');
+    public TGT_getOrderSign(column: IColumn): string {
+        return 'typcn typcn-arrow-sorted-'
+            + (this.dataOrders.isDesc ? 'down' : 'up') + " "
+            + (this.dataOrders.column == column ? 'typcn-custom-active' : '');
+    }
+
+    /**
+     * Get value of given column
+     * @param data The data we will take value
+     * @param column The column we will take
+     */
+    public TGT_getDataValue(data: IData, column: IColumn) {
+
+        let item = null;
+
+        /* We will go as deep as possible then we will get the column of given */
+        column.columnName.forEach(e => {
+            if (!item)
+                item = data[e];
+            else
+                item = item[e];
+        });
+
+        return item;
     }
 
     /**
@@ -529,14 +556,7 @@ export class TreeGridTable {
      * if visible returns "table-column-hidden value" otherwise return ""
      * @param columnName  Column Name
      */
-    public TGT_getColumnVisibility(columnName: string): string {
-
-        /* We find the column from its name */
-        let column = this.dataColumns.find(x => x.columnName == columnName);
-
-        /* if column not exists set class hidden */
-        if (!column)
-            return "";
+    public TGT_getColumnVisibility(column: IColumn): string {
 
         /* if column active return empty to prevent hidden class */
         return column.isActive ? "" : "table-column-hidden";
@@ -757,9 +777,9 @@ export class TreeGridTable {
 
         /* if the current order is descending */
         if (this.dataOrders.isDesc)
-            _datasource.sort((x, y) => { return TreeGridTableMethods.doOrder(x[this.dataOrders.column], y[this.dataOrders.column]); });
+            _datasource.sort((x, y) => { return TreeGridTableMethods.doOrder(this.TGT_getDataValue(x, this.dataOrders.column), this.TGT_getDataValue(y, this.dataOrders.column)); });
         else
-            _datasource.sort((y, x) => { return TreeGridTableMethods.doOrder(x[this.dataOrders.column], y[this.dataOrders.column]); });
+            _datasource.sort((y, x) => { return TreeGridTableMethods.doOrder(this.TGT_getDataValue(x, this.dataOrders.column), this.TGT_getDataValue(y, this.dataOrders.column)); });
 
         /* Do Order for all children */
         _datasource.forEach(e => {

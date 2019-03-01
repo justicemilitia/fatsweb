@@ -3,18 +3,30 @@ import { IData } from '../models/interfaces/IData';
 
 export class TreeGridTableMethods {
 
+    public static getValue(data: IData, column: string[]) {
+        let item = null;
+        column.forEach(e => {
+            if (!item)
+                item = data[e];
+            else
+                item = item[e];
+        });
+        return (item ? item : '');
+    }
+
     public static doSearch(obj: IData, filter: any): boolean {
         let keys = Object.keys(filter);
         for (let ii = 0; ii < keys.length; ii++) {
             let key = keys[ii];
-            if (typeof obj[key] === "string") {
-                if (!this.filterText(obj[key], filter[key]))
+            let val = this.getValue(obj, key.split(','));
+            if (typeof val === "string") {
+                if (!this.filterText(val, filter[key]))
                     return false;
-            } else if (typeof obj[key] === "number") {
-                if (!this.filterText(obj[key], filter[key]))
+            } else if (typeof val === "number") {
+                if (!this.filterText(val.toString(), filter[key]))
                     return false;
             }
-            else if (!obj[key] && filter[key] && filter[key].length > 0)
+            else if (!val && filter[key] && filter[key].length > 0)
                 return false;
 
         }

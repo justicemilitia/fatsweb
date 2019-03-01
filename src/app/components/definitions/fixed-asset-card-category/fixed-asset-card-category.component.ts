@@ -21,7 +21,6 @@ import * as $ from "jquery";
 })
 export class FixedAssetCardCategoryComponent extends BaseComponent
   implements OnInit {
-  insertingFixedAssetCardCategory: any = {};
   fixedAssetCardCategories: FixedAssetCardCategory[] = [];
   fixedAssetCardCategory: FixedAssetCardCategory = new FixedAssetCardCategory();
 
@@ -44,10 +43,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
         type: "text"
       }
     ],
-    {
-      Name: "",
-      Description: ""
-    },
+    {},
     {
       isDesc: false,
       column: "Name"
@@ -56,15 +52,14 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
 
   constructor(public baseService: BaseService) {
     super(baseService);
-    this.loadFixedAssetCardCategory();
+    this.loadFixedAssetCardCategories();
   }
 
   ngOnInit() {}
 
-  loadFixedAssetCardCategory() {
+  loadFixedAssetCardCategories() {
     this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
       (faccs: FixedAssetCardCategory[]) => {
-        debugger;
         this.fixedAssetCardCategories = faccs;
         this.dataTable.TGT_loadData(this.fixedAssetCardCategories);
       },
@@ -74,8 +69,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
     );
   }
 
-  ResetForm(form?: NgForm) {
-    if (form != null) this.ResetForm();
+  resetForm(form?: NgForm) {
     this.fixedAssetCardCategory = new FixedAssetCardCategory();
   }
 
@@ -85,8 +79,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
   }
 
   insertFixedAssetCardCategory(data: NgForm) {
-      if (data.form.invalid == true)
-      return;
+    if (data.form.invalid == true) return;
     this.fixedAssetCardCategory = <FixedAssetCardCategory>data.value;
     this.baseService.fixedAssetCardCategoryService.InsertFixedAssetCardCategory(
       this.fixedAssetCardCategory,
@@ -102,12 +95,15 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
   }
 
   updateFixedAssetCardCategory(data: NgForm) {
-    debugger;
     this.fixedAssetCardCategory = <FixedAssetCardCategory>data.value;
     this.baseService.popupService.ShowQuestionPopupForUpdate(response => {
       if (response == true) {
         this.baseService.fixedAssetCardCategoryService.UpdateFixedAssetCategory(
           this.fixedAssetCardCategory,
+          (fixedAssetCardCategory, message) => {
+            this.baseService.popupService.ShowSuccessPopup(message);
+            this.dataTable.TGT_updateData(fixedAssetCardCategory);
+          },
           (error: HttpErrorResponse) => {
             this.baseService.popupService.ShowErrorPopup(error);
           }
@@ -116,19 +112,13 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
     });
   }
 
-  loadDropdownList() {
-    this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
-      fixedAssetCardCategory =>
-        (this.fixedAssetCardCategory = fixedAssetCardCategory), 
-        (error) =>console.error(error)
-    );
-  }
-
-  onDoubleClickItem(item: any) {
-    this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategoryById(result => {
+  onDoubleClickItem(item: FixedAssetCardCategory) {
+    this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategoryById(item.FixedAssetCardCategoryId, result => {
       this.fixedAssetCardCategory = result;
-    }, item.FixedAssetCardCategoryId);
-    $("#btnAddCompany").trigger("click");
-    $("#btnInsertOrUpdateCompany").html("Güncelle");
+    }, (error: HttpErrorResponse) => {
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+    $("#btnAddFixedAssetCardCategory").trigger("click");
+    $("#btnInsertOrUpdateFixedAssetCardCategory").html("Güncelle");
   }
 }

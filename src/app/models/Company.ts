@@ -36,4 +36,8 @@ export class Company implements IData {
   CreatorId: number;
   City: City;
 
+  constructor() {
+    this.City = new City();
+  }
+
 }

@@ -27,14 +27,14 @@ export class FixedAssetCardCategoryService {
 
   constructor(
     private httpClient: HttpClient,
-    private aService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private errorService: ErrorService    
   ) {}
 
   GetFixedAssetCardCategories(success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIXEDASSETCARDCATEGORY_LIST, {
-        headers: GET_HEADERS(this.aService.getToken())
+        headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(
         result => {
@@ -61,7 +61,7 @@ export class FixedAssetCardCategoryService {
     this.httpClient
       .post(
         SERVICE_URL + INSERT_FIXEDASSETCARDCATEGORY, fixedAssetCardCategory,{ 
-          headers: GET_HEADERS(this.aService.getToken())
+          headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
         result => {
@@ -80,30 +80,44 @@ export class FixedAssetCardCategoryService {
       );
   }
 
-  UpdateFixedAssetCategory(fixedAssetCardCategory: FixedAssetCardCategory, failed) {
+  UpdateFixedAssetCategory(fixedAssetCardCategory: FixedAssetCardCategory, success, failed) {
     this.httpClient
       .put(SERVICE_URL + UPDATE_FIXEDASSETCARDCATEGORY, fixedAssetCardCategory, {
-        headers: GET_HEADERS(this.aService.getToken())
+        headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(  
-        data=>{
-          console.log(data);
-        },     
-        error => {          
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let _updatedFixedAssetCardCategory: FixedAssetCardCategory = new FixedAssetCardCategory();
+            Object.assign(_updatedFixedAssetCardCategory, fixedAssetCardCategory);
+            success(_updatedFixedAssetCardCategory, response.LanguageKeyword);
+          } else {
+            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
           failed(error);
         }
       );
   }
 
-  GetFixedAssetCardCategoryById(callback, fixedAssetCardCategoryId: number) {
+  GetFixedAssetCardCategoryById(fixedAssetCardCategoryId: number, success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIXEDASSETCARDCATEGORY_BY_ID + "/" + fixedAssetCardCategoryId, {
-        headers: GET_HEADERS(this.aService.getToken())
+        headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result => {
-        this.fixedAssetCardCategoryData = <FixedAssetCardCategory[]>result["ResultObject"];
-        callback(this.fixedAssetCardCategoryData);
-        console.log(this.fixedAssetCardCategoryData);
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let fixedAssetCardCategory: FixedAssetCardCategory = new FixedAssetCardCategory();
+          Object.assign(fixedAssetCardCategory, response.ResultObject);
+          success(fixedAssetCardCategory, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      }, error => {
+        failed(error);
       });
   }
 }

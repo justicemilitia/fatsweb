@@ -32,6 +32,7 @@ import { FixedAssetCardModelComponent } from './components/definitions/fixed-ass
 import { TreeGridTablePage } from './extends/TreeGridTable/pipes/TreeGridTablePage';
 import { TreeGridTableComponent } from './extends/TreeGridTable/components/tree-grid-table/tree-grid-table.component';
 import { RoleComponent } from './components/definitions/role/role.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { RoleComponent } from './components/definitions/role/role.component';
     RouterModule.forRoot(routes),
     FormsModule,
     HttpModule,
-    CommonModule
+    CommonModule,
+    NgxSpinnerModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
