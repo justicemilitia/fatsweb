@@ -4,7 +4,7 @@ import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Location } from "../../../models/Location";
-import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
+import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 
 @Component({
   selector: "app-location",
@@ -16,9 +16,7 @@ import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTa
   declarations: [LocationComponent],
   providers: [LocationComponent]
 })
-export class LocationComponent extends BaseComponent
-  implements OnInit {
-  insertingLocation: any = {};
+export class LocationComponent extends BaseComponent implements OnInit {
   locations: Location[] = [];
   location: Location = new Location();
 
@@ -73,14 +71,7 @@ export class LocationComponent extends BaseComponent
         type: "text"
       }
     ],
-    {
-      Code: "",
-      Name: "",
-      Barcode: "",
-      Coordinate: "",
-      ParentLocation: "",
-      Description: ""
-    },
+    {},
     {
       isDesc: false,
       column: "Name"
@@ -98,11 +89,14 @@ export class LocationComponent extends BaseComponent
       (locs: Location[]) => {
         this.locations = locs;
         this.dataTable.TGT_loadData(this.locations);
-      });
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
-  ResetForm(form?: NgForm) {
-    if (form != null) this.ResetForm();
+  resetForm() {
     this.location = new Location();
   }
 
@@ -112,25 +106,48 @@ export class LocationComponent extends BaseComponent
   }
 
   insertLocation(data: NgForm) {
-    this.insertingLocation = <Location>data.value;
-    this.baseService.locationService.InsertLocation(this.insertingLocation);
-    
+    if (data.form.invalid == true) 
+      return;
+    this.location = <Location>data.value;
+    this.baseService.locationService.InsertLocation(
+      this.location,
+      (data: Location, message) => {
+        this.baseService.popupService.ShowSuccessPopup(message);
+        this.locations.push(data);
+        this.dataTable.TGT_loadData(this.locations);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   updateLocation(data: NgForm) {
     this.location = <Location>data.value;
-    this.baseService.locationService.UpdateLocation(this.location);
-    this.loadLocations();
-  }
-
-  
-  FillLocationModal(location: Location) {
-    this.baseService.locationService.GetLocationById(result => {
-      this.location = result;
-    }, location.LocationId);
+    this.baseService.popupService.ShowQuestionPopupForUpdate(response => {
+      if (response == true) {
+        this.baseService.locationService.UpdateLocation(
+          this.location,
+          (location, message) => {
+            this.baseService.popupService.ShowSuccessPopup(message);
+            this.dataTable.TGT_updateData(location);
+          },
+          (error: HttpErrorResponse) => {
+            this.baseService.popupService.ShowErrorPopup(error);
+          }
+        );
+      }
+    });
   }
 
   onDoubleClickItem(item: any) {
-    console.log(item);
+    this.baseService.locationService.GetLocationById(item.LocationId, result => {
+      this.location = result;
+    }, (error: HttpErrorResponse) => {
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+    $("#btnAddLocation").trigger("click");
+    $("#btnInsertOrUpdateLocation").html("Güncelle");
+  
   }
 }

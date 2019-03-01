@@ -159,7 +159,10 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     // Lokasyonların listelenmesi      
     this.baseService.locationService.GetLocations(
-      locations => (this.locations = locations)
+      locations => (this.locations = locations),
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
     );
 
     this.baseService.userService.GetUsers(

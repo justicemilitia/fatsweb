@@ -105,7 +105,10 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
   loadDropdownList() {
     this.baseService.locationService.GetLocations(
-      locations => (this.locations = locations)
+      locations => (this.locations = locations),
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
     );
   }
 

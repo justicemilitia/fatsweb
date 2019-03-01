@@ -18,6 +18,7 @@ import { FixedAssetCardComponent } from './components/definitions/fixed-asset-ca
 import { AgreementComponent } from './components/definitions/agreement/agreement.component';
 import { FixedAssetCardBrandComponent } from './components/definitions/fixed-asset-card-brand/fixed-asset-card-brand.component';
 import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
+import { RoleComponent } from './components/definitions/role/role.component';
 
 export const routes: Routes = [
   {
@@ -96,6 +97,12 @@ export const routes: Routes = [
     path: "checkedoutreason",
     component: CheckOutReasonsComponent,
     data: { pageKeyword: pages.MENU_CHECKOUTREASONDEFINITIONS }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "role",
+    component: RoleComponent,
+    data: { pageKeyword: pages.MENU_ROLEDEFINITIONS}
     // canActivate: [AuthGuard]
   },
   {

@@ -5,10 +5,10 @@
       <div class="col-md-2 btnAddCategory-right">
         <button
           class="btn btn-orange btn-block btnAddCategory-height"
-          id="btnAddCategory"
+          id="btnAddFixedAssetCardCategory"
           data-toggle="modal"
-          data-target="#modalFixedAssetCategory"
-          (click)="loadFixedAssetCategories()"
+          data-target="#modalFixedAssetCategory"  
+          (click)="loadFixedAssetCardCategory()"
         >Demirbaş Kategorisi Ekle
         </button>
       </div>
@@ -51,14 +51,14 @@
               id="ParentFixedAssetCategoryId" ngModel name="ParentFixedAssetCategoryId" required class="form-control txt-width" value="">
                   <option value="">Seçiniz</option>
                   <option value="-1">Yok</option>
-                  <option *ngFor="let fixedAssetCategory of fixedAssetCategories" value={{fixedAssetCategory.FixedAssetCategoriesId}}>
-                    {{fixedAssetCategory.Name}}
+                  <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories" value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>
+                    {{fixedAssetCardCategory.Name}}
                   </option>   
               </select>
              </div>
           <!-- form-group -->
           <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateFixedAssetCategory" type="submit" data-toggle="modal" data-target="#modalInsertFixedAssetCategory">Demirbaş Kategorisi Ekle</button>       
+              <button class="btn btn-orange btn-block btn-height" id="btnInsertOrUpdateFixedAssetCardCategory" type="submit" data-toggle="modal" data-target="#modalInsertFixedAssetCategory">Demirbaş Kategorisi Ekle</button>       
             </div>
         </form>
       </div>
