@@ -4,6 +4,10 @@ export class City {
     CityId: number;
     CountryId: number;
     Name: string;
-    Country: Country = new Country();
+    Country: Country;
+
+    constructor() {
+        this.Country = new Country();
+    }
 
 }

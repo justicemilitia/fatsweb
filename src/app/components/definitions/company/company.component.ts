@@ -21,9 +21,17 @@ import { HttpErrorResponse } from "@angular/common/http";
   providers: [CompanyComponent]
 })
 export class CompanyComponent extends BaseComponent implements OnInit {
+
+  /* List of countries */
   countries: Country[] = [];
+
+  /* List of cities */
   cities: City[] = [];
+
+  /* List of companies */
   companies: Company[] = [];
+
+  /* Current company */
   company: Company = new Company();
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -108,95 +116,187 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   );
 
   constructor(protected baseService: BaseService) {
+
     super(baseService);
     this.loadCompanies();
+
   }
 
   ngOnInit() { }
 
   resetForm() {
+
     this.company = new Company();
+
   }
 
-  OnSubmit(data: NgForm) {
-    if (data.value.CompanyId == null)
+  onSubmit(data: NgForm) {
+
+    /* if company id exists means update it otherwise insert it */
+    if (data.value.CompanyId == null) {
       this.addCompany(data);
-    else this.UpdateCompany(data);
+    } else {
+      this.updateCompany(data);
+    }
   }
 
-  addCompany(data: NgForm) {
+  async deleteCompanies() {
+    
+    /* get selected items from table */
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
+
+    /* if count of items equals 0 show message for no selected item */
+    if (!selectedItems || selectedItems.length == 0) {
+      
+    }
+  }
+
+  async addCompany(data: NgForm) {
+
+    /* Check model state is valid */
     if (data.form.invalid == true)
       return;
-    this.company = <Company>data.value;
-    this.baseService.companyService.InsertCompany(
-      this.company,
-      (data: Company, message) => {
-        this.baseService.popupService.ShowSuccessPopup(message);
-        this.companies.push(data);
-        this.dataTable.TGT_loadData(this.companies);
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+
+    /* Convert model to table model */
+    this.company.CityId = Number(this.company.CityId);
+    this.company.City.CityId = this.company.CityId;
+    this.company.City.Name = this.cities.find(x => x.CityId == this.company.CityId).Name;
+    this.company.City.CountryId = Number(this.company.City.CountryId);
+    this.company.City.Country.CountryId = this.company.City.CountryId;
+    this.company.City.Country.Name = this.countries.find(x => x.CountryId == this.company.City.CountryId).Name;
+
+    /* Insert Company service */
+    await this.baseService.companyService.InsertCompany(this.company, (data: Company, message) => {
+
+      /* Show pop up, get inserted company then set it to company id, then load data. */
+      this.baseService.popupService.ShowSuccessPopup(message);
+      this.company.CompanyId = data.CompanyId;
+      this.companies.push(this.company);
+      this.dataTable.TGT_loadData(this.companies);
+      this.resetForm();
+
+    }, (error: HttpErrorResponse) => {
+
+      /* Show alert message */
+      this.baseService.popupService.ShowErrorPopup(error);
+
+    });
   }
 
-  UpdateCompany(data: NgForm) {
-    this.company = <Company>data.value;
-    this.baseService.popupService.ShowQuestionPopupForUpdate(response => {
-      if (response == true) {
-        this.baseService.companyService.UpdateCompany(
-          this.company,
-          (_company, message) => {
-            this.baseService.popupService.ShowSuccessPopup(message);
-            this.dataTable.TGT_updateData(_company);
-          },
-          (error: HttpErrorResponse) => {
-            this.baseService.popupService.ShowErrorPopup(error);
+  async updateCompany(data: NgForm) {
 
-          }
-        );
+    /* Check model state */
+    if (data.form.invalid == true)
+      return;
+
+    /* Ask for approve question if its true then update the company */
+    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+
+      if (response == true) {
+
+        this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
+
+          /* Show pop up then update data in datatable */
+          this.baseService.popupService.ShowSuccessPopup(message);
+          this.dataTable.TGT_updateData(this.company);
+          this.resetForm();
+
+        }, (error: HttpErrorResponse) => {
+
+          /* Show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
+
+        });
+
       }
+
     });
   }
 
   async loadCompanies() {
+
+    /* Load all companies to datatable */
     await this.baseService.companyService.GetCompanies((companies: Company[]) => {
+
       this.companies = companies;
       this.dataTable.TGT_loadData(this.companies);
-    },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
+
+    }, (error: HttpErrorResponse) => {
+      /* if error show pop up */
+      this.baseService.popupService.ShowErrorPopup(error);
+
+    }
     );
+
   }
 
   async loadCountryList() {
-    this.cities = [];
-    await this.baseService.countryService.GetCountryList(
-      countries => {
+
+    /* Load all the countries if it isn't loaded */
+    if (this.countries && this.countries.length == 0) {
+
+      /* First clear cities then get all the countries */
+      this.cities = [];
+      await this.baseService.countryService.GetCountryList((countries: Country[]) => {
         this.countries = countries;
-      }
-    );
+      });
+
+    }
+
   }
 
   async loadCityByCountryId(event: any) {
-    await this.baseService.cityService.GetCityByCountryId(<number>event.target.value,
-      (cities, message) => (this.cities = cities), (error: HttpErrorResponse) => {
+
+    /* if any value selected means can get city id by country id */
+    if (event.target.value.toString().trim() !== '') {
+
+      await this.baseService.cityService.GetCityByCountryId(<number>event.target.value, (cities: City[]) => {
+
+        /* Load cities */
+        this.cities = cities;
+
+      }, (error: HttpErrorResponse) => {
+
+        /* show erro pop up */
         this.baseService.popupService.ShowErrorPopup(error);
+
       });
+
+    }
+
   }
 
-  onDoubleClickItem(item: Company) {
-    this.company = item;
-    this.loadCountryList();
-    this.loadCityByCountryId({ target: { value: item.City.CountryId } });
-    this.baseService.companyService.GetCompanyById(item.CompanyId, result => {
-      item = result;
+  async onDoubleClickItem(item: Company) {
+
+    /* Show spinner for loading */
+    this.baseService.spinner.show();
+
+    /* load companies if not loaded */
+    await this.loadCountryList();
+
+    /* load cities if not loaded */
+    await this.loadCityByCountryId({ target: { value: item.City.CountryId } });
+
+    /* get company information from server */
+    await this.baseService.companyService.GetCompanyById(item.CompanyId, (result: Company) => {
+
+      /* then bind it to company model to update */
+      setTimeout(() => {
+
+        /* bind result to model */
+        this.company = result;
+        this.baseService.spinner.hide();
+
+        /* Trigger to model to show it */
+        $("#btnAddCompany").trigger("click");
+      }, 1000);
+
     }, (error: HttpErrorResponse) => {
+
+      /* show error message */
       this.baseService.popupService.ShowErrorPopup(error);
+
     });
-    $("#btnAddCompany").trigger("click");
-    $("#btnInsertOrUpdateCompany").html("Güncelle");
+
   }
 }

@@ -16,6 +16,11 @@ export class PopupService {
     swal("Selam canım :)", "", "success");
   }
 
+
+  /*ShowErrorPopup(message:string,callBack) {
+    swal("Selam canım :)", "", "success");
+  }*/
+
   ShowSuccessPopup(message: string) {
     swal({
       title: "İşlem Başarılı",

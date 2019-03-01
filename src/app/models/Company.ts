@@ -34,6 +34,10 @@ export class Company implements IData {
   ModifiedId: number;
   CreationDate: Date;
   CreatorId: number;
-  City: City = new City();
+  City: City;
+
+  constructor() {
+    this.City = new City();
+  }
 
 }
