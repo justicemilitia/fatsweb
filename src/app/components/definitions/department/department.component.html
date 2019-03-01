@@ -34,19 +34,13 @@
       </div>
         <form name="form" #data="ngForm" (ngSubmit)="OnSubmit(data) && data.form.valid" novalidate>
           <div class="modal-body">         
-            <div class="row justify-content-center">          
+            <div class="row justify-content-center">
                 <input type="hidden" name="DepartmentId" [(ngModel)]="department.DepartmentId" />              
-              <label>*Departman Adı</label>
-              <input type="text" [(ngModel)]="department.Name" name="Name" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>
-              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">                 
+                <label>Ad</label>
+                <input  [(ngModel)]="company.Name" name="Name" type="text" class="form-control" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+                <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                   <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
-              </div>
-            </div>
-            <div class="row">
-                <div class="col-md">
-                    <label>Açıklama</label>
-                    <textarea [(ngModel)]="department.Description" name="Description" style="resize:none" rows="2" class="form-control" type="text"></textarea>               
-                  </div>
+                </div>
             </div>
             <!-- form-group -->
             <div class="row justify-content-center">
@@ -68,13 +62,19 @@
                   </option>
                 </select>
               </div>
-            </div>
-            <!-- form-group -->
+          </div>
+          <div class="row justify-content-center">
+              <div class="col-md">
+                  <label>Açıklama</label>
+                  <textarea [(ngModel)]="department.Description" name="Description" style="resize:none" rows="2" class="form-control" type="text"></textarea>               
+                </div>
+          </div>
+        </div>
+        <!-- modal-body -->
             <div class="modal-footer">
               <button class="btn btn-orange btn-block btn-height" id="btnInsertOrUpdateDepartment" type="submit"
                 data-toggle="modal" data-target="#modalInsertDepartment">Departman Ekle</button>
             </div>    
-          </div>
         </form>
     </div>
   </div>

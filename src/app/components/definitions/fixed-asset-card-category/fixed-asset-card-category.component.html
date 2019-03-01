@@ -5,7 +5,7 @@
       <div class="col-md-2 btnAddCategory-right">
         <button
           class="btn btn-orange btn-block btnAddCategory-height"
-          id="btnAddCategory"
+          id="btnAddFixedAssetCardCategory"
           data-toggle="modal"
           data-target="#modalFixedAssetCategory"  
           (click)="loadFixedAssetCardCategory()"
@@ -51,8 +51,8 @@
               id="ParentFixedAssetCategoryId" ngModel name="ParentFixedAssetCategoryId" required class="form-control txt-width" value="">
                   <option value="">Seçiniz</option>
                   <option value="-1">Yok</option>
-                  <option *ngFor="let fixedAssetCategory of fixedAssetCategories" value={{fixedAssetCategory.FixedAssetCategoriesId}}>
-                    {{fixedAssetCategory.Name}}
+                  <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories" value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>
+                    {{fixedAssetCardCategory.Name}}
                   </option>   
               </select>
              </div>
