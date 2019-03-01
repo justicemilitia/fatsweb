@@ -1,18 +1,21 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 import {
   GET_HEADERS,
   SERVICE_URL,
   GET_FIXEDASSETCARDBRAND_LIST,
   GET_FIXEDASSETCARDMODEL_LIST,
-  INSERT_FIXEDASSETCARDMODEL
+  INSERT_FIXEDASSETCARDMODEL,
+  UPDATE_FIXEDASSETCARDMODEL,
+  GET_FIXEDASSETCARDMODEL_BY_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { FixedAssetCardBrand } from "../../models/FixedAssetCardBrand";
 import { FixedAssetCardModel } from "../../models/FixedAssetCardModel";
 import { Response } from "src/app/models/Response";
 import { Router } from "@angular/router";
+import { ErrorService } from '../error-service/error.service';
 
 @Injectable({
   providedIn: "root"
@@ -21,10 +24,10 @@ export class FixedAssetCardModelService {
   constructor(
     private httpClient: HttpClient,
     private aService: AuthenticationService,
-    private router: Router
+    private errorService: ErrorService
   ) {}
 
-  GetFixedAssetCardModels(callback, failed) {
+  GetFixedAssetCardModels(success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIXEDASSETCARDMODEL_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -32,33 +35,84 @@ export class FixedAssetCardModelService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
+          if(response.ResultStatus==true){
           let fixedAssetCardModels: FixedAssetCardModel[] = [];
-
           (<FixedAssetCardModel[]>response.ResultObject).forEach(e => {
             let facms: FixedAssetCardModel = new FixedAssetCardModel();
             Object.assign(facms, e);
             fixedAssetCardModels.push(facms);
           });
-          callback(fixedAssetCardModels);
+          success(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }else{
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
         },
-        error => {
+        (error :HttpErrorResponse)=> {
           failed(error);
         }
       );
   }
 
-  InsertFixedAssetCardModel(fixedAssetCardModel: FixedAssetCardModel) {
+  InsertFixedAssetCardModel(fixedAssetCardModel: FixedAssetCardModel,success,failed) {
     this.httpClient
       .post(SERVICE_URL + INSERT_FIXEDASSETCARDMODEL, fixedAssetCardModel, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
-        data => {
-          console.log(data);
+        result => {
+          let response:Response=<Response>result;
+          if(response.ResultStatus==true){
+            let insertedModel: FixedAssetCardModel=new FixedAssetCardModel();
+            Object.assign(insertedModel,response.ResultObject);
+            success(insertedModel,response.LanguageKeyword); 
+          }         
+          else{
+            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          }
         },
-        error => {
-          console.log(error);
+        (error:HttpErrorResponse) => {
+          failed(error);
         }
       );
+  }
+  
+  UpdateFixedAssetCardModel(fixedAssetCardModel: FixedAssetCardModel, success, failed) {
+    this.httpClient.put(SERVICE_URL + UPDATE_FIXEDASSETCARDMODEL, fixedAssetCardModel, {
+      headers: GET_HEADERS(this.aService.getToken())
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let updatedModel: FixedAssetCardModel = new FixedAssetCardModel();
+          Object.assign(updatedModel, fixedAssetCardModel);
+          success(updatedModel, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
+
+  
+  GetFixedAssetCardModelById(modelId: number, success, failed) {
+    this.httpClient
+      .get(SERVICE_URL + GET_FIXEDASSETCARDMODEL_BY_ID + "/" + modelId, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let model: FixedAssetCardModel  = new FixedAssetCardModel();
+          Object.assign(model, response.ResultObject);
+          success(model, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      }, error => {
+        failed(error);
+      });
   }
 }

@@ -18,7 +18,6 @@ export class CityService {
   cities = {};
   constructor(
     private httpClient: HttpClient,
-    private aService: AuthenticationService,
     private errorService: ErrorService
   ) { }
 

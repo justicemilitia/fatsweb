@@ -3,7 +3,7 @@
     <div class="az-content-body">
       <div class="card card-dashboard-twelve mg-b-20">
       <h2 class="az-content-title">Rol Tanımlama</h2>      
-      <div class=" row btn-icon-list col-md-2">   
+      <div class=" row btn-icon-list">   
         <button
           class="btn btn-orange"
           id="btnAddRoleAuth"
@@ -45,21 +45,20 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form #data="ngForm" (ngSubmit)="OnSubmit(data)">
+        <form #data="ngForm" (ngSubmit)="OnSubmitRole(data)">
         <div class="modal-body">
             <div class="row justify-content-center">
-                <!-- <input type="hidden" name="RoleId" [(ngModel)]="role.RoleId"/> -->
+                <input [(ngModel)]="role.RoleId" name="RoleId" type="hidden"  />
                 <div class="form-group">
                   <label>Rol</label>
-                  <input  [(ngModel)]="role.Name" name="Name" type="text" class="form-control"/>
-              
+                  <input  [(ngModel)]="role.Name" name="Name" type="text" class="form-control"/>              
                   <label>Açıklama</label>
-                  <textarea  [(ngModel)]="role.Description" rows="3" type="text" style="resize:none"  class="form-control"></textarea>
+                  <textarea  [(ngModel)]="role.Description" name="Description" rows="3" type="text" style="resize:none"  class="form-control"></textarea>
                   </div>      
         </div>
       </div>
         <div class="modal-footer">
-            <button id="btnAddRole" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAddRole">Kaydet</button>   
+            <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAddRole">Kaydet</button>   
           </div>
       </form>
         <!-- modal-body -->
@@ -81,7 +80,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form #dataUserRole="ngForm" (ngSubmit)="OnSubmit(dataUserRole)">
+          <form #dataUserRole="ngForm" (ngSubmit)="OnSubmitUserRole(dataUserRole)">
           <div class="modal-body">
               <div class="row justify-content-center">
                   <!-- <input type="hidden" name="RoleId" [(ngModel)]="role.RoleId"/> -->
