@@ -13,6 +13,39 @@
     flex:1;
     font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica
 }
+.table-row {
+    margin-bottom: 15px;
+}
+
+.table-info {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding-top: 0;
+    color:#333333;
+    clear: both;
+    float:left;
+    font-size: 13px;
+    background-color: #fff0 !important;
+}
+
+.table-pagination-select {
+    height: 40px;
+    float:left;
+    margin-right: 20px;
+    border-radius: 3px;
+}
+
+.pagination-nav {
+    float:right;
+}
+
+.table-pagination {
+    padding-top:0;
+    color: #333333;
+    float: right;
+    text-align: center;
+}
 
 .table-config-arrow {
     font-size: larger;

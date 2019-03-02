@@ -1,5 +1,5 @@
 <!-- Table Area -->
-<div class="row">
+<div class="row table-row">
   <!-- Offset / Disable Columns Area -->
   <div class="table-column-helper" *ngIf="dataTable.isColumnOffsetActive == true">
     <div class="table-column-helper-sub">
@@ -63,6 +63,7 @@
         <!-- First Row is Filter -->
         <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
           <td class="tree-table-body-tr-td-empty">
+            <input type="checkbox" class="table-checkbox" [(ngModel)]="dataTable.dataFilters['isChecked']">
           </td>
           <ng-container *ngFor="let column of dataTable.dataColumns">
             <td class="{{dataTable.TGT_getColumnVisibility(column)}}">
@@ -104,10 +105,17 @@
 </div>
 <!-- END Table Area END -->
 <!-- Pagination -->
-<div class="row" *ngIf="dataTable.isPagingActive == true">
+<div *ngIf="dataTable.isPagingActive == true">
+  <div class="table-info">
+    {{dataTable.getDisplayInfo('Toplam {0} kayıt ve {1} ile {2} arası gösteriliyor..')}}
+  </div>
   <!-- Pagination Side -->
-  <div class="col-md-10">
-    <nav aria-label="Page navigation">
+  <div class="table-pagination">
+    <select class="table-pagination-select" [(ngModel)]="dataTable.perInPage">
+      <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
+      <option value="-1">Hepsi</option>
+    </select>
+    <nav class="pagination-nav">
       <ul class="pagination">
         <ng-container *ngFor="let page of dataTable.pages">
           <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
@@ -118,15 +126,5 @@
     </nav>
   </div>
   <!-- END Pagination Side END -->
-  <!-- Per In Page Side -->
-  <div class="col-md-2">
-    <div class="form-group">
-      <select class="form-control" [(ngModel)]="dataTable.perInPage">
-        <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
-        <option value="-1">Hepsi</option>
-      </select>
-    </div>
-    <!-- END Per In Page Side END -->
-  </div>
 </div>
 <!-- END Pagination END -->
