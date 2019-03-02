@@ -68,7 +68,7 @@
           <ng-container *ngFor="let column of dataTable.dataColumns">
             <td class="{{dataTable.TGT_getColumnVisibility(column)}}">
               <input type="{{column.type}}" placeholder="{{column.placeholder}}"
-                class="form-control {{column.classes.join(' ')}}"
+                class="form-control tree-table-input-text {{column.classes.join(' ')}}"
                 [(ngModel)]="dataTable.dataFilters[column.columnName]">
             </td>
           </ng-container>
