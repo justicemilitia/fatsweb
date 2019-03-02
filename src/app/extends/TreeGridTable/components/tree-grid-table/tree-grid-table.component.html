@@ -1,7 +1,7 @@
 <!-- Table Area -->
 <div class="row table-row">
   <!-- Offset / Disable Columns Area -->
-  <div class="table-column-helper" *ngIf="dataTable.isColumnOffsetActive == true">
+  <div class="table-column-helper" *ngIf="dataTable.isColumnOffsetActive == true && dataTable.isConfigOpen">
     <div class="table-column-helper-sub">
       <!-- Offset Header -->
       <div class="table-column-helper-header">
@@ -18,9 +18,11 @@
                 {{column.columnDisplayName}}</li>
               <li class="table-column-item-offset"></li>
               <li>
-                <span (click)="dataTable.TGT_offsetColumns(column,false)"
+                <span [ngStyle]="{'visibility' : i == 0 ? 'hidden' : 'visible'}"
+                  (click)="dataTable.TGT_offsetColumns(column,false)"
                   class="typcn icon-default typcn-arrow-sorted-up table-column-helper-up"></span>
-                <span (click)="dataTable.TGT_offsetColumns(column,true)"
+                <span [ngStyle]="{'visibility' : i == dataTable.dataColumns.length-1 ? 'hidden' : 'visible'}"
+                  (click)="dataTable.TGT_offsetColumns(column,true)"
                   class="typcn icon-default typcn-arrow-sorted-down table-column-helper-down"></span>
               </li>
             </ul>
@@ -28,11 +30,22 @@
         </ul>
       </div>
       <!-- END Offset Body END -->
+      <!-- Offset Footer -->
+      <div class="table-column-helper-footer">
+        <button (click)="dataTable.TGT_saveConfig()" class="btn btn-success table-column-helper-button-save">
+          Kaydet
+        </button>
+        <button (click)="dataTable.TGT_returnDefaultConfig()" class="btn btn-danger table-column-helper-button-save">
+          Sıfırla
+        </button>
+      </div>
+      <!-- END Offset Footer END-->
     </div>
   </div>
   <!-- END Offset / Disable Columns Area END -->
   <!-- Config Button-->
-  <span (click)="dataTable.TGT_toggleConfig()" class="typcn icon-default typcn-chevron-left table-config-arrow"></span>
+  <span *ngIf="dataTable.isColumnOffsetActive == true" (click)="dataTable.TGT_toggleConfig()"
+    class="typcn icon-default typcn-cog-outline table-config-arrow"></span>
   <!-- END Config Button END-->
   <!-- Data Table Area -->
   <div class="tree-table-responsive">

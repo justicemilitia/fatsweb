@@ -34,7 +34,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   /* Current company */
   company: Company = new Company();
 
-  public dataTable: TreeGridTable = new TreeGridTable(
+  public dataTable: TreeGridTable = new TreeGridTable("company",
     [
       {
         columnDisplayName: "Şirket Adı",

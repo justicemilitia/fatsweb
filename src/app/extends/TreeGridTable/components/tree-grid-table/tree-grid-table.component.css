@@ -58,7 +58,7 @@
     border: 1px solid #dee2e6;
     border-right: none;
     color: #424242;
-    padding-top: 2px;
+    padding-top: 5px;
     height: 42px;
     background: #f9f9f9;
     cursor: pointer;
@@ -92,7 +92,7 @@
 }
 
 .tree-table>thead>th {
-    max-width: 200px;
+    max-width: 300px;
     white-space: nowrap;
     padding:0.75rem;
     padding-right: 20px;
@@ -145,6 +145,18 @@
     padding:5px;   
 }
 
+.tree-table>tbody>tr>td:first-child {
+    padding: 0;
+    padding-left: 5px;
+    width: 30px;
+}
+
+.tree-table>thead>th:first-child {
+    padding: 0;
+    padding-left: 10px;
+    width: 30px;
+}
+
 .tree-table-sign {
     color:#e67300;
     width: 24px;
@@ -159,21 +171,51 @@
 
 .table-column-helper {
     display: inline;
-    padding:10px;
-    padding-right: 10px;
 }
 .table-column-helper-sub {
-    width: 100%;
-    height: 100%;
+    max-width: 300px;
+    background: white;
     border-radius: 3px;
-    border: 1px solid #b3b3b3;
+    border: 1px solid #dee2e6;
     padding: 5px;
-    padding-left:10px;
+    padding-left: 10px;
     padding-right: 10px;
+    position: absolute;
+    z-index: 100;
+    left: 40px;
+    box-shadow: 7px 7px 10px rgba(33, 34, 41, 0.1);
 }
+
 .table-column-helper-header {
-    font-weight: bold;
+    font-weight: 700;
+    color: #494c57;
+    font-size: 13px;
     height: 30px;
+    border-bottom: 1px solid #dedddd;
+}
+
+.table-column-helper-footer {
+    font-weight: 700;
+    color: #494c57;
+    font-size: 13px;
+    height: 34px;
+    border-top: 1px solid #dedddd;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top:5px
+}
+
+.table-column-helper-button-save {
+    font-size: 13px;
+    min-height: 28px;
+    color: white;
+    padding: 0;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-top: 4px;
+    min-width: 76px;
 }
 
 .table-column-helper-header > :nth-child(1) {
@@ -182,10 +224,13 @@
 
 .table-column-helper-header > :nth-child(2) {
     float:right;
+    color:#656871;
+    font-size: 16px;
 }
 
 .table-column-helper-body {
     width: 100%;
+    margin-top: 8px;
 }
 
 .table-column-helper-item > ul {
@@ -197,6 +242,8 @@
     padding-left: 0px;
     padding-right: 0px;
     margin:0;
+    color:#393b42;
+    font-size: 14px;
 }
 
 .table-column-helper-item > ul {
