@@ -1,48 +1,43 @@
 <div class="az-content">
-  <div class="container">
+  <div class="container-fluid">
     <div class="az-content-body">
-      <!-- <div class="az-content-breadcrumb">
-        <span>Table</span>
-        <span>DataTables</span>
-      </div> -->
+        <div class="card card-dashboard-twelve mg-b-20">      
       <h2 class="az-content-title">Demirbaş Kartları</h2>
-      <div class="col-md-2 btnAddFixedAssetCard-right">
+      <div class=" row btn-icon-list col-md-4">
         <button
-          class="btn btn-orange btn-block btnAddFixedAssetCard-height"
+          class="btn btn-orange"
           id="btnAddFixedAssetCard"
           data-toggle="modal"
           data-target="#modalFixedAssetCard"
-          (click)="loadDropdownList()"
         >Demirbaş Kartı Ekle
         </button>
+        <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>        
       </div>
-
       <p class="mg-b-20"></p>
       <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+      </div>
     </div>
     <!-- az-content-body -->
   </div>
 </div>
 <!-- az-content -->
-<app-footer></app-footer>
 
+<!-- LARGE MODAL -->
 <div id="modalFixedAssetCard" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title model-title-center">Yeni demirbaş kartı oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+          <h6 class="modal-title">Demirbaş kartı bilgilerini giriniz.</h6>        
         <button
           type="button"
           class="close"
           data-dismiss="modal"
-          aria-label="Close"
-        >
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <!-- <h6>Yeni demirbaş kartı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
         <form #data="ngForm" (ngSubmit)="insertFixedAssetCard(data)" class="form-register">
+      <div class="modal-body">          
             <div class="row">
                 <label>Demirbaş Kart Kodu</label>
                 <input type="text" id="FixedAssetCardCode" ngModel name="FixedAssetCardCode" required class="form-control txt-width" value=""/>
@@ -55,7 +50,6 @@
               <label>Açıklama</label>
               <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width" value=""/>
             </div>
-          <!-- form-group -->
           <div class="row">
               <label>Demirbaş Kart Kategorisi</label>
               <select  id="FixedAssetCardCategoryId" ngModel name="FixedAssetCardCategoryId" required class="form-control txt-width" value="">
@@ -66,6 +60,7 @@
                   </option>   
               </select>
              </div>
+          </div>
           <!-- form-group -->
           <div class="modal-footer">
               <button class="btn btn-orange btn-block btn-height" id="btnCreateFixedAssetCard" type="submit" data-toggle="modal" data-target="#modalInsertFixedAssetCard">Departman Ekle</button>       
@@ -73,7 +68,6 @@
         </form>
       </div>
     </div>
-  </div>
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
