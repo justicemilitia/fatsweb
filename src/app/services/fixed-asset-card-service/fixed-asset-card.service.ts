@@ -6,7 +6,8 @@ import {
   GET_FIXEDASSETCARD_LIST,
   INSERT_FIXEDASSETCARD,
   UPDATE_FIXEDASSETCARD,
-  GET_FIXEDASSETCARD_BY_ID
+  GET_FIXEDASSETCARD_BY_ID,
+  DELETE_FIXEDASSETCARD
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -24,7 +25,7 @@ export class FixedAssetCardService {
     private errorService: ErrorService
   ) {}
 
-  GetFixedAssetCard(success, failed) {
+  GetFixedAssetCards(success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIXEDASSETCARD_LIST, {
         headers: GET_HEADERS(this.authenticationService.getToken())
@@ -53,7 +54,6 @@ export class FixedAssetCardService {
   }
 
   InsertFixedAssetCard(fixedAssetCard: FixedAssetCard, success, failed) {
-    debugger;
     this.httpClient
       .post(SERVICE_URL + INSERT_FIXEDASSETCARD, fixedAssetCard, {
         headers: GET_HEADERS(this.authenticationService.getToken())
@@ -112,6 +112,22 @@ export class FixedAssetCardService {
           failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
         }
       }, error => {
+        failed(error);
+      });
+  }
+  DeleteFixedAssetCards(ids: number[], success, failed) {
+    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARD, { "FixedAssetCardIds": ids }, {
+      headers: GET_HEADERS(this.authenticationService.getToken()),
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
         failed(error);
       });
   }

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 import {
   GET_DEPARTMENT_LIST,
@@ -8,11 +8,13 @@ import {
   INSERT_DEPARTMENT,
   GET_LOCATION_LIST,
   UPDATE_DEPARTMENT,
-  GET_DEPARTMENT_BY_ID
+  GET_DEPARTMENT_BY_ID,
+  DELETE_DEPARTMENT
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Department } from "../../models/Department";
 import { Response } from "src/app/models/Response";
+import { ErrorService } from "../error-service/error.service";
 
 @Injectable({
   providedIn: "root"
@@ -22,71 +24,130 @@ export class DepartmentService {
 
   constructor(
     private httpClient: HttpClient,
-    private aService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private errorService: ErrorService
   ) {}
 
-  GetDepartments(callback) {
+  GetDepartments(success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_DEPARTMENT_LIST, {
-        headers: GET_HEADERS(this.aService.getToken())
+        headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          let departments: Department[] = [];
-
-          (<Department[]>response.ResultObject).forEach(e => {
-            let dep: Department = new Department();
-            Object.assign(dep, e);
-            departments.push(dep);
-          });
-
-          callback(departments);
+          if (response.ResultStatus == true) {
+            let departments: Department[] = [];
+            (<Department[]>response.ResultObject).forEach(e => {
+              let dep: Department = new Department();
+              Object.assign(dep, e);
+              departments.push(dep);
+            });
+            success(departments, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
         },
-        error => console.error(error)
-      );
-  }
-
-  InsertDepartment(department: Department) {
-    this.httpClient
-      .post(SERVICE_URL + INSERT_DEPARTMENT, department, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(
-        () => {
-          this.GetDepartments(department);
-        },
-        error => {
-          console.log(error);
+        (error: HttpErrorResponse) => {
+          failed(error);
         }
       );
   }
 
-  
-  UpdateDepartment(department: Department) {
+  InsertDepartment(department: Department, success, failed) {
     this.httpClient
-        .put(SERVICE_URL + UPDATE_DEPARTMENT, department, {
-          headers: GET_HEADERS(this.aService.getToken())
-        })
-        .subscribe(
-          data => {
-          },
-          error => {
-            console.log(error);
+      .post(SERVICE_URL + INSERT_DEPARTMENT, department, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedDepartment: Department = new Department();
+            Object.assign(insertedDepartment, response.ResultObject);
+            success(insertedDepartment, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
           }
-        );
-    }
-  
-    GetDepartmentById(callback, departmentId: number) {
-      this.httpClient
-        .get(SERVICE_URL + GET_DEPARTMENT_BY_ID + "/" + departmentId, {
-          headers: GET_HEADERS(this.aService.getToken())
-        })
-        .subscribe(result => {
-          debugger;
-          this.departmentData = <Department[]>result["ResultObject"];
-          callback(this.departmentData);
-          console.log(this.departmentData)
-        });
-    }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  UpdateDepartment(department: Department, success, failed) {
+    this.httpClient
+      .put(SERVICE_URL + UPDATE_DEPARTMENT, department, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedDepartment: Department = new Department();
+            Object.assign(insertedDepartment, response.ResultObject);
+            success(insertedDepartment, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  GetDepartmentById(departmentId: number, success, failed) {
+    this.httpClient
+      .get(SERVICE_URL + GET_DEPARTMENT_BY_ID + "/" + departmentId, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let department: Department = new Department();
+          Object.assign(department, response.ResultObject);
+          success(department, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
+
+  DeleteDepartments(ids: number[], success, failed) {
+    this.httpClient
+      .post(
+        SERVICE_URL + DELETE_DEPARTMENT,
+        { DepartmentIds: ids },
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
 }

@@ -8,6 +8,7 @@ export const GET_DEPARTMENT_LIST = "department/GetDepartmentsList";
 export const GET_DEPARTMENT_BY_ID="Locations/GetDepartmentById";
 export const INSERT_DEPARTMENT = "department/AddDepartment";
 export const UPDATE_DEPARTMENT = "department/UpdateDepartment";
+export const DELETE_DEPARTMENT = "department/RemoveByIdList";
 //#endregion
 
 //#region Locations
@@ -29,7 +30,7 @@ export const GET_FIXEDASSETCARD_LIST = "fixedAssetcard/GetFixedAssetsCardsList";
 export const GET_FIXEDASSETCARD_BY_ID = "fixedAssetcard/GetFixedAssetCardById";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
-
+export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#endregion
 
 export const UPDATE_ROLE="Role/UpdateRole";
