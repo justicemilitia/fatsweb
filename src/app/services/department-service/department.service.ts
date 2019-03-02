@@ -112,7 +112,9 @@ export class DepartmentService {
       .subscribe(result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          success(<Department[]>response.ResultObject, response.LanguageKeyword);
+          let department: Department = new Department();
+          Object.assign(department, response.ResultObject);
+          success(department, response.LanguageKeyword);
         } else {
           failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
         }

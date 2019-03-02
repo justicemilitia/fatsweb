@@ -30,7 +30,7 @@ export const GET_FIXEDASSETCARD_LIST = "fixedAssetcard/GetFixedAssetsCardsList";
 export const GET_FIXEDASSETCARD_BY_ID = "fixedAssetcard/GetFixedAssetCardById";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
-
+export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#endregion
 
 export const UPDATE_ROLE="Role/UpdateRole";

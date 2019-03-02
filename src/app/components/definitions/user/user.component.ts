@@ -143,7 +143,10 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     // Departmanların listelenmesi
     this.baseService.departmentService.GetDepartments(
-      departments => (this.departments = departments)
+      departments => (this.departments = departments),
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
     );
 
     // Lokasyonların listelenmesi      

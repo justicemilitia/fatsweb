@@ -234,7 +234,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
       await this.baseService.departmentService.GetDepartmentById(<number>event.target.value, (departments: Department[]) => {
 
-        /* Load cities */
+        /* Load departments */
         this.departments = departments;
 
       }, (error: HttpErrorResponse) => {

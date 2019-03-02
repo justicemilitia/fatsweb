@@ -20,14 +20,14 @@ export class FixedAssetCard implements IData {
     FixedAssetCardId: number;
     FixedAssetCardCode: string;
     Name: string;
-    CategoryId: number;
+    FixedAssetCardCategoryId: number;
     Description: string;
     CreationDate: Date;
     CreatorId: number;
     ModifiedDate: Date;
     ModifiedId: number;
     IsValid: boolean;
-    Category: FixedAssetCardCategory;
+    FixedAssetCardCategory: FixedAssetCardCategory;
     FixedAssetCardProperties:FixedAssetCardProperty[];
     Inventories:Inventory[];
 }
