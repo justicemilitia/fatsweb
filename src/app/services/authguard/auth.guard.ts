@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -8,21 +8,23 @@ import {
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { MENU_LOGIN, MENU_DASHBOARD } from "src/app/declarations/page-values";
 
+
 @Injectable({
   providedIn: "root"
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate{
+  
   constructor(
     private authentication: AuthenticationService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
     let logged = this.authentication.isLoggedIn();
-    let pageKeyword = next.data.pageKeyword;    
+    let pageKeyword = next.data.pageKeyword;
     if (pageKeyword == MENU_LOGIN) {
       if (logged == true) {
         this.router.navigate(["dashboard"]); // Eğer Kullanıcı giriş yapmışsa bu sayfaya yönlendir.
