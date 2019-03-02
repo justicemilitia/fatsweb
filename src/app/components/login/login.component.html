@@ -1,92 +1,82 @@
-<body class="az-body">
-  <div class="az-signin-wrapper">
-    <div class="az-card-signin">
-      <div class="row justify-content-center">
-        <h1 class="az-logo" style="margin-top:10px">
-          <img src="\assets\img\trinoks-logo.png" />
-        </h1>
-      </div>
-      <div class="row justify-content-center">
-        <h2 style="color:darkgrey; font-size: 1.5rem">{{getLanguageValue("Username_or_Password_Incorrect")}}</h2>
-      </div>
-      <div class="az-signin-header">
-        <!-- form-group -->
-        <form  #loginForm="ngForm" (ngSubmit)="Login()">
-          <div class="form-group">
-            <label>E-posta</label>
-            <input name="username" [(ngModel)]="loginUser.UserMail" (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control" placeholder="Enter your email"/>
-          </div>
-          <div id="WrongUserMail" *ngIf="!isUserMailCorrect" class="alert alert-warning" role="alert"> 
-            <strong>Warning!</strong>Lütfen mail adresinizin doğruluğundan emin olunuz!
-          </div><!-- alert -->
-          <div class="form-group">
-            <label>Şifre</label>
-            <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control" placeholder="Enter your password"/>
-          </div>
-          <div id="userFirms" *ngIf="!showFirmList" class="form-group" >
-            <label>Firma</label>
-            <select name="firmId" [(ngModel)]="loginUser.FirmId" class="form-control select2-no-search">
-              <option value=" ">Seçiniz</option>   
-              <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>    
-            </select>
-          </div>
-          <div  class="form-group">
-            <div class="row">
-                <div class="btn-icon-list" style="margin-left: auto;margin-right: auto">
-                  <img src="../../../assets/img/tr.png" class="justify-content-center" (click)="changeLanguage('tr')" style="padding:2px;height:25px;width:30px"/>   
-                  <img src="../../../assets/img/en.png" class="justify-content-center" (click)="changeLanguage('en')" style="padding:2px;height:25px;width:30px"/>
-          </div>
-            </div>
-        </div>
-          <div id="WrongPassword" *ngIf="!isPasswordCorrect"  class="alert alert-danger" role="alert">             
-              <strong>Uyarı!</strong>Şifre yanlış girilmiştir.
-            </div><!-- alert -->
-          <button class="btn btn-orange btn-block" type="submit">Giriş</button>
-        </form>
-        <!-- form-group -->
-      </div>
-      <!-- az-signin-header -->
-      <div class="az-signin-footer"> 
-      </div>
-      <!-- az-signin-footer -->
+<div class="az-signin-wrapper">
+  <div class="az-card-signin">
+    <div class="row justify-content-center">
+      <h1 class="az-logo" style="margin-top:10px">
+        <img src="\assets\img\trinoks-logo.png" />
+      </h1>
     </div>
-    <!-- az-card-signin -->
-  </div>
-  <!-- az-signin-wrapper -->
-</body>
-
-    <!-- MODAL EFFECTS -->
-    <div #content id="forgotPasswordModal" class="modal">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content modal-content-demo">
-            <div class="modal-header">
-              <h6 class="modal-title">Message Preview</h6>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <h6>Why We Use Electoral College, Not Popular Vote</h6>
-              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-indigo">Save changes</button>
-              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+    <div class="row justify-content-center">
+      <h2 style="color:darkgrey; font-size: 1.5rem">{{getLanguageValue("Username_or_Password_Incorrect")}}</h2>
+    </div>
+    <div class="az-signin-header">
+      <!-- form-group -->
+      <form #loginForm="ngForm" (ngSubmit)="Login()">
+        <div class="form-group">
+          <label>E-posta</label>
+          <input name="username" [(ngModel)]="loginUser.UserMail" (focusout)="GetUserFirms(loginUser.UserMail)"
+            type="text" class="form-control" placeholder="Enter your email" />
+        </div>
+        <div id="WrongUserMail" *ngIf="!isUserMailCorrect" class="alert alert-warning" role="alert">
+          <strong>Warning!</strong>Lütfen mail adresinizin doğruluğundan emin olunuz!
+        </div><!-- alert -->
+        <div class="form-group">
+          <label>Şifre</label>
+          <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control"
+            placeholder="Enter your password" />
+        </div>
+        <div id="userFirms" *ngIf="!showFirmList" class="form-group">
+          <label>Firma</label>
+          <select name="firmId" [(ngModel)]="loginUser.FirmId" class="form-control select2-no-search">
+            <option value=" ">Seçiniz</option>
+            <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="btn-icon-list" style="margin-left: auto;margin-right: auto">
+              <img src="../../../assets/img/tr.png" class="justify-content-center" (click)="changeLanguage('tr')"
+                style="padding:2px;height:25px;width:30px" />
+              <img src="../../../assets/img/en.png" class="justify-content-center" (click)="changeLanguage('en')"
+                style="padding:2px;height:25px;width:30px" />
             </div>
           </div>
-        </div><!-- modal-dialog -->
-      </div><!-- modal -->
+        </div>
+        <div id="WrongPassword" *ngIf="!isPasswordCorrect" class="alert alert-danger" role="alert">
+          <strong>Uyarı!</strong>Şifre yanlış girilmiştir.
+        </div><!-- alert -->
+        <button class="btn btn-orange btn-block" type="submit">Giriş</button>
+      </form>
+      <!-- form-group -->
+    </div>
+    <!-- az-signin-header -->
+    <div class="az-signin-footer">
+    </div>
+    <!-- az-signin-footer -->
+  </div>
+  <!-- az-card-signin -->
+</div>
+<!-- az-signin-wrapper -->
 
-
-<!-- 
-<script>
-$(document).ready(function showFirm(){  
-    $("#userFirms").show(1000);
-},
-function hideFirm(){
-  
-  $("#userFirms").hide(1000);
-}
-);
-*ngIf="IsUserMailCorrect() ? showFirm() : hideFirm() "
-</script> -->
+<!-- MODAL EFFECTS -->
+<div #content id="forgotPasswordModal" class="modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Message Preview</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6>Why We Use Electoral College, Not Popular Vote</h6>
+        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking
+          at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as
+          opposed to using 'Content here, content here', making it look like readable English. </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-indigo">Save changes</button>
+        <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div><!-- modal-dialog -->
+</div><!-- modal -->

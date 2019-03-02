@@ -24,7 +24,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: "Lokasyon Adı",
-        columnName: "Name",
+        columnName: ["Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -32,7 +32,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Lokasyon Kodu",
-        columnName: "Code",
+        columnName: ["Code"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -40,7 +40,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Lokasyon Barkodu",
-        columnName: "Barcode",
+        columnName: ["Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -48,7 +48,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Koordinat",
-        columnName: "Coordinate",
+        columnName: ["Coordinate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -56,7 +56,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Bağlı Olduğu Lokasyon",
-        columnName: "ParentLocation",
+        columnName: ["ParentLocation"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -64,17 +64,16 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Açıklama",
-        columnName: "Description",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       }
     ],
-    {},
     {
       isDesc: false,
-      column: "Name"
+      column: ["Name"]
     }
   );
   constructor(public baseService: BaseService) {

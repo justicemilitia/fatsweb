@@ -28,7 +28,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: "İsim",
-        columnName: "Name",
+        columnName: ["Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -36,7 +36,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Lokasyon',
-        columnName: 'Location',
+        columnName: ['Location'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -44,7 +44,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Açıklama',
-        columnName: 'Description',
+        columnName: ['Description'],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -52,13 +52,8 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       }
     ],
     {
-      Name: '',
-      Location: '',
-      Description: ''
-    },
-    {
       isDesc: false,
-      column: "Name"
+      column: ["Name"]
     }
   );
 

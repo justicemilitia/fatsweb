@@ -9,28 +9,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <!-- azia CSS -->
+  <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/lib/typicons.font/typicons.css" />
+  <link rel="stylesheet" href="assets/lib/ionicons/css/ionicons.min.css" />
   <link rel="stylesheet" href="assets/css/azia.css" />
-  <link rel="stylesheet" href="assets/css/fats-custom.css" />
   <link rel="stylesheet" href="assets/css/stellarnav.min.css" />
+  <link rel="stylesheet" href="assets/css/fats-custom.css" />
+  <link rel="stylesheet" href="assets/css/fats-table.css" />
+
 </head>
 
 <body class="az-light az-body">
   <app-root></app-root>
 
   <script src="assets/lib/jquery/jquery.min.js"></script>
-  <script src="assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
-  <script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/lib/jquery-sparkline/jquery.sparkline.min.js"></script>
   <script src="assets/js/stellarnav.min.js"></script>
   <script type="text/javascript">
     jQuery(document).ready(function ($) {
-      jQuery('.stellarnav').stellarNav({
-        theme: 'light',
-        breakpoint: 1300,
-        position: 'left',
-        closeBtn: true
-      });
-
+      setTimeout(function () {
+        jQuery('.stellarnav').stellarNav({
+          theme: 'light',
+          breakpoint: 1300,
+          position: 'left',
+          closeBtn: true
+        });
+      }, 20000);
     });
   </script>
 </body>
