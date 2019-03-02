@@ -25,7 +25,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
     [
       {
         columnDisplayName: "Marka",
-        columnName: "Name",
+        columnName: ["Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -33,12 +33,8 @@ export class FixedAssetCardBrandComponent extends BaseComponent
       }   
     ],
     {
-      Name: "",
-      Description: ""
-    },
-    {
       isDesc: false,
-      column: "Name"
+      column: ["Name"]
     }
   );
 

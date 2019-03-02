@@ -34,16 +34,16 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon",
-        columnName: ["Location"],
+        columnDisplayName: 'Lokasyon',
+        columnName: ['Location'],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
-        columnName: ["Description"],
+        columnDisplayName: 'Açıklama',
+        columnName: ['Description'],
         isActive: true,
         classes: [],
         placeholder: "",

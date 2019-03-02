@@ -170,6 +170,25 @@ export class TreeGridTable {
         return 1;
     }
 
+    /**
+     * * Display current page info with replaced value of text.
+     * {0} total, {1} is minimum {2} maximum
+     * @param message To call method example;Showing {1} to {2} of {0} entries
+     */
+    public getDisplayInfo(message: string) {
+        let countOfParentItems = this.dataSource.filter(x => !x.getParentId()).length;
+        if (this.perInPage == -1)
+            return message.replace("{0}",countOfParentItems.toString()).replace("{1}","1").replace("{2}",countOfParentItems.toString());
+        else {
+            let endDisplayCount = this._currentPage * this._perInPage;
+            let totalDisplayItem = endDisplayCount > countOfParentItems ? countOfParentItems : endDisplayCount;
+            message = message.replace("{0}", countOfParentItems.toString());
+            message = message.replace("{1}", (endDisplayCount - this._perInPage + 1).toString());
+            message = message.replace("{2}", (totalDisplayItem).toString());
+            return message;
+        }
+    }
+
     //#endregion
 
     //#endregion
@@ -188,7 +207,6 @@ export class TreeGridTable {
         this.dataOrders.column = _dataColumns.find(x => JSON.stringify(x.columnName) == JSON.stringify(_dataOrders.column));
         this.dataOrders.isDesc = _dataOrders.isDesc;
         this.isLoading = true;
-
     }
 
     //#endregion
@@ -200,6 +218,7 @@ export class TreeGridTable {
      */
     public TGT_toggleSelectAll() {
         this.dataSource.forEach(e => { e.isChecked = this._selectAllState; });
+        this.TGT_loadData(this.originalSource);
     }
 
     /**

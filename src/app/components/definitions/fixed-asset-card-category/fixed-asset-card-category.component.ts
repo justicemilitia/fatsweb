@@ -28,7 +28,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
     [
       {
         columnDisplayName: "İsim",
-        columnName: "Name",
+        columnName: ["Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -36,17 +36,16 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
       },
       {
         columnDisplayName: "Açıklama",
-        columnName: "Description",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       }
     ],
-    {},
     {
       isDesc: false,
-      column: "Name"
+      column: ["Name"]
     }
   );
 

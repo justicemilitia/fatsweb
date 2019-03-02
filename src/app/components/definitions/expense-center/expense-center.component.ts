@@ -28,7 +28,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: "Masraf Yeri Kodu",
-        columnName: "ExpenseCenterCode",
+        columnName: ["ExpenseCenterCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -36,19 +36,16 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
       }, 
       {
         columnDisplayName: "Masraf Yeri",
-        columnName: "Name",
+        columnName: ["Name"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
     ],
-    {  
-
-    },
     {
       isDesc: false,
-      column: "Name"
+      column: ["Name"]
     }
   );
   constructor(

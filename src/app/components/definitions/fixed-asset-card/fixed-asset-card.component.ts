@@ -30,7 +30,7 @@ implements OnInit {
     [
       {
         columnDisplayName: 'İsim',
-        columnName: 'Name',
+        columnName: ['Name'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -38,7 +38,7 @@ implements OnInit {
       },
       {
         columnDisplayName: 'Kod',
-        columnName: 'FixedAssetCardCode',
+        columnName: ['FixedAssetCardCode'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -46,7 +46,7 @@ implements OnInit {
       },
       {
         columnDisplayName: 'Kategori',
-        columnName: 'FixedAssetCardCategory.Name',
+        columnName: ['FixedAssetCardCategory','Name'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -54,7 +54,7 @@ implements OnInit {
       },
       {
         columnDisplayName: 'Açıklama',
-        columnName: 'Description',
+        columnName: ['Description'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -62,14 +62,8 @@ implements OnInit {
       }
     ],
     {
-      Name: '',
-      Description: '',
-      FixedAssetCardCategory:'',
-      FixedAssetCardProperty:''
-    },
-    {
       isDesc: false,
-      column: 'Name'
+      column: ['Name']
     }
   );
   
