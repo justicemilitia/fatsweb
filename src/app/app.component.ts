@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { BaseService } from './services/base.service';
 import { BaseComponent } from './components/base/base.component';
 
@@ -9,7 +8,7 @@ import { BaseComponent } from './components/base/base.component';
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent extends BaseComponent {
-  constructor(private httpClient: HttpClient,public baseService:BaseService) {
+  constructor(public baseService: BaseService) {
     super(baseService);
   }
 

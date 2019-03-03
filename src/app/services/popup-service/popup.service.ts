@@ -8,7 +8,7 @@ import { ErrorService } from '../error-service/error.service';
   providedIn: "root"
 })
 export class PopupService {
-  constructor(private errorService:ErrorService) {
+  constructor(private errorService: ErrorService) {
 
   }
 
@@ -17,9 +17,9 @@ export class PopupService {
   }
 
 
-  /*ShowErrorPopup(message:string,callBack) {
-    swal("Selam canım :)", "", "success");
-  }*/
+  ShowAlertPopup(message: string) {
+    swal(message, "", "warning");
+  }
 
   ShowSuccessPopup(message: string) {
     swal({
@@ -47,7 +47,7 @@ export class PopupService {
     })
   }
 
-  ShowQuestionPopupForDelete() {
+  ShowQuestionPopupForDelete(callback) {
     swal({
       title: "Silmek istediğinize emin misiniz?",
       text: "Bu işlem geri alınamaz.",
@@ -56,12 +56,8 @@ export class PopupService {
       dangerMode: true,
     })
       .then((willDelete) => {
-        if (willDelete) {
-          swal("Başarıyla silindi!", {
-            icon: "success",
-          });
-        } else {
-          swal("İşlem iptal edildi!");
+        if (willDelete == true) {
+          callback();
         }
       });
   }

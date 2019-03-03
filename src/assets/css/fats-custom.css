@@ -17,7 +17,7 @@ body {
     border-bottom: 1px solid #ced4da;
     background: #fcfcfc;
     border-top: 1px solid #ced4da;
-    z-index: 0 !important;
+    z-index: 100 !important;
 }
 
 .card {
@@ -103,4 +103,28 @@ body {
 
 .nav-link-item-link.active {
     color: #e6730e !important;
+}
+
+.grp-btn-action {
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+button.btn:first-child {
+    margin-right: 10px;
+}
+
+.az-footer {
+    background: white;
+}
+
+.btn-modal-close {
+    background-color: red !important;
+}
+
+.btn-modal-close:hover{
+    color:white !important;
+    background-color: darkred !important;
 }

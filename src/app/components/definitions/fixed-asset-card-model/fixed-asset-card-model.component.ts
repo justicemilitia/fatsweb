@@ -35,7 +35,11 @@ export class FixedAssetCardModelComponent extends BaseComponent
       },
       {
         columnDisplayName: "Marka",
+<<<<<<< HEAD
         columnName: ["FixedAssetCardModel","FixedAssetCardBrand","Name"],
+=======
+        columnName: ["FixedAssetCardBrand"],
+>>>>>>> 4a96a010b2b61329e19161a1df602ca79422c478
         isActive: true,
         classes: [],
         placeholder: "",

@@ -34,7 +34,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: 'İsim',
-        columnName: 'FirstName',
+        columnName: ['FirstName'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -42,7 +42,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Soyisim',
-        columnName: 'LastName',
+        columnName: ['LastName'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -50,7 +50,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Unvan',
-        columnName: 'UserTitle',
+        columnName: ['UserTitle'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -58,7 +58,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Firma',
-        columnName: 'Firm.Name',
+        columnName: ['Firm', 'Name'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -66,7 +66,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Lokasyon',
-        columnName: 'Location.Name',
+        columnName: ['Location', 'Name'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -74,7 +74,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Departman',
-        columnName: 'Department.Name',
+        columnName: ['Department', 'Name'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -82,7 +82,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Telefon',
-        columnName: 'PhoneNumber',
+        columnName: ['PhoneNumber'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -90,7 +90,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'E-mail',
-        columnName: 'UserMail',
+        columnName: ['UserMail'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -98,7 +98,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Açıklama',
-        columnName: 'Description',
+        columnName: ['Description'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -106,19 +106,8 @@ export class UserComponent extends BaseComponent implements OnInit {
       }
     ],
     {
-      FirstName: '',
-      LastName: '',
-      UserMail: '',
-      UserTitle: '',
-      PhoneNumber: '',
-      FirmName: '',
-      Location: '',
-      Department: '',
-      Description: ''
-    },
-    {
       isDesc: false,
-      column: 'Name'
+      column: ['Name']
     }
   );
 
@@ -126,7 +115,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     super(baseService);
     this.loadUsers();
   }
-  ngOnInit() {}
+  ngOnInit() { }
 
   registerUser: any = {};
 
@@ -151,11 +140,14 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   loadDropdownList() {
-    
+
     // Departmanların listelenmesi
-      this.baseService.departmentService.GetDepartments(
-        departments => (this.departments = departments)
-      );
+    this.baseService.departmentService.GetDepartments(
+      departments => (this.departments = departments),
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
 
     // Lokasyonların listelenmesi      
     this.baseService.locationService.GetLocations(

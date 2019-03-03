@@ -16,7 +16,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: "Rol",
-        columnName: "Name",
+        columnName: ["Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -24,17 +24,16 @@ export class RoleComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Açıklama",
-        columnName: "Description",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       }
     ],
-    {},
     {
       isDesc: false,
-      column: "Name"
+      column: ["Name"]
     }
   );
 
@@ -42,7 +41,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: "Rol",
-        columnName: "Name",
+        columnName: ["Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -50,17 +49,16 @@ export class RoleComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Kullanıcı",
-        columnName: "User",
+        columnName: ["User"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       }
     ],
-    {},
     {
       isDesc: false,
-      column: "Name"
+      column: ["Name"]
     }
   );
 

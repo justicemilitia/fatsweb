@@ -1,110 +1,79 @@
 <div class="az-content">
-  <div class="container">
+  <div class="container-fluid">
     <div class="az-content-body">
-      <!-- <div class="az-content-breadcrumb">
-        <span>Table</span>
-        <span>DataTables</span>
-      </div> -->
+        <div class="card card-dashboard-twelve mg-b-20">      
       <h2 class="az-content-title">Demirbaş Kartları</h2>
-      <div class="col-md-2 btnAddFixedAssetCard-right">
-        <button
-          class="btn btn-orange btn-block btnAddFixedAssetCard-height"
-          id="btnAddFixedAssetCard"
-          data-toggle="modal"
-          data-target="#modalFixedAssetCard"
-          (click)="loadDropdownList()"
-        >Demirbaş Kartı Ekle
-        </button>
+      <div class="grp-btn-action">
+          <button type="button" (click)="deleteFixedAssetCards()" class="btn btn-danger">
+              {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+              <i class="fas fa-trash"></i></button>
+            <button class="btn btn-orange" id="btnAddFixedAssetCard" data-toggle="modal" data-target="#modalFixedAssetCard">Demirbaş Kartı Ekle</button>
       </div>
-
       <p class="mg-b-20"></p>
       <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+      </div>
     </div>
     <!-- az-content-body -->
   </div>
 </div>
 <!-- az-content -->
-<app-footer></app-footer>
 
+<!-- LARGE MODAL -->
 <div id="modalFixedAssetCard" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title model-title-center">Yeni demirbaş kartı oluşturmak için aşağıdaki alanları doldurunuz.</h6>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+          <h6 class="modal-title">Demirbaş kartı bilgilerini giriniz.</h6>        
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <!-- <h6>Yeni demirbaş kartı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-        <form #data="ngForm" (ngSubmit)="insertFixedAssetCard(data)" class="form-register">
+        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
+      <div class="modal-body">          
             <div class="row">
-                <label>Demirbaş Kart Kodu</label>
+                <div class="col-md-12">
+                  <label>Demirbaş Kart Kodu</label>
                 <input type="text" id="FixedAssetCardCode" ngModel name="FixedAssetCardCode" required class="form-control txt-width" value=""/>
               </div>
+            </div>
           <div class="row">
+              <input type="hidden" name="FixedAssetCardId" [(ngModel)]="fixedAssetCard.FixedassetCardId" />
+              <div class="col-md-12">            
               <label>*Demirbaş Kart Adı</label>
-              <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
+              <input [(ngModel)]="fixedAssetCard.Name" name="Name" type="text" class="form-control" #Name="ngModel"
+              [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                </div>
             </div>
-            <div class="row">
-              <label>Açıklama</label>
-              <input type="text" id="Description" ngModel name="Description" required class="form-control txt-width" value=""/>
-            </div>
-          <!-- form-group -->
+          </div>
           <div class="row">
-              <label>Demirbaş Kart Kategorisi</label>
-              <select  id="FixedAssetCardCategoryId" ngModel name="FixedAssetCardCategoryId" required class="form-control txt-width" value="">
-                  <option value="">Seçiniz</option>
-                  <option value="-1">Yok</option>
-                  <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories" value={{fixedAssetCardCategory.CategoryId}}>
-                    {{fixedAssetCardCategory.Name}}
-                  </option>   
-              </select>
-             </div>
+              <div class="col-md-12">            
+                <label>Demirbaş Kart Kategorisi</label>
+                <select  [(ngModel)]="fixedAssetCard.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" class="form-control txt-width" (click)="loadFixedAssetCardCategories()">
+                    <option value="">Seçiniz</option>
+                    <option value="-1">Yok</option>
+                    <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories" value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>{{fixedAssetCardCategory.Name}}</option>   
+                </select>
+               </div>
+              </div>
+            <div class="row">
+              <div class="col-md-12">
+              <label>Açıklama</label>
+              <textarea [(ngModel)]="fixedAssetCard.Description" name="Description" style="resize:none" rows="2"
+                  class="form-control" type="text"></textarea>
+            </div>
+          </div>             
+          </div>
           <!-- form-group -->
-          <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateFixedAssetCard" type="submit" data-toggle="modal" data-target="#modalInsertFixedAssetCard">Departman Ekle</button>       
+          <div class="modal-footer ustify-content-center">
+              <button id="btnInsertOrUpdateFixedAssetCard" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertFixedAssetCard">Kaydet</button>
+              <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-light">Close</button> -->
             </div>
         </form>
       </div>
     </div>
-  </div>
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
 
-
-
-<!-- <script>
-  $(function() {
-    "use strict";
-
-    // showing modal with effect
-    $(".modal-effect").on("click", function(e) {
-      e.preventDefault();
-      var effect = $(this).attr("data-effect");
-      $("#modaldemo8").addClass(effect);
-    });
-
-    // hide modal with effect
-    $("#modaldemo8").on("hidden.bs.modal", function(e) {
-      $(this).removeClass(function(index, className) {
-        return (className.match(/(^|\s)effect-\S+/g) || []).join(" ");
-      });
-    });
-  });
-  $(document).ready( function () {
-    $('#tblFixedAssetCard').DataTable({
-        "columnDefs": [ {
-            "type": "salary-grade",
-            "targets": -1
-        } ],
-        "order": [[0,asc]]
-      });
-} );
-</script> -->

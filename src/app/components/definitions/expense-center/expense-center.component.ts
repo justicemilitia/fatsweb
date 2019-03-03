@@ -41,7 +41,10 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
         type: "text"
       }
     ],
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4a96a010b2b61329e19161a1df602ca79422c478
     {
       isDesc: false,
       column: ["Name"]

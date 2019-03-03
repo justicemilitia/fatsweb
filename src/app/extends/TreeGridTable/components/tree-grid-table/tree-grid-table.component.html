@@ -1,7 +1,7 @@
 <!-- Table Area -->
-<div class="row">
+<div class="row table-row">
   <!-- Offset / Disable Columns Area -->
-  <div class="table-column-helper" *ngIf="dataTable.isColumnOffsetActive == true">
+  <div class="table-column-helper" *ngIf="dataTable.isColumnOffsetActive == true && dataTable.isConfigOpen">
     <div class="table-column-helper-sub">
       <!-- Offset Header -->
       <div class="table-column-helper-header">
@@ -18,9 +18,11 @@
                 {{column.columnDisplayName}}</li>
               <li class="table-column-item-offset"></li>
               <li>
-                <span (click)="dataTable.TGT_offsetColumns(column,false)"
+                <span [ngStyle]="{'visibility' : i == 0 ? 'hidden' : 'visible'}"
+                  (click)="dataTable.TGT_offsetColumns(column,false)"
                   class="typcn icon-default typcn-arrow-sorted-up table-column-helper-up"></span>
-                <span (click)="dataTable.TGT_offsetColumns(column,true)"
+                <span [ngStyle]="{'visibility' : i == dataTable.dataColumns.length-1 ? 'hidden' : 'visible'}"
+                  (click)="dataTable.TGT_offsetColumns(column,true)"
                   class="typcn icon-default typcn-arrow-sorted-down table-column-helper-down"></span>
               </li>
             </ul>
@@ -28,11 +30,22 @@
         </ul>
       </div>
       <!-- END Offset Body END -->
+      <!-- Offset Footer -->
+      <div class="table-column-helper-footer">
+        <button (click)="dataTable.TGT_saveConfig()" class="btn btn-success table-column-helper-button-save">
+          Kaydet
+        </button>
+        <button (click)="dataTable.TGT_returnDefaultConfig()" class="btn btn-danger table-column-helper-button-save">
+          Sıfırla
+        </button>
+      </div>
+      <!-- END Offset Footer END-->
     </div>
   </div>
   <!-- END Offset / Disable Columns Area END -->
   <!-- Config Button-->
-  <span (click)="dataTable.TGT_toggleConfig()" class="typcn icon-default typcn-chevron-left table-config-arrow"></span>
+  <span *ngIf="dataTable.isColumnOffsetActive == true" (click)="dataTable.TGT_toggleConfig()"
+    class="typcn icon-default typcn-cog-outline table-config-arrow"></span>
   <!-- END Config Button END-->
   <!-- Data Table Area -->
   <div class="tree-table-responsive">
@@ -63,11 +76,12 @@
         <!-- First Row is Filter -->
         <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
           <td class="tree-table-body-tr-td-empty">
+            <input type="checkbox" class="table-checkbox" [(ngModel)]="dataTable.dataFilters['isChecked']">
           </td>
           <ng-container *ngFor="let column of dataTable.dataColumns">
             <td class="{{dataTable.TGT_getColumnVisibility(column)}}">
               <input type="{{column.type}}" placeholder="{{column.placeholder}}"
-                class="form-control {{column.classes.join(' ')}}"
+                class="form-control tree-table-input-text {{column.classes.join(' ')}}"
                 [(ngModel)]="dataTable.dataFilters[column.columnName]">
             </td>
           </ng-container>
@@ -104,10 +118,17 @@
 </div>
 <!-- END Table Area END -->
 <!-- Pagination -->
-<div class="row" *ngIf="dataTable.isPagingActive == true">
+<div *ngIf="dataTable.isPagingActive == true">
+  <div class="table-info">
+    {{dataTable.getDisplayInfo('Toplam {0} kayıt ve {1} ile {2} arası gösteriliyor..')}}
+  </div>
   <!-- Pagination Side -->
-  <div class="col-md-10">
-    <nav aria-label="Page navigation">
+  <div class="table-pagination">
+    <select class="table-pagination-select" [(ngModel)]="dataTable.perInPage">
+      <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
+      <option value="-1">Hepsi</option>
+    </select>
+    <nav class="pagination-nav">
       <ul class="pagination">
         <ng-container *ngFor="let page of dataTable.pages">
           <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
@@ -118,15 +139,5 @@
     </nav>
   </div>
   <!-- END Pagination Side END -->
-  <!-- Per In Page Side -->
-  <div class="col-md-2">
-    <div class="form-group">
-      <select class="form-control" [(ngModel)]="dataTable.perInPage">
-        <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
-        <option value="-1">Hepsi</option>
-      </select>
-    </div>
-    <!-- END Per In Page Side END -->
-  </div>
 </div>
 <!-- END Pagination END -->

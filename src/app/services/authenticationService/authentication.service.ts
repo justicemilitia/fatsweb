@@ -44,7 +44,6 @@ export class AuthenticationService {
           this.router.navigateByUrl("/dashboard");
         },
         error => {  
-          debugger;                        
           failed(error);
         }
       );

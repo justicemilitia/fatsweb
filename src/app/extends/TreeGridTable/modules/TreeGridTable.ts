@@ -2,7 +2,6 @@ import { IData } from '../models/interfaces/IData';
 import { IColumn } from '../models/interfaces/IColumn';
 import { Page } from '../models/Page';
 import { TreeGridTableMethods } from './TreeGridTableMethods';
-import * as $ from 'jquery';
 
 export class TreeGridTable {
 
@@ -23,7 +22,7 @@ export class TreeGridTable {
     /**
      * Store is config open
      */
-    public isConfigOpen: boolean = true;
+    public isConfigOpen: boolean = false;
 
     /**
      * Store the original list which was used in loadData method as paramter.
@@ -39,6 +38,11 @@ export class TreeGridTable {
      * Store the items which will render in table.
      */
     public dataSource: IData[] = [];
+
+    /**
+     * Original Data Columns
+     */
+    public originalDataColumns: IColumn[] = [];
 
     /**
      * Table columns which will used to insert columns in to table
@@ -58,7 +62,7 @@ export class TreeGridTable {
 
     /**
      * Store the current order column.
-     * {column:'',isDesc:false} is an example
+     * {column:IColumn,isDesc:false} is an example
      */
     public dataOrders: any = {};
 
@@ -71,6 +75,13 @@ export class TreeGridTable {
      * Pagination Items are here.
      */
     public pages: Page[] = [];
+
+    /**
+     * Used to save and load last user config for table
+     */
+    public tablename: string = "";
+
+    private tablename_prefix: string = "table_";
 
     //#region Getter And Setters
 
@@ -170,6 +181,25 @@ export class TreeGridTable {
         return 1;
     }
 
+    /**
+     * * Display current page info with replaced value of text.
+     * {0} total, {1} is minimum {2} maximum
+     * @param message To call method example;Showing {1} to {2} of {0} entries
+     */
+    public getDisplayInfo(message: string) {
+        let countOfParentItems = this.dataSource.filter(x => !x.getParentId()).length;
+        if (this.perInPage == -1)
+            return message.replace("{0}", countOfParentItems.toString()).replace("{1}", "1").replace("{2}", countOfParentItems.toString());
+        else {
+            let endDisplayCount = this._currentPage * this._perInPage;
+            let totalDisplayItem = endDisplayCount > countOfParentItems ? countOfParentItems : endDisplayCount;
+            message = message.replace("{0}", countOfParentItems.toString());
+            message = message.replace("{1}", (endDisplayCount - this._perInPage + 1).toString());
+            message = message.replace("{2}", (totalDisplayItem).toString());
+            return message;
+        }
+    }
+
     //#endregion
 
     //#endregion
@@ -177,17 +207,24 @@ export class TreeGridTable {
     //#region Constructor
 
     /**
-     * 
+     * @param _tablename 
      * @param _dataColumns Column Values with IColumn interface
-     * @param _dataFilters Filter values {} can be empty object
      * @param _dataOrders  Order columns
      */
-    constructor(_dataColumns: IColumn[], _dataOrders: any) {
+    constructor(_tablename: string, _dataColumns: IColumn[], _dataOrders: any) {
 
+        /* Start with loading */
+        this.isLoading = true;
+
+        /* Store original columns to return it and then load previous config values  */
+        this.originalDataColumns = JSON.parse(JSON.stringify(_dataColumns));
         this.dataColumns = _dataColumns;
+        this.tablename = _tablename;
+        this.TGT_loadConfig();
+
+        /* Do order for given column default */
         this.dataOrders.column = _dataColumns.find(x => JSON.stringify(x.columnName) == JSON.stringify(_dataOrders.column));
         this.dataOrders.isDesc = _dataOrders.isDesc;
-        this.isLoading = true;
 
     }
 
@@ -195,11 +232,90 @@ export class TreeGridTable {
 
     //#region Base Methods
 
+    //#region  Config Load / Save / Clear / Remove Methods
+
+    /**
+     * Save Current Table Config with table name key.
+     */
+    public TGT_saveConfig() {
+
+        /* The Data we will store */
+        let config = {
+            columns: this.dataColumns,
+            perInPage: this._perInPage
+        };
+
+        /* Store the local storage */
+        localStorage.setItem(this.tablename_prefix + this.tablename, JSON.stringify(config));
+
+    }
+
+    /**
+     * Load Current Table Config with table name key.
+     */
+    public TGT_loadConfig() {
+
+        /* Load table config */
+        let item = localStorage.getItem(this.tablename_prefix + this.tablename);
+        if (item) {
+
+            /* if you get any error means you have parsing error just remove previous config */
+            let prevConfig = JSON.parse(item);
+
+            /* if parsing wasnt expected model just remove old config and return  */
+            if (!prevConfig || !prevConfig.columns || !prevConfig.perInPage) {
+                this.TGT_removeConfig(this.tablename);
+                return;
+            }
+
+            /* load previous config */
+            this.dataColumns = prevConfig.columns;
+            this.perInPage = prevConfig.perInPage;
+
+        }
+    }
+
+    /**
+     * Clear all other table configs. 
+     */
+    public TGT_clearAllTableConfig() {
+        for (let ii = 0; ii < localStorage.length; ii++) {
+            if (localStorage.key(ii).startsWith(this.tablename_prefix)) {
+                localStorage.removeItem(localStorage.key(ii));
+                ii--;
+            }
+        }
+    }
+
+    /**
+     * Remove given table config values.
+     * @param tablename Table name for delete config. If empty means clear current table values.
+     */
+    public TGT_removeConfig(tablename: string = '') {
+
+        /* if empty clear current table config */
+        if (tablename == '') {
+            localStorage.removeItem(this.tablename_prefix + this.tablename);
+        } else {
+            localStorage.removeItem(this.tablename_prefix + tablename);
+        }
+    }
+
+    //#endregion
+
+    /**
+     * Reload factory config values.
+     */
+    public TGT_returnDefaultConfig() {
+        this.dataColumns = this.originalDataColumns.slice(0);
+    }
+
     /**
      * Toggle of select / unselect for all items
      */
     public TGT_toggleSelectAll() {
         this.dataSource.forEach(e => { e.isChecked = this._selectAllState; });
+        this.TGT_loadData(this.originalSource);
     }
 
     /**
@@ -223,15 +339,6 @@ export class TreeGridTable {
      */
     public TGT_toggleConfig() {
         this.isConfigOpen = !this.isConfigOpen;
-        /* Change click event icon */
-        $(".table-column-helper").animate({ width: 'toggle' }, "fast");
-        if ($(".table-config-arrow").hasClass("typcn-chevron-left") == true) {
-            $(".table-config-arrow").removeClass("typcn-chevron-left");
-            $(".table-config-arrow").addClass("typcn-chevron-right");
-        } else if ($(".table-config-arrow").hasClass("typcn-chevron-right") == true) {
-            $(".table-config-arrow").removeClass("typcn-chevron-right");
-            $(".table-config-arrow").addClass("typcn-chevron-left");
-        }
     }
 
     /**
