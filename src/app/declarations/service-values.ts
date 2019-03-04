@@ -41,6 +41,7 @@ export const GET_FIXEDASSETCARDCATEGORY_LIST = "FixedAssetCardCategories/GetFixe
 export const GET_FIXEDASSETCARDCATEGORY_BY_ID = "FixedAssetCardCategories/GetFixedAssetCardCategoryById";
 export const INSERT_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/AddFixedAssetCardCategory";
 export const UPDATE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/UpdateFixedAssetCardCategory";
+export const DELETE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/RemoveByIdList";
 //#endregion
 
 //#region FixedAssetCardProperties

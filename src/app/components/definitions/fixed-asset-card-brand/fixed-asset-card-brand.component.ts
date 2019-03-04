@@ -21,7 +21,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
   insertingfixedAssetCardBrands: any = {};
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
   fixedAssetCardBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
-  public dataTable: TreeGridTable = new TreeGridTable(
+  public dataTable: TreeGridTable = new TreeGridTable("fixedassetcardbrand",
     [
       {
         columnDisplayName: "Marka",

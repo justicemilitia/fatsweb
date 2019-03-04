@@ -20,7 +20,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
   locations: Location[] = [];
   location: Location = new Location();
 
-  public dataTable: TreeGridTable = new TreeGridTable(
+  public dataTable: TreeGridTable = new TreeGridTable("location",
     [
       {
         columnDisplayName: "Lokasyon Adı",
