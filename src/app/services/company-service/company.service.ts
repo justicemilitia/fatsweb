@@ -13,6 +13,7 @@ import {
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from '../authenticationService/authentication.service';
 import { ErrorService } from '../error-service/error.service';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -42,7 +43,7 @@ export class CompanyService {
             });
             success(companies, response.LanguageKeyword);
           } else {
-            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
@@ -62,7 +63,7 @@ export class CompanyService {
           Object.assign(insertedCompany, response.ResultObject);
           success(insertedCompany, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -79,7 +80,7 @@ export class CompanyService {
         if (response.ResultStatus == true) {
           success(company, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -100,7 +101,7 @@ export class CompanyService {
           Object.assign(company, response.ResultObject);
           success(company, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       }, error => {
         failed(error);
@@ -116,7 +117,7 @@ export class CompanyService {
         if (response.ResultStatus == true) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {

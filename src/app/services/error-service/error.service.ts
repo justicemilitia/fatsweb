@@ -15,14 +15,6 @@ export class ErrorService {
     this.router.navigateByUrl(url);
   }
 
-  getAnErrorResponse(message: string): HttpErrorResponse {
-    let response: HttpErrorResponse = new HttpErrorResponse({
-      status: 400,
-      statusText: message
-    });
-    return response;
-  }
-
   errorManager(error: HttpErrorResponse) {
     switch (error.status) {
       case 401:

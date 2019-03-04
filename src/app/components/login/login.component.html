@@ -6,45 +6,51 @@
       </h1>
     </div>
     <div class="row justify-content-center">
-      <h2 style="color:darkgrey; font-size: 1.5rem">{{getLanguageValue("Username_or_Password_Incorrect")}}</h2>
+      <h2 style="color:darkgrey; font-size: large">Fats - Demirbaş Yönetim Sistemi</h2>
     </div>
     <div class="az-signin-header">
       <!-- form-group -->
-      <form #loginForm="ngForm" (ngSubmit)="Login()">
+      <form #loginForm="ngForm" (ngSubmit)="Login(loginForm)" novalidate>
         <div class="form-group">
           <label>E-posta</label>
-          <input name="username" [(ngModel)]="loginUser.UserMail" (focusout)="GetUserFirms(loginUser.UserMail)"
-            type="text" class="form-control" placeholder="Enter your email" />
+          <input [(ngModel)]="loginUser.UserMail" name="UserMail" id="UserMail" #UserMail="ngModel"
+            [ngClass]="{ 'is-invalid': loginForm.submitted && UserMail.invalid }"
+            (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control"
+            placeholder="E-posta Adresinizi yazınız" required/>
         </div>
-        <div id="WrongUserMail" *ngIf="!isUserMailCorrect" class="alert alert-warning" role="alert">
-          <strong>Warning!</strong>Lütfen mail adresinizin doğruluğundan emin olunuz!
-        </div><!-- alert -->
         <div class="form-group">
           <label>Şifre</label>
-          <input type="password" name="password" [(ngModel)]="loginUser.Password" type="password" class="form-control"
-            placeholder="Enter your password" />
+          <input type="password" #Password="ngModel" id="Password" name="Password" [(ngModel)]="loginUser.Password"
+            [ngClass]="{ 'is-invalid': loginForm.submitted && Password.invalid }" type="password" class="form-control"
+            placeholder="Şifrenizi giriniz" required />
         </div>
-        <div id="userFirms" *ngIf="!showFirmList" class="form-group">
+
+        <div id="userFirms" *ngIf="firms.length > 0" class="form-group">
           <label>Firma</label>
-          <select name="firmId" [(ngModel)]="loginUser.FirmId" class="form-control select2-no-search">
-            <option value=" ">Seçiniz</option>
+          <div *ngIf="isUserFirmsGetting == true" class="loader"></div>
+          <select *ngIf="isUserFirmsGetting == false" name="firmId" [(ngModel)]="loginUser.FirmId"
+            class="form-control select2-no-search">
+            <option value="-1">Seçiniz</option>
             <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>
           </select>
         </div>
         <div class="form-group">
           <div class="row">
             <div class="btn-icon-list" style="margin-left: auto;margin-right: auto">
-              <img src="../../../assets/img/tr.png" class="justify-content-center" (click)="changeLanguage('tr')"
-                style="padding:2px;height:25px;width:30px" />
-              <img src="../../../assets/img/en.png" class="justify-content-center" (click)="changeLanguage('en')"
-                style="padding:2px;height:25px;width:30px" />
+              <img src="../../../assets/img/tr.png" class="justify-content-center flags"
+                [class.flags-active]="LANGUAGE == 'tr'" (click)="changeLanguage('tr')" />
+              <img src="../../../assets/img/en.png" class="justify-content-center flags"
+                [class.flags-active]="LANGUAGE == 'en'" (click)="changeLanguage('en')" />
             </div>
           </div>
         </div>
-        <div id="WrongPassword" *ngIf="!isPasswordCorrect" class="alert alert-danger" role="alert">
-          <strong>Uyarı!</strong>Şifre yanlış girilmiştir.
+        <div id="WrongPassword" *ngIf="errorMessage != ''" class="alert alert-danger" role="alert">
+          {{errorMessage}}
         </div><!-- alert -->
-        <button class="btn btn-orange btn-block" type="submit">Giriş</button>
+        <div *ngIf="isLoggining == true" class="loader"></div>
+        <button *ngIf="isLoggining == false" class="btn btn-orange btn-block" id="loginbtn" type="submit">
+          Giriş
+        </button>
       </form>
       <!-- form-group -->
     </div>

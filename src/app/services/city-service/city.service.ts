@@ -10,6 +10,7 @@ import {
 import { City } from 'src/app/models/City';
 import { Response } from "src/app/models/Response";
 import { ErrorService } from '../error-service/error.service';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -29,7 +30,7 @@ export class CityService {
           if (response.ResultStatus == true) {
             success(<City[]>response.ResultObject, response.LanguageKeyword);
           } else {
-            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {

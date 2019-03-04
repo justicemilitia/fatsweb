@@ -12,7 +12,7 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./role.component.css"]
 })
 export class RoleComponent extends BaseComponent implements OnInit {
-  public dataTable: TreeGridTable = new TreeGridTable(
+  public dataTable: TreeGridTable = new TreeGridTable("role",
     [
       {
         columnDisplayName: "Rol",
@@ -37,7 +37,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
     }
   );
 
-  public dataTableUserRole: TreeGridTable = new TreeGridTable(
+  public dataTableUserRole: TreeGridTable = new TreeGridTable("userrole",
     [
       {
         columnDisplayName: "Rol",

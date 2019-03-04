@@ -11,25 +11,29 @@ import {
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
 import { UserFirm } from "src/app/models/UserFirm";
+import { Firm } from 'src/app/models/Firm';
+import { Response } from 'src/app/models/Response';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthenticationService {
   constructor(private httpClient: HttpClient, private router: Router) {
+
     this.userToken = this.getToken();
     if (this.userToken != "") this.roles = this.getRoleMenus();
+
   }
 
   userToken: string; //uygulama boyunca token'a ulaşabilmem gerektiği için tanımladım.
   roles: RoleAuthorization[] = [];
-  userFirms: UserFirm[] = [];
   jwtHelper: JwtHelperService = new JwtHelperService();
   TOKEN_KEY = "token";
   ROLE_KEY = "role";
-  response:boolean;
+  response: boolean;
 
-  Login(user: User,failed) {  
+  Login(user: User, success, failed) {
     this.httpClient
       .post(SERVICE_URL + LOGIN, user, { headers: GET_HEADERS() })
       .subscribe(
@@ -41,20 +45,21 @@ export class AuthenticationService {
             data["menu_auth"]
           ));
 
-          this.router.navigateByUrl("/dashboard");
+          success();
+
         },
-        error => {  
+        error => {
           failed(error);
         }
       );
   }
 
-  handleError(err: HttpErrorResponse): any {  
-      if (err.error.ResultStatus == false) {
-          return false;
-      }   
+  handleError(err: HttpErrorResponse): any {
+    if (err.error.ResultStatus == false) {
+      return false;
+    }
   }
-  
+
 
   saveSession(token: any, roles: RoleAuthorization[]) {
     localStorage.setItem(this.TOKEN_KEY, token);
@@ -83,19 +88,34 @@ export class AuthenticationService {
     return this.jwtHelper.decodeToken(this.getToken()).nameid;
   }
 
-  getUserFirmList(callback,username: string,failed) {
+  getUserFirmList(username: string, callback, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_USERFIRM_LIST + "/" + username, {
         headers: GET_HEADERS()
       })
-      .subscribe(result => {       
-        this.userFirms=<UserFirm[]>result["ResultObject"];
-        callback(this.userFirms)
+      .subscribe(result => {
+
+        let response: Response = <Response>result;
+
+        if (response.ResultStatus == true) {
+          let letFirms: Firm[] = [];
+
+          (<UserFirm[]>response.ResultObject).forEach(e => {
+            let firm: Firm = new Firm();
+            Object.assign(firm, e.Firm);
+            letFirms.push(firm);
+
+          });
+
+          callback(letFirms);
+
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
       },
-      error=>{
-      debugger;
-        failed(error);
-      });
+        error => {
+          failed(error);
+        });
   }
 
   isMenuAccessable(keyword: string) {

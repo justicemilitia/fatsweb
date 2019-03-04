@@ -30,7 +30,7 @@ export class UserComponent extends BaseComponent implements OnInit {
   roles: Role[] = [];
   firms: Firm[] = [];
 
-  public dataTable: TreeGridTable = new TreeGridTable(
+  public dataTable: TreeGridTable = new TreeGridTable("user",
     [
       {
         columnDisplayName: 'İsim',

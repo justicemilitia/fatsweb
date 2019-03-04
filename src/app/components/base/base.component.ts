@@ -13,11 +13,15 @@ import { HttpErrorResponse } from "@angular/common/http";
   styleUrls: ["./base.component.css"]
 })
 export abstract class BaseComponent implements OnInit {
+
   protected readonly PAGES = pages;
+  protected get LANGUAGE() {
+    return this.baseService.languageService.language;
+  }
 
-  constructor(protected baseService: BaseService) {}
+  constructor(protected baseService: BaseService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   getLanguageValue(key: string) {
     return this.baseService.languageService.getValue(key);
@@ -40,5 +44,5 @@ export abstract class BaseComponent implements OnInit {
 
     return this.baseService.authenticationService.pageRoute(key);
   }
-  
+
 }

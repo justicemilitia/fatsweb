@@ -2,3 +2,20 @@
 background-color: #e67300;
 color: white;
 }
+
+.flags {
+    padding:2px;
+    height:25px;
+    width:30px;
+    margin: 3px;
+    margin-bottom: 0;
+}
+
+.flags-active {
+    padding: 0;
+    box-shadow: 0 0 10px #525252;
+}
+
+.az-card-signin {
+    height: 580px;
+}

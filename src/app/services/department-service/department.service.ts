@@ -15,6 +15,7 @@ import { AuthenticationService } from "../authenticationService/authentication.s
 import { Department } from "../../models/Department";
 import { Response } from "src/app/models/Response";
 import { ErrorService } from "../error-service/error.service";
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -46,7 +47,7 @@ export class DepartmentService {
             success(departments, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -70,7 +71,7 @@ export class DepartmentService {
             success(insertedDepartment, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -94,7 +95,7 @@ export class DepartmentService {
             success(insertedDepartment, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -116,7 +117,7 @@ export class DepartmentService {
           Object.assign(department, response.ResultObject);
           success(department, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -141,7 +142,7 @@ export class DepartmentService {
             success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },

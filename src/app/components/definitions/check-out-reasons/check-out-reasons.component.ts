@@ -15,7 +15,7 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
   checkOutReasons: CheckOutReason[]=[];
   checkoutreason:CheckOutReason=new CheckOutReason();
 
-  public dataTable: TreeGridTable = new TreeGridTable(
+  public dataTable: TreeGridTable = new TreeGridTable("checkoutreasons",
     [
       {
         columnDisplayName: "Şirket Adı",

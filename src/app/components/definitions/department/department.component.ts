@@ -23,7 +23,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   locations: Location[] = [];
   department: Department = new Department();
 
-  public dataTable: TreeGridTable = new TreeGridTable(
+  public dataTable: TreeGridTable = new TreeGridTable("department",
     [
       {
         columnDisplayName: "İsim",

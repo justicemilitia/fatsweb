@@ -24,7 +24,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
   expCenters: ExpenseCenter[] = [];
   expenseCenter: ExpenseCenter = new ExpenseCenter();
   
-  public dataTable: TreeGridTable = new TreeGridTable(
+  public dataTable: TreeGridTable = new TreeGridTable("expensecenter",
     [
       {
         columnDisplayName: "Masraf Yeri Kodu",

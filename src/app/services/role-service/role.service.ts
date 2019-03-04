@@ -13,6 +13,7 @@ import {
 import { Response } from "src/app/models/Response";
 import { getToken } from "@angular/router/src/utils/preactivation";
 import { ErrorService } from "../error-service/error.service";
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -44,7 +45,7 @@ export class RoleService {
             success(roles, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -68,7 +69,7 @@ export class RoleService {
             success(insertedRole, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -92,7 +93,7 @@ export class RoleService {
             success(updatedRole, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -116,7 +117,7 @@ export class RoleService {
             success(role, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
