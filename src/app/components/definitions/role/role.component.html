@@ -86,14 +86,15 @@
                         <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
                     </select>     
                     <label>Kullanıcı</label>
-                        <ng-multiselect-dropdown
+                    <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserList"></tree-grid-table>
+                        <!-- <ng-multiselect-dropdown
                           [placeholder]="'custom placeholder'"
                           [data]="roles"
                           [(ngModel)]="selectedItems"
                           [settings]="dropdownSettings"
                           (onSelect)="onItemSelect($event)"
                           (onSelectAll)="onSelectAll($event)">
-                        </ng-multiselect-dropdown>           
+                        </ng-multiselect-dropdown>            -->
 <!--                            
                     <div class="row row-sm mg-b-20">
                           <p class="mg-b-10">Select2 Multiple Box</p>

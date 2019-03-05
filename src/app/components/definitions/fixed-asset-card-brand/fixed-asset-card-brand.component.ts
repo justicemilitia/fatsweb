@@ -68,10 +68,11 @@ export class FixedAssetCardBrandComponent extends BaseComponent
       column: ["Name"]
     }
   );
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadFixedAssetCardBrands();
-    this.loadFixedAssetCardModels();
+    this.loadFixedAssetCardModels();    
   }
 
   ngOnInit() {}

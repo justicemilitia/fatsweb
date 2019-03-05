@@ -24,12 +24,8 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
   fixedAssetCardCategories: FixedAssetCardCategory[] = [];
   fixedAssetCardCategory: FixedAssetCardCategory = new FixedAssetCardCategory();
 
-<<<<<<< HEAD
-  public dataTable: TreeGridTable = new TreeGridTable("fixedassetcategory",
-=======
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetcardcategory",
->>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
     [
       {
         columnDisplayName: "İsim",

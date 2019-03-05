@@ -14,7 +14,6 @@ import{NgMultiSelectDropDownModule}  from 'ng-multiselect-dropdown';
   styleUrls: ["./role.component.css"]
 })
 export class RoleComponent extends BaseComponent implements OnInit {
-<<<<<<< HEAD
 
   roles: Role[] = [];
   role: Role = new Role();
@@ -22,9 +21,6 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "role",
-=======
-  public dataTable: TreeGridTable = new TreeGridTable("role",
->>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
     [
       {
         columnDisplayName: "Rol",
@@ -49,7 +45,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
     }
   );
 
-  public dataTableUserRole: TreeGridTable = new TreeGridTable("role",
+  public dataTableUserRole: TreeGridTable = new TreeGridTable("userrole",
     [
       {
         columnDisplayName: "Rol",
@@ -73,21 +69,33 @@ export class RoleComponent extends BaseComponent implements OnInit {
       column: ["Name"]
     }
   );
+
+  public dataTableUserList:TreeGridTable=new TreeGridTable("userlist",[
+    {
+      columnDisplayName: "Kullanıcı",
+      columnName: ["Name"],
+      isActive: true,
+      classes: [],
+      placeholder: "",
+      type: "text"
+    }
+  ],
+  {
+    isDesc: false,
+    column: ["Name"]
+  });
+
   dropdownSettings = {};
   constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadRoles();
+    this.loadUser();
+    this.dataTable.isColumnOffsetActive=false;
+    this.dataTableUserRole.isColumnOffsetActive=false;
+    this.dataTableUserList.isColumnOffsetActive=false;
   }
 
-  ngOnInit() { this.dropdownSettings = {
-    singleSelection: false,
-    idField: 'role.RoleId',
-    textField: 'role.Name',
-    selectAllText: 'Select All',
-    unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 3,
-    allowSearchFilter: true
-  };}
+  ngOnInit() {}
 
   async deleteRoles() {
     let selectedItems = this.dataTable.TGT_getSelectedItems();
@@ -177,8 +185,9 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
   async loadUser(){
     debugger;
-    await this.baseService.userService.GetUsers((users:User[])=>{
+    await this.baseService.roleService.GetUsers((users:User[])=>{
       this.users=users; 
+      this.dataTableUserList.TGT_loadData(this.users);
     },(error:HttpErrorResponse)=>{
       this.baseService.popupService.ShowErrorPopup(error);
     })

@@ -58,6 +58,7 @@ export class RoleService {
   }
 
   GetUsers(success, failed) {
+    debugger;
     this.httpclient
       .get(SERVICE_URL + GET_USER_LIST, {
         headers: GET_HEADERS(this.aService.getToken())

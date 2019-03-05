@@ -100,7 +100,7 @@ export const UPDATE_ROLE="Role/UpdateRole";
 export const INSERT_ROLE="Role/AddRole";
 export const GET_ROLE_LIST_BY_ID="Role/GetRoleById";
 export const GET_ROLE_LIST = "role/GetRoleList";
-export const DELETE_ROLES="role/DeleteRole";
+export const DELETE_ROLES="role/RemoveByIdList";
 //#endregion
 
 export const GET_FIRM_LIST = "firm/GetFirmsList";
