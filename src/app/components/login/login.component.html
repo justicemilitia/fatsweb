@@ -4,8 +4,6 @@
       <h1 class="az-logo" style="margin-top:10px">
         <img src="\assets\img\trinoks-logo.png" />
       </h1>
-    </div>
-    <div class="row justify-content-center">
       <h2 style="color:darkgrey; font-size: large">Fats - Demirbaş Yönetim Sistemi</h2>
     </div>
     <div class="az-signin-header">
@@ -16,7 +14,7 @@
           <input [(ngModel)]="loginUser.UserMail" name="UserMail" id="UserMail" #UserMail="ngModel"
             [ngClass]="{ 'is-invalid': loginForm.submitted && UserMail.invalid }"
             (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control"
-            placeholder="E-posta Adresinizi yazınız" required/>
+            placeholder="E-posta Adresinizi yazınız" required />
         </div>
         <div class="form-group">
           <label>Şifre</label>
@@ -34,30 +32,24 @@
             <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>
           </select>
         </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="btn-icon-list" style="margin-left: auto;margin-right: auto">
-              <img src="../../../assets/img/tr.png" class="justify-content-center flags"
-                [class.flags-active]="LANGUAGE == 'tr'" (click)="changeLanguage('tr')" />
-              <img src="../../../assets/img/en.png" class="justify-content-center flags"
-                [class.flags-active]="LANGUAGE == 'en'" (click)="changeLanguage('en')" />
-            </div>
-          </div>
-        </div>
-        <div id="WrongPassword" *ngIf="errorMessage != ''" class="alert alert-danger" role="alert">
+        <div id="WrongPassword" *ngIf="errorMessage != ''" class="alert alert-danger alert-custom" role="alert">
           {{errorMessage}}
         </div><!-- alert -->
         <div *ngIf="isLoggining == true" class="loader"></div>
         <button *ngIf="isLoggining == false" class="btn btn-orange btn-block" id="loginbtn" type="submit">
           Giriş
         </button>
+        <div class="form-group" class="flag-area">
+          <div class="btn-icon-list">
+            <img src="../../../assets/img/tr.png" class="justify-content-center flags"
+              [class.flags-active]="LANGUAGE == 'tr'" (click)="changeLanguage('tr')" />
+            <img src="../../../assets/img/en.png" class="justify-content-center flags"
+              [class.flags-active]="LANGUAGE == 'en'" (click)="changeLanguage('en')" />
+          </div>
+        </div>
       </form>
       <!-- form-group -->
     </div>
-    <!-- az-signin-header -->
-    <div class="az-signin-footer">
-    </div>
-    <!-- az-signin-footer -->
   </div>
   <!-- az-card-signin -->
 </div>

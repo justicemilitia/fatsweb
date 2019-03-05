@@ -7,6 +7,14 @@ export class TreeGridTable {
 
     //#region Variables
 
+    /**
+     * if saved success show success message for offset column area.
+     */
+    public isSaved: boolean = false;
+
+    /**
+     * if loading true loading animation will be shown
+     */
     public isLoading: boolean = true;
 
     /**
@@ -248,6 +256,9 @@ export class TreeGridTable {
         /* Store the local storage */
         localStorage.setItem(this.tablename_prefix + this.tablename, JSON.stringify(config));
 
+        /* Say user it is saved */
+        this.isSaved = true;
+
     }
 
     /**
@@ -308,6 +319,7 @@ export class TreeGridTable {
      */
     public TGT_returnDefaultConfig() {
         this.dataColumns = this.originalDataColumns.slice(0);
+        this.isSaved = true;
     }
 
     /**
@@ -339,6 +351,7 @@ export class TreeGridTable {
      */
     public TGT_toggleConfig() {
         this.isConfigOpen = !this.isConfigOpen;
+        this.isSaved = false;
     }
 
     /**

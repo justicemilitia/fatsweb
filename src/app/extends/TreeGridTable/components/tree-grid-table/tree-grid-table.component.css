@@ -226,11 +226,25 @@
     float:right;
     color:#656871;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .table-column-helper-body {
     width: 100%;
     margin-top: 8px;
+}
+
+.table-column-helper-info {
+    margin-top: 0px;
+    text-align: center;
+    height: 20px;
+}
+
+.table-column-helper-info > .info-success {
+    font-size: 12px;
+    font-style: italic;
+    font-weight: bold;
+    color: #24c324;
 }
 
 .table-column-helper-item > ul {
@@ -324,3 +338,4 @@
     background-color: #e67300;
     border-color: #cc6703;
 }
+

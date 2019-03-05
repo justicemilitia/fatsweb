@@ -17,5 +17,53 @@ color: white;
 }
 
 .az-card-signin {
-    height: 580px;
+    height: 500px;
+}
+
+.form-group > input {
+    height: 30px !important;
+}
+
+
+.flag-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex: 1;
+    margin-top: 5px;
+}
+
+#loginbtn {
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 0 !important;
+    max-height: 30px;
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 30px;
+    min-height: 32px;
+    border-radius: 3px;
+}
+
+.alert-custom {
+    height: 30px;
+    padding: 0;
+    padding-top: 4px;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@media (min-width: 480px) {
+    .az-card-signin {
+        border-radius: 4px;
+        justify-content: space-between;
+    }
+}
+.form-group > select {
+    height: 30px;
+    font-size: 13px;
+    padding-top: 3px;
 }
