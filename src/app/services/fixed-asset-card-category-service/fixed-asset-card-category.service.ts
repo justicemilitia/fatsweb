@@ -2,8 +2,6 @@ import { Injectable } from "@angular/core";
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpResponse,
-  HttpHeaders
 } from "@angular/common/http";
 import {
   SERVICE_URL,
@@ -19,6 +17,7 @@ import { Response } from "src/app/models/Response";
 
 import { FixedAssetCardCategory } from "../../models/FixedAssetCardCategory";
 import { ErrorService } from '../error-service/error.service';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -49,7 +48,7 @@ export class FixedAssetCardCategoryService {
           });
           success(fixedAssetCardCategories, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
         },
         (error: HttpErrorResponse) => {
@@ -72,7 +71,7 @@ export class FixedAssetCardCategoryService {
             Object.assign(insertedFixedAssetCardCategory, response.ResultObject);
             success(insertedFixedAssetCardCategory, response.LanguageKeyword);
           } else {
-            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
@@ -94,7 +93,7 @@ export class FixedAssetCardCategoryService {
             Object.assign(_updatedFixedAssetCardCategory, fixedAssetCardCategory);
             success(_updatedFixedAssetCardCategory, response.LanguageKeyword);
           } else {
-            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
@@ -115,7 +114,7 @@ export class FixedAssetCardCategoryService {
           Object.assign(fixedAssetCardCategory, response.ResultObject);
           success(fixedAssetCardCategory, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       }, error => {
         failed(error);

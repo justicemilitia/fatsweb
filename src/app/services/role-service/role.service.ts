@@ -8,14 +8,16 @@ import {
   GET_ROLE_LIST,
   INSERT_ROLE,
   UPDATE_ROLE,
-  GET_ROLE_LIST_BY_ID,
+  GET_ROLE_BY_ID,
   DELETE_ROLES,
-  GET_USER_LIST
+  GET_USER_LIST,
+  GET_USER_ROLE_LIST
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
-import { getToken } from "@angular/router/src/utils/preactivation";
 import { ErrorService } from "../error-service/error.service";
-import { User } from 'src/app/models/User';
+import { User } from "src/app/models/User";
+import { getAnErrorResponse } from "src/app/declarations/extends";
+import { UserRole } from 'src/app/models/UserRole';
 
 @Injectable({
   providedIn: "root"
@@ -46,9 +48,7 @@ export class RoleService {
             });
             success(roles, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
@@ -57,8 +57,7 @@ export class RoleService {
       );
   }
 
-  GetUsers(success, failed) {
-    debugger;
+  GetUsers(success, failed) {  
     this.httpclient
       .get(SERVICE_URL + GET_USER_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -68,21 +67,44 @@ export class RoleService {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let users: User[] = [];
-            (<Role[]>response.ResultObject).forEach(e => {
+            (<User[]>response.ResultObject).forEach(e => {
               let user: User = new User();
               Object.assign(user, e);
               users.push(user);
             });
             success(users, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
           failed(error);
         }
+      );
+  }
+
+  GetUserRole(success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_USER_ROLE_LIST, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(result=>{
+        let response:Response=<Response>result;
+        if(response.ResultStatus==true){
+          let userRoles:UserRole[]=[];
+          (<UserRole[]>response.ResultObject).forEach(e => {
+            let userRole: UserRole = new UserRole();
+            Object.assign(userRole, e);
+            userRoles.push(userRole);
+          });
+          success(userRoles,response.LanguageKeyword);
+        }
+        else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      }
       );
   }
   InsertRole(role: Role, success, failed) {
@@ -98,9 +120,7 @@ export class RoleService {
             Object.assign(insertedRole, response.ResultObject);
             success(insertedRole, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
@@ -122,9 +142,7 @@ export class RoleService {
             Object.assign(updatedRole, role);
             success(updatedRole, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
@@ -134,25 +152,32 @@ export class RoleService {
   }
 
   DeleteRoles(ids: number[], success, failed) {
-    this.httpclient.post(SERVICE_URL + DELETE_ROLES, { "RoleIds": ids }, {
-      headers: GET_HEADERS(this.aService.getToken()),
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          success(response.ResultObject, response.LanguageKeyword);
-        } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+    this.httpclient
+      .post(
+        SERVICE_URL + DELETE_ROLES,
+        { RoleIds: ids },
+        {
+          headers: GET_HEADERS(this.aService.getToken())
         }
-      },
-      error => {
-        failed(error);
-      });
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
   }
 
   GetRoleById(roleId: number, success, failed) {
     this.httpclient
-      .get(SERVICE_URL + GET_ROLE_LIST_BY_ID + "/" + roleId, {
+      .get(SERVICE_URL + GET_ROLE_BY_ID + "/" + roleId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
@@ -163,9 +188,7 @@ export class RoleService {
             Object.assign(role, response.ResultObject);
             success(role, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {

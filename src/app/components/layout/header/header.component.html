@@ -11,26 +11,16 @@
     </div>
     <!-- az-header-center -->
     <div class="az-header-right">
-      <div class="az-header-message">
-        <a href="app-chat.html"><i class="typcn typcn-messages"></i></a>
-      </div>
-      <!-- az-header-message -->
-      <div class="dropdown az-header-notification">
-        <a href="" class="new"><i class="typcn typcn-bell"></i></a>
-        <div class="dropdown-menu">
-          <div class="az-dropdown-header mg-b-20 d-sm-none">
-            <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
-          </div>
-          <h6 class="az-notification-title">Notifications</h6>
-          <p class="az-notification-text">You have 2 unread notification</p>
-          <div class="az-notification-list"></div>
-          <!-- az-notification-list -->
-          <div class="dropdown-footer">
-            <a href="">View All Notifications</a>
-          </div>
+      <div class="btn-group">
+        <button type="button" class="btn-exit-dd" data-toggle="dropdown"
+          aria-expanded="false">
+          <i class="typcn icon-default typcn-user-outline"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <button class="dropdown-item" (click)="logout()" type="button">Çıkış Yap</button>
         </div>
-        <!-- dropdown-menu -->
       </div>
+      
       <!-- az-header-notification -->
     </div>
     <!-- az-header-right -->
@@ -171,4 +161,3 @@
   <!-- container -->
 </div>
 <!-- az-navbar -->
-

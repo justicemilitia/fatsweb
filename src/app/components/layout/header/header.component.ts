@@ -21,4 +21,9 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
   ngOnInit() {
   }
 
+  logout() {
+    this.baseService.authenticationService.logOut();
+    this.baseService.router.navigateByUrl("/login");
+  }
+
 }

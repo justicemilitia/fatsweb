@@ -15,6 +15,7 @@ import { FixedAssetCardBrand } from "../../models/FixedAssetCardBrand";
 import { Response } from "src/app/models/Response";
 import { Router } from "@angular/router";
 import { ErrorService } from "../error-service/error.service";
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -44,7 +45,7 @@ export class FixedAssetCardBrandService {
             success(fixedAssetCardBrands, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -73,7 +74,7 @@ export class FixedAssetCardBrandService {
             success(insertedBrand, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -94,7 +95,7 @@ export class FixedAssetCardBrandService {
           Object.assign(updatedFixedAssetBrand, response.ResultObject);
           success(updatedFixedAssetBrand, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -115,7 +116,7 @@ export class FixedAssetCardBrandService {
           Object.assign(brand, response.ResultObject);
           success(brand, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       }, error => {
         failed(error);

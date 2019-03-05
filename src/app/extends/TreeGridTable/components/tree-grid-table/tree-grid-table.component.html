@@ -40,6 +40,12 @@
         </button>
       </div>
       <!-- END Offset Footer END-->
+      <!-- Offset Info -->
+      <div class="table-column-helper-info"
+        [ngStyle]="{'display': dataTable.isSaved == true ? 'block' : 'none' }">
+        <span class="info-success">Başarılı</span>
+      </div>
+      <!-- END Offset Info END-->
     </div>
   </div>
   <!-- END Offset / Disable Columns Area END -->

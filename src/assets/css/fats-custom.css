@@ -17,7 +17,7 @@ body {
     border-bottom: 1px solid #ced4da;
     background: #fcfcfc;
     border-top: 1px solid #ced4da;
-    z-index: 100 !important;
+    z-index: 1 !important;
 }
 
 .card {
@@ -121,10 +121,131 @@ button.btn:first-child {
 }
 
 .btn-modal-close {
-    background-color: red !important;
+    background-color: #c82333 !important;
 }
 
 .btn-modal-close:hover{
     color:white !important;
     background-color: darkred !important;
+}
+
+.az-signin-wrapper {
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+.az-card-signin {
+    box-shadow: 0 0 10px #ced4da;
+}
+
+
+.loader {
+    margin-left: 45%;
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #e67300;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .modal-title{
+      font-size: 18px;
+  }
+
+  .form-group > label {
+    display: inline-block;
+    margin-bottom: 0;
+    font-size: 13px;
+    padding-left: 3px;
+    font-weight: 600;
+  }
+
+  .form-group > input {
+    height: 27px;
+  }
+
+  .form-group > input {
+      font-size: 13px;
+  }
+
+  .form-group > input:focus {
+      border-width: 1px;
+  }
+
+  .form-group > textarea {
+    height: 80px !important;
+    font-size: 13px;
+  }
+
+  
+  .form-group > select {
+    height: 27px;
+    font-size: 13px;
+    padding-top: 3px;
+}
+
+  .form-group > select:focus {
+    border-width: 1px;
+}
+
+  .form-group {
+      margin-bottom: 0.1rem !important;
+  }
+
+  .modal-title{
+      font-size: 15px;
+      line-height: 1;
+      padding: 3px;
+      padding-left: 10px;
+  }
+
+  .modal-footer {
+      padding: .4rem !important;
+  }
+
+  .modal-footer > button {
+    height: 30px;
+    padding-top: 3px;
+    width: 100px;
+    margin: 0 auto !important;
+    min-height: 15px;
+    font-size: 15px;
+  }
+
+  .modal-header {
+    padding: .4rem !important;
+    }    
+
+  .modal-header .close {
+    padding: 1rem;
+    margin: -.5rem -.5rem -1rem auto !important;
+}
+
+.az-content-title {
+    color: #494c57;
+}
+
+.btn-new-custom {
+    font-size: 14px !important;
+    min-height: 20px;
+    height: 34px;
+}
+
+.btn-delete-custom {
+    font-size: 14px !important;
+    min-height: 20px;
+    height: 34px;
 }

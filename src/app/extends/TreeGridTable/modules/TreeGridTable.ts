@@ -7,6 +7,14 @@ export class TreeGridTable {
 
     //#region Variables
 
+    /**
+     * if saved success show success message for offset column area.
+     */
+    public isSaved: boolean = false;
+
+    /**
+     * if loading true loading animation will be shown
+     */
     public isLoading: boolean = true;
 
     /**
@@ -216,11 +224,52 @@ export class TreeGridTable {
         /* Start with loading */
         this.isLoading = true;
 
+        //#region Load Columns From Session
+
         /* Store original columns to return it and then load previous config values  */
         this.originalDataColumns = JSON.parse(JSON.stringify(_dataColumns));
         this.dataColumns = _dataColumns;
         this.tablename = _tablename;
         this.TGT_loadConfig();
+
+        /* if any column changes result will be true then we will reset our session to put new column settings */
+        let isConfigWillReset = false;
+
+        /* if size are not same means columns change in development so clear it */
+        if (this.dataColumns.length != this.originalDataColumns.length) {
+            isConfigWillReset = true;
+        } else {
+            /* each row will iterate */
+            this.dataColumns.forEach(e => {
+
+                /* if reset is true we dont need loop any more we can also use for */
+                if (isConfigWillReset == false) {
+                    /* we find column by its name if its not exists column can be removed or changed */
+                    let oriItem = this.originalDataColumns.find(p => JSON.stringify(p.columnName) == JSON.stringify(e.columnName));
+                    if (!oriItem)
+                        isConfigWillReset = true;
+                    else {
+
+                        /* if column exists then we check its values like classes, types but we dont need to check the column name and isactive  */
+                        Object.keys(e).forEach(x => {
+                            if (x != "isActive" && x != "columnName" && JSON.stringify(e[x]) != JSON.stringify(oriItem[x])) {
+                                isConfigWillReset = true;
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+
+        /* if columns are changed after saved last user session then clear it and put new items then save it */
+        if (isConfigWillReset == true) {
+            this.TGT_removeConfig(this.tablename);
+            this.dataColumns = JSON.parse(JSON.stringify(this.originalDataColumns));
+            this.TGT_saveConfig();
+        }
+
+        //#endregion
 
         /* Do order for given column default */
         this.dataOrders.column = _dataColumns.find(x => JSON.stringify(x.columnName) == JSON.stringify(_dataOrders.column));
@@ -247,6 +296,9 @@ export class TreeGridTable {
 
         /* Store the local storage */
         localStorage.setItem(this.tablename_prefix + this.tablename, JSON.stringify(config));
+
+        /* Say user it is saved */
+        this.isSaved = true;
 
     }
 
@@ -308,6 +360,7 @@ export class TreeGridTable {
      */
     public TGT_returnDefaultConfig() {
         this.dataColumns = this.originalDataColumns.slice(0);
+        this.isSaved = true;
     }
 
     /**
@@ -339,6 +392,7 @@ export class TreeGridTable {
      */
     public TGT_toggleConfig() {
         this.isConfigOpen = !this.isConfigOpen;
+        this.isSaved = false;
     }
 
     /**

@@ -16,7 +16,8 @@ import { Department } from "../../models/Department";
 import { Router } from "@angular/router";
 import { Response } from "src/app/models/Response";
 import { Location } from "../../models/Location";
-import { ErrorService } from "../error-service/error.service";
+import { ErrorService } from '../error-service/error.service';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -28,7 +29,7 @@ export class LocationService {
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   GetLocations(success, failed) {
     this.httpClient
@@ -47,9 +48,7 @@ export class LocationService {
             });
             success(locations, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
@@ -71,9 +70,7 @@ export class LocationService {
             Object.assign(insertedLocation, response.ResultObject);
             success(insertedLocation, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
@@ -95,9 +92,7 @@ export class LocationService {
             Object.assign(_updatedLocation, location);
             success(_updatedLocation, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
@@ -120,7 +115,7 @@ export class LocationService {
             success(location, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -143,16 +138,14 @@ export class LocationService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            success(response.ResultObject, response.LanguageKeyword);
+            let location: Location = new Location();
+            Object.assign(location, response.ResultObject);
+            success(location, response.LanguageKeyword);
           } else {
-            failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
-        },
-        error => {
-          failed(error);
         }
       );
   }
+
 }

@@ -14,6 +14,7 @@ import { Response } from "src/app/models/Response";
 import { Department } from "../../models/Department";
 import { FixedAssetCard } from "../../models/FixedAssetCard";
 import { ErrorService } from "src/app/services/error-service/error.service";
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -43,7 +44,7 @@ export class FixedAssetCardService {
             success(fixedAssetCards, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -67,7 +68,7 @@ export class FixedAssetCardService {
             success(insertedFixedAssetCard, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -88,7 +89,7 @@ export class FixedAssetCardService {
           Object.assign(_updatedFixedAssetCard, fixedAssetCard);
           success(_updatedFixedAssetCard, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -109,7 +110,7 @@ export class FixedAssetCardService {
           Object.assign(fixedAssetCard, response.ResultObject);
           success(fixedAssetCard, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       }, error => {
         failed(error);
@@ -124,7 +125,7 @@ export class FixedAssetCardService {
         if (response.ResultStatus == true) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
