@@ -33,7 +33,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Lokasyon Kodu",
-        columnName: ["Code"],
+        columnName: ["LocationCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -42,14 +42,6 @@ export class LocationComponent extends BaseComponent implements OnInit {
       {
         columnDisplayName: "Lokasyon Barkodu",
         columnName: ["Barcode"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: "Bağlı Olduğu Lokasyon",
-        columnName: ["ParentLocation", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -90,7 +82,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
     this.loadLocations();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   resetForm() {
     this.location = new Location();
@@ -102,6 +94,10 @@ export class LocationComponent extends BaseComponent implements OnInit {
     } else {
       this.updateLocation(data);
     }
+  }
+
+  get getLocationsWithoutCurrent() {
+    return this.locations.filter(x => x.LocationId != this.location.LocationId);
   }
 
   async deleteLocations() {
@@ -182,100 +178,112 @@ export class LocationComponent extends BaseComponent implements OnInit {
   }
 
   async addLocation(data: NgForm) {
-     /* Check model state is valid */
-     debugger;
 
-     if (data.form.invalid == true) return;
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
 
-     /* Insert Location service */
-     await this.baseService.locationService.InsertLocation(
-       this.location,
-       (data: Location, message) => {
-         /* Show pop up, get inserted location then set it location id, then load data. */
-         this.baseService.popupService.ShowSuccessPopup(message);
-         this.location.LocationId = data.LocationId;
-         this.locations.push(this.location);
-         this.dataTable.TGT_loadData(this.locations);
-         this.resetForm();
-       },
-       (error: HttpErrorResponse) => {
-         /* Show alert message */
-         this.baseService.popupService.ShowErrorPopup(error);
-       }
-     );
+    /* Insert Location service */
+    await this.baseService.locationService.InsertLocation(
+      this.location,
+      (inserted: Location, message) => {
+
+        /* Show pop up, get inserted location then set it location id, then load data. */
+        this.baseService.popupService.ShowSuccessPopup(message);
+        this.location.LocationId = inserted.LocationId;
+        this.locations.push(this.location);
+        this.dataTable.TGT_loadData(this.locations);
+        /* reset all data */
+        this.resetForm();
+        data.resetForm();
+
+      },
+      (error: HttpErrorResponse) => {
+
+        /* Show alert message */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      }
+    );
   }
 
   async updateLocation(data: NgForm) {
-      /* Check model state */
-      if (data.form.invalid == true) return;
+    /* Check model state */
+    if (data.form.invalid == true) return;
 
-      /* Ask for approve question if its true then update the location */
-      await this.baseService.popupService.ShowQuestionPopupForUpdate(
-        (response: boolean) => {
-          if (response == true) {
-            this.baseService.locationService.UpdateLocation(
-              this.location,
-              (_location, message) => {
-                /* Show pop up then update data in datatable */
-                this.baseService.popupService.ShowSuccessPopup(message);
-                this.dataTable.TGT_updateData(this.location);
-                this.resetForm();
-              },
-              (error: HttpErrorResponse) => {
-                /* Show error message */
-                this.baseService.popupService.ShowErrorPopup(error);
-              }
-            );
-          }
+    /* Ask for approve question if its true then update the location */
+    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+
+          /* if user approve question update user. */
+          this.baseService.locationService.UpdateLocation(
+            this.location,
+            (_location, message) => {
+
+              /* Show pop up then update data in datatable */
+              this.baseService.popupService.ShowSuccessPopup(message);
+
+              /* After update succeed get parent location then update it in table. */
+              this.location.ParentLocation = this.locations.find(x => x.getId() == this.location.getParentId());
+              this.dataTable.TGT_updateData(this.location);
+
+              /* reset form */
+              this.resetForm();
+              data.resetForm();
+
+            },
+            (error: HttpErrorResponse) => {
+              /* Show error message */
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
         }
-      );
+      }
+    );
   }
 
   async loadLocations() {
-    /* Load all fixed asset cards to datatable */    
+    /* Load all fixed asset cards to datatable */
     await this.baseService.locationService.GetLocations(
       (locs: Location[]) => {
         this.locations = locs;
         this.dataTable.TGT_loadData(this.locations);
       },
       (error: HttpErrorResponse) => {
-        /* if error show pop up */        
+        /* if error show pop up */
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
 
   async onDoubleClickItem(item: any) {
-     /* Show spinner for loading */
-     this.baseService.spinner.show();
+    /* Show spinner for loading */
+    this.baseService.spinner.show();
 
-     /* load locations if not loaded */
-     await this.loadLocations();
- 
-     /* get location information from server */
-     await this.baseService.locationService.GetLocationById(
-       item.LocationId,
-       (result: Location) => {
-         /* then bind it to location model to update */
-         setTimeout(() => {
-          
-           /* Trigger to model to show it */
-           $("#btnAddLocation").trigger("click");
+    /* get location information from server */
+    await this.baseService.locationService.GetLocationById(
+      item.LocationId,
+      (result: Location) => {
+        /* then bind it to location model to update */
+        setTimeout(() => {
 
-            /* bind result to model */
-            this.location = result;
-            this.baseService.spinner.hide();
-  
-         }, 1000);
-       },
-       (error: HttpErrorResponse) => {
+          /* Trigger to model to show it */
+          $("#btnAddLocation").trigger("click");
 
-           /* hide spinner */
-       this.baseService.spinner.hide();
+          /* bind result to model */
+          this.location = result;
+          this.baseService.spinner.hide();
 
-         /* show error message */
-         this.baseService.popupService.ShowErrorPopup(error);
-       }
-     );
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+
+        /* hide spinner */
+        this.baseService.spinner.hide();
+
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 }

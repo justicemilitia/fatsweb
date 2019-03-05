@@ -503,6 +503,12 @@ export class TreeGridTable {
         /* (Clone) Original source help us to visible,extend all items with easy way */
         this.originalSource = _datasource.slice(0);
 
+        /* Clear previous children to prevent duplicate records */
+        this.originalSource.forEach(item => {
+            if (item.getChildren().length > 0)
+                item.getChildren().splice(0, item.getChildren().length);
+        })
+
         /* Converts array to tree */
         this.treeSource = this.TGT_convertDataToTree(_datasource);
 
@@ -539,6 +545,7 @@ export class TreeGridTable {
      */
     public TGT_updateData(data: IData) {
         let existsIndex = this.originalSource.findIndex(x => x.getId() == data.getId());
+        /* if item exists remove it and reload data. */
         if (existsIndex > -1) {
             this.originalSource.splice(existsIndex, 1);
             this.originalSource.push(data);
@@ -553,13 +560,19 @@ export class TreeGridTable {
 
         /* Check changes made */
         let madeChanges = false;
+
         if (this.prevDataFilters) {
-            /* Each property of filter will be check with previous */
-            Object.keys(this.dataFilters).forEach(e => {
-                if (this.prevDataFilters[e] != this.dataFilters[e]) {
-                    madeChanges = true;
+
+            /* filter will be check with previous */
+            if (JSON.stringify(this.prevDataFilters) != JSON.stringify(this.dataFilters)) {
+                madeChanges = true;
+
+                /* if filter is clean then collapse all items */
+                if (this.TGT_isFilterClean() == true) {
+                    this.TGT_doCollapseAll();
                 }
-            });
+            }
+
         } else
             madeChanges = true;
 
@@ -651,12 +664,20 @@ export class TreeGridTable {
         let item = null;
 
         /* We will go as deep as possible then we will get the column of given */
-        column.columnName.forEach(e => {
-            if (!item)
+        for (let e of column.columnName) {
+            /* if item exists just go deep as much as possible */
+            if (!item) {
                 item = data[e];
+
+                /* if an object is empty prevent show current object value we set it as empty to stop loop */
+                if (!item) {
+                    item = '';
+                    break;
+                }
+            }
             else
                 item = item[e];
-        });
+        }
 
         return item;
     }
@@ -795,6 +816,7 @@ export class TreeGridTable {
         /* Loop in each tree to push them into datasource */
         for (let ii = 0; ii < _datasource.length; ii++) {
             let item = _datasource[ii];
+
             /* 
                 Every time we push an item in to datasource we have to check its status 
                 if item is extended means item has children so you have to put them into the array
@@ -857,7 +879,8 @@ export class TreeGridTable {
             Because of search method. We will just extend when the search item found.
          */
         item.isVisible = true;
-        item.isExtended = false;
+        if (this.TGT_isFilterClean() == false)
+            item.isExtended = true;
 
         /* In original source we look for parent object to make it visible */
         item = this.originalSource.find(x => x.getId() == item.getParentId());
@@ -868,11 +891,10 @@ export class TreeGridTable {
             /* set item visiblity as true */
             item.isVisible = true;
 
-            /* if filter clean we have to set item extends as false */
-            if (item && this.TGT_isFilterClean() == true)
-                item.isExtended = false;
-            else
+            /* if filter is not clean we have to set item extends as true */
+            if (this.TGT_isFilterClean() == false)
                 item.isExtended = true;
+
 
             /* Then find parent item's parent */
             item = this.originalSource.find(x => x.getId() == item.getParentId());
@@ -967,9 +989,11 @@ export class TreeGridTable {
                 this.TGT_doVisibleWithParents(item);
                 this.TGT_doVisibleWithChildren(item);
             }
+
             /* Do Filter in all children */
             if (item.getChildren().length > 0)
                 this.TGT_doFilterInChildren(item.getChildren());
+
         }
     }
 
