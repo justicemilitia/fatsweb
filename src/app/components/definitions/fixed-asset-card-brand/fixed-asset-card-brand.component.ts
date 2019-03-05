@@ -21,16 +21,12 @@ export class FixedAssetCardBrandComponent extends BaseComponent
   implements OnInit {
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
   fixedAssetCardBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
-<<<<<<< HEAD
 
   fixedAssetCardModels: FixedAssetCardModel[] = [];
   fixedAssetCardModel: FixedAssetCardModel = new FixedAssetCardModel();
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetcardbrand",
-=======
-  public dataTable: TreeGridTable = new TreeGridTable("fixedassetcardbrand",
->>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
     [
       {
         columnDisplayName: "Marka",

@@ -34,13 +34,6 @@ export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#endregion
 
-<<<<<<< HEAD
-=======
-export const UPDATE_ROLE="Role/UpdateRole";
-export const INSERT_ROLE="Role/AddRole";
-export const GET_ROLE_LIST_BY_ID="Role/GetRoleById";
->>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
-
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST = "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
 export const GET_FIXEDASSETCARDCATEGORY_BY_ID = "FixedAssetCardCategories/GetFixedAssetCardCategoryById";

@@ -24,11 +24,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   fixedAssetCardCategories: FixedAssetCardCategory[] = [];
   fixedAssetCard: FixedAssetCard = new FixedAssetCard();
 
-<<<<<<< HEAD
-  public dataTable: TreeGridTable = new TreeGridTable("",
-=======
   public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
->>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
     [
       {
         columnDisplayName: "İsim",

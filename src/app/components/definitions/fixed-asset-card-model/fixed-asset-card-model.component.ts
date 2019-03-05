@@ -23,11 +23,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
   fixedAssetCardModels: FixedAssetCardModel[] = [];
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
 
-<<<<<<< HEAD
   public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
-=======
-  public dataTable: TreeGridTable = new TreeGridTable("fixedassetcardmodel",
->>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
     [
       {
         columnDisplayName: "İsim",
