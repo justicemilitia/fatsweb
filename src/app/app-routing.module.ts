@@ -19,6 +19,7 @@ import { AgreementComponent } from './components/definitions/agreement/agreement
 import { FixedAssetCardBrandComponent } from './components/definitions/fixed-asset-card-brand/fixed-asset-card-brand.component';
 import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
 import { RoleComponent } from './components/definitions/role/role.component';
+import{ RoleUserComponent} from './components/definitions/role-user/role-user.component';
 
 export const routes: Routes = [
   {
@@ -102,6 +103,12 @@ export const routes: Routes = [
   {
     path: "role",
     component: RoleComponent,
+    data: { pageKeyword: pages.MENU_ROLEDEFINITIONS}
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "roleuser",
+    component: RoleUserComponent,
     data: { pageKeyword: pages.MENU_ROLEDEFINITIONS}
     // canActivate: [AuthGuard]
   },

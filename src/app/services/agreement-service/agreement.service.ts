@@ -15,6 +15,7 @@ import { Response } from "../../../../src/app/models/Response";
 import { Router } from "@angular/router";
 import { Agreement } from "../../../../src/app/models/Agreement";
 import { ErrorService } from '../error-service/error.service';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -43,7 +44,7 @@ export class AgreementService {
             });
             success(agreements, response.LanguageKeyword);
           } else {
-            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
@@ -63,7 +64,7 @@ export class AgreementService {
           Object.assign(insertedAgreement, response.ResultObject);
           success(insertedAgreement, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -80,7 +81,7 @@ export class AgreementService {
         if (response.ResultStatus == true) {
           success(agreement, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -101,7 +102,7 @@ export class AgreementService {
           Object.assign(agreement, response.ResultObject);
           success(agreement, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       }, error => {
         failed(error);
@@ -117,7 +118,7 @@ export class AgreementService {
         if (response.ResultStatus == true) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {

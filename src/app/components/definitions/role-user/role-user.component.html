@@ -1,0 +1,68 @@
+<div class="az-content">  
+  <div class="container-fluid">
+    <div class="az-content-body">
+      <div class="card card-dashboard-twelve mg-b-20">
+      <h2 class="az-content-title">Rol-Kullanıcı Tanımlama</h2>      
+      <div class="grp-btn-action"> 
+        <button id="btnAddUserRole" class="btn btn-orange" data-toggle="modal"
+        data-target="#modalUserRoleDefinition"
+       >Role Kullanıcı Ata</button>
+      </div>
+      <p class="mg-b-20"></p>
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserRole"></tree-grid-table>
+    </div>
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+
+<div class="pd-20 bg-gray-800">
+  <!-- this modal is static modal for presentation purpose. -->
+  <!-- class .d-block annd .pos-relative in .modal is for demo only -->
+  <div id="modalUserRoleDefinition" class="modal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+            <h6 class="modal-title">Role atanacak kullanıcıları belirleyiniz.</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--USER ROLE MODAL-->
+          <form name="form" #dataUserRoleDefinition="ngForm" (ngSubmit)="OnSubmitUserRole(dataUserRole)">
+          <div class="modal-body">
+              <div class="row">
+                  <!-- <input type="hidden" name="RoleId" [(ngModel)]="role.RoleId"/> -->
+                  <div class="form-group col-md-6">
+                    <label>Rol</label>
+                    <select [(ngModel)]="role" name="role" class="form-control select2-no-search" style="width: 250px">
+                        <option value=" ">Seçiniz</option>
+                        <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
+                    </select>     
+                    <label>Kullanıcı</label>
+                    <ng-multiselect-dropdown
+                    [placeholder]="'custom placeholder'"
+                    [data]="users"
+                    [(ngModel)]="selectedItems"
+                    [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                  >
+                  </ng-multiselect-dropdown>
+                    <!-- <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserList"></tree-grid-table>      -->
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button id="btnAddRole" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAddUserRole">Kaydet</button>   
+            </div>
+        </form>
+        <!--USER ROLE MODAL-->
+
+          <!-- modal-body -->
+        </div>
+      </div>
+      <!-- modal-dialog -->
+    </div>
+  <!-- modal -->
+</div>

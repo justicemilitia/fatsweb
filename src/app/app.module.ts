@@ -34,6 +34,7 @@ import { TreeGridTableComponent } from "./extends/TreeGridTable/components/tree-
 import { RoleComponent } from "./components/definitions/role/role.component";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { RoleUserComponent } from './components/definitions/role-user/role-user.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
     FixedAssetCardModelComponent,
     TreeGridTablePage,
     TreeGridTableComponent,
-    RoleComponent
+    RoleComponent,
+    RoleUserComponent
   ],
   imports: [
     BrowserModule,

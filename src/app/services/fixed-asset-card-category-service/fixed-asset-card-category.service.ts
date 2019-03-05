@@ -130,7 +130,7 @@ export class FixedAssetCardCategoryService {
         if (response.ResultStatus == true) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {

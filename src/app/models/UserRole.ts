@@ -22,4 +22,5 @@ export class UserRole implements IData {
   RoleId: number;
   Role: Role;
   User: User;
+  
 }

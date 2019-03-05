@@ -1,0 +1,14 @@
+
+.btn-orange {
+    background: #e67300;
+    color: white;
+    border-radius: 0px;
+  }
+  .btn-height {
+    min-height: 15px;
+  }
+  .right {
+    float: left;
+    margin-bottom:10px;
+    padding-right:0px;
+  }

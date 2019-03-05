@@ -98,9 +98,11 @@ export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
 //#region Roles
 export const UPDATE_ROLE="Role/UpdateRole";
 export const INSERT_ROLE="Role/AddRole";
-export const GET_ROLE_LIST_BY_ID="Role/GetRoleById";
+export const GET_ROLE_BY_ID="Role/GetRoleById";
 export const GET_ROLE_LIST = "role/GetRoleList";
 export const DELETE_ROLES="role/RemoveByIdList";
+export const GET_USER_ROLE_LIST="role/GetUserRoleList";
+
 //#endregion
 
 export const GET_FIRM_LIST = "firm/GetFirmsList";

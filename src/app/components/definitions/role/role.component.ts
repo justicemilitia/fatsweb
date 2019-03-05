@@ -5,8 +5,9 @@ import { BaseComponent } from "../../base/base.component";
 import { Role } from "src/app/models/Role";
 import { HttpErrorResponse } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
-import { User } from 'src/app/models/User';
-import{NgMultiSelectDropDownModule}  from 'ng-multiselect-dropdown';
+import { User } from "src/app/models/User";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { UserRole } from "src/app/models/UserRole";
 
 @Component({
   selector: "app-role",
@@ -14,10 +15,10 @@ import{NgMultiSelectDropDownModule}  from 'ng-multiselect-dropdown';
   styleUrls: ["./role.component.css"]
 })
 export class RoleComponent extends BaseComponent implements OnInit {
-
   roles: Role[] = [];
   role: Role = new Role();
-  users:User[]=[];
+  users: User[] = [];
+  userRole: UserRole[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "role",
@@ -45,54 +46,10 @@ export class RoleComponent extends BaseComponent implements OnInit {
     }
   );
 
-  public dataTableUserRole: TreeGridTable = new TreeGridTable("userrole",
-    [
-      {
-        columnDisplayName: "Rol",
-        columnName: ["Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: "Kullanıcı",
-        columnName: ["User"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["Name"]
-    }
-  );
-
-  public dataTableUserList:TreeGridTable=new TreeGridTable("userlist",[
-    {
-      columnDisplayName: "Kullanıcı",
-      columnName: ["Name"],
-      isActive: true,
-      classes: [],
-      placeholder: "",
-      type: "text"
-    }
-  ],
-  {
-    isDesc: false,
-    column: ["Name"]
-  });
-
-  dropdownSettings = {};
   constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadRoles();
-    this.loadUser();
-    this.dataTable.isColumnOffsetActive=false;
-    this.dataTableUserRole.isColumnOffsetActive=false;
-    this.dataTableUserList.isColumnOffsetActive=false;
+    this.dataTable.isColumnOffsetActive = false;
   }
 
   ngOnInit() {}
@@ -173,7 +130,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
   async loadRoles() {
     await this.baseService.roleService.GetRoles(
-      (roles: Role[]) => {      
+      (roles: Role[]) => {
         this.roles = roles;
         this.dataTable.TGT_loadData(this.roles);
       },
@@ -183,15 +140,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async loadUser(){
-    debugger;
-    await this.baseService.roleService.GetUsers((users:User[])=>{
-      this.users=users; 
-      this.dataTableUserList.TGT_loadData(this.users);
-    },(error:HttpErrorResponse)=>{
-      this.baseService.popupService.ShowErrorPopup(error);
-    })
-  }
+
 
   resetForm() {
     this.role = new Role();

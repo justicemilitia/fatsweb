@@ -14,6 +14,7 @@ import {
 import { Response } from "src/app/models/Response";
 import { ErrorService } from "../error-service/error.service";
 import { SubjectSubscriber } from "rxjs/internal/Subject";
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -45,7 +46,7 @@ export class ExpenseCenterService {
             success(expenseCenters, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -69,7 +70,7 @@ export class ExpenseCenterService {
             success(expCenter, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -93,7 +94,7 @@ export class ExpenseCenterService {
             success(updatedExpenseCenter, response.LanguageKeyword);
           } else {
             failed(
-              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+              getAnErrorResponse(response.LanguageKeyword)
             );
           }
         },
@@ -112,7 +113,7 @@ export class ExpenseCenterService {
         if (response.ResultStatus == true) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -133,7 +134,7 @@ export class ExpenseCenterService {
           success(expCenter,response.LanguageKeyword);
         }
         else{
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },(error:HttpErrorResponse)=>{
         failed(error);
