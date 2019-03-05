@@ -9,7 +9,8 @@ import {
   INSERT_FIXEDASSETCARDCATEGORY,
   UPDATE_FIXEDASSETCARDCATEGORY,
   GET_FIXEDASSETCARDCATEGORY_BY_ID,
-  GET_FIXEDASSETCARDCATEGORY_LIST
+  GET_FIXEDASSETCARDCATEGORY_LIST,
+  DELETE_FIXEDASSETCARDCATEGORY
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -79,7 +80,7 @@ export class FixedAssetCardCategoryService {
       );
   }
 
-  UpdateFixedAssetCategory(fixedAssetCardCategory: FixedAssetCardCategory, success, failed) {
+  UpdateFixedAssetCardCategory(fixedAssetCardCategory: FixedAssetCardCategory, success, failed) {
     this.httpClient
       .put(SERVICE_URL + UPDATE_FIXEDASSETCARDCATEGORY, fixedAssetCardCategory, {
         headers: GET_HEADERS(this.authenticationService.getToken())
@@ -119,4 +120,22 @@ export class FixedAssetCardCategoryService {
         failed(error);
       });
   }
+
+  DeleteFixedAssetCardCategories(ids: number[], success, failed) {
+    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARDCATEGORY, { "FixedAssetCardCategoriesIds": ids }, {
+      headers: GET_HEADERS(this.authenticationService.getToken()),
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      });
+  }
+
 }

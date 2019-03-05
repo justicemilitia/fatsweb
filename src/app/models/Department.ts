@@ -1,4 +1,5 @@
 import { IData } from "../extends/TreeGridTable/models/interfaces/IData";
+import { Location } from "./Location";
 
 export class Department implements IData {
 
@@ -23,6 +24,7 @@ export class Department implements IData {
     return this.DepartmentId;
   }
 
+  DeparmtentCode: string;
   CreationDate: Date;
   CreatorId: number;
   DepartmentId: number;
@@ -34,6 +36,13 @@ export class Department implements IData {
   Name: string;
   LocationId: number;
   ParentDepartment: Department;
+  Location: Location;
   InverseParentDepartment: Department[];
   ParentDepartmentId: number;
+
+constructor() {
+
+  this.Location = new Location();
+}
+
 }

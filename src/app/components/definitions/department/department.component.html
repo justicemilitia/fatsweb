@@ -8,7 +8,7 @@
               {{
                 dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
               <i class="fas fa-trash"></i></button>
-            <button class="btn btn-orange" id="btnAddDepartment" data-toggle="modal" data-target="#modalDepartment">Departman Ekle</button>
+            <button class="btn btn-orange" id="btnAddDepartment" data-toggle="modal" data-target="#modalDepartment" (click)="resetForm()">Departman Ekle</button>
           </div>
           <p class="mg-b-20"></p>
           <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
@@ -29,7 +29,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <form name="form" #data="ngForm" (ngSubmit)="OnSubmit(data) && data.form.valid" novalidate>
+        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
           <div class="modal-body">         
             <div class="row justify-content-center">
               <div class="col-md-12">
@@ -61,7 +61,7 @@
             <div class="row justify-content-center">
               <div class="col-md-12">  
               <label>Bağlı Olduğu Lokasyon</label>
-                <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control txt-width" value="">
+                <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control txt-width" (click)="loadDropdownList()">
                   <option value="">Seçiniz</option>
                   <option *ngFor="let location of locations" value={{location.LocationId}}>
                     {{location.Name}}

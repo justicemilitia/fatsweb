@@ -27,7 +27,7 @@ export class DepartmentService {
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   GetDepartments(success, failed) {
     this.httpClient
@@ -90,9 +90,9 @@ export class DepartmentService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let insertedDepartment: Department = new Department();
-            Object.assign(insertedDepartment, response.ResultObject);
-            success(insertedDepartment, response.LanguageKeyword);
+            let _updateDepartment: Department = new Department();
+            Object.assign(_updateDepartment, response.ResultObject);
+            success(_updateDepartment, response.LanguageKeyword);
           } else {
             failed(
               getAnErrorResponse(response.LanguageKeyword)
@@ -119,11 +119,8 @@ export class DepartmentService {
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
-      },
-      error => {
-        failed(error);
       }
-    );
+      );
   }
 
   DeleteDepartments(ids: number[], success, failed) {

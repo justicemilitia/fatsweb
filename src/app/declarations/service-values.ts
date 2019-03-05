@@ -4,18 +4,19 @@ export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
-export const GET_DEPARTMENT_LIST = "department/GetDepartmentsList";
-export const GET_DEPARTMENT_BY_ID="Locations/GetDepartmentById";
-export const INSERT_DEPARTMENT = "department/AddDepartment";
-export const UPDATE_DEPARTMENT = "department/UpdateDepartment";
-export const DELETE_DEPARTMENT = "department/RemoveByIdList";
+export const GET_DEPARTMENT_LIST = "Department/GetDepartmentsList";
+export const GET_DEPARTMENT_BY_ID="Department/GetDepartmentById";
+export const INSERT_DEPARTMENT = "Department/AddDepartment";
+export const UPDATE_DEPARTMENT = "Department/UpdateDepartment";
+export const DELETE_DEPARTMENT = "Department/RemoveByIdList";
 //#endregion
 
 //#region Locations
-export const GET_LOCATION_LIST = "locations/getlocationslist";
+export const GET_LOCATION_LIST = "Locations/GetLocationsList";
 export const GET_LOCATION_BY_ID="Locations/GetLocationsById";
-export const INSERT_LOCATION = "locations/AddLocation";
-export const UPDATE_LOCATION = "locations/UpdateLocation";
+export const INSERT_LOCATION = "Locations/AddLocation";
+export const UPDATE_LOCATION = "Locations/UpdateLocation";
+export const DELETE_LOCATION = "Locations/RemoveByIdList";
 //#endregion
 
 //#region Users
@@ -36,11 +37,13 @@ export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 export const UPDATE_ROLE="Role/UpdateRole";
 export const INSERT_ROLE="Role/AddRole";
 export const GET_ROLE_LIST_BY_ID="Role/GetRoleById";
+
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST = "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
 export const GET_FIXEDASSETCARDCATEGORY_BY_ID = "FixedAssetCardCategories/GetFixedAssetCardCategoryById";
 export const INSERT_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/AddFixedAssetCardCategory";
 export const UPDATE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/UpdateFixedAssetCardCategory";
+export const DELETE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/RemoveByIdList";
 //#endregion
 
 //#region FixedAssetCardProperties
@@ -65,6 +68,7 @@ export const GET_AGREEMENT_LIST="Aggrement/GetAgreementListByFirmId";
 export const GET_AGREEMENT_BY_ID="Aggrement/GetAgreementListById";
 export const INSERT_AGREEMENT = "Aggrement/AddAgreement";
 export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreement";
+export const DELETE_AGREEMENT = "Aggrement/RemoveByIdList";
 //#endregion
 
 //#region Companies

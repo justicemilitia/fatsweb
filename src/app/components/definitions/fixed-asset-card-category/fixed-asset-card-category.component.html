@@ -1,53 +1,58 @@
 <div class="az-content">
   <div class="container">
     <div class="az-content-body">
-      <h2 class="az-content-title">Demirbaş Kategorileri</h2>
-      <div class="col-md-2 btnAddCategory-right">
-        <button
-          class="btn btn-orange btn-block btnAddCategory-height"
-          id="btnAddFixedAssetCardCategory"
-          data-toggle="modal"
-          data-target="#modalFixedAssetCategory"  
-        >Demirbaş Kategorisi Ekle
-        </button>
+     <div class="card card-dashboard-twelve mg-b-20">      
+       <h2 class="az-content-title">Demirbaş Kart Kategorileri</h2>
+        <div class="grp-btn-action">
+            <button type="button" (click)="deleteFixedAssetCardCategories()" class="btn btn-danger">
+                {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+                <i class="fas fa-trash"></i></button>
+              <button class="btn btn-orange" id="btnAddFixedAssetCardCategory" data-toggle="modal" data-target="#modalFixedAssetCardCategory">Kategori Ekle
+              </button>
       </div>
       <p class="mg-b-20"></p>
       <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
     </div>
+  </div>
     <!-- az-content-body -->      
   </div>
 </div>
 <!-- az-content -->
 <app-footer></app-footer>
 
-<div id="modalFixedAssetCategory" class="modal">
+<!-- LARGE MODAL -->
+<div id="modalFixedAssetCardCategory" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title model-title-center">Yeni demirbaş kategorisi oluşturmak için aşağıdaki alanları doldurunuz.</h6>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h6 class="modal-title">Demirbaş kategorisi oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
       </div>
-      <div class="modal-body">
-    <form #data="ngForm" (ngSubmit)="InsertFixedAssetCardCategory(data)" class="form-register">
-          <div class="row">
-            <label>*Demirbaş Kategori Kodu</label>
-            <input type="text" id="FixedAssetCardCategoryCode" ngModel name="FixedAssetCardCategoryCode" required class="form-control txt-width" value=""/>
+    <form #data="ngForm" (ngSubmit)="addFixedAssetCardCategory(data)" class="form-register">
+      <div class="modal-body">         
+          <div class="row  justify-content-center">
+              <div class="col-md-12">                        
+              <input type="hidden" name="FixedAssetCardCategoryId" [(ngModel)]="fixedAssetCardCategory.FixedAssetCardCategoryId" />            
+            <label>Kategori Kodu</label>
+            <input [(ngModel)]="fixedAssetCardCategory.FixedAssetCardCategoryCode" name="FixedAssetCardCategoryCode" type="text" class="form-control txt-width" #FixedAssetCardCategoryCode="ngModel"/>
           </div>    
-          <div class="row">
-              <label>*Demirbaş Kategori Adı</label>
-              <input type="text" id="Name" ngModel name="Name" required class="form-control txt-width" value=""/>
+        </div>    
+          <div class="row justify-content-center">
+              <div class="col-md-12">                                    
+              <label>*Kategori Adı</label>
+              <input [(ngModel)]="fixedAssetCardCategory.Name" name="Name" type="text" class="form-control" #Name="ngModel"
+                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
-          <div class="row">
-              <label>Bağlı Olduğu Demirbaş Kategorisi</label>
-              <select  
-              id="ParentFixedAssetCategoryId" ngModel name="ParentFixedAssetCategoryId" required class="form-control txt-width" value="">
+          </div>
+          <div class="row justify-content-center">
+              <div class="col-md-12">                                                
+              <label>Bağlı Olduğu Kategori</label>
+              <select [(ngModel)]="fixedAssetCardCategory.ParentFixedAssetCategoryId" name="ParentFixedAssetCategoryId" class="form-control txt-width" (click)="loadFixedAssetCardCategories()">
                   <option value="">Seçiniz</option>
                   <option value="-1">Yok</option>
                   <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories" value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>
@@ -55,14 +60,15 @@
                   </option>   
               </select>
              </div>
-          <!-- form-group -->
+            </div>
+          </div>
+        <!-- modal-body -->             
           <div class="modal-footer">
               <button class="btn btn-orange btn-block btn-height" id="btnInsertOrUpdateFixedAssetCardCategory" type="submit" data-toggle="modal" data-target="#modalInsertFixedAssetCategory">Demirbaş Kategorisi Ekle</button>       
-            </div>
+          </div>
         </form>
       </div>
-    </div>
-  </div>
+   </div>
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
