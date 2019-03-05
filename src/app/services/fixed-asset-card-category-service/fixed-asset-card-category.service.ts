@@ -123,7 +123,7 @@ export class FixedAssetCardCategoryService {
   }
 
   DeleteFixedAssetCardCategories(ids: number[], success, failed) {
-    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARDCATEGORY, { "CompanyIds": ids }, {
+    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARDCATEGORY, { "FixedAssetCardCategoriesIds": ids }, {
       headers: GET_HEADERS(this.authenticationService.getToken()),
     }).subscribe(
       result => {

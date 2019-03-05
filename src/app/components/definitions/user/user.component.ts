@@ -127,7 +127,6 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   loadUsers() {
-    debugger;
     this.baseService.userService.GetUsers(
       (usrs: User[]) => {
         this.users = usrs;

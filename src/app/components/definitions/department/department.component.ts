@@ -26,7 +26,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   public dataTable: TreeGridTable = new TreeGridTable("department",
     [
       {
-        columnDisplayName: "İsim",
+        columnDisplayName: "Departman Adı",
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -34,16 +34,24 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: 'Lokasyon',
-        columnName: ['Location'],
+        columnDisplayName: "Departman Kodu",
+        columnName: ["DeparmtentCode"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
       {
-        columnDisplayName: 'Açıklama',
-        columnName: ['Description'],
+        columnDisplayName: "Bağlı Olduğu Lokasyon",
+        columnName: ["Location", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Açıklama",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -59,6 +67,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadDepartments();
+    this.loadDropdownList();
   }
 
   ngOnInit() {}
@@ -187,6 +196,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     await this.baseService.popupService.ShowQuestionPopupForUpdate(
       (response: boolean) => {
         if (response == true) {
+          debugger;
           this.baseService.departmentService.UpdateDepartment(
             this.department,
             (_department, message) => {
@@ -252,24 +262,25 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
-    /* load departments if not loaded */
-    await this.loadDepartments();
-
     /* get department information from server */
     await this.baseService.departmentService.GetDepartmentById(item.DepartmentId, (result: Department) => {
 
       /* then bind it to department model to update */
       setTimeout(() => {
 
+        /* Trigger to model to show it */
+        $("#btnAddDepartment").trigger("click");
+
         /* bind result to model */
         this.department = result;
         this.baseService.spinner.hide();
 
-        /* Trigger to model to show it */
-        $("#btnAddDepartment").trigger("click");
       }, 1000);
 
     }, (error: HttpErrorResponse) => {
+
+       /* hide spinner */
+       this.baseService.spinner.hide();
 
       /* show error message */
       this.baseService.popupService.ShowErrorPopup(error);

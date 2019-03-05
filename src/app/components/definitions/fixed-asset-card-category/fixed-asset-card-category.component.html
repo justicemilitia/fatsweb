@@ -2,12 +2,12 @@
   <div class="container">
     <div class="az-content-body">
      <div class="card card-dashboard-twelve mg-b-20">      
-       <h2 class="az-content-title">Demirbaş Kategorileri</h2>
+       <h2 class="az-content-title">Demirbaş Kart Kategorileri</h2>
         <div class="grp-btn-action">
             <button type="button" (click)="deleteFixedAssetCardCategories()" class="btn btn-danger">
                 {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
                 <i class="fas fa-trash"></i></button>
-              <button class="btn btn-orange" id="btnAddFixedAssetCardCategory" data-toggle="modal" data-target="#modalFixedAssetCardCategory">Demirbaş Kart Kategorisi Ekle
+              <button class="btn btn-orange" id="btnAddFixedAssetCardCategory" data-toggle="modal" data-target="#modalFixedAssetCardCategory">Kategori Ekle
               </button>
       </div>
       <p class="mg-b-20"></p>
@@ -35,13 +35,13 @@
           <div class="row  justify-content-center">
               <div class="col-md-12">                        
               <input type="hidden" name="FixedAssetCardCategoryId" [(ngModel)]="fixedAssetCardCategory.FixedAssetCardCategoryId" />            
-            <label>*Demirbaş Kategori Kodu</label>
+            <label>Kategori Kodu</label>
             <input [(ngModel)]="fixedAssetCardCategory.FixedAssetCardCategoryCode" name="FixedAssetCardCategoryCode" type="text" class="form-control txt-width" #FixedAssetCardCategoryCode="ngModel"/>
           </div>    
         </div>    
           <div class="row justify-content-center">
               <div class="col-md-12">                                    
-              <label>*Demirbaş Kategori Adı</label>
+              <label>*Kategori Adı</label>
               <input [(ngModel)]="fixedAssetCardCategory.Name" name="Name" type="text" class="form-control" #Name="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
@@ -51,7 +51,7 @@
           </div>
           <div class="row justify-content-center">
               <div class="col-md-12">                                                
-              <label>Bağlı Olduğu Demirbaş Kategorisi</label>
+              <label>Bağlı Olduğu Kategori</label>
               <select [(ngModel)]="fixedAssetCardCategory.ParentFixedAssetCategoryId" name="ParentFixedAssetCategoryId" class="form-control txt-width" (click)="loadFixedAssetCardCategories()">
                   <option value="">Seçiniz</option>
                   <option value="-1">Yok</option>

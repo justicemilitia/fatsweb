@@ -8,26 +8,26 @@ import {
   SERVICE_URL,
   INSERT_LOCATION,
   UPDATE_LOCATION,
-  GET_LOCATION_BY_ID
+  GET_LOCATION_BY_ID,
+  DELETE_LOCATION
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Department } from "../../models/Department";
 import { Router } from "@angular/router";
 import { Response } from "src/app/models/Response";
 import { Location } from "../../models/Location";
-import { ErrorService } from '../error-service/error.service';
+import { ErrorService } from "../error-service/error.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class LocationService {
-
   locationData: Location[] = [];
 
   constructor(
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService,
-    private errorService: ErrorService    
+    private errorService: ErrorService
   ) {}
 
   GetLocations(success, failed) {
@@ -41,13 +41,15 @@ export class LocationService {
           if (response.ResultStatus == true) {
             let locations: Location[] = [];
             (<Location[]>response.ResultObject).forEach(e => {
-              let location: Location = new Location();
-              Object.assign(location, e);
-              locations.push(location);
+              let loc: Location = new Location();
+              Object.assign(loc, e);
+              locations.push(loc);
             });
             success(locations, response.LanguageKeyword);
           } else {
-            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
           }
         },
         (error: HttpErrorResponse) => {
@@ -55,7 +57,7 @@ export class LocationService {
         }
       );
   }
-  
+
   InsertLocation(location: Location, success, failed) {
     this.httpClient
       .post(SERVICE_URL + INSERT_LOCATION, location, {
@@ -69,52 +71,88 @@ export class LocationService {
             Object.assign(insertedLocation, response.ResultObject);
             success(insertedLocation, response.LanguageKeyword);
           } else {
-            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
           }
         },
         error => {
           failed(error);
-        });
+        }
+      );
   }
 
   UpdateLocation(location: Location, success, failed) {
     this.httpClient
-        .put(SERVICE_URL + UPDATE_LOCATION, location, {
-          headers: GET_HEADERS(this.authenticationService.getToken())
-        })
-        .subscribe(
-          result => {
-            let response: Response = <Response>result;
-            if (response.ResultStatus == true) {
-              let _updatedLocation: Location = new Location();
-              Object.assign(_updatedLocation, location);
-              success(_updatedLocation, response.LanguageKeyword);
-            } else {
-              failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
-            }
-          },
-          error => {
-            failed(error);
-          }
-        );
-    }
- 
-    GetLocationById(locationId: number, success, failed) {
-      this.httpClient
-        .get(SERVICE_URL + GET_LOCATION_BY_ID + "/" + locationId, {
-          headers: GET_HEADERS(this.authenticationService.getToken())
-        })
-        .subscribe(result => {
+      .put(SERVICE_URL + UPDATE_LOCATION, location, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
           let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let location: Location = new Location();
-          Object.assign(location, response.ResultObject);
-          success(location, response.LanguageKeyword);
-        } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          if (response.ResultStatus == true) {
+            let _updatedLocation: Location = new Location();
+            Object.assign(_updatedLocation, location);
+            success(_updatedLocation, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
+        },
+        error => {
+          failed(error);
         }
-      }, error => {
-        failed(error);
-      });
-    }
+      );
+  }
+
+  GetLocationById(locationId: number, success, failed) {
+    this.httpClient
+      .get(SERVICE_URL + GET_LOCATION_BY_ID + "/" + locationId, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let location: Location = new Location();
+            Object.assign(location, response.ResultObject);
+            success(location, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  DeleteLocations(ids: number[], success, failed) {
+    this.httpClient
+      .post(
+        SERVICE_URL + DELETE_LOCATION,
+        { "LocationIds": ids },
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
 }
