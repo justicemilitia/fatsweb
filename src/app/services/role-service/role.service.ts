@@ -8,11 +8,14 @@ import {
   GET_ROLE_LIST,
   INSERT_ROLE,
   UPDATE_ROLE,
-  GET_ROLE_LIST_BY_ID
+  GET_ROLE_LIST_BY_ID,
+  DELETE_ROLES,
+  GET_USER_LIST
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { getToken } from "@angular/router/src/utils/preactivation";
 import { ErrorService } from "../error-service/error.service";
+import { User } from 'src/app/models/User';
 
 @Injectable({
   providedIn: "root"
@@ -54,6 +57,33 @@ export class RoleService {
       );
   }
 
+  GetUsers(success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_USER_LIST, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let users: User[] = [];
+            (<Role[]>response.ResultObject).forEach(e => {
+              let user: User = new User();
+              Object.assign(user, e);
+              users.push(user);
+            });
+            success(users, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
   InsertRole(role: Role, success, failed) {
     this.httpclient
       .post(SERVICE_URL + INSERT_ROLE, role, {
@@ -100,6 +130,23 @@ export class RoleService {
           failed(error);
         }
       );
+  }
+
+  DeleteRoles(ids: number[], success, failed) {
+    this.httpclient.post(SERVICE_URL + DELETE_ROLES, { "RoleIds": ids }, {
+      headers: GET_HEADERS(this.aService.getToken()),
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      });
   }
 
   GetRoleById(roleId: number, success, failed) {

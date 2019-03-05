@@ -42,7 +42,7 @@ export class FixedAssetCardModelService {
             Object.assign(facms, e);
             fixedAssetCardModels.push(facms);
           });
-          success(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          success(fixedAssetCardModels);
         }else{
           failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
         }

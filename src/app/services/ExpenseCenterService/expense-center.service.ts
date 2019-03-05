@@ -8,7 +8,8 @@ import {
   GET_HEADERS,
   GET_EXPENSECENTER_LIST,
   UPDATE_EXPENSECENTER,
-  GET_EXPENSECENTER_BY_ID
+  GET_EXPENSECENTER_BY_ID,
+ DELETE_EXPENSECENTER
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { ErrorService } from "../error-service/error.service";
@@ -102,7 +103,24 @@ export class ExpenseCenterService {
       );
   }
 
-  GetExpenseCenterById(callback, expenseCenterId: number,success,failed) {
+  DeleteExpenseCenters(ids: number[], success, failed) {
+    this.httpClient.post(SERVICE_URL + DELETE_EXPENSECENTER, { "ExpenseCenterIds": ids }, {
+      headers: GET_HEADERS(this.aService.getToken()),
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      });
+  }
+
+  GetExpenseCenterById(expenseCenterId: number,success,failed) {
     this.httpClient
       .get(SERVICE_URL + GET_EXPENSECENTER_BY_ID + "/" + expenseCenterId, {
         headers: GET_HEADERS(this.aService.getToken())

@@ -1,22 +1,41 @@
 <div class="az-content">
-    <div class="container">
+    <div class="container-fluid">
       <div class="az-content-body">
-  
-        <h2 class="az-content-title">Demirbaş Markası</h2>
-            <div class=" row btn-icon-list">   
-              <button class="btn btn-orange"    id="btnAddFixedAssetCardBrand" data-toggle="modal"
-                data-target="#modalFixedAssetCardBrand">Demirbaş Markası Ekle
-              </button>
-              <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-            </div>  
+        <div class="card card-dashboard-twelve mg-b-20">  
+        <h2 class="az-content-title">Demirbaş Markası</h2>      
         <p class="mg-b-20"></p>
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="grp-btn-action">
+                <button type="button" (click)="deleteFixedAssetCardBrandOrModel()" class="btn btn-danger">
+                      {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+                      <i class="fas fa-trash"></i></button>   
+                <button class="btn btn-orange" id="btnAddFixedAssetCardBrand" data-toggle="modal"
+                  data-target="#modalFixedAssetCardBrand">Marka Ekle
+                </button>      
+              </div>
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          </div>
+          <div class="col-md-6">
+            <div class="grp-btn-action">
+                <button type="button" (click)="deleteFixedAssetCardBrandOrModel()" class="btn btn-danger">
+                    {{dataTableModel.TGT_getSelectedItems().length > 0 ? dataTableModel.TGT_getSelectedItems().length : '' }}
+                    <i class="fas fa-trash"></i></button>   
+                <button class="btn btn-orange" id="btnAddFixedAssetCardModel" data-toggle="modal"
+                  data-target="#modalFixedAssetCardModel">Model Ekle
+                </button>      
+            </div>
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableModel"></tree-grid-table>
+        </div>
+      </div>
+    </div>
       </div>
       <!-- az-content-body -->
     </div>
   </div>
-  <!-- az-content -->
-  
+  <!-- az-content -->  
+
+  <!-- MODAL FIXEDASSETCARDBRAND-->
   <div id="modalFixedAssetCardBrand" class="modal">
     <div class="modal-dialog" role="document">
       <div class="modal-content modal-content-demo">
@@ -37,7 +56,7 @@
             </div>
             <!-- form-group -->
             <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateFixedAssetCardBrand" type="submit"
+              <button id="btnInsertOrUpdateBrand" class="btn btn-orange btn-block btn-height" type="submit"
                 data-toggle="modal" data-target="#modalInsertFixedAssetCardBrand">Demirbaş Markası Ekle</button>
             </div>
           </form>
@@ -47,3 +66,35 @@
     <!-- modal-dialog -->
   </div>
   <!-- modal -->
+
+   <!-- MODAL FIXEDASSETCARDMODEL -->
+   <div id="modalFixedAssetCardModel" class="modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+            <h6 class="modal-title model-title-center">Yeni demirbaş modeli oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <form #data="ngForm" (ngSubmit)="OnSubmit(data) && data.form.valid" class="form-register" novalidate>
+                <input type="hidden" name="FixedAssetCardBrandId" [(ngModel)]="fixedAssetCardBrand.FixedAssetCardBrandId"/>
+              <div class="row">
+                <label>*Demirbaş Marka Adı</label>
+                <input type="text" id="Name" [(ngModel)]="fixedAssetCardBrand.Name" name="Name" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required class="form-control txt-width" value="" />
+                <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                </div>
+              </div>
+              <!-- form-group -->
+              <div class="modal-footer">
+                <button id="btnInsertOrUpdateModel" class="btn btn-orange btn-block btn-height" type="submit"
+                  data-toggle="modal" data-target="#modalInsertFixedAssetCardModel">Demirbaş Modeli Ekle</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- modal-dialog -->
+    </div>
+    <!-- modal -->

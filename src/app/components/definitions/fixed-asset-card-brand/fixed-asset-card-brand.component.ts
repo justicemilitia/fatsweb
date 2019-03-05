@@ -5,6 +5,7 @@ import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { BaseComponent } from "../../base/base.component";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
+import { FixedAssetCardModel } from "src/app/models/FixedAssetCardModel";
 
 @Component({
   selector: "app-fixed-asset-card-brand",
@@ -18,10 +19,14 @@ import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTa
 })
 export class FixedAssetCardBrandComponent extends BaseComponent
   implements OnInit {
-  insertingfixedAssetCardBrands: any = {};
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
   fixedAssetCardBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
+
+  fixedAssetCardModels: FixedAssetCardModel[] = [];
+  fixedAssetCardModel: FixedAssetCardModel = new FixedAssetCardModel();
+
   public dataTable: TreeGridTable = new TreeGridTable(
+    "fixedassetcardbrand",
     [
       {
         columnDisplayName: "Marka",
@@ -30,7 +35,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
-      }   
+      }
     ],
     {
       isDesc: false,
@@ -38,15 +43,42 @@ export class FixedAssetCardBrandComponent extends BaseComponent
     }
   );
 
+  public dataTableModel: TreeGridTable = new TreeGridTable(
+    "fixedassetcardmodel",
+    [
+      {
+        columnDisplayName: "Marka",
+        columnName: ["FixedAssetCardModel","FixedAssetCardBrand","Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Model",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadFixedAssetCardBrands();
+    this.loadFixedAssetCardModels();
   }
 
   ngOnInit() {}
 
   resetForm() {
     this.fixedAssetCardBrand = new FixedAssetCardBrand();
+    this.fixedAssetCardModel = new FixedAssetCardModel();
   }
 
   OnSubmit(data: NgForm) {
@@ -57,7 +89,6 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
   InsertFixedAssetCardBrand(data: NgForm) {
     if (data.form.invalid == true) return;
-    debugger;
     this.fixedAssetCardBrand = <FixedAssetCardBrand>data.value;
     this.baseService.fixedAssetCardBrandService.InsertFixedAssetCardBrand(
       this.fixedAssetCardBrand,
@@ -95,6 +126,18 @@ export class FixedAssetCardBrandComponent extends BaseComponent
       (facbs: FixedAssetCardBrand[]) => {
         this.fixedAssetCardBrands = facbs;
         this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  loadFixedAssetCardModels() {
+    this.baseService.fixedAssetCardModelService.GetFixedAssetCardModels(
+      (facbs: FixedAssetCardModel[]) => {
+        this.fixedAssetCardModels = facbs;
+        this.dataTableModel.TGT_loadData(this.fixedAssetCardModels);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

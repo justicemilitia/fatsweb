@@ -78,7 +78,7 @@ export const routes: Routes = [
   {
     path: "fixedassetcardbrand",
     component: FixedAssetCardBrandComponent,
-    data: { pageKeyword: pages.MENU_FIXEDASSETCARDBRANDS }
+    data: { pageKeyword: pages.MENU_FIXEDASSETCARDBRANDDEFINITIONS }
     // canActivate: [AuthGuard]
   },
   {
@@ -118,15 +118,15 @@ export const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   {
-    path: "fixedassetcategory",
+    path: "fixedassetcardcategory",
     component: FixedAssetCardCategoryComponent,
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDCATEGORYDEFINITIONS}
     // canActivate: [AuthGuard]
   },
   {
-    path: "brand",
+    path: "fixedassetcardbrand",
     component: FixedAssetCardBrandComponent,
-    data: { pageKeyword: pages.MENU_FIXEDASSETCARDBRANDS}
+    data: { pageKeyword: pages.MENU_FIXEDASSETCARDBRANDDEFINITIONS}
     // canActivate: [AuthGuard]
   },
   {

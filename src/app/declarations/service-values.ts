@@ -33,9 +33,7 @@ export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#endregion
 
-export const UPDATE_ROLE="Role/UpdateRole";
-export const INSERT_ROLE="Role/AddRole";
-export const GET_ROLE_LIST_BY_ID="Role/GetRoleById";
+
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST = "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
 export const GET_FIXEDASSETCARDCATEGORY_BY_ID = "FixedAssetCardCategories/GetFixedAssetCardCategoryById";
@@ -87,14 +85,22 @@ export const GET_EXPENSECENTER_LIST="ExpenseCenter/GetExpenseCenterList";
 export const GET_EXPENSECENTER_BY_ID="ExpenseCenter/GetExpenseCenterById";
 export const INSERT_EXPENSECENTER="ExpenseCenter/AddExpenseCenter";
 export const UPDATE_EXPENSECENTER="ExpenseCenter/UpdateExpenseCenter"; 
+export const DELETE_EXPENSECENTER="ExpenseCenter/DeleteExpenseCenter";
+
 //#endregion
 
-//#region ExpenseCenters
+
 export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
+
+
+//#region Roles
+export const UPDATE_ROLE="Role/UpdateRole";
+export const INSERT_ROLE="Role/AddRole";
+export const GET_ROLE_LIST_BY_ID="Role/GetRoleById";
+export const GET_ROLE_LIST = "role/GetRoleList";
+export const DELETE_ROLES="role/DeleteRole";
 //#endregion
 
-
-export const GET_ROLE_LIST = "role/GetRoleList";
 export const GET_FIRM_LIST = "firm/GetFirmsList";
 export const GET_COUNTRY_LIST="definition/GetCountriesList";
 export const GET_CITY_LIST="definition/GetCitiesList";
