@@ -9,7 +9,7 @@ export class FixedAssetCardCategory implements IData {
   isExtended: boolean;
 
   getParentId(): number {
-    return this.ParentCategoryId;
+    return this.ParentFixedAssetCardCategoryId;
   }
 
   getParent() {
@@ -17,7 +17,7 @@ export class FixedAssetCardCategory implements IData {
   }
 
   getChildren(): IData[] {
-    return this.InverseParentCategory;
+    return this.InverseParentFixedAssetCardCategory;
   }
 
   getId(): number {
@@ -26,7 +26,7 @@ export class FixedAssetCardCategory implements IData {
   
   FixedAssetCardCategoryId: number;
   FixedAssetCardCategoryCode: string;
-  ParentCategoryId: number;
+  ParentFixedAssetCardCategoryId: number;
   Name: string;
   CreationDate: Date;
   CreatorId: number;
@@ -35,6 +35,6 @@ export class FixedAssetCardCategory implements IData {
   IsActive: boolean;
   ParentCategory: FixedAssetCardCategory;
   FixedAssets: FixedAssetCard[];
-  InverseParentCategory: FixedAssetCardCategory[];
+  InverseParentFixedAssetCardCategory: FixedAssetCardCategory[];
   ParentFixedAssetCardCategory: FixedAssetCardCategory[];
 }

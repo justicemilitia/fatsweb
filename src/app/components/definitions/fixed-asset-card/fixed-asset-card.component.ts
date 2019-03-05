@@ -24,7 +24,11 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   fixedAssetCardCategories: FixedAssetCardCategory[] = [];
   fixedAssetCard: FixedAssetCard = new FixedAssetCard();
 
+<<<<<<< HEAD
   public dataTable: TreeGridTable = new TreeGridTable("",
+=======
+  public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
+>>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
     [
       {
         columnDisplayName: "İsim",
@@ -80,7 +84,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   onSubmit(data: NgForm) {
     /* if fixed asset card id exists means update it otherwise insert it */
     if (data.value.FixedAssetCardId == null) {
-      this.insertFixedAssetCard(data);
+      this.addFixedAssetCard(data);
     } else {
       this.updateFixedAssetCard(data);
     }
@@ -168,9 +172,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
     });
   }
 
-  async insertFixedAssetCard(data: NgForm) {
+  async addFixedAssetCard(data: NgForm) {
     /* Check model state is valid */
-debugger;
     if (data.form.invalid == true) return;
 
     /* Insert Company service */
@@ -258,7 +261,7 @@ debugger;
     await this.baseService.fixedAssetCardService.GetFixedAssetCardById(
       item.FixedAssetCardId,
       (result: FixedAssetCard) => {
-        /* then bind it to company model to update */
+        /* then bind it to fixed asset card category model to update */
         setTimeout(() => {
           /* bind result to model */
           this.fixedAssetCard = result;

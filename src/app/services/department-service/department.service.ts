@@ -89,9 +89,9 @@ export class DepartmentService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let insertedDepartment: Department = new Department();
-            Object.assign(insertedDepartment, response.ResultObject);
-            success(insertedDepartment, response.LanguageKeyword);
+            let _updateDepartment: Department = new Department();
+            Object.assign(_updateDepartment, response.ResultObject);
+            success(_updateDepartment, response.LanguageKeyword);
           } else {
             failed(
               this.errorService.getAnErrorResponse(response.LanguageKeyword)
@@ -109,20 +109,23 @@ export class DepartmentService {
       .get(SERVICE_URL + GET_DEPARTMENT_BY_ID + "/" + departmentId, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
-      .subscribe(result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let department: Department = new Department();
-          Object.assign(department, response.ResultObject);
-          success(department, response.LanguageKeyword);
-        } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let department: Department = new Department();
+            Object.assign(department, response.ResultObject);
+            success(department, response.LanguageKeyword);
+          } else {
+            failed(
+              this.errorService.getAnErrorResponse(response.LanguageKeyword)
+            );
+          }
+        },
+        error => {
+          failed(error);
         }
-      },
-      error => {
-        failed(error);
-      }
-    );
+      );
   }
 
   DeleteDepartments(ids: number[], success, failed) {

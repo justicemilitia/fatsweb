@@ -14,6 +14,7 @@ import{NgMultiSelectDropDownModule}  from 'ng-multiselect-dropdown';
   styleUrls: ["./role.component.css"]
 })
 export class RoleComponent extends BaseComponent implements OnInit {
+<<<<<<< HEAD
 
   roles: Role[] = [];
   role: Role = new Role();
@@ -21,6 +22,9 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "role",
+=======
+  public dataTable: TreeGridTable = new TreeGridTable("role",
+>>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
     [
       {
         columnDisplayName: "Rol",
@@ -45,8 +49,12 @@ export class RoleComponent extends BaseComponent implements OnInit {
     }
   );
 
+<<<<<<< HEAD
   public dataTableUserRole: TreeGridTable = new TreeGridTable(
     "role",
+=======
+  public dataTableUserRole: TreeGridTable = new TreeGridTable("role",
+>>>>>>> e50ba0cb872a4c4f6fe0e00a3a7cc7a799b97ca0
     [
       {
         columnDisplayName: "Rol",

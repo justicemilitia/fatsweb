@@ -21,7 +21,8 @@ export class Location implements IData {
   ParentLocationId: number;
   Name: string;
   Barcode: string;
-  Coordinate: Coordinates;
+  Coordinate: string;
+  Address: string;
   Description: string;
   CreationDate: Date;
   CreatorId: number;
