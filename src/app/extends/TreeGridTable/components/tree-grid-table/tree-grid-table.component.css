@@ -94,7 +94,7 @@
 .tree-table>thead>th {
     max-width: 300px;
     white-space: nowrap;
-    padding:0.75rem;
+    padding:0.5rem;
     padding-right: 20px;
     color:#494c57;
     font-size: 13px;
