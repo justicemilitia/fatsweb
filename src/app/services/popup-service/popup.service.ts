@@ -3,12 +3,14 @@ import swal from "src/../node_modules/sweetalert";
 import { BaseService } from '../base.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../error-service/error.service';
+import { LanguageService } from '../language-service/language.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class PopupService {
-  constructor(private errorService: ErrorService) {
+
+  constructor(private errorService: ErrorService,private languageService:LanguageService) {
 
   }
 
@@ -32,7 +34,7 @@ export class PopupService {
   ShowErrorPopup(error: HttpErrorResponse) {
     swal({
       title: "İşlem Başarısız",
-      text: error.statusText,
+      text: this.languageService.getValue(error.statusText),
       icon: "warning"
     }).then(() => {
       this.errorService.errorManager(error);

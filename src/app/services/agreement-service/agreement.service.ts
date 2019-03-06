@@ -15,7 +15,7 @@ import { Response } from "../../../../src/app/models/Response";
 import { Router } from "@angular/router";
 import { Agreement } from "../../../../src/app/models/Agreement";
 import { ErrorService } from '../error-service/error.service';
-import { getAnErrorResponse } from '../../declarations/extends';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
