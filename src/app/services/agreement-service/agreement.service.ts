@@ -15,6 +15,7 @@ import { Response } from "../../../../src/app/models/Response";
 import { Router } from "@angular/router";
 import { Agreement } from "../../../../src/app/models/Agreement";
 import { ErrorService } from '../error-service/error.service';
+import { getAnErrorResponse } from '../../declarations/extends';
 
 @Injectable({
   providedIn: "root"
@@ -22,8 +23,7 @@ import { ErrorService } from '../error-service/error.service';
 export class AgreementService {
   constructor(
     private httpClient: HttpClient,
-    private authenticationService: AuthenticationService,
-    private errorService: ErrorService    
+    private authenticationService: AuthenticationService
   ) {}
 
   GetAgreement(success, failed) {
@@ -43,7 +43,7 @@ export class AgreementService {
             });
             success(agreements, response.LanguageKeyword);
           } else {
-            failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
@@ -63,7 +63,7 @@ export class AgreementService {
           Object.assign(insertedAgreement, response.ResultObject);
           success(insertedAgreement, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -80,7 +80,7 @@ export class AgreementService {
         if (response.ResultStatus == true) {
           success(agreement, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
@@ -89,9 +89,9 @@ export class AgreementService {
     );
   }
 
-  GetAgreementById(agreementId: number, success, failed) {
+  GetAgreementById(AgreementId: number, success, failed) {
     this.httpClient
-      .get(SERVICE_URL + GET_AGREEMENT_BY_ID + "/" + agreementId, {
+      .get(SERVICE_URL + GET_AGREEMENT_BY_ID + "/" + AgreementId, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result => {
@@ -101,7 +101,7 @@ export class AgreementService {
           Object.assign(agreement, response.ResultObject);
           success(agreement, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       }, error => {
         failed(error);
@@ -109,7 +109,7 @@ export class AgreementService {
   }
 
   DeleteAgreements(ids: number[], success, failed) {
-    this.httpClient.post(SERVICE_URL + DELETE_AGREEMENT, { "AggrementIds": ids }, {
+    this.httpClient.post(SERVICE_URL + DELETE_AGREEMENT, { "AgreementIds": ids }, {
       headers: GET_HEADERS(this.authenticationService.getToken()),
     }).subscribe(
       result => {
@@ -117,7 +117,7 @@ export class AgreementService {
         if (response.ResultStatus == true) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(this.errorService.getAnErrorResponse(response.LanguageKeyword));
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {

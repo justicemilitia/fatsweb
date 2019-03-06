@@ -23,7 +23,8 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   locations: Location[] = [];
   department: Department = new Department();
 
-  public dataTable: TreeGridTable = new TreeGridTable("department",
+  public dataTable: TreeGridTable = new TreeGridTable(
+    "department",
     [
       {
         columnDisplayName: "Departman Adı",
@@ -238,53 +239,47 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async loadDepartmentById(event: any){
-
-    if (event.target.value.toString().trim() !== '') {
-
-      await this.baseService.departmentService.GetDepartmentById(<number>event.target.value, (departments: Department[]) => {
-
-        /* Load departments */
-        this.departments = departments;
-
-      }, (error: HttpErrorResponse) => {
-
-        /* show erro pop up */
-        this.baseService.popupService.ShowErrorPopup(error);
-
-      });
-
+  async loadDepartmentById(event: any) {
+    if (event.target.value.toString().trim() !== "") {
+      await this.baseService.departmentService.GetDepartmentById(
+        <number>event.target.value,
+        (departments: Department[]) => {
+          /* Load departments */
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          /* show erro pop up */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     }
   }
-  
+
   async onDoubleClickItem(item: any) {
-  
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
     /* get department information from server */
-    await this.baseService.departmentService.GetDepartmentById(item.DepartmentId, (result: Department) => {
+    await this.baseService.departmentService.GetDepartmentById(
+      item.DepartmentId,
+      (result: Department) => {
+        /* then bind it to department model to update */
+        setTimeout(() => {
+          /* Trigger to model to show it */
+          $("#btnAddDepartment").trigger("click");
 
-      /* then bind it to department model to update */
-      setTimeout(() => {
-
-        /* Trigger to model to show it */
-        $("#btnAddDepartment").trigger("click");
-
-        /* bind result to model */
-        this.department = result;
+          /* bind result to model */
+          this.department = result;
+          this.baseService.spinner.hide();
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        /* hide spinner */
         this.baseService.spinner.hide();
 
-      }, 1000);
-
-    }, (error: HttpErrorResponse) => {
-
-       /* hide spinner */
-       this.baseService.spinner.hide();
-
-      /* show error message */
-      this.baseService.popupService.ShowErrorPopup(error);
-
-    });
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 }
