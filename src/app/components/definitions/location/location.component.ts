@@ -49,7 +49,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Koordinat",
-        columnName: ["CreationDate"],
+        columnName: ["Coordinate"],
         isActive: true,
         classes: [],
         placeholder: "",

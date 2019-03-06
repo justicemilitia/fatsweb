@@ -198,20 +198,15 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
-    /* Convert model to table model for refresh on grid table */
+    this.company.CityId = Number(this.company.CityId);
+    /* Bind Cities and Countries */
     if (this.company.CityId) {
-      this.company.CityId = Number(this.company.CityId);
-      this.company.City.CityId = this.company.CityId;
-      this.company.City.Name = this.cities.find(x => x.CityId == this.company.CityId).Name;
-      if (this.company.City.CountryId) {
-        this.company.City.CountryId = Number(this.company.City.CountryId);
-        this.company.City.Country.CountryId = this.company.City.CountryId;
-        this.company.City.Country.Name = this.countries.find(x => x.CountryId == this.company.City.CountryId).Name;
-      }
-    } else {
-      this.company.City = new City();
-      this.company.CityId = null;
+      let city = this.cities.find(x => x.CityId == this.company.CityId);
+      let country = this.countries.find(x => x.CountryId == this.company.City.CountryId);
+      this.company.City.Name = city.Name;
+      this.company.City.Country.Name = country.Name;
     }
+
     /* while waiting value true we will translate button to a loading icon */
     this.isWaitingInsertOrUpdate = true;
 
@@ -221,11 +216,11 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       /* Show pop up */
       this.baseService.popupService.ShowSuccessPopup(message);
 
-      /* Get inserted company then set it to company id, then load data. */
       this.company.CompanyId = insertedItem.CompanyId;
-
+      let insComp = new Company();
+      Object.assign(insComp, this.company);
       /* Push new item the current list of companies then reload table */
-      this.companies.push(this.company);
+      this.companies.push(insComp);
       this.dataTable.TGT_loadData(this.companies);
 
       /* Reset Forms */
@@ -260,7 +255,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
             this.company.City = this.cities.find(x => x.CityId == Number(this.company.CityId));
             if (this.company.City) {
               this.company.City.Country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
-            }else {
+            } else {
               this.company.City = new City();
             }
 
