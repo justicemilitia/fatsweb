@@ -5,4 +5,5 @@ export interface IColumn {
     type: string;
     placeholder: string;
     classes: string[];
+    formatter?:any;
 }

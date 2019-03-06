@@ -7,11 +7,11 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 })
 
 export class LanguageService {
-  
+
   languages: Language[] = [];
   path: string = "../../../assets/language/language.json";
   locale: string = "tr";
-   
+
   get language() {
     let lang = localStorage.getItem("language");
     return lang == null ? "tr" : lang;
@@ -50,8 +50,8 @@ export class LanguageService {
       return item.Tr;
     }
 
-    return "";
-    
+    return key;
+
   }
 
 }

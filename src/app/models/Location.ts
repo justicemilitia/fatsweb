@@ -14,7 +14,7 @@ export class Location implements IData {
   getId(): number {
     return this.LocationId;
   }
-
+  
   isExtended: boolean;
   LocationCode: number;
   LocationId: number;

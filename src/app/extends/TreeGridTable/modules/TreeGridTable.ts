@@ -693,8 +693,12 @@ export class TreeGridTable {
                 item = item[e];
             }
         }
-
-        return item;
+        if (column.formatter) {
+            console.log(item);
+            return column.formatter(item);
+        } else {
+            return item;
+        }
     }
 
     /**
@@ -871,7 +875,7 @@ export class TreeGridTable {
         /* check if parentid exists means it should be a parent */
         while (item && item.getParentId()) {
 
-            if (item.getId() == item.getParentId()) 
+            if (item.getId() == item.getParentId())
                 throw "Parent ID and ID are same for the current object " + JSON.stringify(item);
 
             /* We increase if parent exists */

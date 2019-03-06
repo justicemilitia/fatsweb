@@ -430,5 +430,461 @@
     "LanguageKeyword": "FixedAssetProperty_not_found",
     "Tr": "Demirbaş özelliği bulunamadı!",
     "En": "FixedAssetProperty not found!"
+  },
+  {
+    "LanguageId": 75,
+    "LanguageKeyword": "FixedAssetId_ve_FixedAssetPropertyId_not_found_for_delete",
+    "Tr": "Silinecek kayıt bulunamadı veya FixedAssetId ve FixedAssetPropertyId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If the record is not found or the FixedAssetId and FixedAssetPropertyId Parameters have been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 76,
+    "LanguageKeyword": "FirmId_ve_ParentFirmId_not_found_for_delete",
+    "Tr": "Silinecek kayıt bulunamadı veya FirmId ve ParentFirmId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If no records were found or the FirmId and ParentFirmId Parameters were sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 77,
+    "LanguageKeyword": "Check_the_error_FirmId_and_ParentFirmId_parameter",
+    "Tr": "Hata FirmId ve ParentFirmId  parametresini kontrol ediniz!",
+    "En": "Check the error FirmId and ParentFirmId parameter!"
+  },
+  {
+    "LanguageId": 78,
+    "LanguageKeyword": "Firm_Status_change_operation_successful",
+    "Tr": "Firm Status değiştirme işlemi başarılı!",
+    "En": "Firm Status change operation successful!"
+  },
+  {
+    "LanguageId": 79,
+    "LanguageKeyword": "FirmId_ve_ParentFirmId_not_found_for_update",
+    "Tr": "Update edilecek kayıt bulunamadı veya FirmId ve ParentFirmId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If you're looking for an update, you'll need to create a new version of the program, if you want to use the database, or if you want to create a database."
+  },
+  {
+    "LanguageId": 80,
+    "LanguageKeyword": "Check_the_error_FirmId_and_ParentFirmId_parameter",
+    "Tr": "Hata FirmId ve ParentFirmId parametresini kontrol ediniz!",
+    "En": "Check the error FirmId and ParentFirmId parameter!"
+  },
+  {
+    "LanguageId": 81,
+    "LanguageKeyword": "CategoryId_not_to_be_0",
+    "Tr": "CategoryId değeri 0 olamaz!",
+    "En": "CategoryId not to be 0!"
+  },
+  {
+    "LanguageId": 82,
+    "LanguageKeyword": "If_there_is_no_record_to_update_or_the_CategoryId_parameter",
+    "Tr": "Update edilecek kayıt bulunamadı veya CategoryId Parametresinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If there is no record to update or the CategoryId parameter has been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 83,
+    "LanguageKeyword": "The_operation_was_successful.language.json_file_was_updated",
+    "Tr": "İşlem başarılı language.json dosyası güncellendi.",
+    "En": "The operation was successful language.json file was updated!"
+  },
+  {
+    "LanguageId": 84,
+    "LanguageKeyword": "Failed_to_update_the_language_json_file_that_failed_the_operation",
+    "Tr": "İşlem başarısız language.json dosyası güncellenemedi.",
+    "En": "Failed to update the language.json file that failed the operation!"
+  },
+  {
+    "LanguageId": 85,
+    "LanguageKeyword": "Locations_lists_not_found",
+    "Tr": "Locations listesi bulunamadı!",
+    "En": "Locations lists not found!"
+  },
+  {
+    "LanguageId": 86,
+    "LanguageKeyword": "Active_locations_not_to_be_shown",
+    "Tr": "Gösterilecek Aktif Locations bulunamadı.!",
+    "En": "Active Locations not to be shown!"
+  },
+  {
+    "LanguageId": 87,
+    "LanguageKeyword": "ParameterId_not_to_be_0",
+    "Tr": "ParameterId 0 olamaz!",
+    "En": "ParameterId not to be 0!"
+  },
+  {
+    "LanguageId": 88,
+    "LanguageKeyword": "Location_added",
+    "Tr": "Location eklendi.",
+    "En": "Location added!"
+  },
+  {
+    "LanguageId": 89,
+    "LanguageKeyword": "If_no_record_is_found_to_be_updated_or_the_LocationId_and_ParentLocationId",
+    "Tr": "Update edilecek kayıt bulunamadı veya LocationId ve ParentLocationId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If no record is found to be updated or the LocationId and ParentLocationId Parameters have been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 90,
+    "LanguageKeyword": "Location_Deleted",
+    "Tr": "Lokasyon silindi!",
+    "En": "Location Deleted!"
+  },
+  {
+    "LanguageId": 91,
+    "LanguageKeyword": "If_the_record_is_not_found_or_the_LocationId_and_ParentLocationId_Parameters",
+    "Tr": "Silinecek kayıt bulunamadı veya LocationId ve ParentLocationId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If the record is not found or the LocationId and ParentLocationId Parameters have been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 92,
+    "LanguageKeyword": "Locations_active_Status_change_is_ok",
+    "Tr": "Locations Status değiştirme işlemi başarılı!",
+    "En": "Locations Active Status change is ok!"
+  },
+  {
+    "LanguageId": 93,
+    "LanguageKeyword": "ChangeLocationActiveStatus_record_not_found",
+    "Tr": "ChangeLocationActiveStatus edilecek kayıt bulunamadı veya LocationId ve ParentLocationId gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "ChangeLocationActiveStatus to be found or LocationId and ParentLocationId has been sent and sent to be sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 94,
+    "LanguageKeyword": "Role_added",
+    "Tr": "Rol eklendi.",
+    "En": "Role added!"
+  },
+  {
+    "LanguageId": 95,
+    "LanguageKeyword": "If_there_is_no_record_found_to_update_or_the_RoleId",
+    "Tr": "Update edilecek kayıt bulunamadı veya RoleId Parametresinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If there is no record found to update or the RoleId parameter has been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 96,
+    "LanguageKeyword": "If_the_record_is_not_found_or_the_RoleId_and_MenuId",
+    "Tr": "Silinecek kayıt bulunamadı veya RoleId ve MenuId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If the record is not found or the RoleId and MenuId Parameters have been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 97,
+    "LanguageKeyword": "User_role_added",
+    "Tr": "Kullanıcı Rolü eklendi.",
+    "En": "User role added!"
+  },
+  {
+    "LanguageId": 98,
+    "LanguageKeyword": "If_there_is_no_record_found_to_update_or_RoleId_UserId_UserRoleId_parameters",
+    "Tr": "Update edilecek kayıt bulunamadı veya RoleId, UserId, UserRoleId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If there is no record found to update or RoleId, UserId, UserRoleId parameters have been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 99,
+    "LanguageKeyword": "No_records_found_to_be_deleted_or_RoleId_and_UserId_UserRoleId",
+    "Tr": "Silinecek kayıt bulunamadı veya RoleId ve UserId, UserRoleId  Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "No records found to be deleted or RoleId and UserId, UserRoleId If the parameters have been sent and sent, please make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 100,
+    "LanguageKeyword": "User_role_authority_added",
+    "Tr": "Kullanıcı Rol Yetkileri eklendi.",
+    "En": "User Role Authority added."
+  },
+  {
+    "LanguageId": 101,
+    "LanguageKeyword": "If_no_record_is_found_or_roleAuthorizationId_menuId_roleId_parameters",
+    "Tr": "Update edilecek kayıt bulunamadı veya RoleAuthorizationId, MenuId, RoleId Parametrelerinin gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If no record is found or RoleAuthorizationId, MenuId, RoleId Parameters has been sent and sent, please make sure the record is in the database!"
+  },
+  {
+    "LanguageId": 102,
+    "LanguageKeyword": "If_no_record_is_found_or_RoleAuthorizationId_has_been_sent",
+    "Tr": "Silinecek kayıt bulunamadı veya RoleAuthorizationId gönderilmiş olduğundan ve gönderimiş ise kaydın databasede olduğundan emin olunuz!",
+    "En": "If no record is found or RoleAuthorizationId has been sent and sent, make sure that the record is in the database!"
+  },
+  {
+    "LanguageId": 103,
+    "LanguageKeyword": "DepreciationCalculationTypes_added",
+    "Tr": "DepreciationCalculationTypes eklendi!",
+    "En": "DepreciationCalculationTypes added!"
+  },
+  {
+    "LanguageId": 104,
+    "LanguageKeyword": "DepreciationCalculation_types_not_found",
+    "Tr": "DepreciationCalculationTypes bulunamadı!",
+    "En": "DepreciationCalculationTypes not found!"
+  },
+  {
+    "LanguageId": 105,
+    "LanguageKeyword": "User_List_Not_Found",
+    "Tr": "Kullanıcı Listesi bulunamadı!",
+    "En": "User List Not Found!"
+  },
+  {
+    "LanguageId": 106,
+    "LanguageKeyword": "Role_List_Not_Found",
+    "Tr": "Rol Listesi  Bulunamadı!",
+    "En": "Role List Not Found!"
+  },
+  {
+    "LanguageId": 107,
+    "LanguageKeyword": "Inflation_list_not_found",
+    "Tr": "Enflasyon listesi bulunamadı!",
+    "En": "Inflation list not found!"
+  },
+  {
+    "LanguageId": 108,
+    "LanguageKeyword": "InventoryId_or_InflationId_0_for_list",
+    "Tr": "Listelenecek kayıt bulunamadı yada InventoryId veya InflationId parametreleri 0 olarak gelmiş",
+    "En": null
+  },
+  {
+    "LanguageId": 109,
+    "LanguageKeyword": "Any_record_not_found",
+    "Tr": "Herhangi bir kayıt bulunamadı",
+    "En": null
+  },
+  {
+    "LanguageId": 110,
+    "LanguageKeyword": "Transaction_is_Successful",
+    "Tr": "İşlem Başarılı",
+    "En": "Transaction is Successful!"
+  },
+  {
+    "LanguageId": 111,
+    "LanguageKeyword": "CheckOutReasonslist_not_found",
+    "Tr": "CheckOutReasons Listesi bulunamadı!",
+    "En": null
+  },
+  {
+    "LanguageId": 112,
+    "LanguageKeyword": "CheckOutReasons_record_not_found",
+    "Tr": "CheckOutReasons kaydı bulunamadı!",
+    "En": null
+  },
+  {
+    "LanguageId": 113,
+    "LanguageKeyword": "InventoryId_not_found_or_0",
+    "Tr": "InventoryId parametresinin gönderildiğinden ve değerinin 0 olmadığından emin olunuz!",
+    "En": null
+  },
+  {
+    "LanguageId": 114,
+    "LanguageKeyword": "CheckOutReasons_added",
+    "Tr": "CheckOutReasons eklendi!",
+    "En": "CheckOutReasons added!"
+  },
+  {
+    "LanguageId": 115,
+    "LanguageKeyword": "The_InventoryId_that_you_sent_for_this_transaction_is_not_available!",
+    "Tr": "Bu işlem için gönderdiğiniz InventoryId'nin karşılığı yok!",
+    "En": "The InventoryId that you sent for this transaction is not available!"
+  },
+  {
+    "LanguageId": 116,
+    "LanguageKeyword": "Page_PerPage_parameters_cannot_be_0_or_the_OrderBy_parameter_cannot_be_null",
+    "Tr": "Page, PerPage parametreleri 0 olamaz yada OrderBy parametresi null olamaz!",
+    "En": "Page, PerPage parameters cannot be 0 or the OrderBy parameter cannot be null!"
+  },
+  {
+    "LanguageId": 117,
+    "LanguageKeyword": "CountingPlans list_not_found",
+    "Tr": "Sayım Planları listesi bulunamadı!",
+    "En": "CountingPlans list not found!"
+  },
+  {
+    "LanguageId": 118,
+    "LanguageKeyword": "CompanyId_not_to_be_zero",
+    "Tr": "CompanyId 0 olamaz!",
+    "En": "CompanyId not to be zero!"
+  },
+  {
+    "LanguageId": 119,
+    "LanguageKeyword": "Add_transaction_succesfull",
+    "Tr": "Ekleme işlemi başarılı!",
+    "En": "Add transaction succesfull!"
+  },
+  {
+    "LanguageId": 120,
+    "LanguageKeyword": "Expense_Center_not_found",
+    "Tr": "Masraf merkezi bulunmadı!",
+    "En": "Expense Center not found!"
+  },
+  {
+    "LanguageId": 121,
+    "LanguageKeyword": "Expense_Center_added",
+    "Tr": "Masraf Merkezi Eklendi!",
+    "En": "Expense Center added!"
+  },
+  {
+    "LanguageId": 122,
+    "LanguageKeyword": "Expense_Center_updated",
+    "Tr": "Masraf Merkezi Güncellendi!",
+    "En": "Expense Center updated!"
+  },
+  {
+    "LanguageId": 123,
+    "LanguageKeyword": "LocationId_not_to_be_zero",
+    "Tr": "LocationId 0 olamaz!",
+    "En": "LocationId not tobe zero!"
+  },
+  {
+    "LanguageId": 124,
+    "LanguageKeyword": "CountingPlans_Updaded",
+    "Tr": "CountingPlans güncellendi!",
+    "En": "CountingPlans Updaded!"
+  },
+  {
+    "LanguageId": 125,
+    "LanguageKeyword": "CountingPlanId_CompanyId_not_to_be_zero",
+    "Tr": "CountingPlanId ve CompanyId 0 olamaz!",
+    "En": "CountingPlanId and CompanyId not to be zero!"
+  },
+  {
+    "LanguageId": 126,
+    "LanguageKeyword": "Record_not_found_for_update",
+    "Tr": "Update edilecek kayıt bulunamadı!",
+    "En": "Record not found for update!"
+  },
+  {
+    "LanguageId": 127,
+    "LanguageKeyword": "Counting_Status_list_not_found",
+    "Tr": "Counting Status listesi bulunamadı!",
+    "En": "Counting Status list not found!"
+  },
+  {
+    "LanguageId": 128,
+    "LanguageKeyword": "Counting_StatusId_not_to_be_zero",
+    "Tr": "CountingStatusId 0 olamaz!",
+    "En": "Counting StatusId not to be zero!"
+  },
+  {
+    "LanguageId": 129,
+    "LanguageKeyword": "UserFirms_added",
+    "Tr": "UserFirms eklendi!",
+    "En": "UserFirms added!"
+  },
+  {
+    "LanguageId": 130,
+    "LanguageKeyword": "UserId_and_FirmId_not_to_be_zero",
+    "Tr": "UserId ve FirmId 0 olamaz!",
+    "En": "UserId and FirmId not to be zero!"
+  },
+  {
+    "LanguageId": 131,
+    "LanguageKeyword": "FirmId_not_to_be_zero",
+    "Tr": "FirmId sıfır olamaz",
+    "En": "FirmId not to be zero!"
+  },
+  {
+    "LanguageId": 132,
+    "LanguageKeyword": "Record_not_found",
+    "Tr": "Kayıt bulunamadı!",
+    "En": "Record(s) not found!"
+  },
+  {
+    "LanguageId": 133,
+    "LanguageKeyword": "LocationIdandCycleCountPlanId_not_to_be_zero",
+    "Tr": "LocationId ve CycleCountPlanId değer,i 0 olamaz!",
+    "En": null
+  },
+  {
+    "LanguageId": 134,
+    "LanguageKeyword": "CycleCountPlanId_CycleCountResultId_LocationId_UserId_not_to_be_zero",
+    "Tr": "CycleCountPlanId CycleCountResultId LocationId UserId 0 olamaz",
+    "En": null
+  },
+  {
+    "LanguageId": 135,
+    "LanguageKeyword": "Record_Added",
+    "Tr": "Kayıt eklendi!",
+    "En": "Record Added'"
+  },
+  {
+    "LanguageId": 136,
+    "LanguageKeyword": "UserMail_Geçerli_değil",
+    "Tr": "UserMail Geçerli değil!",
+    "En": "UserMail Geçerli değil!"
+  },
+  {
+    "LanguageId": 137,
+    "LanguageKeyword": "FixedAssetPictureId_is_can_not_be_0_or_null",
+    "Tr": "FixedAssetPictureId null veya 0 olamaz!",
+    "En": "FixedAssetPictureId is can not be 0 or null!"
+  },
+  {
+    "LanguageId": 138,
+    "LanguageKeyword": "Record_Not_Found",
+    "Tr": "Kayıt bulunamadı!",
+    "En": "Record Not Found!"
+  },
+  {
+    "LanguageId": 139,
+    "LanguageKeyword": "FixedAssetPropertyId_can_not_be_0_or_zero",
+    "Tr": "FixedAssetPropertyId null yada 0 olamaz!",
+    "En": "FixedAssetPropertyId can not be 0 or zero!"
+  },
+  {
+    "LanguageId": 140,
+    "LanguageKeyword": "FixedAssetPropertyvalueId_can_not_be_0_or_zero",
+    "Tr": "FixedAssetPropertyValueId null yada 0 olamaz!",
+    "En": "FixedAssetPropertyValueId can not be 0 or zero!"
+  },
+  {
+    "LanguageId": 141,
+    "LanguageKeyword": "Value_not_to_be_zero!",
+    "Tr": "Değer 0 olamaz!",
+    "En": "Value not to be zero!"
+  },
+  {
+    "LanguageId": 142,
+    "LanguageKeyword": "You_are_not_authorized_to_delete!",
+    "Tr": "Silmeye yetkiniz bulunmamaktadır!",
+    "En": "You are not authorized to delete!"
+  },
+  {
+    "LanguageId": 143,
+    "LanguageKeyword": "You_are_not_allowed_to_delete_records_found_that_releated!",
+    "Tr": "Bağlı kayıt bulunduğundan silmeye yetkiniz bulunmamaktadır!",
+    "En": "You are not allowed to delete records found that releated!"
+  },
+  {
+    "LanguageId": 144,
+    "LanguageKeyword": "The_barcode_number_entered_has_been_used_before",
+    "Tr": "Grilen barkod numarası daha önce kullanılmış!",
+    "En": "The barcode number entered has been used before!"
+  },
+  {
+    "LanguageId": 145,
+    "LanguageKeyword": "Code_area_has_been_used_before",
+    "Tr": "Code alanı daha önce kullanılmış!",
+    "En": "Code area has been used before!"
+  },
+  {
+    "LanguageId": 146,
+    "LanguageKeyword": "Property_Type_Not_Found!",
+    "Tr": "Özellik tipi bulunamadı!",
+    "En": "Property Type Not Found!"
+  },
+  {
+    "LanguageId": 147,
+    "LanguageKeyword": "This_is_property_type_unique",
+    "Tr": "Bu özellik tipinden var.",
+    "En": "This property type unique!"
+  },
+  {
+    "LanguageId": 148,
+    "LanguageKeyword": "These_records_were_not_found_others_have_been_deleted!",
+    "Tr": "Bu kayıtlar bulunamadı diğerleri silindi!",
+    "En": "These records were not found, others have been deleted!"
+  },
+  {
+    "LanguageId": 149,
+    "LanguageKeyword": "All_records_deleted",
+    "Tr": "Tüm kayıtlar silindi",
+    "En": "All records deleted!"
+  },
+  {
+    "LanguageId": 149,
+    "LanguageKeyword": "This_company_name_has_been_used_before!",
+    "Tr": "Bu Şirket Adı Zaten Kullanımda",
+    "En": "This Company name has already in use!"
   }
 ]

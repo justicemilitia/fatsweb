@@ -1,5 +1,5 @@
-import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
-import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
+import { Component, OnInit, NgModule } from "@angular/core";
+import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -29,7 +29,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
       },
       {
         columnDisplayName: "Lokasyon Kodu",
@@ -37,7 +37,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
       },
       {
         columnDisplayName: "Lokasyon Barkodu",
@@ -45,11 +45,11 @@ export class LocationComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
       },
       {
         columnDisplayName: "Koordinat",
-        columnName: ["Coordinate"],
+        columnName: ["CreationDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -61,7 +61,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
       },
       {
         columnDisplayName: "Açıklama",
@@ -69,7 +69,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
       }
     ],
     {
@@ -79,6 +79,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
   );
   constructor(public baseService: BaseService) {
     super(baseService);
+    console.log(this.dataTable.dataColumns);
     this.loadLocations();
   }
 
@@ -243,6 +244,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
   }
 
   async loadLocations() {
+
     /* Load all fixed asset cards to datatable */
     await this.baseService.locationService.GetLocations(
       (locs: Location[]) => {
