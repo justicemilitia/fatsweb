@@ -273,6 +273,12 @@ export class TreeGridTable {
 
         /* Do order for given column default */
         this.dataOrders.column = _dataColumns.find(x => JSON.stringify(x.columnName) == JSON.stringify(_dataOrders.column));
+
+        /* if order column is empty throw exception */
+        if (!this.dataOrders.column) {
+            throw "Undefined Order Column Name Please Check Your Ordered Column Name";
+        }
+
         this.dataOrders.isDesc = _dataOrders.isDesc;
 
     }
@@ -667,6 +673,11 @@ export class TreeGridTable {
         for (let e of column.columnName) {
             /* if item exists just go deep as much as possible */
             if (!item) {
+
+                if (!Object.keys(data).includes(e))
+                    throw "Undefined Column Name" + "(" + JSON.stringify(column) + ")";
+
+
                 item = data[e];
 
                 /* if an object is empty prevent show current object value we set it as empty to stop loop */
@@ -675,8 +686,12 @@ export class TreeGridTable {
                     break;
                 }
             }
-            else
+            else {
+                if (!Object.keys(item).includes(e))
+                    throw "Undefined Column Name" + "(" + JSON.stringify(column) + ")";
+
                 item = item[e];
+            }
         }
 
         return item;
@@ -854,7 +869,10 @@ export class TreeGridTable {
         let childIndex = 0;
 
         /* check if parentid exists means it should be a parent */
-        while (item.getParentId()) {
+        while (item && item.getParentId()) {
+
+            if (item.getId() == item.getParentId()) 
+                throw "Parent ID and ID are same for the current object " + JSON.stringify(item);
 
             /* We increase if parent exists */
             childIndex++;
