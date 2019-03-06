@@ -199,7 +199,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     /* Convert model to table model for refresh on grid table */
-    if (this.company.CityId) {
+    /*if (this.company.CityId) {
       this.company.CityId = Number(this.company.CityId);
       this.company.City.CityId = this.company.CityId;
       this.company.City.Name = this.cities.find(x => x.CityId == this.company.CityId).Name;
@@ -211,7 +211,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     } else {
       this.company.City = new City();
       this.company.CityId = null;
-    }
+    }*/
+
     /* while waiting value true we will translate button to a loading icon */
     this.isWaitingInsertOrUpdate = true;
 
@@ -222,7 +223,16 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.baseService.popupService.ShowSuccessPopup(message);
 
       /* Get inserted company then set it to company id, then load data. */
-      this.company.CompanyId = insertedItem.CompanyId;
+      let city = this.cities.find(x => x.CityId == insertedItem.CityId);
+      if (city) {
+        insertedItem.City = new City();
+        insertedItem.City.CityId = city.CityId;
+        insertedItem.City.Name = city.Name;
+        insertedItem.City.CountryId = city.CountryId;
+        insertedItem.City.Country.CountryId = city.CountryId;
+        insertedItem.City.Country.Name = city.Country.Name;
+      }
+      this.company = insertedItem;
 
       /* Push new item the current list of companies then reload table */
       this.companies.push(this.company);
@@ -260,7 +270,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
             this.company.City = this.cities.find(x => x.CityId == Number(this.company.CityId));
             if (this.company.City) {
               this.company.City.Country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
-            }else {
+            } else {
               this.company.City = new City();
             }
 
