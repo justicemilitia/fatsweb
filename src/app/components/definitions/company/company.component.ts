@@ -198,20 +198,14 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
-    /* Convert model to table model for refresh on grid table */
-    /*if (this.company.CityId) {
-      this.company.CityId = Number(this.company.CityId);
-      this.company.City.CityId = this.company.CityId;
-      this.company.City.Name = this.cities.find(x => x.CityId == this.company.CityId).Name;
-      if (this.company.City.CountryId) {
-        this.company.City.CountryId = Number(this.company.City.CountryId);
-        this.company.City.Country.CountryId = this.company.City.CountryId;
-        this.company.City.Country.Name = this.countries.find(x => x.CountryId == this.company.City.CountryId).Name;
-      }
-    } else {
-      this.company.City = new City();
-      this.company.CityId = null;
-    }*/
+    this.company.CityId = Number(this.company.CityId);
+    /* Bind Cities and Countries */
+    if (this.company.CityId) {
+      let city = this.cities.find(x => x.CityId == this.company.CityId);
+      let country = this.countries.find(x => x.CountryId == this.company.City.CountryId);
+      this.company.City.Name = city.Name;
+      this.company.City.Country.Name = country.Name;
+    }
 
     /* while waiting value true we will translate button to a loading icon */
     this.isWaitingInsertOrUpdate = true;
@@ -222,20 +216,11 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       /* Show pop up */
       this.baseService.popupService.ShowSuccessPopup(message);
 
-      /* Get inserted company then set it to company id, then load data. */
-      let city = this.cities.find(x => x.CityId == insertedItem.CityId);
-      if (city) {
-        insertedItem.City = new City();
-        insertedItem.City.CityId = city.CityId;
-        insertedItem.City.Name = city.Name;
-        insertedItem.City.CountryId = city.CountryId;
-        insertedItem.City.Country.CountryId = city.CountryId;
-        insertedItem.City.Country.Name = city.Country.Name;
-      }
-      this.company = insertedItem;
-
+      this.company.CompanyId = insertedItem.CompanyId;
+      let insComp = new Company();
+      Object.assign(insComp, this.company);
       /* Push new item the current list of companies then reload table */
-      this.companies.push(this.company);
+      this.companies.push(insComp);
       this.dataTable.TGT_loadData(this.companies);
 
       /* Reset Forms */
