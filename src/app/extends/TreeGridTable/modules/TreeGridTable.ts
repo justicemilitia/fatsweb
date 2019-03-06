@@ -273,6 +273,12 @@ export class TreeGridTable {
 
         /* Do order for given column default */
         this.dataOrders.column = _dataColumns.find(x => JSON.stringify(x.columnName) == JSON.stringify(_dataOrders.column));
+
+        /* if order column is empty throw exception */
+        if (!this.dataOrders.column) {
+            throw "Undefined Order Column Name Please Check Your Ordered Column Name";
+        }
+
         this.dataOrders.isDesc = _dataOrders.isDesc;
 
     }
@@ -503,6 +509,12 @@ export class TreeGridTable {
         /* (Clone) Original source help us to visible,extend all items with easy way */
         this.originalSource = _datasource.slice(0);
 
+        /* Clear previous children to prevent duplicate records */
+        this.originalSource.forEach(item => {
+            if (item.getChildren().length > 0)
+                item.getChildren().splice(0, item.getChildren().length);
+        })
+
         /* Converts array to tree */
         this.treeSource = this.TGT_convertDataToTree(_datasource);
 
@@ -539,6 +551,7 @@ export class TreeGridTable {
      */
     public TGT_updateData(data: IData) {
         let existsIndex = this.originalSource.findIndex(x => x.getId() == data.getId());
+        /* if item exists remove it and reload data. */
         if (existsIndex > -1) {
             this.originalSource.splice(existsIndex, 1);
             this.originalSource.push(data);
@@ -553,13 +566,19 @@ export class TreeGridTable {
 
         /* Check changes made */
         let madeChanges = false;
+
         if (this.prevDataFilters) {
-            /* Each property of filter will be check with previous */
-            Object.keys(this.dataFilters).forEach(e => {
-                if (this.prevDataFilters[e] != this.dataFilters[e]) {
-                    madeChanges = true;
+
+            /* filter will be check with previous */
+            if (JSON.stringify(this.prevDataFilters) != JSON.stringify(this.dataFilters)) {
+                madeChanges = true;
+
+                /* if filter is clean then collapse all items */
+                if (this.TGT_isFilterClean() == true) {
+                    this.TGT_doCollapseAll();
                 }
-            });
+            }
+
         } else
             madeChanges = true;
 
@@ -651,14 +670,35 @@ export class TreeGridTable {
         let item = null;
 
         /* We will go as deep as possible then we will get the column of given */
-        column.columnName.forEach(e => {
-            if (!item)
-                item = data[e];
-            else
-                item = item[e];
-        });
+        for (let e of column.columnName) {
+            /* if item exists just go deep as much as possible */
+            if (!item) {
 
-        return item;
+                if (!Object.keys(data).includes(e))
+                    throw "Undefined Column Name" + "(" + JSON.stringify(column) + ")";
+
+
+                item = data[e];
+
+                /* if an object is empty prevent show current object value we set it as empty to stop loop */
+                if (!item) {
+                    item = '';
+                    break;
+                }
+            }
+            else {
+                if (!Object.keys(item).includes(e))
+                    throw "Undefined Column Name" + "(" + JSON.stringify(column) + ")";
+
+                item = item[e];
+            }
+        }
+        if (column.formatter) {
+            console.log(item);
+            return column.formatter(item);
+        } else {
+            return item;
+        }
     }
 
     /**
@@ -795,6 +835,7 @@ export class TreeGridTable {
         /* Loop in each tree to push them into datasource */
         for (let ii = 0; ii < _datasource.length; ii++) {
             let item = _datasource[ii];
+
             /* 
                 Every time we push an item in to datasource we have to check its status 
                 if item is extended means item has children so you have to put them into the array
@@ -832,7 +873,10 @@ export class TreeGridTable {
         let childIndex = 0;
 
         /* check if parentid exists means it should be a parent */
-        while (item.getParentId()) {
+        while (item && item.getParentId()) {
+
+            if (item.getId() == item.getParentId())
+                throw "Parent ID and ID are same for the current object " + JSON.stringify(item);
 
             /* We increase if parent exists */
             childIndex++;
@@ -857,7 +901,8 @@ export class TreeGridTable {
             Because of search method. We will just extend when the search item found.
          */
         item.isVisible = true;
-        item.isExtended = false;
+        if (this.TGT_isFilterClean() == false)
+            item.isExtended = true;
 
         /* In original source we look for parent object to make it visible */
         item = this.originalSource.find(x => x.getId() == item.getParentId());
@@ -868,11 +913,10 @@ export class TreeGridTable {
             /* set item visiblity as true */
             item.isVisible = true;
 
-            /* if filter clean we have to set item extends as false */
-            if (item && this.TGT_isFilterClean() == true)
-                item.isExtended = false;
-            else
+            /* if filter is not clean we have to set item extends as true */
+            if (this.TGT_isFilterClean() == false)
                 item.isExtended = true;
+
 
             /* Then find parent item's parent */
             item = this.originalSource.find(x => x.getId() == item.getParentId());
@@ -967,9 +1011,11 @@ export class TreeGridTable {
                 this.TGT_doVisibleWithParents(item);
                 this.TGT_doVisibleWithChildren(item);
             }
+
             /* Do Filter in all children */
             if (item.getChildren().length > 0)
                 this.TGT_doFilterInChildren(item.getChildren());
+
         }
     }
 

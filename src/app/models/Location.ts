@@ -14,9 +14,9 @@ export class Location implements IData {
   getId(): number {
     return this.LocationId;
   }
-
+  
   isExtended: boolean;
-  Code: number;
+  LocationCode: number;
   LocationId: number;
   ParentLocationId: number;
   Name: string;
@@ -31,4 +31,9 @@ export class Location implements IData {
   IsActive: boolean;
   ParentLocation: Location;
   InverseParentLocation: Location[];
+
+  constructor() {
+    this.InverseParentLocation = [];
+  }
+
 }
