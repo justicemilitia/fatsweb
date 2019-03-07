@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>FatsWeb</title>
-    <base href="/" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <!-- azia CSS -->
-    <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/lib/typicons.font/typicons.css" />
-    <link rel="stylesheet" href="assets/lib/fontawesome-free/css/all.min.css" />
-    <link rel="stylesheet" href="assets/lib/ionicons/css/ionicons.min.css" />
-    <link rel="stylesheet" href="assets/css/azia.css" />
-    <link rel="stylesheet" href="assets/css/stellarnav.min.css" />
-    <link rel="stylesheet" href="assets/css/fats-custom.css" />
-    <link rel="stylesheet" href="assets/lib/jquery-ui/jquery-ui.min.css">
-    <!-- <link rel="stylesheet" href="assets/lib/jquery-ui/jquery-ui.min.css" /> -->
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <title>FatsWeb</title>
+  <base href="/" />
 
-  <body class="az-light az-body">
-    <app-root></app-root>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <!-- azia CSS -->
+  <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/lib/typicons.font/typicons.css" />
+  <link rel="stylesheet" href="assets/lib/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="assets/lib/ionicons/css/ionicons.min.css" />
+  <link rel="stylesheet" href="assets/css/azia.css" />
+  <link rel="stylesheet" href="assets/css/stellarnav.min.css" />
+  <link rel="stylesheet" href="assets/css/fats-custom.css" />
+  <link rel="stylesheet" href="assets/lib/jquery-ui/jquery-ui.min.css">
+  <!-- <link rel="stylesheet" href="assets/lib/jquery-ui/jquery-ui.min.css" /> -->
+</head>
 
-    <script src="assets/lib/jquery/jquery.min.js"></script>
-    <script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/stellarnav.min.js"></script>
-    <script src="assets/lib/jquery-ui/jquery-ui.min.js"></script>    
-    <script src="assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
-    <script type="text/javascript">
-      /* On page load we re init navbar */
-      $("body").on("click", ".az-navbar-two", function() {
-        $(".stellarnav").stellarNav({
-          theme: "light",
-          breakpoint: 1300,
-          position: "left",
-          closeBtn: true
-        });
-      
-          $("#datepicker").datepicker();
-       
+<body class="az-light az-body">
+  <app-root></app-root>
+
+  <script src="assets/lib/jquery/jquery.min.js"></script>
+  <script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/stellarnav.min.js"></script>
+  <script src="assets/lib/jquery-ui/jquery-ui.min.js"></script>
+  <script src="assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+  <script type="text/javascript">
+    /* On page load we re init navbar */
+    $("body").on("click", ".az-navbar-two", function () {
+      $(".stellarnav").stellarNav({
+        theme: "light",
+        breakpoint: 1300,
+        position: "left",
+        closeBtn: true
       });
-    </script>
-  </body>
+
+      $("#datepicker").datepicker();
+
+    });
+  </script>
+</body>
+
 </html>
