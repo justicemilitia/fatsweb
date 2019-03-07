@@ -7,7 +7,7 @@
           <button type="button" (click)="deleteCompanies()" class="btn btn-danger btn-delete-custom">
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
-          <button class="btn btn-orange btn-new-custom" (click)="resetForm(data)" id="btnAddCompany" data-toggle="modal"
+          <button class="btn btn-orange btn-new-custom" (click)="resetForm()" id="btnAddCompany" data-toggle="modal"
             data-target="#modalCompany">Şirket Ekle
           </button>
         </div>
@@ -42,8 +42,8 @@
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
               </div>
               <label>E-posta</label>
-              <input [(ngModel)]="company.Email" name="Email" type="email" #Email="ngModel" class="form-control" email
-                [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" />
+              <input [(ngModel)]="company.Email" name="Email" type="email" #Email="ngModel" class="form-control"
+                email [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" />
               <div *ngIf="data.submitted && Email.invalid" class="invalid-feedback">
                 <div *ngIf="Email.errors.email">Lütfen Geçerli Eposta Giriniz.</div>
               </div>
@@ -65,11 +65,18 @@
             </div>
             <div class="form-group col-md-6">
               <label>Ülke</label>
+<<<<<<< HEAD
+              <select [(ngModel)]="company.City.CountryId" (click)="loadCountryList()"
+                (change)="loadCityByCountryId($event)" name="CountryId" class="form-control select2-no-search">
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let country of countries" value={{country.CountryId}}>{{country.Name}}</option>
+=======
               <select [(ngModel)]="company.City.CountryId" [attr.disabled]="countries.length > 0 ? null :'disabled'"
                 (click)="loadCountryList()" (change)="loadCityByCountryId($event)" name="CountryId"
                 class="form-control select2-no-search">
                 <option value=" ">Yok</option>
                 <option *ngFor="let country of countries" [ngValue]="country.CountryId">{{country.Name}}</option>
+>>>>>>> e2fc7d4f3d704e15073ffaa59e5b0f8d70a70b4e
               </select>
             </div>
           </div>
@@ -80,9 +87,14 @@
             </div>
             <div class="form-group col-md-6">
               <label>Şehir</label>
+<<<<<<< HEAD
+              <select [(ngModel)]="company.CityId" name="CityId" class="form-control select2-no-search">
+                <option value=" ">Seçiniz</option>
+=======
               <select [(ngModel)]="company.CityId" [attr.disabled]="cities.length > 0 ? null :'disabled'" name="CityId"
                 class="form-control select2-no-search">
                 <option value=" ">Yok</option>
+>>>>>>> e2fc7d4f3d704e15073ffaa59e5b0f8d70a70b4e
                 <option *ngFor="let city of cities" value={{city.CityId}}>{{city.Name}}</option>
               </select>
             </div>

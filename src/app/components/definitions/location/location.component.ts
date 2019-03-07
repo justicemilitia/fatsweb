@@ -49,7 +49,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Koordinat",
-        columnName: ["Coordinate"],
+        columnName: ["CreationDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -193,7 +193,6 @@ export class LocationComponent extends BaseComponent implements OnInit {
         this.location.LocationId = inserted.LocationId;
         this.locations.push(this.location);
         this.dataTable.TGT_loadData(this.locations);
-        
         /* reset all data */
         this.resetForm();
         data.resetForm();

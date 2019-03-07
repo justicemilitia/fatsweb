@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
+import { Component, OnInit, NgModule } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
@@ -6,6 +6,7 @@ import { HttpErrorResponse, HttpClient } from "@angular/common/http";
 import { Agreement } from "../../../models/Agreement";
 import { IData } from "src/app/extends/TreeGridTable/models/interfaces/IData";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
+import { Company } from '../../../models/Company';
 
 @Component({
   selector: "app-agreement",
@@ -21,12 +22,13 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   selectedFile: any;
 
   /* List of agreements */
-
   agreements: Agreement[] = [];
 
   /* Current agreement */
-
   agreement: Agreement = new Agreement();
+
+  /* List of companies */
+  companies: Company[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
@@ -69,7 +71,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: (value) => { return value ? (<Date>value).toLocaleString().substring(0,10).split("-").reverse().join("-"): ''}                
       },
       {
         columnDisplayName: "Bitiş Tarihi",
@@ -77,7 +80,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: (value) => { return value ? (<Date>value).toLocaleString().substring(0,10).split("-").reverse().join("-"): ''}        
       },
       {
         columnDisplayName: "Tutar",
@@ -110,20 +114,21 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     }
   );
 
-  constructor(public baseService: BaseService, public httpClient: HttpClient) {
+  constructor(public baseService: BaseService) {
     super(baseService);
     this.loadAgreements();
+    this.loadCompanies();
   }
 
   ngOnInit() {}
 
   resetForm() {
-    this.agreement = new Agreement();
+    // this.agreement = new Agreement();
   }
 
   onSubmit(data: NgForm) {
     /* if agreement id exists means update it otherwise insert it */
-    if (data.value.AggrementId == null) {
+    if (data.value.AgreementId == null) {
       this.addAgreements(data);
     } else {
       this.updateAgreement(data);
@@ -194,7 +199,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
           /* Now Delete items from the source */
           for (let ii = 0; ii < itemIds.length; ii++) {
             let index = this.agreements.findIndex(
-              x => x.AggrementId == itemIds[ii]
+              x => x.AgreementId == itemIds[ii]
             );
             if (index > -1) {
               this.agreements.splice(index, 1);
@@ -222,7 +227,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
       (data: Agreement, message) => {
         /* Show pop up, get inserted agreement then set it agreement id, then load data. */
         this.baseService.popupService.ShowSuccessPopup(message);
-        this.agreement.AggrementId = data.AggrementId;
+        this.agreement.AgreementId = data.AgreementId;
         this.agreements.push(this.agreement);
         this.dataTable.TGT_loadData(this.agreements);
         this.resetForm();
@@ -274,54 +279,61 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async loadAgreementById(event: any){
-
-    if (event.target.value.toString().trim() !== '') {
-
-      await this.baseService.agreementService.GetAgreementById(<number>event.target.value, (agreements: Agreement[]) => {
-
-        /* Load agreements */
-        this.agreements = this.agreements;
-
-      }, (error: HttpErrorResponse) => {
-
-        /* show erro pop up */
+  async loadCompanies() {
+    await this.baseService.companyService.GetCompanies(
+      (companies: Company[]) => {
+        this.companies = companies;
+      },(error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
 
-      });
-
+  async loadAgreementById(event: any) {
+    if (event.target.value.toString().trim() !== "") {
+      await this.baseService.agreementService.GetAgreementById(
+        <number>event.target.value,
+        (agreements: Agreement[]) => {
+          /* Load agreements */
+          this.agreements = this.agreements;
+        },
+        (error: HttpErrorResponse) => {
+          /* show erro pop up */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     }
   }
 
-  async onDoubleClickItem(item: any) {
-  
+  async onDoubleClickItem(item: Agreement) {
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
+     /* load companies if not loaded */
+     await this.loadCompanies();
+
     /* get agreement information from server */
-    await this.baseService.agreementService.GetAgreementById(item.AggrementId, (result: Agreement) => {
+    await this.baseService.agreementService.GetAgreementById(
+      item.AgreementId,
+      (result: Agreement) => {
+        /* then bind it to agreement model to update */
+        setTimeout(() => {
+          /* Trigger to model to show it */
+          $("#btnAddAgreement").trigger("click");
 
-      /* then bind it to agreement model to update */
-      setTimeout(() => {
-
-        /* Trigger to model to show it */
-        $("#btnAddAgreement").trigger("click");
-
-        /* bind result to model */
-        this.agreement = result;
+          /* bind result to model */
+          this.agreement = result;
+          this.baseService.spinner.hide();
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        /* hide spinner */
         this.baseService.spinner.hide();
 
-      }, 1000);
-
-    }, (error: HttpErrorResponse) => {
-
-       /* hide spinner */
-       this.baseService.spinner.hide();
-
-      /* show error message */
-      this.baseService.popupService.ShowErrorPopup(error);
-
-    });
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   onFileSelected(event) {
