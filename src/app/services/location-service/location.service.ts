@@ -88,9 +88,7 @@ export class LocationService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let _updatedLocation: Location = new Location();
-            Object.assign(_updatedLocation, location);
-            success(_updatedLocation, response.LanguageKeyword);
+            success(location, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -127,22 +125,14 @@ export class LocationService {
 
   DeleteLocations(ids: number[], success, failed) {
     this.httpClient
-      .post(
-        SERVICE_URL + DELETE_LOCATION,
-        { "LocationIds": ids },
-        {
-          headers: GET_HEADERS(this.authenticationService.getToken())
-        }
-      )
+      .post(SERVICE_URL + DELETE_LOCATION, { "LocationIds": ids }, { headers: GET_HEADERS(this.authenticationService.getToken()) })
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
-            let location: Location = new Location();
-            Object.assign(location, response.ResultObject);
-            success(location, response.LanguageKeyword);
+          if ((<[]>response.ResultObject).length == 0) {
+            success(response.ResultObject, response.LanguageKeyword);
           } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
+            failed(response.ResultObject);
           }
         }
       );
