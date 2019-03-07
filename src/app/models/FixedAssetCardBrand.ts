@@ -17,6 +17,13 @@ export class FixedAssetCardBrand implements IData {
 
     isExtended: boolean;
     FixedAssetCardBrandId: number;
+
+    FixedAssetCardBrandCode:string;
     Name: string;
     Description: string;
+    CreationDate: Date;
+    CreatorId: number;
+    ModifiedDate: Date;
+    ModifierId: number;
+    IsValid: boolean;
 }

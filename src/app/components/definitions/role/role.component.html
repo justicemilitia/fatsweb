@@ -3,26 +3,19 @@
     <div class="az-content-body">
       <div class="card card-dashboard-twelve mg-b-20">
       <h2 class="az-content-title">Rol Tanımlama</h2>      
-      <div class=" row btn-icon-list">   
-        <button
-          class="btn btn-orange"
-          id="btnAddRoleAuth"
-          data-toggle="modal"
-          data-target="#modalRoleDefinition"
-        > Rol Ekle
-        </button>
-        <button id="btnAddUserRole"   data-toggle="modal"
-        data-target="#modalUserRole" class="btn btn-orange">Role Kullanıcı Ata</button>
+      <div class="grp-btn-action">  
+      <a class="nav-link-item-link" routerLink="/roleuser"
+      routerLinkActive="active">Rol Kullanıcı Listesi</a>
+      <button
+      class="btn btn-orange"
+      id="btnAddRoleAuth"
+      data-toggle="modal"
+      data-target="#modalRoleDefinition"
+    > Rol Ekle
+    </button>
       </div>
-      <p class="mg-b-20"></p>
-      <div class="row">
-        <div class="col-md-6">
+      <p class="mg-b-20"></p> 
             <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
-        </div>
-        <div class="col-md-6">
-            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserRole"></tree-grid-table>
-        </div>
-      </div>
     </div>
     </div>
     <!-- az-content-body -->
@@ -37,24 +30,20 @@
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
           <h6 class="modal-title">Rol Tanımlama</h6>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close">
+          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form #data="ngForm" (ngSubmit)="OnSubmitRole(data)">
+        <form name="form" #data="ngForm"  (ngSubmit)="OnSubmitRole(data)">
         <div class="modal-body">
             <div class="row justify-content-center">
-                <input [(ngModel)]="role.RoleId" name="RoleId" type="hidden"  />
+                <input type="hidden" name="RoleId" [(ngModel)]="role.RoleId"  />
                 <div class="form-group">
                   <label>Rol</label>
                   <input  [(ngModel)]="role.Name" name="Name" type="text" class="form-control"/>              
                   <label>Açıklama</label>
                   <textarea  [(ngModel)]="role.Description" name="Description" rows="3" type="text" style="resize:none"  class="form-control"></textarea>
-                  </div>      
+                </div>      
         </div>
       </div>
         <div class="modal-footer">
@@ -67,78 +56,4 @@
     <!-- modal-dialog -->
   </div>
 
-  <div id="modalUserRole" class="modal">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content modal-content-demo">
-          <div class="modal-header">
-            <h6 class="modal-title">Role atanacak kullanıcıları belirleyiniz.</h6>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form #dataUserRole="ngForm" (ngSubmit)="OnSubmitUserRole(dataUserRole)">
-          <div class="modal-body">
-              <div class="row justify-content-center">
-                  <!-- <input type="hidden" name="RoleId" [(ngModel)]="role.RoleId"/> -->
-                  <div class="form-group row">
-                    <label>Rol</label>
-                    <select [(ngModel)]="role" class="form-control select2-no-search">
-                        <option value=" ">Seçiniz</option>
-                    </select>
-                   </div>  
-                   <div class="form-group">
-                      <div class="col-lg-6">
-                          <p class="mg-b-10">Kullanıcılar</p>
-                          <select class="form-control select2-no-search" multiple="multiple">
-                            <option value="Firefox" selected>Firefox</option>
-                            <option value="Chrome">Chrome</option>
-                            <option value="Safari">Safari</option>
-                            <option value="Opera">Opera</option>
-                            <option value="Internet Explorer">Internet Explorer</option>
-                          </select>
-                        </div>
-                    </div>     
-                    <div class="form-group">
-                        <div class="col-lg-6">
-                            <p class="mg-b-10">Yetkilendirilen Kullanıcılar</p>
-                            <select class="form-control select2-no-search" multiple="multiple">
-                              <option value="Firefox" selected>Firefox</option>
-                              <option value="Chrome">Chrome</option>
-                              <option value="Safari">Safari</option>
-                              <option value="Opera">Opera</option>
-                              <option value="Internet Explorer">Internet Explorer</option>
-                            </select>
-                          </div>
-                      </div> 
-              </div>
-                  </div>
-          <div class="modal-footer">
-              <button id="btnAddRole" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAddUserRole">Kaydet</button>   
-            </div>
-        </form>
-          <!-- modal-body -->
-        </div>
-      </div>
-      <!-- modal-dialog -->
-    </div>
-  <!-- modal -->
 </div>
-
-<!-- <script>
-
-  $(document).ready(function() {
-    $("#tblCompany").DataTable({
-      columnDefs: [
-        {
-          type: "salary-grade",
-          targets: -1
-        }
-      ],
-      order: [[0, asc]]
-    });
-  });
-</script> -->

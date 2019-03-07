@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
+import { Component, OnInit, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { FixedAssetCardBrand } from "../../../models/FixedAssetCardBrand";
 import { FixedAssetCardModel } from "../../../models/FixedAssetCardModel";
@@ -13,7 +13,7 @@ import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTa
   styleUrls: ["./fixed-asset-card-model.component.css"]
 })
 @NgModule({
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   declarations: [FixedAssetCardModelComponent],
   providers: [FixedAssetCardModelComponent]
 })
@@ -23,11 +23,12 @@ export class FixedAssetCardModelComponent extends BaseComponent
   fixedAssetCardModels: FixedAssetCardModel[] = [];
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
 
-  public dataTable: TreeGridTable = new TreeGridTable("fixedassetcardmodel",
+  public dataTableModel: TreeGridTable = new TreeGridTable(
+    "fixedassetcardmodel",
     [
       {
-        columnDisplayName: "İsim",
-        columnName: ["Name"],
+        columnDisplayName: "Kod",
+        columnName: ["FixedAssetCardModelCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -35,12 +36,20 @@ export class FixedAssetCardModelComponent extends BaseComponent
       },
       {
         columnDisplayName: "Marka",
-        columnName: ["FixedAssetCardBrand"],
+        columnName: ["FixedAssetCardBrand","Name"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
+      {
+        columnDisplayName: "Model",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
     ],
     {
       isDesc: false,
@@ -55,21 +64,27 @@ export class FixedAssetCardModelComponent extends BaseComponent
 
   ngOnInit() {}
 
-  OnSubmit(data: NgForm) {
+  onSubmit(data: NgForm) {
     if (data.value.FixedAssetCardModelId == null)
-      this.InsertFixedAssetCardModel(data);
-    else this.UpdateFixedAssetCardModel(data);
+      this.insertFixedAssetCardModel(data);
+    else this.updateFixedAssetCardModel(data);
   }
 
-  InsertFixedAssetCardModel(data: NgForm) {
+  resetForm() {
+    this.fixedAssetCardModel = new FixedAssetCardModel();
+  }
+
+  async insertFixedAssetCardModel(data: NgForm) {
     if (data.value.invalid == true) return;
-    this.fixedAssetCardModel = <FixedAssetCardModel>data.value;
-    this.baseService.fixedAssetCardModelService.InsertFixedAssetCardModel(
+
+    await this.baseService.fixedAssetCardModelService.InsertFixedAssetCardModel(
       this.fixedAssetCardModel,
       (data: FixedAssetCardModel, message) => {
         this.baseService.popupService.ShowSuccessPopup(message);
-        this.fixedAssetCardModels.push(data);
-        this.dataTable.TGT_loadData(this.fixedAssetCardModels);
+        this.fixedAssetCardModel.FixedAssetCardBrandId =
+          data.FixedAssetCardBrandId;
+        this.fixedAssetCardModels.push(this.fixedAssetCardModel);
+        this.dataTableModel.TGT_loadData(this.fixedAssetCardModels);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -77,12 +92,11 @@ export class FixedAssetCardModelComponent extends BaseComponent
     );
   }
 
-  loadFixedAssetCardModels() {
-    debugger;
-    this.baseService.fixedAssetCardModelService.GetFixedAssetCardModels(
+  async loadFixedAssetCardModels() {
+   await this.baseService.fixedAssetCardModelService.GetFixedAssetCardModels(
       (facms: FixedAssetCardModel[]) => {
         this.fixedAssetCardModels = facms;
-        this.dataTable.TGT_loadData(this.fixedAssetCardModels);
+        this.dataTableModel.TGT_loadData(this.fixedAssetCardModels);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -90,12 +104,10 @@ export class FixedAssetCardModelComponent extends BaseComponent
     );
   }
 
-  loadDropdownList() {
-    debugger;
-    this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
+  async loadBrands() {
+   await this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
       (facbs: FixedAssetCardBrand[]) => {
         this.fixedAssetCardBrands = facbs;
-        this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -103,35 +115,46 @@ export class FixedAssetCardModelComponent extends BaseComponent
     );
   }
 
-  UpdateFixedAssetCardModel(data: NgForm) {
+  async updateFixedAssetCardModel(data: NgForm) {
     this.fixedAssetCardModel = <FixedAssetCardModel>data.value;
-    this.baseService.popupService.ShowQuestionPopupForUpdate(response => {
-      if (response == true) {
-        this.baseService.fixedAssetCardModelService.UpdateFixedAssetCardModel(
-          this.fixedAssetCardModel,
-          (fixedAssetCardModel, message) => {
-            this.baseService.popupService.ShowSuccessPopup(message);
-            this.dataTable.TGT_updateData(fixedAssetCardModel);
-          },
-          (error: HttpErrorResponse) => {
-            this.baseService.popupService.ShowErrorPopup(error);
-          }
-        );
+    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          this.baseService.fixedAssetCardModelService.UpdateFixedAssetCardModel(
+            this.fixedAssetCardModel,
+            (_fixedAssetCardModel, message) => {
+              this.baseService.popupService.ShowSuccessPopup(message);
+              this.dataTableModel.TGT_updateData(this.fixedAssetCardModel);
+              this.resetForm();
+            },
+            (error: HttpErrorResponse) => {
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
+        }
       }
-    });
+    );
   }
 
-  onDoubleClickItem(item: FixedAssetCardModel) {
-    this.baseService.fixedAssetCardModelService.GetFixedAssetCardModelById(
+  async onDoubleClickItem(item: FixedAssetCardModel) {
+    this.baseService.spinner.show();
+
+    await this.loadBrands();
+
+    await this.baseService.fixedAssetCardModelService.GetFixedAssetCardModelById(
       item.FixedAssetCardModelId,
-      result => {
-        this.fixedAssetCardModel = result;
+      (result: FixedAssetCardModel) => {
+        setTimeout(() => {
+          $("#btnAddFixedAssetCardModel").trigger("click");
+
+          this.fixedAssetCardModel = result;
+          this.baseService.spinner.hide();
+        }, 1000);
       },
       (error: HttpErrorResponse) => {
+        this.baseService.spinner.hide();
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-    $("#btnAddFixedAssetCardModel").trigger("click");
-    $("btnCreateOrUpdateFixedAssetCardModel").html("Güncelle");
   }
 }
