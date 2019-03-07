@@ -315,8 +315,11 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     this.cities = [];
 
     /* if value is empty return to prevent error */
-    if (!event.target.value || event.target.value.length > 0)
+    if (!event.target.value || event.target.value.length > 0) {
+      this.company.CityId = null;
+      this.company.City = new City();
       return;
+    }
 
     /* if any value selected means can get city id by country id */
     if (event.target.value.toString().trim() !== "") {
