@@ -127,7 +127,6 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   ngOnInit() { }
 
   resetForm(data: NgForm) {
-    this.company = new Company();
     data.resetForm(this.company);
     this.loadCountryList();
   }
@@ -199,9 +198,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
-    this.company.CityId = Number(this.company.CityId);
-    /* Bind Cities and Countries */
+    /* Bind Cities and Countries to table model note: ngModels return string so we have to cast them to number */
     if (this.company.CityId) {
+      this.company.CityId = Number(this.company.CityId);
       let city = this.cities.find(x => x.CityId == this.company.CityId);
       let country = this.countries.find(x => x.CountryId == this.company.City.CountryId);
       this.company.City.Name = city.Name;
@@ -218,13 +217,13 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.baseService.popupService.ShowSuccessPopup(message);
 
       this.company.CompanyId = insertedItem.CompanyId;
-      let insComp = new Company();
-      Object.assign(insComp, this.company);
+
       /* Push new item the current list of companies then reload table */
-      this.companies.push(insComp);
+      this.companies.push(this.company);
       this.dataTable.TGT_loadData(this.companies);
 
-      /* Reset Forms */
+      /* Reset Forms and make company empty to use new */
+      this.company = new Company();
       this.resetForm(data);
       this.isWaitingInsertOrUpdate = false;
 
@@ -340,6 +339,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async onDoubleClickItem(item: Company) {
+    
+    /* Clear Model */
+    this.company = new Company();
+
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
@@ -361,11 +364,18 @@ export class CompanyComponent extends BaseComponent implements OnInit {
           /* Trigger to model to show it */
           $("#btnAddCompany").trigger("click");
 
-          /* bind result to model */
-          this.company = result;
-          if (!item.City)
-            this.company.City = new City();
+          /* close loading */
           this.baseService.spinner.hide();
+
+          /* bind result to model */
+          Object.assign(this.company, result);
+
+          if (!this.company.City)
+            this.company.City = new City();
+
+          console.log(this.company);
+
+
         }, 1000);
       },
       (error: HttpErrorResponse) => {

@@ -97,9 +97,7 @@ export class CompanyService {
       .subscribe(result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          let company: Company = new Company();
-          Object.assign(company, response.ResultObject);
-          success(company, response.LanguageKeyword);
+          success(response.ResultObject, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }

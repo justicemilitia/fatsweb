@@ -29,7 +29,7 @@ export class Company implements IData {
   Phone: string;
   SecondPhone: string;
   Description: string;
-  IsActive: boolean;
+  IsValid: boolean;
   ModifiedDate: Date;
   ModifiedId: number;
   CreationDate: Date;

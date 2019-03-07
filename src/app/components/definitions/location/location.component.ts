@@ -79,7 +79,6 @@ export class LocationComponent extends BaseComponent implements OnInit {
   );
   constructor(public baseService: BaseService) {
     super(baseService);
-    console.log(this.dataTable.dataColumns);
     this.loadLocations();
   }
 
@@ -193,7 +192,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         this.location.LocationId = inserted.LocationId;
         this.locations.push(this.location);
         this.dataTable.TGT_loadData(this.locations);
-        
+
         /* reset all data */
         this.resetForm();
         data.resetForm();

@@ -65,10 +65,11 @@
             </div>
             <div class="form-group col-md-6">
               <label>Ülke</label>
-              <select [(ngModel)]="company.City.CountryId" [attr.disabled]="countries.length > 0 ? null :'disabled'" (click)="loadCountryList()"
-                (change)="loadCityByCountryId($event)" name="CountryId" class="form-control select2-no-search">
-                <option value="">Yok</option>
-                <option *ngFor="let country of countries" value={{country.CountryId}}>{{country.Name}}</option>
+              <select [(ngModel)]="company.City.CountryId" [attr.disabled]="countries.length > 0 ? null :'disabled'"
+                (click)="loadCountryList()" (change)="loadCityByCountryId($event)" name="CountryId"
+                class="form-control select2-no-search">
+                <option value=" ">Yok</option>
+                <option *ngFor="let country of countries" [ngValue]="country.CountryId">{{country.Name}}</option>
               </select>
             </div>
           </div>
@@ -81,7 +82,7 @@
               <label>Şehir</label>
               <select [(ngModel)]="company.CityId" [attr.disabled]="cities.length > 0 ? null :'disabled'" name="CityId"
                 class="form-control select2-no-search">
-                <option value="">Yok</option>
+                <option value=" ">Yok</option>
                 <option *ngFor="let city of cities" value={{city.CityId}}>{{city.Name}}</option>
               </select>
             </div>
