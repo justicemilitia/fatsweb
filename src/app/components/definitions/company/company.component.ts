@@ -126,8 +126,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   ngOnInit() { }
 
-  resetForm() {
+  resetForm(data: NgForm) {
     this.company = new Company();
+    data.resetForm(this.company);
     this.loadCountryList();
   }
 
@@ -224,8 +225,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.dataTable.TGT_loadData(this.companies);
 
       /* Reset Forms */
-      this.resetForm();
-      data.resetForm();
+      this.resetForm(data);
       this.isWaitingInsertOrUpdate = false;
 
     }, (error: HttpErrorResponse) => {
@@ -250,6 +250,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.company.City.CountryId = country.CountryId;
       this.company.City.Country.Name = country.Name;
       this.company.City.Country.CountryId = country.CountryId;
+    } else {
+      this.company.City = new City();
     }
 
     /* Ask for approve question if its true then update the company */
@@ -315,7 +317,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     this.cities = [];
 
     /* if value is empty return to prevent error */
-    if (!event.target.value || event.target.value.length > 0) {
+    if (!event.target.value || event.target.value == '') {
       this.company.CityId = null;
       this.company.City = new City();
       return;
