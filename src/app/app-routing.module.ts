@@ -9,8 +9,6 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { DepartmentComponent } from './components/definitions/department/department.component';
 import { LocationComponent } from './components/definitions/location/location.component';
 import { ExpenseCenterComponent } from './components/definitions/expense-center/expense-center.component';
-import { CheckOutReason } from './models/CheckOutReason';
-import RoleAuthorization from './models/RoleAuthorization';
 import { RoleAuthorizationComponent } from './components/definitions/role-authorization/role-authorization.component';
 import { CheckOutReasonsComponent } from './components/definitions/check-out-reasons/check-out-reasons.component';
 import { FixedAssetCardCategoryComponent } from './components/definitions/fixed-asset-card-category/fixed-asset-card-category.component';
