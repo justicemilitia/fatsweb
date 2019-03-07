@@ -126,8 +126,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   ngOnInit() { }
 
-  resetForm() {
+  resetForm(data: NgForm) {
     this.company = new Company();
+    data.resetForm(this.company);
     this.loadCountryList();
   }
 
@@ -224,8 +225,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.dataTable.TGT_loadData(this.companies);
 
       /* Reset Forms */
-      this.resetForm();
-      data.resetForm();
+      this.resetForm(data);
       this.isWaitingInsertOrUpdate = false;
 
     }, (error: HttpErrorResponse) => {
@@ -242,6 +242,18 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Check model state */
     if (data.form.invalid == true) return;
 
+    /* city and update binding */
+    if (this.company.CityId) {
+      let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
+      let country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
+      this.company.City.Name = city.Name;
+      this.company.City.CountryId = country.CountryId;
+      this.company.City.Country.Name = country.Name;
+      this.company.City.Country.CountryId = country.CountryId;
+    } else {
+      this.company.City = new City();
+    }
+
     /* Ask for approve question if its true then update the company */
     await this.baseService.popupService.ShowQuestionPopupForUpdate(
       (response: boolean) => {
@@ -250,14 +262,6 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
             /* Show pop up then update data in datatable */
             this.baseService.popupService.ShowSuccessPopup(message);
-
-            /* update company dropdown values with new */
-            this.company.City = this.cities.find(x => x.CityId == Number(this.company.CityId));
-            if (this.company.City) {
-              this.company.City.Country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
-            } else {
-              this.company.City = new City();
-            }
 
             /* Update table */
             this.dataTable.TGT_updateData(this.company);
@@ -313,8 +317,11 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     this.cities = [];
 
     /* if value is empty return to prevent error */
-    if (!event.target.value)
+    if (!event.target.value || event.target.value == '') {
+      this.company.CityId = null;
+      this.company.City = new City();
       return;
+    }
 
     /* if any value selected means can get city id by country id */
     if (event.target.value.toString().trim() !== "") {
@@ -340,7 +347,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     await this.loadCountryList();
 
     /* load cities if not loaded */
-    await this.loadCityByCountryId({ target: { value: item.City.CountryId } });
+    if (item.City)
+      await this.loadCityByCountryId({ target: { value: item.City.CountryId } });
 
     /* get company information from server */
     await this.baseService.companyService.GetCompanyById(
@@ -355,6 +363,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
           /* bind result to model */
           this.company = result;
+          if (!item.City)
+            this.company.City = new City();
           this.baseService.spinner.hide();
         }, 1000);
       },
