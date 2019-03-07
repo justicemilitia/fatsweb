@@ -24,6 +24,7 @@ export const GET_USER_LIST = "user/GetUserList";
 export const GET_USER_LIST_BY_ID = "userfirms/GetUserFirmsListbyFirmId";
 export const INSERT_USER ="auth/register";
 export const UPDATE_USER = "locations/UpdateLocation";
+export const GET_SYSTEM_USER_LIST="User/GetSystemUserList";
 //#endregion
 
 //#region FixedAssetCards
@@ -50,6 +51,7 @@ export const GET_FIXEDASSETCARDBRAND_LIST="FixedAssetCardBrands/GetFixedAssetCar
 export const GET_FIXEDASSETCARDBRAND_BY_ID="FixedAssetCardBrands/GetFixedAssetCardBrandById";
 export const INSERT_FIXEDASSETCARDBRAND = "FixedAssetCardBrands/AddFixedAssetCardBrand";
 export const UPDATE_FIXEDASSETCARDBRAND = "FixedAssetCardBrands/UpdateFixedAssetCardBrand";
+export const DELETE_FIXEDASSETCARDBRAND="FixedAssetCardBrands/RemoveByIdList";
 //#endregion
 
 //#region FixedAssetCardModels
@@ -57,6 +59,7 @@ export const GET_FIXEDASSETCARDMODEL_LIST="FixedAssetsCardModels/GetFixedAssetsC
 export const GET_FIXEDASSETCARDMODEL_BY_ID="FixedAssetsCardModels/GetFixedAssetsCardModelsById";
 export const INSERT_FIXEDASSETCARDMODEL = "FixedAssetsCardModels/AddFixedAssetsCardModel";
 export const UPDATE_FIXEDASSETCARDMODEL = "FixedAssetsCardModels/UpdateFixedAssetsCardModel";
+export const DELETE_FIXEDASSETCARDMODEL="FixedAssetsCardModels/RemoveByIdList";
 //#endregion
 
 //#region Agreements
@@ -101,6 +104,11 @@ export const INSERT_ROLE="Role/AddRole";
 export const GET_ROLE_BY_ID="Role/GetRoleById";
 export const GET_ROLE_LIST = "role/GetRoleList";
 export const DELETE_ROLES="role/RemoveByIdList";
+
+//#endregion
+
+//#region UserRole
+export const INSERT_USER_ROLE="role/AddUserRole";
 export const GET_USER_ROLE_LIST="role/GetUserRoleList";
 
 //#endregion

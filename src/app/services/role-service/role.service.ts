@@ -11,13 +11,15 @@ import {
   GET_ROLE_BY_ID,
   DELETE_ROLES,
   GET_USER_LIST,
-  GET_USER_ROLE_LIST
+  GET_USER_ROLE_LIST,
+  INSERT_USER_ROLE,GET_SYSTEM_USER_LIST
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { ErrorService } from "../error-service/error.service";
 import { User } from "src/app/models/User";
 import { getAnErrorResponse } from "src/app/declarations/extends";
-import { UserRole } from 'src/app/models/UserRole';
+import { UserRole } from "src/app/models/UserRole";
+import { NgForm } from "@angular/forms";
 
 @Injectable({
   providedIn: "root"
@@ -57,9 +59,9 @@ export class RoleService {
       );
   }
 
-  GetUsers(success, failed) {  
+  GetUsers(success, failed) {
     this.httpclient
-      .get(SERVICE_URL + GET_USER_LIST, {
+      .get(SERVICE_URL + GET_SYSTEM_USER_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
@@ -88,25 +90,27 @@ export class RoleService {
       .get(SERVICE_URL + GET_USER_ROLE_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(result=>{
-        let response:Response=<Response>result;
-        if(response.ResultStatus==true){
-          let userRoles:UserRole[]=[];
-          (<UserRole[]>response.ResultObject).forEach(e => {
-            let userRole: UserRole = new UserRole();
-            Object.assign(userRole, e);
-            userRoles.push(userRole);
-          });
-          success(userRoles,response.LanguageKeyword);
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let userRoles: UserRole[] = [];
+            (<UserRole[]>response.ResultObject).forEach(e => {
+              let userRole: UserRole = new UserRole();
+              Object.assign(userRole, e);
+              userRoles.push(userRole);
+            });
+            success(userRoles, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
         }
-        else{
-          failed(getAnErrorResponse(response.LanguageKeyword));
-        }
-      },(error:HttpErrorResponse)=>{
-        failed(error);
-      }
       );
   }
+
   InsertRole(role: Role, success, failed) {
     this.httpclient
       .post(SERVICE_URL + INSERT_ROLE, role, {
@@ -196,4 +200,29 @@ export class RoleService {
         }
       );
   }
+
+  InsertUserRole(userRole: UserRole, success, failed) {
+    this.httpclient
+      .post(SERVICE_URL + INSERT_USER_ROLE, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(result=>{
+        let response:Response=<Response>result;
+        if(response.ResultStatus==true){
+          let insertedUserRole:UserRole=new UserRole();
+          Object.assign(insertedUserRole,response.ResultObject);
+          success(insertedUserRole,response.LanguageKeyword);
+        }else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      });
+  }
+
+
+
+
 }
+
+

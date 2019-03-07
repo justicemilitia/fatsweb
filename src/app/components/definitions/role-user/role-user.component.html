@@ -8,9 +8,9 @@
         data-target="#modalUserRoleDefinition"
        >Role Kullanıcı Ata</button>
       </div>
-      <p class="mg-b-20"></p>
+        <p class="mg-b-20"></p>
             <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserRole"></tree-grid-table>
-    </div>
+      </div>
     </div>
     <!-- az-content-body -->
   </div>
@@ -41,8 +41,8 @@
                     </select>     
                     <label>Kullanıcı</label>
                     <ng-multiselect-dropdown
-                    [placeholder]="'custom placeholder'"
-                    [data]="users"
+                    [placeholder]="'Kişiler'"
+                    [data]="systemUsers"
                     [(ngModel)]="selectedItems"
                     [settings]="dropdownSettings"
                     (onSelect)="onItemSelect($event)"

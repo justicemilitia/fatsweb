@@ -8,14 +8,15 @@ import {
   GET_FIXEDASSETCARDBRAND_LIST,
   INSERT_FIXEDASSETCARDBRAND,
   UPDATE_FIXEDASSETCARDBRAND,
-  GET_FIXEDASSETCARDBRAND_BY_ID
+  GET_FIXEDASSETCARDBRAND_BY_ID,
+  DELETE_FIXEDASSETCARDBRAND
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { FixedAssetCardBrand } from "../../models/FixedAssetCardBrand";
 import { Response } from "src/app/models/Response";
 import { Router } from "@angular/router";
 import { ErrorService } from "../error-service/error.service";
-import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { getAnErrorResponse } from "src/app/declarations/extends";
 
 @Injectable({
   providedIn: "root"
@@ -44,9 +45,7 @@ export class FixedAssetCardBrandService {
             });
             success(fixedAssetCardBrands, response.LanguageKeyword);
           } else {
-            failed(
-              getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
@@ -60,7 +59,6 @@ export class FixedAssetCardBrandService {
     success,
     failed
   ) {
-    debugger;
     this.httpClient
       .post(SERVICE_URL + INSERT_FIXEDASSETCARDBRAND, fixedAssetCardBrand, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -73,9 +71,7 @@ export class FixedAssetCardBrandService {
             Object.assign(insertedBrand, response.ResultObject);
             success(insertedBrand, response.LanguageKeyword);
           } else {
-            failed(
-              getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
@@ -83,42 +79,74 @@ export class FixedAssetCardBrandService {
         }
       );
   }
- 
-  UpdateFixedAssetCardBrand(fixedAssetCardBrand:FixedAssetCardBrand, success, failed) {
-    this.httpClient.put(SERVICE_URL + UPDATE_FIXEDASSETCARDBRAND, fixedAssetCardBrand, {
-      headers: GET_HEADERS(this.aService.getToken())
+
+  UpdateFixedAssetCardBrand(
+    fixedAssetCardBrand: FixedAssetCardBrand,
+    success,
+    failed
+  ) {
+    this.httpClient
+      .put(SERVICE_URL + UPDATE_FIXEDASSETCARDBRAND, fixedAssetCardBrand, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAssetBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
+            Object.assign(updatedFixedAssetBrand, response.ResultObject);
+            success(updatedFixedAssetBrand, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  GetFixedAssetBrandById(fixedAssetCardBrandId: number, success, failed) {
+    this.httpClient
+      .get(
+        SERVICE_URL +
+          GET_FIXEDASSETCARDBRAND_BY_ID +
+          "/" +
+          fixedAssetCardBrandId,
+        {
+          headers: GET_HEADERS(this.aService.getToken())
+        }
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let brand: FixedAssetCardBrand = new FixedAssetCardBrand();
+            Object.assign(brand, response.ResultObject);
+            success(brand, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  DeleteFixedAssetCarBrands(ids: number[], success, failed) {
+    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARDBRAND, { "BrandIds": ids }, {
+      headers: GET_HEADERS(this.aService.getToken()),
     }).subscribe(
       result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          let updatedFixedAssetBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
-          Object.assign(updatedFixedAssetBrand, response.ResultObject);
-          success(updatedFixedAssetBrand, response.LanguageKeyword);
+          success(response.ResultObject, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
-        failed(error);
-      }
-    );
-  }
-
-  GetFixedAssetBrandById(fixedAssetCardBrandId: number, success, failed) {
-    this.httpClient
-      .get(SERVICE_URL + GET_FIXEDASSETCARDBRAND_BY_ID + "/" + fixedAssetCardBrandId, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let brand: FixedAssetCardBrand = new FixedAssetCardBrand();
-          Object.assign(brand, response.ResultObject);
-          success(brand, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
-        }
-      }, error => {
         failed(error);
       });
   }
