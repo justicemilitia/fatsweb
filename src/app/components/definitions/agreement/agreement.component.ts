@@ -71,7 +71,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: (value) => { return value ? (<Date>value).toLocaleString().substring(0,10).split("-").reverse().join("-"): ''}                
       },
       {
         columnDisplayName: "Bitiş Tarihi",
@@ -79,7 +80,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: (value) => { return value ? (<Date>value).toLocaleString().substring(0,10).split("-").reverse().join("-"): ''}        
       },
       {
         columnDisplayName: "Tutar",
@@ -115,13 +117,13 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadAgreements();
-    this.loadDropdownList();
+    this.loadCompanies();
   }
 
   ngOnInit() {}
 
   resetForm() {
-    this.agreement = new Agreement();
+    // this.agreement = new Agreement();
   }
 
   onSubmit(data: NgForm) {
@@ -277,10 +279,11 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async loadDropdownList() {
+  async loadCompanies() {
     await this.baseService.companyService.GetCompanies(
-      companies => (this.companies = companies),
-      (error: HttpErrorResponse) => {
+      (companies: Company[]) => {
+        this.companies = companies;
+      },(error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
@@ -302,13 +305,16 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     }
   }
 
-  async onDoubleClickItem(item: any) {
+  async onDoubleClickItem(item: Agreement) {
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
+     /* load companies if not loaded */
+     await this.loadCompanies();
+
     /* get agreement information from server */
     await this.baseService.agreementService.GetAgreementById(
-      item.AgrementId,
+      item.AgreementId,
       (result: Agreement) => {
         /* then bind it to agreement model to update */
         setTimeout(() => {

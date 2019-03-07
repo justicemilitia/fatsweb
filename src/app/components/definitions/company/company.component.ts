@@ -21,10 +21,6 @@ import { HttpErrorResponse } from "@angular/common/http";
   providers: [CompanyComponent]
 })
 export class CompanyComponent extends BaseComponent implements OnInit {
-
-  /* Is Request send and waiting for response ? */
-  isWaitingInsertOrUpdate: boolean = false;
-
   /* List of countries */
   countries: Country[] = [];
 
@@ -124,11 +120,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     this.loadCompanies();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   resetForm() {
     this.company = new Company();
-    this.loadCountryList();
   }
 
   onSubmit(data: NgForm) {
@@ -163,32 +158,60 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       /* Delete all */
       this.baseService.companyService.DeleteCompanies(
         itemIds,
-        () => {
+        (notDeletedItemIds: number[]) => {
           /* Deactive the spinner */
           this.baseService.spinner.hide();
 
-          /* if all of them removed */
-          if (itemIds.length == 1)
-            this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
-          else
-            this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+          /* if any item exists in not deleted items */
+          if (notDeletedItemIds) {
+            /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
+            for (let ii = 0; ii < itemIds.length; ii++) {
+              if (notDeletedItemIds.includes(itemIds[ii])) {
+                itemIds.splice(ii, 1);
+                ii--;
+              }
+            }
 
-          /* Clear all the ids from table */
+            /* if any value couldnt delete then show popup */
+            if (itemIds.length == 0) {
+              this.baseService.popupService.ShowAlertPopup(
+                "Hiç Bir Kayıt Silinemedi!"
+              );
+              return;
+            }
+
+            /* if some of them is deleted show this */
+            if (itemIds.length > 0) {
+              this.baseService.popupService.ShowAlertPopup(
+                selectedItems.length.toString() +
+                  " kayıttan " +
+                  itemIds.length.toString() +
+                  "'i silinebildi!"
+              );
+            }
+          } else {
+            /* if all of them removed */
+            this.baseService.popupService.ShowAlertPopup(
+              " Tüm kayıtlar başarıyla silindi!"
+            );
+          }
+
+          /* Now Delete items from the source */
           for (let ii = 0; ii < itemIds.length; ii++) {
-            let index = this.companies.findIndex(x => x.CompanyId == itemIds[ii]);
-            if (index > -1)
+            let index = this.companies.findIndex(
+              x => x.CompanyId == itemIds[ii]
+            );
+            if (index > -1) {
               this.companies.splice(index, 1);
-
+            }
           }
 
           /* Reload Page */
           this.dataTable.TGT_loadData(this.companies);
         },
-        (failedItems: []) => {
+        (error: HttpErrorResponse) => {
           this.baseService.spinner.hide();
-          this.baseService.popupService.ShowAlertPopup(
-            "Kayıtlar ilişkili olduğundan silinemedi!"
-          );
+          this.baseService.popupService.ShowErrorPopup(error);
         }
       );
     });
@@ -198,52 +221,37 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
-    /* Convert model to table model for refresh on grid table */
-    if (this.company.CityId) {
-      this.company.CityId = Number(this.company.CityId);
-      this.company.City.CityId = this.company.CityId;
-      this.company.City.Name = this.cities.find(x => x.CityId == this.company.CityId).Name;
-      if (this.company.City.CountryId) {
-        this.company.City.CountryId = Number(this.company.City.CountryId);
-        this.company.City.Country.CountryId = this.company.City.CountryId;
-        this.company.City.Country.Name = this.countries.find(x => x.CountryId == this.company.City.CountryId).Name;
-      }
-    } else {
-      this.company.City = new City();
-      this.company.CityId = null;
-    }
-    /* while waiting value true we will translate button to a loading icon */
-    this.isWaitingInsertOrUpdate = true;
+    /* Convert model to table model */
+    this.company.CityId = Number(this.company.CityId);
+    this.company.City.CityId = this.company.CityId;
+    this.company.City.Name = this.cities.find(
+      x => x.CityId == this.company.CityId
+    ).Name;
+    this.company.City.CountryId = Number(this.company.City.CountryId);
+    this.company.City.Country.CountryId = this.company.City.CountryId;
+    this.company.City.Country.Name = this.countries.find(
+      x => x.CountryId == this.company.City.CountryId
+    ).Name;
 
     /* Insert Company service */
-    await this.baseService.companyService.InsertCompany(this.company, (insertedItem: Company, message) => {
-
-      /* Show pop up */
-      this.baseService.popupService.ShowSuccessPopup(message);
-
-      /* Get inserted company then set it to company id, then load data. */
-      this.company.CompanyId = insertedItem.CompanyId;
-
-      /* Push new item the current list of companies then reload table */
-      this.companies.push(this.company);
-      this.dataTable.TGT_loadData(this.companies);
-
-      /* Reset Forms */
-      this.resetForm();
-      data.resetForm();
-      this.isWaitingInsertOrUpdate = false;
-
-    }, (error: HttpErrorResponse) => {
-
-      /* Show alert message */
-      this.baseService.popupService.ShowErrorPopup(error);
-      this.isWaitingInsertOrUpdate = false;
-
-    });
+    await this.baseService.companyService.InsertCompany(
+      this.company,
+      (data: Company, message) => {
+        /* Show pop up, get inserted company then set it to company id, then load data. */
+        this.baseService.popupService.ShowSuccessPopup(message);
+        this.company.CompanyId = data.CompanyId;
+        this.companies.push(this.company);
+        this.dataTable.TGT_loadData(this.companies);
+        this.resetForm();
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   async updateCompany(data: NgForm) {
-
     /* Check model state */
     if (data.form.invalid == true) return;
 
@@ -251,46 +259,32 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     await this.baseService.popupService.ShowQuestionPopupForUpdate(
       (response: boolean) => {
         if (response == true) {
-          this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
-
-            /* Show pop up then update data in datatable */
-            this.baseService.popupService.ShowSuccessPopup(message);
-
-            /* update company dropdown values with new */
-            this.company.City = this.cities.find(x => x.CityId == Number(this.company.CityId));
-            if (this.company.City) {
-              this.company.City.Country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
-            }else {
-              this.company.City = new City();
+          this.baseService.companyService.UpdateCompany(
+            this.company,
+            (_company, message) => {
+              /* Show pop up then update data in datatable */
+              this.baseService.popupService.ShowSuccessPopup(message);
+              this.dataTable.TGT_updateData(this.company);
+              this.resetForm();
+            },
+            (error: HttpErrorResponse) => {
+              /* Show error message */
+              this.baseService.popupService.ShowErrorPopup(error);
             }
-
-            /* Update table */
-            this.dataTable.TGT_updateData(this.company);
-            this.isWaitingInsertOrUpdate = false;
-          }, (error: HttpErrorResponse) => {
-
-            /* Show error message */
-            this.baseService.popupService.ShowErrorPopup(error);
-            this.isWaitingInsertOrUpdate = false;
-          });
+          );
         }
       }
     );
   }
 
   async loadCompanies() {
-
     /* Load all companies to datatable */
     await this.baseService.companyService.GetCompanies(
       (companies: Company[]) => {
-
-        /* Load Companies then refresh table */
         this.companies = companies;
         this.dataTable.TGT_loadData(this.companies);
-
       },
       (error: HttpErrorResponse) => {
-
         /* if error show pop up */
         this.baseService.popupService.ShowErrorPopup(error);
       }
@@ -298,14 +292,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async loadCountryList() {
-
     /* Load all the countries if it isn't loaded */
     if (this.countries && this.countries.length == 0) {
-
       /* First clear cities then get all the countries */
       this.cities = [];
-
-      /* Get all the countries */
       await this.baseService.countryService.GetCountryList(
         (countries: Country[]) => {
           this.countries = countries;
@@ -315,25 +305,19 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async loadCityByCountryId(event: any) {
-    this.cities = [];
-
-    /* if value is empty return to prevent error */
-    if (!event.target.value)
-      return;
-
     /* if any value selected means can get city id by country id */
     if (event.target.value.toString().trim() !== "") {
-      await this.baseService.cityService.GetCityByCountryId(<number>event.target.value, (cities: City[]) => {
-
-        /* Load cities */
-        this.cities = cities;
-
-      }, (error: HttpErrorResponse) => {
-
-        /* show error pop up */
-        this.baseService.popupService.ShowErrorPopup(error);
-
-      });
+      await this.baseService.cityService.GetCityByCountryId(
+        <number>event.target.value,
+        (cities: City[]) => {
+          /* Load cities */
+          this.cities = cities;
+        },
+        (error: HttpErrorResponse) => {
+          /* show erro pop up */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     }
   }
 
@@ -351,10 +335,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     await this.baseService.companyService.GetCompanyById(
       item.CompanyId,
       (result: Company) => {
-
         /* then bind it to company model to update */
         setTimeout(() => {
-
           /* Trigger to model to show it */
           $("#btnAddCompany").trigger("click");
 

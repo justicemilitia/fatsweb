@@ -694,7 +694,6 @@ export class TreeGridTable {
             }
         }
         if (column.formatter) {
-            console.log(item);
             return column.formatter(item);
         } else {
             return item;

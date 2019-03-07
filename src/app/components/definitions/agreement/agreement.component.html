@@ -103,7 +103,7 @@
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
                         </div>
-                       <input [(ngModel)]="agreement.StartDate" name="StartDate" type="text" class="form-control fc-datepicker"  #StartDate="ngModel" [ngClass]="{'is-invalid': data.submitted && StartDate.invalid}" required placeholder="MM/DD/YYYY">
+                       <input id="datepicker" [(ngModel)]="agreement.StartDate" name="StartDate" type="text" class="form-control"  #StartDate="ngModel" [ngClass]="{'is-invalid': data.submitted && StartDate.invalid}" required placeholder="MM/DD/YYYY">
                       </div>
                       <div *ngIf="data.submitted && StartDate.invalid" class="invalid-feedback">
                           <div *ngIf="StartDate.errors.required">Bu alan zorunludur.</div>
