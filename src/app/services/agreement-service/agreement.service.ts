@@ -23,8 +23,7 @@ import { getAnErrorResponse } from 'src/app/declarations/extends';
 export class AgreementService {
   constructor(
     private httpClient: HttpClient,
-    private authenticationService: AuthenticationService,
-    private errorService: ErrorService    
+    private authenticationService: AuthenticationService
   ) {}
 
   GetAgreement(success, failed) {
@@ -90,9 +89,9 @@ export class AgreementService {
     );
   }
 
-  GetAgreementById(agreementId: number, success, failed) {
+  GetAgreementById(AgreementId: number, success, failed) {
     this.httpClient
-      .get(SERVICE_URL + GET_AGREEMENT_BY_ID + "/" + agreementId, {
+      .get(SERVICE_URL + GET_AGREEMENT_BY_ID + "/" + AgreementId, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result => {
@@ -110,12 +109,12 @@ export class AgreementService {
   }
 
   DeleteAgreements(ids: number[], success, failed) {
-    this.httpClient.post(SERVICE_URL + DELETE_AGREEMENT, { "AggrementIds": ids }, {
+    this.httpClient.post(SERVICE_URL + DELETE_AGREEMENT, { "AgreementIds": ids }, {
       headers: GET_HEADERS(this.authenticationService.getToken()),
     }).subscribe(
       result => {
         let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
+        if ((<[]>response.ResultObject).length == 0) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));

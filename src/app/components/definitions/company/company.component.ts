@@ -126,9 +126,12 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   ngOnInit() { }
 
-  resetForm(data: NgForm) {
+  resetForm(data: NgForm, isNewItem: boolean) {
     data.resetForm(this.company);
-    this.loadCountryList();
+    if (isNewItem == true) {
+      this.cities = [];
+      this.company = new Company();
+    }
   }
 
   onSubmit(data: NgForm) {
@@ -204,7 +207,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       let city = this.cities.find(x => x.CityId == this.company.CityId);
       let country = this.countries.find(x => x.CountryId == this.company.City.CountryId);
       this.company.City.Name = city.Name;
+      this.company.City.CityId = city.CityId;
       this.company.City.Country.Name = country.Name;
+      this.company.City.Country.CountryId = country.CountryId;
+      this.company.City.CountryId = country.CountryId;
     }
 
     /* while waiting value true we will translate button to a loading icon */
@@ -223,8 +229,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.dataTable.TGT_loadData(this.companies);
 
       /* Reset Forms and make company empty to use new */
-      this.company = new Company();
-      this.resetForm(data);
+      this.resetForm(data, true);
       this.isWaitingInsertOrUpdate = false;
 
     }, (error: HttpErrorResponse) => {
@@ -245,6 +250,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     if (this.company.CityId) {
       let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
       let country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
+      this.company.City.CityId = city.CityId;
       this.company.City.Name = city.Name;
       this.company.City.CountryId = country.CountryId;
       this.company.City.Country.Name = country.Name;
@@ -323,7 +329,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     }
 
     /* if any value selected means can get city id by country id */
-    if (event.target.value.toString().trim() !== "") {
+    if (event.target.value) {
       await this.baseService.cityService.GetCityByCountryId(<number>event.target.value, (cities: City[]) => {
 
         /* Load cities */
@@ -339,7 +345,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async onDoubleClickItem(item: Company) {
-    
+
     /* Clear Model */
     this.company = new Company();
 
@@ -351,8 +357,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
     /* load cities if not loaded */
     if (item.City)
-      await this.loadCityByCountryId({ target: { value: item.City.CountryId } });
-
+      this.loadCityByCountryId({ target: { value: item.City.CountryId } });
+    else
+      this.cities = [];
+      
     /* get company information from server */
     await this.baseService.companyService.GetCompanyById(
       item.CompanyId,
@@ -362,7 +370,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         setTimeout(() => {
 
           /* Trigger to model to show it */
-          $("#btnAddCompany").trigger("click");
+          $("#btnEditCompany").trigger("click");
 
           /* close loading */
           this.baseService.spinner.hide();
@@ -372,9 +380,6 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
           if (!this.company.City)
             this.company.City = new City();
-
-          console.log(this.company);
-
 
         }, 1000);
       },
