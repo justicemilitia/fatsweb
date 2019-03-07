@@ -1,6 +1,8 @@
+import { Role } from "./Role";
+import { User } from "./User";
 import { IData } from "../extends/TreeGridTable/models/interfaces/IData";
 
-export class ExpenseCenter implements IData {
+export class UserRole implements IData {
   getParentId(): number {
     return null;
   }
@@ -8,15 +10,17 @@ export class ExpenseCenter implements IData {
     return [];
   }
   getId(): number {
-    return this.ExpenseCenterId;
+    return this.UserRoleId;
   }
-  
-  ExpenseCenterId:number;
   childIndex: number;
   isExtended: boolean;
   isChecked: boolean;
   isVisible: boolean;
-  FirmId: number;
-  Name: string;
-  ExpenseCenterCode: string;
+
+  UserRoleId: number;
+  UserId: number;
+  RoleId: number;
+  Role: Role;
+  User: User;
+  
 }

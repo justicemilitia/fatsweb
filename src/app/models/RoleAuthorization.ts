@@ -1,3 +1,5 @@
+import { Role } from './Role';
+
 export default class RoleAuthorization {
   UserId: number;
   RoleId: number;
@@ -8,4 +10,5 @@ export default class RoleAuthorization {
   FirmId: number;
   MenuId: number;
   MenuCaption:string;
+  Role:Role;
 }

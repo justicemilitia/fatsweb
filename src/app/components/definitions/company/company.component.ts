@@ -122,8 +122,14 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {}
 
+<<<<<<< HEAD
   resetForm() {
     this.company = new Company();
+=======
+  resetForm(data: NgForm) {
+    data.resetForm(this.company);
+    this.loadCountryList();
+>>>>>>> e2fc7d4f3d704e15073ffaa59e5b0f8d70a70b4e
   }
 
   onSubmit(data: NgForm) {
@@ -221,6 +227,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
+<<<<<<< HEAD
     /* Convert model to table model */
     this.company.CityId = Number(this.company.CityId);
     this.company.City.CityId = this.company.CityId;
@@ -249,6 +256,44 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+=======
+    /* Bind Cities and Countries to table model note: ngModels return string so we have to cast them to number */
+    if (this.company.CityId) {
+      this.company.CityId = Number(this.company.CityId);
+      let city = this.cities.find(x => x.CityId == this.company.CityId);
+      let country = this.countries.find(x => x.CountryId == this.company.City.CountryId);
+      this.company.City.Name = city.Name;
+      this.company.City.Country.Name = country.Name;
+    }
+
+    /* while waiting value true we will translate button to a loading icon */
+    this.isWaitingInsertOrUpdate = true;
+
+    /* Insert Company service */
+    await this.baseService.companyService.InsertCompany(this.company, (insertedItem: Company, message) => {
+
+      /* Show pop up */
+      this.baseService.popupService.ShowSuccessPopup(message);
+
+      this.company.CompanyId = insertedItem.CompanyId;
+
+      /* Push new item the current list of companies then reload table */
+      this.companies.push(this.company);
+      this.dataTable.TGT_loadData(this.companies);
+
+      /* Reset Forms and make company empty to use new */
+      this.company = new Company();
+      this.resetForm(data);
+      this.isWaitingInsertOrUpdate = false;
+
+    }, (error: HttpErrorResponse) => {
+
+      /* Show alert message */
+      this.baseService.popupService.ShowErrorPopup(error);
+      this.isWaitingInsertOrUpdate = false;
+
+    });
+>>>>>>> e2fc7d4f3d704e15073ffaa59e5b0f8d70a70b4e
   }
 
   async updateCompany(data: NgForm) {
@@ -322,6 +367,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async onDoubleClickItem(item: Company) {
+    
+    /* Clear Model */
+    this.company = new Company();
+
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
@@ -340,9 +389,23 @@ export class CompanyComponent extends BaseComponent implements OnInit {
           /* Trigger to model to show it */
           $("#btnAddCompany").trigger("click");
 
+          /* close loading */
+          this.baseService.spinner.hide();
+
           /* bind result to model */
+<<<<<<< HEAD
           this.company = result;
           this.baseService.spinner.hide();
+=======
+          Object.assign(this.company, result);
+
+          if (!this.company.City)
+            this.company.City = new City();
+
+          console.log(this.company);
+
+
+>>>>>>> e2fc7d4f3d704e15073ffaa59e5b0f8d70a70b4e
         }, 1000);
       },
       (error: HttpErrorResponse) => {

@@ -54,6 +54,7 @@ export class UserService {
   }
 
   GetUsers(callback,failed) {
+    debugger;
     this.httpClient
       .get(SERVICE_URL + GET_USER_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(result => {
