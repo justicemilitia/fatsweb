@@ -19,6 +19,7 @@ import { FixedAssetCardModelService } from "./fixed-asset-card-model-service/fix
 import { RoleService } from './role-service/role.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { RoleAuthorizationService } from './role-authorization-service/role-authorization.service';
 
 @Injectable({
   providedIn: "root"
@@ -43,6 +44,7 @@ export class BaseService {
     public fixedAssetCardBrandService: FixedAssetCardBrandService,
     public fixedAssetCardModelService: FixedAssetCardModelService,
     public roleService:RoleService,
+    public roleAuthorizationService:RoleAuthorizationService,
     public spinner: NgxSpinnerService,
     public router:Router
   ) {}

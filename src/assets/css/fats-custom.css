@@ -279,3 +279,8 @@ button.btn:first-child {
     color: red;
     content: '*';
 }
+
+.table-checkbox >input{
+    margin: 0 auto;
+    display: block;
+}
