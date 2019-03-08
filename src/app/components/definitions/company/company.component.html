@@ -7,8 +7,11 @@
           <button type="button" (click)="deleteCompanies()" class="btn btn-danger btn-delete-custom">
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
-          <button class="btn btn-orange btn-new-custom" (click)="resetForm()" id="btnAddCompany" data-toggle="modal"
-            data-target="#modalCompany">Şirket Ekle
+          <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)" id="btnAddCompany"
+            data-toggle="modal" data-target="#modalCompany">Şirket Ekle
+          </button>
+          <button style="display:none" (click)="resetForm(data,false)" id="btnEditCompany" data-toggle="modal"
+            data-target="#modalCompany">Şirket Düzenle
           </button>
         </div>
         <p class="mg-b-20"></p>
@@ -42,8 +45,8 @@
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
               </div>
               <label>E-posta</label>
-              <input [(ngModel)]="company.Email" name="Email" type="email" #Email="ngModel" class="form-control"
-                email [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" />
+              <input [(ngModel)]="company.Email" name="Email" type="email" #Email="ngModel" class="form-control" email
+                [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" />
               <div *ngIf="data.submitted && Email.invalid" class="invalid-feedback">
                 <div *ngIf="Email.errors.email">Lütfen Geçerli Eposta Giriniz.</div>
               </div>
@@ -69,7 +72,7 @@
                 (click)="loadCountryList()" (change)="loadCityByCountryId($event)" name="CountryId"
                 class="form-control select2-no-search">
                 <option value=" ">Yok</option>
-                <option *ngFor="let country of countries" [ngValue]="country.CountryId">{{country.Name}}</option>
+                <option *ngFor="let country of countries" value="{{country.CountryId}}">{{country.Name}}</option>
               </select>
             </div>
           </div>
@@ -83,7 +86,7 @@
               <select [(ngModel)]="company.CityId" [attr.disabled]="cities.length > 0 ? null :'disabled'" name="CityId"
                 class="form-control select2-no-search">
                 <option value=" ">Yok</option>
-                <option *ngFor="let city of cities" value={{city.CityId}}>{{city.Name}}</option>
+                <option *ngFor="let city of cities" value="{{city.CityId}}">{{city.Name}}</option>
               </select>
             </div>
           </div>

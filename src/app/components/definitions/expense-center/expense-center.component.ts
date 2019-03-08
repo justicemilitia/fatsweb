@@ -1,27 +1,31 @@
 import { Component, OnInit, NgModule } from "@angular/core";
-import { ExpenseCenterService } from "../../../services/ExpenseCenterService/expense-center.service";
 import { BaseComponent } from "src/app/components/base/base.component";
-import { LanguageService } from "src/app/services/language-service/language.service";
 import { BaseService } from "../../../services/base.service";
-import { NgForm, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgForm, ReactiveFormsModule } from "@angular/forms";
+
 import { ExpenseCenter } from "src/app/models/ExpenseCenter";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { HttpErrorResponse } from "@angular/common/http";
+import * as $ from "jquery";
+
 @Component({
   selector: "app-expense-center",
   templateUrl: "./expense-center.component.html",
   styleUrls: ["./expense-center.component.css"]
 })
 @NgModule({
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   declarations: [ExpenseCenterComponent],
   providers: [ExpenseCenterComponent]
 })
 export class ExpenseCenterComponent extends BaseComponent implements OnInit {
+  isWaitingInsertOrUpdate: boolean = false;
 
   expCenters: ExpenseCenter[] = [];
   expenseCenter: ExpenseCenter = new ExpenseCenter();
-  public dataTable: TreeGridTable = new TreeGridTable("expensecenter",
+
+  public dataTable: TreeGridTable = new TreeGridTable(
+    "expensecenter",
     [
       {
         columnDisplayName: "Masraf Yeri Kodu",
@@ -45,6 +49,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
       column: ["Name"]
     }
   );
+
   constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadExpenseCenters();
@@ -52,98 +57,85 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {}
 
-  resetForm() {
-    this.expenseCenter = new ExpenseCenter();
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.expenseCenter);
+    if (isNewItem == true) {
+      this.expenseCenter = new ExpenseCenter();
+    }
   }
-  
+
   OnSubmit(data: NgForm) {
     if (data.value.ExpenseCenterId == null) this.addExpenseCenter(data);
     else this.updateExpenseCenter(data);
   }
 
   async deleteExpenseCenters() {
-
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir masraf yeri seçiniz");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir masraf yeri seçiniz"
+      );
       return;
     }
 
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
-
       this.baseService.spinner.show();
 
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
-      this.baseService.expenseCenterService.DeleteExpenseCenters(itemIds, (notDeletedItemIds: number[]) => {
+      this.baseService.expenseCenterService.DeleteExpenseCenters(
+        itemIds,
+        () => {
+          this.baseService.spinner.hide();
 
-        /* Deactive the spinner */
-        this.baseService.spinner.hide();
+          if (itemIds.length == 1)
+            this.baseService.popupService.ShowAlertPopup(
+              "Kayıt Başarıyla silindi!"
+            );
+          else
+            this.baseService.popupService.ShowAlertPopup(
+              "Tüm kayıtlar başarıyla silindi!"
+            );
 
-        /* if any item exists in not deleted items */
-        if (notDeletedItemIds) {
-
-          /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
           for (let ii = 0; ii < itemIds.length; ii++) {
-            if (notDeletedItemIds.includes(itemIds[ii])) {
-              itemIds.splice(ii, 1);
-              ii--;
-            }
+            let index = this.expCenters.findIndex(
+              x => x.ExpenseCenterId == itemIds[ii]
+            );
+            if (index > -1) this.expCenters.splice(index, 1);
           }
 
-          /* if any value couldnt delete then show popup */
-          if (itemIds.length == 0) {
-            this.baseService.popupService.ShowAlertPopup("Hiç Bir Kayıt Silinemedi!");
-            return;
-          }
-
-          /* if some of them is deleted show this */
-          if (itemIds.length > 0) {
-            this.baseService.popupService.ShowAlertPopup(selectedItems.length.toString() + ' kayıttan ' + itemIds.length.toString() + "'i silinebildi!");
-          }
-
-        } else {
-
-          /* if all of them removed */
-          this.baseService.popupService.ShowAlertPopup(" Tüm kayıtlar başarıyla silindi!");
-
+          this.dataTable.TGT_loadData(this.expCenters);
+        },
+        (failedItems: []) => {
+          this.baseService.spinner.hide();
+          this.baseService.popupService.ShowAlertPopup(
+            "Kayıtlar ilişkili olduğundan silinemedi!"
+          );
         }
-
-        /* Now Delete items from the source */
-        for (let ii = 0; ii < itemIds.length; ii++) {
-          let index = this.expCenters.findIndex(x => x.ExpenseCenterId == itemIds[ii]);
-          if (index > -1) {
-            this.expCenters.splice(index, 1);
-          }
-        }
-
-        /* Reload Page */
-        this.dataTable.TGT_loadData(this.expCenters);
-
-      }, (error: HttpErrorResponse) => {
-
-        this.baseService.spinner.hide();
-        this.baseService.popupService.ShowErrorPopup(error);
-
-      });
-
+      );
     });
   }
-  
+
   async addExpenseCenter(data: NgForm) {
     if (data.value.invalid == true) return;
-    this.expenseCenter = <ExpenseCenter>data.value;
+
+    this.isWaitingInsertOrUpdate = true;
+
     await this.baseService.expenseCenterService.InsertExpenseCenter(
       this.expenseCenter,
-      (data: ExpenseCenter, message) => {
+      (insertedItem: ExpenseCenter, message) => {
         this.baseService.popupService.ShowErrorPopup(message);
-        this.expenseCenter.ExpenseCenterId = data.ExpenseCenterId;
+        this.expenseCenter.ExpenseCenterId = insertedItem.ExpenseCenterId;
         this.expCenters.push(this.expenseCenter);
-        this.resetForm();
+        this.dataTable.TGT_loadData(this.expCenters);
+
+        this.resetForm(data, true);
+        this.isWaitingInsertOrUpdate = false;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+        this.isWaitingInsertOrUpdate = false;
       }
     );
   }
@@ -156,14 +148,15 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
       (_expenseCenter, message) => {
         this.baseService.popupService.ShowSuccessPopup(message);
         this.dataTable.TGT_updateData(this.expenseCenter);
-        this.resetForm();
+        this.isWaitingInsertOrUpdate = false;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+        this.isWaitingInsertOrUpdate = false;
       }
     );
   }
-  
+
   async loadExpenseCenters() {
     await this.baseService.expenseCenterService.GetExpenseCenters(
       (expCenters: ExpenseCenter[]) => {
@@ -177,32 +170,29 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
   }
 
   async onDoubleClickItem(item: ExpenseCenter) {
-
+    this.expenseCenter = new ExpenseCenter();
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
     await this.loadExpenseCenters();
 
     /* get company information from server */
-    await this.baseService.expenseCenterService.GetExpenseCenterById(item.ExpenseCenterId, (result: ExpenseCenter) => {
+    await this.baseService.expenseCenterService.GetExpenseCenterById(
+      item.ExpenseCenterId,
+      (result: ExpenseCenter) => {
+        /* then bind it to company model to update */
+        setTimeout(() => {
+          $("#btnAddExpenseCenter").trigger("click");
 
-      /* then bind it to company model to update */
-      setTimeout(() => {
+          this.baseService.spinner.hide();
+          Object.assign(this.expenseCenter, result);
 
-        /* bind result to model */
-        this.expenseCenter = result;
-        this.baseService.spinner.hide();
-
-        /* Trigger to model to show it */
-        $("#btnAddExpenseCenter").trigger("click");
-      }, 1000);
-
-    }, (error: HttpErrorResponse) => {
-
-      /* show error message */
-      this.baseService.popupService.ShowErrorPopup(error);
-
-    });
-
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 }

@@ -5,11 +5,14 @@
         <div class="card card-dashboard-twelve mg-b-20">
         <h2 class="az-content-title">Masraf Yerleri</h2>
           <div class="grp-btn-action">          
-                <button type="button" (click)="deleteExpenseCenters()" class="btn btn-danger">
+                <button type="button" (click)="deleteExpenseCenters()" class="btn btn-danger btn-delete-custom">
                     {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
                     <i class="fas fa-trash"></i></button>
-                <button class="btn btn-orange" id="btnAddExpenseCenter" data-toggle="modal" data-target="#modalExpenseCenter">Masraf Yeri Ekle                  
-                </button>           
+                <button class="btn btn-orange" id="btnAddExpenseCenter" (click)="resetForm(data,true)" data-toggle="modal" data-target="#modalExpenseCenter">Masraf Yeri Ekle                  
+                </button>
+                <button style="display:none" (click)="resetForm(data,false)" id="btnEditExpenseCenter" data-toggle="modal"
+                data-target="#modalExpenseCenter">Masraf Yeri Düzenle
+              </button>           
           </div>
         <p class="mg-b-20"></p>
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
@@ -37,12 +40,12 @@
             <input type="hidden" name="ExpenseCenterId" [(ngModel)]="expenseCenter.ExpenseCenterId"/>
             <div class="form-group">          
                 <label>Kod</label>
-                <input name="ExpenseCenterCode" [(ngModel)]="expenseCenter.ExpenseCenterCode" type="text" class="form-control" #ExpenseCenterCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>              
+                <input  [(ngModel)]="expenseCenter.ExpenseCenterCode" name="ExpenseCenterCode" type="text" class="form-control" #ExpenseCenterCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>              
                 <div *ngIf="data.submitted && ExpenseCenterCode.invalid" class="invalid-feedback">
                     <div *ngIf="ExpenseCenterCode.errors.required">Bu alan zorunludur.</div>
                 </div>  
                 <label>Masraf Yeri</label>
-                <input name="Name"[(ngModel)]="expenseCenter.Name" type="text" class="form-control" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>
+                <input [(ngModel)]="expenseCenter.Name" name="Name" type="text" class="form-control" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>
                 <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                     <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
                 </div>  
@@ -51,8 +54,8 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateExpenseCenter" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertExpenseCenter">Kaydet</button>
-          <button type="button" data-dismiss="modal" class="btn btn-outline-light">Kapat</button>
+          <button id="btnInsertOrUpdateExpenseCenter" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal"  *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalInsertExpenseCenter">{{expenseCenter.ExpenseCenterId ? 'Güncelle' : 'Kaydet'}}</button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
     </div>

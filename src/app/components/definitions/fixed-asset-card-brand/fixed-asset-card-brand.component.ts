@@ -2,10 +2,11 @@ import { Component, OnInit, NgModule } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { FixedAssetCardBrand } from "../../../models/FixedAssetCardBrand";
 import { BaseService } from "../../../services/base.service";
+
 import { HttpErrorResponse } from "@angular/common/http";
 import { BaseComponent } from "../../base/base.component";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
-import { FixedAssetCardModel } from "src/app/models/FixedAssetCardModel";
+import * as $ from "jquery";
 
 @Component({
   selector: "app-fixed-asset-card-brand",
@@ -13,12 +14,13 @@ import { FixedAssetCardModel } from "src/app/models/FixedAssetCardModel";
   styleUrls: ["./fixed-asset-card-brand.component.css"]
 })
 @NgModule({
-  imports: [ ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   declarations: [FixedAssetCardBrandComponent],
   providers: [FixedAssetCardBrandComponent]
 })
 export class FixedAssetCardBrandComponent extends BaseComponent
   implements OnInit {
+  isWaitingInsertOrUpdate: boolean = false;
 
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
   fixedAssetCardBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
@@ -49,144 +51,133 @@ export class FixedAssetCardBrandComponent extends BaseComponent
     }
   );
 
-  
-
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadFixedAssetCardBrands();
-    //this.loadFixedAssetCardModels();    
+    //this.loadFixedAssetCardModels();
   }
 
   ngOnInit() {}
 
-  resetForm() {
-    this.fixedAssetCardBrand = new FixedAssetCardBrand();
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.fixedAssetCardBrand);
+    if (isNewItem == true) {
+      this.fixedAssetCardBrand = new FixedAssetCardBrand();
+    }
   }
 
   onSubmit(data: NgForm) {
     if (data.value.FixedAssetCardBrandId == null)
-      this.insertFixedAssetCardBrand(data);
+      this.addFixedAssetCardBrand(data);
     else this.updateFixedAssetCardBrand(data);
   }
 
   async deleteFixedAssetCardBrand() {
-
+    /* get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
+    /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir şirket seçiniz"
+        "Lütfen en az bir marka seçiniz"
       );
       return;
     }
 
+    /* Show Question Message */
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
-
+      /* Activate the loading spinner */
       this.baseService.spinner.show();
 
+      /* Convert items to ids */
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
-      this.baseService.fixedAssetCardBrandService.DeleteFixedAssetCarBrands(
+      /* Delete all */
+      this.baseService.fixedAssetCardBrandService.DeleteFixedAssetCardBrands(
         itemIds,
-        (notDeletedItemIds: number[]) => {
+        () => {
           /* Deactive the spinner */
           this.baseService.spinner.hide();
 
-          /* if any item exists in not deleted items */
-          if (notDeletedItemIds) {
-            /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
-            for (let ii = 0; ii < itemIds.length; ii++) {
-              if (notDeletedItemIds.includes(itemIds[ii])) {
-                itemIds.splice(ii, 1);
-                ii--;
-              }
-            }
-
-            /* if any value couldnt delete then show popup */
-            if (itemIds.length == 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                "Hiç Bir Kayıt Silinemedi!"
-              );
-              return;
-            }
-
-            /* if some of them is deleted show this */
-            if (itemIds.length > 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                selectedItems.length.toString() +
-                  " kayıttan " +
-                  itemIds.length.toString() +
-                  "'i silinebildi!"
-              );
-            }
-          } else {
-            /* if all of them removed */
+          /* if all of them removed */
+          if (itemIds.length == 1)
             this.baseService.popupService.ShowAlertPopup(
-              " Tüm kayıtlar başarıyla silindi!"
+              "Kayıt Başarıyla silindi!"
             );
-          }
+          else
+            this.baseService.popupService.ShowAlertPopup(
+              "Tüm kayıtlar başarıyla silindi!"
+            );
 
-          /* Now Delete items from the source */
+          /* Clear all the ids from table */
           for (let ii = 0; ii < itemIds.length; ii++) {
             let index = this.fixedAssetCardBrands.findIndex(
               x => x.FixedAssetCardBrandId == itemIds[ii]
             );
-            if (index > -1) {
-              this.fixedAssetCardBrands.splice(index, 1);
-            }
+            if (index > -1) this.fixedAssetCardBrands.splice(index, 1);
           }
 
           /* Reload Page */
           this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
         },
-        (error: HttpErrorResponse) => {
+        (failedItems: []) => {
           this.baseService.spinner.hide();
-          this.baseService.popupService.ShowErrorPopup(error);
+          this.baseService.popupService.ShowAlertPopup(
+            "Kayıtlar ilişkili olduğundan silinemedi!"
+          );
         }
       );
     });
   }
 
-  async insertFixedAssetCardBrand(data: NgForm) {
+  async addFixedAssetCardBrand(data: NgForm) {
     if (data.form.invalid == true) return;
 
     await this.baseService.fixedAssetCardBrandService.InsertFixedAssetCardBrand(
       this.fixedAssetCardBrand,
       (insertedItem: FixedAssetCardBrand, message) => {
         this.baseService.popupService.ShowSuccessPopup(message);
-        this.fixedAssetCardBrand.FixedAssetCardBrandId=insertedItem.FixedAssetCardBrandId;
+        this.fixedAssetCardBrand.FixedAssetCardBrandId =
+          insertedItem.FixedAssetCardBrandId;
+
         this.fixedAssetCardBrands.push(this.fixedAssetCardBrand);
         this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
-        this.resetForm();
+
+        this.resetForm(data, true);
+        this.isWaitingInsertOrUpdate = false;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+        this.isWaitingInsertOrUpdate = false;
       }
     );
   }
 
   async updateFixedAssetCardBrand(data: NgForm) {
-    if(data.form.invalid==true) return;
-    
-    await this.baseService.popupService.ShowQuestionPopupForUpdate((response:boolean) => {
-      if (response == true) {
-        this.baseService.fixedAssetCardBrandService.UpdateFixedAssetCardBrand(
-          this.fixedAssetCardBrand,
-          (_fixedAssetCardBrand, message) => {
-            this.baseService.popupService.ShowSuccessPopup(message);
-            this.dataTable.TGT_updateData(this.fixedAssetCardBrand);
-            this.resetForm();
-          },
-          (error: HttpErrorResponse) => {
-            this.baseService.popupService.ShowErrorPopup(error);
-          }
-        );
+    if (data.form.invalid == true) return;
+
+    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          this.baseService.fixedAssetCardBrandService.UpdateFixedAssetCardBrand(
+            this.fixedAssetCardBrand,
+            (_fixedAssetCardBrand, message) => {
+              this.baseService.popupService.ShowSuccessPopup(message);
+              this.dataTable.TGT_updateData(this.fixedAssetCardBrand);
+              this.isWaitingInsertOrUpdate = false;
+            },
+            (error: HttpErrorResponse) => {
+              this.baseService.popupService.ShowErrorPopup(error);
+              this.isWaitingInsertOrUpdate = false;
+            }
+          );
+        }
       }
-    });
+    );
   }
 
- async loadFixedAssetCardBrands() {   
-   await this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
+  async loadFixedAssetCardBrands() {
+    await this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
       (facbs: FixedAssetCardBrand[]) => {
         this.fixedAssetCardBrands = facbs;
         this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
@@ -198,14 +189,14 @@ export class FixedAssetCardBrandComponent extends BaseComponent
   }
 
   async onDoubleClickItem(item: FixedAssetCardBrand) {
+    this.fixedAssetCardBrand = new FixedAssetCardBrand();
+
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
-    /* get company information from server */
     await this.baseService.fixedAssetCardBrandService.GetFixedAssetBrandById(
       item.FixedAssetCardBrandId,
       (result: FixedAssetCardBrand) => {
-        /* then bind it to company model to update */
         setTimeout(() => {
           /* Trigger to model to show it */
           $("#btnAddFixedAssetCardBrand").trigger("click");

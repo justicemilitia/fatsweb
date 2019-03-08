@@ -8,7 +8,10 @@
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
           <button class="btn btn-orange btn-new-custom" id="btnAddLocation" data-toggle="modal"
-            data-target="#modalLocation" (click)="resetForm()">Lokasyon Ekle
+            data-target="#modalLocation" (click)="resetForm(data,true)">Lokasyon Ekle
+          </button>
+          <button style="display:none" (click)="resetForm(data,false)" id="btnEditLocation" data-toggle="modal"
+            data-target="#modalLocation">Lokasyon Düzenle
           </button>
         </div>
         <p class="mg-b-20"></p>
@@ -53,8 +56,12 @@
           <!-- form-group -->
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label>Lokasyon Kodu</label>
-              <input [(ngModel)]="location.LocationCode" name="LocationCode" type="text" class="form-control" />
+              <label class="required-span">Lokasyon Kodu</label>
+              <input [(ngModel)]="location.LocationCode" #LocationCode="ngModel" name="LocationCode" type="text"
+                class="form-control" [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }" required />
+              <div *ngIf="data.submitted && LocationCode.invalid" class="invalid-feedback">
+                <div *ngIf="LocationCode.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
             <div class="form-group col-md-6">
               <label>Bağlı Olduğu Location</label>
@@ -95,7 +102,9 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button class="btn btn-orange btn-block btn-height" id="btnCreateLocation" type="submit" data-toggle="modal"
-            data-target="#modalInsertLocation">{{location.LocationId ?  'Lokasyonu Güncelle' : 'Lokasyon Ekle'}}</button>
+            data-target="#modalInsertLocation"
+            *ngIf="isWaitingInsertOrUpdate == false">{{location.LocationId ?  'Lokasyonu Güncelle' : 'Lokasyon Ekle'}}</button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
       <!-- </div> -->

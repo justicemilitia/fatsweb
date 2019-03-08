@@ -108,6 +108,10 @@ export const DELETE_ROLES="role/RemoveByIdList";
 
 //#endregion
 
+//#region RoleAuthorization
+export const GET_ROLE_AUTHORIZATION_LIST="Role/GetRoleAuthorizationList";
+//#endregion
+
 //#region UserRole
 export const INSERT_USER_ROLE="role/AddUserRole";
 export const GET_USER_ROLE_LIST="role/GetUserRoleList";
