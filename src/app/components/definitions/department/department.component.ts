@@ -36,7 +36,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Departman Kodu",
-        columnName: ["DeparmtentCode"],
+        columnName: ["DepartmentCode"],
         isActive: true,
         classes: [],
         placeholder: "",
