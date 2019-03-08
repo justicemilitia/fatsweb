@@ -2,11 +2,17 @@ import { Component, OnInit, NgModule } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
-import { HttpErrorResponse, HttpClient } from "@angular/common/http";
+import {
+  HttpErrorResponse,
+  HttpClient,
+  HttpRequest,
+  HttpEventType,
+  HttpResponse
+} from "@angular/common/http";
 import { Agreement } from "../../../models/Agreement";
 import { IData } from "src/app/extends/TreeGridTable/models/interfaces/IData";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
-import { Company } from '../../../models/Company';
+import { Company } from "../../../models/Company";
 
 @Component({
   selector: "app-agreement",
@@ -72,7 +78,16 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text",
-        formatter: (value) => { return value ? (<Date>value).toLocaleString().substring(0,10).split("-").reverse().join("-"): ''}                
+        formatter: value => {
+          return value
+            ? (<Date>value)
+                .toLocaleString()
+                .substring(0, 10)
+                .split("-")
+                .reverse()
+                .join("-")
+            : "";
+        }
       },
       {
         columnDisplayName: "Bitiş Tarihi",
@@ -81,7 +96,16 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text",
-        formatter: (value) => { return value ? (<Date>value).toLocaleString().substring(0,10).split("-").reverse().join("-"): ''}        
+        formatter: value => {
+          return value
+            ? (<Date>value)
+                .toLocaleString()
+                .substring(0, 10)
+                .split("-")
+                .reverse()
+                .join("-")
+            : "";
+        }
       },
       {
         columnDisplayName: "Tutar",
@@ -114,7 +138,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     }
   );
 
-  constructor(public baseService: BaseService) {
+  constructor(public baseService: BaseService, private http: HttpClient) {
     super(baseService);
     this.loadAgreements();
     this.loadCompanies();
@@ -283,7 +307,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     await this.baseService.companyService.GetCompanies(
       (companies: Company[]) => {
         this.companies = companies;
-      },(error: HttpErrorResponse) => {
+      },
+      (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
@@ -309,8 +334,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
-     /* load companies if not loaded */
-     await this.loadCompanies();
+    /* load companies if not loaded */
+    await this.loadCompanies();
 
     /* get agreement information from server */
     await this.baseService.agreementService.GetAgreementById(
@@ -336,7 +361,43 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     );
   }
 
-  onFileSelected(event) {
-    this.selectedFile = event.target.files[0];
+  // upload(files) {
+  //   if (files.length === 0) return;
+
+  //   const formData = new FormData();
+
+  //   for (let file of files) formData.append(file.name, file);
+
+  //   const uploadReq = new HttpRequest(
+  //     "POST",
+  //     "http://dev.fatsapi.com/api/File/UploadFile",
+  //     formData,
+  //     {
+  //       reportProgress: true
+  //     }
+  //   );
+  // }
+
+  async upload(files: NgForm) {
+    // if (files.form.invalid == true) return;
+
+    /* Ask for approve question if its true then upload file */
+    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          this.baseService.agreementService.FileUpload(
+            files,
+            (_files, message) => {
+              /* Show pop up then update data in datatable */
+              this.baseService.popupService.ShowSuccessPopup(message);
+            },
+            (error: HttpErrorResponse) => {
+              /* Show error message */
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
+        }
+      }
+    );
   }
 }

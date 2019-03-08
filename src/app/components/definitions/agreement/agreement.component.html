@@ -123,7 +123,7 @@
                 </div>
           </div>
 
-          <div class="row justify-content-center">
+          <div class="row">
               <!-- TUTAR -->
               <div class="col-md-6">
                   <div class="form-group">
@@ -142,13 +142,18 @@
 
           <div class="row justify-content-center">
                 <!-- DOSYA YÜKLE -->            
-              <div class="col-sm-7 col-md-6 col-lg-4">
+              <div class="col-sm-12">
                 <div class="custom-file">
-                  <input [(ngModel)]="agreement.AgreementFile" name="AgreementFile"  type="file" class="custom-file-input txt-width" id="customFile">
-                  <label class="custom-file-label" for="customFile">Choose file</label>
+                  <input #agreementFile [(ngModel)]="agreement.AgreementFile" name="AgreementFile" type="file" class=" txt-width" id="customFile" multiple (change)="upload(agreementFile.files)">
+                  <!-- <label class="custom-file-label" for="customFile">Dosya Seç</label> -->
                 </div>
-              </div><!-- col -->
-            </div>
+              </div>
+              <!-- <div class="col-sm-2"> -->
+                  <!-- <button id="RemoveFile" type="button" class="close" data-dismiss="modal" aria-label="Close">  -->
+                      <!-- <a>Kaldır</a> -->
+                  <!-- </button> -->
+              <!-- </div>   -->
+          </div>
 
           <div class="row justify-content-center">
               <!-- AÇIKLAMA -->
@@ -175,7 +180,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertCompany">Kaydet</button>
+          <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertCompany"  (click)="upload(agreementFile.files)">Kaydet</button>
           <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-light btn-modal-close">Kapat</button> -->
         </div>
       </form>
