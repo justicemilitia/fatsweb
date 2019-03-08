@@ -17,7 +17,14 @@ import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTa
   providers: [LocationComponent]
 })
 export class LocationComponent extends BaseComponent implements OnInit {
+
+  /* Is Request send and waiting for response ? */
+  isWaitingInsertOrUpdate: boolean = false;
+
+  /* Location list */
   locations: Location[] = [];
+
+  /* Current edit location */
   location: Location = new Location();
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -49,7 +56,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Koordinat",
-        columnName: ["CreationDate"],
+        columnName: ["Coordinate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -79,14 +86,16 @@ export class LocationComponent extends BaseComponent implements OnInit {
   );
   constructor(public baseService: BaseService) {
     super(baseService);
-    console.log(this.dataTable.dataColumns);
     this.loadLocations();
   }
 
   ngOnInit() { }
 
-  resetForm() {
-    this.location = new Location();
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.location);
+    if (isNewItem == true) {
+      this.location = new Location();
+    }
   }
 
   onSubmit(data: NgForm) {
@@ -122,47 +131,22 @@ export class LocationComponent extends BaseComponent implements OnInit {
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
       /* Delete all */
-      debugger;
-      this.baseService.locationService.DeleteLocations(itemIds, (notDeletedItemIds: number[]) => {
+      this.baseService.locationService.DeleteLocations(itemIds, () => {
 
         /* Deactive the spinner */
         this.baseService.spinner.hide();
 
-        /* if any item exists in not deleted items */
-        if (notDeletedItemIds) {
+        /* if all of them removed */
+        if (itemIds.length == 1)
+          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+        else
+          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
-          /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
-          for (let ii = 0; ii < itemIds.length; ii++) {
-            if (notDeletedItemIds.includes(itemIds[ii])) {
-              itemIds.splice(ii, 1);
-              ii--;
-            }
-          }
-
-          /* if any value couldnt delete then show popup */
-          if (itemIds.length == 0) {
-            this.baseService.popupService.ShowAlertPopup("Hiçbir Kayıt Silinemedi!");
-            return;
-          }
-
-          /* if some of them is deleted show this */
-          if (itemIds.length > 0) {
-            this.baseService.popupService.ShowAlertPopup(selectedItems.length.toString() + ' kayıttan ' + itemIds.length.toString() + "'i silinebildi!");
-          }
-
-        } else {
-
-          /* if all of them removed */
-          this.baseService.popupService.ShowAlertPopup(" Tüm kayıtlar başarıyla silindi!");
-
-        }
-
-        /* Now Delete items from the source */
+        /* Clear all the ids from table */
         for (let ii = 0; ii < itemIds.length; ii++) {
           let index = this.locations.findIndex(x => x.LocationId == itemIds[ii]);
-          if (index > -1) {
+          if (index > -1)
             this.locations.splice(index, 1);
-          }
         }
 
         /* Reload Page */
@@ -183,64 +167,64 @@ export class LocationComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
+    /* Show Loading bar */
+    this.isWaitingInsertOrUpdate = true;
+
     /* Insert Location service */
-    await this.baseService.locationService.InsertLocation(
-      this.location,
-      (inserted: Location, message) => {
+    await this.baseService.locationService.InsertLocation(this.location, (inserted: Location, message) => {
 
-        /* Show pop up, get inserted location then set it location id, then load data. */
-        this.baseService.popupService.ShowSuccessPopup(message);
-        this.location.LocationId = inserted.LocationId;
-        this.locations.push(this.location);
-        this.dataTable.TGT_loadData(this.locations);
-        /* reset all data */
-        this.resetForm();
-        data.resetForm();
+      /* Show pop up */
+      this.baseService.popupService.ShowSuccessPopup(message);
+      this.location.LocationId = inserted.LocationId;
 
-      },
-      (error: HttpErrorResponse) => {
+      /* Push new item the current list of locations then reload table */
+      this.locations.push(this.location);
+      this.dataTable.TGT_loadData(this.locations);
 
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
+      /* reset all data */
+      this.resetForm(data, true);
+      this.isWaitingInsertOrUpdate = false;
 
-      }
-    );
+    }, (error: HttpErrorResponse) => {
+
+      /* Show alert message */
+      this.baseService.popupService.ShowErrorPopup(error);
+      this.isWaitingInsertOrUpdate = false;
+
+    });
   }
 
   async updateLocation(data: NgForm) {
     /* Check model state */
     if (data.form.invalid == true) return;
 
+    this.isWaitingInsertOrUpdate = true;
+
     /* Ask for approve question if its true then update the location */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
+    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+      if (response == true) {
 
-          /* if user approve question update user. */
-          this.baseService.locationService.UpdateLocation(
-            this.location,
-            (_location, message) => {
+        /* if user approve question update user. */
+        this.baseService.locationService.UpdateLocation(this.location, (_location, message) => {
 
-              /* Show pop up then update data in datatable */
-              this.baseService.popupService.ShowSuccessPopup(message);
+          /* Show pop up then update data in datatable */
+          this.baseService.popupService.ShowSuccessPopup(message);
 
-              /* After update succeed get parent location then update it in table. */
-              this.location.ParentLocation = this.locations.find(x => x.getId() == this.location.getParentId());
-              this.dataTable.TGT_updateData(this.location);
+          /* After update succeed get parent location then update it in table. */
+          this.location.ParentLocation = this.locations.find(x => x.getId() == this.location.getParentId());
+          let updatedLocation = new Location();
+          Object.assign(updatedLocation, this.location);
+          this.dataTable.TGT_updateData(updatedLocation);
+          this.isWaitingInsertOrUpdate = false;
 
-              /* reset form */
-              this.resetForm();
-              data.resetForm();
+        }, (error: HttpErrorResponse) => {
 
-            },
-            (error: HttpErrorResponse) => {
-              /* Show error message */
-              this.baseService.popupService.ShowErrorPopup(error);
-            }
-          );
-        }
+          /* Show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
+          this.isWaitingInsertOrUpdate = false;
+        });
       }
-    );
+    });
   }
 
   async loadLocations() {
@@ -263,29 +247,28 @@ export class LocationComponent extends BaseComponent implements OnInit {
     this.baseService.spinner.show();
 
     /* get location information from server */
-    await this.baseService.locationService.GetLocationById(
-      item.LocationId,
-      (result: Location) => {
-        /* then bind it to location model to update */
-        setTimeout(() => {
+    await this.baseService.locationService.GetLocationById(item.LocationId, (result: Location) => {
+      /* then bind it to location model to update */
+      setTimeout(() => {
 
-          /* Trigger to model to show it */
-          $("#btnAddLocation").trigger("click");
+        /* Trigger to model to show it */
+        $("#btnEditLocation").trigger("click");
 
-          /* bind result to model */
-          this.location = result;
-          this.baseService.spinner.hide();
-
-        }, 1000);
-      },
-      (error: HttpErrorResponse) => {
-
-        /* hide spinner */
+        /* Close Loading */
         this.baseService.spinner.hide();
 
-        /* show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
+        /* bind result to model */
+        this.location = result;
+
+      }, 1000);
+    }, (error: HttpErrorResponse) => {
+
+      /* hide spinner */
+      this.baseService.spinner.hide();
+
+      /* show error message */
+      this.baseService.popupService.ShowErrorPopup(error);
+    }
     );
   }
 }

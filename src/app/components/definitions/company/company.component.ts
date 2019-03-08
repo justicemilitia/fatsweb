@@ -164,35 +164,33 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
       /* Delete all */
-      this.baseService.companyService.DeleteCompanies(
-        itemIds,
-        () => {
-          /* Deactive the spinner */
-          this.baseService.spinner.hide();
+      this.baseService.companyService.DeleteCompanies(itemIds, () => {
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
 
-          /* if all of them removed */
-          if (itemIds.length == 1)
-            this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
-          else
-            this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+        /* if all of them removed */
+        if (itemIds.length == 1)
+          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+        else
+          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
-          /* Clear all the ids from table */
-          for (let ii = 0; ii < itemIds.length; ii++) {
-            let index = this.companies.findIndex(x => x.CompanyId == itemIds[ii]);
-            if (index > -1)
-              this.companies.splice(index, 1);
+        /* Clear all the ids from table */
+        for (let ii = 0; ii < itemIds.length; ii++) {
+          let index = this.companies.findIndex(x => x.CompanyId == itemIds[ii]);
+          if (index > -1)
+            this.companies.splice(index, 1);
 
-          }
-
-          /* Reload Page */
-          this.dataTable.TGT_loadData(this.companies);
-        },
-        (failedItems: []) => {
-          this.baseService.spinner.hide();
-          this.baseService.popupService.ShowAlertPopup(
-            "Kayıtlar ilişkili olduğundan silinemedi!"
-          );
         }
+
+        /* Reload Page */
+        this.dataTable.TGT_loadData(this.companies);
+
+      }, (failedItems: []) => {
+        this.baseService.spinner.hide();
+        this.baseService.popupService.ShowAlertPopup(
+          "Kayıtlar ilişkili olduğundan silinemedi!"
+        );
+      }
       );
     });
   }
@@ -246,6 +244,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Check model state */
     if (data.form.invalid == true) return;
 
+    this.isWaitingInsertOrUpdate = true;
+
     /* city and update binding */
     if (this.company.CityId) {
       let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
@@ -269,8 +269,11 @@ export class CompanyComponent extends BaseComponent implements OnInit {
             this.baseService.popupService.ShowSuccessPopup(message);
 
             /* Update table */
-            this.dataTable.TGT_updateData(this.company);
+            let updatedCompany = new Company();
+            Object.assign(updatedCompany, this.company);
+            this.dataTable.TGT_updateData(updatedCompany);
             this.isWaitingInsertOrUpdate = false;
+
           }, (error: HttpErrorResponse) => {
 
             /* Show error message */
@@ -360,7 +363,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.loadCityByCountryId({ target: { value: item.City.CountryId } });
     else
       this.cities = [];
-      
+
     /* get company information from server */
     await this.baseService.companyService.GetCompanyById(
       item.CompanyId,

@@ -8,7 +8,10 @@
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
           <button class="btn btn-orange btn-new-custom" id="btnAddLocation" data-toggle="modal"
-            data-target="#modalLocation" (click)="resetForm()">Lokasyon Ekle
+            data-target="#modalLocation" (click)="resetForm(data,true)">Lokasyon Ekle
+          </button>
+          <button style="display:none" (click)="resetForm(data,false)" id="btnEditLocation" data-toggle="modal"
+            data-target="#modalLocation">Lokasyon Düzenle
           </button>
         </div>
         <p class="mg-b-20"></p>
@@ -95,7 +98,9 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button class="btn btn-orange btn-block btn-height" id="btnCreateLocation" type="submit" data-toggle="modal"
-            data-target="#modalInsertLocation">{{location.LocationId ?  'Lokasyonu Güncelle' : 'Lokasyon Ekle'}}</button>
+            data-target="#modalInsertLocation"
+            *ngIf="isWaitingInsertOrUpdate == false">{{location.LocationId ?  'Lokasyonu Güncelle' : 'Lokasyon Ekle'}}</button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
       <!-- </div> -->
