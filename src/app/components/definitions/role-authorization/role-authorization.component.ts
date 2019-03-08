@@ -32,6 +32,7 @@ export class RoleAuthorizationComponent extends BaseComponent
     //this.dataTableRoleAuth.isFilterActive=false;
     this.dataTableRoleAuth.isPagingActive=false;
     this.dataTableRoleAuth.isColumnOffsetActive=false;
+    this.dataTable.isColumnOffsetActive=false;
   }
 
   public dataTable: TreeGridTable = new TreeGridTable(
