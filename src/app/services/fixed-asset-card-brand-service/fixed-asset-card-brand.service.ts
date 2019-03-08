@@ -134,20 +134,27 @@ export class FixedAssetCardBrandService {
       );
   }
 
-  DeleteFixedAssetCarBrands(ids: number[], success, failed) {
-    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARDBRAND, { "BrandIds": ids }, {
-      headers: GET_HEADERS(this.aService.getToken()),
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          success(response.ResultObject, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+  DeleteFixedAssetCardBrands(ids: number[], success, failed) {
+    this.httpClient
+      .post(
+        SERVICE_URL + DELETE_FIXEDASSETCARDBRAND,
+        { BrandIds: ids },
+        {
+          headers: GET_HEADERS(this.aService.getToken())
         }
-      },
-      error => {
-        failed(error);
-      });
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if ((<[]>response.ResultObject).length == 0) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
   }
 }

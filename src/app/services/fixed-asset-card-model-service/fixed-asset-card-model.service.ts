@@ -17,8 +17,8 @@ import { FixedAssetCardBrand } from "../../models/FixedAssetCardBrand";
 import { FixedAssetCardModel } from "../../models/FixedAssetCardModel";
 import { Response } from "src/app/models/Response";
 import { Router } from "@angular/router";
-import { ErrorService } from '../error-service/error.service';
-import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { ErrorService } from "../error-service/error.service";
+import { getAnErrorResponse } from "src/app/declarations/extends";
 
 @Injectable({
   providedIn: "root"
@@ -28,7 +28,7 @@ export class FixedAssetCardModelService {
     private httpClient: HttpClient,
     private aService: AuthenticationService,
     private errorService: ErrorService
-  ) { }
+  ) {}
 
   GetFixedAssetCardModels(success, failed) {
     this.httpClient
@@ -38,17 +38,17 @@ export class FixedAssetCardModelService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if(response.ResultStatus==true){
-          let fixedAssetCardModels: FixedAssetCardModel[] = [];
-          (<FixedAssetCardModel[]>response.ResultObject).forEach(e => {
-            let facms: FixedAssetCardModel = new FixedAssetCardModel();
-            Object.assign(facms, e);
-            fixedAssetCardModels.push(facms);
-          });
-          success(fixedAssetCardModels);
-        }else{
-          failed(getAnErrorResponse(response.LanguageKeyword));
-        }
+          if (response.ResultStatus == true) {
+            let fixedAssetCardModels: FixedAssetCardModel[] = [];
+            (<FixedAssetCardModel[]>response.ResultObject).forEach(e => {
+              let facms: FixedAssetCardModel = new FixedAssetCardModel();
+              Object.assign(facms, e);
+              fixedAssetCardModels.push(facms);
+            });
+            success(fixedAssetCardModels);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
         },
         (error: HttpErrorResponse) => {
           failed(error);
@@ -56,7 +56,11 @@ export class FixedAssetCardModelService {
       );
   }
 
-  InsertFixedAssetCardModel(fixedAssetCardModel: FixedAssetCardModel, success, failed) {
+  InsertFixedAssetCardModel(
+    fixedAssetCardModel: FixedAssetCardModel,
+    success,
+    failed
+  ) {
     this.httpClient
       .post(SERVICE_URL + INSERT_FIXEDASSETCARDMODEL, fixedAssetCardModel, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -68,8 +72,7 @@ export class FixedAssetCardModelService {
             let insertedModel: FixedAssetCardModel = new FixedAssetCardModel();
             Object.assign(insertedModel, response.ResultObject);
             success(insertedModel, response.LanguageKeyword);
-          }
-          else {
+          } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
@@ -79,61 +82,75 @@ export class FixedAssetCardModelService {
       );
   }
 
-  UpdateFixedAssetCardModel(fixedAssetCardModel: FixedAssetCardModel, success, failed) {
-    this.httpClient.put(SERVICE_URL + UPDATE_FIXEDASSETCARDMODEL, fixedAssetCardModel, {
-      headers: GET_HEADERS(this.aService.getToken())
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let updatedModel: FixedAssetCardModel = new FixedAssetCardModel();
-          Object.assign(updatedModel, fixedAssetCardModel);
-          success(updatedModel, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+  UpdateFixedAssetCardModel(
+    fixedAssetCardModel: FixedAssetCardModel,
+    success,
+    failed
+  ) {
+    this.httpClient
+      .put(SERVICE_URL + UPDATE_FIXEDASSETCARDMODEL, fixedAssetCardModel, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedModel: FixedAssetCardModel = new FixedAssetCardModel();
+            Object.assign(updatedModel, fixedAssetCardModel);
+            success(updatedModel, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      },
-      error => {
-        failed(error);
-      }
-    );
+      );
   }
-
 
   GetFixedAssetCardModelById(modelId: number, success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIXEDASSETCARDMODEL_BY_ID + "/" + modelId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let model: FixedAssetCardModel = new FixedAssetCardModel();
-          Object.assign(model, response.ResultObject);
-          success(model, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let model: FixedAssetCardModel = new FixedAssetCardModel();
+            Object.assign(model, response.ResultObject);
+            success(model, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      }, error => {
-        failed(error);
-      });
+      );
   }
 
-  
   DeleteFixedAssetCarModels(ids: number[], success, failed) {
-    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARDMODEL, { "ModelIds": ids }, {
-      headers: GET_HEADERS(this.aService.getToken()),
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          success(response.ResultObject, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+    this.httpClient
+      .post(
+        SERVICE_URL + DELETE_FIXEDASSETCARDMODEL,
+        { ModelIds: ids },
+        {
+          headers: GET_HEADERS(this.aService.getToken())
         }
-      },
-      error => {
-        failed(error);
-      });
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if ((<[]>response.ResultObject).length == 0) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
   }
 }

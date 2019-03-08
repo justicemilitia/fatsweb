@@ -2,16 +2,19 @@
     <div class="container-fluid">
       <div class="az-content-body">
         <div class="card card-dashboard-twelve mg-b-20">  
-        <h2 class="az-content-title">Demirbaş Markası</h2>      
-        <p class="mg-b-20"></p>       
+        <h2 class="az-content-title">Demirbaş Markası</h2>         
             <div class="grp-btn-action">
-                <button type="button" (click)="deleteFixedAssetCardBrand()" class="btn btn-danger">
+                <button type="button" (click)="deleteFixedAssetCardBrand()" class="btn btn-danger btn-delete-custom">
                       {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
                       <i class="fas fa-trash"></i></button>   
-                <button class="btn btn-orange" id="btnAddFixedAssetCardBrand" data-toggle="modal"
+                <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)" id="btnAddFixedAssetCardBrand" data-toggle="modal"
                   data-target="#modalFixedAssetCardBrand">Marka Ekle
-                </button>      
+                </button> 
+                <button style="display:none" (click)="resetForm(data,false)" id="btnEditFixedAssetCardBrand" data-toggle="modal"
+                data-target="#modalFixedAssetCardBrand">Marka Düzenle
+              </button>     
               </div>
+              <p class="mg-b-20"></p>
             <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>   
         </div>
       </div>
@@ -29,30 +32,31 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
               aria-hidden="true">&times;</span></button>
         </div>
+        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
         <div class="modal-body">
             <div class="row justify-content-center">
-          <form #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" class="form-register" novalidate>
               <input type="hidden" name="FixedAssetCardBrandId" [(ngModel)]="fixedAssetCardBrand.FixedAssetCardBrandId"/>
-            <div class="form-group">
-                <label>Kod</label>
-                <input type="text" id="FixedAssetCardBrandCode" [(ngModel)]="fixedAssetCardBrand.FixedAssetCardBrandCode" name="FixedAssetCardBrandCode" #FixedAssetCardBrandCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardBrandCode.invalid }" required class="form-control txt-width" value="" />
-                <div *ngIf="data.submitted && FixedAssetCardBrandCode.invalid" class="invalid-feedback">
-                  <div *ngIf="FixedAssetCardBrandCode.errors.required">Bu alan zorunludur.</div>
+                <div class="form-group">
+                  <label class="required-span">Kod</label>
+                  <input [(ngModel)]="fixedAssetCardBrand.FixedAssetCardBrandCode" name="FixedAssetCardBrandCode" type="text" class="form-control txt-width" #FixedAssetCardBrandCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardBrandCode.invalid }" required/>
+                  <div *ngIf="data.submitted && FixedAssetCardBrandCode.invalid" class="invalid-feedback">
+                    <div *ngIf="FixedAssetCardBrandCode.errors.required">Bu alan zorunludur.</div>
+                  </div>
+                  <label class="required-span">Marka Adı</label>
+                  <input [(ngModel)]="fixedAssetCardBrand.Name"  name="Name" type="text" class="form-control txt-width" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>
+                  <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                    <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                  </div>
                 </div>
-              <label>Marka Adı</label>
-              <input type="text" id="Name" [(ngModel)]="fixedAssetCardBrand.Name" name="Name" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required class="form-control txt-width" value="" />
-              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
               </div>
             </div>
             <!-- form-group -->
             <div class="modal-footer">
               <button id="btnInsertOrUpdateBrand" class="btn btn-orange" type="submit"
-                data-toggle="modal" data-target="#modalInsertFixedAssetCardBrand">Kaydet</button>
-            </div>
-          </form>
-        </div>
-        </div>
+                data-toggle="modal" *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalInsertFixedAssetCardBrand">{{fixedAssetCardBrand.FixedAssetCardBrandId ? 'Güncelle' : 'Ekle'}}</button>
+                <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>    
+            </div>      
+      </form>
       </div>
     </div>
     <!-- modal-dialog -->

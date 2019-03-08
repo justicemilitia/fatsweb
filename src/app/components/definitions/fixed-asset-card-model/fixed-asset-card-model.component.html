@@ -3,12 +3,15 @@
       <div class="az-content-body">  
         <h2 class="az-content-title">Demirbaş Modelleri</h2> 
           <div class="grp-btn-action">
-            <button type="button" (click)="deleteFixedAssetCardBrandOrModel()" class="btn btn-danger">
+            <button type="button" (click)="deleteFixedAssetCardModel()" class="btn btn-danger btn-delete-custom">
                 {{dataTableModel.TGT_getSelectedItems().length > 0 ? dataTableModel.TGT_getSelectedItems().length : '' }}
                 <i class="fas fa-trash"></i></button>   
-            <button class="btn btn-orange" id="btnAddFixedAssetCardModel" data-toggle="modal"
+            <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)" id="btnAddFixedAssetCardModel" data-toggle="modal"
               data-target="#modalFixedAssetCardModel">Model Ekle
-            </button>      
+            </button>
+            <button style="display:none" (click)="resetForm(data,false)" id="btnEditFixedAssetCardModel" data-toggle="modal"
+            data-target="#modalFixedAssetCardModel">Model Düzenle
+          </button>      
         </div>
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableModel"></tree-grid-table>     
       <!-- az-content-body -->
@@ -22,22 +25,21 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
-          <h6 class="modal-title model-title-center">Yeni demirbaş modeli oluşturmak için aşağıdaki alanları doldurunuz.</h6>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          <h6 class="modal-title">Yeni demirbaş modeli oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close"><span
               aria-hidden="true">&times;</span></button>
         </div>
+        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" class="form-register" novalidate>
         <div class="modal-body">
           <div class="row justify-content-center">
-          <form #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" class="form-register" novalidate>
               <input type="hidden" name="FixedAssetCardModelId" [(ngModel)]="fixedAssetCardModel.FixedAssetCardModelId"/>
-            <div class="row">      
               <div class="form-group">
-                  <label>Kod</label>
-                  <input type="text" id="FixedAssetCardModelCode" [(ngModel)]="fixedAssetCardModel.FixedAssetCardModelCode" name="FixedAssetCardModelCode" #FixedAssetCardModelCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardModelCode.invalid }" required class="form-control txt-width" value="" />
+                  <label class="required-span">Kod</label>
+                  <input [(ngModel)]="fixedAssetCardModel.FixedAssetCardModelCode" name="FixedAssetCardModelCode" type="text" class="form-control txt-width" #FixedAssetCardModelCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardModelCode.invalid }" required/>
                   <div *ngIf="data.submitted && FixedAssetCardModelCode.invalid" class="invalid-feedback">
                     <div *ngIf="FixedAssetCardModelCode.errors.required">Bu alan zorunludur.</div>
                   </div>
-                  <label>Marka</label>
+                  <label class="required-span">Marka</label>
                 <select [(ngModel)]="fixedAssetCardModel.FixedAssetCardBrandId" (click)="loadBrands()"
                 name="Name" class="form-control select2-no-search" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required>
                   <option value=" ">Seçiniz</option>
@@ -46,21 +48,21 @@
                 <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
               </div>
-              <label>Model Adı</label>
-              <input type="text" id="Name" [(ngModel)]="fixedAssetCardModel.Name" name="Name" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required class="form-control txt-width" value="" />
+              <label class="required-span">Model Adı</label>
+              <input [(ngModel)]="fixedAssetCardModel.Name" name="Name" type="text" class="form-control txt-width"  #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
               </div>
+              </div>
             </div>
           </div>
-            <!-- form-group -->
+        <!-- form-group -->
             <div class="modal-footer">
-              <button id="btnInsertOrUpdateModel" class="btn btn-orange" type="submit"
-                data-toggle="modal" data-target="#modalInsertFixedAssetCardModel">Kaydet</button>
-            </div>
-          </form>
-        </div>
-        </div>
+              <button id="btnInsertOrUpdateModel" type="submit"  class="btn btn-orange"
+                data-toggle="modal"  *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalInsertFixedAssetCardModel">{{fixedAssetCardModel.FixedAssetCardModelId ? 'Güncelle' : 'Ekle'}}</button>
+                <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+            </div>       
+      </form>
       </div>
     </div>
     <!-- modal-dialog -->
