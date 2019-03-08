@@ -128,6 +128,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   resetForm(data: NgForm, isNewItem: boolean) {
     data.resetForm(this.company);
+    this.loadCountryList();
     if (isNewItem == true) {
       this.cities = [];
       this.company = new Company();
@@ -217,6 +218,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Insert Company service */
     await this.baseService.companyService.InsertCompany(this.company, (insertedItem: Company, message) => {
 
+      /* close loading bar */
+      this.isWaitingInsertOrUpdate = false;
+
       /* Show pop up */
       this.baseService.popupService.ShowSuccessPopup(message);
 
@@ -228,7 +232,6 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
       /* Reset Forms and make company empty to use new */
       this.resetForm(data, true);
-      this.isWaitingInsertOrUpdate = false;
 
     }, (error: HttpErrorResponse) => {
 

@@ -70,9 +70,7 @@ export class DepartmentService {
             Object.assign(insertedDepartment, response.ResultObject);
             success(insertedDepartment, response.LanguageKeyword);
           } else {
-            failed(
-              getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
@@ -90,13 +88,9 @@ export class DepartmentService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let _updateDepartment: Department = new Department();
-            Object.assign(_updateDepartment, response.ResultObject);
-            success(_updateDepartment, response.LanguageKeyword);
+            success(department, response.LanguageKeyword);
           } else {
-            failed(
-              getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {

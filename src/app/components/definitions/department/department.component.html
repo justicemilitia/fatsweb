@@ -1,23 +1,26 @@
 <div class="az-content">
-    <div class="container-fluid">
-      <div class="az-content-body">
-        <div class="card card-dashboard-twelve mg-b-20">
-          <h2 class="az-content-title">Departmanlar</h2>
-          <div class="grp-btn-action">   
-              <button type="button" (click)="deleteDepartments()" class="btn btn-danger">
-              {{
-                dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
-              <i class="fas fa-trash"></i></button>
-            <button class="btn btn-orange" id="btnAddDepartment" data-toggle="modal" data-target="#modalDepartment" (click)="resetForm()">Departman Ekle</button>
-          </div>
-          <p class="mg-b-20"></p>
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+  <div class="container-fluid">
+    <div class="az-content-body">
+      <div class="card card-dashboard-twelve mg-b-20">
+        <h2 class="az-content-title">Departmanlar</h2>
+        <div class="grp-btn-action">
+          <button type="button" (click)="deleteDepartments()" class="btn btn-danger btn-delete-custom">
+            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
+            <i class="fas fa-trash"></i></button>
+          <button class="btn btn-orange btn-new-custom" id="btnAddDepartment" data-toggle="modal"
+            data-target="#modalDepartment" (click)="resetForm(data,true)">Departman Ekle</button>
+          <button style="display:none" (click)="resetForm(data,false)" id="btnEditDepartment" data-toggle="modal"
+            data-target="#modalDepartment">Departman Düzenle
+          </button>
         </div>
+        <p class="mg-b-20"></p>
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
       </div>
-      <!-- az-content-body -->
     </div>
+    <!-- az-content-body -->
   </div>
-  <!-- az-content -->
+</div>
+<!-- az-content -->
 
 <!-- LARGE MODAL -->
 <div id="modalDepartment" class="modal">
@@ -29,61 +32,70 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
-          <div class="modal-body">         
-            <div class="row justify-content-center">
-              <div class="col-md-12">
-                <input type="hidden" name="DepartmentId" [(ngModel)]="department.DepartmentId" />              
-                <label>Ad</label>
-                <input  [(ngModel)]="department.Name" name="Name" type="text" class="form-control txt-width" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
-                <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
-                </div>
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
+        <input type="hidden" name="DepartmentId" [(ngModel)]="department.DepartmentId" />
+        <div class="modal-body">
+          <div class="row justify-content-center">
+            <div class="col-md-6 form-group">
+              <label class="required-span">Ad</label>
+              <input [(ngModel)]="department.Name" name="Name" type="text" class="form-control" #Name="ngModel"
+                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
               </div>
             </div>
-            <div class="row  justify-content-center">
-              <div class="col-md-12">
-                <label>Departman Kodu</label>
-                <input  [(ngModel)]="department.DepartmentCode" name="DepartmentCode" type="text" class="form-control txt-width" #DepartmentCode="ngModel"/>
+
+            <div class="col-md-6 form-group">
+              <label class="required-span">Departman Kodu</label>
+              <input [(ngModel)]="department.DepartmentCode" name="DepartmentCode" type="text" class="form-control"
+                #DepartmentCode="ngModel" required
+                [ngClass]="{ 'is-invalid': data.submitted && DepartmentCode.invalid }" />
+              <div *ngIf="data.submitted && DepartmentCode.invalid" class="invalid-feedback">
+                <div *ngIf="DepartmentCode.errors.required">Bu alan zorunludur.</div>
               </div>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-md-12">
-                <label>Bağlı Olduğu Departman</label>
-                <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none" class="form-control txt-width" type="text">
-                  <option value="">Seçiniz</option>
-                  <option *ngFor="let department of departments" value={{department.DepartmentId}}>
-                    {{department.Name}}
-                  </option>
-                </select>
             </div>
           </div>
-            <div class="row justify-content-center">
-              <div class="col-md-12">  
+
+          <div class="row justify-content-center">
+            <div class="col-md-6 form-group">
+              <label>Bağlı Olduğu Departman</label>
+              <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none"
+                class="form-control" type="text">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let department of getDepartmentsWithoutCurrent" value={{department.DepartmentId}}>
+                  {{department.Name}}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6 form-group">
               <label>Bağlı Olduğu Lokasyon</label>
-                <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control txt-width" (click)="loadDropdownList()">
-                  <option value="">Seçiniz</option>
-                  <option *ngFor="let location of locations" value={{location.LocationId}}>
-                    {{location.Name}}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-md-12">
-                  <label>Açıklama</label>
-                  <textarea [(ngModel)]="department.Description" name="Description" style="resize:none" rows="3" class="form-control txt-width" type="text"></textarea>               
-                </div>
+              <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control"
+                (click)="loadDropdownList()">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let location of locations" value={{location.LocationId}}>
+                  {{location.Name}}
+                </option>
+              </select>
             </div>
           </div>
-          <!-- modal-body -->          
-          <div class="modal-footer">
-            <button id="btnInsertOrUpdateDepartment" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertDepartment">Kaydet</button>              
-            <button type="button" data-dismiss="modal" class="btn btn-outline-light">Close</button>
-          </div>    
-        </form>
-      </div>
+          <div class="row justify-content-center">
+            <div class="col-md-12 form-group">
+              <label>Açıklama</label>
+              <textarea [(ngModel)]="department.Description" name="Description" style="resize:none" rows="3"
+                class="form-control" type="text"></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button id="btnInsertOrUpdateDepartment" type="submit" class="btn btn-orange btn-block btn-height"
+            *ngIf="isWaitingInsertOrUpdate == false" data-toggle="modal"
+            data-target="#modalInsertDepartment">{{department.DepartmentId ?  'Departmanı Güncelle' : 'Departman Ekle'}}</button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
     </div>
+  </div>
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
