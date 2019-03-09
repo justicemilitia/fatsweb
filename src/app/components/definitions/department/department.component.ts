@@ -157,6 +157,19 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
+    /* Find Location for selected location */
+    let location = this.locations.find(x => x.LocationId == this.department.LocationId);
+    if (!location)
+      location = new Location();
+
+    /* if department location instance is empty then create a new one */
+    if (!this.department.Location)
+      this.department.Location = new Location();
+
+    /* Bind found item to department model */
+    this.department.Location.LocationId = location.LocationId;
+    this.department.Location.Name = location.Name;
+
     /* Show Loading bar */
     this.isWaitingInsertOrUpdate = true;
 
@@ -192,12 +205,29 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     /* Check model state */
     if (data.form.invalid == true) return;
 
-    /* loading icon visible */
-    this.isWaitingInsertOrUpdate = true;
-
     /* Ask for approve question if its true then update the department */
     await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
       if (response == true) {
+
+        /* Find Location for selected location */
+        let location = this.locations.find(x => x.LocationId == this.department.LocationId);
+        if (!location)
+          location = new Location();
+
+        /* if department location instance is empty then create a new one */
+        if (!this.department.Location)
+          this.department.Location = new Location();
+
+        /* Bind found item to department model */
+        this.department.Location.LocationId = location.LocationId;
+        this.department.Location.Name = location.Name;
+
+        /* Save parent to rollback it. Normally api says circuler error */
+        let parentDepartment = this.department.ParentDepartment;
+        this.department.ParentDepartment = null;
+
+        /* loading icon visible */
+        this.isWaitingInsertOrUpdate = true;
 
         /* if user approve question update department */
         this.baseService.departmentService.UpdateDepartment(this.department,
@@ -211,26 +241,31 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
             /* After update succeed get parent location then update it in table. */
             this.department.ParentDepartment = this.departments.find(x => x.getId() == this.department.getParentId());
-            let updatedDepartment = new Location();
+            let updatedDepartment = new Department();
             Object.assign(updatedDepartment, this.department);
 
             /* Update in table */
             this.dataTable.TGT_updateData(updatedDepartment);
-
 
           }, (error: HttpErrorResponse) => {
 
             /* Close loader */
             this.isWaitingInsertOrUpdate = false;
 
+            /* Rollback the parent department */
+            this.department.ParentDepartment = parentDepartment;
+
             /* Show error message */
             this.baseService.popupService.ShowErrorPopup(error);
+
           });
       }
     });
   }
 
   async loadDropdownList() {
+
+    /* load locations to location dropdown */
     await this.baseService.locationService.GetLocations(locations => {
       this.locations = locations
     }, (error: HttpErrorResponse) => {
@@ -239,6 +274,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   }
 
   async loadDepartments() {
+
     /* Load all departments to datatable */
     await this.baseService.departmentService.GetDepartments(
       (departments: Department[]) => {
@@ -246,6 +282,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         this.dataTable.TGT_loadData(this.departments);
       },
       (error: HttpErrorResponse) => {
+
         /* if error show pop up */
         this.baseService.popupService.ShowErrorPopup(error);
       }
@@ -262,6 +299,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       (result: Department) => {
         /* then bind it to department model to update */
         setTimeout(() => {
+
           /* Trigger to model to show it */
           $("#btnEditDepartment").trigger("click");
 

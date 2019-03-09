@@ -247,45 +247,45 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Check model state */
     if (data.form.invalid == true) return;
 
-    this.isWaitingInsertOrUpdate = true;
-
-    /* city and update binding */
-    if (this.company.CityId) {
-      let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
-      let country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
-      this.company.City.CityId = city.CityId;
-      this.company.City.Name = city.Name;
-      this.company.City.CountryId = country.CountryId;
-      this.company.City.Country.Name = country.Name;
-      this.company.City.Country.CountryId = country.CountryId;
-    } else {
-      this.company.City = new City();
-    }
-
     /* Ask for approve question if its true then update the company */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
-          this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
+    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+      if (response == true) {
 
-            /* Show pop up then update data in datatable */
-            this.baseService.popupService.ShowSuccessPopup(message);
+        /* Say to user to wait */
+        this.isWaitingInsertOrUpdate = true;
 
-            /* Update table */
-            let updatedCompany = new Company();
-            Object.assign(updatedCompany, this.company);
-            this.dataTable.TGT_updateData(updatedCompany);
-            this.isWaitingInsertOrUpdate = false;
-
-          }, (error: HttpErrorResponse) => {
-
-            /* Show error message */
-            this.baseService.popupService.ShowErrorPopup(error);
-            this.isWaitingInsertOrUpdate = false;
-          });
+        /* city and update binding */
+        if (this.company.CityId) {
+          let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
+          let country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
+          this.company.City.CityId = city.CityId;
+          this.company.City.Name = city.Name;
+          this.company.City.CountryId = country.CountryId;
+          this.company.City.Country.Name = country.Name;
+          this.company.City.Country.CountryId = country.CountryId;
         }
+
+        this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
+
+          /* Close loading */
+          this.isWaitingInsertOrUpdate = false;
+
+          /* Show pop up then update data in datatable */
+          this.baseService.popupService.ShowSuccessPopup(message);
+
+          /* Update table */
+          let updatedCompany = new Company();
+          Object.assign(updatedCompany, this.company);
+          this.dataTable.TGT_updateData(updatedCompany);
+
+        }, (error: HttpErrorResponse) => {
+
+          /* Show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
+          this.isWaitingInsertOrUpdate = false;
+        });
       }
-    );
+    });
   }
 
   async loadCompanies() {

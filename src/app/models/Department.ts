@@ -13,10 +13,6 @@ export class Department implements IData {
     return this.InverseParentDepartment;
   }
 
-  getParent() {
-    return this.ParentDepartment;
-  }
-
   getParentId() {
     return this.ParentDepartmentId;
   }
@@ -24,7 +20,7 @@ export class Department implements IData {
     return this.DepartmentId;
   }
 
-  DeparmtentCode: string;
+  DepartmentCode: string;
   CreationDate: Date;
   CreatorId: number;
   DepartmentId: number;
@@ -40,9 +36,10 @@ export class Department implements IData {
   InverseParentDepartment: Department[];
   ParentDepartmentId: number;
 
-constructor() {
+  constructor() {
 
-  this.Location = new Location();
-}
+    this.Location = new Location();
+    this.InverseParentDepartment = [];
+  }
 
 }

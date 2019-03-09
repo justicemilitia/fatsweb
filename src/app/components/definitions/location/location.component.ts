@@ -201,16 +201,20 @@ export class LocationComponent extends BaseComponent implements OnInit {
     /* Check model state */
     if (data.form.invalid == true) return;
 
-    /* loading icon visible */
-    this.isWaitingInsertOrUpdate = true;
-
     /* Ask for approve question if its true then update the location */
     await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
       if (response == true) {
 
+        /* loading icon visible */
+        this.isWaitingInsertOrUpdate = true;
+
+        /* Save parent to rollback it. Normally api says circuler error */
+        let parentLocation = this.location.ParentLocation;
+        this.location.ParentLocation = null;
+
         /* if user approve question update location. */
         this.baseService.locationService.UpdateLocation(this.location, (_location, message) => {
-          
+
           /* Close loading icon */
           this.isWaitingInsertOrUpdate = false;
 
@@ -226,10 +230,13 @@ export class LocationComponent extends BaseComponent implements OnInit {
           this.dataTable.TGT_updateData(updatedLocation);
 
         }, (error: HttpErrorResponse) => {
-          
+
           /* Close loader */
           this.isWaitingInsertOrUpdate = false;
-          
+
+          /* Rollback the parent department */
+          this.location.ParentLocation = parentLocation;
+
           /* Show error message */
           this.baseService.popupService.ShowErrorPopup(error);
 
