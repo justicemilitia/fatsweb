@@ -29,7 +29,7 @@ export class UserService {
     private httpClient: HttpClient,
     private router: Router,
     private aService: AuthenticationService
-  ) {}
+  ) { }
 
   GetDepartments(callback) {
     this.httpClient
@@ -42,7 +42,7 @@ export class UserService {
       );
   }
 
-  GetLocations(callback,failed) {
+  GetLocations(callback, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_LOCATION_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(
@@ -53,25 +53,22 @@ export class UserService {
       );
   }
 
-  GetUsers(callback,failed) {
-    debugger;
+  GetUsers(callback, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_USER_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(result => {
-        
+
         let response: Response = <Response>result;
         let users: User[] = [];
-        
+
         (<User[]>response.ResultObject).forEach((e) => {
-            let usr: User = new User();
-            Object.assign(usr, e);
-            usr.Department= new Department();
-            usr.Department.Name = "A";
-            users.push(usr);
+          let usr: User = new User();
+          Object.assign(usr, e);
+          users.push(usr);
         });
 
         callback(users);
-        
+
       },
         error => {
           failed(error);

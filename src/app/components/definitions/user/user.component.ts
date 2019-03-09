@@ -9,7 +9,6 @@ import { Firm } from "../../../models/Firm";
 import { User } from "../../../models/User";
 import { Location } from "../../../models/Location";
 import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
-import { PopupService } from '../../../services/popup-service/popup.service';
 
 @Component({
   selector: "app-user",
@@ -23,7 +22,11 @@ import { PopupService } from '../../../services/popup-service/popup.service';
 })
 export class UserComponent extends BaseComponent implements OnInit {
 
-  insertingUser: any = {};
+
+  /* Is Request send and waiting for response ? */
+  isWaitingInsertOrUpdate: boolean = false;
+
+  currentUser: User = new User();
   users: User[] = [];
   departments: Department[] = [];
   locations: Location[] = [];
@@ -107,9 +110,13 @@ export class UserComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ['Name']
+      column: ['FirstName']
     }
   );
+
+  t(o) {
+    return "";
+  }
 
   constructor(public baseService: BaseService) {
     super(baseService);
