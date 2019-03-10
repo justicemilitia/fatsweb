@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { BaseService } from "../../services/base.service";
 import * as pages from "../../declarations/page-values";
-import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-base",

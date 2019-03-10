@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
 import {
   GET_HEADERS,
@@ -12,36 +12,39 @@ import {
 import { CheckOutReason } from "src/app/models/CheckOutReason";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 @Injectable({
   providedIn: "root"
 })
 export class CheckOutReasonService {
 
-  checkOutReasons: CheckOutReason[] = [];
-  checkoutreason: CheckOutReason = new CheckOutReason();
   constructor(
     private httpClient: HttpClient,
     private aService: AuthenticationService
-  ) {}
+  ) { }
 
-  GetCheckOutReason(callback) {
+  GetCheckOutReason(success, failed) {
     this.httpClient
-      .get(SERVICE_URL + GET_CHECKOUTREASON_LIST, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
+      .get(SERVICE_URL + GET_CHECKOUTREASON_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          let checkOutReasons: CheckOutReason[] = [];
+          if (response.ResultStatus == true) {
+            let checkOutReasons: CheckOutReason[] = [];
 
-          (<CheckOutReason[]>response.ResultObject).forEach(e => {
-            let check: CheckOutReason = new CheckOutReason();
-            Object.assign(check, e);
-            checkOutReasons.push(check);
-          });
-          callback(checkOutReasons);
-        },
-        error => console.error(error)
-      );
+            (<CheckOutReason[]>response.ResultObject).forEach(e => {
+              let check: CheckOutReason = new CheckOutReason();
+              Object.assign(check, e);
+              checkOutReasons.push(check);
+            });
+
+            success(checkOutReasons);
+
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        }, (error: HttpErrorResponse) => {
+          console.error(error)
+        });
   }
 }

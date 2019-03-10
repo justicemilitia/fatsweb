@@ -41,8 +41,7 @@
       </div>
       <!-- END Offset Footer END-->
       <!-- Offset Info -->
-      <div class="table-column-helper-info"
-        [ngStyle]="{'display': dataTable.isSaved == true ? 'block' : 'none' }">
+      <div class="table-column-helper-info" [ngStyle]="{'display': dataTable.isSaved == true ? 'block' : 'none' }">
         <span class="info-success">Başarılı</span>
       </div>
       <!-- END Offset Info END-->
@@ -58,7 +57,7 @@
     <table class="tree-table">
       <!-- Table Header Area -->
       <thead class="tree-table-header">
-        <th>
+        <th *ngIf="dataTable.isMultipleSelectedActive">
           <input type="checkbox" [(ngModel)]="dataTable.selectAllState">
         </th>
         <ng-container *ngFor="let column of dataTable.dataColumns">
@@ -81,16 +80,19 @@
         <!-- END Loading Side END -->
         <!-- First Row is Filter -->
         <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
-          <td class="tree-table-body-tr-td-empty">
+          <!-- Selection checkbox filter -->
+          <td class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
             <input type="checkbox" class="table-checkbox" [(ngModel)]="dataTable.dataFilters['isChecked']">
           </td>
-          <ng-container *ngFor="let column of dataTable.dataColumns">
-            <td class="{{dataTable.TGT_getColumnVisibility(column)}}">
-              <input type="{{column.type}}" placeholder="{{column.placeholder}}"
-                class="form-control"
+          <!-- END Selection checkbox filter END -->
+          <!-- Columns -->
+          <ng-container *ngFor="let column of dataTable.TGT_getActiveColumns()">
+            <td>
+              <input type="{{column.type}}" placeholder="{{column.placeholder}}" class="form-control"
                 [(ngModel)]="dataTable.dataFilters[column.columnName]">
             </td>
           </ng-container>
+          <!-- END Columns END -->
         </tr>
         <!-- END First Row is Filter END -->
         <!-- Data Rows -->
@@ -99,24 +101,26 @@
             <td class="tree-table-body-tr-td-empty">
               <input type="checkbox" class="table-checkbox" [(ngModel)]="data.isChecked">
             </td>
-            <ng-container *ngFor="let column of dataTable.dataColumns;let i = index">
+            <ng-container *ngFor="let column of dataTable.TGT_getActiveColumns();let i = index">
               <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
-                class="tree-table-body-tr-td tree-table-input-text {{column.classes.join(' ')}} {{dataTable.TGT_getColumnVisibility(column)}}">
+                class="tree-table-body-tr-td tree-table-input-text {{column.classes.join(' ')}}">
                 <span (click)=dataTable.TGT_doCollapse(data) class='tree-table-sign {{dataTable.TGT_getSign(data)}}'>
                 </span>
-                <ng-template [ngIf]="column.type != 'checkbox'">
-                {{dataTable.TGT_getDataValue(data,column)}}
-              </ng-template>
-              <ng-template [ngIf]="column.type == 'checkbox'">
-                <input type="checkbox" disabled [attr.checked]="dataTable.TGT_getDataValue(data,column) == true ? 'checked' : null" />
-              </ng-template>
-              </td>
-              <td *ngIf="i!=0" class="tree-table-body-tr-td tree-table-input-text {{column.classes.join(' ')}} {{dataTable.TGT_getColumnVisibility(column)}}">
                 <ng-template [ngIf]="column.type != 'checkbox'">
                   {{dataTable.TGT_getDataValue(data,column)}}
                 </ng-template>
                 <ng-template [ngIf]="column.type == 'checkbox'">
-                  <input type="checkbox" disabled [attr.checked]="dataTable.TGT_getDataValue(data,column) == true ? 'checked' : null" />
+                  <input type="checkbox" disabled
+                    [attr.checked]="dataTable.TGT_getDataValue(data,column) == true ? 'checked' : null" />
+                </ng-template>
+              </td>
+              <td *ngIf="i!=0" class="tree-table-body-tr-td tree-table-input-text {{column.classes.join(' ')}}">
+                <ng-template [ngIf]="column.type != 'checkbox'">
+                  {{dataTable.TGT_getDataValue(data,column)}}
+                </ng-template>
+                <ng-template [ngIf]="column.type == 'checkbox'">
+                  <input type="checkbox" disabled
+                    [attr.checked]="dataTable.TGT_getDataValue(data,column) == true ? 'checked' : null" />
                 </ng-template>
               </td>
             </ng-container>

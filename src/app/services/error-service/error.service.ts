@@ -8,7 +8,7 @@ import { AuthenticationService } from '../authenticationService/authentication.s
 })
 export class ErrorService {
 
-  constructor(protected router: Router, 
+  constructor(protected router: Router,
     private authenticationService: AuthenticationService) { }
 
   redirect(url: string) {
@@ -18,6 +18,7 @@ export class ErrorService {
   errorManager(error: HttpErrorResponse) {
     switch (error.status) {
       case 401:
+        $(".modal-header > button").trigger('click');
         this.authenticationService.logOut();
         this.redirect("/login");
         break;

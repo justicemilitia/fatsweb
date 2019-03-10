@@ -4,6 +4,9 @@
       <div class="card card-dashboard-twelve mg-b-20">
         <h2 class="az-content-title">Kişiler</h2>
         <div class="grp-btn-action">
+          <button type="button" (click)="deleteUsers()" class="btn btn-danger btn-delete-custom">
+            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
+            <i class="fas fa-trash"></i></button>
           <button class="btn btn-orange btn-new-custom" id="btnAddUser" data-toggle="modal" data-target="#modalUser"
             (click)="resetForm(data,true)">Kişi Ekle
           </button>
@@ -29,7 +32,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #data="ngForm" (ngSubmit)="insertUser(data)" class="form-register">
+      <form #data="ngForm" (ngSubmit)="onSubmit(data) && !data.form.invalid" class="form-register">
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
@@ -115,15 +118,18 @@
                   {{role.Name}}
                 </option>
               </select>
+              <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
+                <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
             <div class="form-group col-md-6">
-                <label class="required-span">E-posta</label>
-                <input type="email" name="UserMail" #UserMail="ngModel" required class="form-control"
-                  [(ngModel)]="currentUser.UserMail" [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" />
-                <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
-                  <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
-                </div>
+              <label class="required-span">E-posta</label>
+              <input type="email" name="UserMail" #UserMail="ngModel" required class="form-control"
+                [(ngModel)]="currentUser.UserMail" [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" />
+              <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
+                <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
               </div>
+            </div>
           </div>
           <!-- form-group -->
           <div class="row justify-content-center">
@@ -158,20 +164,20 @@
               <input type="number" name="PhoneNumber" class="form-control" [(ngModel)]="currentUser.PhoneNumber" />
             </div>
             <div class="form-group col-md-6">
-                <label>Bağlı Olduğu Kişi</label>
-                <select [(ngModel)]="currentUser.ParentUserId" name="ParentUserId" class="form-control">
-                  <option value="">Seçiniz</option>
-                  <option *ngFor="let user of users" value={{user.userId}}>
-                    {{user.FirstName + ' ' + user.LastName}}
-                  </option>
-                </select>
-              </div>
+              <label>Bağlı Olduğu Kişi</label>
+              <select [(ngModel)]="currentUser.ParentUserId" name="ParentUserId" class="form-control">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let user of users" value={{user.userId}}>
+                  {{user.FirstName + ' ' + user.LastName}}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal"
-            data-target="#modalInsertUser" *ngIf="isWaitingInsertOrUpdate == false" (onclick)="ShowSuccessPopup()">Kişi
-            Ekle</button>
+            data-target="#modalInsertUser"
+            *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

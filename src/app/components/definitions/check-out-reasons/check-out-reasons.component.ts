@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BaseService } from 'src/app/services/base.service';
 import { BaseComponent } from '../../base/base.component';
 import { CheckOutReason } from 'src/app/models/CheckOutReason';
-import { NgForm } from '@angular/forms';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-check-out-reasons',
@@ -12,8 +12,7 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTab
 })
 export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
 
-  checkOutReasons: CheckOutReason[]=[];
-  checkoutreason:CheckOutReason=new CheckOutReason();
+  checkOutReasons: CheckOutReason[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable("checkoutreason",
     [
@@ -39,18 +38,31 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
       column: ["Name"]
     }
   );
-  constructor(protected baseService: BaseService) { super(baseService); }
+
+  constructor(protected baseService: BaseService) {
+    super(baseService);
+    this.LoadCheckOutReasons();
+  }
 
   ngOnInit() {
-  
+
   }
   LoadCheckOutReasons() {
-    this.baseService.checkOutReasonService.GetCheckOutReason(
-      (checkOutReasons: CheckOutReason[]) => {
-        this.checkOutReasons = checkOutReasons;
-        this.dataTable.TGT_loadData(this.checkOutReasons);
-        });
-      } 
+
+    this.baseService.checkOutReasonService.GetCheckOutReason((checkOutReasons: CheckOutReason[]) => {
+      /* get checkouts */
+      this.checkOutReasons = checkOutReasons;
+
+      /* then load them into table */
+      this.dataTable.TGT_loadData(this.checkOutReasons);
+
+    }, (error: HttpErrorResponse) => {
+
+      /* Show error message */
+      this.baseService.popupService.ShowErrorPopup(error);
+
+    });
+  }
 
 
 

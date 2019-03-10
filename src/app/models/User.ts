@@ -31,6 +31,7 @@ export class User implements IData {
     Password: string;
     PhoneNumber: number;
     ParentUserId: number;
+    ParentUser: User;
     Department: Department;
     Location: Location;
     Firm: Firm;
