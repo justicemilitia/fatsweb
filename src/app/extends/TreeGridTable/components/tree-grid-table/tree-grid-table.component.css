@@ -145,13 +145,13 @@
     padding:5px;   
 }
 
-.tree-table>tbody>tr>td:first-child {
+.tree-table-body-tr-td-empty {
     padding: 0;
     padding-left: 5px;
     width: 30px;
 }
 
-.tree-table>thead>th:first-child {
+.tree-table-body-tr-th-empty {
     padding: 0;
     padding-left: 10px;
     width: 30px;
