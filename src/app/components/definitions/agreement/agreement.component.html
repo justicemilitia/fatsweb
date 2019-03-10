@@ -4,11 +4,7 @@
       <div class="card card-dashboard-twelve mg-b-20">
         <h2 class="az-content-title">Sözleşmeler</h2>
         <div class="grp-btn-action">
-          <button
-            type="button"
-            (click)="deleteAgreements()"
-            class="btn btn-danger"
-          >
+          <button type="button" (click)="deleteAgreements()" class="btn btn-danger">
             {{
               dataTable.TGT_getSelectedItems().length > 0
                 ? dataTable.TGT_getSelectedItems().length
@@ -16,20 +12,13 @@
             }}
             <i class="fas fa-trash"></i>
           </button>
-          <button
-            class="btn btn-orange"
-            id="btnAddAgreement"
-            data-toggle="modal"
-            data-target="#modalAgreement"
-          >
+          <button class="btn btn-orange" id="btnAddAgreement" data-toggle="modal" data-target="#modalAgreement">
             Sözleşme Ekle
           </button>
         </div>
         <p class="mg-b-20"></p>
-        <tree-grid-table
-          (onDoubleClickItem)="onDoubleClickItem($event, item)"
-          [dataTable]="dataTable"
-        ></tree-grid-table>
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event, item)" [dataTable]="dataTable">
+        </tree-grid-table>
       </div>
     </div>
     <!-- az-content-body -->
@@ -50,12 +39,13 @@
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
         <div class="modal-body">
           <div class="row justify-content-center">
-            <input type="hidden" name="AgreementId" [(ngModel)]="agreement.AgreementId"/>
+            <input type="hidden" name="AgreementId" [(ngModel)]="agreement.AgreementId" />
             <!-- SÖZLEŞME NO -->
             <div class="col-md-6">
               <div class="form-group">
                 <label>Sözleşme No</label>
-                <input [(ngModel)]="agreement.No" name="No" type="text" class="form-control txt-width" #No="ngModel" [ngClass]="{ 'is-invalid': data.submitted && No.invalid }" required/>
+                <input [(ngModel)]="agreement.No" name="No" type="text" class="form-control txt-width" #No="ngModel"
+                  [ngClass]="{ 'is-invalid': data.submitted && No.invalid }" required />
                 <div *ngIf="data.submitted && No.invalid" class="invalid-feedback">
                   <div *ngIf="No.errors.required">Bu alan zorunludur.</div>
                 </div>
@@ -63,9 +53,10 @@
             </div>
             <!-- SÖZLEŞME ADI -->
             <div class="col-md-6">
-                <div class="form-group">
+              <div class="form-group">
                 <label>Sözleşme Adı</label>
-                <input [(ngModel)]="agreement.Name" name="No" type="text" class="form-control txt-width" #Name="ngModel"/>
+                <input [(ngModel)]="agreement.Name" name="No" type="text" class="form-control txt-width"
+                  #Name="ngModel" />
               </div>
             </div>
           </div>
@@ -73,66 +64,70 @@
           <div class="row justify-content-center">
             <!-- SÖZLEŞME KODU -->
             <div class="col-md-6">
-               <div class="form-group">
-                   <label>Sözleşme Kodu</label>
-                   <input [(ngModel)]="agreement.AgreementCode" name="AgreementCode" type="text" class="form-control txt-width"/>
-               </div>
+              <div class="form-group">
+                <label>Sözleşme Kodu</label>
+                <input [(ngModel)]="agreement.AgreementCode" name="AgreementCode" type="text"
+                  class="form-control txt-width" />
+              </div>
             </div>
             <!-- İLGİLİ ŞİRKET -->
             <div class="col-md-6">
-                <div class="form-group">
-                  <label>İlgili Şirket</label>
-                  <select [(ngModel)]="agreement.CompanyId" name="CompanyId" class="form-control txt-width" (click)="loadDropdownList()">
-                    <option value="">Seçiniz</option>
-                    <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
-                      {{ company.Name }}
-                    </option>
-                  </select>
-                </div>
+              <div class="form-group">
+                <label>İlgili Şirket</label>
+                <select [(ngModel)]="agreement.CompanyId" name="CompanyId" class="form-control txt-width"
+                  (click)="loadDropdownList()">
+                  <option value="">Seçiniz</option>
+                  <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
+                    {{ company.Name }}
+                  </option>
+                </select>
               </div>
+            </div>
           </div>
 
           <div class="row justify-content-center">
-                <!-- BAŞLANGIÇ TARİHİ -->              
-                <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Başlangıç Tarihi</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                          </div>
-                        </div>
-                       <input id="datepicker" [(ngModel)]="agreement.StartDate" name="StartDate" type="text" class="form-control"  #StartDate="ngModel" [ngClass]="{'is-invalid': data.submitted && StartDate.invalid}" required placeholder="MM/DD/YYYY">
-                      </div>
-                      <div *ngIf="data.submitted && StartDate.invalid" class="invalid-feedback">
-                          <div *ngIf="StartDate.errors.required">Bu alan zorunludur.</div>
-                      </div>
-                </div>
-                </div>
-                <!-- BİTİŞ TARİHİ -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <label>Bitiş Tarihi</label>
-                    <input
-                      [(ngModel)]="agreement.EndDate" name="EndDate" type="datetime" class="form-control txt-width" #EndDate="ngModel" [ngClass]="{ 'is-invalid': data.submitted && EndDate.invalid }" required/>
-                    <div *ngIf="data.submitted && EndDate.invalid" class="invalid-feedback">
-                      <div *ngIf="EndDate.errors.required">Bu alan zorunludur.</div>
+            <!-- BAŞLANGIÇ TARİHİ -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Başlangıç Tarihi</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                     </div>
                   </div>
+                  <input id="datepicker" [(ngModel)]="agreement.StartDate" name="StartDate" type="text"
+                    class="form-control" #StartDate="ngModel"
+                    [ngClass]="{'is-invalid': data.submitted && StartDate.invalid}" required placeholder="MM/DD/YYYY">
                 </div>
+                <div *ngIf="data.submitted && StartDate.invalid" class="invalid-feedback">
+                  <div *ngIf="StartDate.errors.required">Bu alan zorunludur.</div>
+                </div>
+              </div>
+            </div>
+            <!-- BİTİŞ TARİHİ -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Bitiş Tarihi</label>
+                <input [(ngModel)]="agreement.EndDate" name="EndDate" type="datetime" class="form-control txt-width"
+                  #EndDate="ngModel" [ngClass]="{ 'is-invalid': data.submitted && EndDate.invalid }" required />
+                <div *ngIf="data.submitted && EndDate.invalid" class="invalid-feedback">
+                  <div *ngIf="EndDate.errors.required">Bu alan zorunludur.</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="row">
-              <!-- TUTAR -->
-              <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Tutar</label>
-                    <input [(ngModel)]="agreement.Price" name="Price" type="text" class="form-control txt-width"/>
-                  </div>
-                </div>
-                <!-- DOSYA YÜKLE -->
-                <!-- <div class="col-md-6">
+            <!-- TUTAR -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Tutar</label>
+                <input [(ngModel)]="agreement.Price" name="Price" type="text" class="form-control txt-width" />
+              </div>
+            </div>
+            <!-- DOSYA YÜKLE -->
+            <!-- <div class="col-md-6">
                     <div class="form-group ">
                       <label>Dosya Yükle</label>
                       <input [(ngModel)]="agreement.AgreementFile" name="AgreementFile" type="file" class="form-control txt-width"/>
@@ -141,46 +136,50 @@
           </div>
 
           <div class="row justify-content-center">
-                <!-- DOSYA YÜKLE -->            
-              <div class="col-sm-12">
-                <div class="custom-file">
-                  <input #agreementFile name="AgreementFile" type="file" class="form-control-file txt-width" id="customFile" multiple>
-                  <!-- <label class="custom-file-label" for="customFile">Dosya Seç</label> -->
-                </div>
+            <!-- DOSYA YÜKLE -->
+            <div class="col-sm-12">
+              <div class="custom-file">
+                <input #agreementFile name="AgreementFile" type="file" class="form-control-file txt-width"
+                  id="customFile" multiple>
+                <!-- <label class="custom-file-label" for="customFile">Dosya Seç</label> -->
               </div>
-              <!-- <div class="col-sm-2"> -->
-                  <!-- <button id="RemoveFile" type="button" class="close" data-dismiss="modal" aria-label="Close">  -->
-                      <!-- <a>Kaldır</a> -->
-                  <!-- </button> -->
-              <!-- </div>   -->
+            </div>
+            <!-- <div class="col-sm-2"> -->
+            <!-- <button id="RemoveFile" type="button" class="close" data-dismiss="modal" aria-label="Close">  -->
+            <!-- <a>Kaldır</a> -->
+            <!-- </button> -->
+            <!-- </div>   -->
           </div>
 
           <div class="row justify-content-center">
-              <!-- AÇIKLAMA -->
-              <div class="col-md-12">
-                  <div class="form-group">
-                    <label>Açıklama</label>
-                    <textarea [(ngModel)]="agreement.Description" name="Description" class="form-control txt-width" type="text"></textarea>
-                </div> 
-              </div> 
+            <!-- AÇIKLAMA -->
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Açıklama</label>
+                <textarea [(ngModel)]="agreement.Description" name="Description" class="form-control txt-width"
+                  type="text"></textarea>
+              </div>
+            </div>
           </div>
-          
-          <div class="row justify-content-center">          
-           <!-- BİLDİRİM GÖNDERİLSİN -->
-           <div class="col-md-12">
-              <div class="form-group justify-content-center">                  
+
+          <div class="row justify-content-center">
+            <!-- BİLDİRİM GÖNDERİLSİN -->
+            <div class="col-md-12">
+              <div class="form-group justify-content-center">
                 <label class="ckbox">
-                  <input type="checkbox" [(ngModel)]="agreement.IsNotificationOn" name="IsNotificationOn"/><span>Bildirim gönderilsin.</span>
+                  <input type="checkbox" [(ngModel)]="agreement.IsNotificationOn"
+                    name="IsNotificationOn" /><span>Bildirim gönderilsin.</span>
                 </label>
               </div>
             </div>
           </div>
 
-          
+
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateCompany" #agreementFile type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertCompany" (click)="upload(agreementFile.files)">Kaydet</button>
+          <button id="btnInsertOrUpdateCompany" #agreementFile type="submit" class="btn btn-orange btn-block btn-height"
+            data-toggle="modal" data-target="#modalInsertCompany" (click)="upload(agreementFile.files)">Kaydet</button>
           <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-light btn-modal-close">Kapat</button> -->
         </div>
       </form>
