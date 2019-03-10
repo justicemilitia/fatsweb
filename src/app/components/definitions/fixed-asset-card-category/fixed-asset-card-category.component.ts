@@ -33,7 +33,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
     "fixedassetcardcategory",
     [
       {
-        columnDisplayName: "İsim",
+        columnDisplayName: "Kategori Adı",
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -41,8 +41,8 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
-        columnName: ["Description"],
+        columnDisplayName: "Kategori Kodu",
+        columnName: ["FixedAssetCardCategoryCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -134,6 +134,9 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
     /* Is Form Valid */
     if (data.form.invalid == true) return;
+
+    /* Close waiting loader */
+    this.isWaitingInsertOrUpdate = true;
 
     /* Insert Fixed Asset Card Category */
     await this.baseService.fixedAssetCardCategoryService.InsertFixedAssetCardCategory(
@@ -246,30 +249,39 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
   }
 
   async onDoubleClickItem(item: FixedAssetCardCategory) {
+
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
-    /* load fixed asset card categories if not loaded */
-    await this.loadFixedAssetCardCategories();
+    /* Load fixed asset card categories if not loaded */
+    this.loadFixedAssetCardCategories();
 
-    /* get company information from server */
-    await this.baseService.fixedAssetCardService.GetFixedAssetCardById(
-      item.FixedAssetCardCategoryId,
+    /* Get company information from server */
+    await this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategoryById(item.FixedAssetCardCategoryId,
       (result: FixedAssetCardCategory) => {
-        /* then bind it to fixed asset card category model to update */
+
+        /* Then bind it to fixed asset card category model to update */
         setTimeout(() => {
-          /* bind result to model */
-          this.fixedAssetCardCategory = result;
+
+          /* Hide Spinner */
           this.baseService.spinner.hide();
 
-          /* Trigger to model to show it */
-          $("#btnAddFixedAssetCardCategory").trigger("click");
+          /* Trigger edit button to show modal */
+          $("#btnEditFixedAssetCardCategory").trigger("click");
+
+          /* bind result to model */
+          this.fixedAssetCardCategory = result;
+
         }, 1000);
-      },
-      (error: HttpErrorResponse) => {
+      }, (error: HttpErrorResponse) => {
+
+        /* hide spinner */
+        this.baseService.spinner.hide();
+
         /* show error message */
         this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+
+      });
   }
+
 }

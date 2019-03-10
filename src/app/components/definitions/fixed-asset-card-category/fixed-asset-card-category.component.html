@@ -8,10 +8,10 @@
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
           <button class="btn btn-orange btn-new-custom" id="btnAddFixedAssetCardCategory" data-toggle="modal"
-            data-target="#modalFixedAssetCardCategory">Kategori Ekle
+            data-target="#modalFixedAssetCardCategory" (click)="resetForm(data,true)">Kategori Ekle
           </button>
           <button style="display:none" id="btnEditFixedAssetCardCategory" data-toggle="modal"
-            data-target="#modalFixedAssetCardCategory">Kategori Düzenle
+            data-target="#modalFixedAssetCardCategory" (click)="resetForm(data,false)">Kategori Düzenle
           </button>
         </div>
         <p class="mg-b-20"></p>
@@ -32,10 +32,10 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #data="ngForm" (ngSubmit)="addFixedAssetCardCategory(data)" class="form-register">
-        <input type="hidden" name="FixedAssetCardCategoryId"
-          [(ngModel)]="fixedAssetCardCategory.FixedAssetCardCategoryId" />
+      <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
         <div class="modal-body">
+          <input type="hidden" name="FixedAssetCardCategoryId"
+            [(ngModel)]="fixedAssetCardCategory.FixedAssetCardCategoryId" />
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Kategori Kodu</label>
@@ -59,9 +59,9 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
               <label>Bağlı Olduğu Kategori</label>
-              <select [(ngModel)]="fixedAssetCardCategory.ParentFixedAssetCategoryId" name="ParentFixedAssetCategoryId"
-                class="form-control" (click)="loadFixedAssetCardCategories()">
-                <option value="-1">Yok</option>
+              <select [(ngModel)]="fixedAssetCardCategory.ParentFixedAssetCardCategoryId"
+                name="ParentFixedAssetCardCategoryId" class="form-control" (click)="loadFixedAssetCardCategories()">
+                <option value="">Yok</option>
                 <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories"
                   value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>
                   {{fixedAssetCardCategory.Name}}
@@ -72,8 +72,8 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button class="btn btn-orange btn-block btn-height" id="btnInsertOrUpdateFixedAssetCardCategory" type="submit"
-            data-toggle="modal" data-target="#modalInsertFixedAssetCategory">
+          <button class="btn btn-orange" id="btnInsertOrUpdateFixedAssetCardCategory" type="submit" data-toggle="modal"
+            data-target="#modalInsertFixedAssetCategory" *ngIf="isWaitingInsertOrUpdate == false">
             {{fixedAssetCardCategory.FixedAssetCardCategoryId ?  'Demirbaş Kategorisi Güncelle' : 'Demirbaş Kategorisi Ekle'}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

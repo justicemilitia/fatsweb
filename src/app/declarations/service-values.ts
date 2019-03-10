@@ -50,7 +50,7 @@ export const DELETE_FIXEDASSET = "FixedAsset/RemoveByRemoveFixedAssetIdList";
 export const GET_FIXEDASSETCARDCATEGORY_LIST = "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
 export const GET_FIXEDASSETCARDCATEGORY_BY_ID = "FixedAssetCardCategories/GetFixedAssetCardCategoryById";
 export const INSERT_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/AddFixedAssetCardCategory";
-export const UPDATE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/UpdateFixedAssetCardCategory";
+export const UPDATE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/UpdateFixedAssetCardCategories";
 export const DELETE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/RemoveByIdList";
 //#endregion
 
