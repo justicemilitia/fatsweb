@@ -150,14 +150,13 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir şirket seçiniz"
-      );
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir kayıt seçiniz");
       return;
     }
 
     /* Show Question Message */
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+      
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -166,6 +165,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
       /* Delete all */
       this.baseService.companyService.DeleteCompanies(itemIds, () => {
+        
         /* Deactive the spinner */
         this.baseService.spinner.hide();
 
@@ -176,23 +176,20 @@ export class CompanyComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear all the ids from table */
-        for (let ii = 0; ii < itemIds.length; ii++) {
-          let index = this.companies.findIndex(x => x.CompanyId == itemIds[ii]);
-          if (index > -1)
-            this.companies.splice(index, 1);
+        this.dataTable.TGT_removeItemsByIds(itemIds);
 
-        }
+        /* Get latest companies from table*/
+        this.companies = <Company[]>this.dataTable.TGT_copySource();
 
-        /* Reload Page */
-        this.dataTable.TGT_loadData(this.companies);
+      }, (error: HttpErrorResponse) => {
 
-      }, (failedItems: []) => {
+        /* Hide Loading Spinner */
         this.baseService.spinner.hide();
-        this.baseService.popupService.ShowAlertPopup(
-          "Kayıtlar ilişkili olduğundan silinemedi!"
-        );
-      }
-      );
+
+        /* Show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      });
     });
   }
 
@@ -254,18 +251,18 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         /* Say to user to wait */
         this.isWaitingInsertOrUpdate = true;
 
-        /* city and update binding */
-        if (this.company.CityId) {
-          let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
-          let country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
-          this.company.City.CityId = city.CityId;
-          this.company.City.Name = city.Name;
-          this.company.City.CountryId = country.CountryId;
-          this.company.City.Country.Name = country.Name;
-          this.company.City.Country.CountryId = country.CountryId;
-        }
-
         this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
+
+          /* city and update binding */
+          if (this.company.CityId) {
+            let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
+            let country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
+            this.company.City.CityId = city.CityId;
+            this.company.City.Name = city.Name;
+            this.company.City.CountryId = country.CountryId;
+            this.company.City.Country.Name = country.Name;
+            this.company.City.Country.CountryId = country.CountryId;
+          }
 
           /* Close loading */
           this.isWaitingInsertOrUpdate = false;
@@ -273,16 +270,22 @@ export class CompanyComponent extends BaseComponent implements OnInit {
           /* Show pop up then update data in datatable */
           this.baseService.popupService.ShowSuccessPopup(message);
 
-          /* Update table */
+          /* Update table with updated company */
           let updatedCompany = new Company();
           Object.assign(updatedCompany, this.company);
           this.dataTable.TGT_updateData(updatedCompany);
+
+          /* Get original source from table */
+          this.companies = <Company[]>this.dataTable.TGT_copySource();
 
         }, (error: HttpErrorResponse) => {
 
           /* Show error message */
           this.baseService.popupService.ShowErrorPopup(error);
+
+          /* say user no more wait */
           this.isWaitingInsertOrUpdate = false;
+
         });
       }
     });
@@ -359,7 +362,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     this.baseService.spinner.show();
 
     /* load companies if not loaded */
-    await this.loadCountryList();
+    this.loadCountryList();
 
     /* load cities if not loaded */
     if (item.City)

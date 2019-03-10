@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
-  HttpClient
+  HttpClient, HttpErrorResponse, HttpResponse
 } from "@angular/common/http";
 import {
   SERVICE_URL,
@@ -10,7 +10,10 @@ import {
   GET_USER_LIST,
   GET_ROLE_LIST,
   GET_FIRM_LIST,
-  INSERT_USER
+  INSERT_USER,
+  UPDATE_USER,
+  GET_USER_LIST_BY_ID,
+  DELETE_USER
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { User } from "../../models/User";
@@ -20,14 +23,15 @@ import { Role } from '../../models/Role';
 import { Firm } from '../../models/Firm';
 import { Response } from 'src/app/models/Response';
 import { Router } from '@angular/router';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
 })
 export class UserService {
+
   constructor(
     private httpClient: HttpClient,
-    private router: Router,
     private aService: AuthenticationService
   ) { }
 
@@ -98,16 +102,67 @@ export class UserService {
       );
   }
 
-  InsertUser(user: User) {
+  InsertUser(user: User, success, failed) {
     this.httpClient
       .post(SERVICE_URL + INSERT_USER, user, { headers: GET_HEADERS(this.aService.getToken()) })
-      .subscribe(
-        data => {
-          console.log(data);
-        },
-        error => {
-          console.log(error);
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(<User>response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
-      );
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      });
   }
+
+  UpdateUser(user: User, success, failed) {
+    this.httpClient.post(SERVICE_URL + UPDATE_USER, user, { headers: GET_HEADERS(this.aService.getToken()) })
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(<User>response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      });
+  }
+
+  GetUserById(userId: number, success, failed) {
+    this.httpClient.get(SERVICE_URL + GET_USER_LIST_BY_ID + '/' + userId, { headers: GET_HEADERS(this.aService.getToken()) })
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let user = new User();
+          Object.assign(user, response.ResultObject);
+          success(user);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      });
+  }
+
+  DeleteUsers(ids: number[], success, failed) {
+    this.httpClient.post(SERVICE_URL + DELETE_USER, { "UserIds": ids }, {
+      headers: GET_HEADERS(this.aService.getToken()),
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if ((<[]>response.ResultObject).length == 0) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      });
+  }
+
+
 }

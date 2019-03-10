@@ -115,10 +115,10 @@ export class CompanyService {
         if ((<[]>response.ResultObject).length == 0) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(response.ResultObject);
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
-      error => {
+      (error: HttpErrorResponse) => {
         failed(error);
       });
   }

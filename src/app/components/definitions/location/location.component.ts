@@ -143,19 +143,17 @@ export class LocationComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear all the ids from table */
-        for (let ii = 0; ii < itemIds.length; ii++) {
-          let index = this.locations.findIndex(x => x.LocationId == itemIds[ii]);
-          if (index > -1)
-            this.locations.splice(index, 1);
-        }
+        this.dataTable.TGT_removeItemsByIds(itemIds);
 
-        /* Reload Page */
-        this.dataTable.TGT_loadData(this.locations);
+        /* Copy original source to current locations */
+        this.locations = <Location[]>this.dataTable.TGT_copySource();
 
       }, (error: HttpErrorResponse) => {
 
         /* Hide spinner then show error message */
         this.baseService.spinner.hide();
+
+        /* Show error message */
         this.baseService.popupService.ShowErrorPopup(error);
 
       });
@@ -198,6 +196,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
   }
 
   async updateLocation(data: NgForm) {
+
     /* Check model state */
     if (data.form.invalid == true) return;
 
@@ -228,6 +227,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
           /* Update in table */
           this.dataTable.TGT_updateData(updatedLocation);
+
+          /* Get original source from table */
+          this.locations = <Location[]>this.dataTable.TGT_copySource();
 
         }, (error: HttpErrorResponse) => {
 

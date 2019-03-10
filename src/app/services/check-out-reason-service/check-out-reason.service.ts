@@ -18,34 +18,30 @@ import { getAnErrorResponse } from 'src/app/declarations/extends';
 })
 export class CheckOutReasonService {
 
-  checkOutReasons: CheckOutReason[] = [];
-  checkoutreason: CheckOutReason = new CheckOutReason();
   constructor(
     private httpClient: HttpClient,
     private aService: AuthenticationService
-  ) {}
+  ) { }
 
-  GetCheckOutReason(success,failed) {
+  GetCheckOutReason(success, failed) {
     this.httpClient
-      .get(SERVICE_URL + GET_CHECKOUTREASON_LIST, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
+      .get(SERVICE_URL + GET_CHECKOUTREASON_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if(response.ResultStatus==true){
-            let reasons:CheckOutReason[]=[];
-            (<CheckOutReason[]>response.ResultObject).forEach(e=>{
-              let reason:CheckOutReason=new CheckOutReason();
-              Object.assign(reason,e);
+          if (response.ResultStatus == true) {
+            let reasons: CheckOutReason[] = [];
+            (<CheckOutReason[]>response.ResultObject).forEach(e => {
+              let reason: CheckOutReason = new CheckOutReason();
+              Object.assign(reason, e);
               reasons.push(reason);
             });
-            success(reasons,response.LanguageKeyword);
-          }else{
+            success(reasons, response.LanguageKeyword);
+          } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
-          },(error:HttpErrorResponse)=>{
-            failed(error);
-          });
+        }, (error: HttpErrorResponse) => {
+          failed(error);
+        });
   }
 }
