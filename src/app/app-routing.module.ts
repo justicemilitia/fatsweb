@@ -18,6 +18,7 @@ import { FixedAssetCardBrandComponent } from './components/definitions/fixed-ass
 import { FixedAssetCardModelComponent } from './components/definitions/fixed-asset-card-model/fixed-asset-card-model.component';
 import { RoleComponent } from './components/definitions/role/role.component';
 import{ RoleUserComponent} from './components/definitions/role-user/role-user.component';
+import { FixedAssetComponent } from './components/definitions/fixed-asset/fixed-asset.component';
 
 export const routes: Routes = [
   {
@@ -144,6 +145,12 @@ export const routes: Routes = [
     path: "",
     redirectTo: "login",
     pathMatch: "full"
+  }, 
+  {
+    path: "fixedasset",
+    component: FixedAssetComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSET}
+    // canActivate: [AuthGuard]
   }
 ];
 

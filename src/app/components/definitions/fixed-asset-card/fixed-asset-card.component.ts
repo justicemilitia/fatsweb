@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
+import { Component, OnInit, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { FixedAssetCard } from "../../../models/FixedAssetCard";
 import { BaseComponent } from "../../base/base.component";

@@ -144,7 +144,7 @@
                 <!-- DOSYA YÜKLE -->            
               <div class="col-sm-12">
                 <div class="custom-file">
-                  <input #agreementFile [(ngModel)]="agreement.AgreementFile" name="AgreementFile" type="file" class=" txt-width" id="customFile" multiple (change)="upload(agreementFile.files)">
+                  <input #agreementFile name="AgreementFile" type="file" class="form-control-file txt-width" id="customFile" multiple>
                   <!-- <label class="custom-file-label" for="customFile">Dosya Seç</label> -->
                 </div>
               </div>
@@ -180,7 +180,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertCompany"  (click)="upload(agreementFile.files)">Kaydet</button>
+          <button id="btnInsertOrUpdateCompany" #agreementFile type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalInsertCompany" (click)="upload(agreementFile.files)">Kaydet</button>
           <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-light btn-modal-close">Kapat</button> -->
         </div>
       </form>

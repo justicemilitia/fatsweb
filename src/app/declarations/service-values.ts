@@ -35,6 +35,16 @@ export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#endregion
 
+//#region FixedAssetCards
+export const GET_FIXEDASSET_LIST = "FixedAsset/GetFixedAssetsList";
+export const UPDATE_FIXEDASSET = "FixedAsset/UpdateFixedAsset";
+export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcodeNumber";
+export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
+export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
+export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
+export const DELETE_FIXEDASSET = "FixedAsset/RemoveByRemoveFixedAssetIdList";
+//#endregion
+
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST = "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
 export const GET_FIXEDASSETCARDCATEGORY_BY_ID = "FixedAssetCardCategories/GetFixedAssetCardCategoryById";
@@ -65,7 +75,7 @@ export const DELETE_FIXEDASSETCARDMODEL="FixedAssetsCardModels/RemoveByIdList";
 //#region Agreements
 export const GET_AGREEMENT_LIST="Aggrement/GetAgreementListByFirmId";
 export const GET_AGREEMENT_BY_ID="Aggrement/GetAgreementListById";
-export const INSERT_AGREEMENT = "Aggrement/AddAgreement";
+export const INSERT_AGREEMENT = "Aggrement/AddAgreementWithFileupload";
 export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreement";
 export const DELETE_AGREEMENT = "Aggrement/RemoveByIdList";
 export const FILE_UPLOAD = "File/UploadFile";
