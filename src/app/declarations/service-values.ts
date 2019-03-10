@@ -74,15 +74,9 @@ export const DELETE_FIXEDASSETCARDMODEL = "FixedAssetsCardModels/RemoveByIdList"
 //#endregion
 
 //#region Agreements
-<<<<<<< HEAD
 export const GET_AGREEMENT_LIST="Aggrement/GetAgreementListByFirmId";
 export const GET_AGREEMENT_BY_ID="Aggrement/GetAgreementListById";
 export const INSERT_AGREEMENT = "Aggrement/AddAgreementWithFileupload";
-=======
-export const GET_AGREEMENT_LIST = "Aggrement/GetAgreementListByFirmId";
-export const GET_AGREEMENT_BY_ID = "Aggrement/GetAgreementListById";
-export const INSERT_AGREEMENT = "Aggrement/AddAgreement";
->>>>>>> 51e4fe8343fa44a4a9b0327e60a85daf38437ab3
 export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreement";
 export const DELETE_AGREEMENT = "Aggrement/RemoveByIdList";
 export const FILE_UPLOAD = "File/UploadFile";
