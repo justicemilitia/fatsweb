@@ -16,7 +16,9 @@ export class User implements IData {
     getId(): number {
         return this.ParentUserId;
     }
+    
     isExtended: boolean;
+    UserId:number;
     UserMail:string;
     FirstName:string;
     LastName:string;

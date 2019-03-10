@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
 import {
   GET_HEADERS,
@@ -12,6 +12,7 @@ import {
 import { CheckOutReason } from "src/app/models/CheckOutReason";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 @Injectable({
   providedIn: "root"
 })
@@ -24,7 +25,7 @@ export class CheckOutReasonService {
     private aService: AuthenticationService
   ) {}
 
-  GetCheckOutReason(callback) {
+  GetCheckOutReason(success,failed) {
     this.httpClient
       .get(SERVICE_URL + GET_CHECKOUTREASON_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -32,16 +33,19 @@ export class CheckOutReasonService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          let checkOutReasons: CheckOutReason[] = [];
-
-          (<CheckOutReason[]>response.ResultObject).forEach(e => {
-            let check: CheckOutReason = new CheckOutReason();
-            Object.assign(check, e);
-            checkOutReasons.push(check);
+          if(response.ResultStatus==true){
+            let reasons:CheckOutReason[]=[];
+            (<CheckOutReason[]>response.ResultObject).forEach(e=>{
+              let reason:CheckOutReason=new CheckOutReason();
+              Object.assign(reason,e);
+              reasons.push(reason);
+            });
+            success(reasons,response.LanguageKeyword);
+          }else{
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+          },(error:HttpErrorResponse)=>{
+            failed(error);
           });
-          callback(checkOutReasons);
-        },
-        error => console.error(error)
-      );
   }
 }

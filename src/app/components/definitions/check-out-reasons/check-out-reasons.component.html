@@ -1,33 +1,12 @@
   <div class="az-content">
       <div class="container">
-        <div class="az-content-body">
-     
-          <h2 class="az-content-title">Çıkış Tipleri</h2>
-          <div class="col-md-2 right">
-            <button
-              class="btn btn-orange btn-block btn-height"
-              id="btnAddCheckOutReason"
-              data-toggle="modal"
-              data-target="#modalCheckOutReason"          
-            >Çıkış Tipi Ekle
-            </button>
-          </div>
+        <div class="az-content-body">     
+          <h2 class="az-content-title">Çıkış Tipleri</h2> 
           <p class="mg-b-20"></p>
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table  [dataTable]="dataTable"></tree-grid-table>
   
         </div>
         <!-- az-content-body -->
       </div>
     </div>
     <!-- az-content -->
-  
-  <script>
-  $(document).ready( function () {
-      $('#tblCheckOutReasons').DataTable({
-          "columnDefs": [ {
-              "type": "salary-grade",
-              "targets": -1
-          } ],
-          "order": [[0,asc]]
-        });
-  } );</script>
