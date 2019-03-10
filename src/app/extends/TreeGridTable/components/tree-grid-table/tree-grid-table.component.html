@@ -58,7 +58,7 @@
       <!-- Table Header Area -->
       <thead class="tree-table-header">
         <!-- Header Select All -->
-        <th *ngIf="dataTable.isMultipleSelectedActive">
+        <th class="tree-table-body-tr-th-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
           <input type="checkbox" [(ngModel)]="dataTable.selectAllState">
         </th>
         <!-- END Header Select All END-->
@@ -113,7 +113,6 @@
           <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)">
             <!-- First Column is multiple select option -->
             <td class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
-
               <input type="checkbox" class="table-checkbox" [(ngModel)]="data.isChecked">
             </td>
             <!-- END First Column is Multiple Select Option END -->
