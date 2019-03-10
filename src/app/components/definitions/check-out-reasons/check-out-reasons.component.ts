@@ -42,6 +42,9 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
 
   constructor(protected baseService: BaseService) {
     super(baseService);
+    this.dataTable.isMultipleSelectedActive = false;
+    this.dataTable.isColumnOffsetActive = false;
+    this.dataTable.isPagingActive = false;
     this.LoadCheckOutReasons();
   }
 
