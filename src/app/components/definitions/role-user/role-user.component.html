@@ -45,7 +45,7 @@
                     <ng-multiselect-dropdown
                     [placeholder]="'Seçiniz'"
                     [data]="systemUsers"
-                    [(ngModel)]="selectedRoles"
+                    [(ngModel)]="userRole.UserId"
                     name="UserId"
                     [settings]="dropdownSettings"
                     (onSelect)="onItemSelect($event)"
