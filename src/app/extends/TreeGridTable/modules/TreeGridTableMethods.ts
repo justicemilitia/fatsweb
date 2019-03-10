@@ -11,27 +11,39 @@ export class TreeGridTableMethods {
             else
                 item = item[e];
         });
-        return (item ? item : '');
+        return (item != null ? item : '');
     }
 
     public static doSearch(obj: IData, filter: any): boolean {
         let keys = Object.keys(filter);
         for (let ii = 0; ii < keys.length; ii++) {
             let key = keys[ii];
+
+            /* Filter for selected items */
             if (key == "isChecked") {
                 return filter[key] == true ? obj[key] == filter[key] : true;
             }
-            let val = this.getValue(obj, key.split(','));
-            if (typeof val === "string") {
-                if (!this.filterText(val, filter[key]))
-                    return false;
-            } else if (typeof val === "number") {
-                if (!this.filterText(val.toString(), filter[key]))
-                    return false;
-            }
-            else if (!val && filter[key] && filter[key].length > 0)
-                return false;
 
+            /* Filter for the rest */
+            let val = this.getValue(obj, key.split(','));
+            switch (typeof val) {
+                case "string":
+                    if (!this.filterText(val, filter[key]))
+                        return false;
+                    break;
+                case "number":
+                    if (!this.filterText(val.toString(), filter[key]))
+                        return false;
+                    break;
+                case "boolean":
+                    if (filter[key] == true && obj[key] != filter[key])
+                        return false;
+                    break;
+                default:
+                    if (!val && filter[key] && filter[key].length > 0)
+                        return false;
+                    break;
+            }
         }
         return true;
     }

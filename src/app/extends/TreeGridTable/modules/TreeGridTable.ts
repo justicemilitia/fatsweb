@@ -979,8 +979,16 @@ export class TreeGridTable {
         let result = true;
         /* Check for each key of datafilter if not empty any of the values return false */
         Object.keys(this.dataFilters).forEach(e => {
-            if ((<string>this.dataFilters[e]).trim() !== '')
-                result = false;
+            switch (typeof this.dataFilters[e]) {
+                case "string":
+                    if ((<string>this.dataFilters[e]).trim() !== '')
+                        result = false;
+                    break;
+                case "boolean":
+                    if (this.dataFilters[e] && this.dataFilters[e] == true)
+                        result = false;
+                    break;
+            }
         });
 
         return result;

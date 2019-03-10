@@ -109,7 +109,7 @@
 .tree-table>thead>th span {
     position: absolute;
     right: 8px;
-    background: white;
+    background: none;
     color: #8c8c8c;
 }
 
