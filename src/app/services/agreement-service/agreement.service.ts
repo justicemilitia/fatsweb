@@ -1,5 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpRequest } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpRequest
+} from "@angular/common/http";
 
 import {
   GET_HEADERS,
@@ -15,8 +19,8 @@ import { AuthenticationService } from "../authenticationService/authentication.s
 import { Response } from "../../../../src/app/models/Response";
 import { Router } from "@angular/router";
 import { Agreement } from "../../../../src/app/models/Agreement";
-import { ErrorService } from '../error-service/error.service';
-import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { ErrorService } from "../error-service/error.service";
+import { getAnErrorResponse } from "src/app/declarations/extends";
 
 @Injectable({
   providedIn: "root"
@@ -53,41 +57,52 @@ export class AgreementService {
       );
   }
 
-  InsertAgreement(agreement: Agreement, success, failed) {
-    this.httpClient.post(SERVICE_URL + INSERT_AGREEMENT, agreement, {
-      headers: GET_HEADERS(this.authenticationService.getToken())
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let insertedAgreement: Agreement = new Agreement();
-          Object.assign(insertedAgreement, response.ResultObject);
-          success(insertedAgreement, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+  InsertAgreement(agreement: Agreement, files: any, success, failed) {
+    const formData = new FormData();
+    console.log(agreement);
+    if (files && files.length > 0) formData.append(files[0].name, files[0]);
+    formData.append("model", JSON.stringify(agreement));
+
+    this.httpClient
+      .post(SERVICE_URL + INSERT_AGREEMENT, formData, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedAgreement: Agreement = new Agreement();
+            Object.assign(insertedAgreement, response.ResultObject);
+            success(insertedAgreement, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          console.log(error);
+          failed(error);
         }
-      },
-      error => {
-        failed(error);
-      });
+      );
   }
 
   UpdateAgreement(agreement: Agreement, success, failed) {
-    this.httpClient.put(SERVICE_URL + UPDATE_AGREEMENT, agreement, {
-      headers: GET_HEADERS(this.authenticationService.getToken())
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          success(agreement, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+    this.httpClient
+      .put(SERVICE_URL + UPDATE_AGREEMENT, agreement, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(agreement, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      },
-      error => {
-        failed(error);
-      }
-    );
+      );
   }
 
   GetAgreementById(AgreementId: number, success, failed) {
@@ -95,39 +110,52 @@ export class AgreementService {
       .get(SERVICE_URL + GET_AGREEMENT_BY_ID + "/" + AgreementId, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
-      .subscribe(result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let agreement: Agreement = new Agreement();
-          Object.assign(agreement, response.ResultObject);
-          success(agreement, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let agreement: Agreement = new Agreement();
+            Object.assign(agreement, response.ResultObject);
+            success(agreement, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      }, error => {
-        failed(error);
-      });
+      );
   }
 
   DeleteAgreements(ids: number[], success, failed) {
-    this.httpClient.post(SERVICE_URL + DELETE_AGREEMENT, { "AgreementIds": ids }, {
-      headers: GET_HEADERS(this.authenticationService.getToken()),
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if ((<[]>response.ResultObject).length == 0) {
-          success(response.ResultObject, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+    this.httpClient
+      .post(
+        SERVICE_URL + DELETE_AGREEMENT,
+        { AgreementIds: ids },
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
         }
-      },
-      error => {
-        failed(error);
-      });
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if ((<[]>response.ResultObject).length == 0) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
   }
 
-  
   FileUpload(files: any, success, failed) {
+    // const formData = new FormData();
+    // formData.append(files[0].name, files[0]);
+    // formData.append("Agreement",);
+
     this.httpClient
       .post(SERVICE_URL + FILE_UPLOAD, files, {
         headers: GET_HEADERS(this.authenticationService.getToken())
@@ -137,13 +165,11 @@ export class AgreementService {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let file = {};
-
             if (files.length === 0) return;
 
-            const formData = new FormData();
-        
-            for (let file of files) formData.append(file.name, file);
-        
+            // for (let file of files)
+            // formData.append(file.name, file);
+
             // const uploadReq = new HttpRequest(
             //   "POST",
             //   SERVICE_URL+FILE_UPLOAD,
@@ -152,7 +178,6 @@ export class AgreementService {
             //     reportProgress: true
             //   }
             // );
-
 
             Object.assign(file, response.ResultObject);
             success(file, response.LanguageKeyword);
@@ -165,6 +190,4 @@ export class AgreementService {
         }
       );
   }
-
-
 }
