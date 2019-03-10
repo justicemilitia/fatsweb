@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpRequest } from "@angular/common/http";
 
 import {
   GET_HEADERS,
@@ -8,7 +8,8 @@ import {
   GET_AGREEMENT_LIST,
   UPDATE_AGREEMENT,
   GET_AGREEMENT_BY_ID,
-  DELETE_AGREEMENT
+  DELETE_AGREEMENT,
+  FILE_UPLOAD
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "../../../../src/app/models/Response";
@@ -124,5 +125,46 @@ export class AgreementService {
         failed(error);
       });
   }
+
+  
+  FileUpload(files: any, success, failed) {
+    this.httpClient
+      .post(SERVICE_URL + FILE_UPLOAD, files, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let file = {};
+
+            if (files.length === 0) return;
+
+            const formData = new FormData();
+        
+            for (let file of files) formData.append(file.name, file);
+        
+            // const uploadReq = new HttpRequest(
+            //   "POST",
+            //   SERVICE_URL+FILE_UPLOAD,
+            //   formData,
+            //   {
+            //     reportProgress: true
+            //   }
+            // );
+
+
+            Object.assign(file, response.ResultObject);
+            success(file, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
 
 }

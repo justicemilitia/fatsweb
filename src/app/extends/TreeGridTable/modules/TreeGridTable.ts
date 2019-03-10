@@ -673,11 +673,6 @@ export class TreeGridTable {
         for (let e of column.columnName) {
             /* if item exists just go deep as much as possible */
             if (!item) {
-
-                if (!Object.keys(data).includes(e))
-                    throw "Undefined Column Name" + "(" + JSON.stringify(column) + ")";
-
-
                 item = data[e];
 
                 /* if an object is empty prevent show current object value we set it as empty to stop loop */
@@ -687,10 +682,11 @@ export class TreeGridTable {
                 }
             }
             else {
-                if (!Object.keys(item).includes(e))
-                    throw "Undefined Column Name" + "(" + JSON.stringify(column) + ")";
-
                 item = item[e];
+                if (!item) {
+                    item = '';
+                    break;
+                }
             }
         }
         if (column.formatter) {

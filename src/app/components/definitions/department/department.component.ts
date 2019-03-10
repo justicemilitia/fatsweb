@@ -1,5 +1,5 @@
 import { Component, OnInit, NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
+import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { Department } from "../../../models/Department";
 import { Location } from "../../../models/Location";
 import { BaseService } from "../../../services/base.service";
@@ -19,8 +19,17 @@ import * as $ from "jquery";
   providers: [DepartmentComponent]
 })
 export class DepartmentComponent extends BaseComponent implements OnInit {
+
+  /* Is Request send and waiting for response ? */
+  isWaitingInsertOrUpdate: boolean = false;
+
+  /* List Of Departments */
   departments: Department[] = [];
+
+  /* List Of Locations */
   locations: Location[] = [];
+
+  /* Current Edit Department */
   department: Department = new Department();
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -71,10 +80,13 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     this.loadDropdownList();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  resetForm() {
-    this.department = new Department();
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.department);
+    if (isNewItem == true) {
+      this.department = new Department();
+    }
   }
 
   onSubmit(data: NgForm) {
@@ -85,15 +97,17 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     }
   }
 
+  get getDepartmentsWithoutCurrent() {
+    return this.departments.filter(x => x.DepartmentId != this.department.DepartmentId);
+  }
+
   async deleteDepartments() {
     /* get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir departman seçiniz"
-      );
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir departman seçiniz");
       return;
     }
 
@@ -106,85 +120,83 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
       /* Delete all */
-      this.baseService.departmentService.DeleteDepartments(
-        itemIds,
-        (notDeletedItemIds: number[]) => {
-          /* Deactive the spinner */
-          this.baseService.spinner.hide();
+      this.baseService.departmentService.DeleteDepartments(itemIds, () => {
 
-          /* if any item exists in not deleted items */
-          if (notDeletedItemIds) {
-            /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
-            for (let ii = 0; ii < itemIds.length; ii++) {
-              if (notDeletedItemIds.includes(itemIds[ii])) {
-                itemIds.splice(ii, 1);
-                ii--;
-              }
-            }
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
 
-            /* if any value couldnt delete then show popup */
-            if (itemIds.length == 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                "Hiçbir Kayıt Silinemedi!"
-              );
-              return;
-            }
 
-            /* if some of them is deleted show this */
-            if (itemIds.length > 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                selectedItems.length.toString() +
-                  " kayıttan " +
-                  itemIds.length.toString() +
-                  "'i silinebildi!"
-              );
-            }
-          } else {
-            /* if all of them removed */
-            this.baseService.popupService.ShowAlertPopup(
-              " Tüm kayıtlar başarıyla silindi!"
-            );
-          }
+        /* if all of them removed */
+        if (itemIds.length == 1)
+          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+        else
+          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
-          /* Now Delete items from the source */
-          for (let ii = 0; ii < itemIds.length; ii++) {
-            let index = this.departments.findIndex(
-              x => x.DepartmentId == itemIds[ii]
-            );
-            if (index > -1) {
-              this.departments.splice(index, 1);
-            }
-          }
-
-          /* Reload Page */
-          this.dataTable.TGT_loadData(this.departments);
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.spinner.hide();
-          this.baseService.popupService.ShowErrorPopup(error);
+        /* Clear all the ids from table */
+        for (let ii = 0; ii < itemIds.length; ii++) {
+          let index = this.departments.findIndex(x => x.DepartmentId == itemIds[ii]);
+          if (index > -1)
+            this.departments.splice(index, 1);
         }
-      );
+
+        /* Reload Page */
+        this.dataTable.TGT_loadData(this.departments);
+
+      }, (error: HttpErrorResponse) => {
+
+        /* Hide spinner then show error message */
+        this.baseService.spinner.hide();
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      });
     });
   }
 
   async insertDepartment(data: NgForm) {
+
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
+    /* Find Location for selected location */
+    let location = this.locations.find(x => x.LocationId == this.department.LocationId);
+    if (!location)
+      location = new Location();
+
+    /* if department location instance is empty then create a new one */
+    if (!this.department.Location)
+      this.department.Location = new Location();
+
+    /* Bind found item to department model */
+    this.department.Location.LocationId = location.LocationId;
+    this.department.Location.Name = location.Name;
+
+    /* Show Loading bar */
+    this.isWaitingInsertOrUpdate = true;
+
     /* Insert Department service */
-    await this.baseService.departmentService.InsertDepartment(
-      this.department,
-      (data: Department, message) => {
-        /* Show pop up, get inserted department then set it to department id, then load data. */
+    await this.baseService.departmentService.InsertDepartment(this.department,
+      (insertedItem: Department, message) => {
+
+        /* Close waiting loader */
+        this.isWaitingInsertOrUpdate = false;
+
+        /* Show pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
-        this.department.DepartmentId = data.DepartmentId;
+        this.department.DepartmentId = insertedItem.DepartmentId;
+
+        /* Push new item to current list of locations then reload table */
         this.departments.push(this.department);
         this.dataTable.TGT_loadData(this.departments);
-        this.resetForm();
+
+        /* Reset all data */
+        this.resetForm(data, true);
       },
       (error: HttpErrorResponse) => {
+
         /* Show alert message */
+        this.isWaitingInsertOrUpdate = false;
         this.baseService.popupService.ShowErrorPopup(error);
+
       }
     );
   }
@@ -194,38 +206,75 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     /* Ask for approve question if its true then update the department */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
-          debugger;
-          this.baseService.departmentService.UpdateDepartment(
-            this.department,
-            (_department, message) => {
-              /* Show pop up then update data in datatable */
-              this.baseService.popupService.ShowSuccessPopup(message);
-              this.dataTable.TGT_updateData(this.department);
-              this.resetForm();
-            },
-            (error: HttpErrorResponse) => {
-              /* Show error message */
-              this.baseService.popupService.ShowErrorPopup(error);
-            }
-          );
-        }
+    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+      if (response == true) {
+
+        /* Find Location for selected location */
+        let location = this.locations.find(x => x.LocationId == this.department.LocationId);
+        if (!location)
+          location = new Location();
+
+        /* if department location instance is empty then create a new one */
+        if (!this.department.Location)
+          this.department.Location = new Location();
+
+        /* Bind found item to department model */
+        this.department.Location.LocationId = location.LocationId;
+        this.department.Location.Name = location.Name;
+
+        /* Save parent to rollback it. Normally api says circuler error */
+        let parentDepartment = this.department.ParentDepartment;
+        this.department.ParentDepartment = null;
+
+        /* loading icon visible */
+        this.isWaitingInsertOrUpdate = true;
+
+        /* if user approve question update department */
+        this.baseService.departmentService.UpdateDepartment(this.department,
+          (_department, message) => {
+
+            /* Close loading icon */
+            this.isWaitingInsertOrUpdate = false;
+
+            /* Show pop up */
+            this.baseService.popupService.ShowSuccessPopup(message);
+
+            /* After update succeed get parent location then update it in table. */
+            this.department.ParentDepartment = this.departments.find(x => x.getId() == this.department.getParentId());
+            let updatedDepartment = new Department();
+            Object.assign(updatedDepartment, this.department);
+
+            /* Update in table */
+            this.dataTable.TGT_updateData(updatedDepartment);
+
+          }, (error: HttpErrorResponse) => {
+
+            /* Close loader */
+            this.isWaitingInsertOrUpdate = false;
+
+            /* Rollback the parent department */
+            this.department.ParentDepartment = parentDepartment;
+
+            /* Show error message */
+            this.baseService.popupService.ShowErrorPopup(error);
+
+          });
       }
-    );
+    });
   }
 
   async loadDropdownList() {
-    await this.baseService.locationService.GetLocations(
-      locations => (this.locations = locations),
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+
+    /* load locations to location dropdown */
+    await this.baseService.locationService.GetLocations(locations => {
+      this.locations = locations
+    }, (error: HttpErrorResponse) => {
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
   }
 
   async loadDepartments() {
+
     /* Load all departments to datatable */
     await this.baseService.departmentService.GetDepartments(
       (departments: Department[]) => {
@@ -233,26 +282,11 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         this.dataTable.TGT_loadData(this.departments);
       },
       (error: HttpErrorResponse) => {
+
         /* if error show pop up */
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-  }
-
-  async loadDepartmentById(event: any) {
-    if (event.target.value.toString().trim() !== "") {
-      await this.baseService.departmentService.GetDepartmentById(
-        <number>event.target.value,
-        (departments: Department[]) => {
-          /* Load departments */
-          this.departments = departments;
-        },
-        (error: HttpErrorResponse) => {
-          /* show erro pop up */
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
   }
 
   async onDoubleClickItem(item: any) {
@@ -265,12 +299,16 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       (result: Department) => {
         /* then bind it to department model to update */
         setTimeout(() => {
+
           /* Trigger to model to show it */
-          $("#btnAddDepartment").trigger("click");
+          $("#btnEditDepartment").trigger("click");
+
+          /* close spinner */
+          this.baseService.spinner.hide();
 
           /* bind result to model */
           this.department = result;
-          this.baseService.spinner.hide();
+
         }, 1000);
       },
       (error: HttpErrorResponse) => {

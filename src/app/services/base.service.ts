@@ -21,6 +21,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from "@angular/router";
 import { RoleAuthorizationService } from "./role-authorization-service/role-authorization.service";
 import { RoleUserService } from "./role-user-service/role-user.service";
+import { FileUploadService } from './file-upload-service/file-upload.service';
+
 @Injectable({
   providedIn: "root"
 })
@@ -46,6 +48,7 @@ export class BaseService {
     public roleService: RoleService,
     public roleUserService:RoleUserService,
     public roleAuthorizationService: RoleAuthorizationService,
+    public fileUploadService:FileUploadService,    
     public spinner: NgxSpinnerService,
     public router: Router
   ) {}

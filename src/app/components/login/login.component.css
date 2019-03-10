@@ -17,11 +17,27 @@ color: white;
 }
 
 .az-card-signin {
-    height: 500px;
+    height: 580px;
+}
+
+.az-card-signin-title {
+    color:rgb(33, 34, 41);
+    font-weight: 400;
+    margin-bottom: 25px;
+    font-size: 1.21875rem;
+}
+
+.az-signin-footer a {
+    font-size: 13px;
+}
+
+.az-signin-footer p {
+    font-size: 13px;
 }
 
 .form-group > input {
-    height: 30px !important;
+    border-radius: 0;
+    min-height: 38px;
 }
 
 
@@ -37,12 +53,11 @@ color: white;
     margin-top: 10px;
     font-size: 14px;
     padding: 0 !important;
-    max-height: 30px;
-    width: 75%;
+    width: 100%;
     margin: 0 auto;
-    margin-top: 30px;
-    min-height: 32px;
-    border-radius: 3px;
+    margin-top: 20px;
+    min-height: 38px;
+    border-radius: 0px;
 }
 
 .alert-custom {
@@ -58,12 +73,11 @@ color: white;
 
 @media (min-width: 480px) {
     .az-card-signin {
-        border-radius: 4px;
         justify-content: space-between;
     }
 }
 .form-group > select {
-    height: 30px;
+    height: 38px;
     font-size: 13px;
     padding-top: 3px;
 }

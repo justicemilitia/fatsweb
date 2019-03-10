@@ -68,6 +68,7 @@ export const GET_AGREEMENT_BY_ID="Aggrement/GetAgreementListById";
 export const INSERT_AGREEMENT = "Aggrement/AddAgreement";
 export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreement";
 export const DELETE_AGREEMENT = "Aggrement/RemoveByIdList";
+export const FILE_UPLOAD = "File/UploadFile";
 //#endregion
 
 //#region Companies
