@@ -266,7 +266,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
   async loadDropdownList() {
 
-    /* load locations to location dropdown */
+    /* Load locations to location dropdown */
     await this.baseService.locationService.GetLocations(locations => {
       this.locations = locations
     }, (error: HttpErrorResponse) => {

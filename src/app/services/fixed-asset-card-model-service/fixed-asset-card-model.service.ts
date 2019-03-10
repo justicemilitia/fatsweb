@@ -28,7 +28,7 @@ export class FixedAssetCardModelService {
     private httpClient: HttpClient,
     private aService: AuthenticationService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   GetFixedAssetCardModels(success, failed) {
     this.httpClient
@@ -56,30 +56,23 @@ export class FixedAssetCardModelService {
       );
   }
 
-  InsertFixedAssetCardModel(
-    fixedAssetCardModel: FixedAssetCardModel,
-    success,
-    failed
-  ) {
+  InsertFixedAssetCardModel(fixedAssetCardModel: FixedAssetCardModel, success, failed) {
     this.httpClient
       .post(SERVICE_URL + INSERT_FIXEDASSETCARDMODEL, fixedAssetCardModel, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(
-        result => {
-          let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
-            let insertedModel: FixedAssetCardModel = new FixedAssetCardModel();
-            Object.assign(insertedModel, response.ResultObject);
-            success(insertedModel, response.LanguageKeyword);
-          } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
-        },
-        (error: HttpErrorResponse) => {
-          failed(error);
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let insertedModel: FixedAssetCardModel = new FixedAssetCardModel();
+          Object.assign(insertedModel, response.ResultObject);
+          success(insertedModel, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
-      );
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      });
   }
 
   UpdateFixedAssetCardModel(
@@ -131,26 +124,18 @@ export class FixedAssetCardModelService {
   }
 
   DeleteFixedAssetCarModels(ids: number[], success, failed) {
-    this.httpClient
-      .post(
-        SERVICE_URL + DELETE_FIXEDASSETCARDMODEL,
-        { ModelIds: ids },
-        {
-          headers: GET_HEADERS(this.aService.getToken())
+    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARDMODEL, { ModelIds: ids }, {
+      headers: GET_HEADERS(this.aService.getToken())
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if ((<[]>response.ResultObject).length == 0) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
         }
-      )
-      .subscribe(
-        result => {
-          let response: Response = <Response>result;
-          if ((<[]>response.ResultObject).length == 0) {
-            success(response.ResultObject, response.LanguageKeyword);
-          } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
-        },
-        error => {
-          failed(error);
-        }
-      );
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      });
   }
 }

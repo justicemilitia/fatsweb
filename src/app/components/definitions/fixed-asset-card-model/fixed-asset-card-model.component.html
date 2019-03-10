@@ -1,27 +1,30 @@
 <div class="az-content">
-    <div class="container">
-      <div class="az-content-body">  
-        <h2 class="az-content-title">Demirbaş Modelleri</h2> 
-          <div class="grp-btn-action">
-            <button type="button" (click)="deleteFixedAssetCardModel()" class="btn btn-danger btn-delete-custom">
-                {{dataTableModel.TGT_getSelectedItems().length > 0 ? dataTableModel.TGT_getSelectedItems().length : '' }}
-                <i class="fas fa-trash"></i></button>   
-            <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)" id="btnAddFixedAssetCardModel" data-toggle="modal"
-              data-target="#modalFixedAssetCardModel">Model Ekle
-            </button>
-            <button style="display:none" (click)="resetForm(data,false)" id="btnEditFixedAssetCardModel" data-toggle="modal"
-            data-target="#modalFixedAssetCardModel">Model Düzenle
-          </button>      
+  <div class="container-fluid">
+    <div class="az-content-body">
+      <div class="card card-dashboard-twelve mg-b-20">
+        <h2 class="az-content-title">Demirbaş Modelleri</h2>
+        <div class="grp-btn-action">
+          <button type="button" (click)="deleteFixedAssetCardModel()" class="btn btn-danger btn-delete-custom">
+            {{dataTableModel.TGT_getSelectedItems().length > 0 ? dataTableModel.TGT_getSelectedItems().length : '' }}
+            <i class="fas fa-trash"></i></button>
+          <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)" id="btnAddFixedAssetCardModel"
+            data-toggle="modal" data-target="#modalFixedAssetCardModel">Model Ekle
+          </button>
+          <button style="display:none" (click)="resetForm(data,false)" id="btnEditFixedAssetCardModel"
+            data-toggle="modal" data-target="#modalFixedAssetCardModel">Model Düzenle
+          </button>
         </div>
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableModel"></tree-grid-table>     
-      <!-- az-content-body -->
+        <p class="mg-b-20"></p>
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableModel">
+        </tree-grid-table>
+        <!-- az-content-body -->
+      </div>
     </div>
+    <!-- az-content -->
   </div>
-  <!-- az-content -->
-  
 
-   <!-- MODAL FIXEDASSETCARDMODEL -->
-   <div id="modalFixedAssetCardModel" class="modal">
+  <!-- MODAL FIXEDASSETCARDMODEL -->
+  <div id="modalFixedAssetCardModel" class="modal">
     <div class="modal-dialog" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
@@ -29,43 +32,55 @@
           <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close"><span
               aria-hidden="true">&times;</span></button>
         </div>
-        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" class="form-register" novalidate>
-        <div class="modal-body">
-          <div class="row justify-content-center">
-              <input type="hidden" name="FixedAssetCardModelId" [(ngModel)]="fixedAssetCardModel.FixedAssetCardModelId"/>
-              <div class="form-group">
-                  <label class="required-span">Kod</label>
-                  <input [(ngModel)]="fixedAssetCardModel.FixedAssetCardModelCode" name="FixedAssetCardModelCode" type="text" class="form-control txt-width" #FixedAssetCardModelCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardModelCode.invalid }" required/>
-                  <div *ngIf="data.submitted && FixedAssetCardModelCode.invalid" class="invalid-feedback">
-                    <div *ngIf="FixedAssetCardModelCode.errors.required">Bu alan zorunludur.</div>
-                  </div>
-                  <label class="required-span">Marka</label>
-                <select [(ngModel)]="fixedAssetCardModel.FixedAssetCardBrandId" (click)="loadBrands()"
-                name="Name" class="form-control select2-no-search" #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required>
-                  <option value=" ">Seçiniz</option>
-                  <option *ngFor="let facbs of fixedAssetCardBrands" value={{facbs.FixedAssetCardBrandId}}>{{facbs.Name}}</option>
-                </select>              
+        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" class="form-register"
+          novalidate>
+          <div class="modal-body">
+            <input type="hidden" name="FixedAssetCardModelId" [(ngModel)]="fixedAssetCardModel.FixedAssetCardModelId" />
+            <div class="row justify-content-center">
+              <div class="form-group col-md-6">
+                <label class="required-span">Kod</label>
+                <input [(ngModel)]="fixedAssetCardModel.FixedAssetCardModelCode" name="FixedAssetCardModelCode"
+                  type="text" class="form-control" #FixedAssetCardModelCode="ngModel"
+                  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardModelCode.invalid }" required />
+                <div *ngIf="data.submitted && FixedAssetCardModelCode.invalid" class="invalid-feedback">
+                  <div *ngIf="FixedAssetCardModelCode.errors.required">Bu alan zorunludur.</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="required-span">Model Adı</label>
+                <input [(ngModel)]="fixedAssetCardModel.Name" name="Name" type="text" class="form-control"
+                  #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
                 <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                </div>
               </div>
-              <label class="required-span">Model Adı</label>
-              <input [(ngModel)]="fixedAssetCardModel.Name" name="Name" type="text" class="form-control txt-width"  #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required/>
-              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
-              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="form-group col-md-12">
+                <label class="required-span">Marka</label>
+                <select [(ngModel)]="fixedAssetCardModel.FixedAssetCardBrandId" (click)="loadBrands()"
+                  name="FixedAssetCardBrandId" class="form-control select2-no-search" #FixedAssetCardBrandId="ngModel"
+                  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardBrandId.invalid }" required>
+                  <option value=" ">Seçiniz</option>
+                  <option *ngFor="let facbs of fixedAssetCardBrands" value={{facbs.FixedAssetCardBrandId}}>
+                    {{facbs.Name}}</option>
+                </select>
+                <div *ngIf="data.submitted && FixedAssetCardBrandId.invalid" class="invalid-feedback">
+                  <div *ngIf="FixedAssetCardBrandId.errors.required">Bu alan zorunludur.</div>
+                </div>
               </div>
             </div>
           </div>
-        <!-- form-group -->
-            <div class="modal-footer">
-              <button id="btnInsertOrUpdateModel" type="submit"  class="btn btn-orange"
-                data-toggle="modal"  *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalInsertFixedAssetCardModel">{{fixedAssetCardModel.FixedAssetCardModelId ? 'Güncelle' : 'Ekle'}}</button>
-                <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-            </div>       
-      </form>
+          <!-- form-group -->
+          <div class="modal-footer">
+            <button id="btnInsertOrUpdateModel" type="submit" class="btn btn-orange" data-toggle="modal"
+              *ngIf="isWaitingInsertOrUpdate == false"
+              data-target="#modalInsertFixedAssetCardModel">{{fixedAssetCardModel.FixedAssetCardModelId ? 'Modeli Güncelle' : 'Model Ekle'}}</button>
+            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+          </div>
+        </form>
       </div>
     </div>
     <!-- modal-dialog -->
   </div>
   <!-- modal -->
-  
