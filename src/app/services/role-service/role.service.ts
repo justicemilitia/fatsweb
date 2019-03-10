@@ -19,7 +19,7 @@ import { ErrorService } from "../error-service/error.service";
 import { User } from "src/app/models/User";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { UserRole } from "src/app/models/UserRole";
-import { NgForm } from "@angular/forms";
+
 
 @Injectable({
   providedIn: "root"
@@ -49,58 +49,6 @@ export class RoleService {
               roles.push(role);
             });
             success(roles, response.LanguageKeyword);
-          } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
-        },
-        (error: HttpErrorResponse) => {
-          failed(error);
-        }
-      );
-  }
-
-  GetUsers(success, failed) {
-    this.httpclient
-      .get(SERVICE_URL + GET_SYSTEM_USER_LIST, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(
-        result => {
-          let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
-            let users: User[] = [];
-            (<User[]>response.ResultObject).forEach(e => {
-              let user: User = new User();
-              Object.assign(user, e);
-              users.push(user);
-            });
-            success(users, response.LanguageKeyword);
-          } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
-        },
-        (error: HttpErrorResponse) => {
-          failed(error);
-        }
-      );
-  }
-
-  GetUserRole(success, failed) {
-    this.httpclient
-      .get(SERVICE_URL + GET_USER_ROLE_LIST, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(
-        result => {
-          let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
-            let userRoles: UserRole[] = [];
-            (<UserRole[]>response.ResultObject).forEach(e => {
-              let userRole: UserRole = new UserRole();
-              Object.assign(userRole, e);
-              userRoles.push(userRole);
-            });
-            success(userRoles, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -159,7 +107,7 @@ export class RoleService {
     this.httpclient
       .post(
         SERVICE_URL + DELETE_ROLES,
-        { RoleIds: ids },
+        { "RoleIds": ids },
         {
           headers: GET_HEADERS(this.aService.getToken())
         }
@@ -167,7 +115,7 @@ export class RoleService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
+          if ((<[]>response.ResultObject).length == 0) {
             success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
@@ -200,29 +148,6 @@ export class RoleService {
         }
       );
   }
-
-  InsertUserRole(userRole: UserRole, success, failed) {
-    this.httpclient
-      .post(SERVICE_URL + INSERT_USER_ROLE, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(result=>{
-        let response:Response=<Response>result;
-        if(response.ResultStatus==true){
-          let insertedUserRole:UserRole=new UserRole();
-          Object.assign(insertedUserRole,response.ResultObject);
-          success(insertedUserRole,response.LanguageKeyword);
-        }else{
-          failed(getAnErrorResponse(response.LanguageKeyword));
-        }
-      },(error:HttpErrorResponse)=>{
-        failed(error);
-      });
-  }
-
-
-
-
 }
 
 

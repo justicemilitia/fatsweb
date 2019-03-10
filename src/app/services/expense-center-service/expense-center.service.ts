@@ -20,7 +20,6 @@ import { getAnErrorResponse } from 'src/app/declarations/extends';
   providedIn: "root"
 })
 export class ExpenseCenterService {
-  expenseCenterData: ExpenseCenter[] = [];
 
   constructor(
     private httpClient: HttpClient,
@@ -68,7 +67,7 @@ export class ExpenseCenterService {
             let expCenter: ExpenseCenter = new ExpenseCenter();
             Object.assign(expCenter, response.ResultObject);
             success(expCenter, response.LanguageKeyword);
-          } else {
+          } else { 
             failed(
               getAnErrorResponse(response.LanguageKeyword)
             );
@@ -89,9 +88,7 @@ export class ExpenseCenterService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let updatedExpenseCenter: ExpenseCenter = new ExpenseCenter();
-            Object.assign(updatedExpenseCenter, response.ResultObject);
-            success(updatedExpenseCenter, response.LanguageKeyword);
+           success(expenseCenter, response.LanguageKeyword);
           } else {
             failed(
               getAnErrorResponse(response.LanguageKeyword)
@@ -129,9 +126,7 @@ export class ExpenseCenterService {
       .subscribe(result => {
         let response:Response=<Response>result;
         if(response.ResultStatus==true){
-          let expCenter:ExpenseCenter=new ExpenseCenter();
-          Object.assign(expCenter,response.ResultObject);
-          success(expCenter,response.LanguageKeyword);
+         success(response.ResultObject,response.LanguageKeyword);
         }
         else{
           failed(getAnErrorResponse(response.LanguageKeyword));

@@ -22,6 +22,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
   expCenters: ExpenseCenter[] = [];
+
   expenseCenter: ExpenseCenter = new ExpenseCenter();
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -65,8 +66,11 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
   }
 
   OnSubmit(data: NgForm) {
-    if (data.value.ExpenseCenterId == null) this.addExpenseCenter(data);
-    else this.updateExpenseCenter(data);
+    if (data.value.ExpenseCenterId == null) {
+      this.addExpenseCenter(data);
+    } else {
+      this.updateExpenseCenter(data);
+    }
   }
 
   async deleteExpenseCenters() {
@@ -141,7 +145,10 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
   }
 
   async updateExpenseCenter(data: NgForm) {
+
     if (data.form.invalid == true) return;
+
+    this.isWaitingInsertOrUpdate = true;
 
     await this.baseService.expenseCenterService.UpdateExpenseCenter(
       this.expenseCenter,
@@ -170,6 +177,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
   }
 
   async onDoubleClickItem(item: ExpenseCenter) {
+
     this.expenseCenter = new ExpenseCenter();
     /* Show spinner for loading */
     this.baseService.spinner.show();
@@ -182,11 +190,10 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
       (result: ExpenseCenter) => {
         /* then bind it to company model to update */
         setTimeout(() => {
-          $("#btnAddExpenseCenter").trigger("click");
+          $("#btnEditExpenseCenter").trigger("click");
 
           this.baseService.spinner.hide();
           Object.assign(this.expenseCenter, result);
-
         }, 1000);
       },
       (error: HttpErrorResponse) => {

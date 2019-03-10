@@ -1,13 +1,14 @@
 import { Component, OnInit } from "@angular/core";
-import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
+import { NgForm } from "@angular/forms";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "../../base/base.component";
+
 import { Role } from "src/app/models/Role";
 import { HttpErrorResponse } from "@angular/common/http";
-import { NgForm } from "@angular/forms";
+import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { User } from "src/app/models/User";
-import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { UserRole } from "src/app/models/UserRole";
+import * as $ from "jquery";
 
 @Component({
   selector: "app-role",
@@ -15,9 +16,13 @@ import { UserRole } from "src/app/models/UserRole";
   styleUrls: ["./role.component.css"]
 })
 export class RoleComponent extends BaseComponent implements OnInit {
+  isWaitingInsertOrUpdate: boolean = false;
+
   roles: Role[] = [];
   role: Role = new Role();
+
   users: User[] = [];
+
   userRole: UserRole[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -65,64 +70,43 @@ export class RoleComponent extends BaseComponent implements OnInit {
     }
 
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+      /* Activate the loading spinner */
       this.baseService.spinner.show();
 
+      /* Convert items to ids */
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
-      this.baseService.roleService.DeleteRoles(
+      /* Delete all */
+      this.baseService.companyService.DeleteCompanies(
         itemIds,
-        (notDeletedItemIds: number[]) => {
+        () => {
           /* Deactive the spinner */
           this.baseService.spinner.hide();
 
-          /* if any item exists in not deleted items */
-          if (notDeletedItemIds) {
-            /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
-            for (let ii = 0; ii < itemIds.length; ii++) {
-              if (notDeletedItemIds.includes(itemIds[ii])) {
-                itemIds.splice(ii, 1);
-                ii--;
-              }
-            }
-
-            /* if any value couldnt delete then show popup */
-            if (itemIds.length == 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                "Hiç Bir Kayıt Silinemedi!"
-              );
-              return;
-            }
-
-            /* if some of them is deleted show this */
-            if (itemIds.length > 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                selectedItems.length.toString() +
-                  " kayıttan " +
-                  itemIds.length.toString() +
-                  "'i silinebildi!"
-              );
-            }
-          } else {
-            /* if all of them removed */
+          /* if all of them removed */
+          if (itemIds.length == 1)
             this.baseService.popupService.ShowAlertPopup(
-              " Tüm kayıtlar başarıyla silindi!"
+              "Kayıt Başarıyla silindi!"
             );
-          }
+          else
+            this.baseService.popupService.ShowAlertPopup(
+              "Tüm kayıtlar başarıyla silindi!"
+            );
 
-          /* Now Delete items from the source */
+          /* Clear all the ids from table */
           for (let ii = 0; ii < itemIds.length; ii++) {
             let index = this.roles.findIndex(x => x.RoleId == itemIds[ii]);
-            if (index > -1) {
-              this.roles.splice(index, 1);
-            }
+            if (index > -1) this.roles.splice(index, 1);
           }
 
           /* Reload Page */
           this.dataTable.TGT_loadData(this.roles);
         },
-        (error: HttpErrorResponse) => {
+        (failedItems: []) => {
           this.baseService.spinner.hide();
-          this.baseService.popupService.ShowErrorPopup(error);
+          this.baseService.popupService.ShowAlertPopup(
+            "Kayıtlar ilişkili olduğundan silinemedi!"
+          );
         }
       );
     });
@@ -140,10 +124,11 @@ export class RoleComponent extends BaseComponent implements OnInit {
     );
   }
 
-
-
-  resetForm() {
-    this.role = new Role();
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.role);
+    if (isNewItem == true) {
+      this.role = new Role();
+    }
   }
 
   OnSubmitRole(data: NgForm) {
@@ -153,31 +138,46 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
   async addRole(data: NgForm) {
     if (data.form.invalid == true) return;
-    this.role = <Role>data.value;
+
+    this.isWaitingInsertOrUpdate = true;
+
     await this.baseService.roleService.InsertRole(
       this.role,
-      (data: Role, message) => {
+      (insertedItem: Role, message) => {
+
         this.baseService.popupService.ShowSuccessPopup(message);
-        this.roles.push(data);
-        this.resetForm();
+        this.role.RoleId = insertedItem.RoleId;
+
+        this.roles.push(this.role);
+        this.dataTable.TGT_loadData(this.roles);
+
+        this.resetForm(data, true);
+        this.isWaitingInsertOrUpdate = false;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+        this.isWaitingInsertOrUpdate = false;
       }
     );
   }
 
   async updateRole(data: NgForm) {
     if (data.form.invalid == true) return;
+
+    this.isWaitingInsertOrUpdate = true;
+
     await this.baseService.roleService.UpdateRole(
       this.role,
       (_role, message) => {
         this.baseService.popupService.ShowSuccessPopup(message);
         this.dataTable.TGT_updateData(this.role);
-        this.resetForm();
+        
+        this.resetForm(data, true);
+        this.isWaitingInsertOrUpdate = false;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+        this.isWaitingInsertOrUpdate = false;
       }
     );
   }

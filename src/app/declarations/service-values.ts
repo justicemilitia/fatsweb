@@ -92,7 +92,7 @@ export const GET_EXPENSECENTER_LIST = "ExpenseCenter/GetExpenseCenterList";
 export const GET_EXPENSECENTER_BY_ID = "ExpenseCenter/GetExpenseCenterById";
 export const INSERT_EXPENSECENTER = "ExpenseCenter/AddExpenseCenter";
 export const UPDATE_EXPENSECENTER = "ExpenseCenter/UpdateExpenseCenter";
-export const DELETE_EXPENSECENTER = "ExpenseCenter/DeleteExpenseCenter";
+export const DELETE_EXPENSECENTER = "ExpenseCenter/RemoveByIdList";
 
 //#endregion
 
@@ -114,9 +114,9 @@ export const GET_ROLE_AUTHORIZATION_LIST = "Role/GetRoleAuthorizationList";
 //#endregion
 
 //#region UserRole
-export const INSERT_USER_ROLE = "role/AddUserRole";
+export const INSERT_USER_ROLE = "role/AddRoleToUserByArray";
 export const GET_USER_ROLE_LIST = "role/GetUserRoleList";
-
+export const GET_USER_ROLE_BY_ID = "role/GetUserRoleById";
 //#endregion
 
 export const GET_FIRM_LIST = "firm/GetFirmsList";

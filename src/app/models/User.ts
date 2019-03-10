@@ -17,8 +17,9 @@ export class User implements IData {
     getId(): number {
         return this.UserId;
     }
-    UserId: number;
+
     isExtended: boolean;
+    UserId: number;
     UserMail: string;
     FirstName: string;
     LastName: string;
@@ -27,10 +28,10 @@ export class User implements IData {
     UserTitle: string;
     FirmId: number;
     RoleId: number;
-    Role: Role;
     Password: string;
     PhoneNumber: number;
     ParentUserId: number;
+    Role: Role;
     ParentUser: User;
     Department: Department;
     Location: Location;

@@ -30,21 +30,18 @@ export class CheckOutReasonService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let checkOutReasons: CheckOutReason[] = [];
-
+            let reasons: CheckOutReason[] = [];
             (<CheckOutReason[]>response.ResultObject).forEach(e => {
-              let check: CheckOutReason = new CheckOutReason();
-              Object.assign(check, e);
-              checkOutReasons.push(check);
+              let reason: CheckOutReason = new CheckOutReason();
+              Object.assign(reason, e);
+              reasons.push(reason);
             });
-
-            success(checkOutReasons);
-
+            success(reasons, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
         }, (error: HttpErrorResponse) => {
-          console.error(error)
+          failed(error);
         });
   }
 }
