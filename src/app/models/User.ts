@@ -17,11 +17,8 @@ export class User implements IData {
     getId(): number {
         return this.UserId;
     }
-<<<<<<< HEAD
-=======
 
     isExtended: boolean;
->>>>>>> 65e1aa60321c9bb1410477c9a904c20e5e3b1915
     UserId: number;
     UserMail: string;
     FirstName: string;
@@ -34,11 +31,8 @@ export class User implements IData {
     Password: string;
     PhoneNumber: number;
     ParentUserId: number;
-<<<<<<< HEAD
-=======
     Role: Role;
     ParentUser: User;
->>>>>>> 65e1aa60321c9bb1410477c9a904c20e5e3b1915
     Department: Department;
     Location: Location;
     Firm: Firm;

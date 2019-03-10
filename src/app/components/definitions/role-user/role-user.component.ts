@@ -8,6 +8,7 @@ import { NgForm } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { User } from "src/app/models/User";
 import * as $ from "jquery";
+import { userInfo } from 'os';
 
 @Component({
   selector: "app-rol-user",
@@ -18,6 +19,7 @@ export class RoleUserComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
   users: User[] = [];
+  user:User=new User();
   userRoles: UserRole[] = [];
   userRole: UserRole = new UserRole();
   roles: Role[] = [];
@@ -68,7 +70,7 @@ export class RoleUserComponent implements OnInit {
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
       itemsShowLimit: 15,
-      allowSearchFilter: true
+      allowSearchFilter: true,      
     };
   }
 
@@ -97,7 +99,7 @@ export class RoleUserComponent implements OnInit {
 
   async loadRoles() {
     await this.baseService.roleService.GetRoles(
-      (roles: Role[]) => {
+      (roles: Role[]) => {  
         this.roles = roles;
       },
       (error: HttpErrorResponse) => {
@@ -147,21 +149,24 @@ export class RoleUserComponent implements OnInit {
   }
 
   onDoubleClickItem(item: UserRole) {
-    this.userRole = new UserRole();
+    this.userRole=new UserRole();
 
     this.baseService.spinner.show();
 
     this.loadUserRole();
-    this.loadSystemUser();
+
     this.baseService.roleUserService.GetUserRoleById(
       item.UserRoleId,
       (result: UserRole) => {
         setTimeout(() => {
+
           $("btnEditUserRole").trigger("click");
-
+          
           this.baseService.spinner.hide();
-
-          Object.assign(this.userRole, result);
+          
+          Object.assign(this.userRole,result);
+          this.onItemSelect(this.user);
+      
         }, 1000);
       },
       (error: HttpErrorResponse) => {
