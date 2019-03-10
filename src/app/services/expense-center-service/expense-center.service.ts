@@ -9,24 +9,22 @@ import {
   GET_EXPENSECENTER_LIST,
   UPDATE_EXPENSECENTER,
   GET_EXPENSECENTER_BY_ID,
- DELETE_EXPENSECENTER
+  DELETE_EXPENSECENTER
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { ErrorService } from "../error-service/error.service";
-import { SubjectSubscriber } from "rxjs/internal/Subject";
 import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
   providedIn: "root"
 })
 export class ExpenseCenterService {
-  expenseCenterData: ExpenseCenter[] = [];
 
   constructor(
     private httpClient: HttpClient,
     private aService: AuthenticationService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   GetExpenseCenters(success, failed) {
     this.httpClient
@@ -89,9 +87,7 @@ export class ExpenseCenterService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let updatedExpenseCenter: ExpenseCenter = new ExpenseCenter();
-            Object.assign(updatedExpenseCenter, response.ResultObject);
-            success(updatedExpenseCenter, response.LanguageKeyword);
+            success(expenseCenter, response.LanguageKeyword);
           } else {
             failed(
               getAnErrorResponse(response.LanguageKeyword)
@@ -110,7 +106,7 @@ export class ExpenseCenterService {
     }).subscribe(
       result => {
         let response: Response = <Response>result;
-        if ((<[]>response.ResultObject).length==0) {
+        if ((<[]>response.ResultObject).length == 0) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
@@ -121,22 +117,20 @@ export class ExpenseCenterService {
       });
   }
 
-  GetExpenseCenterById(expenseCenterId: number,success,failed) {
+  GetExpenseCenterById(expenseCenterId: number, success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_EXPENSECENTER_BY_ID + "/" + expenseCenterId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(result => {
-        let response:Response=<Response>result;
-        if(response.ResultStatus==true){
-          let expCenter:ExpenseCenter=new ExpenseCenter();
-          Object.assign(expCenter,response.ResultObject);
-          success(expCenter,response.LanguageKeyword);
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
         }
-        else{
+        else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
-      },(error:HttpErrorResponse)=>{
+      }, (error: HttpErrorResponse) => {
         failed(error);
       });
   }

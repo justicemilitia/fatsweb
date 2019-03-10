@@ -3,9 +3,11 @@ import { UserRole } from "src/app/models/UserRole";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { BaseService } from "src/app/services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
-import { User } from "src/app/models/LoginUser";
 import { Role } from "src/app/models/Role";
 import { NgForm } from "@angular/forms";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { User } from "src/app/models/User";
+import * as $ from "jquery";
 
 @Component({
   selector: "app-rol-user",
@@ -13,8 +15,11 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./role-user.component.css"]
 })
 export class RoleUserComponent implements OnInit {
+  isWaitingInsertOrUpdate: boolean = false;
+
   users: User[] = [];
-  userRole: UserRole[] = [];
+  userRoles: UserRole[] = [];
+  userRole: UserRole = new UserRole();
   roles: Role[] = [];
   role: Role = new Role();
   systemUsers = [];
@@ -22,26 +27,24 @@ export class RoleUserComponent implements OnInit {
   constructor(protected baseService: BaseService) {
     this.loadUserRole();
     this.loadSystemUser();
-    this.loadRoles();
 
     this.dataTableUserRole.isColumnOffsetActive = false;
-    this.dataTableUserList.isColumnOffsetActive = false;
   }
 
   public dataTableUserRole: TreeGridTable = new TreeGridTable(
     "userrole",
     [
       {
-        columnDisplayName: "Rol",
-        columnName: ["Role", "Name"],
+        columnDisplayName: "Kullanıcı",
+        columnName: ["User", "UserMail"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
       {
-        columnDisplayName: "Kullanıcı",
-        columnName: ["User", "UserMail"],
+        columnDisplayName: "Rol",
+        columnName: ["Role", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -54,45 +57,26 @@ export class RoleUserComponent implements OnInit {
     }
   );
 
-  public dataTableUserList: TreeGridTable = new TreeGridTable(
-    "userlist",
-    [
-      {
-        columnDisplayName: "Kullanıcı",
-        columnName: ["Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["Name"]
-    }
-  );
-
-  dropdownList = [];
-  selectedItems: Role[] = [];
+  selectedUser: User[] = [];
   dropdownSettings = {};
+
   ngOnInit() {
-    this.dropdownList = [];
     this.dropdownSettings = {
       singleSelection: false,
       idField: "UserId",
       textField: "UserMail",
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
-      itemsShowLimit: 20,
+      itemsShowLimit: 15,
       allowSearchFilter: true
     };
   }
 
   async loadUserRole() {
-    await this.baseService.roleService.GetUserRole(
+    await this.baseService.roleUserService.GetUserRole(
       (userRole: UserRole[]) => {
-        this.userRole = userRole;
-        this.dataTableUserRole.TGT_loadData(this.userRole);
+        this.userRoles = userRole;
+        this.dataTableUserRole.TGT_loadData(this.userRoles);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -101,7 +85,7 @@ export class RoleUserComponent implements OnInit {
   }
 
   async loadSystemUser() {
-    await this.baseService.roleService.GetUsers(
+    await this.baseService.roleUserService.GetSystemUsers(
       (systemUsers: User[]) => {
         this.systemUsers = systemUsers;
       },
@@ -122,14 +106,75 @@ export class RoleUserComponent implements OnInit {
     );
   }
 
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.userRole);
+    if (isNewItem == true) {
+      this.userRole = new UserRole();
+    }
+  }
+
+  onSubmit(data: NgForm) {
+    if (data.value.UserRoleId == null) this.addUserRole(data);
+  }
+
   async addUserRole(data: NgForm) {
     if (data.form.invalid == true) return;
-    console.log(data);
+    this.isWaitingInsertOrUpdate = true;
+
+    let userIds: number[] = this.selectedUser.map(x => x.UserId);
+    this.role.RoleId = Number(data.value.RoleId);
+    let role = this.roles.find(x => x.RoleId == this.role.RoleId);
+    this.role.RoleId = role.RoleId;
+
+    this.baseService.roleUserService.InsertUserRole(
+      this.role.RoleId,
+      userIds,
+      (insertedItem: UserRole, message) => {
+        this.baseService.popupService.ShowSuccessPopup(message);
+        this.userRole.UserRoleId = insertedItem.UserRoleId;
+
+        this.userRoles.push(this.userRole);
+        this.dataTableUserRole.TGT_loadData(this.userRoles);
+
+        this.resetForm(data, true);
+        this.isWaitingInsertOrUpdate = false;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+        this.isWaitingInsertOrUpdate = false;
+      }
+    );
   }
-  onItemSelect(item: Role) {
-    console.log(item);
+
+  onDoubleClickItem(item: UserRole) {
+    this.userRole = new UserRole();
+
+    this.baseService.spinner.show();
+
+    this.loadUserRole();
+    this.loadSystemUser();
+    this.baseService.roleUserService.GetUserRoleById(
+      item.UserRoleId,
+      (result: UserRole) => {
+        setTimeout(() => {
+          $("btnEditUserRole").trigger("click");
+
+          this.baseService.spinner.hide();
+
+          Object.assign(this.userRole, result);
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.spinner.hide();
+
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+  onItemSelect(item: User) {
+    this.selectedUser.push(item);
   }
   onSelectAll(items: any) {
-    console.log(items);
+    this.selectedUser.push(items);
   }
 }

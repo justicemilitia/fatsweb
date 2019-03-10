@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import swal from "src/../node_modules/sweetalert";
-import { BaseService } from '../base.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../error-service/error.service';
 import { LanguageService } from '../language-service/language.service';
@@ -10,7 +9,7 @@ import { LanguageService } from '../language-service/language.service';
 })
 export class PopupService {
 
-  constructor(private errorService: ErrorService,private languageService:LanguageService) {
+  constructor(private errorService: ErrorService, private languageService: LanguageService) {
 
   }
 
@@ -38,7 +37,7 @@ export class PopupService {
       icon: "warning"
     }).then(() => {
       this.errorService.errorManager(error);
-    })
+    });
   }
 
   ShowMenuAuthorizePopup() {

@@ -112,9 +112,7 @@ export class LocationService {
             Object.assign(location, response.ResultObject);
             success(location, response.LanguageKeyword);
           } else {
-            failed(
-              getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
@@ -132,10 +130,10 @@ export class LocationService {
           if ((<[]>response.ResultObject).length == 0) {
             success(response.ResultObject, response.LanguageKeyword);
           } else {
-            failed(response.ResultObject);
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
-        }
-      );
+        }, (error: HttpErrorResponse) => {
+          failed(error);
+        });
   }
-
 }

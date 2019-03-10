@@ -143,18 +143,17 @@ export class LocationComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear all the ids from table */
-        for (let ii = 0; ii < itemIds.length; ii++) {
-          let index = this.locations.findIndex(x => x.LocationId == itemIds[ii]);
-          if (index > -1)
-            this.locations.splice(index, 1);
-        }
+        this.dataTable.TGT_removeItemsByIds(itemIds);
 
-        /* Reload Page */
-        this.dataTable.TGT_loadData(this.locations);
+        /* Copy original source to current locations */
+        this.locations = <Location[]>this.dataTable.TGT_copySource();
 
       }, (error: HttpErrorResponse) => {
 
+        /* Hide spinner then show error message */
         this.baseService.spinner.hide();
+
+        /* Show error message */
         this.baseService.popupService.ShowErrorPopup(error);
 
       });
@@ -173,6 +172,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
     /* Insert Location service */
     await this.baseService.locationService.InsertLocation(this.location, (inserted: Location, message) => {
 
+      /* Close waiting loader */
+      this.isWaitingInsertOrUpdate = false;
+
       /* Show pop up */
       this.baseService.popupService.ShowSuccessPopup(message);
       this.location.LocationId = inserted.LocationId;
@@ -183,7 +185,6 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
       /* reset all data */
       this.resetForm(data, true);
-      this.isWaitingInsertOrUpdate = false;
 
     }, (error: HttpErrorResponse) => {
 
@@ -195,33 +196,52 @@ export class LocationComponent extends BaseComponent implements OnInit {
   }
 
   async updateLocation(data: NgForm) {
+
     /* Check model state */
     if (data.form.invalid == true) return;
-
-    this.isWaitingInsertOrUpdate = true;
 
     /* Ask for approve question if its true then update the location */
     await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
       if (response == true) {
 
-        /* if user approve question update user. */
+        /* loading icon visible */
+        this.isWaitingInsertOrUpdate = true;
+
+        /* Save parent to rollback it. Normally api says circuler error */
+        let parentLocation = this.location.ParentLocation;
+        this.location.ParentLocation = null;
+
+        /* if user approve question update location. */
         this.baseService.locationService.UpdateLocation(this.location, (_location, message) => {
 
-          /* Show pop up then update data in datatable */
+          /* Close loading icon */
+          this.isWaitingInsertOrUpdate = false;
+
+          /* Show pop up*/
           this.baseService.popupService.ShowSuccessPopup(message);
 
           /* After update succeed get parent location then update it in table. */
           this.location.ParentLocation = this.locations.find(x => x.getId() == this.location.getParentId());
           let updatedLocation = new Location();
           Object.assign(updatedLocation, this.location);
+
+          /* Update in table */
           this.dataTable.TGT_updateData(updatedLocation);
-          this.isWaitingInsertOrUpdate = false;
+
+          /* Get original source from table */
+          this.locations = <Location[]>this.dataTable.TGT_copySource();
 
         }, (error: HttpErrorResponse) => {
 
+          /* Close loader */
+          this.isWaitingInsertOrUpdate = false;
+
+          /* Rollback the parent department */
+          this.location.ParentLocation = parentLocation;
+
           /* Show error message */
           this.baseService.popupService.ShowErrorPopup(error);
-          this.isWaitingInsertOrUpdate = false;
+
         });
       }
     });

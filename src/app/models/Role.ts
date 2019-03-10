@@ -14,6 +14,7 @@ export class Role implements IData {
     isExtended: boolean;
     isChecked: boolean;
     isVisible: boolean;
+    
     RoleId: number;
     Name: string;
     Description: string;

@@ -8,6 +8,11 @@ export class TreeGridTable {
     //#region Variables
 
     /**
+     * Is Multiple Select Active 
+     */
+    public isMultipleSelectedActive: boolean = true;
+
+    /**
      * if saved success show success message for offset column area.
      */
     public isSaved: boolean = false;
@@ -361,6 +366,10 @@ export class TreeGridTable {
 
     //#endregion
 
+    public TGT_getActiveColumns() {
+        return this.dataColumns.filter(x => x.isActive == true);
+    }
+
     /**
      * Reload factory config values.
      */
@@ -407,6 +416,26 @@ export class TreeGridTable {
      */
     public TGT_goToPage(page: number) {
         this.currentPage = page;
+    }
+
+    /**
+     * Get Original source with new array.
+     */
+    public TGT_copySource(): IData[] {
+        return this.originalSource.slice(0);
+    }
+
+    /**
+     * Remove items that given ids
+     * @param ids ids array which will delete from table
+     */
+    public TGT_removeItemsByIds(ids: number[]) {
+        for (let ii = 0; ii < ids.length; ii++) {
+            let index = this.originalSource.findIndex(x => x.getId() == ids[ii]);
+            if (index > -1)
+                this.originalSource.splice(index, 1);
+        }
+        this.TGT_loadData(this.originalSource);
     }
 
     /**
@@ -673,11 +702,6 @@ export class TreeGridTable {
         for (let e of column.columnName) {
             /* if item exists just go deep as much as possible */
             if (!item) {
-
-                if (!Object.keys(data).includes(e))
-                    throw "Undefined Column Name" + "(" + JSON.stringify(column) + ")";
-
-
                 item = data[e];
 
                 /* if an object is empty prevent show current object value we set it as empty to stop loop */
@@ -687,10 +711,11 @@ export class TreeGridTable {
                 }
             }
             else {
-                if (!Object.keys(item).includes(e))
-                    throw "Undefined Column Name" + "(" + JSON.stringify(column) + ")";
-
                 item = item[e];
+                if (!item) {
+                    item = '';
+                    break;
+                }
             }
         }
         if (column.formatter) {
@@ -748,18 +773,6 @@ export class TreeGridTable {
 
         /* then we remove at the top of the current column then add with new order */
         this.dataColumns.splice(upIndex, 1, column, upItem);
-
-    }
-
-    /**
-     * Get given column display class
-     * if visible returns "table-column-hidden value" otherwise return ""
-     * @param columnName  Column Name
-     */
-    public TGT_getColumnVisibility(column: IColumn): string {
-
-        /* if column active return empty to prevent hidden class */
-        return column.isActive ? "" : "table-column-hidden";
 
     }
 
@@ -966,8 +979,16 @@ export class TreeGridTable {
         let result = true;
         /* Check for each key of datafilter if not empty any of the values return false */
         Object.keys(this.dataFilters).forEach(e => {
-            if ((<string>this.dataFilters[e]).trim() !== '')
-                result = false;
+            switch (typeof this.dataFilters[e]) {
+                case "string":
+                    if ((<string>this.dataFilters[e]).trim() !== '')
+                        result = false;
+                    break;
+                case "boolean":
+                    if (this.dataFilters[e] && this.dataFilters[e] == true)
+                        result = false;
+                    break;
+            }
         });
 
         return result;

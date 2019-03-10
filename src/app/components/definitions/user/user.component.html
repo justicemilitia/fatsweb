@@ -1,171 +1,188 @@
 <div class="az-content">
-  <div class="container">
+  <div class="container-fluid">
     <div class="az-content-body">
-      
-      <h2 class="az-content-title">Kişiler</h2>
-      <div class="col-md-2 btnAddUser-right">
-        <button
-          class="btn btn-orange btn-block btnAddUser-height"
-          id="btnAddUser"
-          data-toggle="modal"
-          data-target="#modalUser"
-          (click)="loadDropdownList()"
-        >Kişi Ekle
-        </button>
-      </div>
+      <div class="card card-dashboard-twelve mg-b-20">
+        <h2 class="az-content-title">Kişiler</h2>
+        <div class="grp-btn-action">
+          <button type="button" (click)="deleteUsers()" class="btn btn-danger btn-delete-custom">
+            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
+            <i class="fas fa-trash"></i></button>
+          <button class="btn btn-orange btn-new-custom" id="btnAddUser" data-toggle="modal" data-target="#modalUser"
+            (click)="resetForm(data,true)">Kişi Ekle
+          </button>
+          <button style="display:none" id="btnEditUser" data-toggle="modal" data-target="#modalUser"
+            (click)="resetForm(data,false)">Kişiyi Düzenle
+          </button>
+        </div>
 
-      <p class="mg-b-20"></p>
-      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        <p class="mg-b-20"></p>
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+      </div>
+      <!-- az-content-body -->
     </div>
-    <!-- az-content-body -->
   </div>
 </div>
-<!-- az-content -->
-<app-footer></app-footer>
 
 <div id="modalUser" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title model-title-center">Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <h6 class="modal-title">Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <!-- <h6>Yeni kullanıcı oluşturmak için aşağıdaki alanları doldurunuz.</h6> -->
-        <form #data="ngForm" (ngSubmit)="insertUser(data)" class="form-register">
-          <div class="row">
-            <div class="col-sm-6">
-              <label>*İsim</label>
-              <input type="text" id="FirstName" ngModel name="FirstName" required class="form-control txt-width" value="Edoş"/>
+      <form #data="ngForm" (ngSubmit)="onSubmit(data) && !data.form.invalid" class="form-register">
+        <div class="modal-body">
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label class="required-span">İsim</label>
+              <input type="text" [(ngModel)]="currentUser.FirstName"
+                [ngClass]="{ 'is-invalid': data.submitted && FirstName.invalid }" #FirstName="ngModel" name="FirstName"
+                required class="form-control" />
+              <div *ngIf="data.submitted && FirstName.invalid" class="invalid-feedback">
+                <div *ngIf="FirstName.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
-            <div class="col-sm-6">
-              <label>*Soyisim</label>
-              <input type="text" id="LastName" ngModel name="LastName" required class="form-control txt-width" value="Ekiz"/>
+            <div class="form-group col-md-6">
+              <label class="required-span">Soyisim</label>
+              <input type="text" [(ngModel)]="currentUser.LastName" #LastName="ngModel"
+                [ngClass]="{ 'is-invalid': data.submitted && LastName.invalid }" name="LastName" required
+                class="form-control" />
+              <div *ngIf="data.submitted && LastName.invalid" class="invalid-feedback">
+                <div *ngIf="LastName.errors.required">Bu alan zorunludur.</div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label class="required-span">Departman</label>
+              <select #DepartmentId="ngModel" name="DepartmentId" required class="form-control"
+                [(ngModel)]="currentUser.DepartmentId"
+                [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let department of departments" value={{department.DepartmentId}}>
+                  {{department.Name}}
+                </option>
+              </select>
+              <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
+                <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="required-span">Lokasyon</label>
+              <select #LocationId="ngModel" name="LocationId" required class="form-control"
+                [(ngModel)]="currentUser.LocationId" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let location of locations" value={{location.LocationId}}>
+                  {{location.Name}}
+                </option>
+              </select>
+              <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
+                <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
           </div>
           <!-- form-group -->
-          <div class="row">
-            <div class="col-sm-6">
-              <label>*Departman</label>
-                <select  id="DepartmentId" ngModel name="DepartmentId" required class="form-control txt-width" value="">
-                    <option value="">Seçiniz</option>
-                    <option value="1">Yok</option>
-                    <option *ngFor="let department of departments" value={{department.DepartmentId}}>
-                      {{department.Name}}
-                    </option>   
-                </select>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label class="required-span">Unvan</label>
+              <input type="text" #UserTitle="ngModel" name="UserTitle" required class="form-control"
+                [(ngModel)]="currentUser.UserTitle" [ngClass]="{ 'is-invalid': data.submitted && UserTitle.invalid }" />
+              <div *ngIf="data.submitted && UserTitle.invalid" class="invalid-feedback">
+                <div *ngIf="UserTitle.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
-            <div class="col-sm-6">
-              <label>*Lokasyon</label>
-              <select  id="LocationId" ngModel name="LocationId" required class="form-control txt-width" value="">
-                  <option value="">Seçiniz</option>
-                  <option *ngFor="let location of locations" value={{location.LocationId}}>
-                    {{location.Name}}
-                  </option>   
+            <div class="form-group col-md-6">
+              <label class="required-span">Şirket</label>
+              <select #FirmId="ngModel" [(ngModel)]="currentUser.FirmId" name="FirmId" required class="form-control"
+                [ngClass]="{ 'is-invalid': data.submitted && FirmId.invalid }">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let firm of firms" value={{firm.FirmId}}>
+                  {{firm.Name}}
+                </option>
               </select>
+              <div *ngIf="data.submitted && FirmId.invalid" class="invalid-feedback">
+                <div *ngIf="FirmId.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
           </div>
           <!-- form-group -->
-          <div class="row">
-            <div class="col-sm-6"> 
-              <label>*Unvan</label>
-              <input type="text" id="UserTitle" ngModel name="UserTitle" required class="form-control txt-width" value="Jr."/>
-            </div>
-            <div class="col-sm-6">
-              <label>*Şirket</label>
-              <select  id="FirmId" ngModel name="FirmId" required class="form-control txt-width" value="">
-                  <option value="">Seçiniz</option>
-                  <option *ngFor="let firm of firms" value={{firm.FirmId}}>
-                    {{firm.Name}}
-                  </option>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label class="required-span">Rol</label>
+              <select #RoleId="ngModel" name="RoleId" required class="form-control" [(ngModel)]="currentUser.RoleId"
+                [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let role of roles" value={{role.RoleId}}>
+                  {{role.Name}}
+                </option>
               </select>
-            </div>           
+              <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
+                <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="required-span">E-posta</label>
+              <input type="email" name="UserMail" #UserMail="ngModel" required class="form-control"
+                [(ngModel)]="currentUser.UserMail" [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" />
+              <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
+                <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
+              </div>
+            </div>
           </div>
           <!-- form-group -->
-          <div  class="row">
-              <div class="col-sm-6">
-                  <label>*Rol</label>
-                <select  id="RoleId" ngModel name="RoleId" required class="form-control txt-width" value="1">
-                    <option value="">Seçiniz</option>
-                    <option *ngFor="let role of roles" value={{role.RoleId}}>
-                      {{role.Name}}
-                    </option>   
-                </select>
-              </div> 
-              <div class="col-sm-6">
-                  <label>*Şifre</label>
-                  <input type="password" id="Password" ngModel name="Password" required class="form-control txt-width" value=""/>
-                </div>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label class="required-span">Şifre</label>
+              <input type="password" #Password="ngModel" name="Password" required class="form-control"
+                [(ngModel)]="currentUser.Password"
+                [ngClass]="{ 'is-invalid': data.submitted && (Password.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value)) }" />
+              <div *ngIf="data.submitted && Password.invalid" class="invalid-feedback">
+                <div *ngIf="Password.errors.required">Bu alan zorunludur.</div>
+              </div>
+              <div
+                *ngIf="data.submitted && !PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value"
+                class="invalid-feedback">
+                <div>Şifreleriniz Uyuşmamaktadır.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="required-span">Şifre Tekrar</label>
+              <input type="password" #PasswordConfirm="ngModel" ngModel name="PasswordConfirm" required
+                class="form-control"
+                [ngClass]="{ 'is-invalid': data.submitted && (PasswordConfirm.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value))  }" />
+              <div *ngIf="data.submitted && PasswordConfirm.invalid" class="invalid-feedback">
+                <div *ngIf="PasswordConfirm.errors.required">Bu alan zorunludur.</div>
+              </div>
+            </div>
           </div>
-          <!-- form-group -->   
-          <div  class="row">
-            <div class="col-sm-6">
-                <label>Bağlı Olduğu Kişi</label>
-              <select  id="ParentUserId" ngModel name="ParentUserId" required class="form-control txt-width" value="">
-                  <option value="">Seçiniz</option>
-                  <option *ngFor="let user of users" value={{user.userId}}>
-                    {{user.FirstName + ' ' + user.LastName}}
-                  </option>
+          <!-- form-group -->
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>Telefon</label>
+              <input type="number" name="PhoneNumber" class="form-control" [(ngModel)]="currentUser.PhoneNumber" />
+            </div>
+            <div class="form-group col-md-6">
+              <label>Bağlı Olduğu Kişi</label>
+              <select [(ngModel)]="currentUser.ParentUserId" name="ParentUserId" class="form-control">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let user of users" value={{user.userId}}>
+                  {{user.FirstName + ' ' + user.LastName}}
+                </option>
               </select>
-            </div> 
-            <div class="col-sm-6">
-                <label>Telefon</label>
-                <input type="number" id="PhoneNumber" ngModel name="PhoneNumber" required class="form-control txt-width" value="05369998877"/>
-             </div>
+            </div>
+          </div>
         </div>
-        <!-- form-group -->          
-          <div class="row">
-              <div class="col-sm-12">
-                  <label>*E-posta</label>
-                  <input type="email" id="UserMail" ngModel name="UserMail" required class="form-control txt-width" value="b.a@trinoks.com"/>
-                </div>
-          </div>
-          <!-- form-group -->          
-          <div class="row">
-            
-          </div>
-          <div class="modal-footer">
-              <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal" data-target="#modalInsertUser" (onclick)="ShowSuccessPopup()">Kişi Ekle</button>       
-          </div>
-        </form>
-      </div>
+        <div class="modal-footer">
+          <button class="btn btn-orange btn-block btn-height" id="btnCreateUser" type="submit" data-toggle="modal"
+            data-target="#modalInsertUser"
+            *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
     </div>
   </div>
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
-<script>
-  $(function() {
-    "use strict";
-
-    // showing modal with effect
-    $(".modal-effect").on("click", function(e) {
-      e.preventDefault();
-      var effect = $(this).attr("data-effect");
-      $("#modaldemo8").addClass(effect);
-    });
-
-    // hide modal with effect
-    $("#modaldemo8").on("hidden.bs.modal", function(e) {
-      $(this).removeClass(function(index, className) {
-        return (className.match(/(^|\s)effect-\S+/g) || []).join(" ");
-      });
-    });
-  });
-  $(document).ready( function () {
-    $('#tblUser').DataTable({
-        "columnDefs": [ {
-            "type": "salary-grade",
-            "targets": -1
-        } ],
-        "order": [[0,asc]]
-      });
-} );
-</script>
