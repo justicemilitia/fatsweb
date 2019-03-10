@@ -36,6 +36,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   /* List of companies */
   companies: Company[] = [];
 
+  agreementFiles: any;
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
     [
@@ -121,7 +123,10 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value ? (<string>value).substring(12, value.length) : "";
+        }
       },
       {
         columnDisplayName: "Açıklama",
@@ -245,9 +250,11 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     /* Insert agreement service */
-
+    this.agreement.CompanyId = Number(this.agreement.CompanyId);
+    this.agreement.Price = Number(this.agreement.Price);
     await this.baseService.agreementService.InsertAgreement(
       this.agreement,
+      this.agreementFiles,
       (data: Agreement, message) => {
         /* Show pop up, get inserted agreement then set it agreement id, then load data. */
         this.baseService.popupService.ShowSuccessPopup(message);
@@ -361,43 +368,26 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     );
   }
 
-  // upload(files) {
-  //   if (files.length === 0) return;
+  //  async upload(files) {
 
-  //   const formData = new FormData();
+  //   debugger;
+  //     if (files.length === 0) return;
 
-  //   for (let file of files) formData.append(file.name, file);
+  //     const formData = new FormData();
 
-  //   const uploadReq = new HttpRequest(
-  //     "POST",
-  //     "http://dev.fatsapi.com/api/File/UploadFile",
-  //     formData,
-  //     {
-  //       reportProgress: true
-  //     }
-  //   );
-  // }
+  //     for (let file of files) formData.append(file.name, file);
 
-  async upload(files: NgForm) {
-    // if (files.form.invalid == true) return;
+  //     const uploadReq = new HttpRequest(
+  //       "POST",
+  //       "http://dev.fatsapi.com/api/File/UploadFile",
+  //       formData,
+  //       {
+  //         reportProgress: true
+  //       }
+  //     );
+  //   }
 
-    /* Ask for approve question if its true then upload file */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
-          this.baseService.agreementService.FileUpload(
-            files,
-            (_files, message) => {
-              /* Show pop up then update data in datatable */
-              this.baseService.popupService.ShowSuccessPopup(message);
-            },
-            (error: HttpErrorResponse) => {
-              /* Show error message */
-              this.baseService.popupService.ShowErrorPopup(error);
-            }
-          );
-        }
-      }
-    );
+  async upload(files: any) {
+    this.agreementFiles = files;
   }
 }
