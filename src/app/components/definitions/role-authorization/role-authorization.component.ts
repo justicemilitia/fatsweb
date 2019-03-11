@@ -142,7 +142,6 @@ export class RoleAuthorizationComponent extends BaseComponent
   ngOnInit() { }
 
   loadRoleAuth() {
-    debugger;
     this.baseService.roleAuthorizationService.GetRoleAuth(
       (roleAuthorization: RoleAuthorization[]) => {
         this.roleAuthorizations = roleAuthorization;
