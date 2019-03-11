@@ -73,15 +73,6 @@
       </thead>
       <!-- END Table Header Area END -->
       <tbody class="tree-table-body">
-        <!-- Loading Side -->
-        <ng-template [ngIf]="dataTable.isLoading">
-          <tr>
-            <td colspan="999" class="table-no-content">
-              <div class="loader"></div>
-            </td>
-          </tr>
-        </ng-template>
-        <!-- END Loading Side END -->
         <!-- First Row is Filter -->
         <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
           <!-- Selection checkbox filter -->
@@ -166,12 +157,21 @@
           </tr>
         </ng-container>
         <!-- if no data display nothing message -->
-        <ng-template [ngIf]="dataTable.dataSource.length == 0">
+        <ng-template [ngIf]="dataTable.dataSource.length == 0 && dataTable.isLoading == false">
           <tr>
             <td colspan="999" class="table-no-content">Gösterilecek içerik bulunamadı</td>
           </tr>
         </ng-template>
         <!-- END if no data display nothing message END -->
+        <!-- Loading Side -->
+        <ng-template [ngIf]="dataTable.isLoading == true">
+          <tr>
+            <td colspan="999" class="table-no-content">
+              <div class="loader"></div>
+            </td>
+          </tr>
+        </ng-template>
+        <!-- END Loading Side END -->
         <!-- END Data Rows END -->
       </tbody>
     </table>
