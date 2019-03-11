@@ -21,7 +21,7 @@ export const DELETE_LOCATION = "Locations/RemoveByIdList";
 
 //#region Users
 export const GET_USER_LIST = "user/GetUserList";
-export const GET_USER_LIST_BY_ID = "userfirms/GetUserFirmsListbyFirmId";
+export const GET_USER_BY_ID = "user/GetUserById";
 export const INSERT_USER = "auth/register";
 export const UPDATE_USER = "User/UpdateUser";
 export const GET_SYSTEM_USER_LIST = "User/GetSystemUserList";
@@ -74,8 +74,8 @@ export const DELETE_FIXEDASSETCARDMODEL = "FixedAssetsCardModels/RemoveByIdList"
 //#endregion
 
 //#region Agreements
-export const GET_AGREEMENT_LIST="Aggrement/GetAgreementListByFirmId";
-export const GET_AGREEMENT_BY_ID="Aggrement/GetAgreementListById";
+export const GET_AGREEMENT_LIST = "Aggrement/GetAgreementListByFirmId";
+export const GET_AGREEMENT_BY_ID = "Aggrement/GetAgreementListById";
 export const INSERT_AGREEMENT = "Aggrement/AddAgreementWithFileupload";
 export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreement";
 export const DELETE_AGREEMENT = "Aggrement/RemoveByIdList";
@@ -127,7 +127,7 @@ export const GET_ROLE_AUTHORIZATION_LIST = "Role/GetRoleAuthorizationList";
 export const INSERT_USER_ROLE = "role/AddRoleToUserByArray";
 export const GET_USER_ROLE_LIST = "role/GetUserRoleList";
 export const GET_USER_ROLE_BY_ID = "role/GetUserRoleById";
-export const DELETE_ROLE_USER="role/RemoveByIdListRoleUser";
+export const DELETE_ROLE_USER = "role/RemoveByIdListRoleUser";
 //#endregion
 
 export const GET_FIRM_LIST = "firm/GetFirmsList";

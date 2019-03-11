@@ -12,8 +12,8 @@ import {
   GET_FIRM_LIST,
   INSERT_USER,
   UPDATE_USER,
-  GET_USER_LIST_BY_ID,
-  DELETE_USER
+  DELETE_USER,
+  GET_USER_BY_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { User } from "../../models/User";
@@ -22,7 +22,6 @@ import { Location } from '../../models/Location';
 import { Role } from '../../models/Role';
 import { Firm } from '../../models/Firm';
 import { Response } from 'src/app/models/Response';
-import { Router } from '@angular/router';
 import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Injectable({
@@ -73,11 +72,9 @@ export class UserService {
 
         callback(users);
 
-      },
-        error => {
-          failed(error);
-        }
-      );
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      });
   }
 
   GetRoles(callback) {
@@ -132,7 +129,7 @@ export class UserService {
   }
 
   GetUserById(userId: number, success, failed) {
-    this.httpClient.get(SERVICE_URL + GET_USER_LIST_BY_ID + '/' + userId, { headers: GET_HEADERS(this.aService.getToken()) })
+    this.httpClient.get(SERVICE_URL + GET_USER_BY_ID + '/' + userId, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
