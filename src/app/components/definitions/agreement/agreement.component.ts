@@ -388,6 +388,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   //   }
 
   async upload(files: any) {
+    console.log(files);
     this.agreementFiles = files;
   }
 }

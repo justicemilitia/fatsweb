@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:5000/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -141,6 +141,22 @@ const FILE_UPLOAD_URL = 'http://localhost:8000/upload';
 export const GET_HEADERS = (token = null): HttpHeaders => {
   let headers = new HttpHeaders();
   headers = headers.append("Content-Type", "application/json");
+  if (token) {
+    headers = headers.append("Authorization", "Bearer " + token);
+  } else {
+    headers = headers.append(
+      "Authorization",
+      "Basic " + btoa("username:password")
+    );
+  }
+  return headers;
+};
+
+
+export const GET_HEADERS_FORMDATA = (token = null): HttpHeaders => {
+  let headers = new HttpHeaders();
+  headers = headers.append("Content-Type", "multipart/form-data");
+  
   if (token) {
     headers = headers.append("Authorization", "Bearer " + token);
   } else {
