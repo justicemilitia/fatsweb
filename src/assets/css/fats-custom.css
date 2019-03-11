@@ -118,6 +118,10 @@ button.btn:first-child {
 
 .az-footer {
     background: white;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 .btn-modal-close {

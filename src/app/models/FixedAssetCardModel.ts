@@ -14,7 +14,7 @@ export class FixedAssetCardModel implements IData {
     return [];
   }
   getId(): number {
-    return this.FixedAssetCardBrandId;
+    return this.FixedAssetCardModelId;
   }
 
   FixedAssetCardModelCode: string;
@@ -26,7 +26,7 @@ export class FixedAssetCardModel implements IData {
   CreatorId: number;
   ModifiedDate: Date;
   ModifierId: number;
-  IsValid:boolean;
+  IsValid: boolean;
 
   constructor() {
     this.FixedAssetCardBrand = new FixedAssetCardBrand();

@@ -20,11 +20,17 @@ import * as $ from "jquery";
 })
 export class FixedAssetCardBrandComponent extends BaseComponent
   implements OnInit {
+
+  /* Is waiting for update? */
   isWaitingInsertOrUpdate: boolean = false;
 
+  /* Store The table list */
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
+
+  /* Current brand */
   fixedAssetCardBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
 
+  /* Tables */
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetcardbrand",
     [
@@ -54,29 +60,35 @@ export class FixedAssetCardBrandComponent extends BaseComponent
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadFixedAssetCardBrands();
-    //this.loadFixedAssetCardModels();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   resetForm(data: NgForm, isNewItem: boolean) {
+
+    /* Reset form if required create a new object */
     data.resetForm(this.fixedAssetCardBrand);
     if (isNewItem == true) {
       this.fixedAssetCardBrand = new FixedAssetCardBrand();
     }
+
   }
 
   onSubmit(data: NgForm) {
+
+    /* if id is empty means it is insert otherwise update */
     if (data.value.FixedAssetCardBrandId == null)
       this.addFixedAssetCardBrand(data);
     else this.updateFixedAssetCardBrand(data);
+
   }
 
   async deleteFixedAssetCardBrand() {
-    /* get selected items from table */
+
+    /* Get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
-    /* if count of items equals 0 show message for no selected item */
+    /* If count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir marka seçiniz"
@@ -86,6 +98,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
     /* Show Question Message */
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -93,90 +106,122 @@ export class FixedAssetCardBrandComponent extends BaseComponent
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
       /* Delete all */
-      this.baseService.fixedAssetCardBrandService.DeleteFixedAssetCardBrands(
-        itemIds,
-        () => {
-          /* Deactive the spinner */
-          this.baseService.spinner.hide();
+      this.baseService.fixedAssetCardBrandService.DeleteFixedAssetCardBrands(itemIds, () => {
 
-          /* if all of them removed */
-          if (itemIds.length == 1)
-            this.baseService.popupService.ShowAlertPopup(
-              "Kayıt Başarıyla silindi!"
-            );
-          else
-            this.baseService.popupService.ShowAlertPopup(
-              "Tüm kayıtlar başarıyla silindi!"
-            );
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
 
-          /* Clear all the ids from table */
-          for (let ii = 0; ii < itemIds.length; ii++) {
-            let index = this.fixedAssetCardBrands.findIndex(
-              x => x.FixedAssetCardBrandId == itemIds[ii]
-            );
-            if (index > -1) this.fixedAssetCardBrands.splice(index, 1);
-          }
+        /* if all of them removed */
+        if (itemIds.length == 1)
+          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+        else
+          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
-          /* Reload Page */
-          this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
-        },
-        (failedItems: []) => {
-          this.baseService.spinner.hide();
-          this.baseService.popupService.ShowAlertPopup(
-            "Kayıtlar ilişkili olduğundan silinemedi!"
-          );
-        }
-      );
+        /* Clear ids from source */
+        this.dataTable.TGT_removeItemsByIds(itemIds);
+
+        /* Get current table source */
+        this.fixedAssetCardBrands = <FixedAssetCardBrand[]>this.dataTable.TGT_copySource();
+
+      }, (error: HttpErrorResponse) => {
+
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
+
+        /* Show alert pop up */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      });
+
     });
   }
 
   async addFixedAssetCardBrand(data: NgForm) {
+
+    /* Check form validation */
     if (data.form.invalid == true) return;
 
-    await this.baseService.fixedAssetCardBrandService.InsertFixedAssetCardBrand(
-      this.fixedAssetCardBrand,
-      (insertedItem: FixedAssetCardBrand, message) => {
-        this.baseService.popupService.ShowSuccessPopup(message);
-        this.fixedAssetCardBrand.FixedAssetCardBrandId =
-          insertedItem.FixedAssetCardBrandId;
+    /* Hide button then show loader */
+    this.isWaitingInsertOrUpdate = true;
 
-        this.fixedAssetCardBrands.push(this.fixedAssetCardBrand);
-        this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
+    /* Insert fixed asset card brand to server */
+    await this.baseService.fixedAssetCardBrandService.InsertFixedAssetCardBrand(this.fixedAssetCardBrand, (insertedItem: FixedAssetCardBrand, message) => {
 
-        this.resetForm(data, true);
-        this.isWaitingInsertOrUpdate = false;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-        this.isWaitingInsertOrUpdate = false;
-      }
-    );
+      /* Show button then hide loader */
+      this.isWaitingInsertOrUpdate = false;
+
+      /* Show success pop up */
+      this.baseService.popupService.ShowSuccessPopup(message);
+
+      /* Get inserted item id */
+      this.fixedAssetCardBrand.FixedAssetCardBrandId = insertedItem.FixedAssetCardBrandId;
+
+      /* Push inserted item to array */
+      this.fixedAssetCardBrands.push(this.fixedAssetCardBrand);
+
+      /* Reload datatable */
+      this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
+
+      /* Reset form */
+      this.resetForm(data, true);
+
+    }, (error: HttpErrorResponse) => {
+
+      /* Show button then hide loader */
+      this.isWaitingInsertOrUpdate = false;
+
+      /* Show error pop up */
+      this.baseService.popupService.ShowErrorPopup(error);
+
+    });
+
   }
 
   async updateFixedAssetCardBrand(data: NgForm) {
+
     if (data.form.invalid == true) return;
 
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
-          this.baseService.fixedAssetCardBrandService.UpdateFixedAssetCardBrand(
-            this.fixedAssetCardBrand,
-            (_fixedAssetCardBrand, message) => {
-              this.baseService.popupService.ShowSuccessPopup(message);
-              this.dataTable.TGT_updateData(this.fixedAssetCardBrand);
-              this.isWaitingInsertOrUpdate = false;
-            },
-            (error: HttpErrorResponse) => {
-              this.baseService.popupService.ShowErrorPopup(error);
-              this.isWaitingInsertOrUpdate = false;
-            }
-          );
-        }
+    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+      if (response == true) {
+
+        /* Change button to loading */
+        this.isWaitingInsertOrUpdate = true;
+
+        this.baseService.fixedAssetCardBrandService.UpdateFixedAssetCardBrand(this.fixedAssetCardBrand, (_fixedAssetCardBrand, message) => {
+
+          /* Change loading to button */
+          this.isWaitingInsertOrUpdate = false;
+
+          /* Show success message */
+          this.baseService.popupService.ShowSuccessPopup(message);
+
+          /* Create a fixed asset for updated item to create a refrences */
+          let updatedBrand = new FixedAssetCardBrand();
+          Object.assign(updatedBrand, this.fixedAssetCardBrand);
+
+          /* Update in datatable */
+          this.dataTable.TGT_updateData(updatedBrand);
+
+          /* Get original source */
+          this.fixedAssetCardBrands = <FixedAssetCardBrand[]>this.dataTable.TGT_copySource();
+
+        }, (error: HttpErrorResponse) => {
+
+          /* Change loading to button */
+          this.isWaitingInsertOrUpdate = false;
+
+          /* Show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
+
+        });
       }
-    );
+    });
+
   }
 
   async loadFixedAssetCardBrands() {
+
+    /* Get Fixed Asset Brands */
     await this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
       (facbs: FixedAssetCardBrand[]) => {
         this.fixedAssetCardBrands = facbs;
@@ -189,30 +234,34 @@ export class FixedAssetCardBrandComponent extends BaseComponent
   }
 
   async onDoubleClickItem(item: FixedAssetCardBrand) {
+
+    /* Create a new FixedAssetCard */
     this.fixedAssetCardBrand = new FixedAssetCardBrand();
 
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
-    await this.baseService.fixedAssetCardBrandService.GetFixedAssetBrandById(
-      item.FixedAssetCardBrandId,
-      (result: FixedAssetCardBrand) => {
-        setTimeout(() => {
-          /* Trigger to model to show it */
-          $("#btnAddFixedAssetCardBrand").trigger("click");
+    await this.baseService.fixedAssetCardBrandService.GetFixedAssetBrandById(item.FixedAssetCardBrandId, (result: FixedAssetCardBrand) => {
+      setTimeout(() => {
 
-          /* bind result to model */
-          this.fixedAssetCardBrand = result;
-          this.baseService.spinner.hide();
-        }, 1000);
-      },
-      (error: HttpErrorResponse) => {
-        /* hide spinner */
+        /* Hide  the spinner */
         this.baseService.spinner.hide();
 
-        /* show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+        /* Trigger to model to show it */
+        $("#btnAddFixedAssetCardBrand").trigger("click");
+
+        /* bind result to model */
+        this.fixedAssetCardBrand = result;
+
+      }, 1000);
+    }, (error: HttpErrorResponse) => {
+
+      /* hide spinner */
+      this.baseService.spinner.hide();
+
+      /* show error message */
+      this.baseService.popupService.ShowErrorPopup(error);
+
+    });
   }
 }

@@ -4,12 +4,15 @@
       <div class="card card-dashboard-twelve mg-b-20">
       <h2 class="az-content-title">Rol - Kullanıcı Tanımlama</h2>      
       <div class="grp-btn-action"> 
-        <button id="btnAddUserRole" class="btn btn-orange" data-toggle="modal"   
-        data-target="#modalUserRoleDefinition" (click)="loadRoles()"
+          <button type="button" (click)="deleteRoleUser()" class="btn btn-danger btn-delete-custom">
+              {{dataTableUserRole.TGT_getSelectedItems().length > 0 ? dataTableUserRole.TGT_getSelectedItems().length : '' }}
+              <i class="fas fa-trash"></i></button>
+        <button id="btnAddUserRole" class="btn btn-orange btn-new-custom" data-toggle="modal"   
+        data-target="#modalUserRoleDefinition" (click)="resetForm(data,true)"
        >Role Kullanıcı Ata</button>
-       <button style="display:none" (click)="resetForm(data,false)" id="btnEditUserRole" data-toggle="modal"
-       data-target="#modalUserRoleDefinition">Role Kullanıcı Ata
-     </button>
+       <button style="display:none" id="btnEditUserRole" data-toggle="modal"
+       data-target="#modalUserRoleDefinition" (click)="resetForm(data,false)">Role Kullanıcı Ata
+        </button>
       </div>
         <p class="mg-b-20"></p>
             <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserRole"></tree-grid-table>
@@ -45,8 +48,8 @@
                     <ng-multiselect-dropdown
                     [placeholder]="'Seçiniz'"
                     [data]="systemUsers"
-                    [(ngModel)]="selectedRoles"
-                    name="UserId"
+                    [(ngModel)]="userRole.UserId"
+                    name="UserId"                    
                     [settings]="dropdownSettings"
                     (onSelect)="onItemSelect($event)"
                     (onSelectAll)="onSelectAll($event)">

@@ -14,7 +14,6 @@ import {
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { FixedAssetCardBrand } from "../../models/FixedAssetCardBrand";
 import { Response } from "src/app/models/Response";
-import { Router } from "@angular/router";
 import { ErrorService } from "../error-service/error.service";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 
@@ -24,9 +23,8 @@ import { getAnErrorResponse } from "src/app/declarations/extends";
 export class FixedAssetCardBrandService {
   constructor(
     private httpClient: HttpClient,
-    private aService: AuthenticationService,
-    private errorService: ErrorService
-  ) {}
+    private aService: AuthenticationService
+  ) { }
 
   GetFixedAssetCardBrands(success, failed) {
     this.httpClient
@@ -80,11 +78,7 @@ export class FixedAssetCardBrandService {
       );
   }
 
-  UpdateFixedAssetCardBrand(
-    fixedAssetCardBrand: FixedAssetCardBrand,
-    success,
-    failed
-  ) {
+  UpdateFixedAssetCardBrand(fixedAssetCardBrand: FixedAssetCardBrand, success, failed) {
     this.httpClient
       .put(SERVICE_URL + UPDATE_FIXEDASSETCARDBRAND, fixedAssetCardBrand, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -93,26 +87,27 @@ export class FixedAssetCardBrandService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
+
             let updatedFixedAssetBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
             Object.assign(updatedFixedAssetBrand, response.ResultObject);
+
             success(updatedFixedAssetBrand, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
-        error => {
+        (error: HttpErrorResponse) => {
           failed(error);
-        }
-      );
+        });
   }
 
   GetFixedAssetBrandById(fixedAssetCardBrandId: number, success, failed) {
     this.httpClient
       .get(
         SERVICE_URL +
-          GET_FIXEDASSETCARDBRAND_BY_ID +
-          "/" +
-          fixedAssetCardBrandId,
+        GET_FIXEDASSETCARDBRAND_BY_ID +
+        "/" +
+        fixedAssetCardBrandId,
         {
           headers: GET_HEADERS(this.aService.getToken())
         }
@@ -135,26 +130,17 @@ export class FixedAssetCardBrandService {
   }
 
   DeleteFixedAssetCardBrands(ids: number[], success, failed) {
-    this.httpClient
-      .post(
-        SERVICE_URL + DELETE_FIXEDASSETCARDBRAND,
-        { BrandIds: ids },
-        {
-          headers: GET_HEADERS(this.aService.getToken())
-        }
-      )
-      .subscribe(
-        result => {
-          let response: Response = <Response>result;
-          if ((<[]>response.ResultObject).length == 0) {
-            success(response.ResultObject, response.LanguageKeyword);
-          } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
-        },
-        error => {
-          failed(error);
-        }
-      );
+    this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARDBRAND, { FixedAssetCardBrandIds: ids }, {
+      headers: GET_HEADERS(this.aService.getToken())
+    }).subscribe(result => {
+      let response: Response = <Response>result;
+      if ((<[]>response.ResultObject).length == 0) {
+        success(response.ResultObject, response.LanguageKeyword);
+      } else {
+        failed(getAnErrorResponse(response.LanguageKeyword));
+      }
+    }, (error: HttpErrorResponse) => {
+      failed(error);
+    });
   }
 }

@@ -9,13 +9,15 @@ import {
   GET_USER_ROLE_LIST,
   INSERT_USER_ROLE,
   GET_SYSTEM_USER_LIST,
-  GET_USER_ROLE_BY_ID
+  GET_USER_ROLE_BY_ID,
+  DELETE_ROLE_USER
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { ErrorService } from "../error-service/error.service";
 import { User } from "src/app/models/User";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { UserRole } from "src/app/models/UserRole";
+import { BaseService } from '../base.service';
 
 @Injectable({
   providedIn: "root"
@@ -117,5 +119,22 @@ export class RoleUserService {
     },error=>{
       failed(error);
     });
+  }
+
+  DeleteRoleUser(ids: number[], success, failed) {
+    this.httpclient.post(SERVICE_URL + DELETE_ROLE_USER, { "Ids": ids }, {
+      headers: GET_HEADERS(this.aService.getToken()),
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if ((<[]>response.ResultObject).length == 0) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      (error: HttpErrorResponse) => {
+        failed(error);
+      });
   }
 }
