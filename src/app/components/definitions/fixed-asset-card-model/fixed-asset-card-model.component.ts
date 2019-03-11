@@ -113,7 +113,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
           this.fixedAssetCardBrands.find(x => x.FixedAssetCardBrandId == this.fixedAssetCardModel.FixedAssetCardBrandId);
 
         /* Get inserted item id and bind it to current item */
-        this.fixedAssetCardModel.FixedAssetCardBrandId = insertedItem.FixedAssetCardBrandId;
+        this.fixedAssetCardModel.FixedAssetCardModelId = insertedItem.FixedAssetCardModelId;
 
         /* Push fixed asset card models to inserted item */
         this.fixedAssetCardModels.push(this.fixedAssetCardModel);
@@ -289,7 +289,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
         this.fixedAssetCardModels = <FixedAssetCardModel[]>this.dataTableModel.TGT_copySource();
 
       }, (error: HttpErrorResponse) => {
-        
+
         /* Deactive the spinner */
         this.baseService.spinner.hide();
 
