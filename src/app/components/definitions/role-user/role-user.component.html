@@ -38,22 +38,32 @@
           <div class="modal-body">
               <div class="row  justify-content-center">
                   <input type="hidden" name="UserRoleId" [(ngModel)]="userRole.UserRoleId"/>
-                  <div class="form-group">
+                  <div class="form-group col-md-8">
                     <label>Rol</label>
                     <select [(ngModel)]="userRole.RoleId" name="RoleId" class="form-control select2-no-search" style="width: 250px">
                       <option value="-1">Seçiniz</option>
                         <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
                     </select>     
                     <label>Kullanıcı</label>
-                    <ng-multiselect-dropdown
-                    [placeholder]="'Seçiniz'"
-                    [data]="systemUsers"
-                    [(ngModel)]="userRole.UserId"
-                    name="UserId"                    
-                    [settings]="dropdownSettings"
-                    (onSelect)="onItemSelect($event)"
-                    (onSelectAll)="onSelectAll($event)">
-                    </ng-multiselect-dropdown>
+                    <div *ngIf="visible;then insertUserRole else updateUserRole"></div>
+                    <ng-template #insertUserRole>
+                      <ng-multiselect-dropdown
+                      [placeholder]="'Seçiniz'"
+                      [data]="systemUsers"
+                      [(ngModel)]="userRole.UserId"
+                      name="UserId"                    
+                      [settings]="dropdownSettings"
+                      (onSelect)="onItemSelect($event)"
+                      (onSelectAll)="onSelectAll($event)">
+                      </ng-multiselect-dropdown>
+                    </ng-template>
+                    <ng-template #updateUserRole>
+                      <label>Rol</label>
+                      <select [(ngModel)]="userRole.UserId" name="UserId" class="form-control select2-no-search" style="width: 250px">
+                        <option value="-1">Seçiniz</option>
+                          <option *ngFor="let user of systemUsers" value={{user.UserId}}>{{user.UserMail}}</option>
+                      </select>   
+                    </ng-template>
                   </div>
               </div>
           </div>

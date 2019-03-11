@@ -91,10 +91,14 @@ export const DELETE_COMPANY = "company/RemoveByIdList";
 //#endregion
 
 //#region CheckOutReasons
-export const GET_CHECKOUTREASON_LIST = "CheckOutReason/GetCheckOutReasonsList";
+export const GET_CHECKOUTREASON_LIST = "CheckOutReasons/GetCheckOutReasonsList";
 export const GET_CHECKOUTREASON_BY_ID = "CheckOutReasons/GetCheckOutReasonById";
-export const INSERT_CHECKOUTREASON = "CheckOutReason/AddCheckOutReasons"
+export const INSERT_CHECKOUTREASON = "CheckOutReasons/AddCheckOutReasons"
 export const UPDATE_CHECKOUTREASON = "CheckOutReasons/UpdateCheckOutReasons";
+//#endregion
+
+//#region FixedAssetStatus
+export const GET_FIXEDASSETSTATUS_LIST="FixedAssetStatus/GetFixedAssetStatusList";
 //#endregion
 
 //#region ExpenseCenters
@@ -127,7 +131,8 @@ export const GET_ROLE_AUTHORIZATION_LIST = "Role/GetRoleAuthorizationList";
 export const INSERT_USER_ROLE = "role/AddRoleToUserByArray";
 export const GET_USER_ROLE_LIST = "role/GetUserRoleList";
 export const GET_USER_ROLE_BY_ID = "role/GetUserRoleById";
-export const DELETE_ROLE_USER = "role/RemoveByIdListRoleUser";
+export const DELETE_ROLE_USER="role/RemoveByIdListRoleUser";
+export const UPDATE_USER_ROLE="role/UpdateUserRole";
 //#endregion
 
 export const GET_FIRM_LIST = "firm/GetFirmsList";
