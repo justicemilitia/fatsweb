@@ -27,6 +27,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
   systemUsers = [];
 
   constructor(protected baseService: BaseService) {
+    super(baseService);
     this.loadUserRole();
     this.loadSystemUser();
 
