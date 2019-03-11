@@ -24,9 +24,7 @@ export class User implements IData {
     FirstName: string;
     LastName: string;
     DepartmentId: number;
-    LocationId: number;
     UserTitle: string;
-    FirmId: number;
     RoleId: number;
     Password: string;
     PhoneNumber: number;
@@ -34,14 +32,10 @@ export class User implements IData {
     Role: Role;
     ParentUser: User;
     Department: Department;
-    Location: Location;
-    Firm: Firm;
     InverseParentUser: User[];
 
     constructor() {
-        this.Firm = new Firm();
         this.Department = new Department();
-        this.Location = new Location();
         this.Role = new Role();
         this.InverseParentUser = [];
     }

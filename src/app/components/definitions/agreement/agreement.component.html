@@ -72,15 +72,15 @@
             </div>
             <!-- İLGİLİ ŞİRKET -->
             <div class="col-md-6">
-              <div class="form-group">
-                <label>İlgili Şirket</label>
-                <select [(ngModel)]="agreement.CompanyId" name="CompanyId" class="form-control txt-width"
-                  (click)="loadDropdownList()">
-                  <option value="">Seçiniz</option>
-                  <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
-                    {{ company.Name }}
-                  </option>
-                </select>
+                <div class="form-group">
+                  <label>İlgili Şirket</label>
+                  <select [(ngModel)]="agreement.CompanyId" name="CompanyId" class="form-control txt-width" (click)="loadCompanies()">
+                    <option value="">Seçiniz</option>
+                    <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
+                      {{ company.Name }}
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -136,19 +136,13 @@
           </div>
 
           <div class="row justify-content-center">
-            <!-- DOSYA YÜKLE -->
-            <div class="col-sm-12">
-              <div class="custom-file">
-                <input #agreementFile name="AgreementFile" type="file" class="form-control-file txt-width"
-                  id="customFile" multiple>
-                <!-- <label class="custom-file-label" for="customFile">Dosya Seç</label> -->
+                <!-- DOSYA YÜKLE -->            
+              <div class="col-sm-12">
+                <div class="custom-file">
+                  <input [(ngModel)]="agreement.AgreementFile" #agreementFile name="AgreementFile" type="file" class="form-control-file txt-width" (change)="upload(agreementFile.files)">
+                  <!-- <label class="custom-file-label" for="customFile">Dosya Seç</label> -->
+                </div>
               </div>
-            </div>
-            <!-- <div class="col-sm-2"> -->
-            <!-- <button id="RemoveFile" type="button" class="close" data-dismiss="modal" aria-label="Close">  -->
-            <!-- <a>Kaldır</a> -->
-            <!-- </button> -->
-            <!-- </div>   -->
           </div>
 
           <div class="row justify-content-center">
@@ -178,8 +172,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateCompany" #agreementFile type="submit" class="btn btn-orange btn-block btn-height"
-            data-toggle="modal" data-target="#modalInsertCompany" (click)="upload(agreementFile.files)">Kaydet</button>
+          <button id="btnInsertOrUpdateAgreement" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAgreement" (click)="upload(agreementFile.files)">Kaydet</button>
           <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-light btn-modal-close">Kapat</button> -->
         </div>
       </form>

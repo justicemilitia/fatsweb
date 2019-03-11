@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpRequest
+  HttpRequest,
+  HttpHeaders,
+  HttpHeaderResponse
 } from "@angular/common/http";
 
 import {
@@ -13,7 +15,8 @@ import {
   UPDATE_AGREEMENT,
   GET_AGREEMENT_BY_ID,
   DELETE_AGREEMENT,
-  FILE_UPLOAD
+  FILE_UPLOAD,
+  GET_HEADERS_FORMDATA
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "../../../../src/app/models/Response";
@@ -60,12 +63,17 @@ export class AgreementService {
   InsertAgreement(agreement: Agreement, files: any, success, failed) {
     const formData = new FormData();
     console.log(agreement);
+    formData.append("model", JSON.stringify(agreement));    
     if (files && files.length > 0) formData.append(files[0].name, files[0]);
-    formData.append("model", JSON.stringify(agreement));
+    console.log(formData);
+
+    // let headers: HttpHeaders=new HttpHeaders();
+    // headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
+    // headers=headers.append("Content-Type","multipart/form-data; boundary=----WebKitFormBoundaryyEmKNDsBKjB7QEqu");
 
     this.httpClient
       .post(SERVICE_URL + INSERT_AGREEMENT, formData, {
-        headers: GET_HEADERS(this.authenticationService.getToken())
+        headers: GET_HEADERS_FORMDATA(this.authenticationService.getToken())
       })
       .subscribe(
         result => {

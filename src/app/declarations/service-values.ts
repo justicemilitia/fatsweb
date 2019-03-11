@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:5000/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -21,7 +21,7 @@ export const DELETE_LOCATION = "Locations/RemoveByIdList";
 
 //#region Users
 export const GET_USER_LIST = "user/GetUserList";
-export const GET_USER_LIST_BY_ID = "userfirms/GetUserFirmsListbyFirmId";
+export const GET_USER_BY_ID = "user/GetUserById";
 export const INSERT_USER = "auth/register";
 export const UPDATE_USER = "User/UpdateUser";
 export const GET_SYSTEM_USER_LIST = "User/GetSystemUserList";
@@ -74,8 +74,8 @@ export const DELETE_FIXEDASSETCARDMODEL = "FixedAssetsCardModels/RemoveByIdList"
 //#endregion
 
 //#region Agreements
-export const GET_AGREEMENT_LIST="Aggrement/GetAgreementListByFirmId";
-export const GET_AGREEMENT_BY_ID="Aggrement/GetAgreementListById";
+export const GET_AGREEMENT_LIST = "Aggrement/GetAgreementListByFirmId";
+export const GET_AGREEMENT_BY_ID = "Aggrement/GetAgreementListById";
 export const INSERT_AGREEMENT = "Aggrement/AddAgreementWithFileupload";
 export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreement";
 export const DELETE_AGREEMENT = "Aggrement/RemoveByIdList";
@@ -147,6 +147,22 @@ const FILE_UPLOAD_URL = 'http://localhost:8000/upload';
 export const GET_HEADERS = (token = null): HttpHeaders => {
   let headers = new HttpHeaders();
   headers = headers.append("Content-Type", "application/json");
+  if (token) {
+    headers = headers.append("Authorization", "Bearer " + token);
+  } else {
+    headers = headers.append(
+      "Authorization",
+      "Basic " + btoa("username:password")
+    );
+  }
+  return headers;
+};
+
+
+export const GET_HEADERS_FORMDATA = (token = null): HttpHeaders => {
+  let headers = new HttpHeaders();
+  headers = headers.append("Content-Type", "multipart/form-data");
+  
   if (token) {
     headers = headers.append("Authorization", "Bearer " + token);
   } else {
