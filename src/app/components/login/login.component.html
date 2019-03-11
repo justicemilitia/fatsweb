@@ -25,7 +25,9 @@
 
         <div id="userFirms" *ngIf="firms.length > 0" class="form-group">
           <label>Firma</label>
-          <div *ngIf="isUserFirmsGetting == true" class="loader"></div>
+          <div *ngIf="isUserFirmsGetting == true">
+            <div class="loader"></div>
+          </div>
           <select *ngIf="isUserFirmsGetting == false" name="firmId" [(ngModel)]="loginUser.FirmId"
             class="form-control select2-no-search">
             <option value="-1">Seçiniz</option>
@@ -35,7 +37,9 @@
         <div id="WrongPassword" *ngIf="errorMessage != ''" class="alert alert-danger alert-custom" role="alert">
           {{errorMessage}}
         </div><!-- alert -->
-        <div *ngIf="isLoggining == true" class="loader"></div>
+        <div *ngIf="isLoggining == true">
+          <div class="loader"></div>
+        </div>
         <button *ngIf="isLoggining == false" class="btn btn-orange btn-block" id="loginbtn" type="submit">
           Giriş
         </button>

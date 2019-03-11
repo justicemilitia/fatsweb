@@ -81,3 +81,8 @@ color: white;
     font-size: 13px;
     padding-top: 3px;
 }
+
+.loader {
+    margin-top:5px;
+    margin-bottom: 5px;
+}

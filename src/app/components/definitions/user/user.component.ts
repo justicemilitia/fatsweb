@@ -72,22 +72,6 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: 'text'
       },
       {
-        columnDisplayName: 'Firma',
-        columnName: ['Firm', 'Name'],
-        isActive: true,
-        classes: [],
-        placeholder: '',
-        type: 'text'
-      },
-      {
-        columnDisplayName: 'Lokasyon',
-        columnName: ['Location', 'Name'],
-        isActive: true,
-        classes: [],
-        placeholder: '',
-        type: 'text'
-      },
-      {
         columnDisplayName: 'Departman',
         columnName: ['Department', 'Name'],
         isActive: true,
@@ -158,9 +142,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     /* Object bindings to store in datatable */
     this.currentUser.Role = this.roles.find(x => x.RoleId == this.currentUser.RoleId);
-    this.currentUser.Firm = this.firms.find(x => x.FirmId == this.currentUser.FirmId);
     this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
-    this.currentUser.Location = this.locations.find(x => x.LocationId == this.currentUser.LocationId);
     this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
     /* Say user to wait */
@@ -209,9 +191,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
         /* Object bindings to store in datatable */
         let role = this.roles.find(x => x.RoleId == this.currentUser.RoleId);
-        let firm = this.firms.find(x => x.FirmId == this.currentUser.FirmId);
         let department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
-        let location = this.locations.find(x => x.LocationId == this.currentUser.LocationId);
         let parentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
         /* loading icon visible */
@@ -227,9 +207,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
           /* Load related values to current model */
           this.currentUser.Role = role;
-          this.currentUser.Firm = firm;
           this.currentUser.Department = department;
-          this.currentUser.Location = location;
           this.currentUser.ParentUser = parentUser;
 
           /* Update in table the current user */
