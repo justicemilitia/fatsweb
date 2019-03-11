@@ -111,7 +111,7 @@
             <ng-container *ngFor="let column of dataTable.TGT_getActiveColumns();let i = index">
               <!-- First column always will be offset with(+/- sign) -->
               <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
-                class="tree-table-body-tr-td tree-table-input-text {{column.classes.join(' ')}}">
+                class="tree-table-body-tr-td tree-table-input-text">
                 <!-- Collapse Sign (+/-) -->
                 <span (click)=dataTable.TGT_doCollapse(data) class='tree-table-sign {{dataTable.TGT_getSign(data)}}'>
                 </span>
@@ -120,7 +120,7 @@
                 <ng-container [ngSwitch]="column.type">
                   <!-- if the type is checkbox then render this -->
                   <ng-container *ngSwitchCase="'checkbox'">
-                    <input type="checkbox" disabled
+                    <input type="checkbox"
                       [attr.checked]="dataTable.TGT_getDataValue(data,column) == true ? 'checked' : null" />
                   </ng-container>
                   <!-- END if the type is checkbox then render this END -->
@@ -134,18 +134,31 @@
               </td>
               <!-- END First column always will be offset with(+/- sign) END -->
               <!-- Rest of columns will be default -->
-              <td *ngIf="i!=0" class="tree-table-body-tr-td tree-table-input-text {{column.classes.join(' ')}}">
+              <td *ngIf="i!=0" class="tree-table-body-tr-td tree-table-input-text">
                 <!-- Fill The Rest of Columns -->
                 <ng-container [ngSwitch]="column.type">
                   <!-- if the type is checkbox then render this -->
                   <ng-container *ngSwitchCase="'checkbox'">
-                    <input type="checkbox" disabled
-                      [attr.checked]="dataTable.TGT_getDataValue(data,column) == true ? 'checked' : null" />
+                    <ng-container *ngIf="dataTable.isTableEditable == false || column.isEditable != true">
+                      <input type="checkbox" disabled
+                        [attr.checked]="dataTable.TGT_getDataValue(data,column) == true ? 'checked' : null" />
+                    </ng-container>
+                    <ng-container *ngIf="dataTable.isTableEditable == true && column.isEditable == true">
+                      <input type="checkbox" (change)="dataTable.TGT_changeItemAny($event,column,data)"
+                        [attr.disabled]="dataTable.isTableEditable == true ? null : ''"
+                        [attr.checked]="dataTable.TGT_getDataValue(data,column) == true ? 'checked' : null" />
+                    </ng-container>
                   </ng-container>
                   <!-- END if the type is checkbox then render this END -->
                   <!-- if the type is none then render this -->
                   <ng-container *ngSwitchDefault>
-                    {{dataTable.TGT_getDataValue(data,column)}}
+                    <ng-container *ngIf="dataTable.isTableEditable == false || column.isEditable != true">
+                      {{dataTable.TGT_getDataValue(data,column)}}
+                    </ng-container>
+                    <ng-container *ngIf="dataTable.isTableEditable == true && column.isEditable == true">
+                      <input type="text" value="{{dataTable.TGT_getDataValue(data,column)}}"
+                        (change)="dataTable.TGT_changeItemAny($event,column,data)" />
+                    </ng-container>
                   </ng-container>
                   <!-- END if the type is none then render this END -->
                 </ng-container>

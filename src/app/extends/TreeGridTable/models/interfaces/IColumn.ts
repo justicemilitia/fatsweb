@@ -3,7 +3,8 @@ export interface IColumn {
     columnName: string[];
     columnDisplayName: string;
     type: string;
-    placeholder: string;
-    classes: string[];
-    formatter?:any;
+    placeholder?: string;
+    classes?: string[];
+    formatter?: any;
+    isEditable?: boolean;
 }
