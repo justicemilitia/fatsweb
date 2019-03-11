@@ -127,6 +127,7 @@ export const GET_ROLE_AUTHORIZATION_LIST = "Role/GetRoleAuthorizationList";
 export const INSERT_USER_ROLE = "role/AddRoleToUserByArray";
 export const GET_USER_ROLE_LIST = "role/GetUserRoleList";
 export const GET_USER_ROLE_BY_ID = "role/GetUserRoleById";
+export const DELETE_ROLE_USER="role/RemoveByIdListRoleUser";
 //#endregion
 
 export const GET_FIRM_LIST = "firm/GetFirmsList";

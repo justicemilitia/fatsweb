@@ -8,18 +8,18 @@ import { NgForm } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { User } from "src/app/models/User";
 import * as $ from "jquery";
-import { userInfo } from 'os';
+import { BaseComponent } from '../../base/base.component';
 
 @Component({
   selector: "app-rol-user",
   templateUrl: "./role-user.component.html",
   styleUrls: ["./role-user.component.css"]
 })
-export class RoleUserComponent implements OnInit {
+export class RoleUserComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
   users: User[] = [];
-  user:User=new User();
+  user: User = new User();
   userRoles: UserRole[] = [];
   userRole: UserRole = new UserRole();
   roles: Role[] = [];
@@ -70,7 +70,7 @@ export class RoleUserComponent implements OnInit {
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
       itemsShowLimit: 15,
-      allowSearchFilter: true,      
+      allowSearchFilter: true
     };
   }
 
@@ -99,7 +99,7 @@ export class RoleUserComponent implements OnInit {
 
   async loadRoles() {
     await this.baseService.roleService.GetRoles(
-      (roles: Role[]) => {  
+      (roles: Role[]) => {
         this.roles = roles;
       },
       (error: HttpErrorResponse) => {
@@ -148,25 +148,76 @@ export class RoleUserComponent implements OnInit {
     );
   }
 
+  async deleteCompanies() {
+    /* get selected items from table */
+    let selectedItems = this.dataTableUserRole.TGT_getSelectedItems();
+
+    /* if count of items equals 0 show message for no selected item */
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir kayıt seçiniz"
+      );
+      return;
+    }
+
+    /* Show Question Message */
+    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+      /* Activate the loading spinner */
+      this.baseService.spinner.show();
+
+      /* Convert items to ids */
+      let itemIds: number[] = selectedItems.map(x => x.getId());
+
+      /* Delete all */
+      this.baseService.roleUserService.DeleteRoleUser(
+        itemIds,
+        () => {
+          /* Deactive the spinner */
+          this.baseService.spinner.hide();
+
+          /* if all of them removed */
+          if (itemIds.length == 1)
+            this.baseService.popupService.ShowAlertPopup(
+              "Kayıt Başarıyla silindi!"
+            );
+          else
+            this.baseService.popupService.ShowAlertPopup(
+              "Tüm kayıtlar başarıyla silindi!"
+            );
+
+          /* Clear all the ids from table */
+          this.dataTableUserRole.TGT_removeItemsByIds(itemIds);
+
+          /* Get latest companies from table*/
+          this.userRoles = <UserRole[]>this.dataTableUserRole.TGT_copySource();
+        },
+        (error: HttpErrorResponse) => {
+          /* Hide Loading Spinner */
+          this.baseService.spinner.hide();
+
+          /* Show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    });
+  }
+
   onDoubleClickItem(item: UserRole) {
-    this.userRole=new UserRole();
+    this.userRole = new UserRole();
 
     this.baseService.spinner.show();
-
+    this.loadRoles();
     this.loadUserRole();
-
     this.baseService.roleUserService.GetUserRoleById(
       item.UserRoleId,
       (result: UserRole) => {
         setTimeout(() => {
 
-          $("btnEditUserRole").trigger("click");
-          
-          this.baseService.spinner.hide();
-          
-          Object.assign(this.userRole,result);
-          this.onItemSelect(this.user);
-      
+          $("#btnEditUserRole").trigger("click");
+
+          this.baseService.spinner.hide();        
+          Object.assign(this.userRole, result);            
+
         }, 1000);
       },
       (error: HttpErrorResponse) => {
@@ -176,9 +227,11 @@ export class RoleUserComponent implements OnInit {
       }
     );
   }
+
   onItemSelect(item: User) {
     this.selectedUser.push(item);
   }
+
   onSelectAll(items: any) {
     this.selectedUser.push(items);
   }
