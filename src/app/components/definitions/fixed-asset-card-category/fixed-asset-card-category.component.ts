@@ -1,11 +1,9 @@
-import { Component, OnInit, NgModule, DoCheck } from "@angular/core";
-import { FixedAssetCardCategoryService } from "../../../services/fixed-asset-card-category-service/fixed-asset-card-category.service";
+import { Component, OnInit, NgModule } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import { FixedAssetCardCategory } from "../../../models/FixedAssetCardCategory";
 import { HttpErrorResponse } from "@angular/common/http";
-import { IData } from "src/app/extends/TreeGridTable/models/interfaces/IData";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import * as $ from "jquery";
 
@@ -19,16 +17,23 @@ import * as $ from "jquery";
   declarations: [FixedAssetCardCategoryComponent],
   providers: [FixedAssetCardCategoryComponent]
 })
-export class FixedAssetCardCategoryComponent extends BaseComponent
-  implements OnInit {
+export class FixedAssetCardCategoryComponent extends BaseComponent implements OnInit {
+
+  /* Is Waititing for a request */
+  isWaitingInsertOrUpdate: boolean = false;
+
+  /* Store Fixed Categories */
   fixedAssetCardCategories: FixedAssetCardCategory[] = [];
+
+  /* Current Fixed Asset Category */
   fixedAssetCardCategory: FixedAssetCardCategory = new FixedAssetCardCategory();
 
+  /* Data Table */
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetcardcategory",
     [
       {
-        columnDisplayName: "İsim",
+        columnDisplayName: "Kategori Adı",
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -36,8 +41,8 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
-        columnName: ["Description"],
+        columnDisplayName: "Kategori Kodu",
+        columnName: ["FixedAssetCardCategoryCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -55,10 +60,16 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
     this.loadFixedAssetCardCategories();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  resetForm() {
-    this.fixedAssetCardCategory = new FixedAssetCardCategory();
+  resetForm(data: NgForm, isNewItem: boolean) {
+
+    /* Reset form if required create a new object */
+    data.resetForm(this.fixedAssetCardCategory);
+    if (isNewItem == true) {
+      this.fixedAssetCardCategory = new FixedAssetCardCategory();
+    }
+
   }
 
   onSubmit(data: NgForm) {
@@ -76,14 +87,13 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir şirket seçiniz"
-      );
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir şirket seçiniz");
       return;
     }
 
     /* Show Question Message */
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -91,155 +101,187 @@ export class FixedAssetCardCategoryComponent extends BaseComponent
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
       /* Delete all */
-      this.baseService.fixedAssetCardCategoryService.DeleteFixedAssetCardCategories(
-        itemIds,
-        (notDeletedItemIds: number[]) => {
-          /* Deactive the spinner */
-          this.baseService.spinner.hide();
+      this.baseService.fixedAssetCardCategoryService.DeleteFixedAssetCardCategories(itemIds, () => {
 
-          /* if any item exists in not deleted items */
-          if (notDeletedItemIds) {
-            /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
-            for (let ii = 0; ii < itemIds.length; ii++) {
-              if (notDeletedItemIds.includes(itemIds[ii])) {
-                itemIds.splice(ii, 1);
-                ii--;
-              }
-            }
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
 
-            /* if any value couldnt delete then show popup */
-            if (itemIds.length == 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                "Hiçbir Kayıt Silinemedi!"
-              );
-              return;
-            }
+        /* if all of them removed */
+        if (itemIds.length == 1)
+          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+        else
+          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
-            /* if some of them is deleted show this */
-            if (itemIds.length > 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                selectedItems.length.toString() +
-                  " kayıttan " +
-                  itemIds.length.toString() +
-                  "'i silinebildi!"
-              );
-            }
-          } else {
-            /* if all of them removed */
-            this.baseService.popupService.ShowAlertPopup(
-              "Tüm kayıtlar başarıyla silindi!"
-            );
-          }
+        /* Clear ids from source */
+        this.dataTable.TGT_removeItemsByIds(itemIds);
 
-          /* Now Delete items from the source */
-          for (let ii = 0; ii < itemIds.length; ii++) {
-            let index = this.fixedAssetCardCategories.findIndex(
-              x => x.FixedAssetCardCategoryId == itemIds[ii]
-            );
-            if (index > -1) {
-              this.fixedAssetCardCategories.splice(index, 1);
-            }
-          }
+        /* Get current table source */
+        this.fixedAssetCardCategories = <FixedAssetCardCategory[]>this.dataTable.TGT_copySource();
 
-          /* Reload Page */
-          this.dataTable.TGT_loadData(this.fixedAssetCardCategories);
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.spinner.hide();
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
+      }, (error: HttpErrorResponse) => {
+
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
+
+        /* Show alert pop up */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      });
     });
   }
 
   async addFixedAssetCardCategory(data: NgForm) {
+
+    /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    /* Insert FixedAssetCardCatgory service */
+    /* Close waiting loader */
+    this.isWaitingInsertOrUpdate = true;
 
+    /* Insert Fixed Asset Card Category */
     await this.baseService.fixedAssetCardCategoryService.InsertFixedAssetCardCategory(
       this.fixedAssetCardCategory,
-      (data: FixedAssetCardCategory, message) => {
-        /* Show pop up, get inserted fixed asset card then set it fixed asset card id, then load data. */
+      (insertedItem: FixedAssetCardCategory, message) => {
+
+        /* Close waiting loader */
+        this.isWaitingInsertOrUpdate = false;
+
+        /* Show success pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
-        this.fixedAssetCardCategory.FixedAssetCardCategoryId =
-          data.FixedAssetCardCategoryId;
+
+        /* Set inserted Item id to model */
+        this.fixedAssetCardCategory.FixedAssetCardCategoryId = insertedItem.FixedAssetCardCategoryId;
+
+        /* Bind Parent category to bind */
+        this.fixedAssetCardCategory.ParentCategory =
+          this.fixedAssetCardCategories.find(x => x.FixedAssetCardCategoryId == this.fixedAssetCardCategory.ParentFixedAssetCardCategoryId);
+
+        /* Push inserted item to category list */
         this.fixedAssetCardCategories.push(this.fixedAssetCardCategory);
+
+        /* Reload data table */
         this.dataTable.TGT_loadData(this.fixedAssetCardCategories);
-        this.resetForm();
-      },
-      (error: HttpErrorResponse) => {
+
+        /* Reset Forms */
+        this.resetForm(data, true);
+
+      }, (error: HttpErrorResponse) => {
+
+        /* Close waiting loader */
+        this.isWaitingInsertOrUpdate = false;
+
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+
+      });
   }
 
   async updateFixedAssetCardCategory(data: NgForm) {
+
     /* Check model state */
     if (data.form.invalid == true) return;
 
     /* Ask for approve question if its true then update the fixed asset card category */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
-          this.baseService.fixedAssetCardCategoryService.UpdateFixedAssetCardCategory(
-            this.fixedAssetCardCategory,
-            (_fixedAssetCardCategory, message) => {
-              /* Show pop up then update data in datatable */
-              this.baseService.popupService.ShowSuccessPopup(message);
-              this.dataTable.TGT_updateData(this.fixedAssetCardCategory);
-              this.resetForm();
-            },
-            (error: HttpErrorResponse) => {
-              /* Show error message */
-              this.baseService.popupService.ShowErrorPopup(error);
-            }
-          );
-        }
+    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+      if (response == true) {
+
+        /* Change button to loading */
+        this.isWaitingInsertOrUpdate = true;
+
+        /* Update Model to database */
+        this.baseService.fixedAssetCardCategoryService.UpdateFixedAssetCardCategory(
+          this.fixedAssetCardCategory,
+          (_fixedAssetCardCategory, message) => {
+
+            /* Change loading to button */
+            this.isWaitingInsertOrUpdate = false;
+
+            /* Show pop up then update data in datatable */
+            this.baseService.popupService.ShowSuccessPopup(message);
+
+            /* Create a fixed asset for updated item to create a refrences */
+            let updatedModel = new FixedAssetCardCategory();
+            Object.assign(updatedModel, this.fixedAssetCardCategory);
+
+            /* Binding selected brand */
+            updatedModel.ParentCategory =
+              this.fixedAssetCardCategories.find(x => x.FixedAssetCardCategoryId == updatedModel.ParentFixedAssetCardCategoryId);
+
+            /* Update in datatable */
+            this.dataTable.TGT_updateData(updatedModel);
+
+            /* Get original source */
+            this.fixedAssetCardCategories = <FixedAssetCardCategory[]>this.dataTable.TGT_copySource();
+
+          }, (error: HttpErrorResponse) => {
+
+            /* Change loading to button */
+            this.isWaitingInsertOrUpdate = false;
+
+            /* Show error message */
+            this.baseService.popupService.ShowErrorPopup(error);
+
+          });
       }
-    );
+    });
   }
 
   async loadFixedAssetCardCategories() {
-    /* Load all fixed asset card cateogories to datatable */
 
+    /* Load all fixed asset card cateogories to datatable */
     await this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
       (fixedAssetCardCategories: FixedAssetCardCategory[]) => {
+
+        /* Bind Fixed Categories to model */
         this.fixedAssetCardCategories = fixedAssetCardCategories;
+
+        /* Load data to table */
         this.dataTable.TGT_loadData(this.fixedAssetCardCategories);
+
       },
       (error: HttpErrorResponse) => {
+
         /* if error show pop up */
         this.baseService.popupService.ShowErrorPopup(error);
+
       }
     );
   }
 
   async onDoubleClickItem(item: FixedAssetCardCategory) {
+
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
-    /* load fixed asset card categories if not loaded */
-    await this.loadFixedAssetCardCategories();
+    /* Load fixed asset card categories if not loaded */
+    this.loadFixedAssetCardCategories();
 
-    /* get company information from server */
-    await this.baseService.fixedAssetCardService.GetFixedAssetCardById(
-      item.FixedAssetCardCategoryId,
+    /* Get company information from server */
+    await this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategoryById(item.FixedAssetCardCategoryId,
       (result: FixedAssetCardCategory) => {
-        /* then bind it to fixed asset card category model to update */
+
+        /* Then bind it to fixed asset card category model to update */
         setTimeout(() => {
-          /* bind result to model */
-          this.fixedAssetCardCategory = result;
+
+          /* Hide Spinner */
           this.baseService.spinner.hide();
 
-          /* Trigger to model to show it */
-          $("#btnAddFixedAssetCardCategory").trigger("click");
+          /* Trigger edit button to show modal */
+          $("#btnEditFixedAssetCardCategory").trigger("click");
+
+          /* bind result to model */
+          this.fixedAssetCardCategory = result;
+
         }, 1000);
-      },
-      (error: HttpErrorResponse) => {
+      }, (error: HttpErrorResponse) => {
+
+        /* hide spinner */
+        this.baseService.spinner.hide();
+
         /* show error message */
         this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }}
+
+      });
+  }
+
+}

@@ -2,7 +2,6 @@ import { Component, OnInit, NgModule } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
-
 import { FixedAssetCardBrand } from "../../../models/FixedAssetCardBrand";
 import { FixedAssetCardModel } from "../../../models/FixedAssetCardModel";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -290,6 +289,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
         this.fixedAssetCardModels = <FixedAssetCardModel[]>this.dataTableModel.TGT_copySource();
 
       }, (error: HttpErrorResponse) => {
+        
         /* Deactive the spinner */
         this.baseService.spinner.hide();
 

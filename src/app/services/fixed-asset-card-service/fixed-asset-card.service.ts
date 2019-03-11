@@ -11,7 +11,6 @@ import {
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
-import { Department } from "../../models/Department";
 import { FixedAssetCard } from "../../models/FixedAssetCard";
 import { ErrorService } from "src/app/services/error-service/error.service";
 import { getAnErrorResponse } from 'src/app/declarations/extends';
@@ -24,7 +23,7 @@ export class FixedAssetCardService {
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   GetFixedAssetCards(success, failed) {
     this.httpClient
