@@ -21,4 +21,6 @@ export const MENU_FIXEDASSETCARDBRANDDEFINITIONS = "Menu_FixedAssetCardBrandDefi
 export const MENU_FIXEDASSETCARDMODELS = "Menu_FixedAssetCardModels";
 export const MENU_ROLEDEFINITIONS="Menu_RoleDefinitions";
 export const MENU_FIXEDASSET= "Menu_FixedAsset";
+export const MENU_STATUSLIST="Menu_StatusList";
+export const MENU_FIXEDASSETOPERATIONS="Menu_FixedAssetOperations";
 

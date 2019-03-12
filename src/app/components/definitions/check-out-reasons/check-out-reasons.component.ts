@@ -16,43 +16,6 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
   checkOutReasons: CheckOutReason[] = [];
   checkoutreason: CheckOutReason = new CheckOutReason();
 
-  fixedAssetStatus: FixedAssetStatus[] = [];
-  fxedAssetStatu: FixedAssetStatus = new FixedAssetStatus();
-
-  public dataTableFixedAssetStatus: TreeGridTable = new TreeGridTable(
-    "checkoutreason",
-    [
-      {
-        columnDisplayName: "Statü Kodu",
-        columnName: ["FixedAssetStatuCode"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: "Statü Adı",
-        columnName: ["Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: "Renk",
-        columnName: ["Color"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["Name"]
-    }
-  );
-
   public dataTable: TreeGridTable = new TreeGridTable(
     "checkoutreason",
     [
@@ -100,19 +63,6 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         /* Show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
-
-  LoadFixedAssetStatus() {
-    this.baseService.checkOutReasonService.GetFixedAssetStatus(
-      (fixedAssetStatus: FixedAssetStatus[]) => {
-        this.fixedAssetStatus = fixedAssetStatus;
-
-        this.dataTableFixedAssetStatus.TGT_loadData(this.fixedAssetStatus);
-      },
-      (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );

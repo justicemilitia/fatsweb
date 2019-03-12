@@ -77,7 +77,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
       /* Delete all */
-      this.baseService.companyService.DeleteCompanies(
+      this.baseService.roleService.DeleteRoles(
         itemIds,
         () => {
           /* Deactive the spinner */
