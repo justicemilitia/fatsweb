@@ -84,9 +84,7 @@ export class FixedAssetCardService {
       result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          let _updatedFixedAssetCard: FixedAssetCard = new FixedAssetCard();
-          Object.assign(_updatedFixedAssetCard, fixedAssetCard);
-          success(_updatedFixedAssetCard, response.LanguageKeyword);
+          success(<FixedAssetCard>response.ResultObject, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
@@ -121,7 +119,7 @@ export class FixedAssetCardService {
     }).subscribe(
       result => {
         let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
+        if ((<[]>response.ResultObject).length == 0) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));

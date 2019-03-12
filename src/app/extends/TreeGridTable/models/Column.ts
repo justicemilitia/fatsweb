@@ -6,8 +6,14 @@ export class Column implements IColumn {
     columnName: string[];
     columnDisplayName: string;
     type: string;
-    placeholder: string;
-    classes: string[];
+    placeholder?: string;
+    classes?: string[];
     formatter?: any;
+    isEditable: boolean;
+
+    constructor() {
+        this.classes = [];
+        this.isEditable = false;
+    }
 
 }

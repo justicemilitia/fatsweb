@@ -1,17 +1,19 @@
 <div class="az-content">
-  <div class="container">
+  <div class="container-fluid">
     <div class="az-content-body">
-      <h2 class="az-content-title">Rol Yetkilendirme</h2>
-      <div class="grp-btn-action">  
-        <button
-          class="btn btn-orange"
-          id="btnAddRoleAuth"
-          data-toggle="modal"
-          data-target="#modalRoleAuthorization">Role Yetki Atama    
-        </button>
+      <div class="card card-dashboard-twelve mg-b-20">
+        <h2 class="az-content-title">Rol Yetkilendirme</h2>
+        <div class="grp-btn-action">
+          <button class="btn btn-orange btn-new-custom" id="btnAddRoleAuth" data-toggle="modal"
+            data-target="#modalRoleAuthorization">Role Yetki Atama
+          </button>
+          <button style="display:none" id="btnEditRoleAuth" data-toggle="modal"
+            data-target="#modalRoleAuthorization">Role Yetki Düzenle
+          </button>
+        </div>
+        <p class="mg-b-20"></p>
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
       </div>
-      <p class="mg-b-20"></p>
-            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table> 
     </div>
     <!-- az-content-body -->
   </div>
@@ -26,22 +28,21 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form name="form" #data="ngForm"  (ngSubmit)="OnSubmitRole(data)">
+        <form name="form" #data="ngForm" (ngSubmit)="OnSubmitRole(data)">
           <div class="modal-body">
-            <div class="form-group">  
-              <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableRoleAuth"></tree-grid-table> 
-            </div>    
+            <div class="form-group">
+              <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableRoleAuth">
+              </tree-grid-table>
+            </div>
           </div>
           <div class="modal-footer">
-              <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAddRole">Kaydet</button>   
+            <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-orange btn-block btn-height"
+              data-toggle="modal" data-target="#modalAddRole">Kaydet</button>
           </div>
-      </form>
+        </form>
         <!-- modal-body -->
       </div>
     </div>
     <!-- modal-dialog -->
   </div>
 </div>
-
-      
-         

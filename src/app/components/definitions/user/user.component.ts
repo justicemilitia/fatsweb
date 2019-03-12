@@ -138,12 +138,7 @@ export class UserComponent extends BaseComponent implements OnInit {
   async insertUser(data: NgForm) {
 
     /* Form Validation */
-    if (data.invalid == true) return;
-
-    /* Object bindings to store in datatable */
-    this.currentUser.Role = this.roles.find(x => x.RoleId == this.currentUser.RoleId);
-    this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
-    this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
+    if (data.form.invalid == true) return;
 
     /* Say user to wait */
     this.isWaitingInsertOrUpdate = true;
@@ -160,6 +155,11 @@ export class UserComponent extends BaseComponent implements OnInit {
 
         /* Inserted user id matches with current user to add it to table */
         this.currentUser.UserId = insertedUser.UserId;
+
+        /* Object bindings to store in datatable */
+        this.currentUser.Role = this.roles.find(x => x.RoleId == this.currentUser.RoleId);
+        this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
+        this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
         /* Load Table */
         this.users.push(this.currentUser);

@@ -27,48 +27,42 @@ export class RoleAuthorizationComponent extends BaseComponent
   roleAuthorization: RoleAuthorization = new RoleAuthorization();
 
   constructor(protected baseService: BaseService) {
-    super(baseService); 
+    super(baseService);
     this.loadRoleAuth();
     //this.dataTableRoleAuth.isFilterActive=false;
-    this.dataTableRoleAuth.isPagingActive=false;
-    this.dataTableRoleAuth.isColumnOffsetActive=false;
-    this.dataTable.isColumnOffsetActive=false;
+    this.dataTableRoleAuth.isPagingActive = false;
+    this.dataTableRoleAuth.isColumnOffsetActive = false;
+    this.dataTable.isColumnOffsetActive = false;
   }
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "roleauthorization",
-    [     
+    [
       {
         columnDisplayName: "Menü",
-        columnName: ["Menu","Name"],
+        columnName: ["Menu", "Name"],
         isActive: true,
-        classes: [],
-        placeholder: "",
         type: "text"
       },
       {
         columnDisplayName: "Rol",
-        columnName: ["Role","Name"],
+        columnName: ["Role", "Name"],
         isActive: true,
-        classes: [],
-        placeholder: "",
         type: "text"
       },
       {
         columnDisplayName: "Görüntüleyebilir",
         columnName: ["OutBrowse"],
         isActive: true,
-        classes: ["table-checkbox"],
-        placeholder: "",
-        type: "checkbox"
+        type: "checkbox",
+        isEditable: true
       },
       {
         columnDisplayName: "Ekleyebilir",
         columnName: ["OutInsert"],
         isActive: true,
-        classes: ["table-checkbox"],
-        placeholder: "",
-        type: "checkbox"
+        type: "checkbox",
+        isEditable: true
       },
       {
         columnDisplayName: "Düzenleyebilir",
@@ -76,7 +70,8 @@ export class RoleAuthorizationComponent extends BaseComponent
         isActive: true,
         classes: ["table-checkbox"],
         placeholder: "",
-        type: "checkbox"
+        type: "checkbox",
+        isEditable: true
       },
       {
         columnDisplayName: "Silebilir",
@@ -84,12 +79,13 @@ export class RoleAuthorizationComponent extends BaseComponent
         isActive: true,
         classes: ["table-checkbox"],
         placeholder: "",
-        type: "checkbox"
+        type: "checkbox",
+        isEditable: true
       }
     ],
     {
       isDesc: false,
-      column: ["Role","Name"]
+      column: ["Role", "Name"]
     }
   );
 
@@ -143,10 +139,9 @@ export class RoleAuthorizationComponent extends BaseComponent
     }
   );
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   loadRoleAuth() {
-    debugger;
     this.baseService.roleAuthorizationService.GetRoleAuth(
       (roleAuthorization: RoleAuthorization[]) => {
         this.roleAuthorizations = roleAuthorization;

@@ -8,6 +8,11 @@ export class TreeGridTable {
     //#region Variables
 
     /**
+     * Is Table Editable
+     */
+    public isTableEditable: boolean = true;
+
+    /**
      * Is Multiple Select Active 
      */
     public isMultipleSelectedActive: boolean = true;
@@ -365,6 +370,44 @@ export class TreeGridTable {
     }
 
     //#endregion
+
+    /**
+     * Any value change in grid will trigger this method to change item value
+     * @param event Event sent by input
+     * @param column Column name to change value
+     * @param data Data which will update
+     */
+    public TGT_changeItemAny(event: any, column: IColumn, data: IData) {
+        switch (column.type) {
+            case "checkbox":
+                this.TGT_changeItemValue(data, column, event.target.checked);
+                break;
+            case "text":
+                this.TGT_changeItemValue(data, column, event.target.value);
+                break;
+        }
+    }
+
+    /**
+     * Change the value of given item with given value
+     * @param data Data which will update
+     * @param column Column which will search
+     * @param value New Data To update
+     */
+    public TGT_changeItemValue(data: IData, column: IColumn, value: any) {
+
+        let item: any = data;
+
+        for (let i = 0; i < column.columnName.length - 1; i++) {
+            let currentCol: string = column.columnName[i];
+            item = item[currentCol];
+        }
+
+        if (item) {
+            item[column.columnName[column.columnName.length - 1]] = value;
+        }
+
+    }
 
     public TGT_getActiveColumns() {
         return this.dataColumns.filter(x => x.isActive == true);
