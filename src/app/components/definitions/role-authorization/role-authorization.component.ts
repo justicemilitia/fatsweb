@@ -10,6 +10,8 @@ import { BaseService } from "src/app/services/base.service";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { HttpErrorResponse } from "@angular/common/http";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
+import { Menu } from "src/app/models/Menu";
+import { Role } from 'src/app/models/Role';
 
 @Component({
   selector: "app-role-authorization",
@@ -21,18 +23,31 @@ import RoleAuthorization from "src/app/models/RoleAuthorization";
   declarations: [RoleAuthorizationComponent],
   providers: [RoleAuthorizationComponent]
 })
-export class RoleAuthorizationComponent extends BaseComponent
-  implements OnInit {
+export class RoleAuthorizationComponent extends BaseComponent implements OnInit {
+
+  isWaitingInsertOrUpdate: boolean = false;
+
   roleAuthorizations: RoleAuthorization[] = [];
   roleAuthorization: RoleAuthorization = new RoleAuthorization();
 
+  roleMenus: Menu[] = [];
+  roleMenu: Menu = new Menu();
+
+  roles: Role[] = [];  
+  role: Role = new Role();
+
+  RoleAuthArray: RoleAuthorization[] = [];
+
   constructor(protected baseService: BaseService) {
+
     super(baseService);
-    this.loadRoleAuth();
-    //this.dataTableRoleAuth.isFilterActive=false;
+    
+    this.loadRoleAuth();   
+
     this.dataTableRoleAuth.isPagingActive = false;
     this.dataTableRoleAuth.isColumnOffsetActive = false;
     this.dataTable.isColumnOffsetActive = false;
+    this.dataTableRoleAuth.isTableEditable = true;
   }
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -104,33 +119,33 @@ export class RoleAuthorizationComponent extends BaseComponent
         columnDisplayName: "Görüntüleyebilir",
         columnName: ["OutBrowse"],
         isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "checkbox"
+        type: "checkbox",
+        isEditable: true
       },
       {
         columnDisplayName: "Ekleyebilir",
         columnName: ["OutInsert"],
         isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "checkbox"
+        type: "checkbox",
+        isEditable: true
       },
       {
         columnDisplayName: "Düzenleyebilir",
         columnName: ["OutUpdate"],
         isActive: true,
-        classes: [],
+        classes: ["table-checkbox"],
         placeholder: "",
-        type: "checkbox"
+        type: "checkbox",
+        isEditable: true
       },
       {
         columnDisplayName: "Silebilir",
         columnName: ["OutDelete"],
         isActive: true,
-        classes: [],
+        classes: ["table-checkbox"],
         placeholder: "",
-        type: "checkbox"
+        type: "checkbox",
+        isEditable: true
       }
     ],
     {
@@ -139,7 +154,18 @@ export class RoleAuthorizationComponent extends BaseComponent
     }
   );
 
-  ngOnInit() { }
+  ngOnInit() {}
+
+  async loadRole() {
+    await this.baseService.roleService.GetRoles(
+      (roles: Role[]) => {
+        this.roles = roles;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
 
   loadRoleAuth() {
     this.baseService.roleAuthorizationService.GetRoleAuth(
@@ -153,7 +179,29 @@ export class RoleAuthorizationComponent extends BaseComponent
     );
   }
 
+  loadRoleAuthByFirmId() {
+    this.baseService.roleAuthorizationService.GetRoleAuthByFirmId(
+      (roleMenu: Menu[]) => {
+        this.roleMenus = roleMenu;
+        this.dataTableRoleAuth.TGT_loadData(this.roleMenus);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
 
+  AddRoleAuthorization() {
 
-
+    this.isWaitingInsertOrUpdate = true;
+    
+    let items = this.dataTableRoleAuth.TGT_copySource();
+    this.RoleAuthArray=<RoleAuthorization[]>items;
+    console.log(this.RoleAuthArray);
+    this.baseService.roleAuthorizationService.addRoleAuth(
+      this.RoleAuthArray,
+      () => {},
+      () => {}
+    );
+  }
 }

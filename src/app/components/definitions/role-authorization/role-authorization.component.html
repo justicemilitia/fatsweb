@@ -5,7 +5,7 @@
         <h2 class="az-content-title">Rol Yetkilendirme</h2>
         <div class="grp-btn-action">
           <button class="btn btn-orange btn-new-custom" id="btnAddRoleAuth" data-toggle="modal"
-            data-target="#modalRoleAuthorization">Role Yetki Atama
+            data-target="#modalRoleAuthorization" (click)="loadRoleAuthByFirmId()">Role Yetki Atama
           </button>
           <button style="display:none" id="btnEditRoleAuth" data-toggle="modal"
             data-target="#modalRoleAuthorization">Role Yetki Düzenle
@@ -31,13 +31,17 @@
         <form name="form" #data="ngForm" (ngSubmit)="OnSubmitRole(data)">
           <div class="modal-body">
             <div class="form-group">
-              <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableRoleAuth">
-              </tree-grid-table>
+                <label>Rol</label>
+                <select  class="form-control select2-no-search">
+                  <option value="-1">Seçiniz</option>
+                  <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
+                </select>    
+              <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableRoleAuth"></tree-grid-table>
             </div>
           </div>
           <div class="modal-footer">
             <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-orange btn-block btn-height"
-              data-toggle="modal" data-target="#modalAddRole">Kaydet</button>
+              data-toggle="modal" data-target="#modalAddRole" (click)="AddRoleAuthorization()">Kaydet</button>
           </div>
         </form>
         <!-- modal-body -->

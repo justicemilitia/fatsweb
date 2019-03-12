@@ -27,8 +27,8 @@
       <hr class="mg-y-30 mg-lg-y-50">
 
         <p class="mg-b-20"></p>
-            <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
       </div>
+      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserRole"></tree-grid-table>
     </div>
     <!-- az-content-body -->
   </div>

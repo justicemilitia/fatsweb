@@ -39,38 +39,55 @@ export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#region FixedAssetCards
 export const GET_FIXEDASSET_LIST = "FixedAsset/GetFixedAssetsList";
 export const UPDATE_FIXEDASSET = "FixedAsset/UpdateFixedAsset";
-export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcodeNumber";
-export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
-export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
+export const UPDATE_FIXEDASSETBARCODENUMBER =
+  "FixedAsset/UpdateFixedAssetBarcodeNumber";
+export const UPDATE_FIXEDASSETSUSPENDEDSTATUS =
+  "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
+export const UPDATE_FIXEDASSETLOSTSTATUS =
+  "FixedAsset/UpdateFixedAssetIsLostStatus";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 export const DELETE_FIXEDASSET = "FixedAsset/RemoveByRemoveFixedAssetIdList";
 //#endregion
 
 //#region FixedAssetCardCategories
-export const GET_FIXEDASSETCARDCATEGORY_LIST = "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
-export const GET_FIXEDASSETCARDCATEGORY_BY_ID = "FixedAssetCardCategories/GetFixedAssetCardCategoryById";
-export const INSERT_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/AddFixedAssetCardCategory";
-export const UPDATE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/UpdateFixedAssetCardCategories";
-export const DELETE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/RemoveByIdList";
+export const GET_FIXEDASSETCARDCATEGORY_LIST =
+  "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
+export const GET_FIXEDASSETCARDCATEGORY_BY_ID =
+  "FixedAssetCardCategories/GetFixedAssetCardCategoryById";
+export const INSERT_FIXEDASSETCARDCATEGORY =
+  "FixedAssetCardCategories/AddFixedAssetCardCategory";
+export const UPDATE_FIXEDASSETCARDCATEGORY =
+  "FixedAssetCardCategories/UpdateFixedAssetCardCategories";
+export const DELETE_FIXEDASSETCARDCATEGORY =
+  "FixedAssetCardCategories/RemoveByIdList";
 //#endregion
 
 //#region FixedAssetCardProperties
 //#endregion
 
 //#region FixedAssetCardBrands
-export const GET_FIXEDASSETCARDBRAND_LIST = "FixedAssetCardBrands/GetFixedAssetCardBrandsList";
-export const GET_FIXEDASSETCARDBRAND_BY_ID = "FixedAssetCardBrands/GetFixedAssetCardBrandById";
-export const INSERT_FIXEDASSETCARDBRAND = "FixedAssetCardBrands/AddFixedAssetCardBrand";
-export const UPDATE_FIXEDASSETCARDBRAND = "FixedAssetCardBrands/UpdateFixedAssetCardBrand";
+export const GET_FIXEDASSETCARDBRAND_LIST =
+  "FixedAssetCardBrands/GetFixedAssetCardBrandsList";
+export const GET_FIXEDASSETCARDBRAND_BY_ID =
+  "FixedAssetCardBrands/GetFixedAssetCardBrandById";
+export const INSERT_FIXEDASSETCARDBRAND =
+  "FixedAssetCardBrands/AddFixedAssetCardBrand";
+export const UPDATE_FIXEDASSETCARDBRAND =
+  "FixedAssetCardBrands/UpdateFixedAssetCardBrand";
 export const DELETE_FIXEDASSETCARDBRAND = "FixedAssetCardBrands/RemoveByIdList";
 //#endregion
 
 //#region FixedAssetCardModels
-export const GET_FIXEDASSETCARDMODEL_LIST = "FixedAssetsCardModels/GetFixedAssetsCardModelsList";
-export const GET_FIXEDASSETCARDMODEL_BY_ID = "FixedAssetsCardModels/GetFixedAssetsCardModelsById";
-export const INSERT_FIXEDASSETCARDMODEL = "FixedAssetsCardModels/AddFixedAssetsCardModel";
-export const UPDATE_FIXEDASSETCARDMODEL = "FixedAssetsCardModels/UpdateFixedAssetsCardModel";
-export const DELETE_FIXEDASSETCARDMODEL = "FixedAssetsCardModels/RemoveByIdList";
+export const GET_FIXEDASSETCARDMODEL_LIST =
+  "FixedAssetsCardModels/GetFixedAssetsCardModelsList";
+export const GET_FIXEDASSETCARDMODEL_BY_ID =
+  "FixedAssetsCardModels/GetFixedAssetsCardModelsById";
+export const INSERT_FIXEDASSETCARDMODEL =
+  "FixedAssetsCardModels/AddFixedAssetsCardModel";
+export const UPDATE_FIXEDASSETCARDMODEL =
+  "FixedAssetsCardModels/UpdateFixedAssetsCardModel";
+export const DELETE_FIXEDASSETCARDMODEL =
+  "FixedAssetsCardModels/RemoveByIdList";
 //#endregion
 
 //#region Agreements
@@ -93,12 +110,13 @@ export const DELETE_COMPANY = "company/RemoveByIdList";
 //#region CheckOutReasons
 export const GET_CHECKOUTREASON_LIST = "CheckOutReasons/GetCheckOutReasonsList";
 export const GET_CHECKOUTREASON_BY_ID = "CheckOutReasons/GetCheckOutReasonById";
-export const INSERT_CHECKOUTREASON = "CheckOutReasons/AddCheckOutReasons"
+export const INSERT_CHECKOUTREASON = "CheckOutReasons/AddCheckOutReasons";
 export const UPDATE_CHECKOUTREASON = "CheckOutReasons/UpdateCheckOutReasons";
 //#endregion
 
 //#region FixedAssetStatus
-export const GET_FIXEDASSETSTATUS_LIST="FixedAssetStatus/GetFixedAssetStatusList";
+export const GET_FIXEDASSETSTATUS_LIST =
+  "FixedAssetStatus/GetFixedAssetStatusList";
 //#endregion
 
 //#region ExpenseCenters
@@ -110,9 +128,11 @@ export const DELETE_EXPENSECENTER = "ExpenseCenter/RemoveByIdList";
 
 //#endregion
 
+//region FixedAsset
+export const GET_FIXED_ASSET = "FixedAsset/GetFixedAssetsList";
+//endregion
 
 export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
-
 
 //#region Roles
 export const UPDATE_ROLE = "Role/UpdateRole";
@@ -125,14 +145,16 @@ export const DELETE_ROLES = "role/RemoveByIdList";
 
 //#region RoleAuthorization
 export const GET_ROLE_AUTHORIZATION_LIST = "Role/GetRoleAuthorizationList";
+export const GET_ROLE_AUTHORIZATION_LIST_BY_FIRMID = "Role/GetMenuListbyFirmId";
+export const INSERT_ROLE_AUTHORIZATION = "Role/AddRoleAuthorizationsByArray";
 //#endregion
 
 //#region UserRole
 export const INSERT_USER_ROLE = "role/AddRoleToUserByArray";
 export const GET_USER_ROLE_LIST = "role/GetUserRoleList";
 export const GET_USER_ROLE_BY_ID = "role/GetUserRoleById";
-export const DELETE_ROLE_USER="role/RemoveByIdListRoleUser";
-export const UPDATE_USER_ROLE="role/UpdateUserRole";
+export const DELETE_ROLE_USER = "role/RemoveByIdListRoleUser";
+export const UPDATE_USER_ROLE = "role/UpdateUserRole";
 //#endregion
 
 export const GET_FIRM_LIST = "firm/GetFirmsList";
@@ -141,8 +163,7 @@ export const GET_CITY_LIST = "definition/GetCitiesList";
 export const GET_USERFIRM_LIST = "UserFirms/GetUserFirmsList";
 export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
 
-
-const FILE_UPLOAD_URL = 'http://localhost:8000/upload';
+const FILE_UPLOAD_URL = "http://localhost:8000/upload";
 
 export const GET_HEADERS = (token = null): HttpHeaders => {
   let headers = new HttpHeaders();
@@ -158,11 +179,10 @@ export const GET_HEADERS = (token = null): HttpHeaders => {
   return headers;
 };
 
-
 export const GET_HEADERS_FORMDATA = (token = null): HttpHeaders => {
   let headers = new HttpHeaders();
   headers = headers.append("Content-Type", "multipart/form-data");
-  
+
   if (token) {
     headers = headers.append("Authorization", "Bearer " + token);
   } else {

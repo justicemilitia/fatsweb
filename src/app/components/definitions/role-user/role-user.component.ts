@@ -21,12 +21,19 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
 
   userRoles: UserRole[] = [];
   userRole: UserRole = new UserRole();
+
   roles: Role[] = [];
   role: Role = new Role();
+
   systemUsers = [];
+  selectedUser: User[] = [];
+  dropdownSettings = {};
+  visible: boolean = true;
 
   constructor(protected baseService: BaseService) {
+
     super(baseService);
+    
     this.loadUserRole();
     this.loadSystemUser();
     this.loadRoles();
@@ -60,9 +67,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     }
   );
 
-  selectedUser: User[] = [];
-  dropdownSettings = {};
-  visible: boolean = true;
+ 
 
   ngOnInit() {
     this.dropdownSettings = {

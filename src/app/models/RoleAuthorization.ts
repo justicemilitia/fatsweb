@@ -18,6 +18,7 @@ export default class RoleAuthorization implements IData{
   isVisible: boolean;
   UserId: number;
   RoleId: number;
+  
   RoleAuthorizationId:number;
   OutBrowse: boolean;
   OutUpdate: boolean;
