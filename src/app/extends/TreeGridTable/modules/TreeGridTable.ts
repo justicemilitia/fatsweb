@@ -10,7 +10,7 @@ export class TreeGridTable {
     /**
      * Is Table Editable
      */
-    public isTableEditable: boolean = true;
+    public isTableEditable: boolean = false;
 
     /**
      * Is Multiple Select Active 
