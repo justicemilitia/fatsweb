@@ -11,16 +11,16 @@
       <form #loginForm="ngForm" (ngSubmit)="Login(loginForm)" novalidate>
         <div class="form-group">
           <label>E-posta</label>
-          <input [(ngModel)]="loginUser.UserMail" name="UserMail" id="UserMail" #UserMail="ngModel"
+          <input [(ngModel)]="loginUser.UserMail" name="UserMail" id="UserMail" autocomplete="off" #UserMail="ngModel"
             [ngClass]="{ 'is-invalid': loginForm.submitted && UserMail.invalid }"
             (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control"
             placeholder="E-posta Adresinizi yazınız" required />
         </div>
         <div class="form-group">
           <label>Şifre</label>
-          <input type="password" #Password="ngModel" id="Password" name="Password" [(ngModel)]="loginUser.Password"
-            [ngClass]="{ 'is-invalid': loginForm.submitted && Password.invalid }" type="password" class="form-control"
-            placeholder="Şifrenizi giriniz" required />
+          <input type="password" #Password="ngModel" id="Password" name="Password" autocomplete="off"
+            [(ngModel)]="loginUser.Password" [ngClass]="{ 'is-invalid': loginForm.submitted && Password.invalid }"
+            type="password" class="form-control" placeholder="Şifrenizi giriniz" required />
         </div>
 
         <div id="userFirms" *ngIf="firms.length > 0" class="form-group">

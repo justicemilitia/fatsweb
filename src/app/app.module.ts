@@ -35,7 +35,11 @@ import { RoleComponent } from "./components/definitions/role/role.component";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { RoleUserComponent } from './components/definitions/role-user/role-user.component';
-import { FixedAssetComponent } from "./components/definitions/fixed-asset/fixed-asset.component";
+import { FixedAssetComponent } from "./components/operations/fixed-asset/fixed-asset.component";
+import { StatusComponent } from './components/definitions/status/status.component';
+import { FaCreateComponent } from './components/operations/fixed-asset/fa-create/fa-create.component';
+import { FaExitComponent } from './components/operations/fixed-asset/fa-exit/fa-exit.component';
+import { FaBindingComponent } from './components/operations/fixed-asset/fa-binding/fa-binding.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +69,11 @@ import { FixedAssetComponent } from "./components/definitions/fixed-asset/fixed-
     TreeGridTableComponent,
     RoleComponent,
     RoleUserComponent,
-    FixedAssetComponent
+    FixedAssetComponent,
+    StatusComponent,
+    FaCreateComponent,
+    FaExitComponent,
+    FaBindingComponent
   ],
   imports: [
     BrowserModule,

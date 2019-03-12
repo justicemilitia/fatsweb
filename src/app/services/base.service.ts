@@ -23,6 +23,7 @@ import { Router } from "@angular/router";
 import { RoleAuthorizationService } from "./role-authorization-service/role-authorization.service";
 import { RoleUserService } from "./role-user-service/role-user.service";
 import { FileUploadService } from './file-upload-service/file-upload.service';
+import { StatusService } from './status-service/status.service';
 
 @Injectable({
   providedIn: "root"
@@ -47,6 +48,7 @@ export class BaseService {
     public agreementService: AgreementService,
     public fixedAssetCardBrandService: FixedAssetCardBrandService,
     public fixedAssetCardModelService: FixedAssetCardModelService,
+    public fixedAssetStatusService:StatusService,
     public roleService: RoleService,
     public roleUserService:RoleUserService,
     public roleAuthorizationService: RoleAuthorizationService,

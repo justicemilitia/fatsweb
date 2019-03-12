@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const SERVICE_URL = "http://localhost:5000/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -32,7 +32,7 @@ export const DELETE_USER = "User/RemoveByIdList";
 export const GET_FIXEDASSETCARD_LIST = "fixedAssetcard/GetFixedAssetsCardsList";
 export const GET_FIXEDASSETCARD_BY_ID = "fixedAssetcard/GetFixedAssetCardById";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
-export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
+export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssets";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#endregion
 
@@ -101,10 +101,14 @@ export const DELETE_COMPANY = "company/RemoveByIdList";
 //#endregion
 
 //#region CheckOutReasons
-export const GET_CHECKOUTREASON_LIST = "CheckOutReason/GetCheckOutReasonsList";
+export const GET_CHECKOUTREASON_LIST = "CheckOutReasons/GetCheckOutReasonsList";
 export const GET_CHECKOUTREASON_BY_ID = "CheckOutReasons/GetCheckOutReasonById";
-export const INSERT_CHECKOUTREASON = "CheckOutReason/AddCheckOutReasons"
+export const INSERT_CHECKOUTREASON = "CheckOutReasons/AddCheckOutReasons"
 export const UPDATE_CHECKOUTREASON = "CheckOutReasons/UpdateCheckOutReasons";
+//#endregion
+
+//#region FixedAssetStatus
+export const GET_FIXEDASSETSTATUS_LIST="FixedAssetStatus/GetFixedAssetStatusList";
 //#endregion
 
 //#region ExpenseCenters
@@ -137,7 +141,8 @@ export const GET_ROLE_AUTHORIZATION_LIST = "Role/GetRoleAuthorizationList";
 export const INSERT_USER_ROLE = "role/AddRoleToUserByArray";
 export const GET_USER_ROLE_LIST = "role/GetUserRoleList";
 export const GET_USER_ROLE_BY_ID = "role/GetUserRoleById";
-export const DELETE_ROLE_USER = "role/RemoveByIdListRoleUser";
+export const DELETE_ROLE_USER="role/RemoveByIdListRoleUser";
+export const UPDATE_USER_ROLE="role/UpdateUserRole";
 //#endregion
 
 export const GET_FIRM_LIST = "firm/GetFirmsList";

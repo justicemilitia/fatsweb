@@ -5,8 +5,10 @@
         <h2 class="az-content-title">Çıkış Tipleri</h2>
         <div class="grp-btn-action">
         </div>
-        <p class="mg-b-20"></p>
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        <p class="mg-b-20"></p>   
+        <div class="col-md-6">
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        </div>        
       </div>
     </div>
     <!-- az-content-body -->

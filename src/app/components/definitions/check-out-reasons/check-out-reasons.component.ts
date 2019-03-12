@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseService } from 'src/app/services/base.service';
-import { BaseComponent } from '../../base/base.component';
-import { CheckOutReason } from 'src/app/models/CheckOutReason';
-import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from "@angular/core";
+import { BaseService } from "src/app/services/base.service";
+import { BaseComponent } from "../../base/base.component";
+import { CheckOutReason } from "src/app/models/CheckOutReason";
+import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
+import { HttpErrorResponse } from "@angular/common/http";
+import { FixedAssetStatus } from "src/app/models/FixedAssetStatus";
 
 @Component({
   selector: "app-check-out-reasons",
@@ -11,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ["./check-out-reasons.component.css"]
 })
 export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
+  
   checkOutReasons: CheckOutReason[] = [];
   checkoutreason: CheckOutReason = new CheckOutReason();
 
@@ -18,7 +20,7 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
     "checkoutreason",
     [
       {
-        columnDisplayName: "Şirket Adı",
+        columnDisplayName: "Çıkış Tipi",
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -48,26 +50,21 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
     this.LoadCheckOutReasons();
   }
 
+  ngOnInit() {}
 
-  ngOnInit() { }
+  async LoadCheckOutReasons() {
+    await this.baseService.checkOutReasonService.GetCheckOutReason(
+      (checkOutReasons: CheckOutReason[]) => {
+        /* get checkouts */
+        this.checkOutReasons = checkOutReasons;
 
-  LoadCheckOutReasons() {
-
-    this.baseService.checkOutReasonService.GetCheckOutReason((checkOutReasons: CheckOutReason[]) => {
-      /* get checkouts */
-      this.checkOutReasons = checkOutReasons;
-
-      /* then load them into table */
-      this.dataTable.TGT_loadData(this.checkOutReasons);
-
-    }, (error: HttpErrorResponse) => {
-
-      /* Show error message */
-      this.baseService.popupService.ShowErrorPopup(error);
-
-    });
+        /* then load them into table */
+        this.dataTable.TGT_loadData(this.checkOutReasons);
+      },
+      (error: HttpErrorResponse) => {
+        /* Show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
-
-
-
 }

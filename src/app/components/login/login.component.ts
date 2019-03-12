@@ -77,7 +77,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.isUserFirmsGetting = true;
 
     /* Get firms from server */
-    await this.baseService.authenticationService.getUserFirmList(usermail,
+    this.baseService.authenticationService.getUserFirmList(usermail,
       (result: Firm[]) => {
 
         /* if success put results to firms */

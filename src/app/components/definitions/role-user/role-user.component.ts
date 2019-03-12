@@ -2,13 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { UserRole } from "src/app/models/UserRole";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { BaseService } from "src/app/services/base.service";
+
 import { HttpErrorResponse } from "@angular/common/http";
 import { Role } from "src/app/models/Role";
 import { NgForm } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { User } from "src/app/models/User";
 import * as $ from "jquery";
-import { BaseComponent } from '../../base/base.component';
+import { BaseComponent } from "../../base/base.component";
 
 @Component({
   selector: "app-rol-user",
@@ -18,8 +19,6 @@ import { BaseComponent } from '../../base/base.component';
 export class RoleUserComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
-  users: User[] = [];
-  user: User = new User();
   userRoles: UserRole[] = [];
   userRole: UserRole = new UserRole();
   roles: Role[] = [];
@@ -30,6 +29,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     super(baseService);
     this.loadUserRole();
     this.loadSystemUser();
+    this.loadRoles();
 
     this.dataTableUserRole.isColumnOffsetActive = false;
   }
@@ -62,6 +62,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
 
   selectedUser: User[] = [];
   dropdownSettings = {};
+  visible: boolean = true;
 
   ngOnInit() {
     this.dropdownSettings = {
@@ -70,7 +71,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       textField: "UserMail",
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
-      itemsShowLimit: 15,
+      itemsShowLimit: 10,
       allowSearchFilter: true
     };
   }
@@ -118,10 +119,12 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
 
   onSubmit(data: NgForm) {
     if (data.value.UserRoleId == null) this.addUserRole(data);
+    else this.updateUserRole(data);
   }
 
   async addUserRole(data: NgForm) {
     if (data.form.invalid == true) return;
+
     this.isWaitingInsertOrUpdate = true;
 
     let userIds: number[] = this.selectedUser.map(x => x.UserId);
@@ -129,7 +132,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     let role = this.roles.find(x => x.RoleId == this.role.RoleId);
     this.role.RoleId = role.RoleId;
 
-    this.baseService.roleUserService.InsertUserRole(
+    await this.baseService.roleUserService.InsertUserRole(
       this.role.RoleId,
       userIds,
       (insertedItem: UserRole, message) => {
@@ -145,6 +148,40 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
         this.isWaitingInsertOrUpdate = false;
+      }
+    );
+  }
+
+  updateUserRole(data: NgForm) {
+    if (data.form.invalid == true) return;
+
+    this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          this.isWaitingInsertOrUpdate = true;
+
+          this.baseService.roleUserService.UpdateUserRole(
+            this.userRole,
+            (_company, message) => {
+              this.isWaitingInsertOrUpdate = false;
+
+              this.baseService.popupService.ShowSuccessPopup(message);
+
+              let updatedUserRole = new UserRole();
+              Object.assign(updatedUserRole, this.userRole);
+              this.dataTableUserRole.TGT_updateData(updatedUserRole);
+
+              this.userRoles = <UserRole[]>(
+                this.dataTableUserRole.TGT_copySource()
+              );
+            },
+            (error: HttpErrorResponse) => {
+              this.baseService.popupService.ShowErrorPopup(error);
+
+              this.isWaitingInsertOrUpdate = false;
+            }
+          );
+        }
       }
     );
   }
@@ -203,22 +240,26 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     });
   }
 
-  onDoubleClickItem(item: UserRole) {
+  async onDoubleClickItem(item: UserRole) {
     this.userRole = new UserRole();
 
     this.baseService.spinner.show();
+
     this.loadRoles();
+
     this.loadUserRole();
-    this.baseService.roleUserService.GetUserRoleById(
+
+    await this.baseService.roleUserService.GetUserRoleById(
       item.UserRoleId,
       (result: UserRole) => {
         setTimeout(() => {
-
           $("#btnEditUserRole").trigger("click");
+          this.visible = false;
+          this.userRole.RoleId = item.RoleId;
+          this.userRole.UserId = item.UserId;
 
-          this.baseService.spinner.hide();        
-          Object.assign(this.userRole, result);            
-
+          this.baseService.spinner.hide();
+          Object.assign(this.userRole, result);
         }, 1000);
       },
       (error: HttpErrorResponse) => {

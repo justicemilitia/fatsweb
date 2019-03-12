@@ -4,16 +4,17 @@
       <div class="card card-dashboard-twelve mg-b-20">
         <h2 class="az-content-title">Sözleşmeler</h2>
         <div class="grp-btn-action">
-          <button type="button" (click)="deleteAgreements()" class="btn btn-danger">
-            {{
-              dataTable.TGT_getSelectedItems().length > 0
-                ? dataTable.TGT_getSelectedItems().length
-                : ""
-            }}
+          <button type="button" (click)="deleteAgreements()" class="btn btn-danger btn-delete-custom">
+            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length: ""}}
             <i class="fas fa-trash"></i>
           </button>
-          <button class="btn btn-orange" id="btnAddAgreement" data-toggle="modal" data-target="#modalAgreement">
+          <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)" id="btnAddAgreement"
+            data-toggle="modal" data-target="#modalAgreement">
             Sözleşme Ekle
+          </button>
+          <button style="display:none" (click)="resetForm(data,false)" id="btnEditAgreement" data-toggle="modal"
+            data-target="#modalAgreement">
+            Sözleşmeyi Düzenle
           </button>
         </div>
         <p class="mg-b-20"></p>
@@ -38,8 +39,10 @@
       </div>
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
         <div class="modal-body">
+
+          <input type="hidden" name="AgreementId" [(ngModel)]="agreement.AgreementId" />
+
           <div class="row justify-content-center">
-            <input type="hidden" name="AgreementId" [(ngModel)]="agreement.AgreementId" />
             <!-- SÖZLEŞME NO -->
             <div class="col-md-6">
               <div class="form-group">
@@ -72,15 +75,15 @@
             </div>
             <!-- İLGİLİ ŞİRKET -->
             <div class="col-md-6">
-                <div class="form-group">
-                  <label>İlgili Şirket</label>
-                  <select [(ngModel)]="agreement.CompanyId" name="CompanyId" class="form-control txt-width" (click)="loadCompanies()">
-                    <option value="">Seçiniz</option>
-                    <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
-                      {{ company.Name }}
-                    </option>
-                  </select>
-                </div>
+              <div class="form-group">
+                <label>İlgili Şirket</label>
+                <select [(ngModel)]="agreement.CompanyId" name="CompanyId" class="form-control txt-width"
+                  (click)="loadCompanies()">
+                  <option value="">Seçiniz</option>
+                  <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
+                    {{ company.Name }}
+                  </option>
+                </select>
               </div>
             </div>
           </div>
@@ -136,13 +139,14 @@
           </div>
 
           <div class="row justify-content-center">
-                <!-- DOSYA YÜKLE -->            
-              <div class="col-sm-12">
-                <div class="custom-file">
-                  <input [(ngModel)]="agreement.AgreementFile" #agreementFile name="AgreementFile" type="file" class="form-control-file txt-width" (change)="upload(agreementFile.files)">
-                  <!-- <label class="custom-file-label" for="customFile">Dosya Seç</label> -->
-                </div>
+            <!-- DOSYA YÜKLE -->
+            <div class="col-sm-12">
+              <div class="custom-file">
+                <input [(ngModel)]="agreement.AgreementFile" #agreementFile name="AgreementFile" type="file"
+                  class="form-control-file txt-width" (change)="upload(agreementFile.files)">
+                <!-- <label class="custom-file-label" for="customFile">Dosya Seç</label> -->
               </div>
+            </div>
           </div>
 
           <div class="row justify-content-center">
@@ -172,7 +176,8 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateAgreement" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAgreement" (click)="upload(agreementFile.files)">Kaydet</button>
+          <button id="btnInsertOrUpdateAgreement" type="submit" class="btn btn-orange btn-block btn-height"
+            data-toggle="modal" data-target="#modalAgreement" (click)="upload(agreementFile.files)">Kaydet</button>
           <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-light btn-modal-close">Kapat</button> -->
         </div>
       </form>

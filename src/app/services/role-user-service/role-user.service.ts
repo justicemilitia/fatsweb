@@ -10,20 +10,20 @@ import {
   INSERT_USER_ROLE,
   GET_SYSTEM_USER_LIST,
   GET_USER_ROLE_BY_ID,
-  DELETE_ROLE_USER
+  DELETE_ROLE_USER,
+  UPDATE_USER_ROLE
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { ErrorService } from "../error-service/error.service";
 import { User } from "src/app/models/User";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { UserRole } from "src/app/models/UserRole";
-import { BaseService } from '../base.service';
+import { BaseService } from "../base.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class RoleUserService {
-
   roleData: Role[] = [];
 
   constructor(
@@ -84,57 +84,95 @@ export class RoleUserService {
       );
   }
 
-  InsertUserRole(roleId:number, ids: number[], success, failed) {    
+  InsertUserRole(roleId: number, ids: number[], success, failed) {
     this.httpclient
-      .post(SERVICE_URL + INSERT_USER_ROLE, {"models":[{"RoleId":roleId, "UserIds":ids}]}, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
-      .subscribe(result=>{
-        let response:Response=<Response>result;
-        if(response.ResultStatus==true){
-          let insertedUserRole:UserRole=new UserRole();
-          Object.assign(insertedUserRole,response.ResultObject);
-          success(insertedUserRole,response.LanguageKeyword);
-        }else{
-          failed(getAnErrorResponse(response.LanguageKeyword));
+      .post(
+        SERVICE_URL + INSERT_USER_ROLE,
+        { models: [{ RoleId: roleId, UserIds: ids }] },
+        {
+          headers: GET_HEADERS(this.aService.getToken())
         }
-      },(error:HttpErrorResponse)=>{
-        failed(error);
-      });
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedUserRole: UserRole = new UserRole();
+            Object.assign(insertedUserRole, response.ResultObject);
+            success(insertedUserRole, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
   }
 
-  GetUserRoleById(userRoleId:number,success,failed){
-    this.httpclient.get(SERVICE_URL + GET_USER_ROLE_BY_ID+"/"+userRoleId,{
-      headers:GET_HEADERS(this.aService.getToken())
-    }).subscribe(result=>{
-      let response:Response=<Response>result;
-      if(response.ResultStatus==true){
-        let userRole:UserRole=new UserRole();
-        Object.assign(userRole,response.ResultObject);
-        success(userRole,response.LanguageKeyword);
-      }
-      else{
-        failed(getAnErrorResponse(response.LanguageKeyword));
-      }
-    },error=>{
-      failed(error);
-    });
+  UpdateUserRole(userRole: UserRole, success, failed) {
+    this.httpclient
+      .put(SERVICE_URL + UPDATE_USER_ROLE, userRole, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(userRole, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  GetUserRoleById(userRoleId: number, success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_USER_ROLE_BY_ID + "/" + userRoleId, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let userRole: UserRole = new UserRole();
+            Object.assign(userRole, response.ResultObject);
+            success(userRole, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
   }
 
   DeleteRoleUser(ids: number[], success, failed) {
-    this.httpclient.post(SERVICE_URL + DELETE_ROLE_USER, { "Ids": ids }, {
-      headers: GET_HEADERS(this.aService.getToken()),
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if ((<[]>response.ResultObject).length == 0) {
-          success(response.ResultObject, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+    this.httpclient
+      .post(
+        SERVICE_URL + DELETE_ROLE_USER,
+        { Ids: ids },
+        {
+          headers: GET_HEADERS(this.aService.getToken())
         }
-      },
-      (error: HttpErrorResponse) => {
-        failed(error);
-      });
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if ((<[]>response.ResultObject).length == 0) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
   }
 }
