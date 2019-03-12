@@ -20,6 +20,7 @@ import { RoleComponent } from './components/definitions/role/role.component';
 import{ RoleUserComponent} from './components/definitions/role-user/role-user.component';
 import { FixedAssetComponent } from './components/operations/fixed-asset/fixed-asset.component';
 import { StatusComponent } from './components/definitions/status/status.component';
+import { FixedAssetCardPropertyComponent } from './components/definitions/fixed-asset-card-property/fixed-asset-card-property.component';
 
 export const routes: Routes = [
   {
@@ -140,6 +141,12 @@ export const routes: Routes = [
     path: "fixedassetcardcategory",
     component: FixedAssetCardCategoryComponent,
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDCATEGORYDEFINITIONS}
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "fixedassetcardproperty",
+    component: FixedAssetCardPropertyComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSETCARDPROPERTYDEFINITIONS}
     // canActivate: [AuthGuard]
   },
   {

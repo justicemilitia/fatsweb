@@ -23,4 +23,5 @@ export const MENU_ROLEDEFINITIONS="Menu_RoleDefinitions";
 export const MENU_FIXEDASSET= "Menu_FixedAsset";
 export const MENU_STATUSLIST="Menu_StatusList";
 export const MENU_FIXEDASSETOPERATIONS="Menu_FixedAssetOperations";
+export const MENU_FIXEDASSETCARDPROPERTYDEFINITIONS="Menu_FixedAssetCardProperty";
 
