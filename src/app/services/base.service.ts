@@ -11,6 +11,7 @@ import { CountryService } from "./country-service/country.service";
 import { CityService } from "./city-service/city.service";
 import { FixedAssetCardCategoryService } from "./fixed-asset-card-category-service/fixed-asset-card-category.service";
 import { FixedAssetCardService } from "./fixed-asset-card-service/fixed-asset-card.service";
+import { FixedAssetCardPropertyService } from "./fixed-asset-card-property-service/fixed-asset-card-property.service";
 import { PopupService } from "./popup-service/popup.service";
 import { ErrorService } from "./error-service/error.service";
 import { AgreementService } from "./agreement-service/agreement.service";
@@ -38,6 +39,7 @@ export class BaseService {
     public cityService: CityService,
     public fixedAssetCardCategoryService: FixedAssetCardCategoryService,
     public fixedAssetCardService: FixedAssetCardService,
+    public fixedAssetCardPropertyService: FixedAssetCardPropertyService,
     public popupService: PopupService,
     public errorService: ErrorService,
     public expenseCenterService: ExpenseCenterService,

@@ -36,7 +36,7 @@ export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssetCard";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#endregion
 
-//#region FixedAssetCards
+//#region FixedAssets
 export const GET_FIXEDASSET_LIST = "FixedAsset/GetFixedAssetsList";
 export const UPDATE_FIXEDASSET = "FixedAsset/UpdateFixedAsset";
 export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcodeNumber";
@@ -55,6 +55,16 @@ export const DELETE_FIXEDASSETCARDCATEGORY = "FixedAssetCardCategories/RemoveByI
 //#endregion
 
 //#region FixedAssetCardProperties
+export const GET_FIXEDASSETCARDPROPERTY_LIST = "FixedAssetCardProperties/GetFixedAssetCardPropertiesList";
+export const GET_FIXEDASSETCARDPROPERTY_BY_ID = "FixedAssetCardProperties/GetFixedAssetCardPropertyById";
+export const INSERT_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/AddFixedAssetCardProperty";
+export const UPDATE_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/UpdateFixedAssetCardProperties";
+export const DELETE_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/RemoveByIdList";
+export const GET_FIXEDASSETCARDPROPERTY_BY_TYPEID = "FixedAssetCardProperties/GetFixedAssetCardPropertyByTypeId";
+//#endregion
+
+//#region FixedAssetCardProperties
+export const GET_FIXEDASSETCARDPROPERTYTYPE_LIST = "FixedAssetPropertyTypes/GetFixedAssetPropertyTypesList";
 //#endregion
 
 //#region FixedAssetCardBrands
