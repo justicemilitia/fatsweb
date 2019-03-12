@@ -40,7 +40,7 @@
                   <input type="hidden" name="UserRoleId" [(ngModel)]="userRole.UserRoleId"/>
                   <div class="form-group col-md-8">
                     <label>Rol</label>
-                    <select [(ngModel)]="userRole.RoleId" name="RoleId" class="form-control select2-no-search" style="width: 250px">
+                    <select [(ngModel)]="userRole.RoleId" name="RoleId" class="form-control select2-no-search">
                       <option value="-1">Seçiniz</option>
                         <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
                     </select>     

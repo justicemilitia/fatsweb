@@ -249,6 +249,12 @@ button.btn:first-child {
     min-height: 20px;
     height: 34px;
 }
+.btn-new-custom-fa {
+    font-size: 14px !important;
+    min-height: 20px;
+    height: 34px;
+    margin:20px;
+}
 
 .btn-delete-custom {
     font-size: 14px !important;
