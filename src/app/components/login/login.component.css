@@ -9,15 +9,19 @@ color: white;
 
 .flags {
     padding:1px;
-    height:25px;
-    width:35px;
+    height: 19px;
+    width: 25px;
     margin: 0;
     margin-bottom: 0;
 }
 
+.flag-image {
+    display: inherit;   
+}
+
 .flag-content {
     margin-left: 10px;
-    font-size: 17px;
+    font-size: 13px;
 }
 
 .flags-active {
@@ -108,7 +112,7 @@ color: white;
 .dropdown-toggle {
     width: 100%;
     margin-top: 10px;
-    background: #f5f5f5;
+    background: #ffffff;
     border-radius: 0;
     border-width: 2px;
     border-color: #dee2e6;
@@ -138,6 +142,9 @@ color: white;
     flex: 1;
     display: flex;
     align-items: center;
+    padding-bottom: 0;
+    padding-top: 0;
+    min-height: 26px;
 }
 
 .dropdown-toggle:active {
@@ -158,10 +165,15 @@ color: white;
     border-width: 2px !important;
 }
 
+#userFirms {
+    margin-top:19px
+}
+
 .language-button {
     width: 95%;
     margin: 0;
-    display: inherit;
+    display: flex;
+    align-items: center;
 }
 
 .dropdown  {
