@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BaseService } from "../../services/base.service";
 import * as pages from "../../declarations/page-values";
+import { SystemLanguage } from 'src/app/models/SystemLanguage';
 
 @Component({
   selector: "app-base",
@@ -14,8 +15,19 @@ import * as pages from "../../declarations/page-values";
 export abstract class BaseComponent implements OnInit {
 
   protected readonly PAGES = pages;
-  protected get LANGUAGE() {
-    return this.baseService.languageService.language;
+
+  public Languages: SystemLanguage[] = [{
+    Culture: 'tr',
+    ImageUrl: '../../../assets/img/tr.png',
+    Name: 'Türkçe'
+  }, {
+    Culture: 'en',
+    ImageUrl: '../../../assets/img/en.png',
+    Name: 'English'
+  }];
+
+  public get Language() {
+    return this.Languages.find(x => x.Culture == this.baseService.languageService.language);
   }
 
   constructor(protected baseService: BaseService) { }

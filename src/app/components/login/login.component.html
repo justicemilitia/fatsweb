@@ -1,30 +1,31 @@
 <div class="az-signin-wrapper">
   <div class="az-card-signin">
-    <div class="row justify-content-center">
-      <h1 class="az-logo" style="margin-top:10px">
-        <img src="\assets\img\trinoks-logo.png" />
-      </h1>
-      <h2 class="az-card-signin-title">Fats - Demirbaş Yönetim Sistemi</h2>
+    <div>
+      <h1 class="az-logo">fat<span>s</span></h1>
+      <h2 _ngcontent-c4="" class="az-card-signin-title">Demirbaş Yönetim Sistemi</h2>
+    </div>
+    <div>
+      <h2 style="font-weight: 500;color: #e67300;letter-spacing: -1px;font-family: 'Poppins', sans-serif;">Hoşgeldiniz!
+      </h2>
+      <h4 style="font-weight: 400;color: #212229;margin-bottom: 25px;font-size: 1.08rem;">Devam etmek için giriş
+        yapınız.</h4>
     </div>
     <div class="az-signin-header">
       <!-- form-group -->
       <form #loginForm="ngForm" (ngSubmit)="Login(loginForm)" novalidate>
         <div class="form-group">
-          <label>E-posta</label>
           <input [(ngModel)]="loginUser.UserMail" name="UserMail" id="UserMail" autocomplete="off" #UserMail="ngModel"
             [ngClass]="{ 'is-invalid': loginForm.submitted && UserMail.invalid }"
             (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control"
-            placeholder="E-posta Adresinizi yazınız" required />
+            placeholder="E-posta adresinizi yazınız" required />
         </div>
-        <div class="form-group">
-          <label>Şifre</label>
+        <div class="form-group" style="margin-top: 19px;">
           <input type="password" #Password="ngModel" id="Password" name="Password" autocomplete="off"
             [(ngModel)]="loginUser.Password" [ngClass]="{ 'is-invalid': loginForm.submitted && Password.invalid }"
             type="password" class="form-control" placeholder="Şifrenizi giriniz" required />
         </div>
 
         <div id="userFirms" *ngIf="firms.length > 0" class="form-group">
-          <label>Firma</label>
           <div *ngIf="isUserFirmsGetting == true">
             <div class="loader"></div>
           </div>
@@ -44,11 +45,28 @@
           Giriş
         </button>
         <div class="form-group" class="flag-area">
-          <div class="btn-icon-list">
-            <img src="../../../assets/img/tr.png" class="justify-content-center flags"
-              [class.flags-active]="LANGUAGE == 'tr'" (click)="changeLanguage('tr')" />
-            <img src="../../../assets/img/en.png" class="justify-content-center flags"
-              [class.flags-active]="LANGUAGE == 'en'" (click)="changeLanguage('en')" />
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <div class="language-button">
+                <div class="flag-image">
+                  <img src="{{Language.ImageUrl}}" class="flags" />
+                </div>
+                <div class="flag-content">{{Language.Name}}</div>
+              </div>
+            </button>
+            <div class="dropdown-menu">
+              <ng-container *ngFor="let language of Languages">
+
+                <button class="dropdown-item" (click)="changeLanguage(language.Culture)" type="button">
+                  <div class="flag-image">
+                    <img src="{{language.ImageUrl}}" class="flags" />
+                  </div>
+                  <div class="flag-content">{{language.Name}}</div>
+                </button>
+
+              </ng-container>
+            </div>
           </div>
         </div>
       </form>
@@ -56,6 +74,7 @@
     </div>
     <div class="az-signin-footer">
       <p><a href="">Şifreni mi unuttun?</a></p>
+      <p>İletişim için <a href="mailto:info@trinoks.com">buraya</a> tıklayınız.</p>
     </div>
   </div>
   <!-- az-card-signin -->

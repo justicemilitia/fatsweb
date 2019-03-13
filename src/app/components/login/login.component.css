@@ -1,14 +1,27 @@
+body {
+    background: white;
+}
+
 .btn-orange{
 background-color: #e67300;
 color: white;
 }
 
 .flags {
-    padding:2px;
-    height:25px;
-    width:30px;
-    margin: 3px;
+    padding:1px;
+    height: 19px;
+    width: 25px;
+    margin: 0;
     margin-bottom: 0;
+}
+
+.flag-image {
+    display: inherit;   
+}
+
+.flag-content {
+    margin-left: 10px;
+    font-size: 13px;
 }
 
 .flags-active {
@@ -18,10 +31,11 @@ color: white;
 
 .az-card-signin {
     height: 580px;
+    box-shadow:none;
 }
 
 .az-card-signin-title {
-    color:rgb(33, 34, 41);
+    color:#212229;
     font-weight: 400;
     margin-bottom: 25px;
     font-size: 1.21875rem;
@@ -85,4 +99,83 @@ color: white;
 .loader {
     margin-top:5px;
     margin-bottom: 5px;
+}
+.az-logo {
+    font-size: 41px !important;
+    margin-bottom: 0;
+}
+
+.dropdown-menu {
+    width: 100%;
+}
+
+.dropdown-toggle {
+    width: 100%;
+    margin-top: 10px;
+    background: #ffffff;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: #dee2e6;
+    color: black;
+    text-align: left;
+    height: 30px;
+}
+
+.dropdown-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item:active {
+    background: #c46200;
+}
+
+.dropdown-item:hover {
+    box-shadow: #c46200;
+}
+.dropdown-item:focus {
+    outline: 5px auto #da7108;
+}
+
+.dropdown-toggle {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-bottom: 0;
+    padding-top: 0;
+    min-height: 26px;
+}
+
+.dropdown-toggle:active {
+    color: black !important;
+    background-color: #f1f1f1 !important;
+    border-color: #dedede !important;
+    border-width: 2px !important;
+}
+
+.dropdown-toggle:focus {
+    box-shadow:none !important;
+}
+
+.show>.btn-secondary.dropdown-toggle {
+    color: black !important;
+    background-color: #f1f1f1 !important;
+    border-color: #dedede !important;
+    border-width: 2px !important;
+}
+
+#userFirms {
+    margin-top:19px
+}
+
+.language-button {
+    width: 95%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown  {
+    width: 100%;
 }
