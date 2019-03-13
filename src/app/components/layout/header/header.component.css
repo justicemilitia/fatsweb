@@ -115,8 +115,8 @@ ul.nav-link-item-ul-sub {
   font-size: 14px;
   font-weight: 600;
   flex: 1;
-    display: flex;
-    align-items: baseline;
+  display: flex;
+  align-items: baseline;
 }
 
 .stellarnav.desktop li.has-sub a {
