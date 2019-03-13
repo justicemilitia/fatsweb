@@ -150,13 +150,14 @@ export const INSERT_ROLE = "Role/AddRole";
 export const GET_ROLE_BY_ID = "Role/GetRoleById";
 export const GET_ROLE_LIST = "role/GetRoleList";
 export const DELETE_ROLES = "role/RemoveByIdList";
-
 //#endregion
 
 //#region RoleAuthorization
 export const GET_ROLE_AUTHORIZATION_LIST = "Role/GetRoleAuthorizationList";
 export const GET_ROLE_AUTHORIZATION_LIST_BY_FIRMID = "Role/GetMenuListbyFirmId";
 export const INSERT_ROLE_AUTHORIZATION = "Role/AddRoleAuthorizationsByArray";
+export const GET_ROLE_AUTHORIZATION_LIST_BY_ROLEID="Role/GetRoleAuthorizationListbyRoleId";
+export const UPDATE_ROLE_AUTHORIZATION="Role/UpdateRoleAuthorizationsByArray";
 //#endregion
 
 //#region UserRole

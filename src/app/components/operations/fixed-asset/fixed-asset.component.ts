@@ -14,18 +14,14 @@ import { FixedAsset } from 'src/app/models/FixedAsset';
 })
 export class FixedAssetComponent extends BaseComponent implements OnInit {
   
-  fixedAssets:FixedAsset[]=[];
-  constructor(baseService: BaseService) {
-    super(baseService);
-    this.loadFixedAsset();
-  }
-
+  fixedAssets:FixedAsset[]=[]; 
+  
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
     [
       {
         columnDisplayName: "Barkod",
-        columnName: [],
+        columnName: ["Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -90,13 +86,51 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["Role", "Name"]
+      column: ["Barcode"]
     }
   );
+  constructor(baseService: BaseService) {
+    super(baseService);
+    this.loadFixedAsset();
+    
+    let items = [{
+      FixedAssetCardPropertyId:'14',
+      Name:'Telefon Renkleri'
+    },{
+      FixedAssetCardPropertyId:'15',
+      Name:'Telefon Markası'
+    },{
+      FixedAssetCardPropertyId:'16',
+      Name:'Telefon Hafızası'
+    }];
+
+    items.forEach(element => {
+      this.dataTable.dataColumns.push({
+        columnName: ["FixedAssetCard","FixedAssetCardProperty","FixedAssetPropertValues"],
+        columnDisplayName:  element.Name,
+        isActive: true,
+        type:'text',
+        formatter:(array:[]) => {return array ? array.join(','): ''}
+      });
+    });
+  }
+
+ 
 
   ngOnInit() {}
 
   loadFixedAsset() {
+
+
+    this.fixedAssets = this.baseService.fixedAssetService.GetList();
+    // this.fixedAssets.forEach(e=> {
+    //   e.FixedAssetCard.FixedAssetCardProperty.forEach(t=> {
+    //     t.
+    //   })
+    // })
+    this.dataTable.TGT_loadData(this.fixedAssets);
+    return;
+
     this.baseService.fixedAssetService.GetFixedAsset((fixedasset:FixedAsset[])=>{
       this.fixedAssets=fixedasset;
       this.dataTable.TGT_loadData(this.fixedAssets);

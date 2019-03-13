@@ -10,6 +10,7 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { User } from "src/app/models/User";
 import * as $ from "jquery";
 import { BaseComponent } from "../../base/base.component";
+import RoleAuthorization from 'src/app/models/RoleAuthorization';
 
 @Component({
   selector: "app-rol-user",
@@ -156,6 +157,8 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
+
 
   updateUserRole(data: NgForm) {
     if (data.form.invalid == true) return;

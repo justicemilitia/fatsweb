@@ -11,7 +11,7 @@ import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTab
 import { HttpErrorResponse } from "@angular/common/http";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
 import { Menu } from "src/app/models/Menu";
-import { Role } from 'src/app/models/Role';
+import { Role } from "src/app/models/Role";
 
 @Component({
   selector: "app-role-authorization",
@@ -23,8 +23,8 @@ import { Role } from 'src/app/models/Role';
   declarations: [RoleAuthorizationComponent],
   providers: [RoleAuthorizationComponent]
 })
-export class RoleAuthorizationComponent extends BaseComponent implements OnInit {
-
+export class RoleAuthorizationComponent extends BaseComponent
+  implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
   roleAuthorizations: RoleAuthorization[] = [];
@@ -33,29 +33,18 @@ export class RoleAuthorizationComponent extends BaseComponent implements OnInit 
   roleMenus: Menu[] = [];
   roleMenu: Menu = new Menu();
 
-  roles: Role[] = [];  
+  roles: Role[] = [];
   role: Role = new Role();
 
   RoleAuthArray: RoleAuthorization[] = [];
-
-  constructor(protected baseService: BaseService) {
-
-    super(baseService);
-    
-    this.loadRoleAuth();   
-
-    this.dataTableRoleAuth.isPagingActive = false;
-    this.dataTableRoleAuth.isColumnOffsetActive = false;
-    this.dataTable.isColumnOffsetActive = false;
-    this.dataTableRoleAuth.isTableEditable = true;
-  }
+  visible: boolean = true;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "roleauthorization",
     [
       {
         columnDisplayName: "Menü",
-        columnName: ["Menu", "Name"],
+        columnName: ["Name"],
         isActive: true,
         type: "text"
       },
@@ -154,7 +143,86 @@ export class RoleAuthorizationComponent extends BaseComponent implements OnInit 
     }
   );
 
+  public dataTableUpdateAuth: TreeGridTable = new TreeGridTable(
+    "roleauthorization",
+    [
+      {
+        columnDisplayName: "Menü",
+        columnName: ["Menu", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Görüntüleyebilir",
+        columnName: ["OutBrowse"],
+        isActive: true,
+        type: "checkbox",
+        isEditable: true
+      },
+      {
+        columnDisplayName: "Ekleyebilir",
+        columnName: ["OutInsert"],
+        isActive: true,
+        type: "checkbox",
+        isEditable: true
+      },
+      {
+        columnDisplayName: "Düzenleyebilir",
+        columnName: ["OutUpdate"],
+        isActive: true,
+        classes: ["table-checkbox"],
+        placeholder: "",
+        type: "checkbox",
+        isEditable: true
+      },
+      {
+        columnDisplayName: "Silebilir",
+        columnName: ["OutDelete"],
+        isActive: true,
+        classes: ["table-checkbox"],
+        placeholder: "",
+        type: "checkbox",
+        isEditable: true
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Menu", "Name"]
+    }
+  );
+
+  constructor(protected baseService: BaseService) {
+    super(baseService);
+
+    this.loadRoleAuth();
+    this.loadRole();
+    this.loadRoleAuthByFirmId();
+    this.dataTableRoleAuth.isPagingActive = false;
+    this.dataTableRoleAuth.isColumnOffsetActive = false;
+    this.dataTable.isColumnOffsetActive = false;
+    this.dataTableRoleAuth.isTableEditable = true;
+    this.dataTableUpdateAuth.isTableEditable = true;
+    this.dataTableUpdateAuth.isColumnOffsetActive = false;
+    this.dataTableUpdateAuth.isPagingActive = false;
+    this.dataTableRoleAuth.isMultipleSelectedActive = false;
+    this.dataTableUpdateAuth.isMultipleSelectedActive = false;
+  }
+
   ngOnInit() {}
+
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.roleAuthorization);
+    if (isNewItem == true) {
+      this.roleAuthorization = new RoleAuthorization();
+    }
+  }
+
+  onSubmit(data: NgForm) {
+    if (data.value.RoleAuthorizationId == null) this.addRoleAuthorization(data);
+    else this.updateRoleAuthorization(data);
+  }
 
   async loadRole() {
     await this.baseService.roleService.GetRoles(
@@ -167,8 +235,8 @@ export class RoleAuthorizationComponent extends BaseComponent implements OnInit 
     );
   }
 
-  loadRoleAuth() {
-    this.baseService.roleAuthorizationService.GetRoleAuth(
+  async loadRoleAuth() {
+    await this.baseService.roleAuthorizationService.GetRoleAuth(
       (roleAuthorization: RoleAuthorization[]) => {
         this.roleAuthorizations = roleAuthorization;
         this.dataTable.TGT_loadData(this.roleAuthorizations);
@@ -179,8 +247,8 @@ export class RoleAuthorizationComponent extends BaseComponent implements OnInit 
     );
   }
 
-  loadRoleAuthByFirmId() {
-    this.baseService.roleAuthorizationService.GetRoleAuthByFirmId(
+  async loadRoleAuthByFirmId() {
+    await this.baseService.roleAuthorizationService.GetRoleAuthByFirmId(
       (roleMenu: Menu[]) => {
         this.roleMenus = roleMenu;
         this.dataTableRoleAuth.TGT_loadData(this.roleMenus);
@@ -191,17 +259,120 @@ export class RoleAuthorizationComponent extends BaseComponent implements OnInit 
     );
   }
 
-  AddRoleAuthorization() {
+  async addRoleAuthorization(data: NgForm) {
+    if (data.form.invalid == true) return;
 
     this.isWaitingInsertOrUpdate = true;
-    
+
+    this.roleAuthorization.RoleId = Number(data.value.RoleId);
+    let role = this.roles.find(x => x.RoleId == this.roleAuthorization.RoleId);
+    this.roleAuthorization.RoleId = role.RoleId;
+
     let items = this.dataTableRoleAuth.TGT_copySource();
-    this.RoleAuthArray=<RoleAuthorization[]>items;
-    console.log(this.RoleAuthArray);
-    this.baseService.roleAuthorizationService.addRoleAuth(
+
+    this.RoleAuthArray = <RoleAuthorization[]>items;
+
+    this.RoleAuthArray.forEach(e => {
+      let role: RoleAuthorization = new RoleAuthorization();
+
+      if (e.OutInsert == null) {
+        e.OutInsert = role.OutInsert;
+      }
+      if (e.OutUpdate == null) {
+        e.OutUpdate = role.OutUpdate;
+      }
+      if (e.OutDelete == null) {
+        e.OutDelete = role.OutDelete;
+      }
+      if (e.OutBrowse == null) {
+        e.OutBrowse = role.OutBrowse;
+      }
+    });
+
+    await this.baseService.roleAuthorizationService.InsertRoleAuth(
+      this.roleAuthorization.RoleId,
       this.RoleAuthArray,
-      () => {},
-      () => {}
+      (insertedAuth: RoleAuthorization, message) => {
+        this.isWaitingInsertOrUpdate = false;
+
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        this.roleAuthorization.RoleId = insertedAuth.RoleId;
+        this.roleAuthorizations.push(this.roleAuthorization);
+        this.dataTable.TGT_loadData(this.roleAuthorizations);
+
+        this.resetForm(data, true);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+        this.isWaitingInsertOrUpdate = false;
+      }
+    );
+  }
+
+  async updateRoleAuthorization(data: NgForm) {
+    if (data.form.invalid == true) return;
+
+    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          this.isWaitingInsertOrUpdate = true;
+
+          this.baseService.roleAuthorizationService.UpdateRoleAuth(
+            this.roleAuthorization.RoleId,
+            this.RoleAuthArray,
+            (roleId: number, updatedAuth: RoleAuthorization, message) => {
+              this.isWaitingInsertOrUpdate = false;
+
+              this.baseService.popupService.ShowSuccessPopup(message);
+
+              let updateRoleAuth = new RoleAuthorization();
+              Object.assign(updateRoleAuth, this.RoleAuthArray);
+              this.dataTableUpdateAuth.TGT_updateData(updateRoleAuth);
+
+              this.RoleAuthArray = <RoleAuthorization[]>(
+                this.dataTableRoleAuth.TGT_copySource()
+              );
+            },
+            (error: HttpErrorResponse) => {
+              this.baseService.popupService.ShowErrorPopup(error);
+
+              this.isWaitingInsertOrUpdate = false;
+            }
+          );
+        }
+      }
+    );
+  }
+
+  async onDoubleClickItem(item: RoleAuthorization) {
+    this.visible = false;
+    this.roleAuthorization = new RoleAuthorization();
+
+    this.baseService.spinner.show();
+
+    this.loadRole();
+    this.loadRoleAuth();
+
+    await this.baseService.roleAuthorizationService.GetRoleAuthListById(
+      item.RoleId,
+      (result: RoleAuthorization[]) => {
+        setTimeout(() => {
+          $("#btnEditRoleAuth").trigger("click");
+
+          this.baseService.spinner.hide();
+
+          this.RoleAuthArray = result;
+          this.dataTableUpdateAuth.TGT_loadData(this.RoleAuthArray);
+          Object.assign(this.roleAuthorization, item);
+          console.log(this.roleAuthorization);
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.spinner.hide();
+
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
     );
   }
 }

@@ -37,10 +37,10 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <input type="hidden" name="CompanyId" [(ngModel)]="company.CompanyId" />
-            <div class="form-group col-md-6">
-              <label class="required-span">Ad</label>
+            <div class="form-group">
+              
               <input [(ngModel)]="company.Name" name="Name" type="text" class="form-control" #Name="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" style="width: 275px;" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
               </div>

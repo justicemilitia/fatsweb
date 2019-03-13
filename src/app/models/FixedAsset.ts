@@ -65,4 +65,13 @@ export class FixedAsset implements IData {
   FixedAssetCardBrand:FixedAssetCardBrand;
   FixedAssetStatus:FixedAssetStatus;
   
+constructor() {
+  this.FixedAssetCard = new FixedAssetCard();
+  this.FixedAssetCardBrand = new FixedAssetCardBrand();
+  this.FixedAssetCardModel = new FixedAssetCardModel();
+  this.FixedAssetStatus = new FixedAssetStatus();
+  this.ExpenseCenter = new ExpenseCenter();
+  this.FixedAssetCardCategory = new FixedAssetCardCategory();
+}
+
 }
