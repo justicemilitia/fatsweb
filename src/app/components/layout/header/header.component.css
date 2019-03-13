@@ -102,11 +102,28 @@ a.nav-link-item-parent-link {
 }
 
 ul.nav-link-item-ul {
-  display: block;
   padding-bottom: 4px;
+  background-color:rgb(252, 252, 252)
 }
 
 ul.nav-link-item-ul-sub {
-  display: block;
   padding-bottom: 4px;
 }
+
+.az-navbar-two .nav-link {
+  text-transform: none;
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+    display: flex;
+    align-items: baseline;
+}
+
+.stellarnav.desktop li.has-sub a {
+  padding-right: 0;
+}
+
+.nav-link-item-ul-sub > li:first-child > a.nav-link-item-link {
+  border:none;
+}
+
