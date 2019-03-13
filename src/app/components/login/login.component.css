@@ -1,5 +1,5 @@
-body {
-    background: white;
+.az-signin-wrapper {
+    background-color:white;
 }
 
 .btn-orange{
@@ -9,15 +9,19 @@ color: white;
 
 .flags {
     padding:1px;
-    height:25px;
-    width:35px;
+    height: 19px;
+    width: 25px;
     margin: 0;
     margin-bottom: 0;
 }
 
+.flag-image {
+    display: inherit;   
+}
+
 .flag-content {
     margin-left: 10px;
-    font-size: 17px;
+    font-size: 13px;
 }
 
 .flags-active {
@@ -35,6 +39,10 @@ color: white;
     font-weight: 400;
     margin-bottom: 25px;
     font-size: 1.21875rem;
+}
+
+.az-signin-footer {
+    margin-top: 5px;
 }
 
 .az-signin-footer a {
@@ -56,7 +64,7 @@ color: white;
     flex-direction: row;
     justify-content: center;
     flex: 1;
-    margin-top: 5px;
+    margin-top: 8px;
 }
 
 #loginbtn {
@@ -79,6 +87,7 @@ color: white;
     margin-bottom: 10px;
     font-size: 14px;
     font-weight: 500;
+    border-radius: 0;
 }
 
 @media (min-width: 480px) {
@@ -108,7 +117,7 @@ color: white;
 .dropdown-toggle {
     width: 100%;
     margin-top: 10px;
-    background: #f5f5f5;
+    background: #ffffff;
     border-radius: 0;
     border-width: 2px;
     border-color: #dee2e6;
@@ -138,6 +147,9 @@ color: white;
     flex: 1;
     display: flex;
     align-items: center;
+    padding-bottom: 0;
+    padding-top: 0;
+    min-height: 38px;
 }
 
 .dropdown-toggle:active {
@@ -158,12 +170,55 @@ color: white;
     border-width: 2px !important;
 }
 
+#userFirms {
+    margin-top:19px
+}
+
 .language-button {
     width: 95%;
     margin: 0;
-    display: inherit;
+    display: flex;
+    align-items: center;
 }
 
 .dropdown  {
     width: 100%;
+}
+
+
+.az-signin-header .form-control:focus {
+    border-width: 2px;
+    border-color: #ced4da;
+    box-shadow: none;
+}
+.alert-custom > button {
+    padding: 0;
+}
+
+.alert-custom > button > span {
+    margin-right: 5px;
+}
+
+.copyright-text {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 0;
+    position: absolute;
+    bottom: 5px;
+    color: #949494;
+}
+
+.copyright-text > a {
+    color: #e67300;    
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #f3f3f3;
+}
+
+.version {
+    font-size: 13px;
+        color: #e67300;
+        font-weight: 100;
+        letter-spacing: 0.0;
 }

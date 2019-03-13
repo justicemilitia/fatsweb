@@ -7,6 +7,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import * as $ from "jquery";
 import { FixedAssetCardPropertyType } from "../../../models/FixedAssetCardPropertyType";
+import { FixedAssetCardPropertyValue } from 'src/app/models/FixedAssetCardPropertyValue';
 
 @Component({
   selector: "app-fixed-asset-card-property",
@@ -29,8 +30,13 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   /* Store Fixed Card Property Types */
   fixedAssetCardPropertyTypes: FixedAssetCardPropertyType[] = [];
 
+    /* Store Fixed Card Property Types */
+    fixedAssetCardPropertyValues: FixedAssetCardPropertyValue[] = [];
+
   /* Current Fixed Asset Card Property */
   fixedAssetCardProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
+  
+  isCombo: boolean;
 
   /* Data Table */
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -54,7 +60,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
       },
       {
         columnDisplayName: "Özellik Tipi",
-        columnName: ["FixedAssetCardPropertyType", "Name"],
+        columnName: ["FixedAssetType", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -66,7 +72,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "checkbox"
       },
       {
         columnDisplayName: "Özellik Değeri",
@@ -83,9 +89,34 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     }
   );
 
+   /* Fixed Asset Card Property Value Data Table */
+   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
+    "fixedassetcardpropertyvalue",
+    [
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadFixedAssetCardProperties();
+    this.loadFixedAssetCardPropertyTypes();
+
+    this.dataTablePropertyValue.isPagingActive = false;
+    this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isTableEditable = true;
   }
 
   ngOnInit() {}
@@ -203,6 +234,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     );
   }
 
+  async insertPropertyValue()
+  {
+    
+  } 
+
   async updateFixedAssetCardProperty(data: NgForm) {
     /* Check model state */
     if (data.form.invalid == true) return;
@@ -250,7 +286,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   }
 
   async loadFixedAssetCardProperties() {
-    /* Load all fixed asset card cateogories to datatable */
+    /* Load all fixed asset card properties to datatable */
     await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
       (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
         /* Bind Fixed Properties to model */
@@ -266,6 +302,24 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     );
   }
 
+  async loadFixedAssetCardPropertyValues() {
+    /* Load all fixed asset card property values to datatable */
+    await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardPropertyValues(
+      (fixedAssetCardPropertyValues: FixedAssetCardPropertyValue[]) => {
+        /* Bind Fixed Properties to model */
+        this.fixedAssetCardPropertyValues = fixedAssetCardPropertyValues;
+
+        /* Load data to table */
+        this.dataTable.TGT_loadData(this.fixedAssetCardPropertyValues);
+      },
+      (error: HttpErrorResponse) => {
+        /* if error show pop up */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+
   async loadFixedAssetCardPropertyTypes() {
     await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardPropertyTypes(
       (fixedAssetPropertyTypes: FixedAssetCardPropertyType[]) => {
@@ -276,5 +330,10 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  getFixedAssetPropertyTypeValue(){
+    if(this.fixedAssetCardProperty.FixedAssetCardPropertyTypeId==1) return true;
+    return false;
   }
 }

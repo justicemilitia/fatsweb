@@ -151,4 +151,26 @@ export class FixedAssetCardPropertyService {
       });
   }
 
+  GetFixedAssetCardPropertyValues(success, failed) {
+    this.httpClient.get(SERVICE_URL + GET_FIXEDASSETCARDPROPERTYTYPE_LIST, {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let fixedAssetCardProperties: FixedAssetCardProperty[] = [];
+          (<FixedAssetCardProperty[]>response.ResultObject).forEach(e => {
+            let facp: FixedAssetCardProperty = new FixedAssetCardProperty();
+            Object.assign(facp, e);
+            fixedAssetCardProperties.push(facp);
+          });
+          success(fixedAssetCardProperties, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      });
+  }
+
 }

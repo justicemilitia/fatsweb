@@ -1,21 +1,45 @@
 <div class="az-header az-header-dashboard-four">
   <div class="container-fluid">
     <div class="az-header-left">
-      <a href="index.html" class="az-logo"><img src="../../../assets/img/trinoks-logo3.png" /></a>
-      <a href="" id="azNavShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+        <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span></h1>
     </div>
     <!-- az-header-left -->
     <div class="az-header-center">
-      <input type="search" class="form-control" placeholder="Search for schedules and events..." />
+      <input type="search" class="form-control" placeholder="Demirbaş açıklaması ara..." />
       <button class="btn"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="az-header-center">
+
     </div>
     <!-- az-header-center -->
     <div class="az-header-right">
+      <div class="dropdown firm-dropdown">
+          <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" type="button" id="dropdownMenu2" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+              <div class="dropdown-button-content">
+                {{Firm.Name}}
+              </div>
+          </button>
+          <div class="dropdown-menu">
+            <ng-container *ngFor="let firm of Firms">
+
+              <button class="dropdown-item" (click)="changeFirm(firm.Id)" type="button">
+                {{firm.Name}}
+              </button>
+
+            </ng-container>
+          </div>
+        </div>
+
       <div class="btn-group">
+          <button type="button" class="bell-custom-button">
+              <i class="far fa-bell fa-bell-custom"></i>
+            </button>
         <button type="button" class="btn-exit-dd" data-toggle="dropdown" aria-expanded="false">
-          <i class="typcn icon-default typcn-user-outline"></i>
+          <i class="far fa-user fa-user-custom"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
+            <button class="dropdown-item" type="button">Ayarlar</button>
           <button class="dropdown-item" (click)="logout()" type="button">Çıkış Yap</button>
         </div>
       </div>
@@ -34,7 +58,7 @@
     <div class="stellarnav">
       <ul>
         <li class="nav-item active"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active"><i
-              class="typcn typcn-clipboard"></i>Dashboard</a></li>
+              class="typcn icon-default typcn-home-outline" style="font-size: 22px;"></i>Ana Sayfa</a></li>
         <li class="drop-right nav-item">
           <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-edit"></i>Tanımlamalar</a>
           <ul class="nav-link-item-ul">
@@ -72,20 +96,30 @@
                     routerLinkActive="active">Kart Tanımlama</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardcategory"
                     routerLinkActive="active">Kategori Tanımlama</a></li>
+                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardproperty"
+                    routerLinkActive="active">Kart Özellikleri</a></li>    
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardbrand"
                     routerLinkActive="active">Marka Tanımlama</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardmodel"
                     routerLinkActive="active">Model Tanımlama</a></li>
               </ul>
             </li>
+            <li class="nav-link-item-parent">
+              <a class="nav-link-item-link" href="/filesave">Dosya Aktarma</a>
+            </li>
           </ul>
         </li>
         <li class="drop-right nav-item">
-          <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Demirbaş
-            İşlemleri</a>
-            <ul class="nav-link-item-ul-sub">
-              <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedasset"
-                  routerLinkActive="active">Demirbaş Operasyonları</a></li>   
+          <a href="#" onclick="return false" class="nav-link with-sub">
+            <i class="fas fa-desktop" style="font-size:15px"></i>
+            Demirbaş Yönetimi
+          </a>
+            <ul class="nav-link-item-ul">
+              <li class="nav-link-item">
+                <a class="nav-link-item-link" routerLink="/fixedasset" routerLinkActive="active">
+                  Demirbaş Operasyonları
+                </a>
+              </li>   
             </ul>
           <!--<ul>
             <li><a href="#" onclick="return false">Genel Tanımlar</a>
@@ -97,42 +131,23 @@
           </ul>-->
         </li>
         <li class="drop-right nav-item">
-          <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Amortisman
-            İşlemleri</a>
-          <!--<ul>
-            <li><a href="#" onclick="return false">Genel Tanımlar</a>
-              <ul>
-                <li><a href="#">x Tanımlama</a></li>
-                <li><a href="#">y Tanımlama</a></li>
-              </ul>
-            </li>
-          </ul>-->
+          <a href="#" onclick="return false" class="nav-link with-sub">
+            <i class="typcn icon-default typcn-chart-line-outline" style="font-size:23px"></i>
+            Amortisman Yönetimi
+          </a>
         </li>
         <li class="drop-right nav-item">
-          <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Bakım
-            Yönetimi</a>
-          <!--<ul>
-            <li><a href="#" onclick="return false">Genel Tanımlar</a>
-              <ul>
-                <li><a href="#">x Tanımlama</a></li>
-                <li><a href="#">y Tanımlama</a></li>
-              </ul>
-            </li>
-          </ul>-->
+          <a href="#" onclick="return false" class="nav-link with-sub">
+            <i class="typcn icon-default typcn-cog-outline" style="font-size: 20px"></i>
+            Bakım Yönetimi
+          </a>
         </li>
         <li class="drop-right nav-item">
-          <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-clipboard"></i>Sarf Malzeme
-            Yönetimi</a>
-          <!--<ul>
-            <li><a href="#" onclick="return false">Genel Tanımlar</a>
-              <ul>
-                <li><a href="#">x Tanımlama</a></li>
-                <li><a href="#">y Tanımlama</a></li>
-              </ul>
-            </li>
-          </ul>-->
+          <a href="#" onclick="return false" class="nav-link with-sub">
+            <i class="typcn typcn-book" style="font-size: 21px"></i>
+            Sarf Malzeme Yönetimi
+          </a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="">Dosya Aktarma</a></li>
         <!--<li class="drop-left"><a href="" onclick="return false">Drop Left</a>
           <ul>
             <li><a href="#" onclick="return false">How deep?</a>

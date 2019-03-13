@@ -17,6 +17,7 @@ export class FixedAssetCardProperty implements IData {
 
     FixedAssetCardPropertyId:number;
     FixedAssetCardPropertyCode:string;
+    FixedAssetCardPropertyTypeId: number;
     FixedAssetTypeId: number;
     Name: string;
     IsUnique: boolean;
