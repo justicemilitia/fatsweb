@@ -16,7 +16,7 @@ body {
 .az-navbar-two {
     border-bottom: 1px solid #ced4da;
     background: #fcfcfc;
-    border-top: 1px solid #ced4da;
+    border-top: 0;
     z-index: 1 !important;
 }
 
@@ -293,4 +293,75 @@ button.btn:first-child {
 .table-checkbox >input{
     margin: 0 auto;
     display: block;
+}
+
+
+.trade-mark {
+    font-size: 18px;
+    color: #212229;
+    font-weight: 700;
+}
+
+.az-logo {
+    margin: 0;    
+    font-size: 34px;
+}
+
+
+.az-light .az-header-center .form-control {
+    border-radius: 0;
+    font-size: 13px;
+}
+
+.firm-dropdown {
+    min-width: 160px;
+}
+
+.firm-dropdown-button {
+    height: 40px !important;
+    background: white !important;
+    border-color: #ced4da !important;
+    color: #495057 !important;
+    width: fit-content !important;
+    border-radius: 0 !important;
+    min-width: 160px;
+    display: inline-flex !important;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.firm-dropdown-button:focus {
+    box-shadow: none !important;
+    border: 1px solid #6c757d !important;
+}
+
+.dropdown-button-content {
+    font-size:13px;
+}
+
+
+.bell-custom-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    outline: none !important;
+}
+
+.btn-exit-dd {
+    outline: none !important;
+}
+
+.fa-bell-custom {
+    font-size:20px;
+}
+
+.fa-user-custom {
+    font-size: 20px;
+}
+
+@media (min-width: 992px) {
+.az-navbar-two .nav-item.active::before {
+    right: 0;
+}
 }

@@ -1,14 +1,18 @@
 <div class="az-signin-wrapper">
   <div class="az-card-signin">
     <div>
-      <h1 class="az-logo">fat<span>s</span></h1>
-      <h2 _ngcontent-c4="" class="az-card-signin-title">Demirbaş Yönetim Sistemi</h2>
+      <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span></h1>
+      <h2 _ngcontent-c4="" class="az-card-signin-title">Demirbaş Yönetim Sistemi
+        <br>
+          <span class="version">v6.0.100</span>
+      </h2>
     </div>
     <div>
       <h2 style="font-weight: 500;color: #e67300;letter-spacing: -1px;font-family: 'Poppins', sans-serif;">Hoşgeldiniz!
       </h2>
       <h4 style="font-weight: 400;color: #212229;margin-bottom: 25px;font-size: 1.08rem;">Devam etmek için giriş
-        yapınız.</h4>
+        yapınız.
+      </h4>
     </div>
     <div class="az-signin-header">
       <!-- form-group -->
@@ -16,13 +20,24 @@
         <div class="form-group">
           <input [(ngModel)]="loginUser.UserMail" name="UserMail" id="UserMail" autocomplete="off" #UserMail="ngModel"
             [ngClass]="{ 'is-invalid': loginForm.submitted && UserMail.invalid }"
-            (focusout)="GetUserFirms(loginUser.UserMail)" type="text" class="form-control"
-            placeholder="E-posta adresinizi yazınız" required />
+            (focusout)="GetUserFirms(loginUser.UserMail)" type="email" class="form-control"
+            placeholder="E-posta adresinizi giriniz" required minlength="5" maxlength="50" />
+            <div *ngIf="loginForm.submitted && UserMail.invalid" class="invalid-feedback">
+              <div *ngIf="UserMail.errors.email">Lütfen geçerli bir e-posta giriniz.</div>
+              <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
+              <div *ngIf="UserMail.errors.minlength">Minimum 5 karakter giriniz.</div>
+              <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+            </div>
         </div>
         <div class="form-group" style="margin-top: 19px;">
           <input type="password" #Password="ngModel" id="Password" name="Password" autocomplete="off"
             [(ngModel)]="loginUser.Password" [ngClass]="{ 'is-invalid': loginForm.submitted && Password.invalid }"
-            type="password" class="form-control" placeholder="Şifrenizi giriniz" required />
+            type="password" class="form-control" placeholder="Şifrenizi giriniz" minlength="1" maxlength="16" required />
+            <div *ngIf="loginForm.submitted && Password.invalid" class="invalid-feedback">
+                <div *ngIf="Password.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Password.errors.minlength">Minimum 1 karakter giriniz.</div>
+                <div *ngIf="Password.errors.maxlength">Maksimum 16 karakter giriniz.</div>
+              </div>
         </div>
 
         <div id="userFirms" *ngIf="firms.length > 0" class="form-group">
@@ -35,8 +50,10 @@
             <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>
           </select>
         </div>
-        <div id="WrongPassword" *ngIf="errorMessage != ''" class="alert alert-danger alert-custom" role="alert">
+        <div id="WrongPassword" *ngIf="errorMessage != ''" class="alert alert-solid-danger alert-custom" role="alert">
           {{errorMessage}}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span></button>
         </div><!-- alert -->
         <div *ngIf="isLoggining == true">
           <div class="loader"></div>
@@ -73,11 +90,14 @@
       <!-- form-group -->
     </div>
     <div class="az-signin-footer">
-      <p><a href="">Şifreni mi unuttun?</a></p>
-      <p>İletişim için <a href="mailto:info@trinoks.com">buraya</a> tıklayınız.</p>
+      <p><a href="">Şifremi unuttum</a></p>
     </div>
   </div>
   <!-- az-card-signin -->
+  <p class="copyright-text">
+    <a href="http://www.trinoks.com/" target="_blank"><span>Trinoks Yazılım A.Ş.</span></a> tarafından geliştirilmiştir.
+    İletişim için <a href="mailto:info@trinoks.com">buraya</a> tıklayınız.
+  </p>
 </div>
 <!-- az-signin-wrapper -->
 

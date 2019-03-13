@@ -83,6 +83,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         /* if success put results to firms */
         this.firms = result;
         this.isUserFirmsGetting = false;
+        this.errorMessage = '';
 
       },
       (error: HttpErrorResponse) => {

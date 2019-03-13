@@ -90,3 +90,23 @@ section {
   border: none;
   font-size: 24px;
 }
+
+a.nav-link-item-link {
+  margin-top: 2px;
+  height: 30px;
+}
+
+a.nav-link-item-parent-link {
+  margin-top: 2px;
+  height: 30px;
+}
+
+ul.nav-link-item-ul {
+  display: block;
+  padding-bottom: 4px;
+}
+
+ul.nav-link-item-ul-sub {
+  display: block;
+  padding-bottom: 4px;
+}
