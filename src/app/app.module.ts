@@ -29,6 +29,7 @@ import { RoleAuthorizationComponent } from "./components/definitions/role-author
 import { AgreementComponent } from "./components/definitions/agreement/agreement.component";
 import { FixedAssetCardBrandComponent } from "./components/definitions/fixed-asset-card-brand/fixed-asset-card-brand.component";
 import { FixedAssetCardModelComponent } from "./components/definitions/fixed-asset-card-model/fixed-asset-card-model.component";
+import { FixedAssetCardPropertyComponent } from "./components/definitions/fixed-asset-card-property/fixed-asset-card-property.component";
 import { TreeGridTablePage } from "./extends/TreeGridTable/pipes/TreeGridTablePage";
 import { TreeGridTableComponent } from "./extends/TreeGridTable/components/tree-grid-table/tree-grid-table.component";
 import { RoleComponent } from "./components/definitions/role/role.component";
@@ -73,7 +74,8 @@ import { FaBindingComponent } from './components/operations/fixed-asset/fa-bindi
     StatusComponent,
     FaCreateComponent,
     FaExitComponent,
-    FaBindingComponent
+    FaBindingComponent,
+    FixedAssetCardPropertyComponent
   ],
   imports: [
     BrowserModule,
