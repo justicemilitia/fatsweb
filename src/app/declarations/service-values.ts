@@ -39,12 +39,9 @@ export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
 //#region FixedAssets
 export const GET_FIXEDASSET_LIST = "FixedAsset/GetFixedAssetsList";
 export const UPDATE_FIXEDASSET = "FixedAsset/UpdateFixedAsset";
-export const UPDATE_FIXEDASSETBARCODENUMBER =
-  "FixedAsset/UpdateFixedAssetBarcodeNumber";
-export const UPDATE_FIXEDASSETSUSPENDEDSTATUS =
-  "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
-export const UPDATE_FIXEDASSETLOSTSTATUS =
-  "FixedAsset/UpdateFixedAssetIsLostStatus";
+export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcodeNumber";
+export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
+export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 export const DELETE_FIXEDASSET = "FixedAsset/RemoveByRemoveFixedAssetIdList";
 //#endregion
@@ -127,6 +124,9 @@ export const UPDATE_CHECKOUTREASON = "CheckOutReasons/UpdateCheckOutReasons";
 //#region FixedAssetStatus
 export const GET_FIXEDASSETSTATUS_LIST =
   "FixedAssetStatus/GetFixedAssetStatusList";
+  export const INSERT_STATUS="FixedAssetStatus/AddFixedAssetStatus";
+  export const UPDATE_STATUS="FixedAssetStatus/UpdateFixedAssetStatus";
+  export const GET_FIXEDASSETSTATUS_BY_ID="FixedAssetStatus/GetFixedAssetStatusById";
 //#endregion
 
 //#region ExpenseCenters

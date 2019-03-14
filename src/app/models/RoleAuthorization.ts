@@ -30,10 +30,7 @@ export default class RoleAuthorization implements IData{
   Role:Role;
   Menu:Menu;
 
-  constructor(){
-    this.OutBrowse=false;
-    this.OutDelete=false;
-    this.OutUpdate=false;
-    this.OutInsert=false;
+  constructor(){  
+    this.Role=new Role();
   }
 }

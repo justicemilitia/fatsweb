@@ -19,7 +19,7 @@ import { FixedAssetCardModelComponent } from './components/definitions/fixed-ass
 import { RoleComponent } from './components/definitions/role/role.component';
 import{ RoleUserComponent} from './components/definitions/role-user/role-user.component';
 import { FixedAssetComponent } from './components/operations/fixed-asset/fixed-asset.component';
-import { StatusComponent } from './components/definitions/status/status.component';
+import { FixedAssetStatusComponent } from './components/definitions/fixed-asset-status/fixed-asset-status.component';
 import { FixedAssetCardPropertyComponent } from './components/definitions/fixed-asset-card-property/fixed-asset-card-property.component';
 
 export const routes: Routes = [
@@ -103,7 +103,7 @@ export const routes: Routes = [
   },
   {
     path: "status",
-    component: StatusComponent,
+    component: FixedAssetStatusComponent,
     data: { pageKeyword: pages.MENU_STATUSLIST }
     // canActivate: [AuthGuard]
   },

@@ -7,11 +7,11 @@
             <button type="button" (click)="deleteCompanies()" class="btn btn-danger btn-delete-custom">
                 {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
                 <i class="fas fa-trash"></i></button>
-          <button class="btn btn-orange btn-new-custom" id="btnAddRoleAuth" data-toggle="modal"
-            data-target="#modalRoleAuthorization" (click)="resetForm(data,true)">Role Yetki Atama
+          <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)"  id="btnAddRoleAuth" data-toggle="modal"
+            data-target="#modalRoleAuthorization" >Role Yetki Atama
           </button>
-          <button style="display:none" id="btnEditRoleAuth" data-toggle="modal"
-          (click)="resetForm(data,false)" data-target="#modalRoleAuthorization">Role Yetki Düzenle
+          <button style="display:none" (click)="resetForm(data,false)" id="btnEditRoleAuth" data-toggle="modal"
+           data-target="#modalRoleAuthorization">Role Yetki Düzenle
           </button>
         </div>
         <p class="mg-b-20"></p>

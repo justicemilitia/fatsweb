@@ -149,7 +149,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
         this.role.RoleId = insertedItem.RoleId;
 
         this.roles.push(this.role);
-        this.dataTable.TGT_loadData(this.roles);
+        //this.dataTable.TGT_loadData(this.roles);
 
         this.resetForm(data, true);
         this.isWaitingInsertOrUpdate = false;

@@ -299,7 +299,7 @@ export class RoleAuthorizationComponent extends BaseComponent
 
         this.roleAuthorization.RoleId = insertedAuth.RoleId;
         this.roleAuthorizations.push(this.roleAuthorization);
-        this.dataTable.TGT_loadData(this.roleAuthorizations);
+        //this.dataTable.TGT_loadData(this.roleAuthorizations);
 
         this.resetForm(data, true);
       },
@@ -328,7 +328,7 @@ export class RoleAuthorizationComponent extends BaseComponent
 
               let updateRoleAuth = new RoleAuthorization();
               Object.assign(updateRoleAuth, this.RoleAuthArray);
-              this.dataTableUpdateAuth.TGT_updateData(updateRoleAuth);
+              //this.dataTableUpdateAuth.TGT_updateData(updateRoleAuth);
 
               this.RoleAuthArray = <RoleAuthorization[]>(
                 this.dataTableRoleAuth.TGT_copySource()

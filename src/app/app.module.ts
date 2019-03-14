@@ -35,12 +35,13 @@ import { TreeGridTableComponent } from "./extends/TreeGridTable/components/tree-
 import { RoleComponent } from "./components/definitions/role/role.component";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import { RoleUserComponent } from './components/definitions/role-user/role-user.component';
+import { ColorPickerModule } from "ngx-color-picker";
+import { RoleUserComponent } from "./components/definitions/role-user/role-user.component";
 import { FixedAssetComponent } from "./components/operations/fixed-asset/fixed-asset.component";
-import { StatusComponent } from './components/definitions/status/status.component';
-import { FaCreateComponent } from './components/operations/fixed-asset/fa-create/fa-create.component';
-import { FaExitComponent } from './components/operations/fixed-asset/fa-exit/fa-exit.component';
-import { FaBindingComponent } from './components/operations/fixed-asset/fa-binding/fa-binding.component';
+import { FixedAssetStatusComponent } from "./components/definitions/fixed-asset-status/fixed-asset-status.component";
+import { FaCreateComponent } from "./components/operations/fixed-asset/fa-create/fa-create.component";
+import { FaExitComponent } from "./components/operations/fixed-asset/fa-exit/fa-exit.component";
+import { FaBindingComponent } from "./components/operations/fixed-asset/fa-binding/fa-binding.component";
 
 @NgModule({
   declarations: [
@@ -71,11 +72,11 @@ import { FaBindingComponent } from './components/operations/fixed-asset/fa-bindi
     RoleComponent,
     RoleUserComponent,
     FixedAssetComponent,
-    StatusComponent,
+    FixedAssetStatusComponent,
     FaCreateComponent,
     FaExitComponent,
     FaBindingComponent,
-    FixedAssetCardPropertyComponent
+    FixedAssetCardPropertyComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,7 +86,8 @@ import { FaBindingComponent } from './components/operations/fixed-asset/fa-bindi
     HttpModule,
     CommonModule,
     NgxSpinnerModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    ColorPickerModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

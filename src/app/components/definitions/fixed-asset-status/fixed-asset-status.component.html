@@ -1,0 +1,64 @@
+<div class="az-content">
+  <div class="container-fluid">
+    <div class="az-content-body">
+      <div class="card card-dashboard-twelve mg-b-20">
+        <h2 class="az-content-title">Demirbaş Statü Tanımlama</h2>
+        <div class="grp-btn-action">
+            <button type="button" class="btn btn-danger btn-delete-custom">
+              {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+              <i class="fas fa-trash"></i></button>
+            <button class="btn btn-orange btn-new-custom" id="btnAddStatus"
+              data-toggle="modal" data-target="#modalStatus">Statü Ekle
+            </button>
+            <button style="display:none" id="btnEditStatus"
+              data-toggle="modal" data-target="#modalStatus">Statü Düzenle
+            </button>
+          </div>
+        <p class="mg-b-20"></p>
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event, item)" [dataTable]="dataTable"></tree-grid-table>       
+      </div>
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+<!-- az-content -->
+<div class="pd-20 bg-gray-800">
+    <!-- this modal is static modal for presentation purpose. -->
+    <!-- class .d-block annd .pos-relative in .modal is for demo only -->
+    <div id="modalStatus" class="modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+            <h6 class="modal-title">Demirbaş Statü Tanımlama</h6>
+            <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form name="form" #data="ngForm"  (ngSubmit)="onSubmit(data)">
+          <div class="modal-body">
+              <div class="row justify-content-center">
+                  <input type="hidden" name="FixedAssetStatusId" [(ngModel)]="status.FixedAssetStatusId"/>
+                    <div class="form-group">
+                      <label>Statü Kodu</label>
+                      <input  [(ngModel)]="status.FixedAssetStatuCode" name="FixedAssetStatuCode" type="text" class="form-control"/>              
+                      <label>Statü Adı</label>
+                      <input  [(ngModel)]="status.Name" name="Name" type="text" class="form-control"/>              
+                      <label>Renk</label>                             
+                      <input [(ngModel)]="status.Color" name="Color" type="text" class="form-control" [(colorPicker)]="color" 
+                      (colorPickerChange)="color=$event" [style.background]="color"
+                      (colorPickerOpen)="onEventLog('colorPickerOpen', $event)" (colorPickerClose)="onEventLog('colorPickerClose', $event)"
+                      (cpInputChange)="onEventLog('cpInputChange', $event)" (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)" 
+                      (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"/>                   
+                    </div>      
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button id="btnInsertOrUpdateStatus" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAddStatus">Kaydet</button>   
+          </div>
+        </form>
+          <!-- modal-body -->
+        </div>
+      </div>
+      <!-- modal-dialog -->
+    </div>  
+  </div>
