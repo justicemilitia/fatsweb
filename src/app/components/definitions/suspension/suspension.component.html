@@ -1,0 +1,24 @@
+<div class="az-content">
+  <div class="container-fluid">
+    <div class="az-content-body">
+      <div class="card card-dashboard-twelve mg-b-20">
+        <h2 class="az-content-title">Askıya Alma Nedeni</h2>
+        <div class="grp-btn-action">
+          <button type="button" class="btn btn-danger btn-delete-custom">
+            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+            <i class="fas fa-trash"></i></button>
+          <button class="btn btn-orange btn-new-custom" id="btnAddSuspension"
+            data-toggle="modal" data-target="#modalSuspension">Ekle
+          </button>
+          <button style="display:none" id="btnEditSuspension"
+            data-toggle="modal" data-target="#modalSuspension">Düzenle
+          </button>
+        </div>
+        <p class="mg-b-20"></p>           
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>         
+      </div>
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+<!-- az-content -->

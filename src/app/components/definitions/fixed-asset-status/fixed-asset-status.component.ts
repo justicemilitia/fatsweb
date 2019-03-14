@@ -19,6 +19,8 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
 
   status: FixedAssetStatus = new FixedAssetStatus();
 
+  selectedColor: string;
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetstatus",
     [
@@ -60,7 +62,6 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
   ) {
     super(baseService);
     this.LoadFixedAssetStatus();
-    this.dataTable.isMultipleSelectedActive = false;
     this.dataTable.isColumnOffsetActive = false;
     this.dataTable.isPagingActive = false;
   }
@@ -96,7 +97,10 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
 
   addStatus(data: NgForm) {
     if (data.form.invalid == true) return;
+
     this.isWaitingInsertOrUpdate = true;
+  
+    this.status.Color=this.selectedColor;
 
     this.baseService.fixedAssetStatusService.InsertStatus(
       this.status,
@@ -105,7 +109,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowSuccessPopup(message);
         this.status.FixedAssetStatusId = insertedStatus.FixedAssetStatusId;
         this.statuses.push(this.status);
-        this.dataTable.TGT_loadData(this.statuses);
+        //this.dataTable.TGT_loadData(this.statuses);
 
         this.resetForm(data, true);
       },
@@ -131,7 +135,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowSuccessPopup(message);
               let updatedStatus: FixedAssetStatus = new FixedAssetStatus();
               Object.assign(updatedStatus, this.status);
-              this.dataTable.TGT_updateData(updatedStatus);
+              //this.dataTable.TGT_updateData(updatedStatus);
 
               this.statuses = <FixedAssetStatus[]>(
                 this.dataTable.TGT_copySource()
@@ -147,7 +151,9 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
   public onEventLog(event: string, data: any): void {
+    console.log(this.selectedColor);
     console.log(event, data);
   }
 
