@@ -266,7 +266,7 @@ export class RoleAuthorizationComponent extends BaseComponent
 
     this.roleAuthorization.RoleId = Number(data.value.RoleId);
     let role = this.roles.find(x => x.RoleId == this.roleAuthorization.RoleId);
-    this.roleAuthorization.RoleId = role.RoleId;
+    this.roleAuthorization.Role = role;
 
     let items = this.dataTableRoleAuth.TGT_copySource();
 
@@ -297,7 +297,7 @@ export class RoleAuthorizationComponent extends BaseComponent
 
         this.baseService.popupService.ShowSuccessPopup(message);
 
-        this.roleAuthorization.RoleId = insertedAuth.RoleId;
+        this.roleAuthorization.RoleAuthorizationId = insertedAuth.RoleAuthorizationId;
         this.roleAuthorizations.push(this.roleAuthorization);
         //this.dataTable.TGT_loadData(this.roleAuthorizations);
 

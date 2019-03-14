@@ -88,7 +88,10 @@
 *
 */
 /* ############### FONTS IMPORT ############### */
-
+@import url("fonts/Roboto.css");
+@import url("fonts/Poppins.css");
+@import url("fonts/Open.css");
+@import url("fonts/Archivo.css");
 /* ############### BOOTSTRAP FRAMEWORK ############### */
 /*!
  * Bootstrap v4.1.3 (https://getbootstrap.com/)
