@@ -116,9 +116,11 @@ export const DELETE_COMPANY = "company/RemoveByIdList";
 
 //#region CheckOutReasons
 export const GET_CHECKOUTREASON_LIST = "CheckOutReasons/GetCheckOutReasonsList";
-export const GET_CHECKOUTREASON_BY_ID = "CheckOutReasons/GetCheckOutReasonById";
+export const GET_SUSPENDED_BY_ID = "CheckOutReasons/GetSuspendedById";
 export const INSERT_CHECKOUTREASON = "CheckOutReasons/AddCheckOutReasons";
 export const UPDATE_CHECKOUTREASON = "CheckOutReasons/UpdateCheckOutReasons";
+export const GET_SUSPENSION_LIST="CheckOutReasons/GetCheckOutReasonsIsSuspendedList";
+export const DELETE_SUSPENSION="CheckOutReasons/RemoveByIdList";
 //#endregion
 
 //#region FixedAssetStatus

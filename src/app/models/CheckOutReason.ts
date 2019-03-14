@@ -18,4 +18,6 @@ export class CheckOutReason implements IData{
     Name: string;
     Description: string;
     isSuspended:boolean;
+    CheckOutReasonCode:string;
+    
 }

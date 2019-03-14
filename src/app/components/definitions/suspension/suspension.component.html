@@ -7,18 +7,53 @@
           <button type="button" class="btn btn-danger btn-delete-custom">
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
-          <button class="btn btn-orange btn-new-custom" id="btnAddSuspension"
-            data-toggle="modal" data-target="#modalSuspension">Ekle
+          <button class="btn btn-orange btn-new-custom" id="btnAddSuspension" data-toggle="modal" data-target="#modalSuspension" (click)="resetForm(data,true)">Ekle
           </button>
-          <button style="display:none" id="btnEditSuspension"
-            data-toggle="modal" data-target="#modalSuspension">Düzenle
+          <button style="display:none" id="btnEditSuspension" data-toggle="modal" data-target="#modalSuspension" (click)="resetForm(data,false)" >Düzenle
           </button>
         </div>
         <p class="mg-b-20"></p>           
-            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>         
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>         
       </div>
     </div>
     <!-- az-content-body -->
   </div>
 </div>
 <!-- az-content -->
+<div class="pd-20 bg-gray-800">
+  <!-- this modal is static modal for presentation purpose. -->
+  <!-- class .d-block annd .pos-relative in .modal is for demo only -->
+  <div id="modalSuspension" class="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-content-demo">
+        <div class="modal-header">
+          <h6 class="modal-title">Askıya Alma Sebepleri</h6>
+          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form name="form" #data="ngForm"  (ngSubmit)="onSubmit(data)">
+        <div class="modal-body">
+            <div class="row justify-content-center">
+                <input type="hidden" name="CheckOutReasonId" [(ngModel)]="suspension.CheckOutReasonId"/>
+                <div class="form-group">
+                    <label>Kod</label>
+                    <input  [(ngModel)]="suspension.CheckOutReasonCode" name="CheckOutReasonCode" type="text" class="form-control"/>     
+                  <label>Askıya Alma Sebebi</label>
+                  <input  [(ngModel)]="suspension.Name" name="Name" type="text" class="form-control"/>              
+                  <label>Açıklama</label>
+                  <textarea  [(ngModel)]="suspension.Description" name="Description" rows="3" type="text" style="resize:none"  class="form-control"></textarea>
+                </div>      
+            </div>
+      </div>
+        <div class="modal-footer">
+            <button id="btnInsertOrUpdateSuspension" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAddSuspension">Kaydet</button>   
+          </div>
+      </form>
+        <!-- modal-body -->
+      </div>
+    </div>
+    <!-- modal-dialog -->
+  </div>
+
+</div>

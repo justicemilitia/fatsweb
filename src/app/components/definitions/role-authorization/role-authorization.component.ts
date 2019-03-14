@@ -346,7 +346,7 @@ export class RoleAuthorizationComponent extends BaseComponent
   }
 
   async onDoubleClickItem(item: RoleAuthorization) {
-    this.visible = false;
+
     this.roleAuthorization = new RoleAuthorization();
 
     this.baseService.spinner.show();
@@ -364,8 +364,7 @@ export class RoleAuthorizationComponent extends BaseComponent
 
           this.RoleAuthArray = result;
           this.dataTableUpdateAuth.TGT_loadData(this.RoleAuthArray);
-          Object.assign(this.roleAuthorization, item);
-          console.log(this.roleAuthorization);
+          Object.assign(this.roleAuthorization, item);         
         }, 1000);
       },
       (error: HttpErrorResponse) => {
@@ -374,5 +373,13 @@ export class RoleAuthorizationComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  onChange(){
+ 
+    
+console.log();
+    this.baseService.spinner.show();
+
   }
 }

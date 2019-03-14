@@ -195,8 +195,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
           this.role = result;
           this.baseService.spinner.hide();
 
-          /* Trigger to model to show it */
-          $("#btnAddRoleAuth").trigger("click");
+          $("#btnEditRoleAuth").trigger("click");
         }, 1000);
       },
       (error: HttpErrorResponse) => {
