@@ -21,6 +21,7 @@ import{ RoleUserComponent} from './components/definitions/role-user/role-user.co
 import { FixedAssetComponent } from './components/operations/fixed-asset/fixed-asset.component';
 import { FixedAssetStatusComponent } from './components/definitions/fixed-asset-status/fixed-asset-status.component';
 import { FixedAssetCardPropertyComponent } from './components/definitions/fixed-asset-card-property/fixed-asset-card-property.component';
+import { SuspensionComponent } from './components/definitions/suspension/suspension.component';
 
 export const routes: Routes = [
   {
@@ -99,6 +100,12 @@ export const routes: Routes = [
     path: "checkedoutreason",
     component: CheckOutReasonsComponent,
     data: { pageKeyword: pages.MENU_CHECKOUTREASONDEFINITIONS }
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "suspension",
+    component: SuspensionComponent,
+    data: { pageKeyword: pages.MENU_SUSPENSION }
     // canActivate: [AuthGuard]
   },
   {

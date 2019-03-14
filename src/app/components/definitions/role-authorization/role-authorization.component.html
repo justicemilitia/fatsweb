@@ -37,15 +37,14 @@
                 <input type="hidden" [(ngModel)]="roleAuthorization.RoleAuthorizationId" name="RoleAuthorizationId" />
                 <div class="col-md-6">
                 <label class="required-span">Rol</label>
-                <select [ngModel]="roleAuthorization.RoleId" name="RoleId" #RoleId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" required class="form-control select2-no-search">
-                  <option value="-1">Seçiniz</option>
-                  <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
+                <select [ngModel]="roleAuthorization.RoleId" name="RoleId" #RoleId="ngModel" (change)="onChange($event)" [disabled]="roleAuthorization.RoleAuthorizationId != null" [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" required class="form-control select2-no-search">
+                  <option value="-1" >Seçiniz</option>
+                  <option *ngFor="let role of roles" value={{role.RoleId}} >{{role.Name}}</option>
                 </select>
                 <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
                   <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
                 </div>
-              </div>
-                <div *ngIf="visible;then insert else update"></div>
+              </div>             
                 <ng-template [ngIf]="roleAuthorization.RoleAuthorizationId == null">
                   <tree-grid-table  [dataTable]="dataTableRoleAuth"></tree-grid-table>
                 </ng-template> 
