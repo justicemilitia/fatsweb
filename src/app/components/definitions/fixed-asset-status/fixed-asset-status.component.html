@@ -44,8 +44,8 @@
                       <label>Statü Adı</label>
                       <input  [(ngModel)]="status.Name" name="Name" type="text" class="form-control"/>              
                       <label>Renk</label>                             
-                      <input [(ngModel)]="status.Color" name="Color" type="text" class="form-control" [(colorPicker)]="color" 
-                      (colorPickerChange)="color=$event" [style.background]="color"
+                      <input [(ngModel)]="selectedColor" type="text" class="form-control" [(colorPicker)]="selectedColor"                       
+                      (colorPickerChange)="selectedColor=$event" [style.background]="selectedColor"
                       (colorPickerOpen)="onEventLog('colorPickerOpen', $event)" (colorPickerClose)="onEventLog('colorPickerClose', $event)"
                       (cpInputChange)="onEventLog('cpInputChange', $event)" (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)" 
                       (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"/>                   

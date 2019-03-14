@@ -122,8 +122,7 @@ export const UPDATE_CHECKOUTREASON = "CheckOutReasons/UpdateCheckOutReasons";
 //#endregion
 
 //#region FixedAssetStatus
-export const GET_FIXEDASSETSTATUS_LIST =
-  "FixedAssetStatus/GetFixedAssetStatusList";
+export const GET_FIXEDASSETSTATUS_LIST = "FixedAssetStatus/GetFixedAssetStatusList";
   export const INSERT_STATUS="FixedAssetStatus/AddFixedAssetStatus";
   export const UPDATE_STATUS="FixedAssetStatus/UpdateFixedAssetStatus";
   export const GET_FIXEDASSETSTATUS_BY_ID="FixedAssetStatus/GetFixedAssetStatusById";

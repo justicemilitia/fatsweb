@@ -276,16 +276,16 @@ export class RoleAuthorizationComponent extends BaseComponent
       let role: RoleAuthorization = new RoleAuthorization();
 
       if (e.OutInsert == null) {
-        e.OutInsert = role.OutInsert;
+        e.OutInsert = false;
       }
       if (e.OutUpdate == null) {
-        e.OutUpdate = role.OutUpdate;
+        e.OutUpdate = false;
       }
       if (e.OutDelete == null) {
-        e.OutDelete = role.OutDelete;
+        e.OutDelete = false;
       }
       if (e.OutBrowse == null) {
-        e.OutBrowse = role.OutBrowse;
+        e.OutBrowse = false;
       }
     });
 

@@ -42,6 +42,7 @@ import { FixedAssetStatusComponent } from "./components/definitions/fixed-asset-
 import { FaCreateComponent } from "./components/operations/fixed-asset/fa-create/fa-create.component";
 import { FaExitComponent } from "./components/operations/fixed-asset/fa-exit/fa-exit.component";
 import { FaBindingComponent } from "./components/operations/fixed-asset/fa-binding/fa-binding.component";
+import { SuspensionComponent } from './components/definitions/suspension/suspension.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { FaBindingComponent } from "./components/operations/fixed-asset/fa-bindi
     FaExitComponent,
     FaBindingComponent,
     FixedAssetCardPropertyComponent,
+    SuspensionComponent,
   ],
   imports: [
     BrowserModule,

@@ -36,7 +36,7 @@ export class StatusService {
               Object.assign(status, e);
               statuses.push(status);
             });
-            success(status, response.LanguageKeyword);
+            success(statuses, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
