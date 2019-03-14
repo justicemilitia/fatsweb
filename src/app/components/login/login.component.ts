@@ -60,7 +60,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         if (error.status == 401)
           this.errorMessage = "Kullanıcı adı veya şifre hatalı";
         else {
-          this.baseService.popupService.ShowErrorPopup(error);
+          this.errorMessage = "Bağlantı Hatası!";
         }
 
       }

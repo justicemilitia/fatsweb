@@ -13,12 +13,6 @@ body {
     z-index: 1 !important;
 }
 
-.card {
-    margin-top: 15px;
-    padding:20px;
-    padding-right: 30px;
-}
-
 .az-content .container, .az-content .container-fluid{
     padding-left:20px;
     padding-right:20px;
@@ -113,7 +107,7 @@ button.btn:first-child {
     background: white;
     position: absolute;
     top: 0;
-    bottom: 0;
+    bottom: -40px;
     width: 100%;
 }
 
@@ -233,9 +227,6 @@ button.btn:first-child {
     margin: -.5rem -.5rem -1rem auto !important;
 }
 
-.az-content-title {
-    color: #494c57;
-}
 
 .btn-new-custom {
     font-size: 14px !important;
@@ -357,4 +348,16 @@ button.btn:first-child {
 .az-navbar-two .nav-item.active::before {
     right: 0;
 }
+}
+
+.alert-custom {
+    height: 30px;
+    padding: 0 !important;
+    padding-top: 4px !important;
+    padding-left: 10px !important;
+    margin-top: 10px;
+    margin-bottom: 10px !important;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 0 !important;
 }
