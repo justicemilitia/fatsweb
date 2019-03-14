@@ -127,3 +127,10 @@ ul.nav-link-item-ul-sub {
   border:none;
 }
 
+.stellarnav li.has-sub>a:after {
+  margin-left: 4px;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  display: inline-block;
+}

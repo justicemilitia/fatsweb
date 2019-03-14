@@ -60,48 +60,41 @@
     </div><!-- row -->
 
     <div class="card card-body card-dashboard-twentyfive mg-b-20">
-      <h6 class="card-title">Conversions</h6>
+      <h6 class="card-title">Demirbaşlar</h6>
       <div class="row row-sm">
         <div class="col-6 col-sm-4 col-lg">
-          <label class="card-label">Conversion Rate</label>
-          <h6 class="card-value">0.81<small>%</small></h6>
+          <label class="card-label">AKTİF DEMİRBAŞLAR</label>
+          <h6 class="card-value">{{assetValues.TotalCountOfFixedAssets ? assetValues.TotalCountOfFixedAssets : 0}}</h6>
           <div class="chart-wrapper">
             <div id="flotChart1" class="flot-chart"></div>
           </div><!-- chart-wrapper -->
         </div><!-- col -->
         <div class="col-6 col-sm-4 col-lg">
-          <label class="card-label">Revenue</label>
-          <h6 class="card-value"><span>$</span>1,095,190</h6>
+          <label class="card-label">ASKIDAKİ DEMİRBAŞLAR</label>
+          <h6 class="card-value">{{assetValues.SuspendedFixedAssets ? assetValues.SuspendedFixedAssets : 0}}</h6>
           <div class="chart-wrapper">
             <div id="flotChart2" class="flot-chart"></div>
           </div><!-- chart-wrapper -->
         </div><!-- col -->
         <div class="col-6 col-sm-4 col-lg mg-t-20 mg-sm-t-0">
-          <label class="card-label">Unique Purchases</label>
-          <h6 class="card-value">53</h6>
+          <label class="card-label">KAYIP DEMİRBAŞLAR</label>
+          <h6 class="card-value">{{assetValues.LostFixedAssets ? assetValues.LostFixedAssets : 0}}</h6>
           <div class="chart-wrapper">
             <div id="flotChart3" class="flot-chart"></div>
           </div><!-- chart-wrapper -->
         </div><!-- col -->
         <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
-          <label class="card-label">Transactions</label>
-          <h6 class="card-value">31</h6>
+          <label class="card-label">ÇIKIŞI YAPILMIŞ DEMİRBAŞLAR</label>
+          <h6 class="card-value">{{assetValues.CheckedOutFixedAssets ? assetValues.CheckedOutFixedAssets : 0}}</h6>
           <div class="chart-wrapper">
             <div id="flotChart4" class="flot-chart"></div>
           </div><!-- chart-wrapper -->
         </div><!-- col -->
         <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
-          <label class="card-label">Avg. Order Value</label>
-          <h6 class="card-value"><span>$</span>306.20</h6>
+          <label class="card-label">AMORTİSMANI HESAPLANAN DEMİRBAŞLAR</label>
+          <h6 class="card-value">{{assetValues.DepreciationCount ? assetValues.DepreciationCount : 0 }}</h6>
           <div class="chart-wrapper">
             <div id="flotChart5" class="flot-chart"></div>
-          </div><!-- chart-wrapper -->
-        </div><!-- col -->
-        <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
-          <label class="card-label">Quantity</label>
-          <h6 class="card-value">52</h6>
-          <div class="chart-wrapper">
-            <div id="flotChart6" class="flot-chart"></div>
           </div><!-- chart-wrapper -->
         </div><!-- col -->
       </div><!-- row -->

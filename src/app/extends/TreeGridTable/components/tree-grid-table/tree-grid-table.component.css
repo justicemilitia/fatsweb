@@ -29,6 +29,7 @@
     float:left;
     font-size: 13px;
     background-color: #fff0 !important;
+    margin-left: 22px;
 }
 
 .table-pagination-select {
@@ -58,10 +59,12 @@
     border: 1px solid #dee2e6;
     border-right: none;
     color: #424242;
-    padding-top: 3px;
     height: 37px;
     background: #f9f9f9;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0px 3px 7px 3px;
 }
 
 .table-no-content {
@@ -182,7 +185,7 @@
     padding-right: 10px;
     position: absolute;
     z-index: 100;
-    left: 40px;
+    left: 43px;
     box-shadow: 7px 7px 10px rgba(33, 34, 41, 0.1);
 }
 

@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -172,6 +172,10 @@ export const GET_COUNTRY_LIST = "definition/GetCountriesList";
 export const GET_CITY_LIST = "definition/GetCitiesList";
 export const GET_USERFIRM_LIST = "UserFirms/GetUserFirmsList";
 export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
+
+//#region 
+export const GET_DASHBOARD_VALUES = "Dashboard/GetDashboardValues";
+//#endregion
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
 

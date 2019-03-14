@@ -6554,7 +6554,7 @@ a.text-dark:hover, a.text-dark:focus {
   font-weight: 500;
   letter-spacing: -.1px; }
   .accordion-indigo .card-header a.collapsed:hover, .accordion-indigo .card-header a.collapsed:focus {
-    background-color: #5b0cdd;
+    background-color: #c76400;
     color: #fff; }
 
 .accordion-blue .card {
@@ -6685,25 +6685,25 @@ a.text-dark:hover, a.text-dark:focus {
 .btn-indigo {
   color: #fff;
   background-color: #e67300;
-  border-color: #5b0cdd; }
+  border-color: #c76400; }
   .btn-indigo:hover {
     color: #fff;
-    background-color: #560bd0;
+    background-color: #d06800;
     border-color: #4709ac; }
   .btn-indigo:focus, .btn-indigo.focus {
-    box-shadow: 0 0 0 0.2rem rgba(91, 12, 221, 0.5); }
+    box-shadow: 0 0 0 0.2rem rgba(230, 115, 0, 0.5); }
   .btn-indigo.disabled, .btn-indigo:disabled {
     color: #fff;
     background-color: #e67300;
-    border-color: #5b0cdd; }
+    border-color: #c76400; }
   .btn-indigo:not(:disabled):not(.disabled):active, .btn-indigo:not(:disabled):not(.disabled).active,
   .show > .btn-indigo.dropdown-toggle {
     color: #fff;
-    background-color: #510bc4;
-    border-color: #4209a0; }
+    background-color: #d26b03;
+    border-color: #ce6a04; }
     .btn-indigo:not(:disabled):not(.disabled):active:focus, .btn-indigo:not(:disabled):not(.disabled).active:focus,
     .show > .btn-indigo.dropdown-toggle:focus {
-      box-shadow: 0 0 0 0.2rem rgba(91, 12, 221, 0.5); }
+      box-shadow: 0 0 0 0.2rem rgba(230, 115, 0, 0.5); }
 
 .btn-purple {
   color: #fff;
@@ -7826,7 +7826,7 @@ table.dataTable {
     margin-left: 20px; }
 
 .wizard-style-1 > .steps > ul .current a .number, .wizard-style-1 > .steps > ul .current a:hover .number, .wizard-style-1 > .steps > ul .current a:active .number {
-  background-color: #5b0cdd;
+  background-color: #c76400;
   color: #fff; }
 
 .wizard-style-1 > .steps > ul .done a .number, .wizard-style-1 > .steps > ul .done a:hover .number, .wizard-style-1 > .steps > ul .done a:active .number {
@@ -8354,7 +8354,7 @@ textarea.parsley-success:focus {
     height: 8px;
     border-radius: 100%; }
   .irs-outline .irs-slider:hover::before, .irs-outline .irs-slider:focus::before {
-    background-color: #5b0cdd; }
+    background-color: #c76400; }
 
 .irs-outline.irs-primary .irs-line,
 .irs-outline.irs-primary .irs-slider {
@@ -8615,25 +8615,25 @@ textarea.parsley-success:focus {
 .btn-az-primary {
   color: #fff;
   background-color: #e67300;
-  border-color: #5b0cdd; }
+  border-color: #c76400; }
   .btn-az-primary:hover {
     color: #fff;
-    background-color: #560bd0;
+    background-color: #d06800;
     border-color: #4709ac; }
   .btn-az-primary:focus, .btn-az-primary.focus {
-    box-shadow: 0 0 0 0.2rem rgba(91, 12, 221, 0.5); }
+    box-shadow: 0 0 0 0.2rem rgba(230, 115, 0, 0.5); }
   .btn-az-primary.disabled, .btn-az-primary:disabled {
     color: #fff;
     background-color: #e67300;
-    border-color: #5b0cdd; }
+    border-color: #c76400; }
   .btn-az-primary:not(:disabled):not(.disabled):active, .btn-az-primary:not(:disabled):not(.disabled).active,
   .show > .btn-az-primary.dropdown-toggle {
     color: #fff;
-    background-color: #510bc4;
-    border-color: #4209a0; }
+    background-color: #d26b03;
+    border-color: #ce6a04; }
     .btn-az-primary:not(:disabled):not(.disabled):active:focus, .btn-az-primary:not(:disabled):not(.disabled).active:focus,
     .show > .btn-az-primary.dropdown-toggle:focus {
-      box-shadow: 0 0 0 0.2rem rgba(91, 12, 221, 0.5); }
+      box-shadow: 0 0 0 0.2rem rgba(230, 115, 0, 0.5); }
 
 .btn-az-secondary {
   color: #fff;
@@ -16380,11 +16380,11 @@ textarea.parsley-success:focus {
       .az-content-dashboard-nine .az-content-header .nav-link:hover, .az-content-dashboard-nine .az-content-header .nav-link:focus {
         color: #212229; }
       .az-content-dashboard-nine .az-content-header .nav-link.active {
-        color: #510bc4; }
+        color: #d26b03; }
         .az-content-dashboard-nine .az-content-header .nav-link.active::before {
           top: 32px;
           bottom: auto;
-          background-color: #510bc4; }
+          background-color: #d26b03; }
       .az-content-dashboard-nine .az-content-header .nav-link + .nav-link {
         margin-top: 0;
         margin-left: 25px; }

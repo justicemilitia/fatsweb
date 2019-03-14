@@ -25,6 +25,7 @@ import { RoleUserService } from "./role-user-service/role-user.service";
 import { FileUploadService } from './file-upload-service/file-upload.service';
 import { StatusService } from './status-service/status.service';
 import { FixedAssetService } from './fixed-asset-service/fixed-asset.service';
+import { DashboardService } from './dashboard-service/dashboard.service';
 
 @Injectable({
   providedIn: "root"
@@ -56,6 +57,6 @@ export class BaseService {
     public roleAuthorizationService: RoleAuthorizationService,
     public fileUploadService:FileUploadService,    
     public spinner: NgxSpinnerService,
-    public router: Router
-  ) {}
+    public router: Router,
+    public dashboardService:DashboardService) {}
 }
