@@ -89,7 +89,8 @@ color: white;
 .form-group > select {
     height: 38px;
     font-size: 13px;
-    padding-top: 3px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .loader {

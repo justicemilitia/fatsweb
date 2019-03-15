@@ -448,4 +448,6 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
 /* END CUSTOM CHECKBOX END */
 
 
-
+tree-grid-table {
+    width: 100%;
+}

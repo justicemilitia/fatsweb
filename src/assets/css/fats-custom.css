@@ -389,3 +389,7 @@ button.btn:first-child {
     justify-content: center;
     align-items: center;
 }
+
+.modal-header .modal-title {
+    margin-left: 10px;
+}
