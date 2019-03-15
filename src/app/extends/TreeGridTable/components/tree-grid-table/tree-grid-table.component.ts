@@ -9,12 +9,31 @@ import { IData } from '../../models/interfaces/IData';
 })
 export class TreeGridTableComponent implements OnInit,DoCheck {
 
+  /**
+   * Data Table inserted by user.
+   */
   @Input() dataTable: TreeGridTable;
+
+  /**
+   * Trigger the double clicked item.
+   */
   @Output('onDoubleClickItem') dblClickItem: EventEmitter<any> = new EventEmitter();
+
   constructor() {
   }
 
   ngOnInit() {
+
+    /* Close Item Outside of the column helper and open area */
+    $(document).on('click',(e) => {
+      if ($(e.target).closest(".table-column-helper-sub").length === 0
+      && $(e.target).closest(".table-config-arrow").length === 0) {
+        if (this.dataTable.isConfigOpen) {
+          this.dataTable.isConfigOpen = false;
+        }
+      }
+    })
+
   }
 
   ngDoCheck():void {
