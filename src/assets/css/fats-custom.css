@@ -383,13 +383,6 @@ button.btn:first-child {
     font-size: 100%;
 }
 
-.modal.show {
-    flex: 1;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-}
-
 .modal-header .modal-title {
     margin-left: 10px;
 }
