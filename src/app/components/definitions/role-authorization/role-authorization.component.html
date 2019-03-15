@@ -62,7 +62,8 @@
           </div>
           <div class="modal-footer">
             <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-orange btn-block btn-height"
-              data-toggle="modal" data-target="#modalAddRole">Kaydet</button>
+              data-toggle="modal" data-target="#modalAddRole">{{roleAuthorization.RoleAuthorizationId ? 'Güncelle' : 'Ekle'}}</button>
+              <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
           </div>
         </form>
         <!-- modal-body -->

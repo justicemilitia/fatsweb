@@ -13,6 +13,7 @@ import RoleAuthorization from "src/app/models/RoleAuthorization";
 import { Menu } from "src/app/models/Menu";
 import { Role } from "src/app/models/Role";
 
+
 @Component({
   selector: "app-role-authorization",
   templateUrl: "./role-authorization.component.html",
@@ -44,7 +45,7 @@ export class RoleAuthorizationComponent extends BaseComponent
     [
       {
         columnDisplayName: "Menü",
-        columnName: ["Name"],
+        columnName: ["Menu","Name"],
         isActive: true,
         type: "text"
       },
@@ -144,7 +145,7 @@ export class RoleAuthorizationComponent extends BaseComponent
   );
 
   public dataTableUpdateAuth: TreeGridTable = new TreeGridTable(
-    "roleauthorization",
+    "roleauthorizationupdate",
     [
       {
         columnDisplayName: "Menü",
@@ -375,8 +376,28 @@ export class RoleAuthorizationComponent extends BaseComponent
     );
   } 
 
-  onChange(event){
-    
+  onChange(item){
+    console.log(item.target.value);  
+    this.baseService.roleAuthorizationService.GetRoleAuthListById(
+      item.target.value,
+      (result: RoleAuthorization[]) => {
+        if(result.length != 0){
+        setTimeout(() => {  
+          this.baseService.spinner.hide();
+
+          this.RoleAuthArray = result;
+          this.dataTableRoleAuth.TGT_loadData(this.RoleAuthArray);
+          Object.assign(this.roleAuthorization, item);     
+         
+        }, 1000);
+      }
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.spinner.hide();
+
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
 }
