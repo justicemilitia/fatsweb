@@ -20,6 +20,7 @@ import { FixedAssetCardProperty } from "../../models/FixedAssetCardProperty";
   providedIn: "root"
 })
 export class FixedAssetCardPropertyService {
+  
   fixedAssetCardPropertyData: FixedAssetCardProperty[] = [];
 
   constructor(
