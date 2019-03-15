@@ -99,8 +99,8 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     this.isWaitingInsertOrUpdate = true;
-  
-    this.status.Color=this.selectedColor;
+
+    this.status.Color = this.selectedColor;
 
     this.baseService.fixedAssetStatusService.InsertStatus(
       this.status,
@@ -148,6 +148,30 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
             }
           );
         }
+      }
+    );
+  }
+
+  async onDoubleClickItem(item: FixedAssetStatus) {
+    this.status = new FixedAssetStatus();
+
+    this.baseService.spinner.show();
+
+    await this.baseService.fixedAssetStatusService.GetStatusById(
+      item.FixedAssetStatusId,
+      (result: FixedAssetStatus) => {
+        setTimeout(() => {
+          this.baseService.spinner.hide();
+
+          $("#btnAddStatus").trigger("click");
+          this.status.Color=result.Color;
+          this.status = result;
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.spinner.hide();
+
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }

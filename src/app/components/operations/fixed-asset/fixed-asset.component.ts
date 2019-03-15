@@ -5,7 +5,8 @@ import { BaseService } from "src/app/services/base.service";
 import { User } from "src/app/models/LoginUser";
 import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
-import { FixedAsset } from 'src/app/models/FixedAsset';
+import { FixedAsset } from "src/app/models/FixedAsset";
+import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 
 @Component({
   selector: "app-fixed-asset",
@@ -13,9 +14,8 @@ import { FixedAsset } from 'src/app/models/FixedAsset';
   styleUrls: ["./fixed-asset.component.css"]
 })
 export class FixedAssetComponent extends BaseComponent implements OnInit {
-  
-  fixedAssets:FixedAsset[]=[]; 
-  
+  fixedAssets: FixedAsset[] = [];
+  faProperties: FixedAssetCardProperty[] = [];
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
     [
@@ -53,7 +53,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Marka",
-        columnName: ["FixedAssetCardBrand","Name"],
+        columnName: ["FixedAssetCardBrand", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -61,7 +61,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Model",
-        columnName: ["FixedAssetCardModel","Name"],
+        columnName: ["FixedAssetCardModel", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -69,7 +69,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Statü",
-        columnName: ["FixedAssetStatus","Name"],
+        columnName: ["FixedAssetStatus", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -92,50 +92,65 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   constructor(baseService: BaseService) {
     super(baseService);
     this.loadFixedAsset();
-    
-    let items = [{
-      FixedAssetCardPropertyId:'14',
-      Name:'Telefon Renkleri'
-    },{
-      FixedAssetCardPropertyId:'15',
-      Name:'Telefon Markası'
-    },{
-      FixedAssetCardPropertyId:'16',
-      Name:'Telefon Hafızası'
-    }];
-
-    items.forEach(element => {
-      this.dataTable.dataColumns.push({
-        columnName: ["FixedAssetCard","FixedAssetCardProperty","FixedAssetPropertValues"],
-        columnDisplayName:  element.Name,
-        isActive: true,
-        type:'text',
-        formatter:(array:[]) => {return array ? array.join(','): ''}
-      });
-    });
+    this.loadFixedAssetProperties();
   }
-
- 
 
   ngOnInit() {}
+  Page: string = "1";
+  PerPage: string = "100";
+  Barcode: string = "223";
+  sortOrder: string = "asc";
+  SerialNumber: string = "1";
+  FixedAssetCardId: string = "3";
+  filter: FixedAsset = new FixedAsset();
 
   loadFixedAsset() {
+    this.baseService.fixedAssetService.GetFixedAsset(
+      this.Page,
+      this.PerPage,
+      this.Barcode,
+      this.sortOrder,
+      this.SerialNumber,
+      this.FixedAssetCardId,
+      this.filter,
+      (fa: FixedAsset[]) => {
+        this.fixedAssets = fa;
+        this.fixedAssets.forEach(e => {
+          let fa: FixedAsset = new FixedAsset();
+          Object.assign(fa, e);
+          this.fixedAssets.push(fa);
+        });
 
+        this.faProperties.forEach(e => {
+          this.dataTable.dataColumns.push({
+            columnName: ["FixedAssetCard", "FixedAssetCardProperty"],
+            columnDisplayName: e.Name,
+            isActive: true,
+            type: "text"
+          });
+        });
+        this.dataTable.TGT_loadData(this.fixedAssets);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
 
-    this.fixedAssets = this.baseService.fixedAssetService.GetList();
-    // this.fixedAssets.forEach(e=> {
-    //   e.FixedAssetCard.FixedAssetCardProperty.forEach(t=> {
-    //     t.
-    //   })
-    // })
-    this.dataTable.TGT_loadData(this.fixedAssets);
-    return;
-
-    this.baseService.fixedAssetService.GetFixedAsset((fixedasset:FixedAsset[])=>{
-      this.fixedAssets=fixedasset;
-      this.dataTable.TGT_loadData(this.fixedAssets);
-    },(error:HttpErrorResponse)=>{
-      this.baseService.popupService.ShowErrorPopup(error);
-    })
+  loadFixedAssetProperties() {
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+        this.faProperties = faProperties;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 }
+// e.FixedAssetCard.FixedAssetCardProperty.forEach(t => {
+//let faProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
+// Object.assign(faProperty, t);
+//this.faProperties.push(faProperty);
+// console.log(this.faProperties);
+//});

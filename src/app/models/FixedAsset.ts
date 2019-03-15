@@ -5,6 +5,8 @@ import { FixedAssetCardModel } from "./FixedAssetCardModel";
 import { FixedAssetCardCategory } from './FixedAssetCardCategory';
 import { FixedAssetCardBrand } from './FixedAssetCardBrand';
 import { FixedAssetStatus } from './FixedAssetStatus';
+import { Department } from './Department';
+import { Currency } from './Currency';
 
 export class FixedAsset implements IData {
   getParentId(): number {
@@ -26,11 +28,14 @@ export class FixedAsset implements IData {
   FixedAssetCardCategoryId: number;
   Barcode: string;
   SerialNumber: string;
+  LocationId:number;
+  DepartmentId: number;
   FixedAssetCardId: number;
   FixedAssetCardModelId: number;
   FixedAssetCardBrandId: number;
   StatusId: number;
   FirmId: number;
+  CompanyId:number;
   Price: string;
   HasMaintanence: boolean;
   ReceiptDate: Date;
@@ -56,11 +61,12 @@ export class FixedAsset implements IData {
   IsLost: boolean;
   IsActive: boolean;
   IsValid: boolean;
-  Currency: number;
+  Currency: Currency;
+  Department:Department;
+  Location:Location;
   ExpenseCenter: ExpenseCenter;
   FixedAssetCard: FixedAssetCard;
   FixedAssetCardModel: FixedAssetCardModel;
-  Status: number;
   FixedAssetCardCategory:FixedAssetCardCategory;
   FixedAssetCardBrand:FixedAssetCardBrand;
   FixedAssetStatus:FixedAssetStatus;
@@ -72,6 +78,8 @@ constructor() {
   this.FixedAssetStatus = new FixedAssetStatus();
   this.ExpenseCenter = new ExpenseCenter();
   this.FixedAssetCardCategory = new FixedAssetCardCategory();
+
+  this.Currency=new Currency();
 }
 
 }

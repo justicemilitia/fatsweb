@@ -5,7 +5,8 @@ import {
   SERVICE_URL,
   GET_FIXEDASSETSTATUS_LIST,
   INSERT_STATUS,
-  UPDATE_STATUS
+  UPDATE_STATUS,
+  GET_FIXEDASSETSTATUS_BY_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -91,7 +92,7 @@ export class StatusService {
 
   GetStatusById(statusId: number, success, failed) {
     this.httpClient
-      .get(SERVICE_URL + GET_FIXEDASSETSTATUS_LIST + "/" + statusId, {
+      .get(SERVICE_URL + GET_FIXEDASSETSTATUS_BY_ID + "/" + statusId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
