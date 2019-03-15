@@ -63,7 +63,7 @@
         </th>
         <!-- END Header Select All END-->
         <!-- Header columns -->
-        <ng-container *ngFor="let column of dataTable.TGT_getActiveColumns()">
+        <ng-container *ngFor="let column of dataTable.activeColumns">
           <th *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column)">
             {{column.columnDisplayName}}
             <span class="{{dataTable.TGT_getOrderSign(column)}}"></span>
@@ -74,14 +74,14 @@
       <!-- END Table Header Area END -->
       <tbody class="tree-table-body">
         <!-- First Row is Filter -->
-        <tr class="tree-table-body-tr" *ngIf="dataTable.isFilterActive == true">
+        <tr class="tree-table-body-filter-tr" *ngIf="dataTable.isFilterActive == true">
           <!-- Selection checkbox filter -->
           <td class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
             <input type="checkbox" class="table-checkbox" [(ngModel)]="dataTable.dataFilters['isChecked']">
           </td>
           <!-- END Selection checkbox filter END -->
           <!-- Filter Columns -->
-          <ng-container *ngFor="let column of dataTable.TGT_getActiveColumns()">
+          <ng-container *ngFor="let column of dataTable.activeColumns">
             <td>
               <ng-container [ngSwitch]="column.type">
                 <ng-container *ngSwitchCase="'checkbox'">
@@ -111,7 +111,7 @@
             </td>
             <!-- END First Column is Multiple Select Option END -->
             <!-- Fill The Rows Rest of columns -->
-            <ng-container *ngFor="let column of dataTable.TGT_getActiveColumns();let i = index">
+            <ng-container *ngFor="let column of dataTable.activeColumns;let i = index">
               <!-- First column always will be offset with(+/- sign) -->
               <td *ngIf="i==0" [ngStyle]="{'padding-left': (data.childIndex * 17 + 5).toString() + 'px' }"
                 class="tree-table-body-tr-td tree-table-input-text">

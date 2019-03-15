@@ -8,6 +8,12 @@ export class TreeGridTable {
     //#region Variables
 
     /**
+     * Store the active columns to increase performance.
+     * To Update this TGT_bindActiveColumns method must use
+     */
+    public activeColumns:IColumn[] = [];
+
+    /**
      * Is Table Editable
      */
     public isTableEditable: boolean = false;
@@ -290,6 +296,7 @@ export class TreeGridTable {
         }
 
         this.dataOrders.isDesc = _dataOrders.isDesc;
+        this.TGT_bindActiveColumns();
 
     }
 
@@ -409,8 +416,11 @@ export class TreeGridTable {
 
     }
 
-    public TGT_getActiveColumns() {
-        return this.dataColumns.filter(x => x.isActive == true);
+    /**
+     * Binds the active columns to active columns array.
+     */
+    private TGT_bindActiveColumns() {
+        this.activeColumns = this.dataColumns.filter(x => x.isActive == true);
     }
 
     /**
@@ -826,6 +836,7 @@ export class TreeGridTable {
     public TGT_toggleColumns(column: IColumn) {
         /* Change column active status to its reverse */
         column.isActive = !column.isActive;
+        this.TGT_bindActiveColumns();
     }
 
     /**
