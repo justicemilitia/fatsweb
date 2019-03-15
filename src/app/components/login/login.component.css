@@ -30,7 +30,7 @@ color: white;
 }
 
 .az-card-signin {
-    height: 600px;
+    height: 560px;
     box-shadow:none;
     margin-bottom: 15px
 }
@@ -226,6 +226,6 @@ color: white;
 .login-continue {
     font-weight: 400;
     color: #212229;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     font-size: 19.5px;
 }

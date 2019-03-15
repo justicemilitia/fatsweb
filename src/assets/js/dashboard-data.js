@@ -262,7 +262,7 @@ $(function(){
             xaxis: { show: false }
         });
 
-    $.plot('#flotChart6', [{
+    /*$.plot('#flotChart6', [{
         data: dashData7,
         color: '#fd7e14'
       }], {
@@ -285,7 +285,7 @@ $(function(){
         max: 80
       },
             xaxis: { show: false }
-        });
+        });*/
 
     $.plot('#flotChart7', [{
           data: dashData3,

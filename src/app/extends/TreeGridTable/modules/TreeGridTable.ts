@@ -429,6 +429,7 @@ export class TreeGridTable {
     public TGT_returnDefaultConfig() {
         this.dataColumns = this.originalDataColumns.slice(0);
         this.isSaved = true;
+        this.TGT_bindActiveColumns();
     }
 
     /**
