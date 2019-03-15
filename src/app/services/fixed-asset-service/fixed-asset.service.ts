@@ -8,7 +8,6 @@ import {
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
-import { ErrorService } from "../error-service/error.service";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
@@ -20,37 +19,17 @@ export class FixedAssetService {
   constructor(
     private httpclient: HttpClient,
     private authenticationService: AuthenticationService,
-    private errorService: ErrorService
   ) {}
 
-  GetFixedAsset(
-    Page: string,
-    PerPage: string,
-    Barcode: string,
-    sortOrder: string,
-    SerialNumber: string,
-    FixedAssetCardId: string,
-    filter: FixedAsset,
-    success,
-    failed
-  ) {
+  GetFixedAsset(success,failed){
     this.httpclient
       .post(
         SERVICE_URL + GET_FIXED_ASSET,
-        {
-          Page: Page,
-          PerPage: PerPage,
-          Barcode: Barcode,
-          sortOrder: sortOrder,
-          SerialNumber: SerialNumber,
-          FixedAssetCardId: FixedAssetCardId,
-          filter: filter
-        },
+        {Page:"1", PerPage: "100", sortOrder: "asc", filter: {}},
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
         }
-      )
-      .subscribe(
+      ).subscribe(
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
