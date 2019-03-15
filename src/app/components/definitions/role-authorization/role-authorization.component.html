@@ -1,20 +1,27 @@
-<div class="az-content">
-  <div class="container-fluid">
-    <div class="az-content-body">
+<div class="az-content az-content-dashboard-four">
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+      <div class="az-content-breadcrumb">
+          <span>TANIMLAMALAR</span>
+          <span>ROL YETKİLENDİRME</span>
+      </div>
+    <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
+          <div class="card-header">
         <h2 class="az-content-title">Rol Yetkilendirme</h2>
         <div class="grp-btn-action">
             <button type="button" (click)="deleteCompanies()" class="btn btn-danger btn-delete-custom">
                 {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
                 <i class="fas fa-trash"></i></button>
-          <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)"  id="btnAddRoleAuth" data-toggle="modal"
-            data-target="#modalRoleAuthorization" >Role Yetki Atama
+          <button class="btn btn-az-primary" (click)="resetForm(data,true)"  id="btnAddRoleAuth" data-toggle="modal"
+            data-target="#modalRoleAuthorization"><i class="fa fa-plus-circle fa-plus-circle-add"></i>Role Yetki Atama
           </button>
           <button style="display:none" (click)="resetForm(data,false)" id="btnEditRoleAuth" data-toggle="modal"
            data-target="#modalRoleAuthorization">Role Yetki Düzenle
           </button>
         </div>
-        <p class="mg-b-20"></p>
+      </div>       
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
       </div>
     </div>
@@ -37,7 +44,7 @@
                 <input type="hidden" [(ngModel)]="roleAuthorization.RoleAuthorizationId" name="RoleAuthorizationId" />
                 <div class="col-md-6">
                 <label class="required-span">Rol</label>
-                <select [ngModel]="roleAuthorization.RoleId" name="RoleId" #RoleId="ngModel" (change)="onChange($event)" [disabled]="roleAuthorization.RoleAuthorizationId != null" [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" required class="form-control select2-no-search">
+                <select [ngModel]="roleAuthorization.RoleId" name="RoleId" #RoleId="ngModel" (change)="onChange($event,roleAuthorization)" [disabled]="roleAuthorization.RoleAuthorizationId != null" [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" required class="form-control select2-no-search">
                   <option value="-1" >Seçiniz</option>
                   <option *ngFor="let role of roles" value={{role.RoleId}} >{{role.Name}}</option>
                 </select>

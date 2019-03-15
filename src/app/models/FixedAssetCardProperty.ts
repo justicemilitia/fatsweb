@@ -1,4 +1,5 @@
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+import { FixedAssetCardPropertyValue } from './FixedAssetCardPropertyValue';
 
 export class FixedAssetCardProperty implements IData {
     getParentId(): number {
@@ -21,4 +22,6 @@ export class FixedAssetCardProperty implements IData {
     FixedAssetTypeId: number;
     Name: string;
     IsUnique: boolean;
+    FixedAssetPropertyValues:FixedAssetCardPropertyValue[] = [];
+
 }

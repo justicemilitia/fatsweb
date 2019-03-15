@@ -28,6 +28,6 @@ export class FixedAssetCard implements IData {
     ModifiedId: number;
     IsValid: boolean;
     FixedAssetCardCategory: FixedAssetCardCategory;
-    FixedAssetCardProperty:FixedAssetCardProperty[];
+    FixedAssetCardProperty:FixedAssetCardProperty[] = [];
     Inventories:Inventory[];
 }

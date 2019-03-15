@@ -373,13 +373,10 @@ export class RoleAuthorizationComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-  }
+  } 
 
-  onChange(){
- 
+  onChange(event){
     
-console.log();
-    this.baseService.spinner.show();
-
   }
+
 }

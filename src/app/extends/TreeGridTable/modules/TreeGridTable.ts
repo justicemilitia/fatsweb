@@ -419,7 +419,7 @@ export class TreeGridTable {
     /**
      * Binds the active columns to active columns array.
      */
-    private TGT_bindActiveColumns() {
+    public TGT_bindActiveColumns() {
         this.activeColumns = this.dataColumns.filter(x => x.isActive == true);
     }
 
