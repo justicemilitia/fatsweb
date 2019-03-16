@@ -110,7 +110,9 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     this.baseService.fixedAssetService.GetFixedAsset(
       (fa: FixedAsset[]) => {
         this.fixedAssets = fa;
-
+        fa.forEach(e=> {
+         
+        })
         this.dataTable.TGT_loadData(this.fixedAssets);
       },
       (error: HttpErrorResponse) => {
@@ -125,12 +127,12 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         this.faProperties = faProperties;
         this.faProperties.forEach(e => {   
           this.dataTable.dataColumns.push({
-            columnName: ["FixedAssetCard", "FixedAssetCardProperty","FixedAssetPropertyValues"],
+            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
             columnDisplayName: e.Name,
             isActive: true,
             type: "text"
-          });
-        });
+          });    
+              });
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -139,7 +141,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   }
 
   loadFixedAssetPropertyValues(){
-this.dataTable.TGT_bindActiveColumns
   }
 }
 

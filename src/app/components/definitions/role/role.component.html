@@ -1,23 +1,30 @@
-<div class="az-content">  
-  <div class="container-fluid">
-    <div class="az-content-body">
+<div class="az-content az-content-dashboard-four">  
+  <div class="media media-dashboard">
+    <div class="media-body">
+            <!-- Bread Crumb -->
+            <div class="az-content-breadcrumb">
+                <span>TANIMLAMALAR</span>
+                <span>ROl TANIMLAMA</span>
+            </div>
+          <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
-      <h2 class="az-content-title">Rol Tanımlama</h2>     
+      <div class="card-header">
+      <h2 class="az-content-title">Rol Tanımlama</h2>  
       <div class="row">
       <a routerLink="/roleuser"
-      routerLinkActive="active">Rol Kullanıcı Listesi</a> 
-      <div class="grp-btn-action">  
-      <button type="button" (click)="deleteRoles()" class="btn btn-danger btn-delete-custom">
-        {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
-        <i class="fas fa-trash"></i></button>
-      <button class="btn btn-orange btn-new-custom" id="btnAddRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"> Rol Ekle
-    </button>
-    <button class="btn btn-orange btn-new-custom" id="btnEditRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"> Rol Düzenle
-      </button>
+      routerLinkActive="active">Rol Kullanıcı Listesi</a>
+        <div class="grp-btn-action">           
+          <button type="button" (click)="deleteRoles()" class="btn btn-danger btn-delete-custom">
+          {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+          <i class="fas fa-trash"></i></button>
+          <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"><i class="fa fa-plus-circle fa-plus-circle-add"></i> Rol Ekle
+          </button>
+          <button style="display:none" id="btnEditRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"> Rol Düzenle
+          </button>
+        </div>
       </div>
     </div>
-      <p class="mg-b-20"></p> 
-            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
     </div>
     </div>
     <!-- az-content-body -->
@@ -28,7 +35,7 @@
   <!-- this modal is static modal for presentation purpose. -->
   <!-- class .d-block annd .pos-relative in .modal is for demo only -->
   <div id="modalRoleDefinition" class="modal">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
           <h6 class="modal-title">Rol Tanımlama</h6>
@@ -36,20 +43,24 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form name="form" #data="ngForm"  (ngSubmit)="OnSubmitRole(data)">
+        <form name="form" #data="ngForm"  (ngSubmit)="OnSubmitRole(data) && data.form.valid" novalidate>
         <div class="modal-body">
             <div class="row justify-content-center">
                 <input type="hidden" name="RoleId" [(ngModel)]="role.RoleId"  />
                 <div class="form-group">
                   <label>Rol</label>
-                  <input  [(ngModel)]="role.Name" name="Name" type="text" class="form-control"/>              
+                  <input  [(ngModel)]="role.Name" name="Name" type="text" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" style="width: 275px;" required/>              
+                  <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                      <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                    </div>
                   <label>Açıklama</label>
                   <textarea  [(ngModel)]="role.Description" name="Description" rows="3" type="text" style="resize:none"  class="form-control"></textarea>
                 </div>      
         </div>
       </div>
         <div class="modal-footer">
-            <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" data-target="#modalAddRole">Kaydet</button>   
+            <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-orange btn-block btn-height" data-toggle="modal" *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalAddRole">{{role.RoleId ? 'Güncelle' : 'Ekle'}}</button>   
+            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
           </div>
       </form>
         <!-- modal-body -->
@@ -57,5 +68,4 @@
     </div>
     <!-- modal-dialog -->
   </div>
-
 </div>

@@ -128,6 +128,7 @@ export const GET_FIXEDASSETSTATUS_LIST = "FixedAssetStatus/GetFixedAssetStatusLi
   export const INSERT_STATUS="FixedAssetStatus/AddFixedAssetStatus";
   export const UPDATE_STATUS="FixedAssetStatus/UpdateFixedAssetStatus";
   export const GET_FIXEDASSETSTATUS_BY_ID="FixedAssetStatus/GetFixedAssetStatusById";
+  export const DELETE_STATUS="FixedAssetStatus/RemoveFixedAssetStatusByIdList";
 //#endregion
 
 //#region ExpenseCenters
@@ -141,9 +142,10 @@ export const DELETE_EXPENSECENTER = "ExpenseCenter/RemoveByIdList";
 
 //region FixedAsset
 export const GET_FIXED_ASSET = "FixedAsset/GetFixedAssetsList";
+export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
+
 //endregion
 
-export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
 
 //#region Roles
 export const UPDATE_ROLE = "Role/UpdateRole";
@@ -159,13 +161,14 @@ export const GET_ROLE_AUTHORIZATION_LIST_BY_FIRMID = "Role/GetMenuListbyFirmId";
 export const INSERT_ROLE_AUTHORIZATION = "Role/AddRoleAuthorizationsByArray";
 export const GET_ROLE_AUTHORIZATION_LIST_BY_ROLEID="Role/GetRoleAuthorizationListbyRoleId";
 export const UPDATE_ROLE_AUTHORIZATION="Role/UpdateRoleAuthorizationsByArray";
+export const DELETE_ROLE_AUTHORIZATION="Role/RemoveRoleAuthorizationsByIdList";
 //#endregion
 
 //#region UserRole
 export const INSERT_USER_ROLE = "role/AddRoleToUserByArray";
 export const GET_USER_ROLE_LIST = "role/GetUserRoleList";
 export const GET_USER_ROLE_BY_ID = "role/GetUserRoleById";
-export const DELETE_ROLE_USER = "role/RemoveByIdListRoleUser";
+export const DELETE_ROLE_USER = "role/RemoveUserRoleByIdList";
 export const UPDATE_USER_ROLE = "role/UpdateUserRole";
 //#endregion
 

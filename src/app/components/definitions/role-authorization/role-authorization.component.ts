@@ -39,6 +39,7 @@ export class RoleAuthorizationComponent extends BaseComponent
 
   RoleAuthArray: RoleAuthorization[] = [];
   visible: boolean = true;
+  array:RoleAuthorization[]=[];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "roleauthorization",
@@ -346,10 +347,52 @@ export class RoleAuthorizationComponent extends BaseComponent
     );
   }
 
+  deleteRoleAuth(){
+    let selectedItems = this.dataTableRoleAuth.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir kayıt seçiniz"
+      );
+      return;
+    }
+
+      this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+
+        this.baseService.spinner.show();
+  
+        let itemIds: number[] = selectedItems.map(x => x.getId());  
+        this.baseService.roleUserService.DeleteRoleUser(
+          itemIds,
+          () => {
+            this.baseService.spinner.hide();  
+            if (itemIds.length == 1)
+              this.baseService.popupService.ShowAlertPopup(
+                "Kayıt Başarıyla silindi!"
+              );
+            else
+              this.baseService.popupService.ShowAlertPopup(
+                "Tüm kayıtlar başarıyla silindi!"
+              );
+  
+            this.dataTableRoleAuth.TGT_removeItemsByIds(itemIds);
+  
+            this.roleAuthorizations = <RoleAuthorization[]>this.dataTableRoleAuth.TGT_copySource();
+          },
+          (error: HttpErrorResponse) => {
+            this.baseService.spinner.hide();
+  
+            this.baseService.popupService.ShowErrorPopup(error);
+          }
+        );
+      });
+      
+    }  
+
   async onDoubleClickItem(item: RoleAuthorization) {
 
     this.roleAuthorization = new RoleAuthorization();
-
+    this.isWaitingInsertOrUpdate = true;
     this.baseService.spinner.show();
 
     this.loadRole();
@@ -359,6 +402,7 @@ export class RoleAuthorizationComponent extends BaseComponent
       item.RoleId,
       (result: RoleAuthorization[]) => {
         setTimeout(() => {
+          this.isWaitingInsertOrUpdate = false;
           $("#btnEditRoleAuth").trigger("click");
 
           this.baseService.spinner.hide();
@@ -377,7 +421,7 @@ export class RoleAuthorizationComponent extends BaseComponent
   } 
 
   onChange(item){
-    console.log(item.target.value);  
+    if(item.target.value!=0){
     this.baseService.roleAuthorizationService.GetRoleAuthListById(
       item.target.value,
       (result: RoleAuthorization[]) => {
@@ -391,13 +435,17 @@ export class RoleAuthorizationComponent extends BaseComponent
          
         }, 1000);
       }
+      else{       
+        this.dataTableRoleAuth.TGT_loadData(this.array);
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.spinner.hide();
 
         this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+        }
+      );
+    }
   }
 
 }

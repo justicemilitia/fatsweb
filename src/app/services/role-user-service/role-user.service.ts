@@ -156,7 +156,7 @@ export class RoleUserService {
     this.httpclient
       .post(
         SERVICE_URL + DELETE_ROLE_USER,
-        { Ids: ids },
+        { UserRoleIds: ids },
         {
           headers: GET_HEADERS(this.aService.getToken())
         }
@@ -164,7 +164,7 @@ export class RoleUserService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if ((<[]>response.ResultObject).length == 0) {
+          if (response.ResultStatus == true) {
             success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));

@@ -115,7 +115,7 @@ export class RoleService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if ((<[]>response.ResultObject).length == 0) {
+          if (response.ResultStatus==true) {
             success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));

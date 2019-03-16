@@ -8,7 +8,8 @@ import {
   GET_ROLE_AUTHORIZATION_LIST_BY_FIRMID,
   INSERT_ROLE_AUTHORIZATION,
   GET_ROLE_AUTHORIZATION_LIST_BY_ROLEID,
-  UPDATE_ROLE_AUTHORIZATION
+  UPDATE_ROLE_AUTHORIZATION,
+  DELETE_ROLE_AUTHORIZATION
 } from "../../declarations/service-values";
 
 import { Response } from "src/app/models/Response";
@@ -152,7 +153,18 @@ export class RoleAuthorizationService {
       );
   }
 
-  DeleteRoleAuth(){
-
+  DeleteRoleAuth(ids: number[], success, failed){
+    this.httpclient.post(SERVICE_URL+DELETE_ROLE_AUTHORIZATION,{RoleAuthorizationIds:ids},{
+      headers:GET_HEADERS(this.aService.getToken())
+    }).subscribe(result=>{
+      let response:Response=<Response>result;
+      if(response.ResultStatus==true){
+        success(response.ResultObject,response.LanguageKeyword);
+      }else{
+        failed(getAnErrorResponse(response.LanguageKeyword));
+      }
+    },(error:HttpErrorResponse)=>{
+      failed(error);
+    });
   }
 }

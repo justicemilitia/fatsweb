@@ -68,8 +68,6 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     }
   );
 
- 
-
   ngOnInit() {
     this.dropdownSettings = {
       singleSelection: false,
@@ -158,8 +156,6 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     );
   }
 
-
-
   updateUserRole(data: NgForm) {
     if (data.form.invalid == true) return;
 
@@ -194,11 +190,10 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async deleteCompanies() {
-    /* get selected items from table */
+  async deleteRoleUser() {
+
     let selectedItems = this.dataTableUserRole.TGT_getSelectedItems();
 
-    /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir kayıt seçiniz"
@@ -206,22 +201,17 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    /* Show Question Message */
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
-      /* Activate the loading spinner */
+
       this.baseService.spinner.show();
 
-      /* Convert items to ids */
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
-      /* Delete all */
       this.baseService.roleUserService.DeleteRoleUser(
         itemIds,
         () => {
-          /* Deactive the spinner */
           this.baseService.spinner.hide();
 
-          /* if all of them removed */
           if (itemIds.length == 1)
             this.baseService.popupService.ShowAlertPopup(
               "Kayıt Başarıyla silindi!"
@@ -231,17 +221,13 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
               "Tüm kayıtlar başarıyla silindi!"
             );
 
-          /* Clear all the ids from table */
           this.dataTableUserRole.TGT_removeItemsByIds(itemIds);
 
-          /* Get latest companies from table*/
           this.userRoles = <UserRole[]>this.dataTableUserRole.TGT_copySource();
         },
         (error: HttpErrorResponse) => {
-          /* Hide Loading Spinner */
           this.baseService.spinner.hide();
 
-          /* Show error message */
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
