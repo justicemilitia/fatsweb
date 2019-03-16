@@ -25,4 +25,5 @@ export class Role implements IData {
     IsActive: boolean;
     RoleAuthorizations: string; //RoleAuthorization nesnesi gelecek
     UserRoles: string; // UserRole nesnesi gelecek
+
 }

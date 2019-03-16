@@ -1,10 +1,17 @@
-<div class="az-content">  
-  <div class="container-fluid">
-    <div class="az-content-body">
+<div class="az-content az-content-dashboard-four">  
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+      <div class="az-content-breadcrumb">
+          <span>TANIMLAMALAR</span>
+          <span>ROL TANIMLAMA</span>
+          <span>ROLE KULLANICI ATAMA</span>
+      </div>
+    <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
       <h2 class="az-content-title">Rol - Kullanıcı Tanımlama</h2>      
       <div class="grp-btn-action"> 
-          <button type="button" (click)="deleteRoleUser()" class="btn btn-danger btn-delete-custom">
+        <button type="button" (click)="deleteRoleUser()" class="btn btn-danger btn-delete-custom">
               {{dataTableUserRole.TGT_getSelectedItems().length > 0 ? dataTableUserRole.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
         <button id="btnAddUserRole" class="btn btn-orange btn-new-custom" data-toggle="modal"   
@@ -21,7 +28,7 @@
     <!-- az-content-body -->
   </div>
 </div>
-<div class="pd-20 bg-gray-800">
+
   <!-- this modal is static modal for presentation purpose. -->
   <!-- class .d-block annd .pos-relative in .modal is for demo only -->
   <div id="modalUserRoleDefinition" class="modal">
@@ -78,4 +85,3 @@
       <!-- modal-dialog -->
     </div>
   <!-- modal -->
-</div>

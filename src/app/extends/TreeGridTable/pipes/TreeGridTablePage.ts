@@ -3,7 +3,7 @@ import { IData } from '../models/interfaces/IData';
 
 
 
-@Pipe({ name: 'toPage',pure:false })
+@Pipe({ name: 'toPage',pure:true })
 
 export class TreeGridTablePage implements PipeTransform {
 

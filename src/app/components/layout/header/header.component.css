@@ -113,7 +113,7 @@ ul.nav-link-item-ul-sub {
 .az-navbar-two .nav-link {
   text-transform: none;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   flex: 1;
   display: flex;
   align-items: baseline;
@@ -127,3 +127,10 @@ ul.nav-link-item-ul-sub {
   border:none;
 }
 
+.stellarnav li.has-sub>a:after {
+  margin-left: 4px;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  display: inline-block;
+}

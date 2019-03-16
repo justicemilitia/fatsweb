@@ -1,18 +1,15 @@
 <div class="az-signin-wrapper">
   <div class="az-card-signin">
     <div>
-      <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span></h1>
+      <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span>
+        <span class="version">v6.0.100</span>
+      </h1>
       <h2 _ngcontent-c4="" class="az-card-signin-title">Demirbaş Yönetim Sistemi
-        <br>
-          <span class="version">v6.0.100</span>
       </h2>
     </div>
     <div>
-      <h2 style="font-weight: 500;color: #e67300;letter-spacing: -1px;font-family: 'Poppins', sans-serif;">Hoşgeldiniz!
-      </h2>
-      <h4 style="font-weight: 400;color: #212229;margin-bottom: 25px;font-size: 1.08rem;">Devam etmek için giriş
-        yapınız.
-      </h4>
+      <h2 class="welcome-title">Hoşgeldiniz!</h2>
+      <h4 class="login-continue">Devam etmek için girişyapınız.</h4>
     </div>
     <div class="az-signin-header">
       <!-- form-group -->
@@ -46,12 +43,12 @@
           </div>
           <select *ngIf="isUserFirmsGetting == false" name="firmId" [(ngModel)]="loginUser.FirmId"
             class="form-control select2-no-search">
-            <option value="-1">Seçiniz</option>
+            <option value="-1">Şirket Seçiniz</option>
             <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>
           </select>
         </div>
         <div id="WrongPassword" *ngIf="errorMessage != ''" class="alert alert-solid-danger alert-custom" role="alert">
-          {{errorMessage}}
+          <b>Hata! </b>{{errorMessage}}
           <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">×</span></button>
         </div><!-- alert -->

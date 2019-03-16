@@ -9,15 +9,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <!-- azia CSS -->
-  <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="assets/lib/typicons.font/typicons.css" />
   <link rel="stylesheet" href="assets/lib/fontawesome-free/css/all.min.css" />
   <link rel="stylesheet" href="assets/lib/ionicons/css/ionicons.min.css" />
+  <link rel="stylesheet" href="assets/lib/typicons.font/typicons.css" />
+  <link rel="stylesheet" href="assets/lib/flag-icon-css/css/flag-icon.min.css">
   <link rel="stylesheet" href="assets/css/azia.css" />
   <link rel="stylesheet" href="assets/css/stellarnav.min.css" />
-  <link rel="stylesheet" href="assets/css/fats-custom.css" />
   <link rel="stylesheet" href="assets/lib/jquery-ui/jquery-ui.min.css">
-  <!-- <link rel="stylesheet" href="assets/lib/jquery-ui/jquery-ui.min.css" /> -->
+  <link rel="stylesheet" href="assets/css/fats-custom.css" />
 </head>
 
 <body class="az-light az-body">
@@ -25,9 +24,21 @@
 
   <script src="assets/lib/jquery/jquery.min.js"></script>
   <script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/lib/jquery.flot/jquery.flot.js"></script>
+  <script src="assets/lib/jquery.flot/jquery.flot.categories.js"></script>
+  <script src="assets/lib/jquery.flot/jquery.flot.resize.js"></script>
+  <script src="assets/lib/flot.curvedlines/curvedLines.js"></script>
+  <script src="assets/js/azia.js"></script>
+  <script src="assets/js/dashboard.sampledata.js"></script>
+  <script src="assets/js/chart.flot.sampledata.js"></script>
+  <script src="assets/js/dashboard-data.js"></script>
+  
   <script src="assets/js/stellarnav.min.js"></script>
   <script src="assets/lib/jquery-ui/jquery-ui.min.js"></script>
   <script src="assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+  <script src="assets/lib/jquery-steps/jquery.steps.min.js"></script>
+  <script src="assets/lib/parsleyjs/parsley.min.js"></script>
+
   <script type="text/javascript">
     /* On page load we re init navbar */
     $("body").on("click", ".az-navbar-two", function () {
@@ -57,6 +68,58 @@
 
     });
   </script>
+    <script>
+      $(function(){
+        'use strict'
+
+        $('#wizard1').steps({
+          headerTag: 'h3',
+          bodyTag: 'section',
+          autoFocus: true,
+          titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>'
+        });
+
+        $('#wizard2').steps({
+          headerTag: 'h3',
+          bodyTag: 'section',
+          autoFocus: true,
+          titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+          onStepChanging: function (event, currentIndex, newIndex) {
+            if(currentIndex < newIndex) {
+              // Step 1 form validation
+              if(currentIndex === 0) {
+                var fname = $('#firstname').parsley();
+                var lname = $('#lastname').parsley();
+
+                if(fname.isValid() && lname.isValid()) {
+                  return true;
+                } else {
+                  fname.validate();
+                  lname.validate();
+                }
+              }
+
+              // Step 2 form validation
+              if(currentIndex === 1) {
+                var email = $('#email').parsley();
+                if(email.isValid()) {
+                  return true;
+                } else { email.validate(); }
+              }
+            // Always allow step back to the previous step even if the current step is not valid.
+            } else { return true; }
+          }
+        });
+
+        $('#wizard3').steps({
+          headerTag: 'h3',
+          bodyTag: 'section',
+          autoFocus: true,
+          titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+          stepsOrientation: 1
+        });
+      });
+    </script>
 </body>
 
 </html>

@@ -11,20 +11,19 @@ import {
   DELETE_COMPANY
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
-import { AuthenticationService } from '../authenticationService/authentication.service';
-import { ErrorService } from '../error-service/error.service';
-import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { AuthenticationService } from "../authenticationService/authentication.service";
+import { ErrorService } from "../error-service/error.service";
+import { getAnErrorResponse } from "src/app/declarations/extends";
 
 @Injectable({
   providedIn: "root"
 })
 export class CompanyService {
-
   constructor(
     private httpclient: HttpClient,
     private authenticationService: AuthenticationService,
     private errorService: ErrorService
-  ) { }
+  ) {}
 
   GetCompanies(success, failed) {
     this.httpclient
@@ -53,40 +52,45 @@ export class CompanyService {
   }
 
   InsertCompany(company: Company, success, failed) {
-    this.httpclient.post(SERVICE_URL + INSERT_COMPANY, company, {
-      headers: GET_HEADERS(this.authenticationService.getToken())
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let insertedCompany: Company = new Company();
-          Object.assign(insertedCompany, response.ResultObject);
-          success(insertedCompany, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+    this.httpclient
+      .post(SERVICE_URL + INSERT_COMPANY, company, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedCompany: Company = new Company();
+            Object.assign(insertedCompany, response.ResultObject);
+            success(insertedCompany, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      },
-      error => {
-        failed(error);
-      });
+      );
   }
 
   UpdateCompany(company: Company, success, failed) {
-    this.httpclient.put(SERVICE_URL + UPDATE_COMPANY, company, {
-      headers: GET_HEADERS(this.authenticationService.getToken())
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          success(company, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+    this.httpclient
+      .put(SERVICE_URL + UPDATE_COMPANY, company, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(company, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      },
-      error => {
-        failed(error);
-      }
-    );
+      );
   }
 
   GetCompanyById(companyId: number, success, failed) {
@@ -94,33 +98,42 @@ export class CompanyService {
       .get(SERVICE_URL + GET_COMPANY_BY_ID + "/" + companyId, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
-      .subscribe(result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          success(response.ResultObject, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      }, error => {
-        failed(error);
-      });
+      );
   }
 
   DeleteCompanies(ids: number[], success, failed) {
-    this.httpclient.post(SERVICE_URL + DELETE_COMPANY, { "CompanyIds": ids }, {
-      headers: GET_HEADERS(this.authenticationService.getToken()),
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if ((<[]>response.ResultObject).length == 0) {
-          success(response.ResultObject, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+    this.httpclient
+      .post(
+        SERVICE_URL + DELETE_COMPANY,
+        { CompanyIds: ids },
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
         }
-      },
-      (error: HttpErrorResponse) => {
-        failed(error);
-      });
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if ((<[]>response.ResultObject).length == 0) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
   }
-
 }

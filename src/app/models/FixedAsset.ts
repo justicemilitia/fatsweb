@@ -1,25 +1,85 @@
-import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+import { IData } from "../extends/TreeGridTable/models/interfaces/IData";
+import { ExpenseCenter } from "./ExpenseCenter";
+import { FixedAssetCard } from "./FixedAssetCard";
+import { FixedAssetCardModel } from "./FixedAssetCardModel";
+import { FixedAssetCardCategory } from './FixedAssetCardCategory';
+import { FixedAssetCardBrand } from './FixedAssetCardBrand';
+import { FixedAssetStatus } from './FixedAssetStatus';
+import { Department } from './Department';
+import { Currency } from './Currency';
 
 export class FixedAsset implements IData {
-    getParentId(): number {
-        throw new Error("Method not implemented.");
-    }
-    getChildren(): IData[] {
-        throw new Error("Method not implemented.");
-    }
-    getId(): number {
-        throw new Error("Method not implemented.");
-    }
-    childIndex: number;
-    isExtended: boolean;
-    isChecked: boolean;
-    isVisible: boolean;
+  getParentId(): number {
+    return null;
+  }
+  getChildren(): IData[] {
+    return [];
+  }
+  getId(): number {
+    return this.FixedAssetId;
+  }
+  childIndex: number;
+  isExtended: boolean;
+  isChecked: boolean;
+  isVisible: boolean;
 
-    FixedAssetId:number;
-    FixedAssetParentId: number;
-    FixedAssetCardCategoryId: number;
-    Barcode: string;
-    SerialNumber: string;
+  FixedAssetId: number;
+  FixedAssetParentId: number;
+  FixedAssetCardCategoryId: number;
+  Barcode: string;
+  SerialNumber: string;
+  LocationId:number;
+  DepartmentId: number;
+  FixedAssetCardId: number;
+  FixedAssetCardModelId: number;
+  FixedAssetCardBrandId: number;
+  StatusId: number;
+  FirmId: number;
+  CompanyId:number;
+  Price: string;
+  HasMaintanence: boolean;
+  ReceiptDate: Date;
+  CurrencyId: number;
+  ExpenseCenterId: number;
+  InvoiceNo: string;
+  InvoiceDate: Date;
+  WillDepreciationBeCalculated: boolean;
+  DepreciationCalculationTypeID: number;
+  DepreciationPeriod: number;
+  Ifrsprice: number;
+  WillIfrsbeCalculated: boolean;
+  Ifrsperiod: number;
+  HasInflationIndexation: boolean;
+  GuaranteeStartDate: Date;
+  GuaranteeEndDate: Date;
+  ActivationDate: Date;
+  CreationDate: Date;
+  CreatorId: number;
+  ModifiedDate: Date;
+  ModifierId: number;
+  IsSuspended: boolean;
+  IsLost: boolean;
+  IsActive: boolean;
+  IsValid: boolean;
+  Currency: Currency;
+  Department:Department;
+  Location:Location;
+  ExpenseCenter: ExpenseCenter;
+  FixedAssetCard: FixedAssetCard;
+  FixedAssetCardModel: FixedAssetCardModel;
+  FixedAssetCardCategory:FixedAssetCardCategory;
+  FixedAssetCardBrand:FixedAssetCardBrand;
+  FixedAssetStatus:FixedAssetStatus;
+  
+constructor() {
+  this.FixedAssetCard = new FixedAssetCard();
+  this.FixedAssetCardBrand = new FixedAssetCardBrand();
+  this.FixedAssetCardModel = new FixedAssetCardModel();
+  this.FixedAssetStatus = new FixedAssetStatus();
+  this.ExpenseCenter = new ExpenseCenter();
+  this.FixedAssetCardCategory = new FixedAssetCardCategory();
 
+  this.Currency=new Currency();
+}
 
 }

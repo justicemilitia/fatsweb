@@ -1,21 +1,32 @@
-<div class="az-content">
-  <div class="container-fluid">
-    <div class="az-content-body">
+<div class="az-content az-content-dashboard-four">
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+        <div class="az-content-breadcrumb">
+            <span>TANIMLAMALAR</span>
+            <span>ŞİRKETLER</span>
+        </div>
+      <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
+        <div class="card-header">
         <h2 class="az-content-title">Şirketler</h2>
         <div class="grp-btn-action">
           <button type="button" (click)="deleteCompanies()" class="btn btn-danger btn-delete-custom">
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
-          <button class="btn btn-orange btn-new-custom" (click)="resetForm(data,true)" id="btnAddCompany"
-            data-toggle="modal" data-target="#modalCompany">Şirket Ekle
+          <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddCompany"
+            data-toggle="modal" data-target="#modalCompany">
+            <i class="fa fa-plus-circle fa-plus-circle-add"></i>
+            Şirket Ekle
           </button>
           <button style="display:none" (click)="resetForm(data,false)" id="btnEditCompany" data-toggle="modal"
             data-target="#modalCompany">Şirket Düzenle
           </button>
         </div>
-        <p class="mg-b-20"></p>
+      </div>
+        <div class="sales-overview">
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        </div>
       </div>
     </div>
     <!-- az-content-body -->
@@ -24,8 +35,8 @@
 <!-- az-content -->
 
 <!-- LARGE MODAL -->
-<div id="modalCompany" class="modal">
-  <div class="modal-dialog" role="document">
+<div id="modalCompany" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title">Şirket bilgilerini giriniz.</h6>
@@ -35,15 +46,27 @@
       </div>
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
         <div class="modal-body">
-          <div class="row justify-content-center">
             <input type="hidden" name="CompanyId" [(ngModel)]="company.CompanyId" />
+          <div class="row justify-content-center">
+              <div class="form-group col-md-6">
+                <label>Şirket Kodu</label>
+                <input [(ngModel)]="company.CompanyCode" name="CompanyCode" type="text" class="form-control" #CompanyCode="ngModel"
+                  [ngClass]="{ 'is-invalid': data.submitted && CompanyCode.invalid }" required />
+                <div *ngIf="data.submitted && CompanyCode.invalid" class="invalid-feedback">
+                  <div *ngIf="CompanyCode.errors.required">Bu alan zorunludur.</div>
+                </div>
+              </div>
             <div class="form-group col-md-6">
-              <label class="required-span">Ad</label>
+                <label>Şirket Adı</label>
               <input [(ngModel)]="company.Name" name="Name" type="text" class="form-control" #Name="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
               </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
               <label>E-posta</label>
               <input [(ngModel)]="company.Email" name="Email" type="email" #Email="ngModel" class="form-control" email
                 [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" />
@@ -51,22 +74,19 @@
                 <div *ngIf="Email.errors.email">Lütfen Geçerli Eposta Giriniz.</div>
               </div>
             </div>
-            <div class="form-group col-md-6">
-              <label class="required-span">Adres</label>
-              <textarea type="text" [(ngModel)]="company.Address" name="Address" #Address="ngModel" style="resize:none"
-                rows="3" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && Address.invalid }"
-                required></textarea>
-              <div *ngIf="data.submitted && Address.invalid" class="invalid-feedback">
-                <div *ngIf="Address.errors.required">Bu alan zorunludur.</div>
+          </div>
+          <div class="row justify-content-center">
+              <div class="form-group col-md-6">
+                  <label>Vergi Dairesi</label>
+                <input [(ngModel)]="company.TaxOffice" name="TaxOffice" type="text" class="form-control" />
               </div>
+            <div class="form-group col-md-6">
+                <label>Vergi Numarası</label>
+                <input [(ngModel)]="company.TaxNumber" name="TaxNumber" type="text" class="form-control" />
             </div>
           </div>
           <div class="row justify-content-center">
-            <div class="form-group col-md-6">
-              <label>Vergi Numarası</label>
-              <input [(ngModel)]="company.TaxNumber" name="TaxNumber" type="text" class="form-control" />
-            </div>
-            <div class="form-group col-md-6">
+              <div class="form-group col-md-6">
               <label>Ülke</label>
               <select [(ngModel)]="company.City.CountryId" [attr.disabled]="countries.length > 0 ? null :'disabled'"
                 (click)="loadCountryList()" (change)="loadCityByCountryId($event)" name="CountryId"
@@ -74,43 +94,56 @@
                 <option value=" ">Yok</option>
                 <option *ngFor="let country of countries" value="{{country.CountryId}}">{{country.Name}}</option>
               </select>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="form-group col-md-6">
-              <label>Vergi Dairesi</label>
-              <input [(ngModel)]="company.TaxOffice" name="TaxOffice" type="text" class="form-control" />
-            </div>
-            <div class="form-group col-md-6">
-              <label>Şehir</label>
-              <select [(ngModel)]="company.CityId" [attr.disabled]="cities.length > 0 ? null :'disabled'" name="CityId"
-                class="form-control select2-no-search">
-                <option value=" ">Yok</option>
-                <option *ngFor="let city of cities" value="{{city.CityId}}">{{city.Name}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="form-group col-md-6">
-              <label class="required-span">Telefon</label>
-              <input [(ngModel)]="company.Phone" name="Phone" #Phone="ngModel" type="text" class="form-control"
-                [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" required />
-              <div *ngIf="data.submitted && Phone.invalid" class="invalid-feedback">
-                <div *ngIf="Phone.errors.required">Bu alan zorunludur.</div>
               </div>
-              <label>Faks</label>
-              <input [(ngModel)]="company.SecondPhone" name="SecondPhone" type="text" class="form-control" />
+              <div class="form-group col-md-6">
+                <label>Şehir</label>
+                <select [(ngModel)]="company.CityId" [attr.disabled]="cities.length > 0 ? null :'disabled'" name="CityId"
+                  class="form-control select2-no-search">
+                  <option value=" ">Yok</option>
+                  <option *ngFor="let city of cities" value="{{city.CityId}}">{{city.Name}}</option>
+                </select>
+              </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <div class="row justify-content-center">
+                  <div class="form-group col-md-12">
+                  <label class="required-span">Telefon</label>
+                  <input [(ngModel)]="company.Phone" name="Phone" #Phone="ngModel" type="text" class="form-control"
+                    [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" required />
+                  <div *ngIf="data.submitted && Phone.invalid" class="invalid-feedback">
+                    <div *ngIf="Phone.errors.required">Bu alan zorunludur.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                  <div class="form-group col-md-12">
+                    <label>Faks</label>
+                    <input [(ngModel)]="company.SecondPhone" name="SecondPhone" type="text" class="form-control" />
+                </div>
+            </div>
             </div>
             <div class="form-group col-md-6">
-              <label>Açıklama</label>
-              <textarea [(ngModel)]="company.Description" name="Description" style="resize:none" rows="3"
-                class="form-control" type="text"></textarea>
-            </div>
+                <label class="required-span">Adres</label>
+                <textarea type="text" [(ngModel)]="company.Address" name="Address" #Address="ngModel" style="resize:none;height: 80px;"
+                  rows="3" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && Address.invalid }"
+                  required></textarea>
+                <div *ngIf="data.submitted && Address.invalid" class="invalid-feedback">
+                  <div *ngIf="Address.errors.required">Bu alan zorunludur.</div>
+                </div>
+              </div>
           </div>
+          <div class="row justify-content-center">
+              <div class="form-group col-md-12">
+                  <label>Açıklama</label>
+                  <input [(ngModel)]="company.Description" name="Description"
+                    class="form-control" type="text"/>
+                </div>
+            </div>
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-orange btn-block btn-height"
+          <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-az-primary"
             data-toggle="modal" *ngIf="isWaitingInsertOrUpdate == false"
             data-target="#modalInsertCompany">{{company.CompanyId ? 'Şirketi Güncelle' : 'Şirket Ekle'}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

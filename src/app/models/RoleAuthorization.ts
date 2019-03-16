@@ -18,14 +18,19 @@ export default class RoleAuthorization implements IData{
   isVisible: boolean;
   UserId: number;
   RoleId: number;
+  
   RoleAuthorizationId:number;
-  OutBrowse: boolean;
-  OutUpdate: boolean;
-  OutInsert: boolean;
-  OutDelete: boolean;
+  OutBrowse: boolean=false;
+  OutUpdate: boolean=false;
+  OutInsert: boolean=false;
+  OutDelete: boolean=false;
   FirmId: number;
   MenuId: number;
   MenuCaption:string;
   Role:Role;
   Menu:Menu;
+
+  constructor(){  
+    this.Role=new Role();
+  }
 }

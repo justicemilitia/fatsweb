@@ -1,3 +1,93 @@
-<p>
-  fa-create works!
-</p>
+
+<div id="modalFixedAsset" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Demirbaş bilgilerini giriniz.</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="wizard2">
+        <h3>Demirbaş Genel Bilgileri</h3>
+        <section>
+          <p class="mg-b-20">Demirbaş Genel Bilgileri</p>
+          <div class="row justify-content-center">
+            <input type="hidden" name="FixedAssetId" [(ngModel)]="fixedAsset.FixedAssetId" />
+            <div class="form-group col-md-6">
+              <label>Barkod</label>
+              <input type="checkbox"/>
+              <input type="text"/>       
+              <label>Adet</label>
+              <input type="text"/>  
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option >Şirket</option>
+              </select>
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option >Tedarikçi</option>
+              </select>  
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option >Departman</option>
+              </select> 
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option >Lokasyon</option>
+              </select>
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option >Demirbaş Statü</option>
+              </select>     
+            </div>
+            <div class="form-group col-md-6">
+              <input type="text"/>
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option >Marka</option>
+              </select> 
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option>Model</option>
+              </select> 
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option>Kategori</option>
+              </select> 
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option>Demirbaş Kartı</option>
+              </select> 
+              <select>
+                <option value="-1" >Seçiniz</option>
+                <option>Zimmetlenecek Personel</option>
+              </select> 
+            </div>
+          </div>
+        </section>
+
+        <h3>Demirbaş Özellikleri</h3>
+        <section>
+            <p>Demirbaş özelliklerini giriniz.</p>
+        </section>
+
+        <h3>Demirbaş Finansal Bilgileri</h3>
+        <section>
+          <p>Demirbaş finansal bilgilerini giriniz.</p>
+        </section>
+
+        <h3>Dosya Yükleme</h3>
+        <section>
+          <p>Demirbaşa ait dosyaları yükleyiniz.</p>          
+        </section>
+
+        <h3>Demirbaş Listesi</h3>
+        <section>
+          <p>Yeni eklenecek demirbaş listesi</p>          
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>

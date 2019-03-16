@@ -10,6 +10,7 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { User } from "src/app/models/User";
 import * as $ from "jquery";
 import { BaseComponent } from "../../base/base.component";
+import RoleAuthorization from 'src/app/models/RoleAuthorization';
 
 @Component({
   selector: "app-rol-user",
@@ -21,12 +22,19 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
 
   userRoles: UserRole[] = [];
   userRole: UserRole = new UserRole();
+
   roles: Role[] = [];
   role: Role = new Role();
+
   systemUsers = [];
+  selectedUser: User[] = [];
+  dropdownSettings = {};
+  visible: boolean = true;
 
   constructor(protected baseService: BaseService) {
+
     super(baseService);
+    
     this.loadUserRole();
     this.loadSystemUser();
     this.loadRoles();
@@ -59,10 +67,6 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       column: ["Role", "Name"]
     }
   );
-
-  selectedUser: User[] = [];
-  dropdownSettings = {};
-  visible: boolean = true;
 
   ngOnInit() {
     this.dropdownSettings = {
@@ -186,11 +190,10 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async deleteCompanies() {
-    /* get selected items from table */
+  async deleteRoleUser() {
+
     let selectedItems = this.dataTableUserRole.TGT_getSelectedItems();
 
-    /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir kayıt seçiniz"
@@ -198,22 +201,17 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    /* Show Question Message */
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
-      /* Activate the loading spinner */
+
       this.baseService.spinner.show();
 
-      /* Convert items to ids */
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
-      /* Delete all */
       this.baseService.roleUserService.DeleteRoleUser(
         itemIds,
         () => {
-          /* Deactive the spinner */
           this.baseService.spinner.hide();
 
-          /* if all of them removed */
           if (itemIds.length == 1)
             this.baseService.popupService.ShowAlertPopup(
               "Kayıt Başarıyla silindi!"
@@ -223,17 +221,13 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
               "Tüm kayıtlar başarıyla silindi!"
             );
 
-          /* Clear all the ids from table */
           this.dataTableUserRole.TGT_removeItemsByIds(itemIds);
 
-          /* Get latest companies from table*/
           this.userRoles = <UserRole[]>this.dataTableUserRole.TGT_copySource();
         },
         (error: HttpErrorResponse) => {
-          /* Hide Loading Spinner */
           this.baseService.spinner.hide();
 
-          /* Show error message */
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
