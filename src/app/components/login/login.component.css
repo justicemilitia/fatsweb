@@ -30,7 +30,7 @@ color: white;
 }
 
 .az-card-signin {
-    height: 600px;
+    height: 560px;
     box-shadow:none;
     margin-bottom: 15px
 }
@@ -89,7 +89,8 @@ color: white;
 .form-group > select {
     height: 38px;
     font-size: 13px;
-    padding-top: 3px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .loader {
@@ -226,6 +227,6 @@ color: white;
 .login-continue {
     font-weight: 400;
     color: #212229;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     font-size: 19.5px;
 }

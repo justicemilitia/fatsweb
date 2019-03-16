@@ -41,6 +41,14 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     "company",
     [
       {
+        columnDisplayName: "Şirket Kodu",
+        columnName: ["CompanyCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
         columnDisplayName: "Şirket Adı",
         columnName: ["Name"],
         isActive: true,

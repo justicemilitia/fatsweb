@@ -17,13 +17,14 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadValues();
     setInterval(() => {
       this.loadValues();
     },60 * 1000)
   }
 
 
-  loadValues() {
+  async loadValues() {
     this.baseService.dashboardService.GetDashboardValues((result) => {
       this.assetValues = <vDashboardFixedAssets>result;
     },(result) => {
