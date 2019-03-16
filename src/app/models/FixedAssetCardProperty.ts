@@ -1,9 +1,6 @@
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { FixedAssetCardPropertyValue } from './FixedAssetCardPropertyValue';
-<<<<<<< HEAD
 import { FixedAssetCardPropertyType } from './FixedAssetCardPropertyType';
-=======
->>>>>>> 2b1574ad456b40f5cc8251865cb77f4b720cbb1b
 
 export class FixedAssetCardProperty implements IData {
     getParentId(): number {
