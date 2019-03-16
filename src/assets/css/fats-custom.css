@@ -386,3 +386,8 @@ button.btn:first-child {
 .modal-header .modal-title {
     margin-left: 10px;
 }
+
+.media-body {
+    width: 100%;
+    overflow-x: auto;
+}

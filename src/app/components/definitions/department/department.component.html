@@ -1,20 +1,32 @@
-<div class="az-content">
-  <div class="container-fluid">
-    <div class="az-content-body">
+<div class="az-content az-content-dashboard-four">
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+      <div class="az-content-breadcrumb">
+          <span>TANIMLAMALAR</span>
+          <span>DEPARTMANLAR</span>
+      </div>
       <div class="card card-dashboard-twelve mg-b-20">
+          <div class="card-header">
         <h2 class="az-content-title">Departmanlar</h2>
         <div class="grp-btn-action">
           <button type="button" (click)="deleteDepartments()" class="btn btn-danger btn-delete-custom">
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
             <i class="fas fa-trash"></i></button>
-          <button class="btn btn-orange btn-new-custom" id="btnAddDepartment" data-toggle="modal"
-            data-target="#modalDepartment" (click)="resetForm(data,true)">Departman Ekle</button>
+          <button class="btn btn-az-primary" id="btnAddDepartment" data-toggle="modal"
+            data-target="#modalDepartment" (click)="resetForm(data,true)">
+            <i class="fa fa-plus-circle fa-plus-circle-add"></i>
+            Departman Ekle
+          </button>
           <button style="display:none" (click)="resetForm(data,false)" id="btnEditDepartment" data-toggle="modal"
             data-target="#modalDepartment">Departman Düzenle
           </button>
         </div>
+        </div>
         <p class="mg-b-20"></p>
+        <div class="sales-overview">
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        </div>
       </div>
     </div>
     <!-- az-content-body -->
@@ -23,8 +35,8 @@
 <!-- az-content -->
 
 <!-- LARGE MODAL -->
-<div id="modalDepartment" class="modal">
-  <div class="modal-dialog" role="document">
+<div id="modalDepartment" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title model-title-center">Departman bilgilerini giriniz.</h6>
@@ -92,7 +104,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateDepartment" type="submit" class="btn btn-orange btn-block btn-height"
+          <button id="btnInsertOrUpdateDepartment" type="submit" class="btn btn-az-primary"
             *ngIf="isWaitingInsertOrUpdate == false" data-toggle="modal"
             data-target="#modalInsertDepartment">{{department.DepartmentId ?  'Departmanı Güncelle' : 'Departman Ekle'}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

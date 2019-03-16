@@ -416,6 +416,12 @@ export class TreeGridTable {
 
     }
 
+    public TGT_getItemParentIds(data:IData):boolean {
+        return true;
+        //this.
+
+    }
+
     /**
      * Binds the active columns to active columns array.
      */
