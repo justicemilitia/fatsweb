@@ -27,4 +27,10 @@
   flex-direction: row;
   display: flex;
   justify-content: flex-start;
+  padding-bottom:10px;
+}
+.table-scroll{
+height: 50px;
+overscroll-behavior-y: contain;
+overflow-y: scroll;
 }

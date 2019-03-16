@@ -64,46 +64,74 @@
             </div>
             
             <!-- ÖZELLİK TİPİ -->
-            <div class="row justify-content-center">
-              <div class="form-group col-md-12">
-                <label>Özellik Tipi</label>
-                <select [(ngModel)]="fixedAssetCardProperty.FixedAssetCardPropertyTypeId"
-                  name="FixedAssetCardPropertyTypeId" class="form-control" (click)="getFixedAssetPropertyTypeValue()">
-                  <option value="">Yok</option>
-                  <option *ngFor="let fixedAssetCardPropertyType of fixedAssetCardPropertyTypes"
-                    value={{fixedAssetCardPropertyType.FixedAssetCardPropertyId}}>
+            <!-- <div class="row justify-content-center"> -->
+              <div class="form-group">
+              <label class="required-span">Özellik Tipi</label>                
+               <div class="row">  
+                <div class="col-md-12 flexProperty">                                                 
+                 <div style="flex:1;">              
+                  <select [(ngModel)]="fixedAssetCardProperty.FixedAssetTypeId"
+                    name="FixedAssetTypeId" class="form-control txt-width" 
+                    #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetTypeId.invalid }" required 
+                    (change)="changeValue($event, fixedAssetCardProperty)">
+                    <option>Yok</option>
+                    <option *ngFor="let fixedAssetCardPropertyType of fixedAssetCardPropertyTypes"
+                    value={{fixedAssetCardPropertyType.FixedAssetPropertyTypeId}}>
                     {{fixedAssetCardPropertyType.Name}}
-                  </option>
-                </select>
-              </div>
+                    </option>
+                  </select>
+                  <div *ngIf="data.submitted && FixedAssetTypeId.invalid" class="invalid-feedback">
+                      <div *ngIf="FixedAssetTypeId.errors.required">Bu alan zorunludur.</div>
+                    </div>
+                 </div>
+                 
+                  <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
+                      <label class="ckbox">
+                        <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique"
+                          name="IsUnique" /><span>Tekil mi?</span>
+                      </label>
+                  </div>
+             </div>
             </div>
+           </div>
+
+            <!-- </div> -->
 
             <!-- TEKİL Mİ -->
-            <div class="row justify-content-center">
+            <!-- <div class="row justify-content-center">
                 <div class="form-group col-md-12">
                     <label class="ckbox">
                       <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique"
                         name="IsUnique" /><span>Tekil mi?</span>
                     </label>
                 </div>
-              </div>
+              </div> -->
 
             <!-- ÖZELLİK DEĞERİ -->
-            <div class="row justify-content-center">
-                <div class="form-group col-md-12">
-                  <div class="form-group">
-                    <label>Değeri</label>
-                    <input [(ngModel)]="fixedAssetCardProperty.Value" name="Value" class="form-control txt-width"
-                      type="text">
-                  </div>
-                  <div>
-                    <span _ngcontent-c5="" class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValue()"></span>
-                  </div>
-                </div>
+                <div class="form-group" *ngIf="isListSelected == true">
+                    <label class="required-span">Değeri</label>
+                    <div class="row">
+                  <div class="col-md-12 flexProperty">                    
+                    <div style="flex:1;">
+                    <input #Value name="Value" class="form-control txt-width" type="text"
+                    [ngClass]="{ 'is-invalid': data.submitted && Value.invalid }" required>
+                    </div>
+                    <div *ngIf="data.submitted && Value.invalid" class="invalid-feedback">
+                      <div *ngIf="Value.errors.required">Bu alan zorunludur.</div>
+                    </div>
+                    <div style="width:30px; padding-left:12px;">                    
+                      <span _ngcontent-c5="" class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(Value)"></span>
+                  </div>    
+                 </div>                  
+                </div>                  
               </div>
-              <!-- *ngIf="isCombo == true" -->
-          <tree-grid-table  [dataTable]="dataTablePropertyValue"></tree-grid-table>
+
+          <!-- ÖZELLİK DEĞERLERİ TABLOSU -->
+          <!-- <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table> -->
+          <div><tree-grid-table class="table-scroll" *ngIf="isListSelected == true" [dataTable]="dataTablePropertyValue"></tree-grid-table>
           </div>
+        
+        </div>
 
           <!-- modal-body -->
           <div class="modal-footer">

@@ -7,7 +7,8 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import * as $ from "jquery";
 import { FixedAssetCardPropertyType } from "../../../models/FixedAssetCardPropertyType";
-import { FixedAssetCardPropertyValue } from 'src/app/models/FixedAssetCardPropertyValue';
+import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
+import { PropertyValueTypes } from "../../../declarations/property-value-types.enum";
 
 @Component({
   selector: "app-fixed-asset-card-property",
@@ -30,13 +31,17 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   /* Store Fixed Card Property Types */
   fixedAssetCardPropertyTypes: FixedAssetCardPropertyType[] = [];
 
-    /* Store Fixed Card Property Types */
-    fixedAssetCardPropertyValues: FixedAssetCardPropertyValue[] = [];
+  /* Store Fixed Card Property Types */
+  fixedAssetCardPropertyValues: FixedAssetCardPropertyValue[] = [];
+  fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
 
   /* Current Fixed Asset Card Property */
   fixedAssetCardProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
-  
-  isCombo: boolean;
+
+  /* "Liste" option selected, or not */
+  isListSelected: boolean;
+  // fixedAssetCardPropertyValues: string[]=[];
+  id: number;
 
   /* Data Table */
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -85,17 +90,17 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     ],
     {
       isDesc: false,
-      column: ["Name"]
+      column: ["FixedAssetPropertyValues", "Value"]
     }
   );
 
-   /* Fixed Asset Card Property Value Data Table */
-   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
+  /* Fixed Asset Card Property Value Data Table */
+  public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetcardpropertyvalue",
     [
       {
         columnDisplayName: "Özellik Değeri",
-        columnName: ["Name"],
+        columnName: ["Value"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -104,7 +109,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     ],
     {
       isDesc: false,
-      column: ["Name"]
+      column: ["Value"]
     }
   );
 
@@ -117,6 +122,8 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
+    this.dataTablePropertyValue.isMultipleSelectedActive = false;
+    this.dataTablePropertyValue.isLoading = false;
   }
 
   ngOnInit() {}
@@ -127,6 +134,10 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     if (isNewItem == true) {
       this.fixedAssetCardProperty = new FixedAssetCardProperty();
     }
+  }
+
+  clearPropertValue() {
+    this.fixedAssetCardProperty.FixedAssetPropertyValues = null;
   }
 
   onSubmit(data: NgForm) {
@@ -201,6 +212,8 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     /* Close waiting loader */
     this.isWaitingInsertOrUpdate = true;
 
+    this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
+
     /* Insert Fixed Asset Card Property */
     await this.baseService.fixedAssetCardPropertyService.InsertFixedAssetCardProperty(
       this.fixedAssetCardProperty,
@@ -233,11 +246,6 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
       }
     );
   }
-
-  async insertPropertyValue()
-  {
-    
-  } 
 
   async updateFixedAssetCardProperty(data: NgForm) {
     /* Check model state */
@@ -285,6 +293,37 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     );
   }
 
+  async onDoubleClickItem(item: FixedAssetCardProperty) {
+    /* Show spinner for loading */
+    this.baseService.spinner.show();
+
+    /* load property types if not loaded */
+    await this.loadFixedAssetCardPropertyTypes();
+
+    /* get agreement information from server */
+    await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardPropertyById(
+      item.FixedAssetCardPropertyId,
+      (result: FixedAssetCardProperty) => {
+        /* then bind it to fixed asset card property model to update */
+        setTimeout(() => {
+          /* Trigger to model to show it */
+          $("#btnAddFixedAssetCardProperty").trigger("click");
+
+          /* bind result to model */
+          this.fixedAssetCardProperty = result;
+          this.baseService.spinner.hide();
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        /* hide spinner */
+        this.baseService.spinner.hide();
+
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
   async loadFixedAssetCardProperties() {
     /* Load all fixed asset card properties to datatable */
     await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
@@ -302,23 +341,14 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     );
   }
 
-  async loadFixedAssetCardPropertyValues() {
-    /* Load all fixed asset card property values to datatable */
-    await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardPropertyValues(
-      (fixedAssetCardPropertyValues: FixedAssetCardPropertyValue[]) => {
-        /* Bind Fixed Properties to model */
-        this.fixedAssetCardPropertyValues = fixedAssetCardPropertyValues;
-
-        /* Load data to table */
-        this.dataTable.TGT_loadData(this.fixedAssetCardPropertyValues);
-      },
-      (error: HttpErrorResponse) => {
-        /* if error show pop up */
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+  async insertPropertyValueToArray(value: any) {
+    this.fixedAssetCardPropertyValue.Value = value.value;
+    this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId =
+      this.fixedAssetCardPropertyValues.length + 1;
+    this.fixedAssetCardPropertyValues.push(this.fixedAssetCardPropertyValue);
+    this.dataTablePropertyValue.TGT_loadData(this.fixedAssetCardPropertyValues);
+    this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
   }
-
 
   async loadFixedAssetCardPropertyTypes() {
     await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardPropertyTypes(
@@ -332,8 +362,9 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     );
   }
 
-  getFixedAssetPropertyTypeValue(){
-    if(this.fixedAssetCardProperty.FixedAssetCardPropertyTypeId==1) return true;
-    return false;
+  changeValue(event) {
+    if (event.target.value == PropertyValueTypes.Liste.toLocaleString())
+      this.isListSelected = true;
+    else this.isListSelected = false;
   }
 }
