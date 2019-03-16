@@ -6,7 +6,7 @@
       <div class="row">      
         <div class="grp-btn-action" style="
         height: 10px"> 
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş Girişi"><i class="typcn typcn-folder"></i></button>
+        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="modal" data-target="#modalOperation" title="Demirbaş Girişi"><i class="typcn typcn-folder"></i></button>
         
         <button class="btn btn-danger btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş Çıkışı"><i class="typcn typcn-folder"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş İlişkiendir"><i class="typcn typcn-folder"></i></button>
@@ -39,6 +39,22 @@
     <!-- az-content-body -->
   </div>
 </div>
+<app-fa-create></app-fa-create>
 <div class="pd-20 bg-gray-800">
-    
+    <div id="modalOperation" class="modal" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+              <h6 class="modal-title"></h6>
+              <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+      
+        </div>
+          </div>
+        </div>
+        <!-- modal-dialog -->
+      </div>
 </div>
