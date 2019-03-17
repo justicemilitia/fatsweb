@@ -121,6 +121,7 @@ select option:hover {
 
 .tree-table>thead>th:first-child  {
     padding-right: 0;
+    padding-left:10px;
 }
 
 .tree-table>thead>th span {
@@ -162,7 +163,6 @@ select option:hover {
     border-right: 0;
     font-size: 0.8125rem;
     padding:5px;   
-    padding-left:9px;
 }
 
 .tree-table-body-tr-td-empty {
@@ -174,7 +174,7 @@ select option:hover {
 .tree-table-body-tr-th-empty {
     padding: 0;
     width: 30px;
-    padding-left:12px !important;
+    padding-left:9px;
 }
 
 .tree-table-body-filter-tr > td {
@@ -186,10 +186,11 @@ select option:hover {
 .tree-table-body-filter-tr > td > input {
     border:none;
     height: 23px;
+    min-height:30px;
 }
 
 tr.tree-table-body-filter-tr:first-child td:first-child {
-    padding-left: 9px !important;
+    padding-left: 6px !important;
 }
 
 .tree-table-sign {
@@ -450,4 +451,9 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
 
 :host {
     width: 100%;
+}
+
+
+.table-info-without-margin {
+    margin-left:0;
 }

@@ -1,6 +1,6 @@
-<div class="az-content az-content-dashboard-four">  
-  <div class="media media-dashboard">
-    <div class="media-body">
+<div class="az-content az-content-dashboard-four">
+    <div class="media media-dashboard">
+      <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
           <span>TANIMLAMALAR</span>
@@ -9,20 +9,25 @@
       </div>
     <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
-      <h2 class="az-content-title">Rol - Kullanıcı Tanımlama</h2>      
+          <div class="card-header">
+
+      <h2 class="az-content-title" style="margin-left: 0px;">Rol - Kullanıcı Tanımlama</h2>      
       <div class="grp-btn-action"> 
         <button type="button" (click)="deleteRoleUser()" class="btn btn-danger btn-delete-custom">
               {{dataTableUserRole.TGT_getSelectedItems().length > 0 ? dataTableUserRole.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
-        <button id="btnAddUserRole" class="btn btn-orange btn-new-custom" data-toggle="modal"   
+        <button id="btnAddUserRole" class="btn btn-az-primary" data-toggle="modal"   
         data-target="#modalUserRoleDefinition" (click)="resetForm(data,true)"
        >Role Kullanıcı Ata</button>
        <button style="display:none" id="btnEditUserRole" data-toggle="modal"
        data-target="#modalUserRoleDefinition" (click)="resetForm(data,false)">Role Kullanıcı Ata
         </button>
       </div>
+      </div>
         <p class="mg-b-20"></p>
+        <div class="sales-overview">
             <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserRole"></tree-grid-table>
+            </div>
       </div>
     </div>
     <!-- az-content-body -->

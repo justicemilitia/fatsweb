@@ -136,13 +136,15 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Rol</label>
-              <select #RoleId="ngModel" name="RoleId" required class="form-control" [(ngModel)]="currentUser.RoleId"
-                [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }">
-                <option [ngValue]="null">Seçiniz</option>
-                <option *ngFor="let role of roles" value={{role.RoleId}}>
-                  {{role.Name}}
-                </option>
-              </select>
+              
+              <ng-multiselect-dropdown
+              [placeholder]="'Seçiniz'"
+              [data]="roles"
+              [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+
               <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
                 <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
               </div>

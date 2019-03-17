@@ -9,7 +9,7 @@
     <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header">
-        <h2 class="az-content-title">Rol Yetkilendirme</h2>
+        <h2 class="az-content-title" style="margin-left:0">Rol Yetkilendirme</h2>
         <div class="grp-btn-action">
             <button type="button" (click)="deleteRoleAuth()" class="btn btn-danger btn-delete-custom">
                 {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
@@ -22,53 +22,64 @@
           </button>
         </div>
       </div>       
+      <div class="sales-overview">
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+      </div>
       </div>
     </div>
     <!-- az-content-body -->
   </div>
 </div>
-<div class="pd-20 bg-gray-800">
-  <div id="modalRoleAuthorization" class="modal">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content modal-content-demo">
-        <div class="modal-header">
-          <h6 class="modal-title">Rol Tanımlama</h6>
-          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)  && data.form.valid" novalidate>
-          <div class="modal-body">
-            <div class="form-group">
-                <input type="hidden" [(ngModel)]="roleAuthorization.RoleAuthorizationId" name="RoleAuthorizationId" />
-                <div class="col-md-6">
-                <label class="required-span">Rol</label>
-                <select [ngModel]="roleAuthorization.RoleId" name="RoleId" #RoleId="ngModel" (change)="onChange($event,roleAuthorization)" [disabled]="roleAuthorization.RoleAuthorizationId != null" [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" required class="form-control select2-no-search">
-                  <option value="-1" >Seçiniz</option>
-                  <option *ngFor="let role of roles" value={{role.RoleId}} >{{role.Name}}</option>
-                </select>
-                <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
-                  <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
-                </div>
-              </div>             
-                <ng-template [ngIf]="roleAuthorization.RoleAuthorizationId == null">
-                  <tree-grid-table  [dataTable]="dataTableRoleAuth"></tree-grid-table>
-                </ng-template> 
-                <ng-template [ngIf]="roleAuthorization.RoleAuthorizationId != null">   
-                <tree-grid-table  [dataTable]="dataTableUpdateAuth"></tree-grid-table>
-                </ng-template>
+
+<div id="modalRoleAuthorization" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Rol Tanımlama</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)  && data.form.valid" novalidate>
+        <div class="modal-body">
+          <input type="hidden" [(ngModel)]="roleAuthorization.RoleAuthorizationId" name="RoleAuthorizationId" />
+          <div class="row justify-content-center">
+          <div class="col-md-12 form-group">
+              <label class="required-span">Rol</label>
+              <select [ngModel]="roleAuthorization.RoleId" name="RoleId" #RoleId="ngModel" (change)="onChange($event,roleAuthorization)" 
+                [disabled]="roleAuthorization.RoleAuthorizationId != null" 
+                [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" required 
+                class="form-control select2-no-search">
+                <option [ngValue]="null" >Seçiniz</option>
+                <option *ngFor="let role of roles" value={{role.RoleId}} >{{role.Name}}</option>
+              </select>
+              <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
+                <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-orange btn-block btn-height"
-              data-toggle="modal" data-target="#modalAddRole">{{roleAuthorization.RoleAuthorizationId ? 'Güncelle' : 'Ekle'}}</button>
-              <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+          <div class="row justify-content-center">
+              <div class="col-md-12 form-group">
+              <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
+                <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
+              </div>
+              <ng-template [ngIf]="roleAuthorization.RoleAuthorizationId == null">
+                <tree-grid-table  [dataTable]="dataTableRoleAuth"></tree-grid-table>
+              </ng-template> 
+              <ng-template [ngIf]="roleAuthorization.RoleAuthorizationId != null">   
+              <tree-grid-table  [dataTable]="dataTableUpdateAuth"></tree-grid-table>
+              </ng-template>
           </div>
-        </form>
-        <!-- modal-body -->
-      </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-az-primary"
+            data-toggle="modal" data-target="#modalAddRole">{{roleAuthorization.RoleAuthorizationId ? 'Yetkiyi Güncelle' : 'Yetki Ekle'}}</button>
+            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
+      <!-- modal-body -->
     </div>
-    <!-- modal-dialog -->
   </div>
+  <!-- modal-dialog -->
 </div>
