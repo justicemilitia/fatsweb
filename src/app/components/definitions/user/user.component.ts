@@ -176,6 +176,8 @@ export class UserComponent extends BaseComponent implements OnInit {
         /* Show failed message */
         this.baseService.popupService.ShowErrorPopup(error);
 
+        console.log(error);
+
       });
   }
 

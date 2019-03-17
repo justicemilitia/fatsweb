@@ -812,6 +812,9 @@ export class TreeGridTable {
             /* Then add down column and offset column to column array */
             this.dataColumns.splice(index, 1, downItem, column);
 
+            /* Then rebind active columns to update them */
+            this.TGT_bindActiveColumns();
+
             return;
         }
 
@@ -833,6 +836,9 @@ export class TreeGridTable {
 
         /* then we remove at the top of the current column then add with new order */
         this.dataColumns.splice(upIndex, 1, column, upItem);
+
+        /* Then rebind active columns to update them */
+        this.TGT_bindActiveColumns();
 
     }
 
