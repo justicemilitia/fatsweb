@@ -101,9 +101,6 @@
               <label>Açıklama</label>
               <textarea [(ngModel)]="department.Description" name="Description" style="resize:none" rows="3"
                 class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
-                <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
-                  <div *ngIf="Description.errors.maxlength">Maksimum 100 karakter giriniz.</div>                
-                </div>
             </div>
           </div>
         </div>

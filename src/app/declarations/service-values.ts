@@ -44,7 +44,7 @@ export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcod
 export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
 export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
-export const DELETE_FIXEDASSET = "FixedAsset/RemoveByRemoveFixedAssetIdList";
+export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
 //#endregion
 
 //#region SuspendedFixedAsset
