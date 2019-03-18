@@ -117,11 +117,36 @@
             Demirbaş Yönetimi
           </a>
             <ul class="nav-link-item-ul">
-              <li class="nav-link-item">
+              <li class="nav-link-item-parent">
                 <a class="nav-link-item-link" routerLink="/fixedasset" routerLinkActive="active">
                   Demirbaş Operasyonları
                 </a>
-              </li>   
+              </li>
+              <li class="nav-link-item-parent">
+                <a class="nav-link-item-link" routerLink="/suspendedfixedasset" routerLinkActive="active">
+                 Askıdaki Demirbaşlar
+                </a>
+              </li>
+              <li class="nav-link-item-parent">
+                <a class="nav-link-item-link" routerLink="/lostfixedasset" routerLinkActive="active">
+                 Kayıp Demirbaşlar
+                </a>
+              </li>
+              <li class="nav-link-item-parent">
+                <a class="nav-link-item-link" routerLink="/checkoutfixedasset" routerLinkActive="active">
+                  Çıkışı Yapılmış Demirbaşlar
+                </a>
+              </li>
+              <li class="nav-link-item-parent">
+                <a class="nav-link-item-parent-link" href="#" onclick="return false">Demirbaş Sayımları<span
+                    class="typcn typcn-chevron-right"></span></a>
+                <ul class="nav-link-item-ul-sub">
+                  <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/"
+                      routerLinkActive="active">Sayım Planlama ve Yönetme</a></li>
+                  <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/"
+                      routerLinkActive="active">Sayım Detayları</a></li>                  
+                </ul>
+              </li>
             </ul>
           <!--<ul>
             <li><a href="#" onclick="return false">Genel Tanımlar</a>

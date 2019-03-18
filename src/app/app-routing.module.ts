@@ -22,6 +22,9 @@ import { FixedAssetComponent } from './components/operations/fixed-asset/fixed-a
 import { FixedAssetStatusComponent } from './components/definitions/fixed-asset-status/fixed-asset-status.component';
 import { FixedAssetCardPropertyComponent } from './components/definitions/fixed-asset-card-property/fixed-asset-card-property.component';
 import { SuspensionComponent } from './components/definitions/suspension/suspension.component';
+import { SuspendedFixedAssetComponent } from './components/operations/suspended-fixed-asset/suspended-fixed-asset.component';
+import { LostFixedAssetComponent } from './components/operations/lost-fixed-asset/lost-fixed-asset.component';
+import { CheckoutFixedAssetComponent } from './components/operations/checkout-fixed-asset/checkout-fixed-asset.component';
 
 export const routes: Routes = [
   {
@@ -139,12 +142,6 @@ export const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   {
-    path: "fixedasset",
-    component: FixedAssetComponent,
-    data: { pageKeyword: pages.MENU_FIXEDASSETOPERATIONS}
-    // canActivate: [AuthGuard]
-  },
-  {
     path: "fixedassetcardcategory",
     component: FixedAssetCardCategoryComponent,
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDCATEGORYDEFINITIONS}
@@ -177,6 +174,24 @@ export const routes: Routes = [
     path: "fixedasset",
     component: FixedAssetComponent,
     data: { pageKeyword: pages.MENU_FIXEDASSET}
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "suspendedfixedasset",
+    component: SuspendedFixedAssetComponent,
+    data: { pageKeyword: pages.MENU_SUSPENDEDFIXEDASSET}
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "lostfixedasset",
+    component: LostFixedAssetComponent,
+    data: { pageKeyword: pages.MENU_LOSTFIXEDASSET}
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: "checkoutfixedasset",
+    component: CheckoutFixedAssetComponent,
+    data: { pageKeyword: pages.MENU_CHECKOUTFIXEDASSET}
     // canActivate: [AuthGuard]
   }
 ];
