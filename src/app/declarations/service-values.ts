@@ -1,7 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Currency } from '../models/Currency';
 
-export const SERVICE_URL = "http://localhost:5000/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -71,6 +71,8 @@ export const UPDATE_FIXEDASSETCARDCATEGORY =
   "FixedAssetCardCategories/UpdateFixedAssetCardCategories";
 export const DELETE_FIXEDASSETCARDCATEGORY =
   "FixedAssetCardCategories/RemoveByIdList";
+export const GET_MODELS_BY_BRAND_ID=
+  "FixedAssetsCardModels/GetFixedAssetsCardModelsByBrandId";
 //#endregion
 
 //#region FixedAssetCardProperties
@@ -109,7 +111,6 @@ export const UPDATE_FIXEDASSETCARDMODEL =
   "FixedAssetsCardModels/UpdateFixedAssetsCardModel";
 export const DELETE_FIXEDASSETCARDMODEL =
   "FixedAssetsCardModels/RemoveByIdList";
-export const GET_MODELS_BY_BRAND_ID="FixedAssetsCardModels/GetFixedAssetsCardModelsByBrandId";
 //#endregion
 
 //#region Agreements
