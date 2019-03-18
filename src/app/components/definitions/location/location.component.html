@@ -3,18 +3,20 @@
       <div class="media-body">
         <!-- Bread Crumb -->
           <div class="az-content-breadcrumb">
-              <span>TANIMLAMALAR</span>
-              <span>Lokasyonlar</span>
-          </div>
+            <span>TANIMLAMALAR</span>
+            <span>LOKASYONLAR</span>
+        </div>
       <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header">
-              <h2 class="az-content-title">Şirketler</h2>
+              <h2 class="az-content-title">Lokasyonlar</h2>
         <div class="grp-btn-action">
           <button type="button" (click)="deleteLocations()" class="btn btn-danger btn-delete-custom">
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
           <button class="btn btn-az-primary" id="btnAddLocation" data-toggle="modal"
-            data-target="#modalLocation" (click)="resetForm(data,true)">Lokasyon Ekle
+            data-target="#modalLocation" (click)="resetForm(data,true)">
+            <i class="fa fa-plus-circle fa-plus-circle-add"></i>
+            Lokasyon Ekle
           </button>
           <button style="display:none" (click)="resetForm(data,false)" id="btnEditLocation" data-toggle="modal"
             data-target="#modalLocation">Lokasyon Düzenle
@@ -46,18 +48,20 @@
           <div class="row justify-content-center">
               <div class="form-group col-md-6">
                   <label class="required-span">Lokasyon Kodu</label>
-                  <input [(ngModel)]="location.LocationCode" #LocationCode="ngModel" name="LocationCode" type="text"
+                  <input [(ngModel)]="location.LocationCode" #LocationCode="ngModel" maxlength="50" name="LocationCode" type="text"
                     class="form-control" [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }" required />
                   <div *ngIf="data.submitted && LocationCode.invalid" class="invalid-feedback">
                     <div *ngIf="LocationCode.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="LocationCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
                   </div>
                 </div>
             <div class="form-group col-md-6">
               <label class="required-span">Lokasyon Barkodu</label>
               <input [(ngModel)]="location.Barcode" name="Barcode" type="text" class="form-control" #Barcode="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" required />
+                [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
                 <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Barcode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
@@ -66,9 +70,10 @@
               <div class="form-group col-md-6">
                   <label class="required-span">Lokasyon Adı</label>
                   <input [(ngModel)]="location.Name" name="Name" type="text" class="form-control" #Name="ngModel"
-                    [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+                    [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
                   <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                     <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
                   </div>
                 </div>
             <div class="form-group col-md-6">
@@ -90,15 +95,21 @@
               </div>
               <div class="form-group col-md-6">
                   <label>Koordinat</label>
-                  <textarea [(ngModel)]="location.Coordinate" rows="2" style="resize:none" name="Coordinate" class="form-control" type="text" >
+                  <textarea [(ngModel)]="location.Coordinate" #Coordinate="ngModel" maxlength="150" rows="2" style="resize:none" name="Coordinate" class="form-control" type="text" >
                     </textarea>
+                  <div *ngIf="data.submitted && Coordinate.invalid" class="invalid-feedback">
+                    <div *ngIf="Coordinate.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                  </div>
               </div>
           </div>
           <div class="row justify-content-center">
               <div class="form-group col-md-12">
                   <label>Açıklama</label>
                   <input [(ngModel)]="location.Description" name="Description"
-                    class="form-control" type="text" />
+                    class="form-control" type="text" #Description="ngModel" maxlength="150" />
+                    <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                      <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                    </div>
                 </div>
           </div>
         </div>

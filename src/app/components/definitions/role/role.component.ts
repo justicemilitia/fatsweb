@@ -208,10 +208,10 @@ export class RoleComponent extends BaseComponent implements OnInit {
   selectedItems = [];
 
   onItemSelect(item: any) {
-    debugger;
     console.log(item);
   }
   onSelectAll(items: any) {
     console.log(items);
   }
+
 }

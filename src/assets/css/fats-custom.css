@@ -215,12 +215,6 @@ button.btn:first-child {
     padding: .4rem !important;
     }    
 
-  .modal-header .close {
-    padding: 1rem;
-    margin: -.5rem -.5rem -1rem auto !important;
-}
-
-
 .btn-new-custom-fa {
     font-size: 14px !important;
     min-height: 20px;
@@ -385,4 +379,9 @@ button.btn:first-child {
 
 .modal-header .modal-title {
     margin-left: 10px;
+}
+
+.media-body {
+    width: 100%;
+    overflow-x: auto;
 }

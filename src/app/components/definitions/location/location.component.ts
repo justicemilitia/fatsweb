@@ -242,6 +242,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
           /* Show error message */
           this.baseService.popupService.ShowErrorPopup(error);
 
+          console.log(error);
+
         });
       }
     });

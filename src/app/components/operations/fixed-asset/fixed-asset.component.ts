@@ -18,9 +18,9 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
   fixedAssets: FixedAsset[] = [];
 
-  fixedAsset:FixedAsset=new FixedAsset();
+  fixedAsset: FixedAsset = new FixedAsset();
 
-  faProperties:FixedAssetCardProperty[]=[];
+  faProperties: FixedAssetCardProperty[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -102,7 +102,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     this.loadFixedAssetProperties();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   filter: FixedAsset = new FixedAsset();
 
@@ -110,9 +110,14 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     this.baseService.fixedAssetService.GetFixedAsset(
       (fa: FixedAsset[]) => {
         this.fixedAssets = fa;
-        fa.forEach(e=> {
-         
-        })
+        fa.forEach(e => {
+          e.FixedAssetPropertyDetails.forEach(p => {
+            if (p.FixedAssetCardPropertyId) {
+            e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+            }
+          });
+        });
+        console.log(fa);
         this.dataTable.TGT_loadData(this.fixedAssets);
       },
       (error: HttpErrorResponse) => {
@@ -125,14 +130,15 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     this.baseService.fixedAssetService.GetFixedAssetProperties(
       (faProperties: FixedAssetCardProperty[]) => {
         this.faProperties = faProperties;
-        this.faProperties.forEach(e => {   
+        this.faProperties.forEach(e => {
           this.dataTable.dataColumns.push({
             columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
             columnDisplayName: e.Name,
             isActive: true,
             type: "text"
-          });    
-              });
+          });
+        });
+        this.dataTable.TGT_bindActiveColumns();
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -140,7 +146,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadFixedAssetPropertyValues(){
+  loadFixedAssetPropertyValues() {
   }
 }
 

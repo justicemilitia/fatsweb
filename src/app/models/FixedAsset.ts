@@ -7,6 +7,7 @@ import { FixedAssetCardBrand } from './FixedAssetCardBrand';
 import { FixedAssetStatus } from './FixedAssetStatus';
 import { Department } from './Department';
 import { Currency } from './Currency';
+import { FixedAssetPropertyDetails } from './FixedAssetPropertyDetails';
 
 export class FixedAsset implements IData {
   getParentId(): number {
@@ -28,14 +29,14 @@ export class FixedAsset implements IData {
   FixedAssetCardCategoryId: number;
   Barcode: string;
   SerialNumber: string;
-  LocationId:number;
+  LocationId: number;
   DepartmentId: number;
   FixedAssetCardId: number;
   FixedAssetCardModelId: number;
   FixedAssetCardBrandId: number;
   StatusId: number;
   FirmId: number;
-  CompanyId:number;
+  CompanyId: number;
   Price: string;
   HasMaintanence: boolean;
   ReceiptDate: Date;
@@ -62,24 +63,26 @@ export class FixedAsset implements IData {
   IsActive: boolean;
   IsValid: boolean;
   Currency: Currency;
-  Department:Department;
-  Location:Location;
+  Department: Department;
+  Location: Location;
   ExpenseCenter: ExpenseCenter;
   FixedAssetCard: FixedAssetCard;
   FixedAssetCardModel: FixedAssetCardModel;
-  FixedAssetCardCategory:FixedAssetCardCategory;
-  FixedAssetCardBrand:FixedAssetCardBrand;
-  FixedAssetStatus:FixedAssetStatus;
-  
-constructor() {
-  this.FixedAssetCard = new FixedAssetCard();
-  this.FixedAssetCardBrand = new FixedAssetCardBrand();
-  this.FixedAssetCardModel = new FixedAssetCardModel();
-  this.FixedAssetStatus = new FixedAssetStatus();
-  this.ExpenseCenter = new ExpenseCenter();
-  this.FixedAssetCardCategory = new FixedAssetCardCategory();
+  FixedAssetCardCategory: FixedAssetCardCategory;
+  FixedAssetCardBrand: FixedAssetCardBrand;
+  FixedAssetStatus: FixedAssetStatus;
+  FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
 
-  this.Currency=new Currency();
-}
+
+  constructor() {
+    this.FixedAssetCard = new FixedAssetCard();
+    this.FixedAssetCardBrand = new FixedAssetCardBrand();
+    this.FixedAssetCardModel = new FixedAssetCardModel();
+    this.FixedAssetStatus = new FixedAssetStatus();
+    this.ExpenseCenter = new ExpenseCenter();
+    this.FixedAssetCardCategory = new FixedAssetCardCategory();
+
+    this.Currency = new Currency();
+  }
 
 }
