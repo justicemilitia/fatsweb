@@ -49,40 +49,49 @@
             <input type="hidden" name="CompanyId" [(ngModel)]="company.CompanyId" />
           <div class="row justify-content-center">
               <div class="form-group col-md-6">
-                <label>Şirket Kodu</label>
+                <label class="required-span">Şirket Kodu</label>
                 <input [(ngModel)]="company.CompanyCode" name="CompanyCode" type="text" class="form-control" #CompanyCode="ngModel"
-                  [ngClass]="{ 'is-invalid': data.submitted && CompanyCode.invalid }" required />
+                  [ngClass]="{ 'is-invalid': data.submitted && CompanyCode.invalid }" maxlength="50" required />
                 <div *ngIf="data.submitted && CompanyCode.invalid" class="invalid-feedback">
                   <div *ngIf="CompanyCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="CompanyCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
                 </div>
               </div>
             <div class="form-group col-md-6">
-                <label>Şirket Adı</label>
+                <label class="required-span">Şirket Adı</label>
               <input [(ngModel)]="company.Name" name="Name" type="text" class="form-control" #Name="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="100" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.maxlength">Maksimum 100 karakter giriniz.</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
               <label>E-posta</label>
-              <input [(ngModel)]="company.Email" name="Email" type="email" #Email="ngModel" class="form-control" email
+              <input [(ngModel)]="company.Email" maxlength="50" name="Email" type="email" #Email="ngModel" class="form-control" email
                 [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" />
               <div *ngIf="data.submitted && Email.invalid" class="invalid-feedback">
                 <div *ngIf="Email.errors.email">Lütfen Geçerli Eposta Giriniz.</div>
+                <div *ngIf="Email.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
               <div class="form-group col-md-6">
                   <label>Vergi Dairesi</label>
-                <input [(ngModel)]="company.TaxOffice" name="TaxOffice" type="text" class="form-control" />
+                <input [(ngModel)]="company.TaxOffice" #TaxOffice="ngModel" maxlength="50" name="TaxOffice" type="text" class="form-control" />
+                <div *ngIf="data.submitted && TaxOffice.invalid" class="invalid-feedback">
+                  <div *ngIf="TaxOffice.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                </div>
               </div>
             <div class="form-group col-md-6">
                 <label>Vergi Numarası</label>
-                <input [(ngModel)]="company.TaxNumber" name="TaxNumber" type="text" class="form-control" />
+                <input [(ngModel)]="company.TaxNumber" #TaxNumber="ngModel" name="TaxNumber" maxlength="10" type="text" class="form-control" />
+                <div *ngIf="data.submitted && TaxNumber.invalid" class="invalid-feedback">
+                  <div *ngIf="TaxNumber.errors.maxlength">Maksimum 10 karakter giriniz.</div>
+                </div>
             </div>
           </div>
           <div class="row justify-content-center">
@@ -110,16 +119,20 @@
                   <div class="form-group col-md-12">
                   <label class="required-span">Telefon</label>
                   <input [(ngModel)]="company.Phone" name="Phone" #Phone="ngModel" type="text" class="form-control"
-                    [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" required />
+                    [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" maxlength="11" required />
                   <div *ngIf="data.submitted && Phone.invalid" class="invalid-feedback">
                     <div *ngIf="Phone.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Phone.errors.maxlength">Maksimum 11 karakter giriniz.</div>
                   </div>
                 </div>
               </div>
               <div class="row justify-content-center">
                   <div class="form-group col-md-12">
                     <label>Faks</label>
-                    <input [(ngModel)]="company.SecondPhone" name="SecondPhone" type="text" class="form-control" />
+                    <input maxlength="50" [(ngModel)]="company.SecondPhone" #SecondPhone="ngModel" name="SecondPhone" type="text" class="form-control" />
+                    <div *ngIf="data.submitted && SecondPhone.invalid" class="invalid-feedback">
+                      <div *ngIf="SecondPhone.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                    </div>
                 </div>
             </div>
             </div>
@@ -136,8 +149,11 @@
           <div class="row justify-content-center">
               <div class="form-group col-md-12">
                   <label>Açıklama</label>
-                  <input [(ngModel)]="company.Description" name="Description"
+                  <input [(ngModel)]="company.Description" name="Description" #Description="ngModel"
                     class="form-control" type="text"/>
+                    <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                      <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                    </div>
                 </div>
             </div>
         </div>

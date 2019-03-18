@@ -11,7 +11,7 @@ export class TreeGridTableMethods {
             else
                 item = item[e];
         });
-        return (item != null ? item : '');
+        return (item != null ? item : null);
     }
 
     public static doSearch(obj: IData, filter: any): boolean {
@@ -40,8 +40,12 @@ export class TreeGridTableMethods {
                         return false;
                     break;
                 default:
-                    if (!val && filter[key] && filter[key].length > 0)
+                    if (!val) {
+                        if ( typeof filter[key] == "boolean" && filter[key] == false) {
+                            return true;
+                        }
                         return false;
+                    }
                     break;
             }
         }

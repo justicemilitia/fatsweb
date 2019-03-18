@@ -229,7 +229,7 @@
 <!-- END Table Area END -->
 <!-- Pagination -->
 <div *ngIf="dataTable.isPagingActive == true">
-  <div class="table-info">
+  <div class="table-info" [class.table-info-without-margin]="dataTable.isColumnOffsetActive == false">
     {{dataTable.getDisplayInfo('Toplam {0} kayıt ve {1} ile {2} arası gösteriliyor.')}}
   </div>
   <!-- Pagination Side -->

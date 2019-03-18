@@ -73,4 +73,8 @@ export abstract class BaseComponent implements OnInit {
     return this.baseService.authenticationService.pageRoute(key);
   }
 
+  redirectTo(page:string) {
+    this.baseService.router.navigateByUrl(page);
+  }
+
 }

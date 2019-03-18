@@ -766,14 +766,14 @@ export class TreeGridTable {
 
                 /* if an object is empty prevent show current object value we set it as empty to stop loop */
                 if (!item) {
-                    item = '';
+                    item = null;
                     break;
                 }
             }
             else {
                 item = item[e];
                 if (!item) {
-                    item = '';
+                    item = null;
                     break;
                 }
             }
@@ -791,26 +791,34 @@ export class TreeGridTable {
      * @param isDown if offset will down set true otherwise set false
      */
     public TGT_offsetColumns(column: IColumn, isDown: boolean) {
+        
         /* We find the column index in columns list */
         let index = this.dataColumns.findIndex(x => x.columnName == column.columnName);
+        
         /* if column not exists return */
         if (index <= -1)
             return;
 
         if (isDown) {
+
             /* Get the one bottom item index */
             let downIndex = index + 1;
+            
             /* if no more column at the bottom return */
             if (downIndex >= this.dataColumns.length)
                 return;
+
             /* Get the one bottom item */
             let downItem = this.dataColumns[downIndex];
 
-            /* Update helper grid */
             /* Remove column from array at the bottom */
             this.dataColumns.splice(downIndex, 1);
+            
             /* Then add down column and offset column to column array */
             this.dataColumns.splice(index, 1, downItem, column);
+
+            /* Then rebind active columns to update them */
+            this.TGT_bindActiveColumns();
 
             return;
         }
@@ -833,6 +841,9 @@ export class TreeGridTable {
 
         /* then we remove at the top of the current column then add with new order */
         this.dataColumns.splice(upIndex, 1, column, upItem);
+
+        /* Then rebind active columns to update them */
+        this.TGT_bindActiveColumns();
 
     }
 

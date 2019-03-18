@@ -1,9 +1,7 @@
 import { Component, OnInit, NgModule } from "@angular/core";
 import {
   NgForm,
-  ReactiveFormsModule,
-  FormGroup,
-  NgModel
+  ReactiveFormsModule
 } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "src/app/services/base.service";
@@ -102,8 +100,6 @@ export class RoleAuthorizationComponent extends BaseComponent
         columnDisplayName: "Menü",
         columnName: ["Name"],
         isActive: true,
-        classes: [],
-        placeholder: "",
         type: "text"
       },
       {
@@ -124,8 +120,6 @@ export class RoleAuthorizationComponent extends BaseComponent
         columnDisplayName: "Düzenleyebilir",
         columnName: ["OutUpdate"],
         isActive: true,
-        classes: ["table-checkbox"],
-        placeholder: "",
         type: "checkbox",
         isEditable: true
       },
@@ -133,8 +127,6 @@ export class RoleAuthorizationComponent extends BaseComponent
         columnDisplayName: "Silebilir",
         columnName: ["OutDelete"],
         isActive: true,
-        classes: ["table-checkbox"],
-        placeholder: "",
         type: "checkbox",
         isEditable: true
       }

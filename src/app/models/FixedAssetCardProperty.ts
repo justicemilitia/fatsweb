@@ -23,7 +23,8 @@ export class FixedAssetCardProperty implements IData {
     FixedAssetTypeId: number;
     Name: string;
     IsUnique: boolean;
-    FixedAssetPropertyValues: FixedAssetCardPropertyValue[];
+    FixedAssetPropertyValues: FixedAssetCardPropertyValue[]=[];
+    FixedAssetAsDisplay:string = '';
     FixedAssetType: FixedAssetCardPropertyType;
     
 }

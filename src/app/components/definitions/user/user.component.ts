@@ -44,6 +44,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   /* Store firms to insert users */
   firms: Firm[] = [];
 
+  dropdownSettings = {};
+
   /* Data Table instance */
   public dataTable: TreeGridTable = new TreeGridTable("user",
     [
@@ -112,6 +114,17 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   constructor(public baseService: BaseService) {
     super(baseService);
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: "RoleId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
+
     this.loadUsers();
   }
   ngOnInit() { }
@@ -175,6 +188,8 @@ export class UserComponent extends BaseComponent implements OnInit {
 
         /* Show failed message */
         this.baseService.popupService.ShowErrorPopup(error);
+
+        console.log(error);
 
       });
   }
@@ -376,6 +391,23 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.firms = firms;
       });
     }
+
+  }
+
+  onItemSelect(item: User) {
+    if (this.currentUser["Roles"] == null)
+      this.currentUser["Roles"] = [];
+    this.currentUser["Roles"].push(item);
+  }
+
+  onSelectAll(items: any) {
+    
+    if (this.currentUser["Roles"] == null)
+      this.currentUser["Roles"] = [];
+
+    items.forEach(element => {
+      this.currentUser["Roles"].push(element);
+    });
 
   }
 
