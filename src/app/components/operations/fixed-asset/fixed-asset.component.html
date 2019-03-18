@@ -10,8 +10,7 @@
           <div class="card-header">
       <h2 class="az-content-title">Demirbaş Listesi</h2>      
       </div>
-      <!--<div class="row">      
-        
+      <div class="row">     
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="modal" data-target="#modalOperation" title="Demirbaş Girişi"><i class="typcn typcn-folder"></i></button>
         
         <button class="btn btn-danger btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş Çıkışı"><i class="typcn typcn-folder"></i></button>
@@ -33,19 +32,26 @@
 
         <button class="btn btn-orange btn-new-custom btn-secondary" >Toplu</button>
         <button class="btn btn-orange btn-new-custom btn-secondary" >Filtre</button>      
-      </div>-->
-
+      </div>
       <div class="sales-overview">
       <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
       </div>
     </div>
     <!-- az-content-body -->
+    </div>
   </div>
-</div>
 </div>
   <div id="modalOperation" class="modal" data-backdrop="static">
       <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content modal-content-demo">
+        <div style="position: relative;
+        display: flex;
+        flex-direction: column;      
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.3rem;
+        outline: 0;">
           <div class="modal-header">
             <h6 class="modal-title"></h6>
             <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -53,7 +59,7 @@
             </button>
           </div>
           <div class="modal-body">
-    
+          <app-fa-create></app-fa-create>
       </div>
         </div>
       </div>

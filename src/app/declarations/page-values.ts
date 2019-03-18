@@ -25,4 +25,7 @@ export const MENU_STATUSLIST="Menu_StatusList";
 export const MENU_FIXEDASSETOPERATIONS="Menu_FixedAssetOperations";
 export const MENU_FIXEDASSETCARDPROPERTYDEFINITIONS="Menu_FixedAssetCardProperty";
 export const MENU_SUSPENSION="Menu_SuspensionDefinitions";
+export const MENU_SUSPENDEDFIXEDASSET="Menu_SuspendedFixedAsset";
+export const MENU_CHECKOUTFIXEDASSET="Menu_Checkout_FixedAsset";
+export const MENU_LOSTFIXEDASSET="Menu_Lost_FixedAsset";
 

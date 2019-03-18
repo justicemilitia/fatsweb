@@ -7,7 +7,8 @@ import {
   INSERT_FIXEDASSETCARD,
   UPDATE_FIXEDASSETCARD,
   GET_FIXEDASSETCARD_BY_ID,
-  DELETE_FIXEDASSETCARD
+  DELETE_FIXEDASSETCARD,
+  GET_FA_CARDS_BY_CATEGORY_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -113,6 +114,7 @@ export class FixedAssetCardService {
         failed(error);
       });
   }
+
   DeleteFixedAssetCards(ids: number[], success, failed) {
     this.httpClient.post(SERVICE_URL + DELETE_FIXEDASSETCARD, { "FixedAssetCardIds": ids }, {
       headers: GET_HEADERS(this.authenticationService.getToken()),
@@ -128,5 +130,24 @@ export class FixedAssetCardService {
       error => {
         failed(error);
       });
+  }
+
+  GetFixedAssetCardByCategoryId(categoryId:number,success,failed){
+    this.httpClient.get(SERVICE_URL + GET_FA_CARDS_BY_CATEGORY_ID + "/" + categoryId,
+    { headers: GET_HEADERS(this.authenticationService.getToken())}).subscribe(
+      result=>{
+        let response:Response=<Response>result;
+        if(response.ResultStatus == true){
+          success(<FixedAssetCard[]>response.ResultObject,response.LanguageKeyword);
+        }
+        else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      }
+    )
+    
+    
   }
 }
