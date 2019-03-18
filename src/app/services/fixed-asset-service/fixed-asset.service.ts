@@ -4,13 +4,15 @@ import {
   SERVICE_URL,
   GET_HEADERS,
   GET_FIXED_ASSET,
-  GET_FIXEDASSETCARDPROPERTY_LIST
+  GET_FIXEDASSETCARDPROPERTY_LIST,
+  EXIT_FIXEDASSET
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
+import { TransactionLog } from '../../models/TransactionLog';
 
 @Injectable({
   providedIn: "root"
@@ -74,5 +76,29 @@ export class FixedAssetService {
           failed(error);
         }
       );
+  }
+
+  ExitFixedAsset(transactionLog: TransactionLog, success, failed){
+    this.httpclient
+      .post(
+        SERVICE_URL + EXIT_FIXEDASSET, transactionLog, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedTransactionLog: TransactionLog = new TransactionLog();
+            Object.assign(insertedTransactionLog, response.ResultObject);
+            success(insertedTransactionLog, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+
   }
 }

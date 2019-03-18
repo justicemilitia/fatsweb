@@ -1,4 +1,5 @@
 import { HttpHeaders } from "@angular/common/http";
+import { Currency } from '../models/Currency';
 
 export const SERVICE_URL = "http://localhost:5000/api/";
 export const LOGIN = "Auth/token";
@@ -17,6 +18,13 @@ export const GET_LOCATION_BY_ID = "Locations/GetLocationsById";
 export const INSERT_LOCATION = "Locations/AddLocation";
 export const UPDATE_LOCATION = "Locations/UpdateLocation";
 export const DELETE_LOCATION = "Locations/RemoveByIdList";
+//#endregion
+
+//#region Currency
+export const GET_CURRENCY_LIST = "Currency/GetCurrencyList";
+export const GET_CURRENCY_BY_ID = "Currency/GetCurrencyById";
+export const INSERT_CURRENCY = "Currency/AddCurrency";
+export const UPDATE_CURRENCY = "Currency/UpdateCurrency";
 //#endregion
 
 //#region Users
