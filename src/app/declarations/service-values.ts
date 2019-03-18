@@ -48,7 +48,8 @@ export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
 //#endregion
 
 //#region SuspendedFixedAsset
-
+export const GET_SUSPENDED_LIST="FixedAsset/GetFixedAssetsSuspendedList";
+export const UNDO_SUSPENSION_PROCESS="FixedAsset/UndoSuspensionProcess";
 //#endregion
 
 //#region FixedAssetCardCategories

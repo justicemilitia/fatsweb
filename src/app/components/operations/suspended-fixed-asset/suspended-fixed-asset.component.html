@@ -1,3 +1,108 @@
-<p>
-  suspended-fixed-asset works!
-</p>
+<div class="az-content az-content-dashboard-four">
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+        <div class="az-content-breadcrumb">
+            <span>DEMİRBAŞ YÖNETİMİ</span>
+            <span>ASKIDAKİ DEMİRBAŞLAR</span>
+        </div>
+      <!-- END Bread Crumb END -->
+      <div class="card card-dashboard-twelve mg-b-20">
+        <div class="card-header">
+        <h2 class="az-content-title">Askıdaki Demirbaşlar</h2>
+        <div class="grp-btn-action">
+            <button class="btn btn-az-primary" (click)="undoSuspendedFixedAsset()" id="btnSuspendedFa"
+            data-toggle="modal" data-target="#modalSuspendedFa">
+            <i class="fa fa-plus-circle fa-plus-circle-add"></i>
+            Askıdan Al
+          </button>
+          <button type="button" class="btn btn-danger btn-delete-custom">            
+            <i class="fas fa-trash"></i></button>     
+            <button class="btn btn-az-primary" id="btnExitFa"
+            data-toggle="modal" data-target="#modalExitFa">
+            <i class="fa fa-plus-circle fa-plus-circle-add"></i>
+            Dışa Aktar
+          </button>
+        </div>
+      </div>
+        <div class="sales-overview">
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        </div>
+      </div>
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+<!-- az-content -->
+
+<!-- LARGE MODAL -->
+<div id="modalSuspendedFa" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Askıdan alma bilgilerini giriniz.</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
+        <div class="modal-body">
+            <input type="hidden"/>
+            <div class="row justify-content-center">
+              <div class="col-md-12 form-group">
+                <label>Barkod</label>
+                <input type="text" class="form-control" />            
+              </div>
+            </div>
+            <div class="row justify-content-center">
+            <div class="col-md-6 form-group">
+              <label>Askıdan Alma Bedeli</label>
+              <input type="text" class="form-control"/>
+            </div>  
+              <div class="col-md-6 form-group">
+              <label>Para Birimi</label>     
+              <select class="form-control select2-no-search">
+                  <option>Yok</option>
+                  <option >para birimi</option>
+              </select>      
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-md-12 form-group">
+                <label >Askıdan Alma Tarihi</label>
+                <div class="input-group">
+                    <div class="input-group-append">
+                      <div (click)="startDate.toggle()" class="input-group-text">
+                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                      </div>
+                    </div>
+                    <input class="form-control" type="text" placeholder="yyyy-mm-dd"
+                        name="startDate"  ngbDatepicker #startDate="ngbDatepicker">
+                    <!-- <div *ngIf="data.submitted && startDate.invalid" class="invalid-feedback">
+                      <div *ngIf="startDate.errors.required">Bu alan zorunludur.</div>
+                    </div> -->
+                  </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-md-12 form-group">
+                <label>Açıklama</label>
+                <textarea type="text" style="resize:none;height: 80px;"
+                  rows="3" class="form-control"></textarea>
+                  <!-- <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                      <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                    </div> -->
+            </div>
+          </div>
+        </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button id="btnSuspendedFixedAsset" type="submit" class="btn btn-az-primary"
+            data-toggle="modal" data-target="#modalSuspendedFa">Askıdan Al</button>          
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
