@@ -46,14 +46,11 @@ export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
 //#endregion
 
-<<<<<<< HEAD
-=======
 //#region SuspendedFixedAsset
 export const GET_SUSPENDED_LIST="FixedAsset/GetFixedAssetsSuspendedList";
 export const UNDO_SUSPENSION_PROCESS="FixedAsset/UndoSuspensionProcess";
 //#endregion
 
->>>>>>> 3c882586a8d6376f361952f1fc05232c1e060fee
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST =
   "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
