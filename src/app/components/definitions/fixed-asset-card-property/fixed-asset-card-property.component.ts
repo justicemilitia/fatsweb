@@ -212,7 +212,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     /* Close waiting loader */
     this.isWaitingInsertOrUpdate = true;
 
-    this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
+    this.fixedAssetCardProperty.FixedAssetPropertyValues= this.fixedAssetCardPropertyValues;
 
     /* Insert Fixed Asset Card Property */
     await this.baseService.fixedAssetCardPropertyService.InsertFixedAssetCardProperty(
@@ -257,6 +257,8 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         if (response == true) {
           /* Change button to loading */
           this.isWaitingInsertOrUpdate = true;
+          this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
+          
 
           /* Update Model to database */
           this.baseService.fixedAssetCardPropertyService.UpdateFixedAssetCardProperty(
@@ -330,9 +332,9 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
       (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
         /* Bind Fixed Properties to model */
         this.fixedAssetCardProperties = fixedAssetCardProperties;
-        this.fixedAssetCardProperties.forEach(e=>  {
-          e.FixedAssetPropertyValues.forEach(p=> {
-            e.FixedAssetAsDisplay += p.Value + '|';
+        this.fixedAssetCardProperties.forEach(e => {
+          e.FixedAssetPropertyValues.forEach((p, i) => {
+            e.FixedAssetAsDisplay += p.Value + (i<e.FixedAssetPropertyValues.length-1 ? "|" : "");
           });
         });
         /* Load data to table */
@@ -346,13 +348,23 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   }
 
   async insertPropertyValueToArray(value: any) {
-    this.fixedAssetCardPropertyValue.Value = value.value;
-    this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId =
-      this.fixedAssetCardPropertyValues.length + 1;
-    this.fixedAssetCardPropertyValues.push(this.fixedAssetCardPropertyValue);
-    this.dataTablePropertyValue.TGT_loadData(this.fixedAssetCardPropertyValues);
-    this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
-    value.value = null;
+    value.value = value.value.trim();
+    if (
+      value.value != "" &&
+      !this.fixedAssetCardPropertyValues.find(x => x.Value == value.value)
+    ) {
+      this.fixedAssetCardPropertyValue.Value = value.value;
+      this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId =
+        this.fixedAssetCardPropertyValues.length + 1;
+      this.fixedAssetCardPropertyValues.push(this.fixedAssetCardPropertyValue);
+      this.dataTablePropertyValue.TGT_loadData(
+        this.fixedAssetCardPropertyValues
+      );
+      this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+      value.value = null;
+    } else {
+      value.value = null;
+    }
   }
 
   async loadFixedAssetCardPropertyTypes() {

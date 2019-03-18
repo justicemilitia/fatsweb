@@ -1,5 +1,6 @@
 import { IData } from "../extends/TreeGridTable/models/interfaces/IData";
 import { Company } from "./Company";
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export class Agreement implements IData {
   childIndex: number;
@@ -23,8 +24,8 @@ export class Agreement implements IData {
   Name: string;
   No: string;
   FirmId: number;
-  StartDate: Date;
-  EndDate: Date;
+  StartDate: NgbDate;
+  EndDate: NgbDate;
   Price: number;
   AgreementFile: string;
   Description: string;

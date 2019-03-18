@@ -34,7 +34,6 @@ export const GET_FIXEDASSETCARD_BY_ID = "fixedAssetcard/GetFixedAssetCardById";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssets";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
-export const GET_FA_CARDS_BY_CATEGORY_ID="fixedassetcard/GetFixedAssetCardByCategoryId";
 //#endregion
 
 //#region FixedAssets
@@ -47,11 +46,14 @@ export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
 //#endregion
 
+<<<<<<< HEAD
+=======
 //#region SuspendedFixedAsset
 export const GET_SUSPENDED_LIST="FixedAsset/GetFixedAssetsSuspendedList";
 export const UNDO_SUSPENSION_PROCESS="FixedAsset/UndoSuspensionProcess";
 //#endregion
 
+>>>>>>> 3c882586a8d6376f361952f1fc05232c1e060fee
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST =
   "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
@@ -101,7 +103,6 @@ export const UPDATE_FIXEDASSETCARDMODEL =
   "FixedAssetsCardModels/UpdateFixedAssetsCardModel";
 export const DELETE_FIXEDASSETCARDMODEL =
   "FixedAssetsCardModels/RemoveByIdList";
-export const GET_MODELS_BY_BRAND_ID="FixedAssetsCardModels/GetFixedAssetsCardModelsByBrandId";
 //#endregion
 
 //#region Agreements
