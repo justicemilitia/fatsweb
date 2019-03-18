@@ -49,7 +49,8 @@
               <div class="form-group col-md-6">
                   <label class="required-span">Lokasyon Kodu</label>
                   <input [(ngModel)]="location.LocationCode" #LocationCode="ngModel" maxlength="50" name="LocationCode" type="text"
-                    class="form-control" [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }" required />
+                    class="form-control" 
+                    [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }" required />
                   <div *ngIf="data.submitted && LocationCode.invalid" class="invalid-feedback">
                     <div *ngIf="LocationCode.errors.required">Bu alan zorunludur.</div>
                     <div *ngIf="LocationCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>

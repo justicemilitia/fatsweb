@@ -1,12 +1,21 @@
-<div class="az-content">
-  <div class="container-fluid">
-    <div class="az-content-body">
-      <div class="card card-dashboard-twelve mg-b-20">
-        <h2 class="az-content-title">Çıkış Tipleri</h2>
-        <div class="grp-btn-action">
+<div class="az-content az-content-dashboard-four">
+    <div class="media media-dashboard">
+      <div class="media-body">
+        <!-- Bread Crumb -->
+        <div class="az-content-breadcrumb">
+          <span>TANIMLAMALAR</span>
+          <span>ÇIKIŞ TİPLERİ</span>
         </div>
-        <p class="mg-b-20"></p>           
-            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>         
+      <div class="card card-dashboard-twelve mg-b-20">
+        <div class="card-header">
+          <h2 class="az-content-title" style="margin-left:0">Çıkış Tipleri</h2>
+          <div class="grp-btn-action">
+          </div>
+        </div>
+        <p class="mg-b-20"></p>         
+        <div class="sales-overview">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>         
+        </div>
       </div>
     </div>
     <!-- az-content-body -->

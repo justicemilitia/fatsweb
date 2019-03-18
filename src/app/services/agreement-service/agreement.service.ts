@@ -67,13 +67,13 @@ export class AgreementService {
     if (files && files.length > 0) formData.append(files[0].name, files[0]);
     console.log(formData);
 
-    // let headers: HttpHeaders=new HttpHeaders();
-    // headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
-    // headers=headers.append("Content-Type","multipart/form-data; boundary=----WebKitFormBoundaryyEmKNDsBKjB7QEqu");
+    let headers: HttpHeaders=new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
+    headers = headers.append('Accept', 'application/json');
 
     this.httpClient
       .post(SERVICE_URL + INSERT_AGREEMENT, formData, {
-        headers: GET_HEADERS_FORMDATA(this.authenticationService.getToken())
+        headers: headers
       })
       .subscribe(
         result => {

@@ -4,7 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { routes } from "./app-routing.module";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
@@ -89,7 +89,8 @@ import { SuspensionComponent } from './components/definitions/suspension/suspens
     CommonModule,
     NgxSpinnerModule,
     NgMultiSelectDropDownModule.forRoot(),
-    ColorPickerModule
+    ColorPickerModule,
+    NgbModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

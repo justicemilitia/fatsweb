@@ -4,13 +4,9 @@ import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import {
   HttpErrorResponse,
-  HttpClient,
-  HttpRequest,
-  HttpEventType,
-  HttpResponse
+  HttpClient
 } from "@angular/common/http";
 import { Agreement } from "../../../models/Agreement";
-import { IData } from "src/app/extends/TreeGridTable/models/interfaces/IData";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import { Company } from "../../../models/Company";
 
@@ -145,6 +141,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   constructor(public baseService: BaseService, private http: HttpClient) {
     super(baseService);
+
     this.loadAgreements();
     this.loadCompanies();
   }
@@ -156,12 +153,16 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
+
+    if (data.form.invalid == true) return;
+    
     /* if agreement id exists means update it otherwise insert it */
     if (data.value.AgreementId == null) {
       this.addAgreements(data);
     } else {
       this.updateAgreement(data);
     }
+
   }
 
   async deleteAgreements() {
@@ -250,8 +251,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     /* Insert agreement service */
-    this.agreement.CompanyId = Number(this.agreement.CompanyId);
-    this.agreement.Price = Number(this.agreement.Price);
+    this.agreement.CompanyId = this.agreement.CompanyId ? Number(this.agreement.CompanyId) : null;
+    this.agreement.Price = this.agreement.Price ? Number(this.agreement.Price) : null;
+
     await this.baseService.agreementService.InsertAgreement(
       this.agreement,
       this.agreementFiles,
@@ -368,27 +370,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     );
   }
 
-  //  async upload(files) {
-
-  //   debugger;
-  //     if (files.length === 0) return;
-
-  //     const formData = new FormData();
-
-  //     for (let file of files) formData.append(file.name, file);
-
-  //     const uploadReq = new HttpRequest(
-  //       "POST",
-  //       "http://dev.fatsapi.com/api/File/UploadFile",
-  //       formData,
-  //       {
-  //         reportProgress: true
-  //       }
-  //     );
-  //   }
-
   async upload(files: any) {
-    console.log(files);
     this.agreementFiles = files;
   }
 }

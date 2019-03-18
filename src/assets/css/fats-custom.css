@@ -385,3 +385,15 @@ button.btn:first-child {
     width: 100%;
     overflow-x: auto;
 }
+
+.input-group-prepend {
+    height: 27px;
+}
+
+.input-group > .form-control {
+    height: 27px;
+}
+
+.custom-select {
+    background: none;
+}
