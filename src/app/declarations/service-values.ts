@@ -62,6 +62,8 @@ export const UPDATE_FIXEDASSETCARDCATEGORY =
   "FixedAssetCardCategories/UpdateFixedAssetCardCategories";
 export const DELETE_FIXEDASSETCARDCATEGORY =
   "FixedAssetCardCategories/RemoveByIdList";
+export const GET_MODELS_BY_BRAND_ID=
+  "FixedAssetsCardModels/GetFixedAssetsCardModelsByBrandId";
 //#endregion
 
 //#region FixedAssetCardProperties
