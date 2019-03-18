@@ -10,7 +10,8 @@ import {
   UPDATE_FIXEDASSETCARDMODEL,
   GET_FIXEDASSETCARDMODEL_BY_ID,
   DELETE_FIXEDASSETCARDBRAND,
-  DELETE_FIXEDASSETCARDMODEL
+  DELETE_FIXEDASSETCARDMODEL,
+  GET_MODELS_BY_BRAND_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { FixedAssetCardBrand } from "../../models/FixedAssetCardBrand";
@@ -137,5 +138,22 @@ export class FixedAssetCardModelService {
       }, (error: HttpErrorResponse) => {
         failed(error);
       });
+  }
+
+  GetFixedAssetsCardModelsByBrandId(brandId:number,success,failed){
+    this.httpClient.get(SERVICE_URL + GET_MODELS_BY_BRAND_ID + "/" +brandId,{
+      headers:GET_HEADERS(this.aService.getToken())
+    }).subscribe(
+      result=>{
+        let response:Response=<Response>result;
+        if((<[]>response.ResultObject).length==0){
+          success(response.ResultObject,response.LanguageKeyword);
+        }else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      }
+    );
   }
 }

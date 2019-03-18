@@ -81,7 +81,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
       },
       {
         columnDisplayName: "Özellik Değeri",
-        columnName: ["FixedAssetPropertyValues", "Value"],
+        columnName: ["FixedAssetAsDisplay"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -90,7 +90,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     ],
     {
       isDesc: false,
-      column: ["FixedAssetPropertyValues", "Value"]
+      column: ["Name"]
     }
   );
 
@@ -330,7 +330,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
       (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
         /* Bind Fixed Properties to model */
         this.fixedAssetCardProperties = fixedAssetCardProperties;
-
+        this.fixedAssetCardProperties.forEach(e=>  {
+          e.FixedAssetPropertyValues.forEach(p=> {
+            e.FixedAssetAsDisplay += p.Value + '|';
+          });
+        });
         /* Load data to table */
         this.dataTable.TGT_loadData(this.fixedAssetCardProperties);
       },
@@ -348,6 +352,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     this.fixedAssetCardPropertyValues.push(this.fixedAssetCardPropertyValue);
     this.dataTablePropertyValue.TGT_loadData(this.fixedAssetCardPropertyValues);
     this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+    value.value = null;
   }
 
   async loadFixedAssetCardPropertyTypes() {
