@@ -1,3 +1,110 @@
-<p>
-  fa-exit works!
-</p>
+  <!-- LARGE MODAL -->
+  <div id="modalExitFixedAsset" class="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-content-demo">
+        <div class="modal-header">
+          <h6 class="modal-title">Çıkış işlemi için bilgileri giriniz.</h6>
+          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
+          <div class="modal-body">
+            <input type="hidden" name="TransactionLogId"
+              [(ngModel)]="transactionLog.TransactionLogId" />
+
+     
+              <!-- ÇIKIŞ TİPİ -->
+              <div class="form-group">
+                <label class="required-span">Çıkış Tipi</label>                
+                <div class="row">
+                    <select [(ngModel)]="transactionLog.CheckOutReasonId"
+                      name="CheckOutReasonId" class="form-control txt-width" 
+                      #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
+                      <option>Yok</option>
+                      <option *ngFor="let checkedOutReason of checkedOutReasons"
+                      value={{checkedOutReason.CheckOutReasonId}}>
+                      {{checkedOutReason.Name}}
+                      </option>
+                    </select>
+                    <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+                        <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+                    </div>
+              </div>
+              </div>
+
+              <!-- ÇIKIŞ LOKASYONU -->
+              <div class="form-group">
+                <label class="required-span">Çıkış Tipi</label>                
+                <div class="row">
+                    <select [(ngModel)]="transactionLog.CheckOutLocationId"
+                      name="CheckOutLocationId" class="form-control txt-width" 
+                      #CheckOutLocationId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutLocationId.invalid }" required>
+                      <option>Yok</option>
+                      <option *ngFor="let location of locations"
+                      value={{location.LocationId}}>
+                      {{location.Name}}
+                      </option>
+                    </select>
+                    <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+                        <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+                    </div>
+              </div>
+              </div>
+
+              <!-- FİYAT & PARA BİRİMİ -->
+              <div class="row justify-content-center">
+                <div class="col-md-6 form-group">
+                  <label>Fiyat</label>
+                  <input [(ngModel)]="transactionLog.CheckoutPrice" name="CheckoutPrice" class="form-control" type="text" #CheckoutPrice="ngModel">
+                </div>
+
+                <div class="col-md-6 form-group">
+                  <label class="required-span">Para Birimi</label>
+                   <select [(ngModel)]="transactionLog.CurrencyId" name="CurrencyId" style="resize:none0"
+                      class="form-control" type="text">
+                      <option [ngValue]="null">Yok</option>
+                      <option *ngFor="let currency of currencies" value={{currency.CurrencyId}}>
+                        {{currency.Name}}
+                      </option>
+                  </select>
+                </div>
+              </div>
+              
+              <!-- AÇIKLAMA -->
+              <div class="row justify-content-center">
+                <div class="col-md-12 form-group">
+                  <label>Açıklama</label>
+                  <textarea [(ngModel)]="transactionLog.Description" name="Description" style="resize:none" rows="2"
+                    class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
+                </div>
+              </div>
+        
+              <!-- FORM BASMA -->
+              <div class="row justify-content-center">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="ckbox">
+                      <input type="checkbox"
+                        name="PrintExitForm" /><span>Demirbaş çıkış formu basılsın.</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+
+          <!-- modal-body -->
+          <div class="modal-footer">
+            <button class="btn btn-orange" id="btnExitFixedAsset" type="submit" data-toggle="modal"
+              data-target="#modalExitFixedAsset" *ngIf="isWaitingInsertOrUpdate == false">
+              Kaydet
+            </button>
+            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- modal-dialog -->
+  </div>
+  <!-- modal -->

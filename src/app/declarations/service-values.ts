@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -43,9 +43,17 @@ export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcod
 export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
 export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
-export const DELETE_FIXEDASSET = "FixedAsset/RemoveByRemoveFixedAssetIdList";
+export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
 //#endregion
 
+<<<<<<< HEAD
+=======
+//#region SuspendedFixedAsset
+export const GET_SUSPENDED_LIST="FixedAsset/GetFixedAssetsSuspendedList";
+export const UNDO_SUSPENSION_PROCESS="FixedAsset/UndoSuspensionProcess";
+//#endregion
+
+>>>>>>> 3c882586a8d6376f361952f1fc05232c1e060fee
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST =
   "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";
