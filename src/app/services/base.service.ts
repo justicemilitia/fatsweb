@@ -27,6 +27,7 @@ import { StatusService } from './status-service/status.service';
 import { FixedAssetService } from './fixed-asset-service/fixed-asset.service';
 import { DashboardService } from './dashboard-service/dashboard.service';
 import { SuspendedFixedAssetService } from './suspended-fixed-asset-service/suspended-fixed-asset.service';
+import { CurrencyService } from './currency-service/currency.service';
 
 @Injectable({
   providedIn: "root"
@@ -49,6 +50,7 @@ export class BaseService {
     public expenseCenterService: ExpenseCenterService,
     public checkOutReasonService: CheckOutReasonService,
     public agreementService: AgreementService,
+    public currencyService: CurrencyService,
     public fixedAssetCardBrandService: FixedAssetCardBrandService,
     public fixedAssetCardModelService: FixedAssetCardModelService,
     public fixedAssetStatusService:StatusService,
