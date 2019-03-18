@@ -9,6 +9,7 @@ import {
 import { Agreement } from "../../../models/Agreement";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import { Company } from "../../../models/Company";
+import { convertDateToNgbDate, convertNgbDateToDateString } from 'src/app/declarations/extends';
 
 @Component({
   selector: "app-agreement",
@@ -77,14 +78,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value
-            ? (<Date>value)
-                .toLocaleString()
-                .substring(0, 10)
-                .split("-")
-                .reverse()
-                .join("-")
-            : "";
+          return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
         }
       },
       {
@@ -95,14 +89,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value
-            ? (<Date>value)
-                .toLocaleString()
-                .substring(0, 10)
-                .split("-")
-                .reverse()
-                .join("-")
-            : "";
+          return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
         }
       },
       {
@@ -119,10 +106,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text",
-        formatter: value => {
-          return value ? (<string>value).substring(12, value.length) : "";
-        }
+        type: "text"
       },
       {
         columnDisplayName: "Açıklama",
@@ -253,23 +237,30 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     /* Insert agreement service */
     this.agreement.CompanyId = this.agreement.CompanyId ? Number(this.agreement.CompanyId) : null;
     this.agreement.Price = this.agreement.Price ? Number(this.agreement.Price) : null;
+    this.agreement.StartDate = convertNgbDateToDateString(this.agreement.StartDate);
+    this.agreement.EndDate = convertNgbDateToDateString(this.agreement.EndDate);
+    this.agreement.Company = this.companies.find(x=>x.CompanyId == this.agreement.CompanyId);
 
-    await this.baseService.agreementService.InsertAgreement(
-      this.agreement,
-      this.agreementFiles,
+    if (this.agreementFiles.length > 0)
+      this.agreement.AgreementFile = this.agreementFiles[0].name;
+    
+      this.baseService.agreementService.InsertAgreement(this.agreement, this.agreementFiles,
       (data: Agreement, message) => {
         /* Show pop up, get inserted agreement then set it agreement id, then load data. */
         this.baseService.popupService.ShowSuccessPopup(message);
+        
         this.agreement.AgreementId = data.AgreementId;
+
         this.agreements.push(this.agreement);
+        
         this.dataTable.TGT_loadData(this.agreements);
+        
         this.resetForm();
-      },
-      (error: HttpErrorResponse) => {
+
+      },(error: HttpErrorResponse) => {
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+      });
   }
 
   async updateAgreement(data: NgForm) {
@@ -357,6 +348,11 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
           /* bind result to model */
           this.agreement = result;
+          
+          this.agreement.StartDate = convertDateToNgbDate(this.agreement.StartDate);
+          
+          this.agreement.EndDate = convertDateToNgbDate(this.agreement.EndDate);
+        
           this.baseService.spinner.hide();
         }, 1000);
       },
@@ -373,4 +369,5 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   async upload(files: any) {
     this.agreementFiles = files;
   }
+
 }

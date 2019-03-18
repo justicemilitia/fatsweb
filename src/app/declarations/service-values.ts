@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -34,7 +34,6 @@ export const GET_FIXEDASSETCARD_BY_ID = "fixedAssetcard/GetFixedAssetCardById";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssets";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
-export const GET_FA_CARDS_BY_CATEGORY_ID="fixedassetcard/GetFixedAssetCardByCategoryId";
 //#endregion
 
 //#region FixedAssets
@@ -45,10 +44,6 @@ export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSu
 export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 export const DELETE_FIXEDASSET = "FixedAsset/RemoveByRemoveFixedAssetIdList";
-//#endregion
-
-//#region SuspendedFixedAsset
-
 //#endregion
 
 //#region FixedAssetCardCategories
@@ -100,7 +95,6 @@ export const UPDATE_FIXEDASSETCARDMODEL =
   "FixedAssetsCardModels/UpdateFixedAssetsCardModel";
 export const DELETE_FIXEDASSETCARDMODEL =
   "FixedAssetsCardModels/RemoveByIdList";
-export const GET_MODELS_BY_BRAND_ID="FixedAssetsCardModels/GetFixedAssetsCardModelsByBrandId";
 //#endregion
 
 //#region Agreements
