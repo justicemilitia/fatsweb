@@ -1,6 +1,5 @@
-<div id="wizard2">
-  <h3>Demirbaş Genel Bilgileri</h3>
-  <section>
+
+    <ng-template #name1>    
     <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
       <div class="row justify-content-center">
         <div class="form-group col-md-6">           
@@ -86,25 +85,40 @@
       </div>
       </div>
     </form>
-  </section>
-  <h3>Özellik</h3>
-  <section>
-      <p>Demirbaş özelliklerini giriniz.</p>
-  </section>
+    </ng-template>
+    <ng-template #name2>
+      <form name="form" #data="ngForm">
+        <div class="row justify-content-center">
+          <div class="form-group col-md-8">
+            <div class="form-group col-md-6">
+              <label>Özellik Adı</label>
+                <select  class="form-control select2-no-search">
+                    <option value="-1" >Seçiniz</option>
+                    <option >Özellik Adı</option>
+                  </select>   
+            </div>
+            <div class="form-group col-md-6">
+                <label>Özellik Değeri</label>
+                  <select  class="form-control select2-no-search">
+                      <option value="-1" >Seçiniz</option>
+                      <option >Özellik Değeri</option>
+                  </select>   
+              </div>
+            <div class="form-group col-md-12">
+             <tree-grid-table class="table-scroll" [dataTable]="dataTableProperty"></tree-grid-table>
+             </div>
+          </div>  
+          <div class="form-group col-md-4">
 
-  <h3>Finansal Bilgiler</h3>
-  <section>
-    <p>Demirbaş finansal bilgilerini giriniz.</p>
-  </section>
+          </div>   
+          <div class="form-group col-md-12">
+              <label>Açıklama</label>
+              <input class="form-control" type="text"/>              
+          </div>
+        </div>
+      </form>
+    </ng-template>
 
-  <h3>Dosya Yükleme</h3>
-  <section>
-    <p>Demirbaşa ait dosyaları yükleyiniz.</p>          
-  </section>
 
-  <h3>Liste</h3>
-  <section>
-    <p>Yeni eklenecek demirbaş listesi</p>          
-  </section>
-</div>
+
 
