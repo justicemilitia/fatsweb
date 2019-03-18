@@ -11,7 +11,7 @@
         <div class="card-header">
         <h2 class="az-content-title">Askıdaki Demirbaşlar</h2>
         <div class="grp-btn-action">
-            <button class="btn btn-az-primary" (click)="undoSuspendedFixedAsset()" id="btnSuspendedFa"
+            <button class="btn btn-az-primary" (click)="selectedSuspendedFa()" id="btnSuspendedFa"
             data-toggle="modal" data-target="#modalSuspendedFa">
             <i class="fa fa-plus-circle fa-plus-circle-add"></i>
             Askıdan Al
@@ -26,7 +26,7 @@
         </div>
       </div>
         <div class="sales-overview">
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
         </div>
       </div>
     </div>
@@ -49,19 +49,19 @@
         <div class="modal-body">
             <input type="hidden"/>
             <div class="row justify-content-center">
-              <div class="col-md-12 form-group">
+              <div class="col-md-12 form-group" *ngFor="let barcode of barcodes">
                 <label>Barkod</label>
-                <input type="text" class="form-control" />            
+                <input [(ngModel)]="faIds" name="Barcode"  type="text" class="form-control" />            
               </div>
             </div>
             <div class="row justify-content-center">
             <div class="col-md-6 form-group">
               <label>Askıdan Alma Bedeli</label>
-              <input type="text" class="form-control"/>
+              <input [(ngModel)]="transaction.CheckOutPrice" name="CheckOutPrice" type="text" class="form-control"/>
             </div>  
               <div class="col-md-6 form-group">
               <label>Para Birimi</label>     
-              <select class="form-control select2-no-search">
+              <select [(ngModel)]="transaction.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
                   <option>Yok</option>
                   <option >para birimi</option>
               </select>      
@@ -76,18 +76,15 @@
                         <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                       </div>
                     </div>
-                    <input class="form-control" type="text" placeholder="yyyy-mm-dd"
-                        name="startDate"  ngbDatepicker #startDate="ngbDatepicker">
-                    <!-- <div *ngIf="data.submitted && startDate.invalid" class="invalid-feedback">
-                      <div *ngIf="startDate.errors.required">Bu alan zorunludur.</div>
-                    </div> -->
+                    <input [(ngModel)]="transaction.CheckInExpectedArrivalDate" name="CheckInExpectedArrivalDate" class="form-control" type="text" placeholder="yyyy-mm-dd"
+                        name="startDate"  ngbDatepicker #startDate="ngbDatepicker">                
                   </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
                 <label>Açıklama</label>
-                <textarea type="text" style="resize:none;height: 80px;"
+                <textarea [(ngModel)]="transaction.CheckOutDescription" name="CheckOutDescription" type="text" style="resize:none;height: 80px;"
                   rows="3" class="form-control"></textarea>
                   <!-- <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
                       <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>

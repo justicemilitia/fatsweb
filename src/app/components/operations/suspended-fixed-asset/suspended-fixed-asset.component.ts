@@ -4,6 +4,8 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTab
 import { BaseService } from 'src/app/services/base.service';
 import { FixedAsset } from 'src/app/models/FixedAsset';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TransactionLog } from 'src/app/models/TransactionLog';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-suspended-fixed-asset',
@@ -16,7 +18,11 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
 
   suspended:FixedAsset=new FixedAsset();
 
-  barcodes:[]=[];
+  faIds:number[]=[];
+
+  transaction:TransactionLog=new TransactionLog();
+
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "suspendedfixedasset",
     [
@@ -78,7 +84,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
         });
     }
 
-    undoSuspendedFixedAsset(){
+    undoSuspendedFixedAsset(data:NgForm){
       
       let selectedItems=this.dataTable.TGT_getSelectedItems();
 
@@ -90,9 +96,15 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
       }
 
       let itemIds: number[] = selectedItems.map(x => x.getId());
+      this.faIds=itemIds;
 
-
-
+      if (data.form.invalid == true) return;
+      this.baseService.suspendedService.UndoSuspensionProcess(this.transaction,
+        ()=>{
+          
+        },(error:HttpErrorResponse)=>{
+          this.baseService.popupService.ShowErrorPopup(error);
+        });
     }
 
 

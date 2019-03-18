@@ -11,7 +11,8 @@ export class TransactionLog {
     CheckOutReasonId : number;
     CheckOutDescription : string;
     CheckOutToWhom : number;
-    CheckinPrice : number;
+    CheckOutPrice : number;
+    CurrencyId:number;
     CheckInExpectedArrivalDate : Date;
     FromParentInventory: number;
     ToParentInverntory : number;

@@ -11,6 +11,7 @@ import { AuthenticationService } from "../authenticationService/authentication.s
 import { ErrorService } from "../error-service/error.service";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { FixedAsset } from 'src/app/models/FixedAsset';
+import { TransactionLog } from 'src/app/models/TransactionLog';
 @Injectable({
   providedIn: 'root'
 })
@@ -41,12 +42,12 @@ export class SuspendedFixedAssetService {
       });
     }
 
-    UndoSuspensionProcess(faIds:[],success,failed){
-      this.httpclient.post(SERVICE_URL+UNDO_SUSPENSION_PROCESS,{"FixedAssetIds":faIds},{
+    UndoSuspensionProcess(logs:TransactionLog,success,failed){
+      this.httpclient.post(SERVICE_URL+UNDO_SUSPENSION_PROCESS,logs,{
         headers:GET_HEADERS(this.authenticationService.getToken())
       }).subscribe(result=>{
         let response:Response=<Response>result;
-        if(response.ResultStatus==true){
+        if(response.ResultStatus == true){
 
         }
       })
