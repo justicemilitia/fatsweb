@@ -6,7 +6,8 @@ import {
   GET_FIXEDASSETSTATUS_LIST,
   INSERT_STATUS,
   UPDATE_STATUS,
-  GET_FIXEDASSETSTATUS_BY_ID
+  GET_FIXEDASSETSTATUS_BY_ID,
+  DELETE_STATUS
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -17,6 +18,7 @@ import { FixedAssetStatus } from "src/app/models/FixedAssetStatus";
   providedIn: "root"
 })
 export class StatusService {
+  
   constructor(
     private httpClient: HttpClient,
     private aService: AuthenticationService
@@ -109,4 +111,21 @@ export class StatusService {
         }
       );
   }
+
+  DeleteLocations(itemIds: number[], success, failed): any {
+    this.httpClient
+      .post(SERVICE_URL + DELETE_STATUS, { "FixedAssetStatusIds": itemIds }, { headers: GET_HEADERS(this.aService.getToken()) })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if ((<[]>response.ResultObject).length == 0) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        }, (error: HttpErrorResponse) => {
+          failed(error);
+        });
+  }
+
 }

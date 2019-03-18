@@ -53,6 +53,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
   constructor(protected baseService: BaseService) {
     super(baseService);
+    this.dataTable.isColumnOffsetActive = false;
     this.loadExpenseCenters();
   }
 
@@ -66,6 +67,9 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
   }
 
   OnSubmit(data: NgForm) {
+
+    if (data.form.invalid) return true;
+
     if (data.value.ExpenseCenterId == null) {
       this.addExpenseCenter(data);
     } else {
@@ -129,8 +133,10 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
     await this.baseService.expenseCenterService.InsertExpenseCenter(
       this.expenseCenter,
       (insertedItem: ExpenseCenter, message) => {
-        this.baseService.popupService.ShowErrorPopup(message);
+
+        this.baseService.popupService.ShowSuccessPopup(message);
         this.expenseCenter.ExpenseCenterId = insertedItem.ExpenseCenterId;
+        
         this.expCenters.push(this.expenseCenter);
         this.dataTable.TGT_loadData(this.expCenters);
 

@@ -4,7 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { routes } from "./app-routing.module";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
@@ -97,6 +97,7 @@ import { CheckoutFixedAssetComponent } from './components/operations/checkout-fi
     NgxSpinnerModule,
     NgMultiSelectDropDownModule.forRoot(),
     ColorPickerModule,
+    NgbModule,
     FormWizardModule
   ],
   providers: [AuthGuard],

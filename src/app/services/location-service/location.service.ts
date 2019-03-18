@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 import {
-  GET_DEPARTMENT_LIST,
   GET_LOCATION_LIST,
   GET_HEADERS,
   SERVICE_URL,
@@ -12,8 +11,6 @@ import {
   DELETE_LOCATION
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
-import { Department } from "../../models/Department";
-import { Router } from "@angular/router";
 import { Response } from "src/app/models/Response";
 import { Location } from "../../models/Location";
 import { ErrorService } from '../error-service/error.service';

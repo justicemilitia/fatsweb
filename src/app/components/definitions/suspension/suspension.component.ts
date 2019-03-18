@@ -158,13 +158,13 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
     await this.baseService.checkOutReasonService.GetSuspensionById(item.CheckOutReasonId,
       (result: CheckOutReason) => {
 
-          setTimeout(() => {
+        setTimeout(() => {
+
+            $("#btnEditSuspension").trigger("click");
+
             this.suspension = result;
             this.baseService.spinner.hide();
-
-          $("#btnEditSuspension").trigger("click");
-
-
+            
         }, 1000);
       }, (error: HttpErrorResponse) => {
 
