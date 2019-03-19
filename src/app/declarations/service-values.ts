@@ -49,20 +49,26 @@ export const GET_FA_CARDS_BY_CATEGORY_ID="fixedassetcard/GetFixedAssetCardByCate
 export const GET_FIXEDASSET_LIST = "FixedAsset/GetFixedAssetsList";
 export const UPDATE_FIXEDASSET = "FixedAsset/UpdateFixedAsset";
 export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcodeNumber";
-export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
-export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
+
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
-export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
 //#endregion
+
+//#region ExitFixedAssets
+export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
+export const GET_EXITFIXEDASSETLIST = "FixedAsset/GetExitFixedAssetList";
+//#endregion
+
 
 //#region SuspendedFixedAsset
 export const GET_SUSPENDED_LIST="FixedAsset/GetFixedAssetsSuspendedList";
 export const UNDO_SUSPENSION_PROCESS="FixedAsset/UndoSuspensionProcess";
+export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
 //#endregion
 
 //#region LostFixedAsset
 export const GET_LOST_FA_LIST="";
 export const UNDO_LOST_PROCESS="";
+export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
 
 //#endregion
 

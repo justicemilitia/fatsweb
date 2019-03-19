@@ -384,6 +384,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
     return fixedAssetBarcodes;
   }
+
+  public selectedItems(){
+    
+  }
 }
 
 // e.FixedAssetCard.FixedAssetCardProperty.forEach(t => {

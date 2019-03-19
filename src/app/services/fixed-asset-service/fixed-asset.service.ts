@@ -5,7 +5,8 @@ import {
   GET_HEADERS,
   GET_FIXED_ASSET,
   GET_FIXEDASSETCARDPROPERTY_LIST,
-  EXIT_FIXEDASSET
+  EXIT_FIXEDASSET,
+  GET_EXITFIXEDASSETLIST
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -51,6 +52,30 @@ export class FixedAssetService {
           failed(error);
         }
       );
+  }
+
+  GetExitFixedAssetList(success, failed){
+    this.httpclient
+    .get(SERVICE_URL + GET_EXITFIXEDASSETLIST, {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    })
+    .subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let exitFixedAssets: FixedAsset[] = [];
+          (<FixedAsset[]>response.ResultObject).forEach(e => {
+            let efa: FixedAsset = new FixedAsset();
+            Object.assign(efa, e);
+            exitFixedAssets.push(efa);
+          });
+          success(exitFixedAssets, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      });
   }
 
   GetFixedAssetProperties(success, failed) {

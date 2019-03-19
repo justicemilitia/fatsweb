@@ -2,10 +2,9 @@
           <h5>Çıkış işlemi için bilgileri giriniz.</h5>
         </div>
 
-        <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
+        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
           <div class="modal-body">
-            <input type="hidden" name="TransactionLogId"
-              [(ngModel)]="transactionLog.TransactionLogId" />
+            <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" />
 
               <!-- BARKODLAR -->
               <div class="row justify-content-center">
@@ -16,9 +15,9 @@
               </div>
      
               <!-- ÇIKIŞ TİPİ -->
+            <div class="row justify-content-center">              
               <div class="col-md-12 form-group">
                 <label class="required-span">Çıkış Tipi</label>                
-                <!-- <div class="row"> -->
                     <select [(ngModel)]="transactionLog.CheckOutReasonId"
                       name="CheckOutReasonId" class="form-control" 
                       #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
@@ -31,10 +30,11 @@
                     <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
                         <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
                     </div>
-              <!-- </div> -->
               </div>
+            </div>
 
               <!-- ÇIKIŞ LOKASYONU -->
+            <div class="row justify-content-center">                            
                 <div class="col-md-12 form-group">
                 <label class="required-span">Çıkış Lokasyonu</label>   
                     <select [(ngModel)]="transactionLog.CheckOutLocationId"
@@ -50,6 +50,7 @@
                         <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
                     </div>
                 </div>
+              </div>
 
               <!-- FİYAT & PARA BİRİMİ -->
               <div class="row justify-content-center">
