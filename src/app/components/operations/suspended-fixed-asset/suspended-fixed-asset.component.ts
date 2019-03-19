@@ -65,13 +65,12 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
      }
   );
   
-  constructor(protected baseService:BaseService) {
+  constructor(protected baseService:BaseService){
     super(baseService);
     this.loadSuspendedList();
    }
 
-  ngOnInit() {
-  }
+  ngOnInit(){}
 
     loadSuspendedList(){
       this.baseService.suspendedService.GetFixedAssetsSuspendedList(
@@ -97,11 +96,12 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
 
       let itemIds: number[] = selectedItems.map(x => x.getId());
       this.faIds=itemIds;
-
+      this.transaction.CurrencyId=1;
       if (data.form.invalid == true) return;
+
       this.baseService.suspendedService.UndoSuspensionProcess(this.transaction,
         ()=>{
-          
+
         },(error:HttpErrorResponse)=>{
           this.baseService.popupService.ShowErrorPopup(error);
         });

@@ -60,6 +60,17 @@ export const GET_SUSPENDED_LIST="FixedAsset/GetFixedAssetsSuspendedList";
 export const UNDO_SUSPENSION_PROCESS="FixedAsset/UndoSuspensionProcess";
 //#endregion
 
+//#region LostFixedAsset
+export const GET_LOST_FA_LIST="";
+export const UNDO_LOST_PROCESS="";
+
+//#endregion
+
+//#region LostFixedAsset
+export const GET_CHECKOUT_FA_LIST="";
+
+//#endregion
+
 //#region FixedAssetCardCategories
 export const GET_FIXEDASSETCARDCATEGORY_LIST =
   "FixedAssetCardCategories/GetFixedAssetCardCategoriesList";

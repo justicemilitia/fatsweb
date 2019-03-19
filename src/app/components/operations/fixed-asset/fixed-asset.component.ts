@@ -83,13 +83,222 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
+        columnDisplayName: "Statü Kodu",
+        columnName: ["FixedAssetStatus", "FixedAssetStatusCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
         columnDisplayName: "Fiyat",
         columnName: ["Price"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      }
+      },
+      // {
+      //   columnDisplayName: "Şirket",
+      //   columnName: ["Company","Name"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      {
+        columnDisplayName: "Lokasyon Adı",
+        columnName: ["Location","Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Lokasyon Kodu",
+        columnName: ["Location","LocationCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Lokasyon Barkodu",
+        columnName: ["Location","Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Lokasyon Koordinatı",
+        columnName: ["Location","Coordinate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Lokasyon Adresi",
+        columnName: ["Location","Address"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Lokasyon Açıklaması",
+        columnName: ["Location","Description"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Receipt Date",
+        columnName: ["ReceiptDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Fatura No",
+        columnName: ["InvoiceNo"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Fatura Tarihi",
+        columnName: ["InvoiceDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      // {
+      //   columnDisplayName: "Amortisman hesaplanacak mı ?",
+      //   columnName: ["WillDepreciationBeCalculated"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      // {    NESNE DÖNÜLECEK
+      //   columnDisplayName: "Amortisman Yöntemi",
+      //   columnName: ["DepreciationCalculationType","Name"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      {
+        columnDisplayName: "Amortisman Periyodu",
+        columnName: ["DepreciationPeriod"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Ifrs Fiyatı",
+        columnName: ["Ifrsprice"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Ifrs hesaplanacak mı ?",
+        columnName: ["WillIfrsbeCalculated"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Ifrs Periyodu",
+        columnName: ["Ifrsperiod"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      // {
+      //   columnDisplayName: "Enflasyon İndekslemesi",
+      //   columnName: ["HasInflationIndexation"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      {
+        columnDisplayName: "Garanti Başlangıç Tarihi",
+        columnName: ["GuaranteeStartDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Garanti Bitiş Tarihi",
+        columnName: ["GuaranteeEndDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Aktivasyon Tarihi",
+        columnName: ["ActivationDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Departman Kodu",
+        columnName: ["Department","DepartmentCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Departman Adı",
+        columnName: ["Department","Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Departman Açıklama",
+        columnName: ["Department","Description"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Masraf Yeri",
+        columnName: ["ExpenseCenter","Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Masraf Yeri",
+        columnName: ["ExpenseCenter","Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+
     ],
     {
       isDesc: false,

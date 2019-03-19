@@ -32,6 +32,8 @@ export class FaCreateComponent extends BaseComponent implements OnInit,AfterView
   staffs: User[] = [];
 
   fixedAsset:FixedAsset=new FixedAsset();
+  
+  dataTableProperty
 
   constructor(protected baseService: BaseService) {
     super(baseService);
