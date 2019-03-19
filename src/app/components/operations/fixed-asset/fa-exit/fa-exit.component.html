@@ -9,9 +9,9 @@
 
               <!-- BARKODLAR -->
               <div class="row justify-content-center">
-                <div class="col-md-12 form-group" *ngFor="let barcode of barcodes">
+                <div class="col-md-12 form-group">
                   <label>Barkod</label>
-                  <input [(ngModel)]="faIds" name="Barcode"  type="text" class="form-control" />            
+                  <input name="Barcodes" value="{{faBarcodes}}" type="text" class="form-control" disabled/>            
                 </div>
               </div>
      

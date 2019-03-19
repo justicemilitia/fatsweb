@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from "@angular/core";
+import { Component, OnInit, NgModule, Input } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
@@ -24,17 +24,18 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   /* Current Fixed Asset Card Property */
   transactionLog: TransactionLog = new TransactionLog();
   transactionLogs: TransactionLog[] = [];
-  currencies: Currency;
-  locations: Location;
-  checkedOutReasons: CheckOutReason = new CheckOutReason();
+  currencies: Currency[] = [];
+  locations: Location[] = [];
+  checkedOutReasons: CheckOutReason[] = [];
   faExitIds: number[] = [];
+  @Input() faBarcodes:any;
 
   constructor(
     baseService: BaseService,
     private fixedAsset: FixedAssetComponent
   ) {
     super(baseService);
-    this.LoadDropdownList();
+    this.LoadDropdownList();    
   }
 
   ngOnInit() {}
@@ -44,6 +45,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   }
 
   async exitFixedAsset(data: NgForm) {
+
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 

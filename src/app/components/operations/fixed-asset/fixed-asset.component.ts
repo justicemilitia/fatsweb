@@ -22,6 +22,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   faProperties: FixedAssetCardProperty[] = [];
 
   fixedAssetIds: number[] = [];
+  fixedAssetBarcodes: string;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -371,6 +372,17 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let itemIds: number[] = selectedItems.map(x => x.getId());
     this.fixedAssetIds = itemIds;
     return this.fixedAssetIds;
+  }
+
+  public selectedBarcodes() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+    let fixedAssetBarcodes = "";
+    selectedItems.forEach(e => {
+      fixedAssetBarcodes += e.Barcode + ", ";
+      // this.fixedAssetBarcodes=
+    });
+
+    return fixedAssetBarcodes;
   }
 }
 
