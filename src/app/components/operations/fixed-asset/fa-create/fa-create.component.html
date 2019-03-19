@@ -118,6 +118,56 @@
         </div>
       </form>
     </ng-template>
+    <ng-template #name3>
+        <form name="form" #data="ngForm">
+            <div class="row justify-content-center">
+              <div class="form-group col-md-3">
+                  <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
+                      <label class="ckbox">
+                        <input type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
+                      </label>
+                  </div> 
+              </div>
+              <div class="form-group col-md-3">
+                  <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
+                      <label class="ckbox">
+                        <input type="checkbox"/><span>IFRS Amortismanı hesaplanacak mı ?</span>
+                      </label>
+                  </div> 
+              </div>
+              <div class="form-group col-md-3">
+                  <select class="form-control select2-no-search">
+                      <option value="-1" >Seçiniz</option>
+                      <option >Masraf Merkezi</option>
+                  </select>   
+              </div>
+              <div class="form-group col-md-3">
+                  <select class="form-control select2-no-search">
+                      <option value="-1" >Seçiniz</option>
+                      <option >Sigorta Şirketi</option>
+                  </select> 
+              </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="form-group col-md-3">
+                    <input type="text" placeholder="Fiyat" class="form-control"/>          
+                </div>
+                <div class="form-group col-md-3">
+                    <select class="form-control select2-no-search">
+                        <option value="-1" >Seçiniz</option>
+                        <option >Para Pirimi</option>
+                    </select> 
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" placeholder="Fatura Numarası" class="form-control"/>    
+                </div>
+                <div class="form-group col-md-3">
+                  
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    
 
 
 
