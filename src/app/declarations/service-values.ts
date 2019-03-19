@@ -61,9 +61,8 @@ export const UNDO_SUSPENSION_PROCESS="FixedAsset/UndoSuspensionProcess";
 //#endregion
 
 //#region LostFixedAsset
-export const GET_LOST_FA_LIST="";
-export const UNDO_LOST_PROCESS="";
-
+export const GET_LOST_FA_LIST="FixedAsset/GetFixedAssetsLostList";
+export const UNDO_LOST_PROCESS="FixedAsset/UndoLostByArrayProcess";
 //#endregion
 
 //#region LostFixedAsset

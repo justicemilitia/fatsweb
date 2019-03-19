@@ -28,6 +28,7 @@ import { FixedAssetService } from './fixed-asset-service/fixed-asset.service';
 import { DashboardService } from './dashboard-service/dashboard.service';
 import { SuspendedFixedAssetService } from './suspended-fixed-asset-service/suspended-fixed-asset.service';
 import { CurrencyService } from './currency-service/currency.service';
+import { LostFixedAssetService } from './lost-fixed-asset-service/lost-fixed-asset.service';
 
 @Injectable({
   providedIn: "root"
@@ -58,6 +59,7 @@ export class BaseService {
     public roleUserService:RoleUserService,
     public fixedAssetService:FixedAssetService,
     public roleAuthorizationService: RoleAuthorizationService,
+    public lostFixedAssetService:LostFixedAssetService,
     public suspendedService:SuspendedFixedAssetService,
     public fileUploadService:FileUploadService,    
     public spinner: NgxSpinnerService,
