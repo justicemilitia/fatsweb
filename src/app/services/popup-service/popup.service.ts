@@ -79,4 +79,21 @@ export class PopupService {
         }
       });
   }
+
+  ShowQuestionPopupForOperation(callBack){
+    swal({
+      title: "Bu kaydı güncellemek istediğinize emin misiniz?",
+      text: "Bu işlem geri alınamaz.",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
 }

@@ -6,6 +6,8 @@ import { FixedAsset } from 'src/app/models/FixedAsset';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TransactionLog } from 'src/app/models/TransactionLog';
 import { NgForm } from '@angular/forms';
+import { Currency } from 'src/app/models/Currency';
+import { CheckOutReason } from 'src/app/models/CheckOutReason';
 
 @Component({
   selector: 'app-suspended-fixed-asset',
@@ -15,13 +17,13 @@ import { NgForm } from '@angular/forms';
 export class SuspendedFixedAssetComponent extends BaseComponent implements OnInit {
 
   suspendedList:FixedAsset[]=[];
-
   suspended:FixedAsset=new FixedAsset();
-
-  faIds:number[]=[];
-
+  Ids:number[]=[];
   transaction:TransactionLog=new TransactionLog();
-
+  transactionLogs: TransactionLog[] = [];
+  currencies: Currency;
+  checkedOutReasons: CheckOutReason[] =[];
+  locations:Location[]=[];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "suspendedfixedasset",
@@ -65,12 +67,45 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
      }
   );
   
-  constructor(protected baseService:BaseService) {
+  constructor(protected baseService:BaseService){
     super(baseService);
     this.loadSuspendedList();
+    this.loadDropdown();
    }
 
-  ngOnInit() {
+  ngOnInit(){}
+
+  loadDropdown(){
+
+    /* Load checked out reasons to checked out reason dropdown */
+    this.baseService.checkOutReasonService.GetCheckOutReason(
+      checkedOutReasons => {
+        this.checkedOutReasons = checkedOutReasons;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+      /* Load currencies to currencies dropdown */
+     this.baseService.currencyService.GetCurrencies(
+      currencies => {
+        this.currencies = currencies;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    /* Load locations to locations dropdown */
+    this.baseService.locationService.GetLocations(
+    locations=>{
+      this.locations=locations;
+    },
+    (error:HttpErrorResponse)=>{
+      this.baseService.popupService.ShowErrorPopup(error);
+    }
+    );
   }
 
     loadSuspendedList(){
@@ -84,8 +119,8 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
         });
     }
 
-    undoSuspendedFixedAsset(data:NgForm){
-      
+    selectedSuspendFa(){
+
       let selectedItems=this.dataTable.TGT_getSelectedItems();
 
       if (!selectedItems || selectedItems.length == 0) {
@@ -96,18 +131,58 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
       }
 
       let itemIds: number[] = selectedItems.map(x => x.getId());
-      this.faIds=itemIds;
+      this.Ids = itemIds;
+      return this.Ids;
+    }
+    
+    undoSuspendedFixedAsset(data:NgForm){
 
-      if (data.form.invalid == true) return;
-      this.baseService.suspendedService.UndoSuspensionProcess(this.transaction,
-        ()=>{
-          
-        },(error:HttpErrorResponse)=>{
-          this.baseService.popupService.ShowErrorPopup(error);
-        });
+      this.transaction.FixedAssetIds=this.selectedSuspendFa();
+
+      this.baseService.popupService.ShowQuestionPopupForOperation((response:boolean)=>{
+        if(response==true){
+
+          this.baseService.suspendedService.UndoSuspensionProcess(this.transaction,
+            (suspension:FixedAsset,message)=>{
+    
+              this.baseService.popupService.ShowSuccessPopup(message);
+              
+              this.suspended.FixedAssetId=suspension.FixedAssetId;
+    
+              this.suspendedList.push(this.suspended);
+              this.dataTable.TGT_loadData(this.suspendedList);
+           
+            },(error:HttpErrorResponse)=>{
+              this.baseService.popupService.ShowErrorPopup(error);
+            });
+         }
+      });
     }
 
+    checkOutFixedAsset(data:NgForm){
 
+      this.transaction.FixedAssetIds=this.selectedSuspendFa();
+      this.baseService.popupService.ShowQuestionPopupForOperation((response:boolean)=>{
+        if(response==true){
+          
+          this.baseService.fixedAssetService.ExitFixedAsset(
+            this.transaction,
+            (insertedItem: TransactionLog, message) => {
+              /* Show success pop up */
+              this.baseService.popupService.ShowSuccessPopup(message);
 
+              /* Set inserted Item id to model */
+              this.transaction.TransactionLogId = insertedItem.TransactionLogId;
 
+              /* Push inserted item to Property list */
+              this.transactionLogs.push(this.transaction);
+            },
+            (error: HttpErrorResponse) => {
+              /* Show alert message */
+              this.baseService.popupService.ShowErrorPopup(error);
+              }
+            );
+          }
+      });
+    }
 }

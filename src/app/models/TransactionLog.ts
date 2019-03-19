@@ -2,7 +2,7 @@ export class TransactionLog {
 
     TransactionLogId : number;
     TransactionTypeId : number;
-    Barcode : string;
+    FixedAssetIds : number[];
     UserId : number;
     FromStatus : number;
     ToStatus : number;
@@ -12,6 +12,7 @@ export class TransactionLog {
     CheckOutDescription : string;
     CheckOutToWhom : number;
     CheckOutPrice : number;
+    CheckOutLocationId: number;
     CurrencyId:number;
     CheckInExpectedArrivalDate : Date;
     FromParentInventory: number;
