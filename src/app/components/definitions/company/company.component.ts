@@ -144,12 +144,17 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
+
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
+
     /* if company id exists means update it otherwise insert it */
     if (data.value.CompanyId == null) {
       this.addCompany(data);
     } else {
       this.updateCompany(data);
     }
+
   }
 
   async deleteCompanies() {
@@ -202,8 +207,6 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async addCompany(data: NgForm) {
-    /* Check model state is valid */
-    if (data.form.invalid == true) return;
 
     /* Bind Cities and Countries to table model note: ngModels return string so we have to cast them to number */
     if (this.company.CityId) {
@@ -248,9 +251,6 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async updateCompany(data: NgForm) {
-
-    /* Check model state */
-    if (data.form.invalid == true) return;
 
     /* Ask for approve question if its true then update the company */
     await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {

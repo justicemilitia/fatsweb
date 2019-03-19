@@ -1,7 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Currency } from '../models/Currency';
 
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -66,10 +66,15 @@ export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSu
 //#endregion
 
 //#region LostFixedAsset
+<<<<<<< HEAD
 export const GET_LOST_FA_LIST="";
 export const UNDO_LOST_PROCESS="";
 export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
 
+=======
+export const GET_LOST_FA_LIST="FixedAsset/GetFixedAssetsLostList";
+export const UNDO_LOST_PROCESS="FixedAsset/UndoLostByArrayProcess";
+>>>>>>> d2462033494e54a3af5088d6b01a222eedcd026a
 //#endregion
 
 //#region LostFixedAsset
@@ -134,7 +139,7 @@ export const DELETE_FIXEDASSETCARDMODEL =
 export const GET_AGREEMENT_LIST = "Aggrement/GetAgreementListByFirmId";
 export const GET_AGREEMENT_BY_ID = "Aggrement/GetAgreementListById";
 export const INSERT_AGREEMENT = "Aggrement/AddAgreementWithFileupload";
-export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreement";
+export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreementWithFileupload";
 export const DELETE_AGREEMENT = "Aggrement/RemoveByIdList";
 export const FILE_UPLOAD = "File/UploadFile";
 //#endregion

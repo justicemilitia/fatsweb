@@ -123,7 +123,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     }
   );
 
-  constructor(public baseService: BaseService, private http: HttpClient) {
+  constructor(public baseService: BaseService) {
     super(baseService);
 
     this.loadAgreements();
@@ -132,14 +132,24 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {}
 
-  resetForm() {
-    // this.agreement = new Agreement();
+  resetForm(data: NgForm, isNewItem: boolean) {
+    if (isNewItem == true) {
+      this.agreement = new Agreement();
+      this.clearFiles();
+    }
+    data.resetForm(this.agreement);
+
   }
 
   onSubmit(data: NgForm) {
 
     if (data.form.invalid == true) return;
-    
+
+    if (data.value.Price) {
+      if (!this.isNumeric(data.value.Price.value)) {
+        return;
+      }
+    }
     /* if agreement id exists means update it otherwise insert it */
     if (data.value.AgreementId == null) {
       this.addAgreements(data);
@@ -150,6 +160,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   async deleteAgreements() {
+    
     /* get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
@@ -162,7 +173,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -232,30 +243,36 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   async addAgreements(data: NgForm) {
-    if (data.form.invalid == true) return;
+
+    let willInsertItem = new Agreement();
+
+    Object.assign(willInsertItem,this.agreement);
 
     /* Insert agreement service */
-    this.agreement.CompanyId = this.agreement.CompanyId ? Number(this.agreement.CompanyId) : null;
-    this.agreement.Price = this.agreement.Price ? Number(this.agreement.Price) : null;
-    this.agreement.StartDate = convertNgbDateToDateString(this.agreement.StartDate);
-    this.agreement.EndDate = convertNgbDateToDateString(this.agreement.EndDate);
-    this.agreement.Company = this.companies.find(x=>x.CompanyId == this.agreement.CompanyId);
-
-    if (this.agreementFiles.length > 0)
-      this.agreement.AgreementFile = this.agreementFiles[0].name;
+    willInsertItem.CompanyId = willInsertItem.CompanyId ? Number(willInsertItem.CompanyId) : null;
+    willInsertItem.Price = this.agreement.Price ? Number(willInsertItem.Price) : null;
+    willInsertItem.StartDate = convertNgbDateToDateString(willInsertItem.StartDate);
+    willInsertItem.EndDate = convertNgbDateToDateString(willInsertItem.EndDate);
+    willInsertItem.Company = this.companies.find(x=>x.CompanyId == willInsertItem.CompanyId);
     
-      this.baseService.agreementService.InsertAgreement(this.agreement, this.agreementFiles,
-      (data: Agreement, message) => {
+    if (this.agreementFiles && this.agreementFiles.length > 0) {
+      willInsertItem.AgreementFile = this.agreementFiles[0].name;
+    }
+      
+    this.baseService.agreementService.InsertAgreement(willInsertItem, this.agreementFiles,
+      (insretedItem: Agreement, message) => {
+
         /* Show pop up, get inserted agreement then set it agreement id, then load data. */
         this.baseService.popupService.ShowSuccessPopup(message);
         
-        this.agreement.AgreementId = data.AgreementId;
+        willInsertItem.AgreementId = insretedItem.AgreementId;
 
-        this.agreements.push(this.agreement);
+        this.agreements.push(willInsertItem);
         
         this.dataTable.TGT_loadData(this.agreements);
         
-        this.resetForm();
+        /* Reset Forms and make company empty to use new */
+        this.resetForm(data, true);
 
       },(error: HttpErrorResponse) => {
         /* Show alert message */
@@ -264,20 +281,39 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   async updateAgreement(data: NgForm) {
-    /* Check model state */
-    if (data.form.invalid == true) return;
+
+    /* Convert object to new object */
+    let willUpdateItem = new Agreement();
+
+    Object.assign(willUpdateItem,this.agreement);
+
+    /* Update agreement values with valid values */
+    willUpdateItem.CompanyId = willUpdateItem.CompanyId ? Number(willUpdateItem.CompanyId) : null;
+    willUpdateItem.Price = this.agreement.Price ? Number(willUpdateItem.Price) : null;
+    willUpdateItem.StartDate = convertNgbDateToDateString(willUpdateItem.StartDate);
+    willUpdateItem.EndDate = convertNgbDateToDateString(willUpdateItem.EndDate);
+    willUpdateItem.Company = this.companies.find(x=>x.CompanyId == willUpdateItem.CompanyId);
+
+    if (this.agreementFiles && this.agreementFiles.length > 0) {
+      willUpdateItem.AgreementFile = this.agreementFiles[0].name;
+    }
 
     /* Ask for approve question if its true then update the agreement */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+    this.baseService.popupService.ShowQuestionPopupForUpdate(
       (response: boolean) => {
         if (response == true) {
           this.baseService.agreementService.UpdateAgreement(
-            this.agreement,
+            willUpdateItem,this.agreementFiles,
             (_agreement, message) => {
+              
               /* Show pop up then update data in datatable */
               this.baseService.popupService.ShowSuccessPopup(message);
-              this.dataTable.TGT_updateData(this.agreement);
-              this.resetForm();
+              
+              this.dataTable.TGT_updateData(willUpdateItem);
+
+              /* Get original source from table */
+              this.agreements = <Agreement[]>this.dataTable.TGT_copySource();
+
             },
             (error: HttpErrorResponse) => {
               /* Show error message */
@@ -291,7 +327,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   async loadAgreements() {
     /* Load all agreements to datatable */
-    await this.baseService.agreementService.GetAgreement(
+    this.baseService.agreementService.GetAgreement(
       (agreements: Agreement[]) => {
         this.agreements = agreements;
         this.dataTable.TGT_loadData(this.agreements);
@@ -304,7 +340,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   async loadCompanies() {
-    await this.baseService.companyService.GetCompanies(
+    this.baseService.companyService.GetCompanies(
       (companies: Company[]) => {
         this.companies = companies;
       },
@@ -316,7 +352,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   async loadAgreementById(event: any) {
     if (event.target.value.toString().trim() !== "") {
-      await this.baseService.agreementService.GetAgreementById(
+      this.baseService.agreementService.GetAgreementById(
         <number>event.target.value,
         (agreements: Agreement[]) => {
           /* Load agreements */
@@ -331,20 +367,26 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   async onDoubleClickItem(item: Agreement) {
+
+    /* Clear Model */
+    this.agreement = new Agreement();
+
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
     /* load companies if not loaded */
-    await this.loadCompanies();
+    this.loadCompanies();
 
     /* get agreement information from server */
-    await this.baseService.agreementService.GetAgreementById(
+    this.baseService.agreementService.GetAgreementById(
       item.AgreementId,
       (result: Agreement) => {
         /* then bind it to agreement model to update */
         setTimeout(() => {
           /* Trigger to model to show it */
           $("#btnAddAgreement").trigger("click");
+
+          this.baseService.spinner.hide();
 
           /* bind result to model */
           this.agreement = result;
@@ -353,7 +395,6 @@ export class AgreementComponent extends BaseComponent implements OnInit {
           
           this.agreement.EndDate = convertDateToNgbDate(this.agreement.EndDate);
         
-          this.baseService.spinner.hide();
         }, 1000);
       },
       (error: HttpErrorResponse) => {
@@ -366,8 +407,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async upload(files: any) {
-    this.agreementFiles = files;
+  clearFiles() {
+    this.agreementFiles = '';
+    this.agreement.AgreementFile = null;
   }
 
 }

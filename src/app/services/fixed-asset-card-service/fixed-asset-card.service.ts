@@ -64,7 +64,7 @@ export class FixedAssetCardService {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let insertedFixedAssetCard = new FixedAssetCard();
-            Object.assign(insertedFixedAssetCard, response.LanguageKeyword);
+            Object.assign(insertedFixedAssetCard, response.ResultObject);
             success(insertedFixedAssetCard, response.LanguageKeyword);
           } else {
             failed(

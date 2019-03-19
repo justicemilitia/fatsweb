@@ -96,4 +96,21 @@ export class PopupService {
         }
       });
   }
+
+  ShowQuestionPopupForFoundFixedAsset(callBack){
+    swal({
+      title: "Seçili demirbaşlar 'Demirbaş Listesine eklenecektir' ?",
+      text: "İşlemi onaylıyor musunuz ?",
+      icon: "warning",
+      buttons: ['Hayır', 'Evet'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
 }
