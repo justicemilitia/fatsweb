@@ -77,4 +77,8 @@ export abstract class BaseComponent implements OnInit {
     this.baseService.router.navigateByUrl(page);
   }
 
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
 }

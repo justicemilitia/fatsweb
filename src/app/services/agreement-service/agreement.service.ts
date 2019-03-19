@@ -61,11 +61,11 @@ export class AgreementService {
   }
 
   InsertAgreement(agreement: Agreement, files: any, success, failed) {
-    const formData = new FormData();
-    console.log(agreement);
+    
+    let formData = new FormData();
+    
     formData.append("model", JSON.stringify(agreement));    
     if (files && files.length > 0) formData.append(files[0].name, files[0]);
-    console.log(formData);
 
     let headers: HttpHeaders=new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
@@ -93,10 +93,20 @@ export class AgreementService {
       );
   }
 
-  UpdateAgreement(agreement: Agreement, success, failed) {
+  UpdateAgreement(agreement: Agreement,files:any, success, failed) {
+
+    let formData = new FormData();
+    
+    formData.append("model", JSON.stringify(agreement));    
+    if (files && files.length > 0) formData.append(files[0].name, files[0]);
+
+    let headers: HttpHeaders=new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
+    headers = headers.append('Accept', 'application/json');
+
     this.httpClient
-      .put(SERVICE_URL + UPDATE_AGREEMENT, agreement, {
-        headers: GET_HEADERS(this.authenticationService.getToken())
+      .put(SERVICE_URL + UPDATE_AGREEMENT, formData, {
+        headers: headers
       })
       .subscribe(
         result => {
