@@ -13,6 +13,7 @@ import { getAnErrorResponse } from "src/app/declarations/extends";
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { TransactionLog } from '../../models/TransactionLog';
+import { FixedAssetComponent } from '../../components/operations/fixed-asset/fixed-asset.component';
 
 @Injectable({
   providedIn: "root"
@@ -20,7 +21,7 @@ import { TransactionLog } from '../../models/TransactionLog';
 export class FixedAssetService {
   constructor(
     private httpclient: HttpClient,
-    private authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService
   ) {}
 
   GetFixedAsset(success,failed){
@@ -99,6 +100,5 @@ export class FixedAssetService {
           failed(error);
         }
       );
-
   }
 }

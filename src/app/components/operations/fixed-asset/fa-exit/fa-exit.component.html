@@ -1,16 +1,26 @@
+        <div class="row justify-content-center">
+          <h5>Çıkış işlemi için bilgileri giriniz.</h5>
+        </div>
 
         <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
           <div class="modal-body">
             <input type="hidden" name="TransactionLogId"
               [(ngModel)]="transactionLog.TransactionLogId" />
 
+              <!-- BARKODLAR -->
+              <div class="row justify-content-center">
+                <div class="col-md-12 form-group" *ngFor="let barcode of barcodes">
+                  <label>Barkod</label>
+                  <input [(ngModel)]="faIds" name="Barcode"  type="text" class="form-control" />            
+                </div>
+              </div>
      
               <!-- ÇIKIŞ TİPİ -->
-              <div class="form-group">
+              <div class="col-md-12 form-group">
                 <label class="required-span">Çıkış Tipi</label>                
-                <div class="row">
+                <!-- <div class="row"> -->
                     <select [(ngModel)]="transactionLog.CheckOutReasonId"
-                      name="CheckOutReasonId" class="form-control txt-width" 
+                      name="CheckOutReasonId" class="form-control" 
                       #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
                       <option>Yok</option>
                       <option *ngFor="let checkedOutReason of checkedOutReasons"
@@ -21,15 +31,14 @@
                     <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
                         <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
                     </div>
-              </div>
+              <!-- </div> -->
               </div>
 
               <!-- ÇIKIŞ LOKASYONU -->
-              <div class="form-group">
-                <label class="required-span">Çıkış Lokasyonu</label>                
-                <div class="row">
+                <div class="col-md-12 form-group">
+                <label class="required-span">Çıkış Lokasyonu</label>   
                     <select [(ngModel)]="transactionLog.CheckOutLocationId"
-                      name="CheckOutLocationId" class="form-control txt-width" 
+                      name="CheckOutLocationId" class="form-control" 
                       #CheckOutLocationId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutLocationId.invalid }" required>
                       <option>Yok</option>
                       <option *ngFor="let location of locations"
@@ -40,8 +49,7 @@
                     <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
                         <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
                     </div>
-              </div>
-              </div>
+                </div>
 
               <!-- FİYAT & PARA BİRİMİ -->
               <div class="row justify-content-center">
@@ -87,8 +95,7 @@
 
           <!-- modal-body -->
           <div class="modal-footer">
-            <button class="btn btn-orange" id="btnExitFixedAsset" type="submit" data-toggle="modal"
-              data-target="#modalExitFixedAsset" *ngIf="isWaitingInsertOrUpdate == false">
+            <button class="btn btn-orange" id="btnExitFixedAsset" type="submit" data-toggle="modal" data-target="#modalExitFixedAsset">
               Kaydet
             </button>
             <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

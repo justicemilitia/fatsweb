@@ -12,7 +12,6 @@ import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
   templateUrl: "./fixed-asset.component.html",
   styleUrls: ["./fixed-asset.component.css"]
 })
-
 export class FixedAssetComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
@@ -21,6 +20,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   fixedAsset: FixedAsset = new FixedAsset();
 
   faProperties: FixedAssetCardProperty[] = [];
+
+  fixedAssetIds: number[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -102,7 +103,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     this.loadFixedAssetProperties();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   filter: FixedAsset = new FixedAsset();
 
@@ -113,7 +114,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         fa.forEach(e => {
           e.FixedAssetPropertyDetails.forEach(p => {
             if (p.FixedAssetCardPropertyId) {
-            e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
             }
           });
         });
@@ -146,10 +147,23 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadFixedAssetPropertyValues() {
+  loadFixedAssetPropertyValues() {}
+
+  public selectedIds() {
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
+      return;
+    }
+
+    let itemIds: number[] = selectedItems.map(x => x.getId());
+    this.fixedAssetIds = itemIds;
+    return this.fixedAssetIds;
   }
 }
-
 
 // e.FixedAssetCard.FixedAssetCardProperty.forEach(t => {
 //let faProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
@@ -157,5 +171,3 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 //this.faProperties.push(faProperty);
 // console.log(this.faProperties);
 //});
-
-
