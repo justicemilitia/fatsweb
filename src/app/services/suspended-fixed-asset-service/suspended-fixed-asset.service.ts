@@ -47,10 +47,15 @@ export class SuspendedFixedAssetService {
         headers:GET_HEADERS(this.authenticationService.getToken())
       }).subscribe(result=>{
         let response:Response=<Response>result;
-        if(response.ResultStatus == true){
-
+        if(response.ResultStatus == true){          
+          success(logs,response.LanguageKeyword);          
         }
-      })
+        else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      });
     }
-
 }
