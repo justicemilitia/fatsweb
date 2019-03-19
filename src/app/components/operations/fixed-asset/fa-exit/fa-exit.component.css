@@ -1,0 +1,25 @@
+.btn-orange {
+    background: #e67300;
+    color: white;
+    border-radius: 5px;
+  }
+  .btnExitFixedAsset-height {
+    min-height: 15px;
+  }
+  .btnExitFixedAsset-right {
+    float: right;
+    margin-bottom:10px;
+    padding-right:0px;
+  }
+  .left {
+    margin-left: 90px;
+  }
+  .txt-width{
+    border-radius: 5px;
+    height:30px;
+  }
+  .btn-height{
+  min-height:15px;
+  }
+  
+  
