@@ -66,15 +66,9 @@ export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSu
 //#endregion
 
 //#region LostFixedAsset
-<<<<<<< HEAD
 export const GET_LOST_FA_LIST="";
 export const UNDO_LOST_PROCESS="";
 export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
-
-=======
-export const GET_LOST_FA_LIST="FixedAsset/GetFixedAssetsLostList";
-export const UNDO_LOST_PROCESS="FixedAsset/UndoLostByArrayProcess";
->>>>>>> d2462033494e54a3af5088d6b01a222eedcd026a
 //#endregion
 
 //#region LostFixedAsset
