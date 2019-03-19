@@ -92,6 +92,10 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
+
+    /* Check model state */
+    if (data.form.invalid == true) return;
+
     /* if fixed asset card id exists means update it otherwise insert it */
     if (data.value.FixedAssetCardId == null) {
       this.addFixedAssetCard(data);
@@ -112,7 +116,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    this.baseService.popupService.ShowQuestionPopupForDelete(() => {
 
       /* Activate the loading spinner */
       this.baseService.spinner.show();
@@ -152,14 +156,11 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   async addFixedAssetCard(data: NgForm) {
 
-    /* Check model state is valid */
-    if (data.form.invalid == true) return;
-
     /* Say user to wait */
     this.isWaitingInsertOrUpdate = true;
 
     /* Insert Fixed Asset Card service */
-    await this.baseService.fixedAssetCardService.InsertFixedAssetCard(this.fixedAssetCard,
+    this.baseService.fixedAssetCardService.InsertFixedAssetCard(this.fixedAssetCard,
       (insertedItem: FixedAssetCard, message) => {
 
         /* Change loading bar status */
@@ -197,11 +198,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   async updateFixedAssetCard(data: NgForm) {
 
-    /* Check model state */
-    if (data.form.invalid == true) return;
-
     /* Ask for approve question if its true then update the fixed asset card */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
       if (response == true) {
 
         /* loading icon visible */

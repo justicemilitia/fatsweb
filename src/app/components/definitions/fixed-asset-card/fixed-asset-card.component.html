@@ -1,19 +1,30 @@
-<div class="az-content">
-  <div class="container-fluid">
-    <div class="az-content-body">
+<div class="az-content az-content-dashboard-four">
+    <div class="media media-dashboard">
+      <div class="media-body">
+        <!-- Bread Crumb -->
+          <div class="az-content-breadcrumb">
+              <span>TANIMLAMALAR</span>
+              <span>DEMİRBAŞ KARTLARI</span>
+          </div>
       <div class="card card-dashboard-twelve mg-b-20">
-        <h2 class="az-content-title">Demirbaş Kartları</h2>
-        <div class="grp-btn-action">
-          <button type="button" (click)="deleteFixedAssetCards()" class="btn btn-danger btn-delete-custom">
-            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
-            <i class="fas fa-trash"></i></button>
-          <button class="btn btn-orange btn-new-custom" id="btnAddFixedAssetCard" data-toggle="modal"
-            data-target="#modalFixedAssetCard" (click)="resetForm(data,true)">Demirbaş Kartı Ekle</button>
-          <button style="display:none" id="btnEditFixedAssetCard" data-toggle="modal" data-target="#modalFixedAssetCard"
-            (click)="resetForm(data,false)">Demirbaş Kartı Düzenle</button>
+        <div class="card-header">
+          <h2 class="az-content-title">Demirbaş Kartları</h2>
+          <div class="grp-btn-action">
+            <button type="button" (click)="deleteFixedAssetCards()" class="btn btn-danger btn-delete-custom">
+              {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+              <i class="fas fa-trash"></i></button>
+            
+              <button class="btn btn-az-primary" id="btnAddFixedAssetCard" data-toggle="modal"
+              data-target="#modalFixedAssetCard" (click)="resetForm(data,true)">Demirbaş Kartı Ekle</button>
+
+            <button style="display:none" id="btnEditFixedAssetCard" data-toggle="modal" data-target="#modalFixedAssetCard"
+              (click)="resetForm(data,false)">Demirbaş Kartı Düzenle</button>
+          </div>
         </div>
         <p class="mg-b-20"></p>
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        <div class="sales-overview">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        </div>
       </div>
     </div>
     <!-- az-content-body -->
@@ -39,9 +50,11 @@
               <label class="required-span">Demirbaş Kart Kodu</label>
               <input type="text" [(ngModel)]="fixedAssetCard.FixedAssetCardCode" #FixedAssetCardCode="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCode.invalid }" name="FixedAssetCardCode"
-                required class="form-control" />
+                required maxlength="50" class="form-control" />
               <div *ngIf="data.submitted && FixedAssetCardCode.invalid" class="invalid-feedback">
                 <div *ngIf="FixedAssetCardCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="FixedAssetCardCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+
               </div>
             </div>
           </div>
@@ -49,34 +62,42 @@
             <div class="col-md-12 form-group">
               <label class="required-span">Demirbaş Kart Adı</label>
               <input [(ngModel)]="fixedAssetCard.Name" name="Name" type="text" class="form-control" #Name="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label>Demirbaş Kart Kategorisi</label>
+              <label class="required-span">Demirbaş Kart Kategorisi</label>
               <select [(ngModel)]="fixedAssetCard.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId"
-                class="form-control" (click)="loadFixedAssetCardCategories()">
-                <option value=" ">Yok</option>
+                [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }"
+                class="form-control" (click)="loadFixedAssetCardCategories()" #FixedAssetCardCategoryId="ngModel" required>
+                <option [ngValue]="null">Yok</option>
                 <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories"
                   value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>{{fixedAssetCardCategory.Name}}</option>
               </select>
+              <div *ngIf="data.submitted && FixedAssetCardCategoryId.invalid" class="invalid-feedback">
+                  <div *ngIf="FixedAssetCardCategoryId.errors.required">Bu alan zorunludur.</div>
+                </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label>Açıklama</label>
-              <textarea [(ngModel)]="fixedAssetCard.Description" name="Description" style="resize:none" rows="2"
-                class="form-control" type="text"></textarea>
+              <textarea [(ngModel)]="fixedAssetCard.Description" name="Description" style="resize:none" rows="2" #Description="ngModel"
+                class="form-control" type="text" maxlength="150"></textarea>
+                <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                    <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                  </div>
             </div>
           </div>
         </div>
         <!-- form-group -->
         <div class="modal-footer ustify-content-center">
-          <button id="btnInsertOrUpdateFixedAssetCard" type="submit" class="btn btn-orange btn-block btn-height"
+          <button id="btnInsertOrUpdateFixedAssetCard" type="submit" class="btn btn-az-primary"
             data-toggle="modal" *ngIf="isWaitingInsertOrUpdate == false"
             data-target="#modalInsertFixedAssetCard">{{fixedAssetCard.FixedAssetCardId ? 'Demirbaş Kartı Güncelle' : 'Demirbaş Kartı Ekle'}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
