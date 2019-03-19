@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -109,7 +109,7 @@ export const DELETE_FIXEDASSETCARDMODEL =
 export const GET_AGREEMENT_LIST = "Aggrement/GetAgreementListByFirmId";
 export const GET_AGREEMENT_BY_ID = "Aggrement/GetAgreementListById";
 export const INSERT_AGREEMENT = "Aggrement/AddAgreementWithFileupload";
-export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreement";
+export const UPDATE_AGREEMENT = "Aggrement/UpdateAgreementWithFileupload";
 export const DELETE_AGREEMENT = "Aggrement/RemoveByIdList";
 export const FILE_UPLOAD = "File/UploadFile";
 //#endregion

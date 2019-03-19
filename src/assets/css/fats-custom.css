@@ -397,3 +397,52 @@ button.btn:first-child {
 .custom-select {
     background: none;
 }
+
+.input-group-append {
+    height: 27px;
+}
+
+.input-group-append.is-invalid {
+    height: 27px;
+    border: 1px solid red;
+    border-right: 0;
+}
+
+.custom-file {
+    display: flex !important;
+    height: 27px;
+    width: calc(100% - 30px);
+    background: #e9ecef;
+    border: 1px solid #cccccc;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
+.custom-file-text {
+    margin: 0;
+    padding: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+label.custom-file:hover {
+    background: #e6e7ea;
+    border: 1px solid #bfbbbb;
+}
+
+.file-area {
+    flex: 1;
+    display: flex;
+}
+
+.custom-file-remove {
+    display: flex !important;
+    height: 27px;
+    width: 30px;
+    background: #e9ecef;
+    border: 1px solid #cccccc;
+    align-items: center;
+    justify-content: center;
+}

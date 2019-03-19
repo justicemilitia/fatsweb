@@ -56,36 +56,51 @@
               <div class="form-group col-md-6">
                 <label class="required-span">Sözleşme No</label>
                 <input [(ngModel)]="agreement.No" name="No" type="text" class="form-control" #No="ngModel"
-                  [ngClass]="{ 'is-invalid': data.submitted && No.invalid }" required />
+                  [ngClass]="{ 'is-invalid': data.submitted && No.invalid }" required maxlength="50"/>
                 <div *ngIf="data.submitted && No.invalid" class="invalid-feedback">
                   <div *ngIf="No.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="No.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+
                 </div>
             </div>
             <!-- SÖZLEŞME ADI -->
             <div class="form-group col-md-6">
-                <label>Sözleşme Adı</label>
-                <input [(ngModel)]="agreement.Name" name="No" type="text" class="form-control"
-                  #Name="ngModel" />
+                <label class="required-span">Sözleşme Adı</label>
+                <input [(ngModel)]="agreement.Name" name="Name" type="text" class="form-control"
+                  #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" 
+                  required maxlength="50" />
+                <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                </div>
             </div>
           </div>
 
           <div class="row justify-content-center">
             <!-- SÖZLEŞME KODU -->
             <div class="form-group col-md-6">
-                <label>Sözleşme Kodu</label>
-                <input [(ngModel)]="agreement.AgreementCode" name="AgreementCode" type="text"
-                  class="form-control" />
+                <label class="required-span">Sözleşme Kodu</label>
+                <input [(ngModel)]="agreement.AgreementCode" #AgreementCode="ngModel" name="AgreementCode" type="text"
+                  class="form-control" [ngClass]="{ 'is-invalid': data.submitted && AgreementCode.invalid }" required maxlength="50" />
+                  <div *ngIf="data.submitted && AgreementCode.invalid" class="invalid-feedback">
+                    <div *ngIf="AgreementCode.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="AgreementCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                  </div>
             </div>
             <!-- İLGİLİ ŞİRKET -->
             <div class="form-group col-md-6">
-              <label>İlgili Şirket</label>
+              <label class="required-span">İlgili Şirket</label>
               <select [(ngModel)]="agreement.CompanyId" name="CompanyId" class="form-control"
-                (click)="loadCompanies()">
-                <option value="">Seçiniz</option>
+              [ngClass]="{ 'is-invalid': data.submitted && CompanyId.invalid }"
+                (click)="loadCompanies()" required #CompanyId="ngModel">
+                <option [ngValue]="null">Seçiniz</option>
                 <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
                   {{ company.Name }}
                 </option>
               </select>
+              <div *ngIf="data.submitted && CompanyId.invalid" class="invalid-feedback">
+                <div *ngIf="CompanyId.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
           </div>
 
@@ -94,33 +109,44 @@
             <div class="col-md-6 form-group">
                 <label class="required-span">Başlangıç Tarihi</label>
                 <div class="input-group">
-                  <div class="input-group-append">
+                  <div class="input-group-append" [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )">
                     <div (click)="startDate.toggle()" class="input-group-text">
                       <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                     </div>
                   </div>
                   <input class="form-control" type="text" placeholder="yyyy-mm-dd"
-                      name="startDate" required [(ngModel)]="agreement.StartDate" ngbDatepicker #startDate="ngbDatepicker">
-                  <div *ngIf="data.submitted && startDate.invalid" class="invalid-feedback">
-                    <div *ngIf="startDate.errors.required">Bu alan zorunludur.</div>
-                  </div>
+                      name="startDate" [(ngModel)]="agreement.StartDate" 
+                      ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel" 
+                      [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )"
+                      required >
+                      <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
+                          <div *ngIf="startDateModel.errors.required">Bu alan zorunludur.</div>
+                          <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
+                            Lütfen Geçerli Format Giriniz.
+                          </div>
+                        </div> 
                 </div>
-
             </div>
             <!-- BİTİŞ TARİHİ -->
             <div class="form-group col-md-6">
                 <label class="required-span">Bitiş Tarihi</label>
                 <div class="input-group">
-                  <div class="input-group-append">
+                  <div class="input-group-append"  [class.is-invalid]="data.submitted && (!agreement.EndDate || endDateModel.status == 'INVALID' )">
                     <div (click)="endDate.toggle()" class="input-group-text">
                       <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                     </div>
                   </div>
                   <input class="form-control" type="text" placeholder="yyyy-mm-dd"
-                      name="endDate" required [(ngModel)]="agreement.EndDate" ngbDatepicker #endDate="ngbDatepicker">
-                  <div *ngIf="data.submitted && endDate.invalid" class="invalid-feedback">
-                    <div *ngIf="endDate.errors.required">Bu alan zorunludur.</div>
-                  </div>
+                      name="endDate" [(ngModel)]="agreement.EndDate" 
+                      ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel"      
+                      [class.is-invalid]="data.submitted && (!agreement.EndDate || endDateModel.status == 'INVALID' )"
+                      required />        
+                      <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
+                        <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
+                        <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
+                          Lütfen Geçerli Format Giriniz.
+                        </div>
+                      </div>     
                 </div>
             </div>
           </div>
@@ -129,12 +155,24 @@
             <!-- TUTAR -->
             <div class="form-group col-md-6">
                 <label>Tutar</label>
-                <input [(ngModel)]="agreement.Price" name="Price" type="text" class="form-control" />
+                <input [(ngModel)]="agreement.Price" name="Price" maxlength="18" #Price="ngModel" type="text" class="form-control"
+                [ngClass]="{ 'is-invalid': data.submitted && (Price.invalid || !isNumeric(Price.value)) && Price.value }" />
+                <div *ngIf="data.submitted && ((Price.invalid || !isNumeric(Price.value)) && Price.value)" class="invalid-feedback">
+                  <div>Lütfen Geçerli Bir Sayı Giriniz.</div>
+                </div>
             </div>
             <div class="form-group col-md-6">
                 <label>Dosya</label>
-                <input #agreementFile name="AgreementFile" type="file"
-                  class="form-control-file" (change)="upload(agreementFile.files)">
+                <div class="file-area">
+                <input #agreementFile name="AgreementFile" id="AgreementFile" type="file"
+                  class="form-control-file" [(ngModel)]="agreementFiles" style="display:none">
+                  <label for="AgreementFile" class="custom-file">
+                    <label class="custom-file-text" for="AgreementFile">
+                      {{agreementFile.files.length > 0 ? agreementFile.files[0].name : agreement.AgreementFile ? agreement.AgreementFile : 'Dosya Seçiniz'}}
+                    </label>
+                  </label>
+                  <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
+                </div>
             </div>
           </div>
 
@@ -143,8 +181,12 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label>Açıklama</label>
-                <textarea [(ngModel)]="agreement.Description" style="resize:none" name="Description" class="form-control"
-                  type="text"></textarea>
+                <textarea [(ngModel)]="agreement.Description" #Description="ngModel" 
+                style="resize:none" name="Description" maxlength="150" class="form-control"
+                [ngClass]="{ 'is-invalid': data.submitted && Description.invalid }" type="text"></textarea>
+                  <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                    <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                  </div>
               </div>
             </div>
           </div>
@@ -154,7 +196,8 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label class="ckbox">
-                  <input type="checkbox" [(ngModel)]="agreement.IsNotificationOn"
+                  <input type="checkbox" [checked]="agreement.IsNotificationOn"
+                  (change)="agreement.IsNotificationOn = !agreement.IsNotificationOn"
                     name="IsNotificationOn" /><span>Bildirim gönderilsin.</span>
                 </label>
               </div>
@@ -165,9 +208,9 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateAgreement" type="submit" class="btn btn-az-primary"
-            (click)="upload(agreementFile.files)">{{agreement.AgreementId ? 'Sözleşmeyi Güncelle' : 'Sözleşme Ekle'}}</button>
-          <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-light btn-modal-close">Kapat</button> -->
+          <button id="btnInsertOrUpdateAgreement" type="submit" class="btn btn-az-primary">
+            {{agreement.AgreementId ? 'Sözleşmeyi Güncelle' : 'Sözleşme Ekle'}}
+          </button>
         </div>
       </form>
     </div>
