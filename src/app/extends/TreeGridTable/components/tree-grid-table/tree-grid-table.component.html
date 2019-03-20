@@ -70,6 +70,10 @@
           </th>
         </ng-container>
         <!-- END Header Columns END -->
+        <!-- Remove Column -->
+        <th *ngIf="dataTable.isDeleteable == true">
+        </th>
+        <!-- END Remove Column END-->
       </thead>
       <!-- END Table Header Area END -->
       <tbody class="tree-table-body">
@@ -100,6 +104,9 @@
             </td>
           </ng-container>
           <!-- END Filter Columns END -->
+          <!-- Remove Item Button -->
+          <td *ngIf="dataTable.isDeleteable == true"></td>
+          <!-- END Remove Item Button END-->
         </tr>
         <!-- END First Row is Filter END -->
         <!-- Data Rows -->
@@ -203,6 +210,12 @@
               <!-- END Rest of columns will be default END -->
             </ng-container>
             <!-- END Fill The Rows Rest of columns END -->
+            <!-- Delete Item Button -->
+              <td class="table-remove-item-column" *ngIf="dataTable.isDeleteable == true">
+                <span (click)="dataTable.TGT_removeItem(data)" class='typcn icon-default typcn-minus'>
+                  </span>
+              </td>
+            <!-- END Delete Item Button END-->
           </tr>
         </ng-container>
         <!-- if no data display nothing message -->
