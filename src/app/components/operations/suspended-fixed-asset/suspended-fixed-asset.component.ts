@@ -8,6 +8,7 @@ import { TransactionLog } from 'src/app/models/TransactionLog';
 import { NgForm } from '@angular/forms';
 import { Currency } from 'src/app/models/Currency';
 import { CheckOutReason } from 'src/app/models/CheckOutReason';
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-suspended-fixed-asset',
@@ -24,6 +25,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
   currencies: Currency;
   checkedOutReasons: CheckOutReason[] =[];
   locations:Location[]=[];
+  faBarcodes:string;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "suspendedfixedasset",
@@ -185,4 +187,26 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
           }
       });
     }
-}
+
+    selectedBarcodes() {
+
+      let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+      
+      if (!selectedItems || selectedItems.length == 0) {
+        this.baseService.popupService.ShowAlertPopup(
+          "Lütfen en az bir demirbaş seçiniz"
+        );
+                
+        return;
+      }
+
+      let fixedAssetBarcodes = "";
+      selectedItems.forEach(e => {
+        fixedAssetBarcodes += e.Barcode + ", ";
+        
+      });
+      this.faBarcodes=fixedAssetBarcodes;
+    }
+  }
+

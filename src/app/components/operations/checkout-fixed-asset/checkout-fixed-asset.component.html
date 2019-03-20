@@ -1,3 +1,30 @@
-<p>
-  checkout-fixed-asset works!
-</p>
+<div class="az-content az-content-dashboard-four">
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+        <div class="az-content-breadcrumb">
+            <span>DEMİRBAŞ YÖNETİMİ</span>
+            <span>ÇIKIŞI YAPILMIŞ DEMİRBAŞLAR</span>
+        </div>
+      <!-- END Bread Crumb END -->
+      <div class="card card-dashboard-twelve mg-b-20">
+        <div class="card-header">
+        <h2 class="az-content-title">Çıkışı Yapılmış Demirbaşlar</h2>
+        <!-- <div class="grp-btn-action">
+            <button id="btnClearFilter" type="button" class="btn btn-danger btn-delete-custom" (click)="clearFilter()"  data-toggle="modal" data-target="#modalExitFixedAsset">          
+            <i class="fas fa-trash"></i></button>   
+
+            <button class="btn btn-az-primary" type="submit" id="btnFilterExitFixedAsset"
+            data-toggle="modal" data-target="#modalExitFixedAsset">Filtrele</button>
+     
+        </div> -->
+      </div>
+        <div class="sales-overview">
+        <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+        </div>
+      </div>
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+<!-- az-content -->

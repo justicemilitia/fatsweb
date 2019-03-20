@@ -11,10 +11,10 @@
         <div class="card-header">
         <h2 class="az-content-title">Askıdaki Demirbaşlar</h2>
         <div class="grp-btn-action">
-            <button class="btn btn-az-primary" type="submit" (click)="selectedSuspendedFa()" id="btnSuspendedFa"
+            <button class="btn btn-az-primary" type="submit" id="btnSuspendedFa" (click)="selectedBarcodes()"
             data-toggle="modal" data-target="#modalSuspendedFa">
             <i class="fas fa-level-down-alt"></i></button>
-          <button id="btnExitFa" type="button" class="btn btn-danger btn-delete-custom" (click)="selectedSuspendedFa()"  data-toggle="modal" data-target="#modalExitFa">          
+          <button id="btnExitFa" type="button" class="btn btn-danger btn-delete-custom" (click)="selectedBarcodes()"  data-toggle="modal" data-target="#modalExitFa">          
             <i class="fas fa-minus-circle"></i></button>     
             <button class="btn btn-az-primary"><i class="far fa-file-excel"></i></button>
         </div>
@@ -41,11 +41,10 @@
       </div>
       <form name="form" #data="ngForm" (ngSubmit)="undoSuspendedFixedAsset(data)">
         <div class="modal-body">
-            <input type="hidden"/>
             <div class="row justify-content-center">
               <div class="col-md-12 form-group">
                 <label>Barkod</label>
-                <input [(ngModel)]="transaction.Ids" name="Barcode" type="text" class="form-control" />            
+                <input  name="Barcode" value="{{faBarcodes}}" type="text" class="form-control" disabled/>
               </div>
             </div>
             <div class="row justify-content-center">
@@ -107,82 +106,104 @@
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
+<form #data="ngForm" (ngSubmit)="undoSuspendedFixedAsset(data)" class="form-register">
+  <div class="modal-body">  
 
-<div id="modalExitFa" class="modal" data-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content modal-content-demo">
-      <div class="modal-header">
-        <h6 class="modal-title">Çıkış işlemi için bilgilerini giriniz.</h6>
-        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form name="form" #data="ngForm" (ngSubmit)="undoLostFixedAsset(data)">
-        <div class="modal-body">
-            <input type="hidden"/>
-            <div class="row justify-content-center">
-              <div class="col-md-12 form-group">
-                <label>Barkod</label>
-                <input [(ngModel)]="transaction.Ids" name="Barcode" type="text" class="form-control" />            
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-md-12 form-group">
-                <label>Çıkış Tipi</label>
-                <select class="form-control select2-no-search">
-                  <option>Yok</option>
-                  <option  *ngFor="let checkedOutReason of checkedOutReasons" value={{checkedOutReason.CheckOutReasonId}}>{{checkedOutReason.Name}}</option>
-              </select></div>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-md-12 form-group">
-                <label>Çıkış Lokasyonu</label>
-                <select class="form-control select2-no-search">
-                  <option value="-1">Seçiniz</option>
-                  <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
-              </select></div>
-            </div>
-            <div class="row justify-content-center">
-            <div class="col-md-6 form-group">
-              <label>Fiyat</label>
-              <input type="text" class="form-control"/>
-            </div>  
-              <div class="col-md-6 form-group">
-              <label>Para Birimi</label>     
-              <select class="form-control select2-no-search">
-                  <option>Yok</option>
-                  <option *ngFor="let currency of currencies" value={{currency.CurrencyId}}>
-                    {{currency.Name}}</option>
-              </select>      
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-md-12 form-group">
-                <label>Açıklama</label>
-                <textarea [(ngModel)]="transaction.CheckOutDescription" name="CheckOutDescription" type="text" style="resize:none;height: 80px;"
-                  rows="3" class="form-control"></textarea>
-                  <!-- <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
-                      <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
-                    </div> -->
-            </div>
-          </div>
-          <div class="row justify-content-center">
-          <div class="form-group col-md-12">
-            <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
-                <label class="ckbox">
-                  <input type="checkbox"/><span>Demirbaş çıkış formu basılsın.</span>
-                </label>
-            </div> 
-          </div>
+      <!-- BARKODLAR -->
+      <div class="row justify-content-center">
+        <div class="col-md-12 form-group">
+          <label>Barkod</label>
+          <input name="Barcodes" value="{{faBarcodes}}" type="text" class="form-control" disabled/>            
         </div>
       </div>
-        <!-- modal-body -->
-        <div class="modal-footer">
-          <button id="btnLostFixedAsset" type="submit" class="btn btn-az-primary"
-            data-toggle="modal" data-target="#modalExitFa">Kaydet</button>          
-        </div>
-      </form>
+
+      <!-- ÇIKIŞ TİPİ -->
+      <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label class="required-span">Çıkış Tipi</label>                
+        <!-- <div class="row"> -->
+            <select [(ngModel)]="transaction.CheckOutReasonId"
+              name="CheckOutReasonId" class="form-control" 
+              #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
+              <option>Yok</option>
+              <option *ngFor="let checkedOutReason of checkedOutReasons"
+              value={{checkedOutReason.CheckOutReasonId}}>
+              {{checkedOutReason.Name}}
+              </option>
+            </select>
+            <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+                <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+            </div>
+      <!-- </div> -->
+      </div>
     </div>
-  </div>
-  <!-- modal-dialog -->
+
+      <!-- ÇIKIŞ LOKASYONU -->
+      <div class="row justify-content-center">
+        <div class="col-md-12 form-group">
+        <label class="required-span">Çıkış Lokasyonu</label>   
+            <select [(ngModel)]="transaction.CheckOutLocationId"
+              name="CheckOutLocationId" class="form-control" 
+              #CheckOutLocationId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutLocationId.invalid }" required>
+              <option>Yok</option>
+              <option *ngFor="let location of locations"
+              value={{location.LocationId}}>
+              {{location.Name}}
+              </option>
+            </select>
+            <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+                <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+            </div>
+        </div>
+      </div>
+
+      <!-- FİYAT & PARA BİRİMİ -->
+      <div class="row justify-content-center">
+        <div class="col-md-6 form-group">
+          <label>Fiyat</label>
+          <input [(ngModel)]="transaction.CheckoutPrice" name="CheckoutPrice" class="form-control" type="text" #CheckoutPrice="ngModel">
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label class="required-span">Para Birimi</label>
+           <select [(ngModel)]="transaction.CurrencyId" name="CurrencyId" style="resize:none0"
+              class="form-control" type="text">
+              <option [ngValue]="null">Yok</option>
+              <option *ngFor="let currency of currencies" value={{currency.CurrencyId}}>
+                {{currency.Name}}
+              </option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- AÇIKLAMA -->
+      <div class="row justify-content-center">
+        <div class="col-md-12 form-group">
+          <label>Açıklama</label>
+          <textarea [(ngModel)]="transaction.Description" name="Description" style="resize:none" rows="2"
+            class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
+        </div>
+      </div>
+
+      <!-- FORM BASMA -->
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="ckbox">
+              <input type="checkbox"
+                name="PrintExitForm" /><span>Demirbaş çıkış formu basılsın.</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
 </div>
+
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button class="btn btn-orange" id="btnExitFixedAsset" type="submit" data-toggle="modal" data-target="#modalExitFixedAsset">
+      Kaydet
+    </button>
+    <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+  </div>
+</form>

@@ -58,4 +58,5 @@ export class SuspendedFixedAssetService {
         failed(error);
       });
     }
+    
 }
