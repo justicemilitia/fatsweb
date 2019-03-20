@@ -1,93 +1,95 @@
-
-    <ng-template #name1>    
-    <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
-      <div class="row justify-content-center">
-        <div class="form-group col-md-6">           
-        <input [(ngModel)]="fixedAsset.Barcode" name="Barcode" type="text" placeholder="Barkod" class="form-control"/>  
-        </div>                 
+<form name="form" #data="ngForm">
+<mat-horizontal-stepper>   
+    <mat-step label="Genel Bilgiler">
+        <div class="row justify-content-center">
+          <div class="form-group col-md-6">           
+          <input [(ngModel)]="fixedAsset.Barcode" name="Barcode" type="text" placeholder="Barkod" class="form-control"/>  
+          </div>                 
+          <div class="form-group col-md-6">
+          <input [(ngModel)]="fixedAsset.SerialNumber" name="SerialNumber" type="text" placeholder="Seri Numarası" class="form-control"/>
+          </div>
+        </div>
+        <div class="row justify-content-center">     
+        <div class="form-group col-md-3">
+            <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
+                <label class="ckbox">
+                  <input type="checkbox"/><span>Manuel Barkod</span>
+                </label>
+            </div> 
+          </div>
+          <div class="form-group col-md-3"> 
+                <input type="text" placeholder="Adet" class="form-control"/>
+          </div>                          
         <div class="form-group col-md-6">
-        <input [(ngModel)]="fixedAsset.SerialNumber" name="SerialNumber" type="text" placeholder="Seri Numarası" class="form-control"/>
+            <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2-no-search" 
+            (click)="loadBrandList()" (change)="loadModelByBrandId($event)">
+              <option >Marka Seçiniz</option>
+              <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
+            </select> 
+          </div>
         </div>
-      </div>
-      <div class="row justify-content-center">     
-      <div class="form-group col-md-3">
-          <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
-              <label class="ckbox">
-                <input type="checkbox"/><span>Manuel Barkod</span>
-              </label>
-          </div> 
+        <div class="row justify-content-center">
+        <div class="form-group col-md-6">
+          <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control select2-no-search" (click)="loadCompanies()">
+            <option value="-1" >Tedarikçi Seçiniz</option>
+            <option *ngFor="let company of companies" value="{{company.CompanyId}}">{{company.Name}}</option>
+          </select>  
         </div>
-        <div class="form-group col-md-3"> 
-              <input type="text" placeholder="Adet" class="form-control"/>
-        </div>                          
-      <div class="form-group col-md-6">
-          <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2-no-search" 
-          (click)="loadBrandList()" (change)="loadModelByBrandId($event)">
-            <option value="-1">Marka Seçiniz</option>
-            <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
+        <div class="form-group col-md-6">
+            <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2-no-search">
+              <option value="-1" >Model Seçiniz</option>
+              <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
+            </select> 
+        </div>
+        </div>  
+        <div class="row justify-content-center">
+        <div class="form-group col-md-6">
+          <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2-no-search" (click)="loadDepartments()">
+            <option value="-1" >Departman Seçiniz</option>
+            <option *ngFor="let department of departments" value="{{department.DepartmentId}}">{{department.Name}}</option>
           </select> 
         </div>
-      </div>
-      <div class="row justify-content-center">
-      <div class="form-group col-md-6">
-        <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control select2-no-search" (click)="loadCompanies()">
-          <option value="-1" >Tedarikçi Seçiniz</option>
-          <option *ngFor="let company of companies" value="{{company.CompanyId}}">{{company.Name}}</option>
-        </select>  
-      </div>
-      <div class="form-group col-md-6">
-          <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2-no-search">
-            <option value="-1" >Model Seçiniz</option>
-            <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
-          </select> 
-      </div>
-      </div>  
-      <div class="row justify-content-center">
-      <div class="form-group col-md-6">
-        <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2-no-search" (click)="loadDepartments()">
-          <option value="-1" >Departman Seçiniz</option>
-          <option *ngFor="let department of departments" value="{{department.DepartmentId}}">{{department.Name}}</option>
-        </select> 
-      </div>
-      <div class="form-group col-md-6">
-          <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" class="form-control select2-no-search" (click)="loadCategoriesList()" (change)="loadFaCardByCategoryId($event)">
+        <div class="form-group col-md-6">
+            <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" class="form-control select2-no-search" (click)="loadCategoriesList()" (change)="loadFaCardByCategoryId($event)">
+              <option value="-1" >Seçiniz</option>
+              <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
+            </select> 
+        </div>
+        </div>
+        <div class="row justify-content-center">
+        <div class="form-group col-md-6">
+          <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2-no-search" (click)="loadLocations()">
+            <option value="-1">Lokasyon Seçiniz</option>
+            <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+            <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" class="form-control select2-no-search">
+              <option value="-1" >Seçiniz</option>
+              <option>Demirbaş Kartı</option>
+            </select> 
+          </div>
+        </div>
+        <div class="row justify-content-center">
+        <div class="form-group col-md-6">
+          <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" (click)="loadStatuses()">
             <option value="-1" >Seçiniz</option>
-            <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
-          </select> 
-      </div>
-      </div>
-      <div class="row justify-content-center">
-      <div class="form-group col-md-6">
-        <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2-no-search" (click)="loadLocations()">
-          <option value="-1">Lokasyon Seçiniz</option>
-          <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
-        </select>
-      </div>
-      <div class="form-group col-md-6">
-          <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" class="form-control select2-no-search">
-            <option value="-1" >Seçiniz</option>
-            <option>Demirbaş Kartı</option>
-          </select> 
+            <option >Demirbaş Statüsü</option>
+          </select>     
         </div>
-      </div>
-      <div class="row justify-content-center">
-      <div class="form-group col-md-6">
-        <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" (click)="loadStatuses()">
-          <option value="-1" >Seçiniz</option>
-          <option >Demirbaş Statüsü</option>
-        </select>     
-      </div>
-      <div class="form-group col-md-6">
-          <select class="form-control select2-no-search" (click)="loadUsers()">
-            <option value="-1" >Seçiniz</option>
-            <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
-          </select> 
-      </div>
-      </div>
-    </form>
-    </ng-template>
-    <ng-template #name2>
-      <form name="form" #data="ngForm">
+        <div class="form-group col-md-6">
+            <select class="form-control select2-no-search" (click)="loadUsers()">
+              <option value="-1" >Seçiniz</option>
+              <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
+            </select> 
+        </div>
+        </div>
+        <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+  
+    </mat-step>
+  <mat-step label="Özellik Bilgileri">
         <div class="row justify-content-center">
           <div class="form-group col-md-8">
             <div class="form-group col-md-6">
@@ -105,7 +107,7 @@
                   </select>   
               </div>
             <div class="form-group col-md-12">
-             <tree-grid-table class="table-scroll" [dataTable]="dataTableProperty"></tree-grid-table>
+
              </div>
           </div>  
           <div class="form-group col-md-4">
@@ -116,10 +118,12 @@
               <input class="form-control" type="text"/>              
           </div>
         </div>
-      </form>
-    </ng-template>
-    <ng-template #name3>
-        <form name="form" #data="ngForm">
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+  </mat-step>
+  <mat-step label="Finansal Bilgiler">
             <div class="row justify-content-center">
               <div class="form-group col-md-3">
                   <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
@@ -164,9 +168,19 @@
                 <div class="form-group col-md-3">
                   
                 </div>
+            </div>  
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
             </div>
-        </form>
-    </ng-template>
+  </mat-step>
+  <mat-step label="Dosya">
+  </mat-step>
+  <mat-step label="Demirbaş Listesi">
+  </mat-step>
+  </mat-horizontal-stepper>
+  </form>
+
     
 
 

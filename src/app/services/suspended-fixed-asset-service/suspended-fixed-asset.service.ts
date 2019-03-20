@@ -3,7 +3,8 @@ import {
   SERVICE_URL,
   GET_HEADERS,
   GET_SUSPENDED_LIST,
-  UNDO_SUSPENSION_PROCESS  
+  UNDO_SUSPENSION_PROCESS,  
+  CREATE_FIXED_ASSET_FORM
 } from "../../declarations/service-values";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Response } from "src/app/models/Response";
@@ -12,6 +13,7 @@ import { ErrorService } from "../error-service/error.service";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { FixedAsset } from 'src/app/models/FixedAsset';
 import { TransactionLog } from 'src/app/models/TransactionLog';
+import { CreateDebitForm } from 'src/app/models/CreateDebitForm';
 @Injectable({
   providedIn: 'root'
 })
@@ -59,4 +61,16 @@ export class SuspendedFixedAssetService {
       });
     }
     
+    CreateFixedAssetDeliveryForm(form:CreateDebitForm,success,failed){
+      this.httpclient.post(SERVICE_URL+CREATE_FIXED_ASSET_FORM,form,{headers:GET_HEADERS(this.authenticationService.getToken())}).subscribe(result=>{
+        let response:Response=<Response>result;
+        if(response.ResultStatus==true){
+          success(form,response.LanguageKeyword)
+        }else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },error=>{
+        failed(error);
+      })
+    }
 }

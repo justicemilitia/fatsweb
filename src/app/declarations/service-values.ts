@@ -1,7 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Currency } from '../models/Currency';
 
-export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -210,9 +210,15 @@ export const GET_CITY_LIST = "definition/GetCitiesList";
 export const GET_USERFIRM_LIST = "UserFirms/GetUserFirmsList";
 export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
 
+//#region FixedAssetForm
+export const CREATE_FIXED_ASSET_FORM="PdfCreator/CreateFixedAssetDeliveryForm";
+//#endregion
+
 //#region 
 export const GET_DASHBOARD_VALUES = "Dashboard/GetDashboardValues";
 //#endregion
+
+
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
 

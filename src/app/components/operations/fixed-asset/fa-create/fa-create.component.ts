@@ -19,7 +19,7 @@ import { FormWizardModule } from 'angular-wizard-form';
   templateUrl: './fa-create.component.html',
   styleUrls: ['./fa-create.component.css']
 })
-export class FaCreateComponent extends BaseComponent implements OnInit,AfterViewInit,DoCheck {
+export class FaCreateComponent extends BaseComponent implements OnInit {
 
   departments: Department[] = [];
   companies: Company[] = [];
@@ -32,21 +32,15 @@ export class FaCreateComponent extends BaseComponent implements OnInit,AfterView
   staffs: User[] = [];
 
   fixedAsset:FixedAsset=new FixedAsset();
-  
-  dataTableProperty
 
   constructor(protected baseService: BaseService) {
     super(baseService);
   }
 
-  ngAfterViewInit(): void {
-    $(".az-navbar-two").trigger("click");
-    this.loadDepartments();
-  }
-
-  ngDoCheck() {
-    console.log(this.fixedAsset.Barcode);
-  }
+  // ngAfterViewInit(): void {
+  //   $(".az-navbar-two").trigger("click");
+  //   this.loadDepartments();
+  // }
 
   ngOnInit() { }
 

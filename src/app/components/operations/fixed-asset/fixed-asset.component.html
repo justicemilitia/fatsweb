@@ -11,7 +11,7 @@
       <h2 class="az-content-title">Demirbaş Listesi</h2>      
       </div>
       <div class="row">     
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş Girişi"><i class="fas fa-plus-circle"></i></button>
+        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="modal" data-placement="bottom" data-target="#modalOperation" title="Demirbaş Girişi"><i class="fas fa-plus-circle"></i></button>
         
         <button class="btn btn-danger btn-new-custom btn-secondary" data-toggle="modal" data-target="#modalOperation" title="Demirbaş Çıkışı"><i class="fas fa-minus-circle"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş İlişkiendir"><i class="fas fa-link"></i></button>
@@ -59,7 +59,8 @@
             </button>
           </div>
           <div class="modal-body">
-          <app-fa-exit [faDataTable]="dataTable" [faBarcodes]="selectedBarcodes()"></app-fa-exit>
+          <!-- <app-fa-exit [faDataTable]="dataTable" [faBarcodes]="selectedBarcodes()"></app-fa-exit> -->
+          <app-fa-create></app-fa-create>
       </div>
         </div>
       </div>

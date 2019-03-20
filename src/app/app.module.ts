@@ -8,6 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { routes } from "./app-routing.module";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
+import{MatStepperModule,MatIconModule,MatButtonModule} from "@angular/material";
 
 import { LoginComponent } from "./components/login/login.component";
 import { HeaderComponent } from "./components/layout/header/header.component";
@@ -47,6 +48,7 @@ import { FormWizardModule } from 'angular-wizard-form';
 import { SuspendedFixedAssetComponent } from './components/operations/suspended-fixed-asset/suspended-fixed-asset.component';
 import { LostFixedAssetComponent } from './components/operations/lost-fixed-asset/lost-fixed-asset.component';
 import { CheckoutFixedAssetComponent } from './components/operations/checkout-fixed-asset/checkout-fixed-asset.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -98,7 +100,11 @@ import { CheckoutFixedAssetComponent } from './components/operations/checkout-fi
     NgMultiSelectDropDownModule.forRoot(),
     ColorPickerModule,
     NgbModule,
-    FormWizardModule
+    FormWizardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatStepperModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
