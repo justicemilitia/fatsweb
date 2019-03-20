@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+    <h5>Çıkış işlemi için bilgileri giriniz.</h5>
+  </div>
+
+  <form name="form" #data="ngForm" (ngSubmit)="ChangeBarcode(data)">
+    <div class="modal-body">
+      <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
+
+        <!-- BARKOD -->
+      <div class="row justify-content-center">
+        <div class="col-md-12 form-group">
+          <label>Barkod</label>
+          <input name="Barcodes" value="{{faBarcode.Barcode}}" type="text" class="form-control" disabled/>          
+        </div>
+      </div>
+
+         <!-- DEMİRBAŞ ADI -->
+         <div class="row justify-content-center">
+          <div class="col-md-12 form-group">
+            <label>Demirbaş Adı</label>
+            <input name="Name" value="{{faBarcode.FixedAssetCard.Name}}" type="text" class="form-control" disabled/>                        
+            <!-- <input [(ngModel)]="fixedAsset.Name" name="Name" type="text" class="form-control" #Name="ngModel" disabled/>             -->
+          </div>
+        </div>
+
+        <!-- YENİ BARKOD -->
+        <div class="row justify-content-center">
+          <div class="col-md-12 form-group">
+            <label>Yeni Barkod</label>
+            <input [(ngModel)]="newBarcode" name="newBarcodes" type="text" class="form-control" #newBarcodes="ngModel"/>            
+          </div>
+        </div>
+
+  </div>
+
+    <!-- modal-body -->
+    <div class="modal-footer">
+      <button class="btn btn-orange" id="btnChangeBarcode" type="submit" data-toggle="modal" data-target="#modalChangeBarcode">
+        Kaydet
+      </button>
+      <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
+    </div>
+  </form>

@@ -6,6 +6,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
+import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
 
 @Component({
   selector: "app-fixed-asset",
@@ -13,16 +14,22 @@ import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
   styleUrls: ["./fixed-asset.component.css"]
 })
 export class FixedAssetComponent extends BaseComponent implements OnInit {
+
   isWaitingInsertOrUpdate: boolean = false;
 
   fixedAssets: FixedAsset[] = [];
 
   fixedAsset: FixedAsset = new FixedAsset();
 
+  filter: FixedAsset = new FixedAsset();
+
   faProperties: FixedAssetCardProperty[] = [];
 
   fixedAssetIds: number[] = [];
   fixedAssetBarcodes: string;
+  fixedAssetName: string;
+
+  selectedItems: FixedAsset[];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -109,7 +116,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       // },
       {
         columnDisplayName: "Lokasyon Adı",
-        columnName: ["Location","Name"],
+        columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -117,7 +124,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Lokasyon Kodu",
-        columnName: ["Location","LocationCode"],
+        columnName: ["Location", "LocationCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -125,7 +132,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Lokasyon Barkodu",
-        columnName: ["Location","Barcode"],
+        columnName: ["Location", "Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -133,7 +140,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Lokasyon Koordinatı",
-        columnName: ["Location","Coordinate"],
+        columnName: ["Location", "Coordinate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -141,7 +148,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Lokasyon Adresi",
-        columnName: ["Location","Address"],
+        columnName: ["Location", "Address"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -149,7 +156,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Lokasyon Açıklaması",
-        columnName: ["Location","Description"],
+        columnName: ["Location", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -261,7 +268,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Departman Kodu",
-        columnName: ["Department","DepartmentCode"],
+        columnName: ["Department", "DepartmentCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -269,7 +276,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Departman Adı",
-        columnName: ["Department","Name"],
+        columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -277,7 +284,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Departman Açıklama",
-        columnName: ["Department","Description"],
+        columnName: ["Department", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -285,7 +292,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Masraf Yeri",
-        columnName: ["ExpenseCenter","Name"],
+        columnName: ["ExpenseCenter", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -293,13 +300,12 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Masraf Yeri",
-        columnName: ["ExpenseCenter","Name"],
+        columnName: ["ExpenseCenter", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      },
-
+      }
     ],
     {
       isDesc: false,
@@ -314,8 +320,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {}
-
-  filter: FixedAsset = new FixedAsset();
 
   loadFixedAsset() {
     this.baseService.fixedAssetService.GetFixedAsset(
@@ -385,9 +389,50 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     return fixedAssetBarcodes;
   }
 
-  public selectedItems(){
-    
+  public selectedFixedAssetName() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+    let fixedAssetName = "";
+    selectedItems.forEach(e => {
+      fixedAssetName += e.FixedAssetCard.Name + ", ";
+      // this.fixedAssetBarcodes=
+    });
+
+    return fixedAssetName;
   }
+    currentOperation:FixedAssetOperations=null;
+    public doOperation(operationType: FixedAssetOperations) {
+      this.currentOperation=operationType;
+    switch(operationType){
+      case FixedAssetOperations.changeBarcodes:
+      this.ChangeBarcodeOperation();
+      break;
+      case FixedAssetOperations.createFixedAsset:
+      break;
+    }
+  }
+
+  //#region Change Barcode Operation
+    changeBarcode_selectedItem: FixedAsset = new FixedAsset();
+    ChangeBarcodeOperation(){
+    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+    
+    if(selectedItems.length>1){
+      this.baseService.popupService.ShowAlertPopup("Lütfen tek kayıt seçiniz!");
+      return;
+    }
+    
+    if(selectedItems.length==0){
+      this.baseService.popupService.ShowAlertPopup("Lütfen bir kayıt seçiniz!");
+      return;
+    }
+    
+    this.changeBarcode_selectedItem=selectedItems[0];
+
+    $('#showModal').trigger('click');
+
+    }
+  //#endregion
+
 }
 
 // e.FixedAssetCard.FixedAssetCardProperty.forEach(t => {
