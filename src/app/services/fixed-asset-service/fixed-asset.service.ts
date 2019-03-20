@@ -6,7 +6,8 @@ import {
   GET_FIXED_ASSET,
   GET_FIXEDASSETCARDPROPERTY_LIST,
   EXIT_FIXEDASSET,
-  GET_EXITFIXEDASSETLIST
+  GET_EXITFIXEDASSETLIST,
+  UPDATE_FIXEDASSETBARCODENUMBER
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -117,6 +118,29 @@ export class FixedAssetService {
             let insertedTransactionLog: TransactionLog = new TransactionLog();
             Object.assign(insertedTransactionLog, response.ResultObject);
             success(insertedTransactionLog, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  ChangeBarcode(fixedAsset: FixedAsset, success, failed){
+    this.httpclient
+      .post(
+        SERVICE_URL + UPDATE_FIXEDASSETBARCODENUMBER, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAsset: FixedAsset = new FixedAsset();
+            Object.assign(updatedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

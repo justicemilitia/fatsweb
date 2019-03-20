@@ -47,6 +47,7 @@ import { FormWizardModule } from 'angular-wizard-form';
 import { SuspendedFixedAssetComponent } from './components/operations/suspended-fixed-asset/suspended-fixed-asset.component';
 import { LostFixedAssetComponent } from './components/operations/lost-fixed-asset/lost-fixed-asset.component';
 import { CheckoutFixedAssetComponent } from './components/operations/checkout-fixed-asset/checkout-fixed-asset.component';
+import { FaChangeBarcodeComponent } from './components/operations/fixed-asset/fa-change-barcode/fa-change-barcode.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { CheckoutFixedAssetComponent } from './components/operations/checkout-fi
     FixedAssetCardCategoryComponent,
     DashboardComponent,
     AgreementComponent,
+    FaChangeBarcodeComponent,
     FixedAssetCardBrandComponent,
     FixedAssetCardModelComponent,
     TreeGridTablePage,

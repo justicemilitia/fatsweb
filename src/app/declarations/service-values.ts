@@ -1,7 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Currency } from '../models/Currency';
 
-export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://localhost:5000/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
