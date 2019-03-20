@@ -73,6 +73,10 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
   }
 
   onSubmit(data: NgForm) {
+
+    /* Is Form Valid */
+    if (data.form.invalid == true) return;
+
     /* if fixed asset card category id exists means update it, otherwise insert it */
     if (data.value.FixedAssetCardCategoryId == null) {
       this.addFixedAssetCardCategory(data);
@@ -92,7 +96,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    this.baseService.popupService.ShowQuestionPopupForDelete(() => {
 
       /* Activate the loading spinner */
       this.baseService.spinner.show();
@@ -132,14 +136,11 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
   async addFixedAssetCardCategory(data: NgForm) {
 
-    /* Is Form Valid */
-    if (data.form.invalid == true) return;
-
     /* Close waiting loader */
     this.isWaitingInsertOrUpdate = true;
 
     /* Insert Fixed Asset Card Category */
-    await this.baseService.fixedAssetCardCategoryService.InsertFixedAssetCardCategory(
+    this.baseService.fixedAssetCardCategoryService.InsertFixedAssetCardCategory(
       this.fixedAssetCardCategory,
       (insertedItem: FixedAssetCardCategory, message) => {
 
@@ -178,11 +179,8 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
   async updateFixedAssetCardCategory(data: NgForm) {
 
-    /* Check model state */
-    if (data.form.invalid == true) return;
-
     /* Ask for approve question if its true then update the fixed asset card category */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
       if (response == true) {
 
         /* Change button to loading */

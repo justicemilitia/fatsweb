@@ -47,10 +47,11 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Rol</label>
-              <input  [(ngModel)]="role.Name" name="Name" type="text" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" 
-              required/>              
+              <input  [(ngModel)]="role.Name" name="Name" #Name="ngModel" type="text" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" 
+              required maxlength="50"/>              
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>      
         </div>

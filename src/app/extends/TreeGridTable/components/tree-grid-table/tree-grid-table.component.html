@@ -220,6 +220,13 @@
             </td>
           </tr>
         </ng-template>
+        <ng-template [ngIf]="errorMessage !== '' && errorMessage != null">
+            <tr>
+              <td colspan="999" class="table-no-content">
+                <div class="table-error-message">{{errorMessage}}</div>
+              </td>
+            </tr>
+          </ng-template>
         <!-- END Loading Side END -->
         <!-- END Data Rows END -->
       </tbody>

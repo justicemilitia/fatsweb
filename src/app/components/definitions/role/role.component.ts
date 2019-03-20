@@ -69,7 +69,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -85,35 +85,27 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
           /* if all of them removed */
           if (itemIds.length == 1)
-            this.baseService.popupService.ShowAlertPopup(
-              "Kayıt Başarıyla silindi!"
-            );
+            this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
           else
-            this.baseService.popupService.ShowAlertPopup(
-              "Tüm kayıtlar başarıyla silindi!"
-            );
+            this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 
-          /* Clear all the ids from table */
-          for (let ii = 0; ii < itemIds.length; ii++) {
-            let index = this.roles.findIndex(x => x.RoleId == itemIds[ii]);
-            if (index > -1) this.roles.splice(index, 1);
-          }
+           /* Clear all the ids from table */
+          this.dataTable.TGT_removeItemsByIds(itemIds);
 
-          /* Reload Page */
-          this.dataTable.TGT_loadData(this.roles);
+          /* Copy original source to current locations */
+          this.roles = <Role[]>this.dataTable.TGT_copySource();
+
         },
         (failedItems: []) => {
           this.baseService.spinner.hide();
-          this.baseService.popupService.ShowAlertPopup(
-            "Kayıtlar ilişkili olduğundan silinemedi!"
-          );
+          this.baseService.popupService.ShowAlertPopup("Kayıtlar ilişkili olduğundan silinemedi!");
         }
       );
     });
   }
 
   async loadRoles() {
-    await this.baseService.roleService.GetRoles(
+    this.baseService.roleService.GetRoles(
       (roles: Role[]) => {
         this.roles = roles;
         this.dataTable.TGT_loadData(this.roles);
@@ -132,27 +124,33 @@ export class RoleComponent extends BaseComponent implements OnInit {
   }
 
   OnSubmitRole(data: NgForm) {
-    if (data.value.RoleId == null) this.addRole(data);
-    else this.updateRole(data);
+
+    if (data.form.invalid == true) return;
+
+    if (data.value.RoleId == null) 
+      this.addRole(data);
+    else 
+      this.updateRole(data);
+
   }
 
   async addRole(data: NgForm) {
-    if (data.form.invalid == true) return;
 
     this.isWaitingInsertOrUpdate = true;
 
-    await this.baseService.roleService.InsertRole(
+    this.baseService.roleService.InsertRole(
       this.role,
       (insertedItem: Role, message) => {
+
+        this.isWaitingInsertOrUpdate = false;
 
         this.baseService.popupService.ShowSuccessPopup(message);
         this.role.RoleId = insertedItem.RoleId;
 
         this.roles.push(this.role);
-        //this.dataTable.TGT_loadData(this.roles);
+        this.dataTable.TGT_loadData(this.roles);
 
         this.resetForm(data, true);
-        this.isWaitingInsertOrUpdate = false;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
