@@ -457,3 +457,10 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
 .table-info-without-margin {
     margin-left:0;
 }
+
+.table-error-message {
+    color:rgb(212, 2, 2);
+    text-align: center;
+    font-style: italic;
+    font-size: 13px;
+}

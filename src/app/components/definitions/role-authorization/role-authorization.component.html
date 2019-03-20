@@ -35,19 +35,18 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Rol Tanımlama</h6>
+        <h6 class="modal-title">Rol Yetkilendirme</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)  && data.form.valid" novalidate>
+      <form name="form" #data="ngForm" (ngSubmit)="doRoleAuthorization(data)  && data.form.valid" novalidate>
         <div class="modal-body">
           <input type="hidden" [(ngModel)]="roleAuthorization.RoleAuthorizationId" name="RoleAuthorizationId" />
           <div class="row justify-content-center">
           <div class="col-md-12 form-group">
               <label class="required-span">Rol</label>
               <select [ngModel]="roleAuthorization.RoleId" name="RoleId" #RoleId="ngModel" (change)="onChange($event,roleAuthorization)" 
-                [disabled]="roleAuthorization.RoleAuthorizationId != null" 
                 [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" required 
                 class="form-control select2-no-search">
                 <option [ngValue]="null" >Seçiniz</option>
@@ -59,22 +58,14 @@
             </div>
           </div>
           <div class="row justify-content-center">
-              <div class="col-md-12 form-group">
-              <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
-                <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
-              </div>
-              <ng-template [ngIf]="roleAuthorization.RoleAuthorizationId == null">
-                <tree-grid-table  [dataTable]="dataTableRoleAuth"></tree-grid-table>
-              </ng-template> 
-              <ng-template [ngIf]="roleAuthorization.RoleAuthorizationId != null">   
-              <tree-grid-table  [dataTable]="dataTableUpdateAuth"></tree-grid-table>
-              </ng-template>
+              <div class="col-md-12 form-group role-auths">
+              <tree-grid-table  [dataTable]="dataTableRoleAuth"></tree-grid-table>
           </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-az-primary"
-            data-toggle="modal" data-target="#modalAddRole">{{roleAuthorization.RoleAuthorizationId ? 'Yetkiyi Güncelle' : 'Yetki Ekle'}}</button>
+          <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-az-primary" *ngIf="isWaitingInsertOrUpdate == false"
+            data-toggle="modal" data-target="#modalAddRole">Yetkilendir</button>
             <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

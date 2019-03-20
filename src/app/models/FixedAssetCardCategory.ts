@@ -31,5 +31,5 @@ export class FixedAssetCardCategory implements IData {
   IsActive: boolean;
   ParentCategory: FixedAssetCardCategory;
   FixedAssets: FixedAssetCard[];
-  InverseParentFixedAssetCardCategory: FixedAssetCardCategory[];
+  InverseParentFixedAssetCardCategory: FixedAssetCardCategory[] = [];
 }

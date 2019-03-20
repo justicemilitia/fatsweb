@@ -10,7 +10,7 @@ export default class RoleAuthorization implements IData{
    return [];
   }
   getId(): number {
-    return this.RoleAuthorizationId;
+    return this.MenuId;
   }
   childIndex: number;
   isExtended: boolean;
