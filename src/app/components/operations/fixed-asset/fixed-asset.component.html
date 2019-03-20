@@ -13,7 +13,7 @@
       <div class="row">     
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="modal" data-placement="bottom" data-target="#modalOperation" title="Demirbaş Girişi"><i class="fas fa-plus-circle"></i></button>
         
-        <button class="btn btn-danger btn-new-custom btn-secondary" data-toggle="modal" data-target="#modalOperation" title="Demirbaş Çıkışı"><i class="fas fa-minus-circle"></i></button>
+        <button class="btn btn-danger btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" itle="Demirbaş Çıkışı"><i class="fas fa-minus-circle"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş İlişkiendir"><i class="fas fa-link"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Askıya Al"><i class="fas fa-level-up-alt"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Kayıp Demirbaş"><i class="fas fa-search-minus"></i></button>
@@ -22,7 +22,7 @@
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Zimmet Değiştir"><i class="fas fa-user-edit"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Zimmet İptal"><i class="fas fa-user-times"></i></button>
  
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Barkod Değiştirme"><i class="fas fa-digital-tachograph"></i></button>
+        <button class="btn btn-success btn-new-custom btn-secondary" data-placement="bottom" title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Şirket Değiştirme"><i class="fas fa-building"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Lokasyon Değiştirme"><i class="fas fa-map-marker-alt"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Departman Değiştrime"><i class="fas fa-sitemap"></i></button>
@@ -31,7 +31,10 @@
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>
 
         <button class="btn btn-orange btn-new-custom btn-secondary" ><i class="fas fa-retweet"></i></button>
-        <button class="btn btn-orange btn-new-custom btn-secondary" ><i class="fas fa-filter"></i></button>      
+        <button class="btn btn-orange btn-new-custom btn-secondary" ><i class="fas fa-filter"></i></button>  
+        
+        <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalOperation"></button>
+        
       </div>
       <div class="sales-overview">
       <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
@@ -59,8 +62,14 @@
             </button>
           </div>
           <div class="modal-body">
+<<<<<<< HEAD
           <!-- <app-fa-exit [faDataTable]="dataTable" [faBarcodes]="selectedBarcodes()"></app-fa-exit> -->
           <app-fa-create></app-fa-create>
+=======
+            <app-fa-change-barcode [faBarcode]="changeBarcode_selectedItem" 
+            *ngIf="currentOperation==2"></app-fa-change-barcode>
+          <!-- <app-fa-exit [faDataTable]="dataTable" [faBarcodes]="selectedBarcodes()"></app-fa-exit> -->
+>>>>>>> 3b86e8d223cb55e27ab9270c1864ed4c7cae481e
       </div>
         </div>
       </div>

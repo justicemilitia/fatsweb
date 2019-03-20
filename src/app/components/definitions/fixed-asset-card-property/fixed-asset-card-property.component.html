@@ -1,21 +1,32 @@
-<div class="az-content">
-    <div class="container-fluid">
-      <div class="az-content-body">
+<div class="az-content az-content-dashboard-four">
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+        <div class="az-content-breadcrumb">
+            <span>TANIMLAMALAR</span>
+            <span>DEMİRBAŞ ÖZELLİKLERİ</span>
+        </div>
+      <!-- END Bread Crumb END -->
         <div class="card card-dashboard-twelve mg-b-20">
+        <div class="card-header">
+
           <h2 class="az-content-title">Demirbaş Özellikleri</h2>
           <div class="grp-btn-action">
             <button type="button" (click)="deleteFixedAssetCardProperties()" class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
-            <button class="btn btn-orange btn-new-custom" id="btnAddFixedAssetCardProperty" data-toggle="modal"
+            <button class="btn btn-az-primary" id="btnAddFixedAssetCardProperty" data-toggle="modal"
               data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,true)">Özellik Ekle
             </button>
             <button style="display:none" id="btnEditFixedAssetCardProperty" data-toggle="modal"
               data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,false)">Özellik Düzenle
             </button>
           </div>
+          </div>
           <p class="mg-b-20"></p>
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          <div class="sales-overview">
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          </div>
         </div>
       </div>
       <!-- az-content-body -->
@@ -64,11 +75,10 @@
             </div>
             
             <!-- ÖZELLİK TİPİ -->
-            <!-- <div class="row justify-content-center"> -->
-              <div class="form-group">
+            <div class="row justify-content-center">
+              <div class="form-group col-md-12">
               <label class="required-span">Özellik Tipi</label>                
-               <div class="row">  
-                <div class="col-md-12 flexProperty">                                                 
+                <div class="flexProperty">                                                 
                  <div style="flex:1;">              
                   <select [(ngModel)]="fixedAssetCardProperty.FixedAssetTypeId"
                     name="FixedAssetTypeId" class="form-control txt-width" 
@@ -85,45 +95,47 @@
                     </div>
                  </div>
                  
-                  <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
-                      <label class="ckbox">
-                        <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique"
-                          name="IsUnique" /><span>Tekil mi?</span>
-                      </label>
+                  <div style="width:135px; padding-left:15px; padding-top: 5px; margin-right:0px;">
+                    <label class="ckbox">
+                      <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique"
+                        name="IsUnique" /><span>Tekil mi?</span>
+                    </label>
                   </div>
-             </div>
+                </div>
+              </div>
             </div>
-           </div>
 
             <!-- ÖZELLİK DEĞERİ -->
-                <div class="form-group" *ngIf="isListSelected == true">
-                    <label class="required-span">Değeri</label>
-                    <div class="row">
-                  <div class="col-md-12 flexProperty">                    
-                    <div style="flex:1;">
-                    <input #Value name="Value" class="form-control txt-width" type="text"
-                    [ngClass]="{ 'is-invalid': data.submitted && Value.invalid }" required>
-                    </div>
-                    <div *ngIf="data.submitted && Value.invalid" class="invalid-feedback">
-                      <div *ngIf="Value.errors.required">Bu alan zorunludur.</div>
-                    </div>
-                    <div style="width:30px; padding-left:12px;">                    
-                      <span _ngcontent-c5="" class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(Value)"></span>
-                  </div>    
-                 </div>                  
-                </div>                  
-              </div>
+            <div class="row justify-content-center">
+            <div class="col-md-12 form-group" *ngIf="isListSelected == true">
+                <label class="required-span">Değeri</label>
+              <div class="flexProperty">                    
+                <div style="flex:1;">
+                  <input #Value name="Value" class="form-control" type="text"
+                  style="font-size: 13px;height: 27px;"
+                  [ngClass]="{ 'is-invalid': data.submitted && Value.invalid }" required>
+                  <div *ngIf="data.submitted && Value.invalid" class="invalid-feedback">
+                    <div *ngIf="Value.errors.required">Bu alan zorunludur.</div>
+                  </div>
+                </div>
+                <div class="property-add-value">                    
+                  <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(Value)"></span>
+                </div>    
+              </div>                  
+          </div>
+          </div>
 
           <!-- ÖZELLİK DEĞERLERİ TABLOSU -->
           <!-- <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table> -->
-          <div><tree-grid-table class="table-scroll" *ngIf="isListSelected == true" [dataTable]="dataTablePropertyValue"></tree-grid-table>
+          <div class="property-values-table">
+            <tree-grid-table class="table-scroll" *ngIf="isListSelected == true" [dataTable]="dataTablePropertyValue"></tree-grid-table>
           </div>
         
         </div>
 
           <!-- modal-body -->
           <div class="modal-footer">
-            <button class="btn btn-orange" id="btnInsertOrUpdateFixedAssetCardProperty" type="submit" data-toggle="modal"
+            <button class="btn btn-az-primary" id="btnInsertOrUpdateFixedAssetCardProperty" type="submit" data-toggle="modal"
               data-target="#modalInsertFixedAssetProperty" *ngIf="isWaitingInsertOrUpdate == false">
               {{fixedAssetCardProperty.FixedAssetCardPropertyId ?  'Demirbaş Özelliği Güncelle' : 'Demirbaş Özelliği Ekle'}}
             </button>

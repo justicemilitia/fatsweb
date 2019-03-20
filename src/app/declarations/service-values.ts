@@ -1,7 +1,11 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Currency } from '../models/Currency';
 
+<<<<<<< HEAD
 export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+=======
+export const SERVICE_URL = "http://localhost:5000/api/";
+>>>>>>> 3b86e8d223cb55e27ab9270c1864ed4c7cae481e
 export const LOGIN = "Auth/token";
 
 //#region Departments

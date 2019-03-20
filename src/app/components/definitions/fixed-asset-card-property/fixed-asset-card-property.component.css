@@ -1,36 +1,29 @@
-.btn-orange {
-  background: #e67300;
-  color: white;
-  border-radius: 5px;
-}
-.btnAddCategory-height {
-  min-height: 15px;
-}
-.btnAddCategory-right {
-  float: right;
-  margin-bottom: 10px;
-  padding-right: 0px;
-}
-.left {
-  margin-left: 90px;
-}
-.txt-width {
-  border-radius: 5px;
-  height: 30px;
-}
-.btn-height {
-  min-height: 15px;
+.form-group select {
+    height: 27px;
+    font-size: 13px;
+    padding-top: 3px;
 }
 
- .flexProperty{
-  flex: 1;
-  flex-direction: row;
-  display: flex;
-  justify-content: flex-start;
-  padding-bottom:10px;
+.flexProperty{
+flex: 1;
+flex-direction: row;
+display: flex;
+justify-content: flex-start;
+padding-bottom:10px;
 }
 .table-scroll{
 height: 50px;
 overscroll-behavior-y: contain;
 overflow-y: scroll;
+}
+
+.property-values-table {
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.property-add-value {
+    width:30px; 
+    padding-left:12px;
+    align-self: center;
 }

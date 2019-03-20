@@ -121,6 +121,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isDeleteable = true;
     this.dataTablePropertyValue.isTableEditable = true;
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
@@ -349,6 +350,9 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
   async insertPropertyValueToArray(value: any) {
     value.value = value.value.trim();
+
+    this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
+
     if (
       value.value != "" &&
       !this.fixedAssetCardPropertyValues.find(x => x.Value == value.value)
