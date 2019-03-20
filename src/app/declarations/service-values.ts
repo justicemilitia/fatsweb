@@ -185,6 +185,7 @@ export const INSERT_ROLE = "Role/AddRole";
 export const GET_ROLE_BY_ID = "Role/GetRoleById";
 export const GET_ROLE_LIST = "role/GetRoleList";
 export const DELETE_ROLES = "role/RemoveByIdList";
+export const Do_ROLE_AUTHORIZATIONS = "role/DoRoleAuthorizations"
 //#endregion
 
 //#region RoleAuthorization

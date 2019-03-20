@@ -7,6 +7,12 @@ export class TreeGridTable {
 
     //#region Variables
 
+
+    /**
+     * Show error message in table
+     */
+    public errorMessage:string = '';
+
     /**
      * Store the active columns to increase performance.
      * To Update this TGT_bindActiveColumns method must use
@@ -586,11 +592,26 @@ export class TreeGridTable {
 
     }
 
+    public TGT_clearData() {
+        if (this.originalSource && this.originalSource.length > 0)
+            this.originalSource.splice(0);
+        if (this.dataSource && this.dataSource.length > 0)
+            this.dataSource.splice(0);
+        if (this.treeSource && this.treeSource.length > 0)
+        this.treeSource.splice(0);
+
+        /* if current page is diffrent set it as 1 */
+        if (this.currentPage != 1)
+            this.currentPage = 1;
+            
+    }
+
     /**
      * Load array which is implemented with idata to datasource.
      * @param _datasource Array which is implemented with IData
      */
     public TGT_loadData(_datasource: IData[]) {
+
         /* if the datasource null or empty return */
         if (!_datasource || _datasource.length == 0)
             return;
@@ -619,6 +640,10 @@ export class TreeGridTable {
 
         /* We Stop Loading */
         this.isLoading = false;
+
+        /* We remove error message */
+        this.errorMessage = '';
+
     }
 
     /**

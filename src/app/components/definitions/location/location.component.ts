@@ -99,6 +99,10 @@ export class LocationComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
+
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
+
     if (data.value.LocationId == null) {
       this.addLocation(data);
     } else {
@@ -122,7 +126,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    this.baseService.popupService.ShowQuestionPopupForDelete(() => {
 
       /* Activate the loading spinner */
       this.baseService.spinner.show();
@@ -163,14 +167,11 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
   async addLocation(data: NgForm) {
 
-    /* Check model state is valid */
-    if (data.form.invalid == true) return;
-
     /* Show Loading bar */
     this.isWaitingInsertOrUpdate = true;
 
     /* Insert Location service */
-    await this.baseService.locationService.InsertLocation(this.location, (inserted: Location, message) => {
+    this.baseService.locationService.InsertLocation(this.location, (inserted: Location, message) => {
 
       /* Close waiting loader */
       this.isWaitingInsertOrUpdate = false;
@@ -197,11 +198,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
   async updateLocation(data: NgForm) {
 
-    /* Check model state */
-    if (data.form.invalid == true) return;
-
     /* Ask for approve question if its true then update the location */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
       if (response == true) {
 
         /* loading icon visible */

@@ -9,7 +9,8 @@ import {
   INSERT_ROLE_AUTHORIZATION,
   GET_ROLE_AUTHORIZATION_LIST_BY_ROLEID,
   UPDATE_ROLE_AUTHORIZATION,
-  DELETE_ROLE_AUTHORIZATION
+  DELETE_ROLE_AUTHORIZATION,
+  Do_ROLE_AUTHORIZATIONS
 } from "../../declarations/service-values";
 
 import { Response } from "src/app/models/Response";
@@ -126,6 +127,26 @@ export class RoleAuthorizationService {
       });
   }
 
+  DoRoleAuthorizations(roleId:number,models:RoleAuthorization[],success,failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + Do_ROLE_AUTHORIZATIONS,
+        {
+          RoleId: roleId,
+          RoleAuthorizations: models
+        },
+        { headers: GET_HEADERS(this.aService.getToken()) }
+      )
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      });
+  }
+
   GetRoleAuthListById(roleId: number, success, failed) {
     this.httpclient
       .get(SERVICE_URL + GET_ROLE_AUTHORIZATION_LIST_BY_ROLEID + "/" + roleId, {
@@ -138,7 +159,6 @@ export class RoleAuthorizationService {
             let roleAuths: RoleAuthorization[] = [];
             (<RoleAuthorization[]>response.ResultObject).forEach(e => {
               let roleAuth: RoleAuthorization = new RoleAuthorization();
-              roleAuth.RoleAuthorizationId=e.RoleAuthorizationId;
               Object.assign(roleAuth, e);
               roleAuths.push(roleAuth);
             });
@@ -158,7 +178,7 @@ export class RoleAuthorizationService {
       headers:GET_HEADERS(this.aService.getToken())
     }).subscribe(result=>{
       let response:Response=<Response>result;
-      if(response.ResultStatus==true){
+      if((<[]>response.ResultObject).length == 0){
         success(response.ResultObject,response.LanguageKeyword);
       }else{
         failed(getAnErrorResponse(response.LanguageKeyword));
