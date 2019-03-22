@@ -1,6 +1,6 @@
 export enum PropertyValueTypes {
-    Liste=1,
-    Metin=2,
-    Sayi=3,
+    Liste=3,
+    Metin=1,
+    Sayi=2,
     OndalikliSayi=4
 }
