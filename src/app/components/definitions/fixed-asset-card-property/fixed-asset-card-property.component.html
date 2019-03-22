@@ -85,9 +85,9 @@
                     #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetTypeId.invalid }" required 
                     (change)="changeValue($event, fixedAssetCardProperty)">
                     <option>Yok</option>
-                    <option *ngFor="let fixedAssetCardPropertyType of fixedAssetCardPropertyTypes"
-                    value={{fixedAssetCardPropertyType.FixedAssetPropertyTypeId}}>
-                    {{fixedAssetCardPropertyType.Name}}
+                    <option *ngFor="let fixedAssetType of fixedAssetTypes"
+                    value={{fixedAssetType.Id}}>
+                    {{fixedAssetType.Name}}
                     </option>
                   </select>
                   <div *ngIf="data.submitted && FixedAssetTypeId.invalid" class="invalid-feedback">

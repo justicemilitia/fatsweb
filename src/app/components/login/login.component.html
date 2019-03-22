@@ -37,11 +37,11 @@
               </div>
         </div>
 
-        <div id="userFirms" *ngIf="firms.length > 0" class="form-group">
+        <div id="userFirms" class="form-group">
           <div *ngIf="isUserFirmsGetting == true">
             <div class="loader"></div>
           </div>
-          <select *ngIf="isUserFirmsGetting == false" name="firmId" [(ngModel)]="loginUser.FirmId"
+          <select *ngIf="isUserFirmsGetting == false && firms.length > 0" name="firmId" [(ngModel)]="loginUser.FirmId"
             class="form-control select2-no-search">
             <option value="-1">Şirket Seçiniz</option>
             <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>
@@ -87,7 +87,8 @@
       <!-- form-group -->
     </div>
     <div class="az-signin-footer">
-      <p><a href="">Şifremi unuttum</a></p>
+      <p><a data-toggle="modal"
+        data-target="#forgotPasswordModal" onclick="return false;">Şifremi unuttum</a></p>
     </div>
   </div>
   <!-- az-card-signin -->
