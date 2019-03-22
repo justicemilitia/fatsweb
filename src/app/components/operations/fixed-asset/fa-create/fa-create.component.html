@@ -1,124 +1,166 @@
-<form name="form" #data="ngForm">
+<form name="form" #data="ngForm" novalidate>
 <mat-horizontal-stepper>   
-    <mat-step label="Genel Bilgiler">
+  <mat-step label="Genel Bilgiler">
         <div class="row justify-content-center">
           <div class="form-group col-md-6">           
-          <input [(ngModel)]="fixedAsset.Barcode" name="Barcode" type="text" placeholder="Barkod" class="form-control"/>  
-          </div>                 
+          <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)" name="Barcode" 
+          [disabled]="disabledBarcode==true" type="text" placeholder="Barkod" class="form-control"
+          [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" required/>
+          <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
+            <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
+          </div>
+          <div *ngIf="errorMessage!= ''">{{errorMessage}}</div>
+        </div>                 
           <div class="form-group col-md-6">
           <input [(ngModel)]="fixedAsset.SerialNumber" name="SerialNumber" type="text" placeholder="Seri Numarası" class="form-control"/>
           </div>
         </div>
         <div class="row justify-content-center">     
-        <div class="form-group col-md-3">
-            <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
+          <div class="form-group col-md-3">
+            <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
                 <label class="ckbox">
-                  <input type="checkbox"/><span>Manuel Barkod</span>
+                  <input type="checkbox"  name="isBarcodeManual" (change)="isBarcodeManual($event)"/><span>Manuel Barkod</span>
                 </label>
-            </div> 
+            </div>          
           </div>
           <div class="form-group col-md-3"> 
-                <input type="text" placeholder="Adet" class="form-control"/>
+                <input type="number" name="quantity" min="1" max="100" placeholder="Adet" class="form-control" required/>         
           </div>                          
-        <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2-no-search" 
-            (click)="loadBrandList()" (change)="loadModelByBrandId($event)">
-              <option >Marka Seçiniz</option>
-              <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
-            </select> 
+          <div class="form-group col-md-6">
+              <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
+                  <option [ngValue]="null">Demirbaş Statüsü Seçiniz</option>
+                  <option *ngFor="let statu of statuses" value="{{statu.FixedAssetStatusId}}">{{statu.Name}}</option>
+              </select>
+              <div *ngIf="data.submitted && StatusId.invalid" class="invalid-feedback">
+                <div *ngIf="StatusId.errors.required">Bu alan zorunludur.</div>
+              </div>        
           </div>
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-          <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control select2-no-search" (click)="loadCompanies()">
-            <option value="-1" >Tedarikçi Seçiniz</option>
-            <option *ngFor="let company of companies" value="{{company.CompanyId}}">{{company.Name}}</option>
-          </select>  
+            <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" class="form-control select2-no-search"  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" #FixedAssetCardCategoryId="ngModel" required >
+                <option [ngValue]="null">Demirbaş Kategorisi Seçiniz</option>
+                <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
+            </select> 
+            <div *ngIf="data.submitted && FixedAssetCardCategoryId.invalid" class="invalid-feedback">
+                <div *ngIf="FixedAssetCardCategoryId.errors.required">Bu alan zorunludur.</div>
+              </div>  
         </div>
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2-no-search">
-              <option value="-1" >Model Seçiniz</option>
-              <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
-            </select> 
+            <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2-no-search"  [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" #UserId="ngModel" required >
+                <option [ngValue]="null">Personel Seçiniz</option>
+                <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
+              </select> 
+              <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
+                  <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
+                </div> 
         </div>
         </div>  
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-          <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2-no-search" (click)="loadDepartments()">
-            <option value="-1" >Departman Seçiniz</option>
-            <option *ngFor="let department of departments" value="{{department.DepartmentId}}">{{department.Name}}</option>
-          </select> 
+            <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" class="form-control select2-no-search" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardId.invalid }" #FixedAssetCardId="ngModel" required >
+                <option [ngValue]="null">Demirbaş Seçiniz</option>
+                <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>
+              </select> 
+              <div *ngIf="data.submitted && FixedAssetCardId.invalid" class="invalid-feedback">
+                  <div *ngIf="FixedAssetCardId.errors.required">Bu alan zorunludur.</div>
+              </div>        
         </div>
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" class="form-control select2-no-search" (click)="loadCategoriesList()" (change)="loadFaCardByCategoryId($event)">
-              <option value="-1" >Seçiniz</option>
-              <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
+            <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2-no-search" 
+            (click)="loadBrandList()" (change)="loadModelByBrandId($event)">
+              <option [ngValue]="null">Marka Seçiniz</option>
+              <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
             </select> 
         </div>
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-          <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2-no-search" (click)="loadLocations()">
-            <option value="-1">Lokasyon Seçiniz</option>
-            <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
-          </select>
+            <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2-no-search" [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }" #DepartmentId="ngModel" required >
+                <option [ngValue]="null" >Departman Seçiniz</option>
+                <option *ngFor="let department of departments" value="{{department.DepartmentId}}">{{department.Name}}</option>
+              </select> 
+              <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
+                  <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+              </div> 
         </div>
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" class="form-control select2-no-search">
-              <option value="-1" >Seçiniz</option>
-              <option>Demirbaş Kartı</option>
-            </select> 
+            <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2-no-search">
+                <option [ngValue]="null" >Model Seçiniz</option>
+                <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
+              </select> 
           </div>
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-          <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" (click)="loadStatuses()">
-            <option value="-1" >Seçiniz</option>
-            <option >Demirbaş Statüsü</option>
-          </select>     
+            <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2-no-search" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" #LocationId="ngModel" required>
+                <option [ngValue]="null">Lokasyon Seçiniz</option>
+                <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
+            </select>      
+            <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
+                <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+            </div>  
         </div>
         <div class="form-group col-md-6">
-            <select class="form-control select2-no-search" (click)="loadUsers()">
-              <option value="-1" >Seçiniz</option>
-              <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
-            </select> 
+            <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control select2-no-search">
+                <option [ngValue]="null" >Tedarikçi Seçiniz</option>
+                <option *ngFor="let company of companies" value="{{company.CompanyId}}">{{company.Name}}</option>
+            </select>              
         </div>
         </div>
         <div>
             <button mat-button matStepperNext>Next</button>
           </div>
   
-    </mat-step>
+  </mat-step>
   <mat-step label="Özellik Bilgileri">
-        <div class="row justify-content-center">
-          <div class="form-group col-md-8">
-            <div class="form-group col-md-6">
+        <div class="row justify-content-center">         
+            <div class="form-group col-md-4">
               <label>Özellik Adı</label>
-                <select  class="form-control select2-no-search">
+                <select [(ngModel)]="fixedAssetProperty.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (change)="getPropertyId($event)" class="form-control select2-no-search">
                     <option value="-1" >Seçiniz</option>
-                    <option >Özellik Adı</option>
-                  </select>   
+                    <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+                </select>   
             </div>
-            <div class="form-group col-md-6">
-                <label>Özellik Değeri</label>
-                  <select  class="form-control select2-no-search">
-                      <option value="-1" >Seçiniz</option>
-                      <option >Özellik Değeri</option>
-                  </select>   
-              </div>
-            <div class="form-group col-md-12">
-
-             </div>
+            <div class="form-group col-md-4">
+                <label>Özellik Değeri</label>    
+                  <div class="flexProperty">        
+                  <div style="flex:1;">            
+                   <select [(ngModel)]="fixedAssetPropertyDetail.FixedAssetPropertyDetailId" name="FixedAssetPropertyDetailId" (change)="getPropertyId($event)" *ngIf="isListSelected==true" class="form-control select2-no-search">
+                        <option value="-1" >Seçiniz</option>
+                        <option >Özellik Değeri</option>
+                   </select> 
+                   <input [(ngModel)]="fixedAssetPropertyDetail.FixedAssetPropertyDetailId" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
+                  style="font-size: 13px;height: 27px;">
+                        <!-- <div *ngIf="Value.errors.required">Bu alan zorunludur.</div> -->
+                  </div>
+                      <div class="property-add-value">                    
+                          <span class="tree-table-sign typcn icon-default typcn-plus"></span>
+                      </div>  
+                  </div>
+                
+            </div>                  
+            <div class="form-group col-md-4">
+              <label>Demirbaş Resmi</label>
+              <!-- <div class="file-area">
+              <input type="file" class="form-control-file" style="display:none">
+                <label for="AgreementFile" class="custom-file">
+                  <label class="custom-file-text" for="AgreementFile">
+                    {{agreementFile.files.length > 0 ? agreementFile.files[0].name : agreement.AgreementFile ? agreement.AgreementFile : 'Dosya Seçiniz'}}
+                  </label>
+                </label>
+                <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label> -->
+            </div>   
           </div>  
+          <div class="row justify-content-center">  
+          <div class="form-group col-md-8">
+            <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+          </div> 
           <div class="form-group col-md-4">
 
-          </div>   
-          <div class="form-group col-md-12">
-              <label>Açıklama</label>
-              <input class="form-control" type="text"/>              
           </div>
-        </div>
-        <div>
+        </div> 
+          <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
           </div>
@@ -126,53 +168,193 @@
   <mat-step label="Finansal Bilgiler">
             <div class="row justify-content-center">
               <div class="form-group col-md-3">
-                  <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
-                      <label class="ckbox">
-                        <input type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
-                      </label>
-                  </div> 
-              </div>
-              <div class="form-group col-md-3">
-                  <div style="width:30%; padding-left:15px; padding-top: 5px; margin-right:0px;">
-                      <label class="ckbox">
-                        <input type="checkbox"/><span>IFRS Amortismanı hesaplanacak mı ?</span>
-                      </label>
-                  </div> 
+                  <input type="text" placeholder="Fiyat" class="form-control"/>               
               </div>
               <div class="form-group col-md-3">
                   <select class="form-control select2-no-search">
-                      <option value="-1" >Seçiniz</option>
-                      <option >Masraf Merkezi</option>
-                  </select>   
+                    <option value="-1" >Para Pirimi</option>
+                    <option >Para Pirimi</option>
+                  </select>       
               </div>
-              <div class="form-group col-md-3">
-                  <select class="form-control select2-no-search">
-                      <option value="-1" >Seçiniz</option>
-                      <option >Sigorta Şirketi</option>
-                  </select> 
+              <div class="form-group col-md-6">                
+                      <input type="text" placeholder="Fatura Numarası" class="form-control"/>  
               </div>
             </div>
             <div class="row justify-content-center">
-                <div class="form-group col-md-3">
-                    <input type="text" placeholder="Fiyat" class="form-control"/>          
+                <div class="form-group col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-append">
+                          <div (click)="invoiceDate.toggle()" class="input-group-text">
+                            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                          </div>
+                        </div>
+                        <input class="form-control" type="text" placeholder="Makbuz Tarihi"
+                            name="invoiceDate"
+                            ngbDatepicker #invoiceDate="ngbDatepicker"/>        
+                            <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
+                              <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
+                              <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
+                                Lütfen Geçerli Format Giriniz.
+                              </div>
+                            </div>      -->
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                              <div (click)="invoiceDate.toggle()" class="input-group-text">
+                                <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                              </div>
+                            </div>
+                            <input class="form-control" type="text" placeholder="Fatura Tarihi"
+                                name="invoiceDate"
+                                ngbDatepicker #invoiceDate="ngbDatepicker"/>        
+                                <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
+                                  <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
+                                  <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
+                                    Lütfen Geçerli Format Giriniz.
+                                  </div>
+                                </div>      -->
+                          </div>
+                    </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                  <select class="form-control select2-no-search">
+                      <option value="-1" >Sigorta Şirketi</option>
+                      <option *ngFor="let company of companies" value = "{{company.CompanyId}}">{{company.Name}}</option>
+                  </select>  
                 </div>
-                <div class="form-group col-md-3">
-                    <select class="form-control select2-no-search">
-                        <option value="-1" >Seçiniz</option>
-                        <option >Para Pirimi</option>
-                    </select> 
+                <div class="form-group col-md-6">
+                  <select class="form-control select2-no-search">
+                      <option value="-1" >Masraf Merkezi</option>
+                      <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
+                  </select>
                 </div>
-                <div class="form-group col-md-3">
-                    <input type="text" placeholder="Fatura Numarası" class="form-control"/>    
-                </div>
-                <div class="form-group col-md-3">
-                  
+              </div>
+
+                <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                    <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
+                        <label class="ckbox">
+                          <input type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
+                        </label>
+                    </div>
+                  </div>
+                <div class="form-group col-md-6">
+                    <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
+                        <label class="ckbox">
+                          <input type="checkbox"/><span>IFRS Hesaplanacak mı ?</span>
+                        </label>
+                    </div>
                 </div>
             </div>  
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+
+            <div class="row justify-content-center">
+              <div class="form-group col-md-6">
+                  <select class="form-control select2-no-search">
+                      <option value="-1" >Seçiniz</option>
+                      <option >Amortisman Hesaplama Yöntemi</option>
+                  </select>   
+              </div>
+              <div class="form-group col-md-3">
+                  <input type="text" placeholder="Fiyat" class="form-control"/>   
+              </div>
+              <div class="form-group col-md-3">
+                  <select class="form-control select2-no-search">
+                      <option value="-1" >IFRS Para Pirimi</option>
+                      <option >Para Pirimi</option>
+                  </select> 
+              </div>
+          </div>  
+
+          <div class="row justify-content-center">
+              <div class="form-group col-md-6">
+                <input type="text" placeholder="Amortisman Periyodu" class="form-control"/>
+              </div>
+              <div class="form-group col-md-6">
+                  <input type="text" placeholder="IFRS Periyodu" class="form-control"/>
+                </div>
+          </div>
+
+          <div class="row justify-content-center">
+              <div class="form-group col-md-6">
+                  <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
+                      <label class="ckbox">
+                        <input type="checkbox"/><span>Demirbaş Aktif mi ?</span>
+                      </label>
+                  </div>    
+              </div>
+              <div class="form-group col-md-3">
+                  <div class="input-group">
+                      <div class="input-group-append">
+                        <div (click)="invoiceDate.toggle()" class="input-group-text">
+                          <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                        </div>
+                      </div>
+                      <input class="form-control" type="text" placeholder="Garanti Süresi Başlangıç Tarihi"
+                          name="invoiceDate"
+                          ngbDatepicker #invoiceDate="ngbDatepicker"/>        
+                          <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
+                            <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
+                            <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
+                              Lütfen Geçerli Format Giriniz.
+                            </div>
+                          </div>      -->
+                   </div>
+              </div>
+              <div class="form-group col-md-3">
+                  <div class="input-group">
+                      <div class="input-group-append">
+                        <div (click)="invoiceDate.toggle()" class="input-group-text">
+                          <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                        </div>
+                      </div>
+                      <input class="form-control" type="text" placeholder="Garanti Süresi Bitiş Tarihi"
+                          name="invoiceDate"
+                          ngbDatepicker #invoiceDate="ngbDatepicker"/>        
+                          <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
+                            <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
+                            <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
+                              Lütfen Geçerli Format Giriniz.
+                            </div>
+                          </div>      -->
+                   </div>
+              </div>
             </div>
+
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-append">
+                      <div (click)="invoiceDate.toggle()" class="input-group-text">
+                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                      </div>
+                    </div>
+                    <input class="form-control" type="text" placeholder="Aktifleştirme Tarihi"
+                        name="invoiceDate"
+                        ngbDatepicker #invoiceDate="ngbDatepicker"/>        
+                        <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
+                          <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
+                          <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
+                            Lütfen Geçerli Format Giriniz.
+                          </div>
+                        </div>      -->
+                  </div>
+              </div>
+              <div class="form-group col-md-6">
+                  <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
+                      <label class="ckbox">
+                        <input type="checkbox"/><span>Enflasyon Hesaplanacak mı ?</span>
+                      </label>
+                  </div>   
+              </div>
+          </div> 
+          <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+          </div>        
   </mat-step>
   <mat-step label="Dosya">
   </mat-step>

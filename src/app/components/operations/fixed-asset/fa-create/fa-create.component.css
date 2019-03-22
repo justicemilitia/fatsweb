@@ -1,0 +1,29 @@
+.form-group select {
+    height: 27px;
+    font-size: 13px;
+    padding-top: 3px;
+}
+
+.flexProperty{
+flex: 1;
+flex-direction: row;
+display: flex;
+justify-content: flex-start;
+padding-bottom:10px;
+}
+.table-scroll{
+height: 50px;
+overscroll-behavior-y: contain;
+overflow-y: scroll;
+}
+
+.property-values-table {
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.property-add-value {
+    width:30px; 
+    padding-left:12px;
+    align-self: center;
+}

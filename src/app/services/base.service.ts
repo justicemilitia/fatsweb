@@ -29,6 +29,7 @@ import { DashboardService } from './dashboard-service/dashboard.service';
 import { SuspendedFixedAssetService } from './suspended-fixed-asset-service/suspended-fixed-asset.service';
 import { CurrencyService } from './currency-service/currency.service';
 import { LostFixedAssetService } from './lost-fixed-asset-service/lost-fixed-asset.service';
+import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asset-create.service';
 
 @Injectable({
   providedIn: "root"
@@ -54,6 +55,7 @@ export class BaseService {
     public currencyService: CurrencyService,
     public fixedAssetCardBrandService: FixedAssetCardBrandService,
     public fixedAssetCardModelService: FixedAssetCardModelService,
+    public fixedAssetCreateService:FixedAssetCreateService,
     public fixedAssetStatusService:StatusService,
     public roleService: RoleService,
     public roleUserService:RoleUserService,

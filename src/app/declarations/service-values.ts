@@ -1,11 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Currency } from '../models/Currency';
 
-<<<<<<< HEAD
 export const SERVICE_URL = "http://dev.fatsapi.com/api/";
-=======
-export const SERVICE_URL = "http://localhost:5000/api/";
->>>>>>> 3b86e8d223cb55e27ab9270c1864ed4c7cae481e
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -46,7 +42,7 @@ export const GET_FIXEDASSETCARD_BY_ID = "fixedAssetcard/GetFixedAssetCardById";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssets";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
-export const GET_FA_CARDS_BY_CATEGORY_ID="fixedassetcard/GetFixedAssetCardByCategoryId";
+export const GET_FA_CARDS_BY_CATEGORY_ID="FixedAssetCard/GetFixedAssetCardByCategoryId";
 //#endregion
 
 //#region FixedAssets
@@ -56,6 +52,11 @@ export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcod
 
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 //#endregion
+
+//#region FixedAssetCreate
+export const UNIQUE_BARCODE ="FixedAsset/BarcodeUniqueControl";
+export const GET_PROPERTYVALUE_LIST_BY_PROPERTYVALUE_ID="FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
+////#region FixedAssets
 
 //#region ExitFixedAssets
 export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";

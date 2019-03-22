@@ -11,8 +11,12 @@ import { FixedAssetCardCategory } from 'src/app/models/FixedAssetCardCategory';
 import { FixedAssetCard } from 'src/app/models/FixedAssetCard';
 import { User } from 'src/app/models/User';
 import { FixedAsset } from 'src/app/models/FixedAsset';
+import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { ExpenseCenter } from 'src/app/models/ExpenseCenter';
+import { FixedAssetCardProperty } from 'src/app/models/FixedAssetCardProperty';
+import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
+import { PropertyValueTypes } from 'src/app/declarations/property-value-types.enum';
 
-import { FormWizardModule } from 'angular-wizard-form';
 
 @Component({
   selector: 'app-fa-create',
@@ -30,60 +34,108 @@ export class FaCreateComponent extends BaseComponent implements OnInit {
   fixedassetcategories: FixedAssetCardCategory[] = [];
   fixedassetcards: FixedAssetCard[] = [];
   staffs: User[] = [];
+  expensecenters:ExpenseCenter[]=[];
+  fixedassetproperty:FixedAssetCardProperty[]=[];
 
   fixedAsset:FixedAsset=new FixedAsset();
+  fixedAssetProperty:FixedAssetCardProperty=new FixedAssetCardProperty();
+  fixedAssetPropertyDetail:FixedAssetPropertyDetails=new FixedAssetPropertyDetails();
+
+  BarcodeIsUnique:boolean=true;
+  disabledBarcode:boolean=true;
+  errorMessage:string = '';
+  isListSelected:boolean=false;
+
+  /* Fixed Asset Card Property Value Data Table */
+  public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
+    "fixedassetcardpropertyvalue",
+    [
+      {
+        columnDisplayName: "Özellik Adı",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Value"]
+    }
+  );
 
   constructor(protected baseService: BaseService) {
     super(baseService);
+    this.loadDropdown();    
+    this.dataTablePropertyValue.isPagingActive = false;
+    this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isTableEditable = true;
+    this.dataTablePropertyValue.isMultipleSelectedActive = false;
+    this.dataTablePropertyValue.isLoading = false;
   }
-
-  // ngAfterViewInit(): void {
-  //   $(".az-navbar-two").trigger("click");
-  //   this.loadDepartments();
-  // }
 
   ngOnInit() { }
 
-  loadDepartments(){
+loadDropdown(){
+
     this.baseService.departmentService.GetDepartments((departments: Department[]) => {
       this.departments = departments;
     }, (error: HttpErrorResponse) => {
       this.baseService.popupService.ShowErrorPopup(error);
     });
-  }
-  
-  loadCompanies(){
+
     this.baseService.companyService.GetCompanies((companies: Company[]) => { 
       this.companies = companies }, 
-      (error: HttpErrorResponse) => { 
-      this.baseService.popupService.ShowErrorPopup(error) });
-  }
+    (error: HttpErrorResponse) => { 
+      this.baseService.popupService.ShowErrorPopup(error) 
+    });
 
-  loadLocations(){
     this.baseService.locationService.GetLocations((locations:Location[])=>{
       this.locations=locations;
     },(error:HttpErrorResponse)=>{
       this.baseService.popupService.ShowErrorPopup(error);
     });
-  }
 
-  loadStatuses(){
     this.baseService.fixedAssetStatusService.GetStatus((statuses:FixedAssetStatus[]) => {
       this.statuses=statuses;
     },(error:HttpErrorResponse)=>{
       this.baseService.popupService.ShowErrorPopup(error);
     });
-  }
 
-  loadUsers(){
     this.baseService.userService.GetUsers((users:User[])=>{
       this.staffs=users;
     },(error:HttpErrorResponse)=>{
       this.baseService.popupService.ShowErrorPopup(error);
     });
-  }
 
-  loadBrandList(){
+    this.baseService.expenseCenterService.GetExpenseCenters(
+      (expCenters: ExpenseCenter[]) => {
+        this.expensecenters = expCenters;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+    });
+
+    this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
+      (fixedAssetCardProperties:FixedAssetCardProperty[]) => {
+      this.fixedassetproperty=fixedAssetCardProperties;
+    },
+    (error: HttpErrorResponse) => {
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+}
+
+loadBrandList(){
     if(this.brands && this.brands.length == 0){
 
       this.models=[];
@@ -92,14 +144,13 @@ export class FaCreateComponent extends BaseComponent implements OnInit {
         (brands:FixedAssetCardBrand[])=>{
         this.brands=brands;
           },
-          (error:HttpErrorResponse)=>{
-
+          (error:HttpErrorResponse)=>{            
           }
       );
   }
 }
 
-  loadModelByBrandId(event:any){
+loadModelByBrandId(event:any){
     this.models = [];
 
     if(!event.target.value || event.target.value == ''){
@@ -111,16 +162,14 @@ export class FaCreateComponent extends BaseComponent implements OnInit {
     if(event.target.value){
       this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(<number>event.target.value,
         (models:FixedAssetCardModel[])=>{
-
           this.models=models;
-        },
-        (error:HttpErrorResponse)=>{
+        }, (error:HttpErrorResponse)=>{
           this.baseService.popupService.ShowErrorPopup(error);
         });
     }
   }
 
-  loadCategoriesList(){
+loadCategoriesList(){
     if(this.fixedassetcategories && this.fixedassetcategories.length == 0){
 
       this.fixedassetcards = [];
@@ -132,10 +181,10 @@ export class FaCreateComponent extends BaseComponent implements OnInit {
           (error:HttpErrorResponse)=>{
             this.baseService.popupService.ShowErrorPopup(error);
           });
-   }
+      }
   }
 
-  loadFaCardByCategoryId(event:any){
+loadFaCardByCategoryId(event:any){
     this.fixedassetcards=[];
 
     if(!event.target.value || event.target.value == ''){
@@ -151,9 +200,52 @@ export class FaCreateComponent extends BaseComponent implements OnInit {
           this.fixedassetcards=fixedAssetCards;
         },
         (error:HttpErrorResponse)=>{
-
           this.baseService.popupService.ShowErrorPopup(error);
         });
+    }
+  }
+
+load
+
+isBarcodeUnique(barcode:string){
+  
+  if(barcode == '')
+  return;
+
+    this.baseService.fixedAssetCreateService.isBarcodeUnique(barcode,
+      (result)=>{
+        this.BarcodeIsUnique=false;
+        this.errorMessage='';
+      },
+      (error:HttpErrorResponse) => {
+        this.BarcodeIsUnique=true;
+        this.errorMessage = error.statusText;
+      });
+  }
+
+isBarcodeManual(event){
+    if(event.target.checked == true){
+      this.disabledBarcode = false;
+      return;
+    }
+    else{
+      this.disabledBarcode=true;
+    }
+  }
+
+loadFixedAssetProperties(){
+
+}
+
+getPropertyId(event){
+  
+    let fixedAssetProperty=this.fixedassetproperty.find(x=>x.FixedAssetCardPropertyId == <number>event.target.value);
+
+    if(fixedAssetProperty.FixedAssetTypeId==PropertyValueTypes.Liste)
+    {
+      this.isListSelected=true;
+    }else{
+      this.isListSelected=false;
     }
   }
 }

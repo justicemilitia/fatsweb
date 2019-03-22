@@ -48,11 +48,8 @@ import { FormWizardModule } from 'angular-wizard-form';
 import { SuspendedFixedAssetComponent } from './components/operations/suspended-fixed-asset/suspended-fixed-asset.component';
 import { LostFixedAssetComponent } from './components/operations/lost-fixed-asset/lost-fixed-asset.component';
 import { CheckoutFixedAssetComponent } from './components/operations/checkout-fixed-asset/checkout-fixed-asset.component';
-<<<<<<< HEAD
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-=======
 import { FaChangeBarcodeComponent } from './components/operations/fixed-asset/fa-change-barcode/fa-change-barcode.component';
->>>>>>> 3b86e8d223cb55e27ab9270c1864ed4c7cae481e
 
 @NgModule({
   declarations: [
