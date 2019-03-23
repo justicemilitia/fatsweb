@@ -464,3 +464,12 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     font-style: italic;
     font-size: 13px;
 }
+
+.table-remove-item-column {
+    cursor: pointer;
+    width: 20px;
+}
+
+.table-remove-item-column > span {
+    color:red;
+}

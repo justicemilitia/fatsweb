@@ -42,7 +42,7 @@ export const GET_FIXEDASSETCARD_BY_ID = "fixedAssetcard/GetFixedAssetCardById";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssets";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
-export const GET_FA_CARDS_BY_CATEGORY_ID="fixedassetcard/GetFixedAssetCardByCategoryId";
+export const GET_FA_CARDS_BY_CATEGORY_ID="FixedAssetCard/GetFixedAssetCardByCategoryId";
 //#endregion
 
 //#region FixedAssets
@@ -55,12 +55,19 @@ export const UPDATE_FIXEDASSETFIRM = "FixedAsset/ChangeFirm";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 //#endregion
 
+<<<<<<< HEAD
 //#region FixedAssetDebit
 export const ADD_FIXEDASSETDEBIT = "FixedAsset/AddDebitPersonOnBarcode";
 export const UPDATE_FIXEDASSETDEBIT = "FixedAsset/ChangeDebitPersonOnBarcode";
 export const DELETE_FIXEDASSETDEBIT = "FixedAsset/DeleteDebitPersonOnBarcode";
 //#endregion
 
+=======
+//#region FixedAssetCreate
+export const UNIQUE_BARCODE ="FixedAsset/BarcodeUniqueControl";
+export const GET_PROPERTYVALUE_LIST_BY_PROPERTYVALUE_ID="FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
+////#region FixedAssets
+>>>>>>> 21f6c9cb3e5965a60a8157201c80c4a6276aa32d
 
 //#region ExitFixedAssets
 export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
@@ -220,9 +227,15 @@ export const GET_CITY_LIST = "definition/GetCitiesList";
 export const GET_USERFIRM_LIST = "UserFirms/GetUserFirmsList";
 export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
 
+//#region FixedAssetForm
+export const CREATE_FIXED_ASSET_FORM="PdfCreator/CreateFixedAssetDeliveryForm";
+//#endregion
+
 //#region 
 export const GET_DASHBOARD_VALUES = "Dashboard/GetDashboardValues";
 //#endregion
+
+
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
 

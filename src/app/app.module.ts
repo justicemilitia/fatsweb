@@ -8,6 +8,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { routes } from "./app-routing.module";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
+import{MatStepperModule,MatIconModule,MatButtonModule} from "@angular/material";
 
 import { LoginComponent } from "./components/login/login.component";
 import { HeaderComponent } from "./components/layout/header/header.component";
@@ -51,7 +52,7 @@ import { FaChangeBarcodeComponent } from "./components/operations/fixed-asset/fa
 import { FaChangeLocationComponent } from "./components/operations/fixed-asset/fa-change-location/fa-change-location.component";
 import { FaChangeDepartmentComponent } from "./components/operations/fixed-asset/fa-change-department/fa-change-department.component";
 import { FaChangeFirmComponent } from "./components/operations/fixed-asset/fa-change-firm/fa-change-firm.component";
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,11 @@ import { FaChangeFirmComponent } from "./components/operations/fixed-asset/fa-ch
     NgMultiSelectDropDownModule.forRoot(),
     ColorPickerModule,
     NgbModule,
-    FormWizardModule
+    FormWizardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatStepperModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

@@ -9,6 +9,11 @@ export class TreeGridTable {
 
 
     /**
+     * If the row will be deleteable set true.
+     */
+    public isDeleteable = false;
+
+    /**
      * Show error message in table
      */
     public errorMessage:string = '';
@@ -504,6 +509,16 @@ export class TreeGridTable {
         this.TGT_loadData(this.originalSource);
     }
 
+    public TGT_removeItem(item:IData) {
+
+        let index = this.originalSource.findIndex(x=>x.getId() == item.getId());
+        if (index > -1) {
+            this.originalSource.splice(index,1);
+        }
+
+        this.TGT_loadData(this.originalSource);
+    }
+
     /**
      * Calculate total page, active page, previous and next pages.
      */
@@ -592,17 +607,15 @@ export class TreeGridTable {
 
     }
 
+    /**
+     * Clear data table.
+     */
     public TGT_clearData() {
-        if (this.originalSource && this.originalSource.length > 0)
-            this.originalSource.splice(0);
-        if (this.dataSource && this.dataSource.length > 0)
-            this.dataSource.splice(0);
-        if (this.treeSource && this.treeSource.length > 0)
-        this.treeSource.splice(0);
-
-        /* if current page is diffrent set it as 1 */
-        if (this.currentPage != 1)
-            this.currentPage = 1;
+        
+        this.originalSource  = [];
+        this.dataSource = [];
+        this.treeSource = [];
+        this.currentPage = 1;
             
     }
 
@@ -613,9 +626,10 @@ export class TreeGridTable {
     public TGT_loadData(_datasource: IData[]) {
 
         /* if the datasource null or empty return */
-        if (!_datasource || _datasource.length == 0)
+        if (!_datasource || _datasource.length == 0) {
+            this.TGT_clearData();
             return;
-
+        }
         /* (Clone) Original source help us to visible,extend all items with easy way */
         this.originalSource = _datasource.slice(0);
 

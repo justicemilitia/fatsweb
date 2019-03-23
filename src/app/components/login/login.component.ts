@@ -76,6 +76,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     /* Loading State of firms */
     this.isUserFirmsGetting = true;
 
+
     /* Get firms from server */
     this.baseService.authenticationService.getUserFirmList(usermail,
       (result: Firm[]) => {
@@ -85,15 +86,14 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.isUserFirmsGetting = false;
         this.errorMessage = '';
 
-      },
-      (error: HttpErrorResponse) => {
+      },(error: HttpErrorResponse) => {
         /* if any error show on screen and stop getting firms */
         this.errorMessage = error.statusText;
         this.firms = [];
         this.isUserFirmsGetting = false;
 
-      }
-    );
+      });
+
   }
 
 }

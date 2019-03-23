@@ -125,13 +125,6 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
 
       let selectedItems=this.dataTable.TGT_getSelectedItems();
 
-      if (!selectedItems || selectedItems.length == 0) {
-        this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir demirbaş seçiniz"
-        );
-        return;
-      }
-
       let itemIds: number[] = selectedItems.map(x => x.getId());
       this.Ids = itemIds;
       return this.Ids;
@@ -200,13 +193,21 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
                 
         return;
       }
-
-      let fixedAssetBarcodes = "";
-      selectedItems.forEach(e => {
-        fixedAssetBarcodes += e.Barcode + ", ";
+      else{
         
-      });
-      this.faBarcodes=fixedAssetBarcodes;
+          $("#btnOpenSuspendedFa").trigger("click");
+        
+  
+          $("#btnOpenExitFa").trigger("click");
+        
+
+        let fixedAssetBarcodes = "";
+        selectedItems.forEach(e => {
+          fixedAssetBarcodes += e.Barcode + ", ";
+          
+        });
+        this.faBarcodes=fixedAssetBarcodes;
+      }   
     }
   }
 

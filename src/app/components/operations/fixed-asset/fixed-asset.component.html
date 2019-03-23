@@ -6,38 +6,40 @@
           <span>OPERASYONLAR</span>
           <span>DEMİRBAŞ LİSTESİ</span>
       </div>
-      <div class="card card-dashboard-twelve mg-b-20">
-          <div class="card-header">
-      <h2 class="az-content-title">Demirbaş Listesi</h2>      
+    <div class="card card-dashboard-twelve mg-b-20">
+    <div class="card-header">
+      <!-- <h2 class="az-content-title">Demirbaş Listesi</h2>     -->      
+      <div class="grp-btn-action-left">     
+        <button class="btn btn-az-primary"  style="margin-right:10px" data-toggle="modal" data-placement="bottom" data-target="#modalOperation" title="Demirbaş Girişi"><i class="fas fa-plus-circle"></i></button>
+  
+        <button class="btn btn-danger btn-delete-custom" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Demirbaş Çıkışı"><i class="fas fa-minus-circle"></i></button>
+    
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Demirbaş İlişkiendir"><i class="fas fa-link"></i></button>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Askıya Al"><i class="fas fa-level-up-alt"></i></button>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Kayıp Demirbaş"><i class="fas fa-search-minus"></i></button>
+        <div class="divider"></div>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Zimmet Ekle"><i class="fas fa-user-check"></i></button>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Zimmet Değiştir"><i class="fas fa-user-edit"></i></button>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Zimmet İptal"><i class="fas fa-user-times"></i></button>
+        <div class="divider"></div>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-placement="bottom" title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Şirket Değiştirme" (click)="doOperation(5)"><i class="fas fa-building"></i></button>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Lokasyon Değiştirme" (click)="doOperation(3)"><i class="fas fa-map-marker-alt"></i></button>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Departman Değiştrime" (click)="doOperation(4)"><i class="fas fa-sitemap"></i></button>
+        <div class="divider"></div>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel"><i class="far fa-file-excel"></i></button>
+        <button class="btn btn-az-primary" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>        
       </div>
-      <div class="row">     
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş Girişi"><i class="fas fa-plus-circle"></i></button>
-        
-        <button class="btn btn-danger btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" itle="Demirbaş Çıkışı"><i class="fas fa-minus-circle"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Demirbaş İlişkiendir"><i class="fas fa-link"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Askıya Al"><i class="fas fa-level-up-alt"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Kayıp Demirbaş"><i class="fas fa-search-minus"></i></button>
 
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Zimmet Ekle"><i class="fas fa-user-check"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Zimmet Değiştir"><i class="fas fa-user-edit"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Zimmet İptal"><i class="fas fa-user-times"></i></button>
- 
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Şirket Değiştirme" (click)="doOperation(5)"><i class="fas fa-building"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Lokasyon Değiştirme" (click)="doOperation(3)"><i class="fas fa-map-marker-alt"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Departman Değiştirme" (click)="doOperation(4)"><i class="fas fa-sitemap"></i></button>
-
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Excel"><i class="far fa-file-excel"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>
-
+      <div class="grp-btn-action">
         <button class="btn btn-orange btn-new-custom btn-secondary" ><i class="fas fa-retweet"></i></button>
-        <button class="btn btn-orange btn-new-custom btn-secondary" ><i class="fas fa-filter"></i></button>  
-        
-        <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalOperation"></button>
-        
+        <button class="btn btn-orange btn-new-custom btn-secondary" ><i class="fas fa-filter"></i></button> 
       </div>
+        <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalOperation"></button>        
+    </div>
+      <p class="mg-b-20"></p>
       <div class="sales-overview">
-      <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
       </div>
     </div>
     <!-- az-content-body -->
@@ -71,12 +73,12 @@
             <app-fa-change-department [faBarcode]="changeDepartment_selectedItem" 
             *ngIf="currentOperation==4"></app-fa-change-department>
             
-            <!-- <app-fa-change-firm [faBarcode]="changeFirm_selectedItem" 
-            *ngIf="currentOperation==5"></app-fa-change-firm> -->
+            <app-fa-change-firm [faBarcode]="changeFirm_selectedItem" 
+            *ngIf="currentOperation==5"></app-fa-change-firm>
             
-          <!-- <app-fa-exit [faDataTable]="dataTable" [faBarcodes]="selectedBarcodes()"></app-fa-exit> -->
+          <app-fa-create></app-fa-create>
       </div>
         </div>
       </div>
       <!-- modal-dialog -->
-    </div>
+  </div>

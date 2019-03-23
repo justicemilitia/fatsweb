@@ -141,12 +141,12 @@ export class FixedAssetCardModelService {
   }
 
   GetFixedAssetsCardModelsByBrandId(brandId:number,success,failed){
-    this.httpClient.get(SERVICE_URL + GET_MODELS_BY_BRAND_ID + "/" +brandId,{
+    this.httpClient.get(SERVICE_URL + GET_MODELS_BY_BRAND_ID + "/" + brandId,{
       headers:GET_HEADERS(this.aService.getToken())
     }).subscribe(
       result=>{
         let response:Response=<Response>result;
-        if((<[]>response.ResultObject).length==0){
+        if((<[]>response.ResultObject).length!=0){
           success(response.ResultObject,response.LanguageKeyword);
         }else{
           failed(getAnErrorResponse(response.LanguageKeyword));

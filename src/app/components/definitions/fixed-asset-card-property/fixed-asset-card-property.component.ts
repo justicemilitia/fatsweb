@@ -9,6 +9,7 @@ import * as $ from "jquery";
 import { FixedAssetCardPropertyType } from "../../../models/FixedAssetCardPropertyType";
 import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
 import { PropertyValueTypes } from "../../../declarations/property-value-types.enum";
+import { GetFixedAssetTypes } from 'src/app/declarations/fixed-asset-types';
 
 @Component({
   selector: "app-fixed-asset-card-property",
@@ -24,6 +25,8 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   implements OnInit {
   /* Is Waititing for a request */
   isWaitingInsertOrUpdate: boolean = false;
+
+  fixedAssetTypes = GetFixedAssetTypes();
 
   /* Store Fixed Card Properties */
   fixedAssetCardProperties: FixedAssetCardProperty[] = [];
@@ -121,6 +124,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isDeleteable = true;
     this.dataTablePropertyValue.isTableEditable = true;
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
@@ -300,10 +304,10 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     this.baseService.spinner.show();
 
     /* load property types if not loaded */
-    await this.loadFixedAssetCardPropertyTypes();
+    this.loadFixedAssetCardPropertyTypes();
 
     /* get agreement information from server */
-    await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardPropertyById(
+    this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardPropertyById(
       item.FixedAssetCardPropertyId,
       (result: FixedAssetCardProperty) => {
         /* then bind it to fixed asset card property model to update */
@@ -311,6 +315,27 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
           /* Trigger to model to show it */
           $("#btnAddFixedAssetCardProperty").trigger("click");
 
+          if (result.FixedAssetTypeId == PropertyValueTypes.Liste)
+            this.isListSelected = true;
+          else 
+            this.isListSelected = false;
+
+          this.dataTablePropertyValue.TGT_clearData();
+
+          this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
+
+          if (result.FixedAssetPropertyValues) {
+            let values = <FixedAssetCardPropertyValue[]>result.FixedAssetPropertyValues;
+            values.forEach((e:FixedAssetCardPropertyValue)=>{
+              let item = new FixedAssetCardPropertyValue();
+              Object.assign(item,e);
+              this.fixedAssetCardPropertyValues.push(item);
+            })
+          }
+
+          this.dataTablePropertyValue.TGT_loadData(this.fixedAssetCardPropertyValues);
+
+          
           /* bind result to model */
           this.fixedAssetCardProperty = result;
           this.baseService.spinner.hide();
@@ -349,6 +374,9 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
   async insertPropertyValueToArray(value: any) {
     value.value = value.value.trim();
+
+    this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
+
     if (
       value.value != "" &&
       !this.fixedAssetCardPropertyValues.find(x => x.Value == value.value)
