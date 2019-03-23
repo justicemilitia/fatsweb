@@ -232,6 +232,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         this.fixedAssetCardProperty.FixedAssetCardPropertyId =
           insertedItem.FixedAssetCardPropertyId;
 
+        /* Display item updated */
+        this.fixedAssetCardProperty.FixedAssetPropertyValues.forEach((p, i) => {
+          this.fixedAssetCardProperty.FixedAssetAsDisplay += p.Value + (i < this.fixedAssetCardProperty.FixedAssetPropertyValues.length - 1 ? "|" : "");
+        });
+
         /* Push inserted item to Property list */
         this.fixedAssetCardProperties.push(this.fixedAssetCardProperty);
 
@@ -277,6 +282,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
               /* Create a fixed asset for updated item to create a refrences */
               let updatedModel = new FixedAssetCardProperty();
               Object.assign(updatedModel, this.fixedAssetCardProperty);
+
+              /* Display item updated */
+              updatedModel.FixedAssetPropertyValues.forEach((p, i) => {
+                updatedModel.FixedAssetAsDisplay += p.Value + (i < updatedModel.FixedAssetPropertyValues.length - 1 ? "|" : "");
+              });
 
               /* Update in datatable */
               this.dataTable.TGT_updateData(updatedModel);
