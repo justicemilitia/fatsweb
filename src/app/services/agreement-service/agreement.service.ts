@@ -2,9 +2,7 @@ import { Injectable } from "@angular/core";
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpRequest,
   HttpHeaders,
-  HttpHeaderResponse
 } from "@angular/common/http";
 
 import {
@@ -15,14 +13,11 @@ import {
   UPDATE_AGREEMENT,
   GET_AGREEMENT_BY_ID,
   DELETE_AGREEMENT,
-  FILE_UPLOAD,
-  GET_HEADERS_FORMDATA
+  FILE_UPLOAD
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "../../../../src/app/models/Response";
-import { Router } from "@angular/router";
 import { Agreement } from "../../../../src/app/models/Agreement";
-import { ErrorService } from "../error-service/error.service";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 
 @Injectable({
