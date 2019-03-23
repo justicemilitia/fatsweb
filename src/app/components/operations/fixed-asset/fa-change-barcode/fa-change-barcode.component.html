@@ -1,6 +1,6 @@
-<div class="row justify-content-center">
-    <h5>Çıkış işlemi için bilgileri giriniz.</h5>
-  </div>
+<!-- <div class="row justify-content-center">
+    <h6 class="modal-title">Çıkış işlemi için bilgileri giriniz.</h6>
+  </div> -->
 
   <form name="form" #data="ngForm" (ngSubmit)="ChangeBarcode(data)">
     <div class="modal-body">
@@ -19,7 +19,6 @@
           <div class="col-md-12 form-group">
             <label>Demirbaş Adı</label>
             <input name="Name" value="{{faBarcode.FixedAssetCard.Name}}" type="text" class="form-control" disabled/>                        
-            <!-- <input [(ngModel)]="fixedAsset.Name" name="Name" type="text" class="form-control" #Name="ngModel" disabled/>             -->
           </div>
         </div>
 
@@ -27,7 +26,11 @@
         <div class="row justify-content-center">
           <div class="col-md-12 form-group">
             <label>Yeni Barkod</label>
-            <input [(ngModel)]="newBarcode" name="newBarcodes" type="text" class="form-control" #newBarcodes="ngModel"/>            
+            <input [(ngModel)]="newBarcode" name="newBarcodes" type="text" class="form-control" #newBarcodes="ngModel" 
+            [ngClass]="{ 'is-invalid': data.submitted && newBarcodes.invalid }" required/>
+            <div *ngIf="data.submitted && newBarcodes.invalid" class="invalid-feedback">
+                <div *ngIf="newBarcodes.errors.required">Bu alan zorunludur.</div>
+              </div>            
           </div>
         </div>
 

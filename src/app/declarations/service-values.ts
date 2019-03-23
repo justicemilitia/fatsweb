@@ -1,7 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Currency } from '../models/Currency';
 
-export const SERVICE_URL = "http://localhost:5000/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -49,9 +49,18 @@ export const GET_FA_CARDS_BY_CATEGORY_ID="fixedassetcard/GetFixedAssetCardByCate
 export const GET_FIXEDASSET_LIST = "FixedAsset/GetFixedAssetsList";
 export const UPDATE_FIXEDASSET = "FixedAsset/UpdateFixedAsset";
 export const UPDATE_FIXEDASSETBARCODENUMBER = "FixedAsset/UpdateFixedAssetBarcodeNumber";
-
+export const UPDATE_FIXEDASSETLOCATION = "FixedAsset/ChangeLocation";
+export const UPDATE_FIXEDASSETDEPARTMENT = "FixedAsset/ChangeDepartment";
+export const UPDATE_FIXEDASSETFIRM = "FixedAsset/ChangeFirm";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 //#endregion
+
+//#region FixedAssetDebit
+export const ADD_FIXEDASSETDEBIT = "FixedAsset/AddDebitPersonOnBarcode";
+export const UPDATE_FIXEDASSETDEBIT = "FixedAsset/ChangeDebitPersonOnBarcode";
+export const DELETE_FIXEDASSETDEBIT = "FixedAsset/DeleteDebitPersonOnBarcode";
+//#endregion
+
 
 //#region ExitFixedAssets
 export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";

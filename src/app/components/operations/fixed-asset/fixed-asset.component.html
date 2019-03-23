@@ -22,10 +22,10 @@
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Zimmet Değiştir"><i class="fas fa-user-edit"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Zimmet İptal"><i class="fas fa-user-times"></i></button>
  
-        <button class="btn btn-success btn-new-custom btn-secondary" data-placement="bottom" title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Şirket Değiştirme"><i class="fas fa-building"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Lokasyon Değiştirme"><i class="fas fa-map-marker-alt"></i></button>
-        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Departman Değiştrime"><i class="fas fa-sitemap"></i></button>
+        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
+        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Şirket Değiştirme" (click)="doOperation(5)"><i class="fas fa-building"></i></button>
+        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Lokasyon Değiştirme" (click)="doOperation(3)"><i class="fas fa-map-marker-alt"></i></button>
+        <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Departman Değiştirme" (click)="doOperation(4)"><i class="fas fa-sitemap"></i></button>
 
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Excel"><i class="far fa-file-excel"></i></button>
         <button class="btn btn-success btn-new-custom btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>
@@ -46,7 +46,7 @@
 </div>
   <div id="modalOperation" class="modal" data-backdrop="static">
       <div class="modal-dialog modal-dialog-centered" role="document">
-        <div style="position: relative;
+        <div class="modal-content modal-content-demo" style="position: relative;
         display: flex;
         flex-direction: column;      
         pointer-events: auto;
@@ -56,14 +56,24 @@
         border-radius: 0.3rem;
         outline: 0;">
           <div class="modal-header">
-            <h6 class="modal-title"></h6>
+            <h6 class="modal-title">Gerekli bilgileri giriniz.</h6>
             <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+                <span aria-hidden="true">&times;</span>
+              </button>
           </div>
           <div class="modal-body">
             <app-fa-change-barcode [faBarcode]="changeBarcode_selectedItem" 
             *ngIf="currentOperation==2"></app-fa-change-barcode>
+            
+            <app-fa-change-location [faBarcode]="changeLocation_selectedItem" 
+            *ngIf="currentOperation==3"></app-fa-change-location>
+            
+            <app-fa-change-department [faBarcode]="changeDepartment_selectedItem" 
+            *ngIf="currentOperation==4"></app-fa-change-department>
+            
+            <!-- <app-fa-change-firm [faBarcode]="changeFirm_selectedItem" 
+            *ngIf="currentOperation==5"></app-fa-change-firm> -->
+            
           <!-- <app-fa-exit [faDataTable]="dataTable" [faBarcodes]="selectedBarcodes()"></app-fa-exit> -->
       </div>
         </div>
