@@ -25,6 +25,13 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
 
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+
+  isTableExporting:boolean = false;
+
   /* List of countries */
   countries: Country[] = [];
 
@@ -408,5 +415,18 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadCompanies();
+
+    this.isTableRefreshing = false;
+
   }
 }
