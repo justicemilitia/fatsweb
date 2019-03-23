@@ -4,7 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { routes } from "./app-routing.module";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
@@ -43,13 +43,16 @@ import { FixedAssetStatusComponent } from "./components/definitions/fixed-asset-
 import { FaCreateComponent } from "./components/operations/fixed-asset/fa-create/fa-create.component";
 import { FaExitComponent } from "./components/operations/fixed-asset/fa-exit/fa-exit.component";
 import { FaBindingComponent } from "./components/operations/fixed-asset/fa-binding/fa-binding.component";
-import { SuspensionComponent } from './components/definitions/suspension/suspension.component';
-import { FormWizardModule } from 'angular-wizard-form';
-import { SuspendedFixedAssetComponent } from './components/operations/suspended-fixed-asset/suspended-fixed-asset.component';
-import { LostFixedAssetComponent } from './components/operations/lost-fixed-asset/lost-fixed-asset.component';
-import { CheckoutFixedAssetComponent } from './components/operations/checkout-fixed-asset/checkout-fixed-asset.component';
+import { SuspensionComponent } from "./components/definitions/suspension/suspension.component";
+import { FormWizardModule } from "angular-wizard-form";
+import { SuspendedFixedAssetComponent } from "./components/operations/suspended-fixed-asset/suspended-fixed-asset.component";
+import { LostFixedAssetComponent } from "./components/operations/lost-fixed-asset/lost-fixed-asset.component";
+import { CheckoutFixedAssetComponent } from "./components/operations/checkout-fixed-asset/checkout-fixed-asset.component";
+import { FaChangeBarcodeComponent } from "./components/operations/fixed-asset/fa-change-barcode/fa-change-barcode.component";
+import { FaChangeLocationComponent } from "./components/operations/fixed-asset/fa-change-location/fa-change-location.component";
+import { FaChangeDepartmentComponent } from "./components/operations/fixed-asset/fa-change-department/fa-change-department.component";
+import { FaChangeFirmComponent } from "./components/operations/fixed-asset/fa-change-firm/fa-change-firm.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FaChangeBarcodeComponent } from './components/operations/fixed-asset/fa-change-barcode/fa-change-barcode.component';
 
 @NgModule({
   declarations: [
@@ -84,12 +87,16 @@ import { FaChangeBarcodeComponent } from './components/operations/fixed-asset/fa
     FixedAssetStatusComponent,
     FaCreateComponent,
     FaExitComponent,
+    FaChangeLocationComponent,
+    FaChangeDepartmentComponent,
+    FaChangeBarcodeComponent,
+    FaChangeFirmComponent,
     FaBindingComponent,
     FixedAssetCardPropertyComponent,
     SuspensionComponent,
-    SuspendedFixedAssetComponent,   
+    SuspendedFixedAssetComponent,
     LostFixedAssetComponent,
-    CheckoutFixedAssetComponent,
+    CheckoutFixedAssetComponent
   ],
   imports: [
     BrowserModule,

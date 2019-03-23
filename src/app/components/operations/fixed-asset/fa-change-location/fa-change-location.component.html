@@ -1,0 +1,76 @@
+
+<form name="form" #data="ngForm" (ngSubmit)="ChangeLocation(data)">
+  <div class="modal-body">
+    <!-- BARKOD -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Barkod</label>
+        <input
+          name="Barcodes"
+          value="{{ faBarcode.Barcode }}"
+          type="text"
+          class="form-control"
+          disabled
+        />
+      </div>
+    </div>
+
+    <!-- DEMİRBAŞ ADI -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Demirbaş Adı</label>
+        <input
+          name="Name"
+          value="{{ faBarcode.FixedAssetCard.Name }}"
+          type="text"
+          class="form-control"
+          disabled
+        />
+      </div>
+    </div>
+
+    <!-- YENİ LOKASYON -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Yeni Lokasyon</label>
+        <select
+          [(ngModel)]="LocationId"
+          name="locationIds"
+          class="form-control"
+          (click)="loadDropdownList()"
+          #locationIds="ngModel"
+          [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }"
+          required
+        >
+          <option [ngValue]="null">Yok</option>
+          <option
+            *ngFor="let location of locations"
+            value="{{ location.LocationId }}"
+          >
+            {{ location.Name }}
+          </option>
+        </select>
+        <div
+          *ngIf="data.submitted && LocationId.invalid"
+          class="invalid-feedback"
+        >
+          <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button
+      class="btn btn-orange"
+      id="btnChangeLocation"
+      type="submit"
+      data-toggle="modal"
+      data-target="#modalChangeLocation"
+    >
+      Kaydet
+    </button>
+    <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
+  </div>
+</form>

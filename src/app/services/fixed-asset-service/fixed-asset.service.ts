@@ -7,7 +7,10 @@ import {
   GET_FIXEDASSETCARDPROPERTY_LIST,
   EXIT_FIXEDASSET,
   GET_EXITFIXEDASSETLIST,
-  UPDATE_FIXEDASSETBARCODENUMBER
+  UPDATE_FIXEDASSETBARCODENUMBER,
+  UPDATE_FIXEDASSETLOCATION,
+  UPDATE_FIXEDASSETDEPARTMENT,
+  UPDATE_FIXEDASSETFIRM
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -131,7 +134,7 @@ export class FixedAssetService {
   ChangeBarcode(fixedAsset: FixedAsset, success, failed){
     this.httpclient
       .post(
-        SERVICE_URL + UPDATE_FIXEDASSETBARCODENUMBER, fixedAsset, {
+        SERVICE_URL + UPDATE_FIXEDASSETLOCATION, fixedAsset, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
@@ -150,4 +153,73 @@ export class FixedAssetService {
         }
       );
   }
+
+  ChangeLocation(fixedAsset: FixedAsset, success, failed){
+    this.httpclient
+      .post(
+        SERVICE_URL + UPDATE_FIXEDASSETLOCATION, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAsset: FixedAsset = new FixedAsset();
+            Object.assign(updatedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  ChangeDepartment(fixedAsset: FixedAsset, success, failed){
+    this.httpclient
+      .post(
+        SERVICE_URL + UPDATE_FIXEDASSETDEPARTMENT, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAsset: FixedAsset = new FixedAsset();
+            Object.assign(updatedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+  ChangeFirm(fixedAsset: FixedAsset, success, failed){
+    this.httpclient
+      .post(
+        SERVICE_URL + UPDATE_FIXEDASSETFIRM, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAsset: FixedAsset = new FixedAsset();
+            Object.assign(updatedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
 }
