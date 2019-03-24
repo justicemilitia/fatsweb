@@ -127,7 +127,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       textField: "Name",
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
-      itemsShowLimit: 10,
+      itemsShowLimit: 2,
       allowSearchFilter: true
     };
 
