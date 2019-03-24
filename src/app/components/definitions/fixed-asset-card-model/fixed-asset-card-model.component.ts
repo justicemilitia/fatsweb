@@ -24,6 +24,12 @@ export class FixedAssetCardModelComponent extends BaseComponent
   /* Is Waititing for a request */
   isWaitingInsertOrUpdate: boolean = false;
 
+   /* Is Table Refreshing */
+   isTableRefreshing: boolean = false;
+
+   /* Is Table Exporting */
+   isTableExporting: boolean = false;
+
   /* Store Fixed Asset Card Brand */
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
 
@@ -298,6 +304,19 @@ export class FixedAssetCardModelComponent extends BaseComponent
 
       });
     });
+  }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTableModel.isLoading = true;
+
+    this.dataTableModel.TGT_clearData();
+
+    await this.loadFixedAssetCardModels();
+
+    this.isTableRefreshing = false;
+
   }
 
 }

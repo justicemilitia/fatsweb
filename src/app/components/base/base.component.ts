@@ -44,8 +44,30 @@ export abstract class BaseComponent implements OnInit {
     return this.Languages.find(x => x.Culture == this.baseService.languageService.language);
   }
 
+  public IsAuthForEdit: boolean = false;
+  public IsAuthForDelete: boolean = false;
+  public IsAuthForInsert: boolean = false;
+
   constructor(protected baseService: BaseService) {
     this.Firm = this.Firms[0];
+
+    if (this.baseService.router.routerState.root.firstChild != null) {
+      let keyword = this.baseService.router.routerState.root.firstChild.snapshot.data["pageKeyword"];
+      let menus = this.baseService.authenticationService.getRoleMenus();
+      if (menus && menus.length > 0) {
+        let pageItem = menus.find(x => x.MenuCaption == keyword);
+        if (pageItem) {
+          this.IsAuthForInsert = pageItem.OutInsert;
+          this.IsAuthForEdit = pageItem.OutUpdate;
+          this.IsAuthForDelete = pageItem.OutDelete;
+        } else {
+          this.IsAuthForDelete = false;
+          this.IsAuthForInsert = false;
+          this.IsAuthForEdit = false;
+        }
+      }
+    }
+
   }
 
   ngOnInit() { }
@@ -82,16 +104,16 @@ export abstract class BaseComponent implements OnInit {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
-  public exportAsExcelFile(dt:TreeGridTable): void {
-    
+  exportAsExcelFile(dt: TreeGridTable): void {
+
     /* Export values must be in an array */
-    let data:any[] = [];
+    let data: any[] = [];
 
     let columns = dt.activeColumns;
 
     /* Load Column Display names */
-    let cols:any[] = [];
-    columns.forEach(e=> {
+    let cols: any[] = [];
+    columns.forEach(e => {
       cols.push(e.columnDisplayName);
     })
 
@@ -99,15 +121,15 @@ export abstract class BaseComponent implements OnInit {
     data.push(cols);
 
     /* Push values */
-    dt.dataSource.forEach(e=> {
-      let items:any[] = [];
+    dt.dataSource.forEach(e => {
+      let items: any[] = [];
       columns.forEach(p => {
 
         if (p.type == "checkbox") {
-          let value = dt.TGT_getDataValue(e,p);
-          items.push(value == true ? "EVET" : "HAYIR");          
-        }else {
-          items.push(dt.TGT_getDataValue(e,p));
+          let value = dt.TGT_getDataValue(e, p);
+          items.push(value == true ? "EVET" : "HAYIR");
+        } else {
+          items.push(dt.TGT_getDataValue(e, p));
         }
       })
       data.push(items);
@@ -121,8 +143,10 @@ export abstract class BaseComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    let filename:string = "FATS_" + new Date().toLocaleString().replace('_','').replace(', ','_').replace(' ','_');
+    let filename: string = "FATS_" + new Date().toLocaleString().replace('_', '').replace(', ', '_').replace(' ', '_');
 
-    XLSX.writeFile(wb,filename + '.xlsx');
+    XLSX.writeFile(wb, filename + '.xlsx');
   }
+
+
 }

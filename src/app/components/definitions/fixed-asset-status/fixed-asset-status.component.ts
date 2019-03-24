@@ -13,7 +13,14 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./fixed-asset-status.component.css"]
 })
 export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
+  
   isWaitingInsertOrUpdate: boolean = false;
+
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting:boolean = false;
 
   statuses: FixedAssetStatus[] = [];
 
@@ -248,4 +255,18 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
     }
     return "";
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.LoadFixedAssetStatus();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }

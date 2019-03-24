@@ -2,28 +2,42 @@
   <div class="media media-dashboard">
     <div class="media-body">
       <!-- Bread Crumb -->
-        <div class="az-content-breadcrumb">
-            <span>TANIMLAMALAR</span>
-            <span>DEMİRBAŞ MARKASI</span>
-        </div>
+      <div class="az-content-breadcrumb">
+        <span>TANIMLAMALAR</span>
+        <span>DEMİRBAŞ MARKASI</span>
+      </div>
       <div class="card card-dashboard-twelve mg-b-20">
-          <div class="card-header">
-        <h2 class="az-content-title">Demirbaş Markası</h2>
-        <div class="grp-btn-action">
-          <button type="button" (click)="deleteFixedAssetCardBrand()" class="btn btn-danger btn-delete-custom">
-            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
-            <i class="fas fa-trash"></i></button>
-          <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddFixedAssetCardBrand"
-            data-toggle="modal" data-target="#modalFixedAssetCardBrand">Marka Ekle
-          </button>
-          <button style="display:none" (click)="resetForm(data,false)" id="btnEditFixedAssetCardBrand"
-            data-toggle="modal" data-target="#modalFixedAssetCardBrand">Marka Düzenle
-          </button>
+        <div class="card-header">
+          <h2 class="az-content-title">Demirbaş Markası</h2>
+          <div class="grp-btn-action">
+
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
+            </button>
+
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
+
+            <button type="button" (click)="deleteFixedAssetCardBrand()" class="btn btn-danger btn-delete-custom">
+              {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+              <i class="fas fa-trash"></i></button>
+
+            <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddFixedAssetCardBrand"
+              data-toggle="modal" data-target="#modalFixedAssetCardBrand">Marka Ekle
+            </button>
+
+            <button style="display:none" (click)="resetForm(data,false)" id="btnEditFixedAssetCardBrand"
+              data-toggle="modal" data-target="#modalFixedAssetCardBrand">Marka Düzenle
+            </button>
+            
+          </div>
         </div>
-        </div>
-        <p class="mg-b-20"></p>
         <div class="sales-overview">
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          </tree-grid-table>
         </div>
       </div>
     </div>

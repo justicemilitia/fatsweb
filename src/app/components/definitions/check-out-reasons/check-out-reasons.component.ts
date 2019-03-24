@@ -4,7 +4,6 @@ import { BaseComponent } from "../../base/base.component";
 import { CheckOutReason } from "src/app/models/CheckOutReason";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { HttpErrorResponse } from "@angular/common/http";
-import { FixedAssetStatus } from "src/app/models/FixedAssetStatus";
 
 @Component({
   selector: "app-check-out-reasons",
@@ -13,6 +12,12 @@ import { FixedAssetStatus } from "src/app/models/FixedAssetStatus";
 })
 export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
   
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting:boolean = false;
+
   checkOutReasons: CheckOutReason[] = [];
   checkoutreason: CheckOutReason = new CheckOutReason();
 
@@ -67,4 +72,18 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.LoadCheckOutReasons();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }

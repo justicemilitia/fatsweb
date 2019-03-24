@@ -26,6 +26,12 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   /* Is Waititing for a request */
   isWaitingInsertOrUpdate: boolean = false;
 
+  /* Is Table Refreshing */
+  isTableRefreshing: boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting: boolean = false;
+
   fixedAssetTypes = GetFixedAssetTypes();
 
   /* Store Fixed Card Properties */
@@ -420,4 +426,18 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
       this.isListSelected = true;
     else this.isListSelected = false;
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadFixedAssetCardProperties();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }

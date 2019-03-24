@@ -50,11 +50,29 @@
         position: "left",
         closeBtn: true,
         mobileMode: false
-      });   
+      });
+      $('#wizard2').steps({
+        headerTag: 'h3',
+        bodyTag: 'section',
+        autoFocus: true,
+        titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>'
+      });
+      setTimeout(() => {
+        let currentLocation = window.location.href.split('/');
+        if (currentLocation.length == 0)
+          loadData();
+        else {
+          let item = currentLocation[currentLocation.length - 1];
+          if (item == 'dashboard') {
+            loadData();
+          }
+        }
+      }, 1000);
     });
+
   </script>
-   <script>
-    $(function(){
+  <script>
+    $(function () {
       'use strict'
 
       $('[data-toggle="tooltip"]').tooltip();
@@ -70,13 +88,13 @@
 
     });
   </script>
-    <script>
-      $(document).ready(function(){
-          $('.select2').select2({
-            placeholder: 'Choose one'
-          });
-        });
-    </script>
+  <script>
+    $(document).ready(function () {
+      $('.select2').select2({
+        placeholder: 'Choose one'
+      });
+    });
+  </script>
 </body>
 
 </html>

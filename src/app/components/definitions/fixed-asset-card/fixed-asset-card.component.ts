@@ -23,6 +23,12 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   /* Is Waiting For an update or insert */
   isWaitingInsertOrUpdate: boolean = false;
 
+  /* Is Table Refreshing */
+  isTableRefreshing: boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting: boolean = false;
+
   /* Store Fixed Asset Cards */
   fixedAssetCards: FixedAssetCard[] = [];
 
@@ -307,4 +313,18 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadFixedAssetCards();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }

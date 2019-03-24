@@ -12,18 +12,31 @@
 
           <h2 class="az-content-title">Demirbaş Özellikleri</h2>
           <div class="grp-btn-action">
+
+              <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+                  <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                    [class.btn-refresh-loader]="isTableExporting == true"></i>
+                </button>
+    
+                <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+                  <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                    [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+                </button>
+
             <button type="button" (click)="deleteFixedAssetCardProperties()" class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
+
             <button class="btn btn-az-primary" id="btnAddFixedAssetCardProperty" data-toggle="modal"
               data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,true)">Özellik Ekle
             </button>
+
             <button style="display:none" id="btnEditFixedAssetCardProperty" data-toggle="modal"
               data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,false)">Özellik Düzenle
             </button>
+            
           </div>
           </div>
-          <p class="mg-b-20"></p>
           <div class="sales-overview">
             <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
           </div>
@@ -34,8 +47,8 @@
   </div>
   
   <!-- LARGE MODAL -->
-  <div id="modalFixedAssetCardProperty" class="modal">
-    <div class="modal-dialog" role="document">
+  <div id="modalFixedAssetCardProperty" class="modal" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
           <h6 class="modal-title">Demirbaş özellik bilgilerini giriniz.</h6>
