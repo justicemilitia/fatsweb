@@ -17,6 +17,9 @@ import * as $ from "jquery";
 })
 export class SuspendedFixedAssetComponent extends BaseComponent implements OnInit {
 
+    /* Is Table Exporting */
+    isTableExporting:boolean = false;
+    
   suspendedList:FixedAsset[]=[];
   suspended:FixedAsset=new FixedAsset();
   Ids:number[]=[];

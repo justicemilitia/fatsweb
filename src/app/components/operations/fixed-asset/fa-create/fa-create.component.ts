@@ -25,6 +25,7 @@ import { Currency } from "src/app/models/Currency";
   styleUrls: ["./fa-create.component.css"]
 })
 export class FaCreateComponent extends BaseComponent implements OnInit {
+
   departments: Department[] = [];
   companies: Company[] = [];
   locations: Location[] = [];
@@ -298,8 +299,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit {
   }
 
   async insertPropertyValueToArray(faValue:any) {
-
-
+    
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>this.dataTablePropertyValue.TGT_copySource();
 
     if (
