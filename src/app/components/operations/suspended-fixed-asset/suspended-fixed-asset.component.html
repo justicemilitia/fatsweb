@@ -11,6 +11,12 @@
         <div class="card-header">
         <h2 class="az-content-title">Askıdaki Demirbaşlar</h2>
         <div class="grp-btn-action">
+            <button (click)="exportAsExcelFile(dataTable)"  style="margin-right:10px" class="btn btn-az-primary"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i></button>
+        
+            <button type="button" (click)="refreshTable()" style="margin-right:10px" class="btn btn-az-primary btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+              </button>
+
             <button class="btn btn-az-primary" type="submit" id="btnSuspendedFa" style="margin-right:10px" (click)="selectedBarcodes()">
             <i class="fas fa-level-down-alt"></i></button>
 
@@ -23,9 +29,7 @@
 
             <button style="display:none"  id="btnExitFa"  type="button" class="btn btn-danger btn-delete-custom" (click)="selectedExitBarcodes()"  
             data-toggle="modal" data-target="#modalExitFa"><i class="fas fa-minus-circle"></i></button>   
-
-            <button (click)="exportAsExcelFile(dataTable)" class="btn btn-az-primary"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i></button>
-        </div>
+       </div>
       </div>
         <div class="sales-overview">
         <tree-grid-table [dataTable]="dataTable"></tree-grid-table>

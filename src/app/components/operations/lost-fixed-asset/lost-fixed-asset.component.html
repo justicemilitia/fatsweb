@@ -11,6 +11,14 @@
         <div class="card-header">
           <h2 class="az-content-title">Kayıp Demirbaşlar</h2>
           <div class="grp-btn-action">
+              <button class="btn btn-az-primary" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
+              </button>
+
+              <button type="button" (click)="refreshTable()"  style="margin-right:10px" class="btn btn-az-primary btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+              </button>
+
               <button class="btn btn-az-primary" (click)="undoLostFixedAsset()" style="margin-right:10px">
               <i class="fas fa-search-plus"></i></button>
 
@@ -22,8 +30,6 @@
 
               <button style="display:none" type="button" data-toggle="modal" id="btnExitFa" data-target="#modalExitFa">            
               <i class="fas fa-minus-circle" ></i></button>   
-
-              <button class="btn btn-az-primary" (click)="exportAsExcelFile(dataTable)"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i></button>
           </div>
         </div>
         <div class="sales-overview">

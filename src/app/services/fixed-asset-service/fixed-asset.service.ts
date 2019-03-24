@@ -108,19 +108,17 @@ export class FixedAssetService {
       );
   }
 
-  ExitFixedAsset(transactionLog: TransactionLog, success, failed){
+  ExitFixedAsset(fixedAssetIds:FixedAsset, success, failed){
     this.httpclient
       .post(
-        SERVICE_URL + EXIT_FIXEDASSET, transactionLog, {
+        SERVICE_URL + EXIT_FIXEDASSET, fixedAssetIds, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
-            let insertedTransactionLog: TransactionLog = new TransactionLog();
-            Object.assign(insertedTransactionLog, response.ResultObject);
-            success(insertedTransactionLog, response.LanguageKeyword);
+          if (response.ResultStatus == true) {        
+            success(fixedAssetIds, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
