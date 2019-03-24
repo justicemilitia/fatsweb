@@ -502,3 +502,20 @@ label.custom-file:hover {
     letter-spacing: 1px;
     text-shadow: 1px 1px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 2px 2px 5px rgba(0,0,0,0.65);
 }
+
+.multiselect-dropdown .dropdown-btn {
+    border-radius: 0 !important;
+    height: 27px !important;
+    padding: 3px !important;
+    padding-left: 15px !important;
+}
+
+.multiselect-dropdown .dropdown-btn .selected-item{
+    font-size:12px;
+}
+
+.multiselect-dropdown .dropdown-btn .dropdown-down {
+    border-top: 5px solid #000000 !important;
+    border-left: 3px solid transparent !important;
+    border-right: 3px solid transparent !important;
+}
