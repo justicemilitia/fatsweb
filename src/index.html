@@ -35,7 +35,8 @@
   <script src="assets/js/chart.flot.sampledata.js"></script>
   <script src="assets/js/dashboard-data.js"></script>
   <script src="assets/lib/select2/js/select2.min.js"></script>
-  <script src="assets/js/stellarnav.min.js"></script>
+  <!--<script src="assets/js/stellarnav.min.js"></script>-->
+  <script src="assets/js/custom-navbar.js"></script>
   <script src="assets/lib/jquery-ui/jquery-ui.min.js"></script>
   <script src="assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
   <script src="assets/lib/jquery-steps/jquery.steps.min.js"></script>
@@ -44,13 +45,13 @@
   <script type="text/javascript">
     /* On page load we re init navbar */
     $("body").on("click", ".az-navbar-two", function () {
-      $(".stellarnav").stellarNav({
+      /*$(".stellarnav").stellarNav({
         theme: "light",
         breakpoint: 0,
         position: "left",
         closeBtn: true,
         mobileMode: false
-      });
+      });*/
       $('#wizard2').steps({
         headerTag: 'h3',
         bodyTag: 'section',
