@@ -33,25 +33,6 @@
               </div>
             </div>
 
-              <!-- ÇIKIŞ LOKASYONU -->
-            <div class="row justify-content-center">                            
-                <div class="col-md-12 form-group">
-                <label class="required-span">Çıkış Lokasyonu</label>   
-                    <select [(ngModel)]="transactionLog.CheckOutLocationId"
-                      name="CheckOutLocationId" class="form-control" 
-                      #CheckOutLocationId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutLocationId.invalid }" required>
-                      <option>Yok</option>
-                      <option *ngFor="let location of locations"
-                      value={{location.LocationId}}>
-                      {{location.Name}}
-                      </option>
-                    </select>
-                    <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
-                        <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
-                    </div>
-                </div>
-              </div>
-
               <!-- FİYAT & PARA BİRİMİ -->
               <div class="row justify-content-center">
                 <div class="col-md-6 form-group">
