@@ -9,16 +9,23 @@
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-        <h2 class="az-content-title">Kayıp Demirbaşlar</h2>
-        <div class="grp-btn-action">
-            <button class="btn btn-az-primary" (click)="undoLostFixedAsset()" id="btnLostFa">
-            <i class="fas fa-search-plus"></i> </button>
-          <button type="button" class="btn btn-danger btn-delete-custom" (click)="selectedLostFa()">            
-            <i class="fas fa-minus-circle"   data-toggle="modal" data-target="#modalExitFa"></i></button>     
-            <button class="btn btn-az-primary" id="btnExitFa">
-            <i class="far fa-file-excel"></i></button>
+          <h2 class="az-content-title">Kayıp Demirbaşlar</h2>
+          <div class="grp-btn-action">
+              <button class="btn btn-az-primary" (click)="undoLostFixedAsset()" style="margin-right:10px">
+              <i class="fas fa-search-plus"></i></button>
+
+              <button style="display:none" class="btn btn-az-primary">
+              <i class="fas fa-search-plus"></i></button>
+
+              <button type="button"  class="btn btn-danger btn-delete-custom" style="margin-right:10px" (click)="selectedExitBarcodes()">            
+              <i class="fas fa-minus-circle"></i></button> 
+
+              <button style="display:none" type="button" data-toggle="modal" id="btnExitFa" data-target="#modalExitFa">            
+              <i class="fas fa-minus-circle" ></i></button>   
+
+              <button class="btn btn-az-primary" (click)="exportAsExcelFile(dataTable)"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i></button>
+          </div>
         </div>
-      </div>
         <div class="sales-overview">
         <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
         </div>
@@ -39,7 +46,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #data="ngForm" (ngSubmit)="undoLostFixedAsset(data)" class="form-register">
+      <form #data="ngForm" (ngSubmit)="checkOutFixedAsset(data)" class="form-register" novalidate>
         <div class="modal-body">  
             <!-- BARKODLAR -->
             <div class="row justify-content-center">
@@ -51,41 +58,20 @@
    
             <!-- ÇIKIŞ TİPİ -->
             <div class="row justify-content-center">
-            <div class="col-md-12 form-group">
-              <label class="required-span">Çıkış Tipi</label>                
-              <!-- <div class="row"> -->
-                  <select [(ngModel)]="transaction.CheckOutReasonId"
-                    name="CheckOutReasonId" class="form-control" 
-                    #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
-                    <option>Yok</option>
-                    <option *ngFor="let checkedOutReason of checkedOutReasons"
-                    value={{checkedOutReason.CheckOutReasonId}}>
-                    {{checkedOutReason.Name}}
-                    </option>
-                  </select>
-                  <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
-                      <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
-                  </div>
-            <!-- </div> -->
-            </div>
-          </div>
-
-            <!-- ÇIKIŞ LOKASYONU -->
-            <div class="row justify-content-center">
               <div class="col-md-12 form-group">
-              <label class="required-span">Çıkış Lokasyonu</label>   
-                  <select [(ngModel)]="transaction.CheckOutLocationId"
-                    name="CheckOutLocationId" class="form-control" 
-                    #CheckOutLocationId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutLocationId.invalid }" required>
-                    <option>Yok</option>
-                    <option *ngFor="let location of locations"
-                    value={{location.LocationId}}>
-                    {{location.Name}}
-                    </option>
-                  </select>
-                  <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
-                      <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
-                  </div>
+                <label class="required-span">Çıkış Tipi</label>  
+                    <select [(ngModel)]="transaction.CheckOutReasonId"
+                      name="CheckOutReasonId" class="form-control" 
+                      #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
+                      <option>Yok</option>
+                      <option *ngFor="let checkedOutReason of checkedOutReasons"
+                      value={{checkedOutReason.CheckOutReasonId}}>
+                      {{checkedOutReason.Name}}
+                      </option>
+                    </select>
+                    <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+                        <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+                    </div>
               </div>
             </div>
 
@@ -128,7 +114,6 @@
                 </div>
               </div>
             </div>
-
       </div>
 
         <!-- modal-body -->

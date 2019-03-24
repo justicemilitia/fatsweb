@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import{FaExitComponent} from '../../operations/fixed-asset/fa-exit/fa-exit.component';
 import { ReactiveFormsModule, NgForm } from '@angular/forms';
 import { TransactionLog } from 'src/app/models/TransactionLog';
+import { CheckOutReason } from 'src/app/models/CheckOutReason';
 
 @Component({
   selector: 'app-lost-fixed-asset',
@@ -20,12 +21,16 @@ import { TransactionLog } from 'src/app/models/TransactionLog';
 })
 export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
+    /* Is Table Exporting */
+    isTableExporting:boolean = false;
+    
   lostFaList:FixedAsset[]=[];
   lostFa:FixedAsset=new FixedAsset();
   Ids:number[]=[];
   faBarcodes:string;
   transaction:TransactionLog=new TransactionLog();
   transactionLogs: TransactionLog[] = [];
+  checkedOutReasons:CheckOutReason[]=[];
   
   public dataTable: TreeGridTable = new TreeGridTable(
     "lostfixedasset",
@@ -72,7 +77,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
   constructor(protected baseService:BaseService) {
     super(baseService);
     this.loadLostFixedAssetList();
-
+    this.loadCheckOutReasons();
    }
 
   ngOnInit() {}
@@ -88,35 +93,52 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
        });
    }
 
-   undoLostFixedAsset(data:NgForm){
+   loadCheckOutReasons(){
+    this.baseService.checkOutReasonService.GetCheckOutReason(
+      checkedOutReasons => {
+        this.checkedOutReasons = checkedOutReasons;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+   }
 
-    this.transaction.FixedAssetIds=this.selectedSuspendFa();
+   undoLostFixedAsset(){
+
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
+      return;
+    }
+    else{
+    this.lostFa.FixedAssetIds=this.selectedSuspendFa();
 
     this.baseService.popupService.ShowQuestionPopupForFoundFixedAsset((response:boolean)=>{
-      if(response==true){
+      if(response == true){
 
-        this.baseService.lostFixedAssetService.UndoLostProcess(this.transaction,
-          (lostFa:FixedAsset,message)=>{
-  
-            this.lostFa.FixedAssetId=lostFa.FixedAssetId;
-            this.lostFaList.push(this.lostFa);
+        this.baseService.lostFixedAssetService.UndoLostProcess(this.lostFa,
+          ()=>{  
+            this.dataTable.TGT_removeItemsByIds(this.lostFa.FixedAssetIds);
 
-            this.baseService.popupService.ShowSuccessPopup(message);
-    
-         
+            this.baseService.popupService.ShowAlertPopup("İşlem başarılı !");
+
           },(error:HttpErrorResponse)=>{
             this.baseService.popupService.ShowErrorPopup(error);
           });
        }
     });
+    }
   }
   
   checkOutFixedAsset(data:NgForm){
 
-    this.transaction.FixedAssetIds=this.selectedSuspendFa();
+    this.lostFa.FixedAssetIds=this.selectedSuspendFa();
     this.baseService.popupService.ShowQuestionPopupForOperation((response:boolean)=>{
       if(response==true){
-        
         this.baseService.fixedAssetService.ExitFixedAsset(
           this.transaction,
           (insertedItem: TransactionLog, message) => {
@@ -139,40 +161,61 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
   }
 
    selectedSuspendFa(){
-
     let selectedItems=this.dataTable.TGT_getSelectedItems();
-
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz"
-      );
-      return;
-    }
 
     let itemIds: number[] = selectedItems.map(x => x.getId());
     this.Ids = itemIds;
     return this.Ids;
   }
 
-  selectedBarcodes() {
+  selectedLostFa(){
 
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
-    
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz"
       );
-              
       return;
     }
-
-    let fixedAssetBarcodes = "";
-    selectedItems.forEach(e => {
-      fixedAssetBarcodes += e.Barcode + ", ";
+    else{
       
-    });
-    this.faBarcodes=fixedAssetBarcodes;
+      this.baseService.popupService.ShowQuestionPopupForFoundFixedAsset((response:boolean)=>{
+        if(response==true){
+          let fixedAssetBarcodes = "";
+          selectedItems.forEach(e => {
+            fixedAssetBarcodes += e.Barcode + ", ";
+            
+          });
+          this.faBarcodes=fixedAssetBarcodes;
+        }
+      })
+    }
   }
+
+ selectedExitBarcodes(){
+
+      let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+      
+      if (!selectedItems || selectedItems.length == 0) {
+        this.baseService.popupService.ShowAlertPopup(
+          "Lütfen en az bir demirbaş seçiniz"
+        );
+                
+        return;
+      }
+      else{
+        
+        $("#btnExitFa").trigger("click");
+
+       let fixedAssetBarcodes = "";
+       selectedItems.forEach(e => {
+         fixedAssetBarcodes += e.Barcode + ", ";
+         
+       });
+       this.faBarcodes=fixedAssetBarcodes;
+     }  
+    }
 }
 

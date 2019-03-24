@@ -418,6 +418,9 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       this.ChangeFirmOperation();
       break;
 
+      case FixedAssetOperations.createFixedAsset:
+      this.CreateFixedAssetOperation();
+      break;
     }
   }
 
@@ -508,5 +511,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
    }
  //#endregion
+
+   //#region Create Fixed Asset Operation
+   CreateFixedAssetOperation(){
+    $('#showModal').trigger('click');
+  }
+   //#endregion
 }
 
