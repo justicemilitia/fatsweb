@@ -9,8 +9,8 @@ import { TransactionLog } from "../../../../models/TransactionLog";
 import { Currency } from "../../../../models/Currency";
 import { CheckOutReason } from "../../../../models/CheckOutReason";
 import { FixedAssetComponent } from "../fixed-asset.component";
-import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGridTable';
-import { FixedAsset } from '../../../../models/FixedAsset';
+import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
+import { FixedAsset } from "../../../../models/FixedAsset";
 
 @Component({
   selector: "app-fa-exit",
@@ -30,14 +30,13 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   locations: Location[] = [];
   checkedOutReasons: CheckOutReason[] = [];
   faExitIds: number[] = [];
-  @Input() faDataTable:TreeGridTable;
+  fixedAsset: FixedAsset = new FixedAsset();
+  @Input() faDataTable: TreeGridTable;
   @Input() faBarcodes: string;
 
-  constructor(
-    baseService: BaseService
-  ) {
+  constructor(baseService: BaseService) {
     super(baseService);
-    this.LoadDropdownList();    
+    this.LoadDropdownList();
   }
 
   ngOnInit() {}
@@ -47,23 +46,18 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   }
 
   async exitFixedAsset(data: NgForm) {
-
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    this.transactionLog.FixedAssetIds = (<FixedAsset[]>this.faDataTable.TGT_getSelectedItems()).map(x=>x.FixedAssetId);
+    this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
+      this.faDataTable.TGT_getSelectedItems()
+    )).map(x => x.FixedAssetId);
 
     await this.baseService.fixedAssetService.ExitFixedAsset(
-      this.transactionLog,
-      (insertedItem: TransactionLog, message) => {
-        /* Show success pop up */
-        this.baseService.popupService.ShowSuccessPopup(message);
-
-        /* Set inserted Item id to model */
-        this.transactionLog.TransactionLogId = insertedItem.TransactionLogId;
-
-        /* Push inserted item to Property list */
-        this.transactionLogs.push(this.transactionLog);
+      this.fixedAsset,
+      () => {
+        this.faDataTable.TGT_removeItemsByIds(this.fixedAsset.FixedAssetIds);
+        this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

@@ -127,7 +127,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
           ()=>{  
             this.dataTable.TGT_removeItemsByIds(this.lostFa.FixedAssetIds);
 
-            this.baseService.popupService.ShowAlertPopup("İşlem başarılı !");
+            this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
 
           },(error:HttpErrorResponse)=>{
             this.baseService.popupService.ShowErrorPopup(error);
@@ -143,16 +143,11 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
     this.baseService.popupService.ShowQuestionPopupForOperation((response:boolean)=>{
       if(response==true){
         this.baseService.fixedAssetService.ExitFixedAsset(
-          this.transaction,
-          (insertedItem: TransactionLog, message) => {
-            /* Show success pop up */
-            this.baseService.popupService.ShowSuccessPopup(message);
+          this.lostFa,
+          () => {
+            this.dataTable.TGT_removeItemsByIds(this.lostFa.FixedAssetIds);
 
-            /* Set inserted Item id to model */
-            this.transaction.TransactionLogId = insertedItem.TransactionLogId;
-
-            /* Push inserted item to Property list */
-            this.transactionLogs.push(this.transaction);
+            this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
           },
           (error: HttpErrorResponse) => {
             /* Show alert message */
