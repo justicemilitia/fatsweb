@@ -88,19 +88,28 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
        });
    }
 
-   undoLostFixedAsset(data:NgForm){
+   undoLostFixedAsset(){
 
-    this.transaction.FixedAssetIds=this.selectedSuspendFa();
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
+      return;
+    }
+    else{
+    this.lostFa.FixedAssetIds=this.selectedSuspendFa();
 
     this.baseService.popupService.ShowQuestionPopupForFoundFixedAsset((response:boolean)=>{
       if(response==true){
 
-        this.baseService.lostFixedAssetService.UndoLostProcess(this.transaction,
+        this.baseService.lostFixedAssetService.UndoLostProcess(this.lostFa,
           (lostFa:FixedAsset,message)=>{
   
-            this.lostFa.FixedAssetId=lostFa.FixedAssetId;
-            this.lostFaList.push(this.lostFa);
-
+            let updatedLostFa=new FixedAsset();
+            //NEDEN TRANSACTİON DÖNÜYORR !!!
+            this.dataTable.TGT_updateData(updatedLostFa);
             this.baseService.popupService.ShowSuccessPopup(message);
     
          
@@ -109,6 +118,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
           });
        }
     });
+  }
   }
   
   checkOutFixedAsset(data:NgForm){
@@ -142,37 +152,59 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     let selectedItems=this.dataTable.TGT_getSelectedItems();
 
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz"
-      );
-      return;
-    }
-
     let itemIds: number[] = selectedItems.map(x => x.getId());
     this.Ids = itemIds;
     return this.Ids;
   }
 
-  selectedBarcodes() {
+  selectedLostFa(){
 
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
-    
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz"
       );
-              
       return;
     }
-
-    let fixedAssetBarcodes = "";
-    selectedItems.forEach(e => {
-      fixedAssetBarcodes += e.Barcode + ", ";
+    else{
       
-    });
-    this.faBarcodes=fixedAssetBarcodes;
+      this.baseService.popupService.ShowQuestionPopupForFoundFixedAsset((response:boolean)=>{
+        if(response==true){
+          let fixedAssetBarcodes = "";
+          selectedItems.forEach(e => {
+            fixedAssetBarcodes += e.Barcode + ", ";
+            
+          });
+          this.faBarcodes=fixedAssetBarcodes;
+        }
+      })
+    }
   }
+
+ selectedExitBarcodes(){
+
+      let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+      
+      if (!selectedItems || selectedItems.length == 0) {
+        this.baseService.popupService.ShowAlertPopup(
+          "Lütfen en az bir demirbaş seçiniz"
+        );
+                
+        return;
+      }
+      else{
+        
+        $("#btnExitFa").trigger("click");
+
+       let fixedAssetBarcodes = "";
+       selectedItems.forEach(e => {
+         fixedAssetBarcodes += e.Barcode + ", ";
+         
+       });
+       this.faBarcodes=fixedAssetBarcodes;
+     }  
+    }
 }
 

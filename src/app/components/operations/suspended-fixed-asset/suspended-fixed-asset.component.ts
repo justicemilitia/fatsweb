@@ -195,11 +195,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
       }
       else{
         
-          $("#btnOpenSuspendedFa").trigger("click");
-        
-  
-          $("#btnOpenExitFa").trigger("click");
-        
+         $("#btnOpenSuspendedFa").trigger("click");
 
         let fixedAssetBarcodes = "";
         selectedItems.forEach(e => {
@@ -208,6 +204,30 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
         });
         this.faBarcodes=fixedAssetBarcodes;
       }   
+    }
+
+    selectedExitBarcodes(){
+      let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+      
+      if (!selectedItems || selectedItems.length == 0) {
+        this.baseService.popupService.ShowAlertPopup(
+          "Lütfen en az bir demirbaş seçiniz"
+        );
+                
+        return;
+      }
+      else{
+        
+        $("#btnExitFa").trigger("click");
+
+       let fixedAssetBarcodes = "";
+       selectedItems.forEach(e => {
+         fixedAssetBarcodes += e.Barcode + ", ";
+         
+       });
+       this.faBarcodes=fixedAssetBarcodes;
+     }  
     }
   }
 

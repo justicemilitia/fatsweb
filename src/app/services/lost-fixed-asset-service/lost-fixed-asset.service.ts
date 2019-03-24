@@ -42,13 +42,13 @@ export class LostFixedAssetService {
       });
     }
 
-    UndoLostProcess(logs:TransactionLog,success,failed){
-      this.httpclient.post(SERVICE_URL+UNDO_LOST_PROCESS,logs,{
+    UndoLostProcess(ids:FixedAsset,success,failed){
+      this.httpclient.post(SERVICE_URL+UNDO_LOST_PROCESS,ids,{
         headers:GET_HEADERS(this.authenticationService.getToken())
       }).subscribe(result=>{
         let response:Response=<Response>result;
         if(response.ResultStatus == true){          
-          success(logs,response.LanguageKeyword);          
+          success(ids,response.LanguageKeyword);          
         }
         else{
           failed(getAnErrorResponse(response.LanguageKeyword));

@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="assets/css/stellarnav.min.css" />
   <link rel="stylesheet" href="assets/lib/jquery-ui/jquery-ui.min.css">
   <link rel="stylesheet" href="assets/css/fats-custom.css" />
+  <link href="assets/lib/select2/css/select2.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
@@ -33,7 +34,7 @@
   <script src="assets/js/dashboard.sampledata.js"></script>
   <script src="assets/js/chart.flot.sampledata.js"></script>
   <script src="assets/js/dashboard-data.js"></script>
-  
+  <script src="assets/lib/select2/js/select2.min.js"></script>
   <script src="assets/js/stellarnav.min.js"></script>
   <script src="assets/lib/jquery-ui/jquery-ui.min.js"></script>
   <script src="assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
@@ -49,13 +50,7 @@
         position: "left",
         closeBtn: true,
         mobileMode: false
-      });
-      $('#wizard2').steps({
-          headerTag: 'h3',
-          bodyTag: 'section',
-          autoFocus: true,
-          titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>'
-        });  
+      });   
     });
   </script>
    <script>
@@ -76,9 +71,11 @@
     });
   </script>
     <script>
-      $(function(){   
-              
-      });
+      $(document).ready(function(){
+          $('.select2').select2({
+            placeholder: 'Choose one'
+          });
+        });
     </script>
 </body>
 

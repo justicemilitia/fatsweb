@@ -50,6 +50,7 @@ export class FixedAsset implements IData {
   Ifrsprice: number;
   WillIfrsbeCalculated: boolean;
   Ifrsperiod: number;
+  IFRSCurrecyId:number;
   HasInflationIndexation: boolean;
   GuaranteeStartDate: Date;
   GuaranteeEndDate: Date;
@@ -72,6 +73,7 @@ export class FixedAsset implements IData {
   FixedAssetCardBrand: FixedAssetCardBrand;
   FixedAssetStatus: FixedAssetStatus;
   FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
+  FixedAssetIds : number[];
 
 
   constructor() {
