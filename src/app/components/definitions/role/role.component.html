@@ -10,7 +10,16 @@
       <div class="card card-dashboard-twelve mg-b-20">
       <div class="card-header">
         <h2 class="az-content-title" style="margin-left:0">Rol Tanımlama</h2>  
-          <div class="grp-btn-action">           
+          <div class="grp-btn-action">        
+            
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
+            </button>
+                    
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
+
             <button class="btn btn-az-secondary" style="margin-right:10px" (click)="redirectTo('/roleuser')">
                 <i class="fa fa-list"></i> Rol Kullanıcı Listesi
               </button>

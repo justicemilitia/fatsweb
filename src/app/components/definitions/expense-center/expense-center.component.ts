@@ -19,7 +19,14 @@ import * as $ from "jquery";
   providers: [ExpenseCenterComponent]
 })
 export class ExpenseCenterComponent extends BaseComponent implements OnInit {
+  
   isWaitingInsertOrUpdate: boolean = false;
+  
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting:boolean = false;
 
   expCenters: ExpenseCenter[] = [];
 
@@ -208,4 +215,18 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadExpenseCenters();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }

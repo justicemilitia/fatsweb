@@ -72,7 +72,7 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
               <label class="required-span">Renk</label>                             
-              <input [(ngModel)]="selectedColor" name="selectedColor" type="text" class="form-control" [(colorPicker)]="selectedColor"                      
+              <input [(ngModel)]="selectedColor" name="selectedColor" type="text" class="form-control color-custom-input" [(colorPicker)]="selectedColor"                      
               (colorPickerChange)="selectedColor=$event" [style.background]="selectedColor" #formSelectedColor="ngModel"
               (colorPickerOpen)="onEventLog('colorPickerOpen', $event)" (colorPickerClose)="onEventLog('colorPickerClose', $event)"
               (cpInputChange)="onEventLog('cpInputChange', $event)" (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)" 

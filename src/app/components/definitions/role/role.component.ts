@@ -16,7 +16,14 @@ import * as $ from "jquery";
   styleUrls: ["./role.component.css"]
 })
 export class RoleComponent extends BaseComponent implements OnInit {
+
   isWaitingInsertOrUpdate: boolean = false;
+
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting:boolean = false;
 
   roles: Role[] = [];
   role: Role = new Role();
@@ -211,5 +218,19 @@ export class RoleComponent extends BaseComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadRoles();
+
+    this.isTableRefreshing = false;
+
+  }
+
 
 }

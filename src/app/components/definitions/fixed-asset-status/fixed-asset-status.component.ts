@@ -46,7 +46,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "color"
       }
     ],
     {

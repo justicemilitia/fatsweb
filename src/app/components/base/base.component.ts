@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { BaseService } from "../../services/base.service";
 import * as pages from "../../declarations/page-values";
 import { SystemLanguage } from 'src/app/models/SystemLanguage';
-import { Firm } from '../../models/Firm';
+import * as XLSX from 'xlsx';
+import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: "app-base",
@@ -17,17 +18,17 @@ export abstract class BaseComponent implements OnInit {
 
   protected readonly PAGES = pages;
 
-  public Version:string = "6.0.100";
+  public Version: string = "6.0.100";
 
   public Firms = [{
-    Name:'Trinoks',
-    Id:1
-  },{
-    Name:'Vector',
-    Id:2
+    Name: 'Trinoks',
+    Id: 1
+  }, {
+    Name: 'Vector',
+    Id: 2
   }]
 
-  public Firm:{};
+  public Firm: {};
 
   public Languages: SystemLanguage[] = [{
     Culture: 'tr',
@@ -45,7 +46,7 @@ export abstract class BaseComponent implements OnInit {
 
   constructor(protected baseService: BaseService) {
     this.Firm = this.Firms[0];
-   }
+  }
 
   ngOnInit() { }
 
@@ -65,15 +66,15 @@ export abstract class BaseComponent implements OnInit {
     return this.baseService.authenticationService.isMenuAccessable(pageKeyword);
   }
 
-  changeFirm(firmId:number) {
-    this.Firm = this.Firms.find(x=>x.Id == Number(firmId));
+  changeFirm(firmId: number) {
+    this.Firm = this.Firms.find(x => x.Id == Number(firmId));
   }
 
   pageRoute(key: string) {
     return this.baseService.authenticationService.pageRoute(key);
   }
 
-  redirectTo(page:string) {
+  redirectTo(page: string) {
     this.baseService.router.navigateByUrl(page);
   }
 
@@ -81,4 +82,47 @@ export abstract class BaseComponent implements OnInit {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
+  public exportAsExcelFile(dt:TreeGridTable): void {
+    
+    /* Export values must be in an array */
+    let data:any[] = [];
+
+    let columns = dt.activeColumns;
+
+    /* Load Column Display names */
+    let cols:any[] = [];
+    columns.forEach(e=> {
+      cols.push(e.columnDisplayName);
+    })
+
+    /* Push columns to data array */
+    data.push(cols);
+
+    /* Push values */
+    dt.dataSource.forEach(e=> {
+      let items:any[] = [];
+      columns.forEach(p => {
+
+        if (p.type == "checkbox") {
+          let value = dt.TGT_getDataValue(e,p);
+          items.push(value == true ? "EVET" : "HAYIR");          
+        }else {
+          items.push(dt.TGT_getDataValue(e,p));
+        }
+      })
+      data.push(items);
+    })
+
+    /* generate worksheet */
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
+
+    /* generate workbook and add th<e worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    let filename:string = "FATS_" + new Date().toLocaleString().replace('_','').replace(', ','_').replace(' ','_');
+
+    XLSX.writeFile(wb,filename + '.xlsx');
+  }
 }
