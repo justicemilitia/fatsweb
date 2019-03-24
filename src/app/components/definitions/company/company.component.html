@@ -20,11 +20,7 @@
             <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
           
-<<<<<<< HEAD
-            <button type="button" (click)="deleteCompanies()" class="btn btn-danger btn-delete-custom">
-=======
           <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteCompanies()" class="btn btn-danger btn-delete-custom">
->>>>>>> 079cd4b371b324fb6afb737ef548f07bb5990ac0
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
           
