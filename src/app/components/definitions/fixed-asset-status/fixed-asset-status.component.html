@@ -10,19 +10,31 @@
           <div class="card-header">
         <h2 class="az-content-title" style="margin-left:0">Demirbaş Statü Tanımlama</h2>
         <div class="grp-btn-action">
+            
+          <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+                <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
+            </button>
+                        
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
+
             <button type="button" (click)="deleteStatus()" class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
-              <i class="fas fa-trash"></i></button>
+              <i class="fas fa-trash"></i>
+            </button>
+            
             <button class="btn btn-az-primary" id="btnAddStatus"
               data-toggle="modal" data-target="#modalStatus">
               Demirbaş Statüsü Ekle
             </button>
+            
             <button style="display:none" id="btnEditStatus"
               data-toggle="modal" data-target="#modalStatus">Statü Düzenle
             </button>
+
           </div>
           </div>
-        <p class="mg-b-20"></p>
         <div class="sales-overview">
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event, item)" [dataTable]="dataTable"></tree-grid-table>       
         </div>

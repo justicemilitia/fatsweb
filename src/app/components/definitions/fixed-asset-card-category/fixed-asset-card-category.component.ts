@@ -22,6 +22,12 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
   /* Is Waititing for a request */
   isWaitingInsertOrUpdate: boolean = false;
 
+  /* Is Table Refreshing */
+  isTableRefreshing: boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting: boolean = false;
+
   /* Store Fixed Categories */
   fixedAssetCardCategories: FixedAssetCardCategory[] = [];
 
@@ -280,6 +286,20 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
         this.baseService.popupService.ShowErrorPopup(error);
 
       });
+  }
+
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadFixedAssetCardCategories();
+
+    this.isTableRefreshing = false;
+
   }
 
 }

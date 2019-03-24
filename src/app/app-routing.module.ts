@@ -28,6 +28,11 @@ import { CheckoutFixedAssetComponent } from './components/operations/checkout-fi
 
 export const routes: Routes = [
   {
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full"
+  },
+  {
     path: "login",
     component: LoginComponent,
     canActivate: [AuthGuard],
@@ -48,128 +53,123 @@ export const routes: Routes = [
   {
     path: "user",
     component: UserComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_USERDEFINITIONS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "location",
     component: LocationComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_LOCATIONDEFINITIONS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "department",
     component: DepartmentComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_DEPARTMENTSDEFINITIONS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "fixedassetcard",
     component: FixedAssetCardComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDDEFINITIONS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "fixedassetcardcategory",
     component: FixedAssetCardCategoryComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDCATEGORYDEFINITIONS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "agreement",
     component: AgreementComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_AGREEMENTS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "fixedassetcardbrand",
     component: FixedAssetCardBrandComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDBRANDDEFINITIONS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "fixedassetcardmodel",
     component: FixedAssetCardModelComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDMODELS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "expensecenter",
     component: ExpenseCenterComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_EXPENSECENTERDEFINITIONS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "checkedoutreason",
     component: CheckOutReasonsComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_CHECKOUTREASONDEFINITIONS }
-    // canActivate: [AuthGuard]
   },
   {
     path: "suspension",
     component: SuspensionComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_SUSPENSION }
-    // canActivate: [AuthGuard]
   },
   {
     path: "status",
     component: FixedAssetStatusComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_STATUSLIST }
-    // canActivate: [AuthGuard]
   },
   {
     path: "role",
     component: RoleComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_ROLEDEFINITIONS}
-    // canActivate: [AuthGuard]
   },
   {
     path: "roleuser",
     component: RoleUserComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_ROLEDEFINITIONS}
-    // canActivate: [AuthGuard]
   },
   {
     path: "roleauthorization",
     component: RoleAuthorizationComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_ROLEAUTHORIZATIONDEFINITIONS}
-    // canActivate: [AuthGuard]
   },
   {
     path: "fixedassetcard",
     component: FixedAssetCardComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDDEFINITIONS}
-    // canActivate: [AuthGuard]
   },
   {
     path: "fixedassetcardcategory",
     component: FixedAssetCardCategoryComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDCATEGORYDEFINITIONS}
-    // canActivate: [AuthGuard]
   },
   {
     path: "fixedassetcardproperty",
     component: FixedAssetCardPropertyComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDPROPERTYDEFINITIONS}
-    // canActivate: [AuthGuard]
   },
   {
     path: "fixedassetcardbrand",
     component: FixedAssetCardBrandComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDBRANDDEFINITIONS}
-    // canActivate: [AuthGuard]
   },
   {
     path: "model",
     component: FixedAssetCardModelComponent,
+    canActivate: [AuthGuard],
     data: { pageKeyword: pages.MENU_FIXEDASSETCARDMODELS}
-    // canActivate: [AuthGuard]
   },
-  {
-    path: "",
-    redirectTo: "login",
-    pathMatch: "full"
-  }, 
   {
     path: "fixedasset",
     component: FixedAssetComponent,

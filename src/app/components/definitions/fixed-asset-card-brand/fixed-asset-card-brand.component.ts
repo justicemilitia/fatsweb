@@ -23,6 +23,12 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
   /* Is waiting for update? */
   isWaitingInsertOrUpdate: boolean = false;
+  
+  /* Is Table Refreshing */
+  isTableRefreshing: boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting: boolean = false;
 
   /* Store The table list */
   fixedAssetCardBrands: FixedAssetCardBrand[] = [];
@@ -264,4 +270,18 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
     });
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadFixedAssetCardBrands();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }
