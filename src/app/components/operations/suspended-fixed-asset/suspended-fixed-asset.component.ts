@@ -18,8 +18,10 @@ import * as $ from "jquery";
 export class SuspendedFixedAssetComponent extends BaseComponent implements OnInit {
 
     /* Is Table Exporting */
-    isTableExporting:boolean = false;
-    
+  isTableExporting:boolean = false;
+    /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
   suspendedList:FixedAsset[]=[];
   suspended:FixedAsset=new FixedAsset();
   Ids:number[]=[];
@@ -231,6 +233,19 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
        });
        this.faBarcodes=fixedAssetBarcodes;
      }  
+    }
+    
+    async refreshTable() {
+      this.isTableRefreshing = true;
+
+      this.dataTable.isLoading = true;
+
+      this.dataTable.TGT_clearData();
+
+      await this.loadSuspendedList();
+
+      this.isTableRefreshing = false;
+
     }
   }
 

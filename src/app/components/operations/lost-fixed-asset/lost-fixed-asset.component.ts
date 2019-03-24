@@ -22,8 +22,11 @@ import { CheckOutReason } from 'src/app/models/CheckOutReason';
 export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     /* Is Table Exporting */
-    isTableExporting:boolean = false;
-    
+  isTableExporting:boolean = false;
+    /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+
   lostFaList:FixedAsset[]=[];
   lostFa:FixedAsset=new FixedAsset();
   Ids:number[]=[];
@@ -193,29 +196,41 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
     }
   }
 
- selectedExitBarcodes(){
+    selectedExitBarcodes(){
 
-      let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+          let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
-      
-      if (!selectedItems || selectedItems.length == 0) {
-        this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir demirbaş seçiniz"
-        );
-                
-        return;
-      }
-      else{
-        
-        $("#btnExitFa").trigger("click");
+          
+          if (!selectedItems || selectedItems.length == 0) {
+            this.baseService.popupService.ShowAlertPopup(
+              "Lütfen en az bir demirbaş seçiniz"
+            );
+                    
+            return;
+          }
+          else{
+            
+            $("#btnExitFa").trigger("click");
 
-       let fixedAssetBarcodes = "";
-       selectedItems.forEach(e => {
-         fixedAssetBarcodes += e.Barcode + ", ";
-         
-       });
-       this.faBarcodes=fixedAssetBarcodes;
-     }  
+          let fixedAssetBarcodes = "";
+          selectedItems.forEach(e => {
+            fixedAssetBarcodes += e.Barcode + ", ";
+            
+          });
+          this.faBarcodes=fixedAssetBarcodes;
+        }  
+        }
+
+    async refreshTable() {
+      this.isTableRefreshing = true;
+
+      this.dataTable.isLoading = true;
+
+      this.dataTable.TGT_clearData();
+
+      await this.loadLostFixedAssetList();
+
+      this.isTableRefreshing = false;
     }
 }
 
