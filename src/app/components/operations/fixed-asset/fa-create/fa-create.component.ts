@@ -18,13 +18,19 @@ import { FixedAssetPropertyDetails } from "src/app/models/FixedAssetPropertyDeta
 import { PropertyValueTypes } from "src/app/declarations/property-value-types.enum";
 import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
 import { Currency } from "src/app/models/Currency";
+import * as $ from 'jquery';
 
 @Component({
   selector: "app-fa-create",
   templateUrl: "./fa-create.component.html",
   styleUrls: ["./fa-create.component.css"]
 })
-export class FaCreateComponent extends BaseComponent implements OnInit {
+
+export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
+
+  ngAfterViewInit(): void {
+    $(".select2").trigger("click");
+  }
 
   departments: Department[] = [];
   companies: Company[] = [];
