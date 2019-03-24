@@ -12,8 +12,8 @@
         <h2 class="az-content-title">Şirketler</h2>
         <div class="grp-btn-action">
 
-          <button type="button" (click)="exportAsExcelFile(dataTable,'a')" class="btn btn-success btn-refresh-custom">
-              <i [ngClass]="{'fa fa-table':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
+          <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
           
             <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
@@ -35,7 +35,6 @@
 
         </div>
         </div>
-        <p class="mg-b-20"></p>
         <div class="sales-overview">
         <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
         </div>

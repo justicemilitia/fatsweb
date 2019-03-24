@@ -29,7 +29,6 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   isTableRefreshing:boolean = false;
 
   /* Is Table Exporting */
-
   isTableExporting:boolean = false;
 
   /* List of countries */

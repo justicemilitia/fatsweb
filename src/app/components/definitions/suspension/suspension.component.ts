@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewContainerRef } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "src/app/services/base.service";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
-import { FixedAssetStatus } from "src/app/models/FixedAssetStatus";
 import { HttpErrorResponse } from "@angular/common/http";
-import { ColorPickerService, Cmyk } from "ngx-color-picker";
 import { NgForm } from "@angular/forms";
 import { CheckOutReason } from 'src/app/models/CheckOutReason';
 
@@ -16,6 +14,12 @@ import { CheckOutReason } from 'src/app/models/CheckOutReason';
 export class SuspensionComponent extends BaseComponent implements OnInit {
 
   isWaitingInsertOrUpdate: boolean = false;
+
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting:boolean = false;
 
   suspension:CheckOutReason=new CheckOutReason();
   suspensions:CheckOutReason[]=[];  
@@ -92,7 +96,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
     );
   }
 
-  addSuspension(data: NgForm) {
+  async addSuspension(data: NgForm) {
    
     if (data.form.invalid == true) return;
 
@@ -120,7 +124,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
     });
   }  
 
-  updateSuspension(data: NgForm) {
+  async updateSuspension(data: NgForm) {
 
     if (data.form.invalid == true) return;
 
@@ -129,7 +133,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
 
         this.isWaitingInsertOrUpdate = true;
 
-        this.baseService.checkOutReasonService.UpdateCompany(this.suspension, (_suspension, message) => {
+        this.baseService.checkOutReasonService.UpdateSuspension(this.suspension, (_suspension, message) => {
 
           this.isWaitingInsertOrUpdate = false;
 
@@ -150,6 +154,48 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
       }
     });
   }
+
+  async deleteSuspension(){
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir kayıt seçiniz"
+      );
+      return;
+    }
+
+      this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+
+        this.baseService.spinner.show();
+  
+        let itemIds: number[] = (<CheckOutReason[]>selectedItems).map(x => x.CheckOutReasonId);  
+        this.baseService.checkOutReasonService.DeleteSuspensions(
+          itemIds,
+          () => {
+            this.baseService.spinner.hide();  
+            if (itemIds.length == 1)
+              this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+            else
+              this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+  
+            itemIds.forEach(e=> {
+              let itemIndex = this.suspensions.findIndex(x=>x.CheckOutReasonId == e);
+              if (itemIndex > -1) {
+                this.suspensions.splice(itemIndex,1);
+              }
+            })
+            this.dataTable.TGT_loadData(this.suspensions);
+          },
+          (error: HttpErrorResponse) => {
+            this.baseService.spinner.hide();
+  
+            this.baseService.popupService.ShowErrorPopup(error);
+          }
+        );
+      });
+      
+    }  
 
   async onDoubleClickItem(item: CheckOutReason) {
  
@@ -173,4 +219,18 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
 
       });
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadSuspension();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }

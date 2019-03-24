@@ -82,7 +82,7 @@ export abstract class BaseComponent implements OnInit {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
-  public exportAsExcelFile(dt:TreeGridTable, excelFileName: string): void {
+  public exportAsExcelFile(dt:TreeGridTable): void {
     
     /* Export values must be in an array */
     let data:any[] = [];
@@ -102,7 +102,13 @@ export abstract class BaseComponent implements OnInit {
     dt.dataSource.forEach(e=> {
       let items:any[] = [];
       columns.forEach(p => {
-        items.push(dt.TGT_getDataValue(e,p));
+
+        if (p.type == "checkbox") {
+          let value = dt.TGT_getDataValue(e,p);
+          items.push(value == true ? "EVET" : "HAYIR");          
+        }else {
+          items.push(dt.TGT_getDataValue(e,p));
+        }
       })
       data.push(items);
     })
