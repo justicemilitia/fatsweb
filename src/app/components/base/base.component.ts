@@ -89,7 +89,18 @@ export abstract class BaseComponent implements OnInit {
   }
 
   changeFirm(firmId: number) {
+    let oldFirm = this.Firm;
     this.Firm = this.Firms.find(x => x.Id == Number(firmId));
+    if (this.Firm) {
+      this.baseService.authenticationService.changeFirm(firmId,
+        () => {
+          console.log("Firma Değişti");
+        },(error) => {
+          this.Firm = oldFirm;
+          console.log(error);
+        });
+    }else
+      this.Firm = oldFirm;
   }
 
   pageRoute(key: string) {

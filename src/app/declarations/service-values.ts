@@ -27,6 +27,10 @@ export const INSERT_CURRENCY = "Currency/AddCurrency";
 export const UPDATE_CURRENCY = "Currency/UpdateCurrency";
 //#endregion
 
+//#region Firms
+export const CHANGE_FIRM = "Firm/ChangeFirmSession";
+//#endregion
+
 //#region Users
 export const GET_USER_LIST = "user/GetUserList";
 export const GET_USER_BY_ID = "user/GetUserById";
