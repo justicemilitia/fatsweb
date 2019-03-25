@@ -35,6 +35,7 @@ import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asse
   providedIn: "root"
 })
 export class BaseService {
+
   constructor(
     public authenticationService: AuthenticationService,
     public userService: UserService,
