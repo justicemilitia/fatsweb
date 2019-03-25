@@ -181,13 +181,12 @@ export const GET_EXPENSECENTER_BY_ID = "ExpenseCenter/GetExpenseCenterById";
 export const INSERT_EXPENSECENTER = "ExpenseCenter/AddExpenseCenter";
 export const UPDATE_EXPENSECENTER = "ExpenseCenter/UpdateExpenseCenter";
 export const DELETE_EXPENSECENTER = "ExpenseCenter/RemoveByIdList";
-
 //#endregion
 
 //region FixedAsset
 export const GET_FIXED_ASSET = "FixedAsset/GetFixedAssetsList";
 export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
-
+export const  UPLOAD_IMAGE = "FixedAsset/UploadImage";
 //endregion
 
 

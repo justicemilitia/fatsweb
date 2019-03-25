@@ -332,7 +332,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
             }
           });
         });
-        console.log(fa);
         this.dataTable.TGT_loadData(this.fixedAssets);
       },
       (error: HttpErrorResponse) => {

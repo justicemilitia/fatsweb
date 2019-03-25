@@ -19,6 +19,7 @@ import { PropertyValueTypes } from "src/app/declarations/property-value-types.en
 import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
 import { Currency } from "src/app/models/Currency";
 import * as $ from 'jquery';
+import { FixedAssetFile } from 'src/app/models/FixedAssetFile';
 
 @Component({
   selector: "app-fa-create",
@@ -52,7 +53,9 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
-
+  fixedAssetFile:FixedAssetFile=new FixedAssetFile();
+  
+  propertyValue:string;
   BarcodeIsUnique: boolean = true;
   disabledBarcode: boolean = true;
   errorMessage: string = "";
@@ -64,7 +67,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     [
       {
         columnDisplayName: "Özellik Adı",
-        columnName: ["FixedAssetCardPropertyId"],
+        columnName: ["FixedAssetCardProperty","Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -281,7 +284,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     );
   }
 
-  getPropertyId(event:any) {
+  loadValuesByPropertyId(event:any) {
 
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
@@ -304,25 +307,28 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     }
   }
 
-  async insertPropertyValueToArray(faValue:any) {
+  getPropertyValue(event:any){    
+    this.propertyValue=event.target.value;
+  }
+
+  async insertPropertyValueToArray(propertyId:any) {
     
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>this.dataTablePropertyValue.TGT_copySource();
 
-    if (
-      faValue != "" &&
-      !this.faPropertyDetails.find(x => x.Value == faValue)
-    ) {
       this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-        (this.faPropertyDetails.length + 1) * -1;
-      this.fixedAssetPropertyDetail.Value = faValue;
-      //this.fixedAssetPropertyDetail.FixedAssetCardPropertyId =propertyId.value;  
+        (this.faPropertyDetails.length + 1) * -1;      
+      let fixedasset=this.fixedassetproperty.find(x=>x.FixedAssetCardPropertyId == Number(propertyId.value));
+      this.fixedAssetPropertyDetail.FixedAssetCardProperty=fixedasset;
+      if(this.isListSelected==true){
+        this.fixedAssetPropertyDetail.Value=this.propertyValue;
+      }
       this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
       this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
-      this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-      faValue = null;
 
-    } else {
-      faValue = null;
-    }
+      this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+      propertyId = null;
+
   }
+
+  
 }

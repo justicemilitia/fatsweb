@@ -1,6 +1,6 @@
 <form name="form" #data="ngForm" novalidate>
-<mat-horizontal-stepper>   
-  <mat-step label="Genel Bilgiler">
+<mat-horizontal-stepper >   
+  <mat-step label="Genel Bilgiler" style="background-color: #e67300;">
         <div class="row justify-content-center">
           <div class="form-group col-md-6">           
           <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)" name="Barcode" 
@@ -27,7 +27,7 @@
                 <input type="number" name="quantity" min="1" max="100" placeholder="Adet" class="form-control" required/>         
           </div>                          
           <div class="form-group col-md-6">
-              <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2" style="width:100%;border: radius 0px;"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
+              <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2" style="width:100%"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
                   <option [ngValue]="null">Demirbaş Statüsü Seçiniz</option>
                   <option *ngFor="let statu of statuses" value="{{statu.FixedAssetStatusId}}">{{statu.Name}}</option>
               </select>
@@ -38,7 +38,7 @@
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" (click)="loadCategoriesList()" (change)="loadFaCardByCategoryId($event)" class="form-control select2"  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" #FixedAssetCardCategoryId="ngModel" required >
+            <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" style="width:100%;" (click)="loadCategoriesList()" (change)="loadFaCardByCategoryId($event)" class="form-control select2"  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" #FixedAssetCardCategoryId="ngModel" required >
                 <option [ngValue]="null">Demirbaş Kategorisi Seçiniz</option>
                 <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
             </select> 
@@ -47,7 +47,7 @@
             </div>  
         </div>
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2"  [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" #UserId="ngModel" required >
+            <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2" style="width:100%;"   [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" #UserId="ngModel" required >
                 <option [ngValue]="null">Personel Seçiniz</option>
                 <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
             </select> 
@@ -58,7 +58,7 @@
         </div>  
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" class="form-control select2" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardId.invalid }" #FixedAssetCardId="ngModel" required >
+            <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" style="width:100%;"  class="form-control select2" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardId.invalid }" #FixedAssetCardId="ngModel" required >
                 <option [ngValue]="null">Demirbaş Seçiniz</option>
                 <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>
             </select> 
@@ -67,7 +67,7 @@
             </div>        
         </div>
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2" 
+            <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" style="width:100%;" class="form-control select2" 
             (click)="loadBrandList()" (change)="loadModelByBrandId($event)">
               <option [ngValue]="null">Marka Seçiniz</option>
               <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
@@ -76,7 +76,7 @@
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2" [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }" #DepartmentId="ngModel" required >
+            <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2" style="width:100%;" [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }" #DepartmentId="ngModel" required >
                 <option [ngValue]="null" >Departman Seçiniz</option>
                 <option *ngFor="let department of departments" value="{{department.DepartmentId}}">{{department.Name}}</option>
               </select> 
@@ -85,7 +85,7 @@
               </div> 
         </div>
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2">
+            <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" style="width:100%;"  class="form-control select2">
                 <option [ngValue]="null" >Model Seçiniz</option>
                 <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
               </select> 
@@ -93,7 +93,7 @@
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" #LocationId="ngModel" required>
+            <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2" style="width:100%;" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" #LocationId="ngModel" required>
                 <option [ngValue]="null">Lokasyon Seçiniz</option>
                 <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
             </select>      
@@ -102,7 +102,7 @@
             </div>  
         </div>
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control select2">
+            <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" style="width:100%;" class="form-control select2">
                 <option [ngValue]="null" >Tedarikçi Seçiniz</option>
                 <option *ngFor="let company of companies" value="{{company.CompanyId}}">{{company.Name}}</option>
             </select>              
@@ -116,7 +116,7 @@
         <div class="row justify-content-center">         
             <div class="form-group col-md-4">
               <label>Özellik Adı</label>
-                <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="getPropertyId($event)" class="form-control select2-no-search">
+                <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2" style="width:100%">
                     <option value="-1">Özellik Seçiniz</option>
                     <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                 </select>   
@@ -125,29 +125,30 @@
                 <label>Özellik Değeri</label>    
                   <div class="flexProperty">        
                   <div style="flex:1;">            
-                   <select [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==true" class="form-control select2-no-search">
-                        <option [ngValue]="null" >Özellik Değeri Seçiniz</option>
-                        <option *ngFor="let value of propertyValues" value="value.FixedAssetPropertyValueId">{{value.Value}}</option>
+                   <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search">
+                        <option [ngValue]="null">Özellik Değeri Seçiniz</option>
+                        <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
                    </select> 
-                   <input #Value [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
+                   <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
                   style="font-size: 13px;height: 27px;">
                         <!-- <div *ngIf="Value.errors.required">Bu alan zorunludur.</div> -->
                   </div>
                   <div class="property-add-value">                    
-                      <!-- <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId,Value)"></span> -->
+                      <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
                   </div>  
                   </div>                
             </div>                  
             <div class="form-group col-md-4">
               <label>Demirbaş Resmi</label>
-              <!-- <div class="file-area">
-              <input type="file" class="form-control-file" style="display:none">
-                <label for="AgreementFile" class="custom-file">
-                  <label class="custom-file-text" for="AgreementFile">
-                    {{agreementFile.files.length > 0 ? agreementFile.files[0].name : agreement.AgreementFile ? agreement.AgreementFile : 'Dosya Seçiniz'}}
+              <div class="file-area">
+              <input #Picture [(ngModel)]="fixedAsset.Picture" id="FixedAssetImage" name="Picture" type="file" class="form-control-file" style="display:none">
+                <label for="FixedAssetImage" class="custom-file">
+                  <label class="custom-file-text" for="FixedAssetImage">
+                   Dosya Seçiniz
                   </label>
                 </label>
-                <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label> -->
+                <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
+              </div> 
             </div>   
           </div>  
           <div class="row justify-content-center">  
