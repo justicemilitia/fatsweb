@@ -41,7 +41,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     Object.assign(cloneItem, this.faBarcode);
 
 
-    cloneItem.FirmId=data.value.FirmIds;
+    cloneItem.FirmId=data.value.firmIds;
 
      await this.baseService.fixedAssetService.ChangeFirm(
       cloneItem,

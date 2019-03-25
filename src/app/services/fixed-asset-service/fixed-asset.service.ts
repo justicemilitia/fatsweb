@@ -10,7 +10,8 @@ import {
   UPDATE_FIXEDASSETBARCODENUMBER,
   UPDATE_FIXEDASSETLOCATION,
   UPDATE_FIXEDASSETDEPARTMENT,
-  UPDATE_FIXEDASSETFIRM
+  UPDATE_FIXEDASSETFIRM,
+  UPDATE_FIXEDASSETDEBIT
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -19,6 +20,7 @@ import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { TransactionLog } from '../../models/TransactionLog';
 import { FixedAssetComponent } from '../../components/operations/fixed-asset/fixed-asset.component';
+import { FixedAssetUser } from '../../models/FixedAssetUser';
 
 @Injectable({
   providedIn: "root"
@@ -210,6 +212,29 @@ export class FixedAssetService {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let updatedFixedAsset: FixedAsset = new FixedAsset();
+            Object.assign(updatedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  ChangeDebit(fixedAsset: FixedAssetUser, success, failed){
+    this.httpclient
+      .post(
+        SERVICE_URL + UPDATE_FIXEDASSETDEBIT, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAsset: FixedAssetUser = new FixedAssetUser();
             Object.assign(updatedFixedAsset, response.ResultObject);
             success(response.LanguageKeyword);
           } else {
