@@ -37,8 +37,10 @@ $('body').on('click', '.nav-link-item-parent-link', function (event) {
 
 /* Close Item Outside of the column helper and open area */
 $(document).on('click', (e) => {
-    if ($(e.target).closest(".nav-link-item-parent-link").length === 0
-        && $(e.target).closest(".nav-link").length === 0) {
+    if ($(e.target).closest(".nav-link").length === 0 &&
+    $(e.target).closest(".nav-link-item-parent-link").length === 0 &&
+        $(e.target).closest(".nav-link-item-ul").length === 0
+        && $(e.target).closest(".nav-link-item-ul-sub").length === 0) {
 
         /* Close All open sub items */
         $('.nav-link-item-parent-link').each(function (i, v) {

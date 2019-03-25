@@ -52,6 +52,8 @@ import { FaChangeBarcodeComponent } from "./components/operations/fixed-asset/fa
 import { FaChangeLocationComponent } from "./components/operations/fixed-asset/fa-change-location/fa-change-location.component";
 import { FaChangeDepartmentComponent } from "./components/operations/fixed-asset/fa-change-department/fa-change-department.component";
 import { FaChangeFirmComponent } from "./components/operations/fixed-asset/fa-change-firm/fa-change-firm.component";
+import { FaDeleteDebitComponent } from "./components/operations/fixed-asset/fa-delete-debit/fa-delete-debit.component";
+import { FaChangeDebitComponent } from "./components/operations/fixed-asset/fa-change-debit/fa-change-debit.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -91,6 +93,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FaChangeDepartmentComponent,
     FaChangeBarcodeComponent,
     FaChangeFirmComponent,
+    FaChangeDebitComponent,
+    FaDeleteDebitComponent,
     FaBindingComponent,
     FixedAssetCardPropertyComponent,
     SuspensionComponent,

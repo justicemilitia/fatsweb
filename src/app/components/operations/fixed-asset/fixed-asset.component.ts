@@ -7,6 +7,7 @@ import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTab
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
+import { User } from '../../../models/LoginUser';
 
 @Component({
   selector: "app-fixed-asset",
@@ -30,6 +31,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   fixedAssetName: string;
 
   selectedItems: FixedAsset[];
+
+  users = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -417,6 +420,16 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       this.ChangeFirmOperation();
       break;
 
+      case FixedAssetOperations.changeDebit:
+      this.ChangeDebitOperation();
+      break;
+      
+      case FixedAssetOperations.deleteDebit:
+      this.DeleteDebitOperation();
+      break;
+
+      case FixedAssetOperations.exitFixedAsset:
+      this.ExitFixedAssetOperation();
       case FixedAssetOperations.createFixedAsset:
       this.CreateFixedAssetOperation();
       break;
@@ -511,6 +524,69 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
    }
  //#endregion
 
+    //#region Change Debit Operation
+    changeDebit_selectedItem: FixedAsset = new FixedAsset();
+    ChangeDebitOperation(){
+    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+    
+    if(selectedItems.length>1){
+      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      return;
+    }
+    
+    if(selectedItems.length==0){
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      return;
+    }
+    
+    this.changeDebit_selectedItem=selectedItems[0];
+
+    $('#showModal').trigger('click');
+
+    }
+  //#endregion
+
+    //#region Delete Debit Operation
+    deleteDebit_selectedItem: FixedAsset = new FixedAsset();
+    DeleteDebitOperation(){
+    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+    
+    if(selectedItems.length>1){
+      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      return;
+    }
+    
+    if(selectedItems.length==0){
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      return;
+    }
+    
+    this.deleteDebit_selectedItem=selectedItems[0];
+
+    $('#showModal').trigger('click');
+
+    }
+  //#endregion
+
+    //#region ExitFixedAssetOperation
+    exit_selectedItem: FixedAsset = new FixedAsset();
+    ExitFixedAssetOperation(){
+    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if(selectedItems.length==0){
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      return;
+    }
+
+    this.exit_selectedItem=selectedItems[0];
+
+    $('#showModal').trigger('click');
+
+    }
+    //#endregion
+
+    
+ 
    //#region Create Fixed Asset Operation
    CreateFixedAssetOperation(){
     $('#showModal').trigger('click');
