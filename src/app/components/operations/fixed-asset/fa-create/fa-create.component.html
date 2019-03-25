@@ -19,7 +19,7 @@
           <div class="form-group col-md-3">
             <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
                 <label class="ckbox">
-                  <input type="checkbox"  name="isBarcodeManual" (change)="isBarcodeManual($event)"/><span>Manuel Barkod</span>
+                  <input type="checkbox" name="isBarcodeManual" (change)="isBarcodeManual($event)"/><span>Manuel Barkod</span>
                 </label>
             </div>          
           </div>
@@ -27,7 +27,7 @@
                 <input type="number" name="quantity" min="1" max="100" placeholder="Adet" class="form-control" required/>         
           </div>                          
           <div class="form-group col-md-6">
-              <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
+              <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2" style="width:100%;border: radius 0px;"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
                   <option [ngValue]="null">Demirbaş Statüsü Seçiniz</option>
                   <option *ngFor="let statu of statuses" value="{{statu.FixedAssetStatusId}}">{{statu.Name}}</option>
               </select>
@@ -38,7 +38,7 @@
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" class="form-control select2"  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" #FixedAssetCardCategoryId="ngModel" required >
+            <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" (click)="loadCategoriesList()" (change)="loadFaCardByCategoryId($event)" class="form-control select2"  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" #FixedAssetCardCategoryId="ngModel" required >
                 <option [ngValue]="null">Demirbaş Kategorisi Seçiniz</option>
                 <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
             </select> 
