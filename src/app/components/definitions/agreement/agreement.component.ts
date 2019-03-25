@@ -22,6 +22,15 @@ import { convertDateToNgbDate, convertNgbDateToDateString } from 'src/app/declar
   providers: [AgreementComponent]
 })
 export class AgreementComponent extends BaseComponent implements OnInit {
+
+  /* Is Request send and waiting for response ? */
+  isWaitingInsertOrUpdate: boolean = false;
+  /* Is Table Refreshing */
+  isTableRefreshing: boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting: boolean = false;
+
   selectedFile: any;
 
   /* List of agreements */
@@ -130,7 +139,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     this.loadCompanies();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   resetForm(data: NgForm, isNewItem: boolean) {
     if (isNewItem == true) {
@@ -160,7 +169,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   async deleteAgreements() {
-    
+
     /* get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
@@ -209,9 +218,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
             if (itemIds.length > 0) {
               this.baseService.popupService.ShowAlertPopup(
                 selectedItems.length.toString() +
-                  " kayıttan " +
-                  itemIds.length.toString() +
-                  "'i silinebildi!"
+                " kayıttan " +
+                itemIds.length.toString() +
+                "'i silinebildi!"
               );
             }
           } else {
@@ -246,35 +255,42 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
     let willInsertItem = new Agreement();
 
-    Object.assign(willInsertItem,this.agreement);
+    Object.assign(willInsertItem, this.agreement);
 
     /* Insert agreement service */
     willInsertItem.CompanyId = willInsertItem.CompanyId ? Number(willInsertItem.CompanyId) : null;
     willInsertItem.Price = this.agreement.Price ? Number(willInsertItem.Price) : null;
     willInsertItem.StartDate = convertNgbDateToDateString(willInsertItem.StartDate);
     willInsertItem.EndDate = convertNgbDateToDateString(willInsertItem.EndDate);
-    willInsertItem.Company = this.companies.find(x=>x.CompanyId == willInsertItem.CompanyId);
-    
+    willInsertItem.Company = this.companies.find(x => x.CompanyId == willInsertItem.CompanyId);
+
     if (this.agreementFiles && this.agreementFiles.length > 0) {
       willInsertItem.AgreementFile = this.agreementFiles[0].name;
     }
-      
+
+    this.isWaitingInsertOrUpdate = true;
+    
     this.baseService.agreementService.InsertAgreement(willInsertItem, this.agreementFiles,
       (insretedItem: Agreement, message) => {
 
+        this.isWaitingInsertOrUpdate = false;
+
         /* Show pop up, get inserted agreement then set it agreement id, then load data. */
         this.baseService.popupService.ShowSuccessPopup(message);
-        
+
         willInsertItem.AgreementId = insretedItem.AgreementId;
 
         this.agreements.push(willInsertItem);
-        
+
         this.dataTable.TGT_loadData(this.agreements);
-        
+
         /* Reset Forms and make company empty to use new */
         this.resetForm(data, true);
 
-      },(error: HttpErrorResponse) => {
+      }, (error: HttpErrorResponse) => {
+
+        this.isWaitingInsertOrUpdate = false;
+
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
       });
@@ -285,14 +301,14 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     /* Convert object to new object */
     let willUpdateItem = new Agreement();
 
-    Object.assign(willUpdateItem,this.agreement);
+    Object.assign(willUpdateItem, this.agreement);
 
     /* Update agreement values with valid values */
     willUpdateItem.CompanyId = willUpdateItem.CompanyId ? Number(willUpdateItem.CompanyId) : null;
     willUpdateItem.Price = this.agreement.Price ? Number(willUpdateItem.Price) : null;
     willUpdateItem.StartDate = convertNgbDateToDateString(willUpdateItem.StartDate);
     willUpdateItem.EndDate = convertNgbDateToDateString(willUpdateItem.EndDate);
-    willUpdateItem.Company = this.companies.find(x=>x.CompanyId == willUpdateItem.CompanyId);
+    willUpdateItem.Company = this.companies.find(x => x.CompanyId == willUpdateItem.CompanyId);
 
     if (this.agreementFiles && this.agreementFiles.length > 0) {
       willUpdateItem.AgreementFile = this.agreementFiles[0].name;
@@ -302,13 +318,18 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     this.baseService.popupService.ShowQuestionPopupForUpdate(
       (response: boolean) => {
         if (response == true) {
+
+          this.isWaitingInsertOrUpdate = true;
+
           this.baseService.agreementService.UpdateAgreement(
-            willUpdateItem,this.agreementFiles,
+            willUpdateItem, this.agreementFiles,
             (_agreement, message) => {
-              
+
+              this.isWaitingInsertOrUpdate = false;
+
               /* Show pop up then update data in datatable */
               this.baseService.popupService.ShowSuccessPopup(message);
-              
+
               this.dataTable.TGT_updateData(willUpdateItem);
 
               /* Get original source from table */
@@ -316,6 +337,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
             },
             (error: HttpErrorResponse) => {
+              this.isWaitingInsertOrUpdate = false;
               /* Show error message */
               this.baseService.popupService.ShowErrorPopup(error);
             }
@@ -390,11 +412,11 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
           /* bind result to model */
           this.agreement = result;
-          
+
           this.agreement.StartDate = convertDateToNgbDate(this.agreement.StartDate);
-          
+
           this.agreement.EndDate = convertDateToNgbDate(this.agreement.EndDate);
-        
+
         }, 1000);
       },
       (error: HttpErrorResponse) => {

@@ -11,15 +11,28 @@
           <div class="card-header">
         <h2 class="az-content-title" style="margin-left:0">Rol Yetkilendirme</h2>
         <div class="grp-btn-action">
-            <button type="button" (click)="deleteRoleAuth()" class="btn btn-danger btn-delete-custom">
-                {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
-                <i class="fas fa-trash"></i></button>
+            
+          <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+            <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
+          </button>
+                      
+          <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+            <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+          </button>
+
+          <button type="button" (click)="deleteRoleAuth()" class="btn btn-danger btn-delete-custom">
+            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+            <i class="fas fa-trash"></i>
+          </button>
+
           <button class="btn btn-az-primary" (click)="resetForm(data,true)"  id="btnAddRoleAuth" data-toggle="modal"
             data-target="#modalRoleAuthorization"><i class="fa fa-plus-circle fa-plus-circle-add"></i>Role Yetki Atama
           </button>
+          
           <button style="display:none" (click)="resetForm(data,false)" id="btnEditRoleAuth" data-toggle="modal"
            data-target="#modalRoleAuthorization">Role Yetki Düzenle
           </button>
+          
         </div>
       </div>       
       <div class="sales-overview">

@@ -1,5 +1,5 @@
 import { HttpHeaders } from "@angular/common/http";
-import { Currency } from '../models/Currency';
+
 
 export const SERVICE_URL = "http://localhost:5000/api/";
 export const LOGIN = "Auth/token";
@@ -79,8 +79,8 @@ export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSu
 //#endregion
 
 //#region LostFixedAsset
-export const GET_LOST_FA_LIST="";
-export const UNDO_LOST_PROCESS="";
+export const GET_LOST_FA_LIST="FixedAsset/GetFixedAssetsLostList";
+export const UNDO_LOST_PROCESS="FixedAsset/UndoLostByArrayProcess";
 export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
 //#endregion
 
@@ -111,11 +111,10 @@ export const INSERT_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/AddFixedA
 export const UPDATE_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/UpdateFixedAssetCardProperties";
 export const DELETE_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/RemoveByIdList";
 export const GET_FIXEDASSETCARDPROPERTY_BY_TYPEID = "FixedAssetCardProperties/GetFixedAssetCardPropertyByTypeId";
+export const GET_FIXEDASSETCARDPROPERTYTYPE_LIST = "FixedAssetPropertyTypes/GetFixedAssetPropertyTypesList";
+export const GET_PROPERTYVALUES_BY_PROPERTYID="FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
 //#endregion
 
-//#region FixedAssetCardProperties
-export const GET_FIXEDASSETCARDPROPERTYTYPE_LIST = "FixedAssetPropertyTypes/GetFixedAssetPropertyTypesList";
-//#endregion
 
 //#region FixedAssetCardBrands
 export const GET_FIXEDASSETCARDBRAND_LIST =
@@ -228,8 +227,9 @@ export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
 export const CREATE_FIXED_ASSET_FORM="PdfCreator/CreateFixedAssetDeliveryForm";
 //#endregion
 
-//#region 
-export const GET_DASHBOARD_VALUES = "Dashboard/GetDashboardValues";
+//#region Dashboard
+export const GET_DASHBOARD_FIXED_ASSETS_INFO = "Dashboard/GetDashboardValues";
+export const GET_DASHBOARD_TRANSACTIONS_INFO = "Dashboard/GetDashboardTransactions";
 //#endregion
 
 

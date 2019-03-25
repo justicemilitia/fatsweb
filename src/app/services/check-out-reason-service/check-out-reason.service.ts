@@ -93,7 +93,7 @@ export class CheckOutReasonService {
       );
   }
 
-  UpdateCompany(suspension: CheckOutReason, success, failed) {
+  UpdateSuspension(suspension: CheckOutReason, success, failed) {
     this.httpClient
       .put(SERVICE_URL + UPDATE_CHECKOUTREASON, suspension, {
         headers: GET_HEADERS(this.aService.getToken())
@@ -139,7 +139,7 @@ export class CheckOutReasonService {
     this.httpClient
       .post(
         SERVICE_URL + DELETE_SUSPENSION,
-        { SuspensionIds: ids }, //apiden gelene bak!!
+        { CheckOutReasonIds: ids }, //apiden gelene bak!!
         {
           headers: GET_HEADERS(this.aService.getToken())
         }

@@ -7,16 +7,19 @@ import {
 } from "@angular/router";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { MENU_LOGIN, MENU_DASHBOARD } from "src/app/declarations/page-values";
+import { PopupService } from '../popup-service/popup.service';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
   providedIn: "root"
 })
-export class AuthGuard implements CanActivate{
-  
+export class AuthGuard implements CanActivate {
+
   constructor(
     private authentication: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private popup: PopupService
   ) { }
 
   canActivate(
@@ -36,15 +39,24 @@ export class AuthGuard implements CanActivate{
     if (logged) {
       if (pageKeyword == MENU_DASHBOARD) return true;
       /* Bu menüyü görmeye yetkimiz var mı kontrolü */
-      var role = this.authentication.roles.find(
+      let role = this.authentication.roles.find(
         x => x.MenuCaption == pageKeyword
       );
 
       if (role) {
-        return role.OutBrowse ? true : false;
+        if (role.OutBrowse == true)
+          return true;
+        else {
+          this.popup.ShowMenuAuthorizePopup(() => {
+            this.router.navigate(["dashboard"]); // Eğer Yetki YOksa anasayfaya at.
+            return false;
+          })
+        }
       } else {
-        this.router.navigate(["dashboard"]); // Eğer Yetki YOksa anasayfaya at.
-        return false;
+        this.popup.ShowMenuAuthorizePopup(() => {
+          this.router.navigate(["dashboard"]); // Eğer Yetki YOksa anasayfaya at.
+          return false;
+        })
       }
     } else {
       this.router.navigate(["login"]); // Eğer Giriş yapılmamışsa  giriş sayfasına at.

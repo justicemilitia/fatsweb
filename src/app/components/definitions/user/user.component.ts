@@ -25,6 +25,12 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
+  
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting:boolean = false;
 
   /* Store the current edit user */
   currentUser: User = new User();
@@ -121,7 +127,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       textField: "Name",
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
-      itemsShowLimit: 10,
+      itemsShowLimit: 2,
       allowSearchFilter: true
     };
 
@@ -408,6 +414,19 @@ export class UserComponent extends BaseComponent implements OnInit {
     items.forEach(element => {
       this.currentUser["Roles"].push(element);
     });
+
+  }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadUsers();
+
+    this.isTableRefreshing = false;
 
   }
 

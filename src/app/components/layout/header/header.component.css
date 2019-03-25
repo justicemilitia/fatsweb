@@ -108,6 +108,8 @@ ul.nav-link-item-ul {
 
 ul.nav-link-item-ul-sub {
   padding-bottom: 4px;
+  top:-3px !important;
+  margin-left:2px !important;
 }
 
 .az-navbar-two .nav-link {
@@ -116,7 +118,8 @@ ul.nav-link-item-ul-sub {
   font-weight: 500;
   flex: 1;
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  height: 23px;
 }
 
 .stellarnav.desktop li.has-sub a {
@@ -133,4 +136,30 @@ ul.nav-link-item-ul-sub {
   border-right: 0;
   border-top: 0;
   display: inline-block;
+}
+
+
+@media (min-width: 992px) {
+  .nav-item.active::before {
+      top: 33px;
+      left: 0;
+      bottom: auto;
+      border-bottom: 2px solid #e67300;
+      z-index: 5;
+      margin-left: 0;
+      right: 0;
+      position: absolute;
+      content: '';
+  }
+  .drop-right.nav-item.active::before {
+    top: 33px;
+    left: 0;
+    bottom: auto;
+    border-bottom: 2px solid #e67300;
+    z-index: 5;
+    margin-left: 18px;
+    right: 0;
+    position: absolute;
+    content: '';
+  }
 }

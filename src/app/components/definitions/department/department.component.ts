@@ -23,6 +23,13 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
 
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+
+  isTableExporting:boolean = false;
+
   /* List Of Departments */
   departments: Department[] = [];
 
@@ -321,4 +328,18 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadDepartments();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }

@@ -1,4 +1,5 @@
-$(function(){
+function loadData() {
+  $(function(){
     'use strict'
 
     $('.az-iconbar .nav-link').on('click', function(e){
@@ -396,3 +397,4 @@ $(function(){
 
     //
   });
+}

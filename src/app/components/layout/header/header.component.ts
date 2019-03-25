@@ -9,6 +9,7 @@ import * as $ from 'jquery';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent extends BaseComponent implements OnInit, AfterViewInit {
+  
   ngAfterViewInit(): void {
     $(".az-navbar-two").trigger("click");
   }

@@ -1,7 +1,7 @@
 <div class="az-header az-header-dashboard-four">
   <div class="container-fluid">
     <div class="az-header-left">
-        <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span></h1>
+      <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span></h1>
     </div>
     <!-- az-header-left -->
     <div class="az-header-center">
@@ -14,32 +14,32 @@
     <!-- az-header-center -->
     <div class="az-header-right">
       <div class="dropdown firm-dropdown">
-          <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" type="button" id="dropdownMenu2" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-              <div class="dropdown-button-content">
-                {{Firm.Name}}
-              </div>
-          </button>
-          <div class="dropdown-menu">
-            <ng-container *ngFor="let firm of Firms">
-
-              <button class="dropdown-item" (click)="changeFirm(firm.Id)" type="button">
-                {{firm.Name}}
-              </button>
-
-            </ng-container>
+        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" type="button" id="dropdownMenu2"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="dropdown-button-content">
+            {{Firm.Name}}
           </div>
+        </button>
+        <div class="dropdown-menu">
+          <ng-container *ngFor="let firm of Firms">
+
+            <button class="dropdown-item" (click)="changeFirm(firm.Id)" type="button">
+              {{firm.Name}}
+            </button>
+
+          </ng-container>
         </div>
+      </div>
 
       <div class="btn-group">
-          <button type="button" class="bell-custom-button">
-              <i class="far fa-bell fa-bell-custom"></i>
-            </button>
+        <button type="button" class="bell-custom-button">
+          <i class="far fa-bell fa-bell-custom"></i>
+        </button>
         <button type="button" class="btn-exit-dd" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-user fa-user-custom"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item" type="button">Ayarlar</button>
+          <button class="dropdown-item" type="button">Ayarlar</button>
           <button class="dropdown-item" (click)="logout()" type="button">Çıkış Yap</button>
         </div>
       </div>
@@ -57,7 +57,7 @@
 
     <div class="stellarnav">
       <ul>
-        <li class="nav-item active"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active"><i
+        <li class="nav-item" routerLink="/dashboard" routerLinkActive="active"><a class="nav-link"><i
               class="typcn icon-default typcn-home-outline" style="font-size: 22px;"></i>Ana Sayfa</a></li>
         <li class="drop-right nav-item">
           <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-edit"></i>Tanımlamalar</a>
@@ -67,27 +67,27 @@
                   class="typcn typcn-chevron-right"></span></a>
               <ul class="nav-link-item-ul-sub">
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/company"
-                    routerLinkActive="active">Şirket Tanımlama</a></li>
+                    routerLinkActive="active">Şirketler</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/location"
-                    routerLinkActive="active">Lokasyon Tanımlama</a></li>
+                    routerLinkActive="active">Lokasyonlar</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/department"
-                    routerLinkActive="active">Departman Tanımlama</a></li>
+                    routerLinkActive="active">Departmanlar</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/user"
-                    routerLinkActive="active">Kullanıcı Tanımlama</a></li>
-                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/role" routerLinkActive="active">Rol
-                    Tanımlama</a></li>
+                    routerLinkActive="active">Kullanıcılar</a></li>
+                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/role"
+                    routerLinkActive="active">Roller</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/roleauthorization"
-                    routerLinkActive="active">Rol ve Yetki Tanımlama</a></li>
+                    routerLinkActive="active">Rol Yetkilendirmeleri</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/expensecenter"
-                    routerLinkActive="active">Masraf Yeri Tanımlama</a></li>
+                    routerLinkActive="active">Masraf Yerleri</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/checkedoutreason"
-                    routerLinkActive="active">Çıkış Tipi Tanımlama</a></li>
+                    routerLinkActive="active">Çıkış Tipleri</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/suspension"
-                      routerLinkActive="active">Askıya Alma Sebepleri</a></li>
+                    routerLinkActive="active">Askıya Alma Sebepleri</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/status"
-                      routerLinkActive="active">Statü Listesi</a></li>
+                    routerLinkActive="active">Demirbaş Statüleri</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/agreement"
-                    routerLinkActive="active">Sözleşme Tanımlama</a></li>
+                    routerLinkActive="active">Sözleşmeler</a></li>
               </ul>
             </li>
             <li class="nav-link-item-parent">
@@ -95,15 +95,15 @@
                   class="typcn typcn-chevron-right"></span></a>
               <ul class="nav-link-item-ul-sub">
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcard"
-                    routerLinkActive="active">Kart Tanımlama</a></li>
-                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardcategory"
-                    routerLinkActive="active">Kategori Tanımlama</a></li>
+                    routerLinkActive="active">Demirbaş Kartları</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardproperty"
-                    routerLinkActive="active">Kart Özellikleri</a></li>    
+                    routerLinkActive="active">Demirbaş Kart Özellikleri</a></li>
+                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardcategory"
+                    routerLinkActive="active">Demirbaş Kategorileri</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardbrand"
-                    routerLinkActive="active">Marka Tanımlama</a></li>
+                    routerLinkActive="active">Demirbaş Markaları</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardmodel"
-                    routerLinkActive="active">Model Tanımlama</a></li>
+                    routerLinkActive="active">Demirbaş Modelleri</a></li>
               </ul>
             </li>
             <li class="nav-link-item-parent">
@@ -116,38 +116,36 @@
             <i class="fas fa-desktop" style="font-size:15px"></i>
             Demirbaş Yönetimi
           </a>
-            <ul class="nav-link-item-ul">
-              <li class="nav-link-item-parent">
-                <a class="nav-link-item-link" routerLink="/fixedasset" routerLinkActive="active">
-                  Demirbaş Operasyonları
-                </a>
-              </li>
-              <li class="nav-link-item-parent">
-                <a class="nav-link-item-link" routerLink="/suspendedfixedasset" routerLinkActive="active">
-                 Askıdaki Demirbaşlar
-                </a>
-              </li>
-              <li class="nav-link-item-parent">
-                <a class="nav-link-item-link" routerLink="/lostfixedasset" routerLinkActive="active">
-                 Kayıp Demirbaşlar
-                </a>
-              </li>
-              <li class="nav-link-item-parent">
-                <a class="nav-link-item-link" routerLink="/checkoutfixedasset" routerLinkActive="active">
-                  Çıkışı Yapılmış Demirbaşlar
-                </a>
-              </li>
-              <li class="nav-link-item-parent">
-                <a class="nav-link-item-parent-link" href="#" onclick="return false">Demirbaş Sayımları<span
-                    class="typcn typcn-chevron-right"></span></a>
-                <ul class="nav-link-item-ul-sub">
-                  <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/"
-                      routerLinkActive="active">Sayım Planlama ve Yönetme</a></li>
-                  <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/"
-                      routerLinkActive="active">Sayım Detayları</a></li>                  
-                </ul>
-              </li>
-            </ul>
+          <ul class="nav-link-item-ul">
+            <li class="nav-link-item-parent">
+              <a class="nav-link-item-link" routerLink="/fixedasset" routerLinkActive="active">
+                Demirbaş Operasyonları
+              </a>
+            </li>
+            <li class="nav-link-item-parent">
+              <a class="nav-link-item-link" routerLink="/suspendedfixedasset" routerLinkActive="active">
+                Askıdaki Demirbaşlar
+              </a>
+            </li>
+            <li class="nav-link-item-parent">
+              <a class="nav-link-item-link" routerLink="/lostfixedasset" routerLinkActive="active">
+                Kayıp Demirbaşlar
+              </a>
+            </li>
+            <li class="nav-link-item-parent">
+              <a class="nav-link-item-link" routerLink="/checkoutfixedasset" routerLinkActive="active">
+                Çıkışı Yapılmış Demirbaşlar
+              </a>
+            </li>
+            <li class="nav-link-item-parent">
+              <a class="nav-link-item-parent-link" href="#" onclick="return false">Demirbaş Sayımları<span
+                  class="typcn typcn-chevron-right"></span></a>
+              <ul class="nav-link-item-ul-sub">
+                <li class="nav-link-item"><a class="nav-link-item-link">Sayım Planlama ve Yönetme</a></li>
+                <li class="nav-link-item"><a class="nav-link-item-link">Sayım Detayları</a></li>
+              </ul>
+            </li>
+          </ul>
           <!--<ul>
             <li><a href="#" onclick="return false">Genel Tanımlar</a>
               <ul>

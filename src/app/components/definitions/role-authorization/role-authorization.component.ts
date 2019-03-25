@@ -26,6 +26,12 @@ export class RoleAuthorizationComponent extends BaseComponent
   implements OnInit {
 
   isWaitingInsertOrUpdate: boolean = false;
+  
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting:boolean = false;
 
   roleAuthorizations: RoleAuthorization[] = [];
 
@@ -180,10 +186,6 @@ export class RoleAuthorizationComponent extends BaseComponent
   }
 
   async loadRoleAuth() {
-
-    if (this.roleAuthorizations.length > 0) {
-      return;
-    }
 
     this.baseService.roleAuthorizationService.GetRoleAuth(
       (roleAuthorization: RoleAuthorization[]) => {
@@ -427,6 +429,19 @@ export class RoleAuthorizationComponent extends BaseComponent
         item.RoleAuthorizationId = e.RoleAuthorizationId;     
       }
     });
+
+  }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadRoleAuth();
+
+    this.isTableRefreshing = false;
 
   }
 

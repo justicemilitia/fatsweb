@@ -26,6 +26,12 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   /* Is Waititing for a request */
   isWaitingInsertOrUpdate: boolean = false;
 
+  /* Is Table Refreshing */
+  isTableRefreshing: boolean = false;
+
+  /* Is Table Exporting */
+  isTableExporting: boolean = false;
+
   fixedAssetTypes = GetFixedAssetTypes();
 
   /* Store Fixed Card Properties */
@@ -130,7 +136,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     this.dataTablePropertyValue.isLoading = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset form if required create a new object */
@@ -216,10 +222,10 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     /* Close waiting loader */
     this.isWaitingInsertOrUpdate = true;
 
-    this.fixedAssetCardProperty.FixedAssetPropertyValues= this.fixedAssetCardPropertyValues;
+    this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
 
     /* Insert Fixed Asset Card Property */
-    await this.baseService.fixedAssetCardPropertyService.InsertFixedAssetCardProperty(
+    this.baseService.fixedAssetCardPropertyService.InsertFixedAssetCardProperty(
       this.fixedAssetCardProperty,
       (insertedItem: FixedAssetCardProperty, message) => {
         /* Close waiting loader */
@@ -231,6 +237,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         /* Set inserted Item id to model */
         this.fixedAssetCardProperty.FixedAssetCardPropertyId =
           insertedItem.FixedAssetCardPropertyId;
+
+        /* Display item updated */
+        this.fixedAssetCardProperty.FixedAssetPropertyValues.forEach((p, i) => {
+          this.fixedAssetCardProperty.FixedAssetAsDisplay += p.Value + (i < this.fixedAssetCardProperty.FixedAssetPropertyValues.length - 1 ? "|" : "");
+        });
 
         /* Push inserted item to Property list */
         this.fixedAssetCardProperties.push(this.fixedAssetCardProperty);
@@ -256,13 +267,13 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     if (data.form.invalid == true) return;
 
     /* Ask for approve question if its true then update the fixed asset card Property */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+    this.baseService.popupService.ShowQuestionPopupForUpdate(
       (response: boolean) => {
         if (response == true) {
           /* Change button to loading */
           this.isWaitingInsertOrUpdate = true;
           this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
-          
+
 
           /* Update Model to database */
           this.baseService.fixedAssetCardPropertyService.UpdateFixedAssetCardProperty(
@@ -277,6 +288,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
               /* Create a fixed asset for updated item to create a refrences */
               let updatedModel = new FixedAssetCardProperty();
               Object.assign(updatedModel, this.fixedAssetCardProperty);
+
+              /* Display item updated */
+              updatedModel.FixedAssetPropertyValues.forEach((p, i) => {
+                updatedModel.FixedAssetAsDisplay += p.Value + (i < updatedModel.FixedAssetPropertyValues.length - 1 ? "|" : "");
+              });
 
               /* Update in datatable */
               this.dataTable.TGT_updateData(updatedModel);
@@ -317,7 +333,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
           if (result.FixedAssetTypeId == PropertyValueTypes.Liste)
             this.isListSelected = true;
-          else 
+          else
             this.isListSelected = false;
 
           this.dataTablePropertyValue.TGT_clearData();
@@ -326,16 +342,16 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
           if (result.FixedAssetPropertyValues) {
             let values = <FixedAssetCardPropertyValue[]>result.FixedAssetPropertyValues;
-            values.forEach((e:FixedAssetCardPropertyValue)=>{
+            values.forEach((e: FixedAssetCardPropertyValue) => {
               let item = new FixedAssetCardPropertyValue();
-              Object.assign(item,e);
+              Object.assign(item, e);
               this.fixedAssetCardPropertyValues.push(item);
             })
           }
 
           this.dataTablePropertyValue.TGT_loadData(this.fixedAssetCardPropertyValues);
 
-          
+
           /* bind result to model */
           this.fixedAssetCardProperty = result;
           this.baseService.spinner.hide();
@@ -359,7 +375,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         this.fixedAssetCardProperties = fixedAssetCardProperties;
         this.fixedAssetCardProperties.forEach(e => {
           e.FixedAssetPropertyValues.forEach((p, i) => {
-            e.FixedAssetAsDisplay += p.Value + (i<e.FixedAssetPropertyValues.length-1 ? "|" : "");
+            e.FixedAssetAsDisplay += p.Value + (i < e.FixedAssetPropertyValues.length - 1 ? "|" : "");
           });
         });
         /* Load data to table */
@@ -383,11 +399,9 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     ) {
       this.fixedAssetCardPropertyValue.Value = value.value;
       this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId =
-        this.fixedAssetCardPropertyValues.length + 1;
+        (this.fixedAssetCardPropertyValues.length + 1) * -1;
       this.fixedAssetCardPropertyValues.push(this.fixedAssetCardPropertyValue);
-      this.dataTablePropertyValue.TGT_loadData(
-        this.fixedAssetCardPropertyValues
-      );
+      this.dataTablePropertyValue.TGT_loadData(this.fixedAssetCardPropertyValues);
       this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
       value.value = null;
     } else {
@@ -412,4 +426,18 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
       this.isListSelected = true;
     else this.isListSelected = false;
   }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadFixedAssetCardProperties();
+
+    this.isTableRefreshing = false;
+
+  }
+
 }

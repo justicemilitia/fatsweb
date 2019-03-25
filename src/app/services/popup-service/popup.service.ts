@@ -40,12 +40,14 @@ export class PopupService {
     });
   }
 
-  ShowMenuAuthorizePopup() {
+  ShowMenuAuthorizePopup(ok) {
     swal({
       title: "Menü için yetkiniz bulunmamaktadır!",
       text: "",
       icon: "warning"
-    })
+    }).then(() => {
+      ok()
+    });
   }
 
   ShowQuestionPopupForDelete(callback) {
