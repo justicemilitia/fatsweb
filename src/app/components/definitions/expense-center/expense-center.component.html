@@ -56,7 +56,6 @@
       </div>
       <form name="form" #data="ngForm" (ngSubmit)="OnSubmit(data) && data.form.invalid" novalidate>
         <div class="modal-body">
-            <input type="hidden" name="ExpenseCenterId" [(ngModel)]="expenseCenter.ExpenseCenterId" />
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Kod</label>

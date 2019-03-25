@@ -49,12 +49,14 @@ export class AuthGuard implements CanActivate {
         else {
           this.popup.ShowMenuAuthorizePopup(() => {
             this.router.navigate(["dashboard"]); // Eğer Yetki YOksa anasayfaya at.
+            $(".az-navbar-two").trigger("click");
             return false;
           })
         }
       } else {
         this.popup.ShowMenuAuthorizePopup(() => {
           this.router.navigate(["dashboard"]); // Eğer Yetki YOksa anasayfaya at.
+          $(".az-navbar-two").trigger("click");
           return false;
         })
       }

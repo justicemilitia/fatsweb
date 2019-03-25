@@ -160,7 +160,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
       }
     }
     /* if agreement id exists means update it otherwise insert it */
-    if (data.value.AgreementId == null) {
+    if (this.agreement.AgreementId == null) {
       this.addAgreements(data);
     } else {
       this.updateAgreement(data);

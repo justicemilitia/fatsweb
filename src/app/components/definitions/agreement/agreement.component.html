@@ -60,9 +60,6 @@
       </div>
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
         <div class="modal-body">
-
-          <input type="hidden" name="AgreementId" [(ngModel)]="agreement.AgreementId" />
-
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Sözleşme No</label>

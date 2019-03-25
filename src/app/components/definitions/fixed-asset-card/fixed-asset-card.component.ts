@@ -103,7 +103,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     /* if fixed asset card id exists means update it otherwise insert it */
-    if (data.value.FixedAssetCardId == null) {
+    if (this.fixedAssetCard.FixedAssetCardId == null) {
       this.addFixedAssetCard(data);
     } else {
       this.updateFixedAssetCard(data);

@@ -56,7 +56,6 @@
         </button>
       </div>
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
-        <input type="hidden" name="DepartmentId" [(ngModel)]="department.DepartmentId" />
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-6 form-group">

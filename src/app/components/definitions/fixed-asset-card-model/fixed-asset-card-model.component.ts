@@ -82,7 +82,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
   ngOnInit() { }
 
   onSubmit(data: NgForm) {
-    if (data.value.FixedAssetCardModelId == null)
+    if (this.fixedAssetCardModel.FixedAssetCardModelId == null)
       this.addFixedAssetCardModel(data);
     else this.updateFixedAssetCardModel(data);
   }

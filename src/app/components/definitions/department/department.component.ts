@@ -97,7 +97,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
-    if (data.value.DepartmentId == null) {
+    if (this.department.DepartmentId == null) {
       this.insertDepartment(data);
     } else {
       this.updateDepartment(data);
