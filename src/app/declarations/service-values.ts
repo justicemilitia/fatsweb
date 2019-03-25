@@ -227,8 +227,9 @@ export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
 export const CREATE_FIXED_ASSET_FORM="PdfCreator/CreateFixedAssetDeliveryForm";
 //#endregion
 
-//#region 
-export const GET_DASHBOARD_VALUES = "Dashboard/GetDashboardValues";
+//#region Dashboard
+export const GET_DASHBOARD_FIXED_ASSETS_INFO = "Dashboard/GetDashboardValues";
+export const GET_DASHBOARD_TRANSACTIONS_INFO = "Dashboard/GetDashboardTransactions";
 //#endregion
 
 

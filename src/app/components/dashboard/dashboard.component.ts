@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseService } from '../../services/base.service';
 import { BaseComponent } from '../base/base.component';
 import vDashboardFixedAssets from 'src/app/models/vDashboardFixedAssets';
+import vGetDashboardTransactions from 'src/app/models/vGetDashboardTransactions';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,26 +11,37 @@ import vDashboardFixedAssets from 'src/app/models/vDashboardFixedAssets';
 })
 export class DashboardComponent extends BaseComponent implements OnInit {
 
-  assetValues:vDashboardFixedAssets = new vDashboardFixedAssets();
+  assetValues: vDashboardFixedAssets = new vDashboardFixedAssets();
 
-  constructor(public baseService:BaseService) { 
-    super(baseService);    
+  transactions: vGetDashboardTransactions[] = [];
+
+  constructor(public baseService: BaseService) {
+    super(baseService);
   }
 
   ngOnInit() {
     this.loadValues();
+    this.loadTransactions();
     setInterval(() => {
       this.loadValues();
-    },60 * 1000)
+      this.loadTransactions();
+    }, 60 * 1000)
   }
 
 
   async loadValues() {
-    this.baseService.dashboardService.GetDashboardValues((result) => {
+    this.baseService.dashboardService.GetDashboardFixedAssetsInfo((result) => {
       this.assetValues = <vDashboardFixedAssets>result;
-    },(result) => {
+    }, (result) => {
       console.log(result);
     })
   }
 
+  async loadTransactions() {
+    this.baseService.dashboardService.GetDashboardTransactionsInfo((result) => {
+      this.transactions = <vGetDashboardTransactions[]>result;
+    }, (result) => {
+      console.log(result);
+    })
+  }
 }
