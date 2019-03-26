@@ -39,7 +39,7 @@ export abstract class BaseComponent implements OnInit {
   public IsAuthForInsert: boolean = false;
 
   constructor(protected baseService: BaseService) {
-
+    this.baseService.authenticationService.getUserFirmListWithoutParams();
     if (this.baseService.router.routerState.root.firstChild != null) {
       let keyword = this.baseService.router.routerState.root.firstChild.snapshot.data["pageKeyword"];
       let menus = this.baseService.authenticationService.getRoleMenus();

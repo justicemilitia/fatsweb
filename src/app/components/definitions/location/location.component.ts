@@ -110,7 +110,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
-    if (this.location.LocationId == null) {
+    if (!this.location && this.location.LocationId == null) {
       this.addLocation(data);
     } else {
       this.updateLocation(data);

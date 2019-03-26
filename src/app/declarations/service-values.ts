@@ -224,6 +224,7 @@ export const GET_FIRM_LIST = "firm/GetFirmsList";
 export const GET_COUNTRY_LIST = "definition/GetCountriesList";
 export const GET_CITY_LIST = "definition/GetCitiesList";
 export const GET_USERFIRM_LIST = "UserFirms/GetUserFirmsList";
+export const GET_USERFIRM_LIST_WITHOUT_PARAMS = "UserFirms/GetUserFirmsListbyFirmId";
 export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
 
 //#region FixedAssetForm

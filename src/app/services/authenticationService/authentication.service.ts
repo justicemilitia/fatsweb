@@ -8,7 +8,8 @@ import {
   LOGIN,
   GET_HEADERS,
   GET_USERFIRM_LIST,
-  CHANGE_FIRM
+  CHANGE_FIRM,
+  GET_USERFIRM_LIST_WITHOUT_PARAMS
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
 import { UserFirm } from "src/app/models/UserFirm";
@@ -28,6 +29,7 @@ export class AuthenticationService {
     }
 
   }
+
   jwtHelper: JwtHelperService = new JwtHelperService();
   roles: RoleAuthorization[] = [];
   Firms: Firm[] = [];
@@ -60,7 +62,7 @@ export class AuthenticationService {
       return false;
     }
   }
-  
+
   saveSession(token: any, roles: RoleAuthorization[], firm: Firm) {
     localStorage.setItem(this.TOKEN_KEY, token);
     localStorage.setItem(this.ROLE_KEY, JSON.stringify(roles));
@@ -86,25 +88,16 @@ export class AuthenticationService {
 
   }
 
-  changeFirm(firmId: number, success, failed) {
-    this.httpClient.post(SERVICE_URL + CHANGE_FIRM, {
-      FirmId: firmId
-    }, {
-        headers: GET_HEADERS(this.getToken())
-      }).subscribe((data) => {
+  changeFirm(firmId: number) {
+    this.httpClient.post(SERVICE_URL + CHANGE_FIRM, { FirmId: firmId }, {
+      headers: GET_HEADERS(this.getToken())
+    }).subscribe((data) => {
 
-        let newToken = data["token"];
-        localStorage.removeItem(this.TOKEN_KEY);
-        this.currentFirm = this.Firms.find(x => x.FirmId == firmId);
-        localStorage.setItem(this.TOKEN_KEY, newToken);
+      this.currentFirm = this.Firms.find(x => x.FirmId == firmId);
+      this.saveSession(data["token"], this.getRoleMenus(), this.currentFirm);
+      this.router.navigateByUrl('');
 
-        success();
-
-      }, (error) => {
-
-        failed(error);
-
-      })
+    });
   }
 
   getRoleMenus(): RoleAuthorization[] {
@@ -149,6 +142,31 @@ export class AuthenticationService {
         });
   }
 
+  getUserFirmListWithoutParams() {
+    this.httpClient
+      .get(SERVICE_URL + GET_USERFIRM_LIST_WITHOUT_PARAMS, {
+        headers: GET_HEADERS(this.getToken())
+      })
+      .subscribe(result => {
+
+        let response: Response = <Response>result;
+
+        if (response.ResultStatus == true) {
+          let letFirms: Firm[] = [];
+
+          (<UserFirm[]>response.ResultObject).forEach(e => {
+            let firm: Firm = new Firm();
+            Object.assign(firm, e.Firm);
+            letFirms.push(firm);
+
+          });
+
+          this.Firms = letFirms;
+
+        }
+      });
+  }
+
   isMenuAccessable(keyword: string) {
     let menu = this.roles.find(x => x.MenuCaption == keyword);
     if (menu) return true;
@@ -166,4 +184,6 @@ export class AuthenticationService {
       return false;
     }
   }
+
+  
 }
