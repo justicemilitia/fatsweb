@@ -54,11 +54,8 @@ import { FaChangeFirmComponent } from "./components/operations/fixed-asset/fa-ch
 import { FaDeleteDebitComponent } from "./components/operations/fixed-asset/fa-delete-debit/fa-delete-debit.component";
 import { FaChangeDebitComponent } from "./components/operations/fixed-asset/fa-change-debit/fa-change-debit.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-<<<<<<< HEAD
 import { FileUploadModule  } from 'ng2-file-upload';
-=======
 import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
->>>>>>> b78e3db76cdb6e573514a13c1f00bdbbc077165c
 
 @NgModule({
   declarations: [
@@ -104,11 +101,7 @@ import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-inf
     SuspendedFixedAssetComponent,
     LostFixedAssetComponent,
     CheckoutFixedAssetComponent,
-<<<<<<< HEAD
-
-=======
     AlertInfosComponent
->>>>>>> b78e3db76cdb6e573514a13c1f00bdbbc077165c
   ],
   imports: [
     BrowserModule,
