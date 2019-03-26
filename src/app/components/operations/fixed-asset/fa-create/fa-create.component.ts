@@ -1,4 +1,10 @@
-import { Component, OnInit, AfterViewInit, DoCheck } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  DoCheck,
+  Directive,EventEmitter
+} from "@angular/core";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { Department } from "src/app/models/Department";
@@ -20,19 +26,48 @@ import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardProper
 import { Currency } from "src/app/models/Currency";
 import * as $ from "jquery";
 import { FixedAssetFile } from "src/app/models/FixedAssetFile";
-import { Depreciation } from 'src/app/models/Depreciation';
+import { Depreciation } from "src/app/models/Depreciation";
+import {
+  HttpClient,
+  HttpRequest,
+  HttpResponse,
+  HttpEvent
+} from "@angular/common/http";
+import { FileUploader, FileLikeObject, FileSelectDirective, FileDropDirective,FileUploaderOptions} from "ng2-file-upload";
+
+  function readBase64(file): Promise<any> {
+    var reader  = new FileReader();
+    var future = new Promise((resolve, reject) => {
+      reader.addEventListener("load", function () {
+        resolve(reader.result);
+      }, false);
+
+      reader.addEventListener("error", function (event) {
+        reject(event);
+      }, false);
+
+      reader.readAsDataURL(file);
+    });
+    return future;
+  }
+
+const URL='';
 
 @Component({
   selector: "app-fa-create",
   templateUrl: "./fa-create.component.html",
   styleUrls: ["./fa-create.component.css"]
 })
+
+// @Directive({ selector: "[ng2FileSelect]" })
+// @Directive({ selector: "[ng2FileDrop]" })
+
 export class FaCreateComponent extends BaseComponent
   implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
-
+  
   departments: Department[] = [];
   companies: Company[] = [];
   locations: Location[] = [];
@@ -48,7 +83,7 @@ export class FaCreateComponent extends BaseComponent
   ifrscurrencies: Currency[] = [];
   currencies: Currency[] = [];
   faPropertyDetails: FixedAssetPropertyDetails[] = [];
-  depreciationTypes:Depreciation[]=[];
+  depreciationTypes: Depreciation[] = [];
 
   fixedAsset: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
@@ -92,7 +127,10 @@ export class FaCreateComponent extends BaseComponent
     }
   );
 
-  constructor(protected baseService: BaseService) {
+  constructor(
+    protected baseService: BaseService,
+    public HttpClient: HttpClient
+  ) {
     super(baseService);
     this.loadDropdown();
     this.dataTablePropertyValue.isPagingActive = false;
@@ -102,6 +140,8 @@ export class FaCreateComponent extends BaseComponent
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
+
+    this.loadFixedAssetProperties();
   }
 
   ngOnInit() {}
@@ -180,10 +220,10 @@ export class FaCreateComponent extends BaseComponent
     );
 
     this.baseService.depreciationService.GetDepreciationCalculationTypes(
-      (depreciationTypes:Depreciation[]) => {
+      (depreciationTypes: Depreciation[]) => {
         this.depreciationTypes = depreciationTypes;
       },
-      (error:HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
@@ -276,6 +316,7 @@ export class FaCreateComponent extends BaseComponent
       }
     );
   }
+
   isBarcodeManual(event) {
     if (event.target.checked == true) {
       this.disabledBarcode = false;
@@ -351,4 +392,33 @@ export class FaCreateComponent extends BaseComponent
     reader.readAsDataURL(files[0]);
     reader.onload = _event => (this.imgURL = reader.result.toString());
   }
+
+//#region FILE UPLOAD
+
+  public uploader:FileUploader = new FileUploader({
+    url: URL, 
+    disableMultipart:true
+    });
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+
+  fileObject: any;
+
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
+  }
+  
+  public onFileSelected(event: EventEmitter<File[]>) {
+    const file: File = event[0];
+
+    console.log(file);
+
+    readBase64(file)
+      .then(function(data) {
+      console.log(data);
+    })
+
+  }
+//#endregion
+  
 }

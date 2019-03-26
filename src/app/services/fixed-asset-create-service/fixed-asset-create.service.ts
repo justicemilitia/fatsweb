@@ -40,4 +40,12 @@ export class FixedAssetCreateService {
       }
     );
   }  
+
+  AddFixedAsset(){
+    
+  }
+
+  AddFixedAssetFile(){
+    
+  }
 }
