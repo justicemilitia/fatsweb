@@ -55,6 +55,7 @@ import { FaChangeFirmComponent } from "./components/operations/fixed-asset/fa-ch
 import { FaDeleteDebitComponent } from "./components/operations/fixed-asset/fa-delete-debit/fa-delete-debit.component";
 import { FaChangeDebitComponent } from "./components/operations/fixed-asset/fa-change-debit/fa-change-debit.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FileUploadModule  } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SuspensionComponent,
     SuspendedFixedAssetComponent,
     LostFixedAssetComponent,
-    CheckoutFixedAssetComponent
+    CheckoutFixedAssetComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -117,7 +119,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
     MatIconModule,
     MatStepperModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FileUploadModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
