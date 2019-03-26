@@ -2,7 +2,6 @@ $(document).ready(() => {
     doParentsSelected();
 })
 
-
 function closeAllOpenSubItems() {
     /* Close All open sub items */
     $('.nav-link-item-parent-link').each(function (i, v) {

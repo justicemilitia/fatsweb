@@ -16,6 +16,7 @@ import { UserFirm } from "src/app/models/UserFirm";
 import { Firm } from 'src/app/models/Firm';
 import { Response } from 'src/app/models/Response';
 import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { PopupService } from '../popup-service/popup.service';
 
 @Injectable({
   providedIn: "root"
@@ -88,7 +89,7 @@ export class AuthenticationService {
 
   }
 
-  changeFirm(firmId: number) {
+  changeFirm(firmId: number,success,failed) {
     this.httpClient.post(SERVICE_URL + CHANGE_FIRM, { FirmId: firmId }, {
       headers: GET_HEADERS(this.getToken())
     }).subscribe((data) => {
@@ -96,7 +97,9 @@ export class AuthenticationService {
       this.currentFirm = this.Firms.find(x => x.FirmId == firmId);
       this.saveSession(data["token"], this.getRoleMenus(), this.currentFirm);
       this.router.navigateByUrl('');
-
+      success();
+    },(error:HttpErrorResponse) => {
+      failed(error);
     });
   }
 
@@ -185,5 +188,5 @@ export class AuthenticationService {
     }
   }
 
-  
+
 }

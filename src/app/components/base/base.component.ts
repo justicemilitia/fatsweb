@@ -4,6 +4,7 @@ import * as pages from "../../declarations/page-values";
 import { SystemLanguage } from 'src/app/models/SystemLanguage';
 import * as XLSX from 'xlsx';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: "app-base",
@@ -39,7 +40,8 @@ export abstract class BaseComponent implements OnInit {
   public IsAuthForInsert: boolean = false;
 
   constructor(protected baseService: BaseService) {
-    this.baseService.authenticationService.getUserFirmListWithoutParams();
+
+    /* Okuma / Yazma / Silme Yetkisi açılan sayfa için burada kontrol edilecek. */
     if (this.baseService.router.routerState.root.firstChild != null) {
       let keyword = this.baseService.router.routerState.root.firstChild.snapshot.data["pageKeyword"];
       let menus = this.baseService.authenticationService.getRoleMenus();
@@ -82,9 +84,14 @@ export abstract class BaseComponent implements OnInit {
     if (firm) {
       this.baseService.authenticationService.changeFirm(firmId,
         () => {
-          console.log("Firma Değişti");
-        },(error) => {
-          console.log(error);
+
+          $('.btn-refresh-custom').trigger('click');
+
+        }, (error: HttpErrorResponse) => {
+
+          /* if error show pop up */
+          this.baseService.popupService.ShowErrorPopup(error);
+
         });
     }
   }

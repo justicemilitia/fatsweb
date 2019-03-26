@@ -262,12 +262,12 @@
     <div class="az-content-body-right">
       <div class="row mg-b-20">
         <div class="col">
-          <label class="az-rating-label">Seller Score</label>
-          <h6 class="az-rating-value">98%</h6>
+          <label class="az-rating-label">SİSTEM KULLANICI SAYISI</label>
+          <h6 class="az-rating-value">{{personalValues.CountOfSUsers}}</h6>
         </div><!-- col -->
         <div class="col">
-          <label class="az-rating-label">Rating Score</label>
-          <h6 class="az-rating-value">4.5</h6>
+          <label class="az-rating-label">TOPLAM PERSONEL SAYISI</label>
+          <h6 class="az-rating-value">{{personalValues.CountOfUsers}}</h6>
         </div><!-- col -->
       </div><!-- row -->
       <hr class="mg-y-25">
@@ -321,9 +321,9 @@
                   class="typcn icon-default typcn-plus-outline"></i></div>
             </ng-container>
             <ng-container *ngSwitchCase="61">
-                <div class="media-icon bg-success"><i style="font-size:20px;"
-                    class="typcn icon-default typcn-plus-outline"></i></div>
-              </ng-container>
+              <div class="media-icon bg-success"><i style="font-size:20px;"
+                  class="typcn icon-default typcn-plus-outline"></i></div>
+            </ng-container>
             <!-- END EKLE END -->
             <!-- ASKIYA ALMA -->
             <ng-container *ngSwitchCase="1">
@@ -439,6 +439,10 @@
           </div>
           <div class="media-right">{{t.getDate}}</div>
         </div><!-- media -->
+        <div *ngIf="!transactions || transactions.length == 0" style="justify-content: center;font-weight: 500;"
+          class="media">
+          Henüz Hareket Yapılmadı.
+        </div>
       </div><!-- az-media-list-activity -->
       <a href="" class="btn btn-outline-light btn-block">Tüm Hareketler</a>
       <hr class="mg-y-25">

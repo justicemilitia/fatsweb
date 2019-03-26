@@ -14,7 +14,7 @@
     <!-- az-header-center -->
     <div class="az-header-right">
       <div class="dropdown firm-dropdown">
-        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" type="button" id="dropdownMenu2"
+        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" (click)="loadFirms()" type="button" id="dropdownMenu2"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="dropdown-button-content">
             {{baseService.authenticationService.currentFirm ? baseService.authenticationService.currentFirm.Name : ''}}

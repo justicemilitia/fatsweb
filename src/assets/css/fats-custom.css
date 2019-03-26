@@ -1,5 +1,6 @@
 body {
     font-family: "Roboto", "Helvetica Neue", "Helvetica", "sans-serif" !important;
+    overflow-x:hidden;
 }
 .az-content .container, .az-content .container-fluid {
     padding-left: 60px;
