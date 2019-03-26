@@ -12,11 +12,16 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
   
   ngAfterViewInit(): void {
     $(".az-navbar-two").trigger("click");
+    this.loadFirms();
   }
 
+  loadFirms() {
+    this.baseService.authenticationService.getUserFirmListWithoutParams();
+  }
 
-  constructor(protected baseService: BaseService) {
+  constructor(public baseService: BaseService) {
     super(baseService);
+    
   }
 
   ngOnInit() {

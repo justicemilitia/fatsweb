@@ -1,201 +1,214 @@
-
 body {
-  font: 300 15px/1.5 "Helvetica Neue", helvetica, arial, sans-serif;
-  background: rgb(252, 251, 251);
-  margin: 15px;
+    font: 300 15px/1.5 "Helvetica Neue", helvetica, arial, sans-serif;
+    background: rgb(252, 251, 251);
+    margin: 15px;
+
+}
+
+.az-header-center {
+    margin: 0 38px !important;
 }
 
 article {
-  width: 600px;
-  margin: 0 auto;
-  background: #000;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: rgb(252, 251, 251);
+    width: 600px;
+    margin: 0 auto;
+    background: #000;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: rgb(252, 251, 251);
 }
 
 section {
-  clear: left;
+    clear: left;
 }
 
-#main_content, #dog_link {
-  padding: 15px;
+#main_content,
+#dog_link {
+    padding: 15px;
 }
 
 #main_nav ul {
-  background: white;
-  float: left;
-  -webkit-transition: .5s;
-  transition: .5s;
-  height:30px;
+    background: white;
+    float: left;
+    -webkit-transition: .5s;
+    transition: .5s;
+    height: 30px;
 }
 
 #main_nav li {
-  float: left;
-  position: relative;
-  width: 200px;
-  list-style: none;
-  -webkit-transition: .5s;
-  transition: .5s;
+    float: left;
+    position: relative;
+    width: 200px;
+    list-style: none;
+    -webkit-transition: .5s;
+    transition: .5s;
 }
 
-#main_nav > ul > li > a {
-  text-transform: uppercase;
+#main_nav>ul>li>a {
+    text-transform: uppercase;
 }
 
 #main_nav a {
-  display: block;
-  text-decoration: none;
-  padding: 5px 5px;
-  color: #000;
+    display: block;
+    text-decoration: none;
+    padding: 5px 5px;
+    color: #000;
 }
 
 #main_nav ul ul {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  visibility: hidden;
-  opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    visibility: hidden;
+    opacity: 0;
 }
 
 #main_nav ul ul ul {
-  left: 100%;
-  top: 0;
+    left: 100%;
+    top: 0;
 }
 
-#main_nav li:hover, #main_nav li:hover li {
- background-color: white;       /* ilk açılan ul'nin rengi */
-  z-index:10;
+#main_nav li:hover,
+#main_nav li:hover li {
+    background-color: white;
+    /* ilk açılan ul'nin rengi */
+    z-index: 10;
 
 }
 
-#main_nav li li:hover, #main_nav li li:hover li {
-  background-color:   #fcfcfc;  /*gezinme rengi*/
-  z-index:10;
+#main_nav li li:hover,
+#main_nav li li:hover li {
+    background-color: #fcfcfc;
+    /*gezinme rengi*/
+    z-index: 10;
 }
 
 #main_nav li li li:hover {
-  background-color: rgb(245, 245, 245); /*sub menu ul gezinme rengi*/
-  z-index:10;
+    background-color: rgb(245, 245, 245);
+    /*sub menu ul gezinme rengi*/
+    z-index: 10;
 }
 
-#main_nav li:hover > ul {
-  visibility: visible;
-  opacity: 1;
-  background-color: white;
+#main_nav li:hover>ul {
+    visibility: visible;
+    opacity: 1;
+    background-color: white;
 }
 
 .btn-exit-dd {
-  background: none;
-  border: none;
-  font-size: 24px;
+    background: none;
+    border: none;
+    font-size: 24px;
 }
 
 a.nav-link-item-link {
-  margin-top: 2px;
-  height: 30px;
+    margin-top: 2px;
+    height: 30px;
 }
 
 a.nav-link-item-parent-link {
-  margin-top: 2px;
-  height: 30px;
+    margin-top: 2px;
+    height: 30px;
 }
 
 ul.nav-link-item-ul {
-  padding-bottom: 4px;
-  background-color:rgb(252, 252, 252)
+    padding-bottom: 4px;
+    background-color: rgb(252, 252, 252)
 }
 
 ul.nav-link-item-ul-sub {
-  padding-bottom: 4px;
-  top:-3px !important;
-  margin-left:2px !important;
+    padding-bottom: 4px;
+    top: -3px !important;
+    margin-left: 2px !important;
 }
 
 .az-navbar-two .nav-link {
-  text-transform: none;
-  font-size: 14px;
-  font-weight: 500;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  height: 23px;
+    text-transform: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    height: 23px;
 }
 
 .stellarnav.desktop li.has-sub a {
-  padding-right: 0;
+    padding-right: 0;
 }
 
-.nav-link-item-ul-sub > li:first-child > a.nav-link-item-link {
-  border:none;
+.nav-link-item-ul-sub>li:first-child>a.nav-link-item-link {
+    border: none;
 }
 
 .stellarnav li.has-sub>a:after {
-  margin-left: 4px;
-  border-left: 0;
-  border-right: 0;
-  border-top: 0;
-  display: inline-block;
+    margin-left: 4px;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    display: inline-block;
 }
 
 
 @media (min-width: 992px) {
-  .nav-item.active::before {
-      top: 33px;
-      left: 0;
-      bottom: auto;
-      border-bottom: 2px solid #e67300;
-      z-index: 5;
-      margin-left: 0;
-      right: 0;
-      position: absolute;
-      content: '';
-  }
-  .drop-right.nav-item.active::before {
-    top: 33px;
-    left: 0;
-    bottom: auto;
-    border-bottom: 2px solid #e67300;
-    z-index: 5;
-    margin-left: 18px;
-    right: 0;
-    position: absolute;
-    content: '';
-  }
+    .nav-item.active::before {
+        top: 33px;
+        left: 0;
+        bottom: auto;
+        border-bottom: 2px solid #e67300;
+        z-index: 5;
+        margin-left: 0;
+        right: 0;
+        position: absolute;
+        content: '';
+    }
 
-  .nav-link-item-parent.active .nav-link-item-parent-link {
-    color:#e67300 !important;
-  }
+    .drop-right.nav-item.active::before {
+        top: 33px;
+        left: 0;
+        bottom: auto;
+        border-bottom: 2px solid #e67300;
+        z-index: 5;
+        margin-left: 18px;
+        right: 0;
+        position: absolute;
+        content: '';
+    }
 
-  .nav-item.nav-active.nav-active .nav-link {
-    color:#e67300;
-  }
+    .nav-link-item-parent.active .nav-link-item-parent-link {
+        color: #e67300 !important;
+    }
 
-  .nav-link-item-parent.nav-active .nav-link-item-parent-link {
-      color: #e67300 !important;
-  }
-  
-  .nav-item.nav-active::before {
-    top: 33px;
-    left: 0;
-    bottom: auto;
-    border-bottom: 2px solid #e67300;
-    z-index: 5;
-    margin-left: 0;
-    right: 0;
-    position: absolute;
-    content: '';
-}
-.drop-right.nav-item.nav-active::before {
-  top: 33px;
-  left: 0;
-  bottom: auto;
-  border-bottom: 2px solid #e67300;
-  z-index: 5;
-  margin-left: 18px;
-  right: 0;
-  position: absolute;
-  content: '';
-}
+    .nav-item.nav-active.nav-active .nav-link {
+        color: #e67300;
+    }
+
+    .nav-link-item-parent.nav-active .nav-link-item-parent-link {
+        color: #e67300 !important;
+    }
+
+    .nav-item.nav-active::before {
+        top: 33px;
+        left: 0;
+        bottom: auto;
+        border-bottom: 2px solid #e67300;
+        z-index: 5;
+        margin-left: 0;
+        right: 0;
+        position: absolute;
+        content: '';
+    }
+
+    .drop-right.nav-item.nav-active::before {
+        top: 33px;
+        left: 0;
+        bottom: auto;
+        border-bottom: 2px solid #e67300;
+        z-index: 5;
+        margin-left: 18px;
+        right: 0;
+        position: absolute;
+        content: '';
+    }
 
 }

@@ -224,6 +224,7 @@ export const GET_FIRM_LIST = "firm/GetFirmsList";
 export const GET_COUNTRY_LIST = "definition/GetCountriesList";
 export const GET_CITY_LIST = "definition/GetCitiesList";
 export const GET_USERFIRM_LIST = "UserFirms/GetUserFirmsList";
+export const GET_USERFIRM_LIST_WITHOUT_PARAMS = "UserFirms/GetUserFirmsListbyFirmId";
 export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
 
 //#region FixedAssetForm
@@ -233,6 +234,7 @@ export const CREATE_FIXED_ASSET_FORM="PdfCreator/CreateFixedAssetDeliveryForm";
 //#region Dashboard
 export const GET_DASHBOARD_FIXED_ASSETS_INFO = "Dashboard/GetDashboardValues";
 export const GET_DASHBOARD_TRANSACTIONS_INFO = "Dashboard/GetDashboardTransactions";
+export const GET_DASHBOARD_PERSONALS_INFO = "Dashboard/GetDashboardPersonalInfo";
 //#endregion
 
 //#region Depreciation

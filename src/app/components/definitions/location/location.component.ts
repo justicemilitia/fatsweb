@@ -22,11 +22,11 @@ export class LocationComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
   /* Is Table Refreshing */
-  isTableRefreshing:boolean = false;
+  isTableRefreshing: boolean = false;
 
   /* Is Table Exporting */
 
-  isTableExporting:boolean = false;
+  isTableExporting: boolean = false;
 
   /* Location list */
   locations: Location[] = [];
@@ -149,9 +149,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+          this.baseService.alertInfoService.pushSuccess("Kayıt Başarıyla silindi!");
         else
-          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+        this.baseService.alertInfoService.pushSuccess("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -165,7 +165,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
         this.baseService.spinner.hide();
 
         /* Show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
+        this.baseService.alertInfoService.pushDanger(error.message);
+        this.baseService.errorService.errorManager(error);
 
       });
 
@@ -184,7 +185,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
       this.isWaitingInsertOrUpdate = false;
 
       /* Show pop up */
-      this.baseService.popupService.ShowSuccessPopup(message);
+      this.baseService.alertInfoService.pushSuccess(message);
+
       this.location.LocationId = inserted.LocationId;
 
       /* Push new item the current list of locations then reload table */
@@ -196,9 +198,11 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
     }, (error: HttpErrorResponse) => {
 
-      /* Show alert message */
-      this.baseService.popupService.ShowErrorPopup(error);
       this.isWaitingInsertOrUpdate = false;
+
+      /* Show alert message */
+      this.baseService.alertInfoService.pushDanger(error.message);
+      this.baseService.errorService.errorManager(error);
 
     });
   }
@@ -222,8 +226,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
           /* Close loading icon */
           this.isWaitingInsertOrUpdate = false;
 
-          /* Show pop up*/
-          this.baseService.popupService.ShowSuccessPopup(message);
+          this.baseService.alertInfoService.pushSuccess(message);
 
           /* After update succeed get parent location then update it in table. */
           this.location.ParentLocation = this.locations.find(x => x.getId() == this.location.getParentId());
@@ -244,8 +247,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
           /* Rollback the parent department */
           this.location.ParentLocation = parentLocation;
 
-          /* Show error message */
-          this.baseService.popupService.ShowErrorPopup(error);
+          this.baseService.alertInfoService.pushDanger(error.message);
+          this.baseService.errorService.errorManager(error);
 
           console.log(error);
 
@@ -264,7 +267,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         /* if error show pop up */
-        this.baseService.popupService.ShowErrorPopup(error);
+        this.baseService.alertInfoService.pushDanger(error.message);
+        this.baseService.errorService.errorManager(error);
+
       }
     );
   }
@@ -293,8 +298,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
       /* hide spinner */
       this.baseService.spinner.hide();
 
-      /* show error message */
-      this.baseService.popupService.ShowErrorPopup(error);
+      this.baseService.alertInfoService.pushDanger(error.message);
+      this.baseService.errorService.errorManager(error);
+
     }
     );
   }

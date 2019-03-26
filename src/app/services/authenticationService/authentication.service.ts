@@ -8,13 +8,15 @@ import {
   LOGIN,
   GET_HEADERS,
   GET_USERFIRM_LIST,
-  CHANGE_FIRM
+  CHANGE_FIRM,
+  GET_USERFIRM_LIST_WITHOUT_PARAMS
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
 import { UserFirm } from "src/app/models/UserFirm";
 import { Firm } from 'src/app/models/Firm';
 import { Response } from 'src/app/models/Response';
 import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { PopupService } from '../popup-service/popup.service';
 
 @Injectable({
   providedIn: "root"
@@ -22,29 +24,30 @@ import { getAnErrorResponse } from 'src/app/declarations/extends';
 export class AuthenticationService {
   constructor(private httpClient: HttpClient, private router: Router) {
 
-    this.userToken = this.getToken();
-    if (this.userToken != "") this.roles = this.getRoleMenus();
+    if (this.getToken() != "") {
+      this.roles = this.getRoleMenus();
+      this.currentFirm = this.getCurrentFirm();
+    }
 
   }
 
-  userToken: string; //uygulama boyunca token'a ulaşabilmem gerektiği için tanımladım.
-  roles: RoleAuthorization[] = [];
   jwtHelper: JwtHelperService = new JwtHelperService();
+  roles: RoleAuthorization[] = [];
+  Firms: Firm[] = [];
+  currentFirm: Firm = null;
   TOKEN_KEY = "token";
   ROLE_KEY = "role";
-  response: boolean;
+  FIRM_KEY = "firm"
 
   Login(user: User, success, failed) {
     this.httpClient
       .post(SERVICE_URL + LOGIN, user, { headers: GET_HEADERS() })
       .subscribe(
         data => {
-          this.userToken = data["token"];
-          this.roles = <RoleAuthorization[]>data["menu_auth"];
 
-          this.saveSession(data["token"], <RoleAuthorization[]>(
-            data["menu_auth"]
-          ));
+          this.roles = <RoleAuthorization[]>data["menu_auth"];
+          this.currentFirm = this.Firms.find(x => x.FirmId == Number(user.FirmId));
+          this.saveSession(data["token"], <RoleAuthorization[]>(data["menu_auth"]), this.currentFirm);
 
           success();
 
@@ -61,15 +64,16 @@ export class AuthenticationService {
     }
   }
 
-
-  saveSession(token: any, roles: RoleAuthorization[]) {
+  saveSession(token: any, roles: RoleAuthorization[], firm: Firm) {
     localStorage.setItem(this.TOKEN_KEY, token);
     localStorage.setItem(this.ROLE_KEY, JSON.stringify(roles));
+    localStorage.setItem(this.FIRM_KEY, JSON.stringify(firm));
   }
 
   logOut() {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.ROLE_KEY);
+    localStorage.removeItem(this.FIRM_KEY);
   }
 
   isLoggedIn() {
@@ -85,28 +89,26 @@ export class AuthenticationService {
 
   }
 
-  changeFirm(firmId: number, success, failed) {
-    this.httpClient.post(SERVICE_URL + CHANGE_FIRM, {
-      FirmId: firmId
-    }, {
-        headers: GET_HEADERS(this.getToken())
-      }).subscribe((data) => {
+  changeFirm(firmId: number,success,failed) {
+    this.httpClient.post(SERVICE_URL + CHANGE_FIRM, { FirmId: firmId }, {
+      headers: GET_HEADERS(this.getToken())
+    }).subscribe((data) => {
 
-        localStorage.removeItem(this.TOKEN_KEY);
-        this.userToken = data["token"];
-        localStorage.setItem(this.TOKEN_KEY, this.userToken);
-
-        success();
-
-      }, (error) => {
-
-        failed(error);
-
-      })
+      this.currentFirm = this.Firms.find(x => x.FirmId == firmId);
+      this.saveSession(data["token"], this.getRoleMenus(), this.currentFirm);
+      this.router.navigateByUrl('');
+      success();
+    },(error:HttpErrorResponse) => {
+      failed(error);
+    });
   }
 
   getRoleMenus(): RoleAuthorization[] {
     return <RoleAuthorization[]>JSON.parse(localStorage.getItem(this.ROLE_KEY));
+  }
+
+  getCurrentFirm(): Firm {
+    return <Firm>JSON.parse(localStorage.getItem(this.FIRM_KEY));
   }
 
   getCurrentUserId() {
@@ -143,6 +145,31 @@ export class AuthenticationService {
         });
   }
 
+  getUserFirmListWithoutParams() {
+    this.httpClient
+      .get(SERVICE_URL + GET_USERFIRM_LIST_WITHOUT_PARAMS, {
+        headers: GET_HEADERS(this.getToken())
+      })
+      .subscribe(result => {
+
+        let response: Response = <Response>result;
+
+        if (response.ResultStatus == true) {
+          let letFirms: Firm[] = [];
+
+          (<UserFirm[]>response.ResultObject).forEach(e => {
+            let firm: Firm = new Firm();
+            Object.assign(firm, e.Firm);
+            letFirms.push(firm);
+
+          });
+
+          this.Firms = letFirms;
+
+        }
+      });
+  }
+
   isMenuAccessable(keyword: string) {
     let menu = this.roles.find(x => x.MenuCaption == keyword);
     if (menu) return true;
@@ -160,4 +187,6 @@ export class AuthenticationService {
       return false;
     }
   }
+
+
 }

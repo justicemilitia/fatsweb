@@ -14,16 +14,16 @@
     <!-- az-header-center -->
     <div class="az-header-right">
       <div class="dropdown firm-dropdown">
-        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" type="button" id="dropdownMenu2"
+        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" (click)="loadFirms()" type="button" id="dropdownMenu2"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="dropdown-button-content">
-            {{Firm.Name}}
+            {{baseService.authenticationService.currentFirm ? baseService.authenticationService.currentFirm.Name : ''}}
           </div>
         </button>
         <div class="dropdown-menu">
-          <ng-container *ngFor="let firm of Firms">
+          <ng-container *ngFor="let firm of baseService.authenticationService.Firms">
 
-            <button class="dropdown-item" (click)="changeFirm(firm.Id)" type="button">
+            <button class="dropdown-item" (click)="changeFirm(firm.FirmId)" type="button">
               {{firm.Name}}
             </button>
 

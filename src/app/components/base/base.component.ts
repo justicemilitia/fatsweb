@@ -4,6 +4,7 @@ import * as pages from "../../declarations/page-values";
 import { SystemLanguage } from 'src/app/models/SystemLanguage';
 import * as XLSX from 'xlsx';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: "app-base",
@@ -19,16 +20,6 @@ export abstract class BaseComponent implements OnInit {
   protected readonly PAGES = pages;
 
   public Version: string = "6.0.100";
-
-  public Firms = [{
-    Name: 'Trinoks',
-    Id: 1
-  }, {
-    Name: 'Vector',
-    Id: 2
-  }]
-
-  public Firm: {};
 
   public Languages: SystemLanguage[] = [{
     Culture: 'tr',
@@ -49,8 +40,8 @@ export abstract class BaseComponent implements OnInit {
   public IsAuthForInsert: boolean = false;
 
   constructor(protected baseService: BaseService) {
-    this.Firm = this.Firms[0];
 
+    /* Okuma / Yazma / Silme Yetkisi açılan sayfa için burada kontrol edilecek. */
     if (this.baseService.router.routerState.root.firstChild != null) {
       let keyword = this.baseService.router.routerState.root.firstChild.snapshot.data["pageKeyword"];
       let menus = this.baseService.authenticationService.getRoleMenus();
@@ -89,18 +80,20 @@ export abstract class BaseComponent implements OnInit {
   }
 
   changeFirm(firmId: number) {
-    let oldFirm = this.Firm;
-    this.Firm = this.Firms.find(x => x.Id == Number(firmId));
-    if (this.Firm) {
+    let firm = this.baseService.authenticationService.Firms.find(x => x.FirmId == Number(firmId));
+    if (firm) {
       this.baseService.authenticationService.changeFirm(firmId,
         () => {
-          console.log("Firma Değişti");
-        },(error) => {
-          this.Firm = oldFirm;
-          console.log(error);
+
+          $('.btn-refresh-custom').trigger('click');
+
+        }, (error: HttpErrorResponse) => {
+
+          /* if error show pop up */
+          this.baseService.popupService.ShowErrorPopup(error);
+
         });
-    }else
-      this.Firm = oldFirm;
+    }
   }
 
   pageRoute(key: string) {

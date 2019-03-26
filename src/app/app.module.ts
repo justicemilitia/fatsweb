@@ -13,7 +13,6 @@ import{MatStepperModule,MatIconModule,MatButtonModule} from "@angular/material";
 import { LoginComponent } from "./components/login/login.component";
 import { HeaderComponent } from "./components/layout/header/header.component";
 import { FooterComponent } from "./components/layout/footer/footer.component";
-import { LayoutComponent } from "./components/layout/layout.component";
 import { CompanyComponent } from "./components/definitions/company/company.component";
 import { UserComponent } from "./components/definitions/user/user.component";
 import { DepartmentComponent } from "./components/definitions/department/department.component";
@@ -55,7 +54,11 @@ import { FaChangeFirmComponent } from "./components/operations/fixed-asset/fa-ch
 import { FaDeleteDebitComponent } from "./components/operations/fixed-asset/fa-delete-debit/fa-delete-debit.component";
 import { FaChangeDebitComponent } from "./components/operations/fixed-asset/fa-change-debit/fa-change-debit.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+<<<<<<< HEAD
 import { FileUploadModule  } from 'ng2-file-upload';
+=======
+import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
+>>>>>>> b78e3db76cdb6e573514a13c1f00bdbbc077165c
 
 @NgModule({
   declarations: [
@@ -63,7 +66,6 @@ import { FileUploadModule  } from 'ng2-file-upload';
     LoginComponent,
     HeaderComponent,
     FooterComponent,
-    LayoutComponent,
     UserComponent,
     CompanyComponent,
     DepartmentComponent,
@@ -102,7 +104,11 @@ import { FileUploadModule  } from 'ng2-file-upload';
     SuspendedFixedAssetComponent,
     LostFixedAssetComponent,
     CheckoutFixedAssetComponent,
+<<<<<<< HEAD
 
+=======
+    AlertInfosComponent
+>>>>>>> b78e3db76cdb6e573514a13c1f00bdbbc077165c
   ],
   imports: [
     BrowserModule,
