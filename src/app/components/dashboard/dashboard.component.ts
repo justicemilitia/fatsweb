@@ -53,7 +53,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     this.baseService.dashboardService.GetDashboardFixedAssetsInfo((result) => {
       this.assetValues = (<vDashboardFixedAssets>result);
     }, (result) => {
-      console.log(result);
+      // Error
     })
   }
 
@@ -61,16 +61,15 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     this.baseService.dashboardService.GetDashboardTransactionsInfo((result) => {
       this.transactions = <vGetDashboardTransactions[]>result;
     }, (result) => {
-      console.log(result);
+      // Error
     })
   }
 
   async loadPersonals() {
     this.baseService.dashboardService.GetDashboardPersonalsInfo((result) => {
       Object.assign(this.personalValues, result);
-      console.log(this.personalValues);
     }, (result) => {
-      console.log(result);
+      // Error
     })
   }
 }

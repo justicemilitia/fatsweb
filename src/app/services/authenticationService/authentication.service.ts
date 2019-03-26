@@ -89,7 +89,7 @@ export class AuthenticationService {
 
   }
 
-  changeFirm(firmId: number,success,failed) {
+  changeFirm(firmId: number, success, failed) {
     this.httpClient.post(SERVICE_URL + CHANGE_FIRM, { FirmId: firmId }, {
       headers: GET_HEADERS(this.getToken())
     }).subscribe((data) => {
@@ -98,7 +98,7 @@ export class AuthenticationService {
       this.saveSession(data["token"], this.getRoleMenus(), this.currentFirm);
       this.router.navigateByUrl('');
       success();
-    },(error:HttpErrorResponse) => {
+    }, (error: HttpErrorResponse) => {
       failed(error);
     });
   }
@@ -133,6 +133,10 @@ export class AuthenticationService {
             letFirms.push(firm);
 
           });
+
+          if (letFirms.length == 0) {
+            failed(getAnErrorResponse('Yetkili Firma Bulunamadı!'));
+          }
 
           callback(letFirms);
 

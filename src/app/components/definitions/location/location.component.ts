@@ -149,9 +149,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.alertInfoService.pushSuccess("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
         else
-        this.baseService.alertInfoService.pushSuccess("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -165,8 +165,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         this.baseService.spinner.hide();
 
         /* Show error message */
-        this.baseService.alertInfoService.pushDanger(error.message);
-        this.baseService.errorService.errorManager(error);
+        this.baseService.popupService.ShowErrorPopup(error);
 
       });
 
@@ -185,7 +184,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       this.isWaitingInsertOrUpdate = false;
 
       /* Show pop up */
-      this.baseService.alertInfoService.pushSuccess(message);
+      this.baseService.popupService.ShowSuccessPopup(message);
 
       this.location.LocationId = inserted.LocationId;
 
@@ -200,9 +199,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
       this.isWaitingInsertOrUpdate = false;
 
-      /* Show alert message */
-      this.baseService.alertInfoService.pushDanger(error.message);
-      this.baseService.errorService.errorManager(error);
+      /* Show error message */
+      this.baseService.popupService.ShowErrorPopup(error);
 
     });
   }
@@ -226,7 +224,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
           /* Close loading icon */
           this.isWaitingInsertOrUpdate = false;
 
-          this.baseService.alertInfoService.pushSuccess(message);
+          this.baseService.popupService.ShowSuccessPopup(message);
 
           /* After update succeed get parent location then update it in table. */
           this.location.ParentLocation = this.locations.find(x => x.getId() == this.location.getParentId());
@@ -247,10 +245,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
           /* Rollback the parent department */
           this.location.ParentLocation = parentLocation;
 
-          this.baseService.alertInfoService.pushDanger(error.message);
-          this.baseService.errorService.errorManager(error);
-
-          console.log(error);
+          /* Show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
 
         });
       }
