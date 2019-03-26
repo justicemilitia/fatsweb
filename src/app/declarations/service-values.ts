@@ -185,13 +185,12 @@ export const GET_EXPENSECENTER_BY_ID = "ExpenseCenter/GetExpenseCenterById";
 export const INSERT_EXPENSECENTER = "ExpenseCenter/AddExpenseCenter";
 export const UPDATE_EXPENSECENTER = "ExpenseCenter/UpdateExpenseCenter";
 export const DELETE_EXPENSECENTER = "ExpenseCenter/RemoveByIdList";
-
 //#endregion
 
 //region FixedAsset
 export const GET_FIXED_ASSET = "FixedAsset/GetFixedAssetsList";
 export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
-
+export const  UPLOAD_IMAGE = "FixedAsset/UploadImage";
 //endregion
 
 
@@ -234,6 +233,10 @@ export const CREATE_FIXED_ASSET_FORM="PdfCreator/CreateFixedAssetDeliveryForm";
 //#region Dashboard
 export const GET_DASHBOARD_FIXED_ASSETS_INFO = "Dashboard/GetDashboardValues";
 export const GET_DASHBOARD_TRANSACTIONS_INFO = "Dashboard/GetDashboardTransactions";
+//#endregion
+
+//#region Depreciation
+export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
 //#endregion
 
 

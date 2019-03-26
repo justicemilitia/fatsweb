@@ -45,12 +45,20 @@
   <script type="text/javascript">
     /* On page load we re init navbar */
     $("body").on("click", ".az-navbar-two", function () {
-      $('#wizard2').steps({
-        headerTag: 'h3',
-        bodyTag: 'section',
-        autoFocus: true,
-        titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>'
+      /*$(".stellarnav").stellarNav({
+        theme: "light",
+        breakpoint: 0,
+        position: "left",
+        closeBtn: true,
+        mobileMode: false
+      });*/
+
+      $(document).ready(function () {
+      $('.select2').select2({
+      
       });
+      });
+
       setTimeout(() => {
         let currentLocation = window.location.href.split('/');
         if (currentLocation.length == 0)
@@ -81,14 +89,7 @@
       });
 
     });
-  </script>
-  <script>
-    $(document).ready(function () {
-      $('.select2').select2({
-        placeholder: 'Choose one'
-      });
-    });
-  </script>
+  </script> 
 </body>
 
 </html>
