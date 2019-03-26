@@ -1,6 +1,6 @@
 <form name="form" #data="ngForm" novalidate>
 <mat-horizontal-stepper >   
-  <mat-step label="Genel Bilgiler" style="background-color: #e67300;">
+  <mat-step label="Genel Bilgiler" >
         <div class="row justify-content-center">
           <div class="form-group col-md-6">           
           <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)" name="Barcode" 
@@ -123,7 +123,7 @@
             </div>
             <div class="form-group col-md-4"> 
                 <label>Özellik Değeri</label>    
-                  <div class="flexProperty">        
+                 <div class="flexProperty">        
                   <div style="flex:1;">            
                    <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search">
                         <option [ngValue]="null">Özellik Değeri Seçiniz</option>
@@ -136,27 +136,28 @@
                   <div class="property-add-value">                    
                       <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
                   </div>  
-                  </div>                
+                </div>                
             </div>                  
             <div class="form-group col-md-4">
-              <label>Demirbaş Resmi</label>
-              <div class="file-area">
-              <input #Picture [(ngModel)]="fixedAsset.Picture" id="FixedAssetImage" name="Picture" type="file" class="form-control-file" style="display:none">
-                <label for="FixedAssetImage" class="custom-file">
-                  <label class="custom-file-text" for="FixedAssetImage">
-                   Dosya Seçiniz
-                  </label>
-                </label>
-                <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
-              </div> 
+                <img [src]="imgURL" height="200" *ngIf="imgURL">
             </div>   
           </div>  
+          
           <div class="row justify-content-center">  
           <div class="form-group col-md-8">
             <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
           </div> 
-          <div class="form-group col-md-4 ">        
-                  
+          <div class="form-group col-md-4">        
+            <label>Demirbaş Resmi</label>
+            <div class="file-area">
+            <input #Picture [(ngModel)]="fixedAsset.Picture" id="FixedAssetImage" accept='image/*' (change)="preview(Picture.files)" name="Picture" type="file" class="form-control-file" style="display:none">
+              <label for="FixedAssetImage" class="custom-file">
+                <label class="custom-file-text" for="FixedAssetImage">
+                 Dosya Seçiniz
+                </label>
+              </label>
+              <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
+            </div>  
           </div>
         </div> 
           <div>
@@ -167,79 +168,76 @@
   <mat-step label="Finansal Bilgiler">
             <div class="row justify-content-center">
               <div class="form-group col-md-3">
-                  <input type="text" placeholder="Fiyat" class="form-control"/>               
+                  <input [(ngModel)]="fixedAsset.Price" name="Price" type="text" placeholder="Fiyat" class="form-control"/>               
               </div>
               <div class="form-group col-md-3">
-                  <select class="form-control select2-no-search">
+                  <select [(ngModel)]="fixedAsset.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
                     <option value="-1" >Para Pirimi</option>
                     <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
                   </select>       
               </div>
               <div class="form-group col-md-6">                
-                      <input type="text" placeholder="Fatura Numarası" class="form-control"/>  
+                  <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" placeholder="Fatura Numarası" class="form-control"/>  
               </div>
             </div>
             <div class="row justify-content-center">
-                <div class="form-group col-md-6">
+                    <div class="form-group col-md-6">
                     <div class="input-group">
-                        <div class="input-group-append">
-                          <div (click)="invoiceDate.toggle()" class="input-group-text">
+                        <div class="input-group-append"
+                        [class.is-invalid]="data.submitted && (!fixedAsset.ReceiptDate || receiptDateModel.status == 'INVALID' )">
+                          <div (click)="receiptDate.toggle()" class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
                         </div>
-                        <input class="form-control" type="text" placeholder="Makbuz Tarihi"
-                            name="invoiceDate"
-                            ngbDatepicker #invoiceDate="ngbDatepicker"/>        
-                            <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
-                              <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
-                              <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
-                                Lütfen Geçerli Format Giriniz.
-                              </div>
-                            </div>      -->
+                        <input class="form-control" type="text" placeholder="Makbuz Tarih" name="receiptDate" 
+                        [(ngModel)]="fixedAsset.ReceiptDate" ngbDatepicker #receiptDate="ngbDatepicker" #receiptDateModel="ngModel"/>  
                       </div>
                     </div>
+
                     <div class="form-group col-md-6">
                         <div class="input-group">
-                            <div class="input-group-append">
+                            <div class="input-group-append"
+                            [class.is-invalid]="data.submitted && (!fixedAsset.InvoiceDate || invoiceDateModel.status == 'INVALID' )">
                               <div (click)="invoiceDate.toggle()" class="input-group-text">
                                 <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                               </div>
                             </div>
-                            <input class="form-control" type="text" placeholder="Fatura Tarihi"
-                                name="invoiceDate"
-                                ngbDatepicker #invoiceDate="ngbDatepicker"/>        
-                           
-                          </div>
+                            <input class="form-control" type="text" placeholder="Fatura Tarihi" name="invoiceDate"
+                            [(ngModel)]="fixedAsset.InvoiceDate" ngbDatepicker #invoiceDate="ngbDatepicker" #invoiceDateModel="ngModel"/>     
+                        </div>
                     </div>
             </div>
 
             <div class="row justify-content-center">
                 <div class="form-group col-md-6">
-                  <select class="form-control select2-no-search">
+                  <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control select2-no-search">
                       <option value="-1" >Sigorta Şirketi</option>
                       <option *ngFor="let company of companies" value = "{{company.CompanyId}}">{{company.Name}}</option>
                   </select>  
                 </div>
                 <div class="form-group col-md-6">
-                  <select class="form-control select2-no-search">
-                      <option value="-1" >Masraf Merkezi</option>
+                  <select [(ngModel)]="fixedAsset.ExpenseCenterId" placeholder="Masraf"name="ExpenseCenterId" class="form-control select2-no-search">
+                      <option value="-1">Masraf Merkezi</option>
                       <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
                   </select>
                 </div>
-              </div>
+            </div>
 
-                <div class="row justify-content-center">
+            <div class="row justify-content-center">
                 <div class="form-group col-md-6">
                     <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
                         <label class="ckbox">
-                          <input type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
+                          <input  [checked]="fixedAsset.WillDepreciationBeCalculated"
+                          (change)="fixedAsset.WillDepreciationBeCalculated = !fixedAsset.WillDepreciationBeCalculated" type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
                         </label>
                     </div>
-                  </div>
+                </div>
                 <div class="form-group col-md-6">
                     <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
                         <label class="ckbox">
-                          <input type="checkbox"/><span>IFRS Hesaplanacak mı ?</span>
+                          <input [checked]="fixedAsset.WillIfrsbeCalculated"
+                          (change)="fixedAsset.WillIfrsbeCalculated = !fixedAsset.WillIfrsbeCalculated" type="checkbox"/>
+                          <span>IFRS Hesaplanacak mı ?</span>
                         </label>
                     </div>
                 </div>
@@ -247,13 +245,13 @@
 
             <div class="row justify-content-center">
               <div class="form-group col-md-6">
-                  <select class="form-control select2-no-search">
+                  <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" name="DepreciationCalculationTypeId" class="form-control select2-no-search">
                       <option value="-1" >Seçiniz</option>
-                      <option >Amortisman Hesaplama Yöntemi</option>
+                      <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
                   </select>   
               </div>
               <div class="form-group col-md-3">
-                  <input type="text" placeholder="Fiyat" class="form-control"/>   
+                  <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="text" placeholder="IFRS Fiyat" class="form-control"/>   
               </div>
               <div class="form-group col-md-3">
                   <select [(ngModel)]="fixedAsset.IFRSCurrecyId" name="IFRSCurrecyId" class="form-control select2-no-search">
@@ -265,55 +263,44 @@
 
           <div class="row justify-content-center">
               <div class="form-group col-md-6">
-                <input type="text" placeholder="Amortisman Periyodu" class="form-control"/>
+                <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
               </div>
               <div class="form-group col-md-6">
-                  <input type="text" placeholder="IFRS Periyodu" class="form-control"/>
-                </div>
+                  <input [(ngModel)]="fixedAsset.Ifrsperiod" name="Ifrsperiod" type="text" placeholder="IFRS Periyodu" class="form-control"/>
+              </div>
           </div>
 
           <div class="row justify-content-center">
               <div class="form-group col-md-6">
                   <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
                       <label class="ckbox">
-                        <input type="checkbox"/><span>Demirbaş Aktif mi ?</span>
+                        <input type="checkbox" [checked]="fixedAsset.IsActivate"
+                        (change)="fixedAsset.IsActivate = !fixedAsset.IsActivate"/><span>Demirbaş Aktif mi ?</span>
                       </label>
                   </div>    
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-3"> 
                   <div class="input-group">
-                      <div class="input-group-append">
-                        <div (click)="invoiceDate.toggle()" class="input-group-text">
+                      <div class="input-group-append" 
+                      [class.is-invalid]="data.submitted && (!fixedAsset.GuaranteeStartDate || guaranteeStartDateModel.status == 'INVALID' )">
+                        <div (click)="guaranteeStartDate.toggle()" class="input-group-text">
                           <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                         </div>
                       </div>
-                      <input class="form-control" type="text" placeholder="Garanti Süresi Başlangıç Tarihi"
-                          name="invoiceDate"
-                          ngbDatepicker #invoiceDate="ngbDatepicker"/>        
-                          <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
-                            <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
-                            <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
-                              Lütfen Geçerli Format Giriniz.
-                            </div>
-                          </div>      -->
-                   </div>
+                      <input class="form-control" type="text" placeholder="Garanti Süresi Başlangıç Tarihi" name="guaranteeStartDate"
+                      [(ngModel)]="fixedAsset.GuaranteeStartDate" ngbDatepicker #guaranteeStartDate="ngbDatepicker" #guaranteeStartDateModel="ngModel"/>      
+                  </div>
               </div>
               <div class="form-group col-md-3">
                   <div class="input-group">
-                      <div class="input-group-append">
-                        <div (click)="invoiceDate.toggle()" class="input-group-text">
+                      <div class="input-group-append"
+                      [class.is-invalid]="data.submitted && (!fixedAsset.GuaranteeEndDate || guaranteeEndDateModel.status == 'INVALID' )">
+                        <div (click)="guaranteeEndDate.toggle()" class="input-group-text">
                           <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                         </div>
                       </div>
-                      <input class="form-control" type="text" placeholder="Garanti Süresi Bitiş Tarihi"
-                          name="invoiceDate"
-                          ngbDatepicker #invoiceDate="ngbDatepicker"/>        
-                          <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
-                            <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
-                            <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
-                              Lütfen Geçerli Format Giriniz.
-                            </div>
-                          </div>      -->
+                      <input class="form-control" type="text" placeholder="Garanti Süresi Bitiş Tarihi" name="guaranteeEndDate"
+                      [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker" #guaranteeEndDateModel="ngModel"/> 
                    </div>
               </div>
             </div>
@@ -321,29 +308,25 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
                 <div class="input-group">
-                    <div class="input-group-append">
-                      <div (click)="invoiceDate.toggle()" class="input-group-text">
+                    <div class="input-group-append" 
+                    [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )">
+                      <div (click)="activationDate.toggle()" class="input-group-text">
                         <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                       </div>
                     </div>
-                    <input class="form-control" type="text" placeholder="Aktifleştirme Tarihi"
-                        name="invoiceDate"
-                        ngbDatepicker #invoiceDate="ngbDatepicker"/>        
-                        <!-- <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
-                          <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
-                          <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
-                            Lütfen Geçerli Format Giriniz.
-                          </div>
-                        </div>      -->
-                  </div>
-              </div>
-              <div class="form-group col-md-6">
-                  <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
-                      <label class="ckbox">
-                        <input type="checkbox"/><span>Enflasyon Hesaplanacak mı ?</span>
-                      </label>
-                  </div>   
-              </div>
+                    <input class="form-control" type="text" placeholder="Aktifleştirme Tarihi" name="activationDate"
+                    [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"/>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
+                    <label class="ckbox">
+                      <input type="checkbox" [checked]="fixedAsset.HasInflationIndexation"
+                      (change)="fixedAsset.HasInflationIndexation = !fixedAsset.HasInflationIndexation"
+                      name="HasInflationIndexation" /><span>Enflasyon Hesaplanacak mı ?</span>
+                    </label>
+                </div>   
+            </div>
           </div> 
           <div>
               <button mat-button matStepperPrevious>Back</button>
@@ -351,6 +334,7 @@
           </div>        
   </mat-step>
   <mat-step label="Dosya">
+    
   </mat-step>
   <mat-step label="Demirbaş Listesi">
   </mat-step>

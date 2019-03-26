@@ -18,17 +18,17 @@ import { FixedAssetPropertyDetails } from "src/app/models/FixedAssetPropertyDeta
 import { PropertyValueTypes } from "src/app/declarations/property-value-types.enum";
 import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
 import { Currency } from "src/app/models/Currency";
-import * as $ from 'jquery';
-import { FixedAssetFile } from 'src/app/models/FixedAssetFile';
+import * as $ from "jquery";
+import { FixedAssetFile } from "src/app/models/FixedAssetFile";
+import { Depreciation } from 'src/app/models/Depreciation';
 
 @Component({
   selector: "app-fa-create",
   templateUrl: "./fa-create.component.html",
   styleUrls: ["./fa-create.component.css"]
 })
-
-export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
-
+export class FaCreateComponent extends BaseComponent
+  implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
@@ -46,20 +46,24 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   fixedassetproperty: FixedAssetCardProperty[] = [];
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
   ifrscurrencies: Currency[] = [];
-  currencies:Currency[]=[];
-  faPropertyDetails:FixedAssetPropertyDetails[]=[];
+  currencies: Currency[] = [];
+  faPropertyDetails: FixedAssetPropertyDetails[] = [];
+  depreciationTypes:Depreciation[]=[];
 
   fixedAsset: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
-  fixedAssetFile:FixedAssetFile=new FixedAssetFile();
-  
-  propertyValue:string;
+  fixedAssetFile: FixedAssetFile = new FixedAssetFile();
+
+  propertyValue: string;
   BarcodeIsUnique: boolean = true;
   disabledBarcode: boolean = true;
   errorMessage: string = "";
   isListSelected: boolean = false;
+
+  public imagePath;
+  imgURL: any;
 
   /* Fixed Asset Card Property Value Data Table */
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
@@ -67,7 +71,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     [
       {
         columnDisplayName: "Özellik Adı",
-        columnName: ["FixedAssetCardProperty","Name"],
+        columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -174,6 +178,15 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+
+    this.baseService.depreciationService.GetDepreciationCalculationTypes(
+      (depreciationTypes:Depreciation[]) => {
+        this.depreciationTypes = depreciationTypes;
+      },
+      (error:HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   loadBrandList() {
@@ -263,7 +276,6 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
       }
     );
   }
-
   isBarcodeManual(event) {
     if (event.target.checked == true) {
       this.disabledBarcode = false;
@@ -284,8 +296,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     );
   }
 
-  loadValuesByPropertyId(event:any) {
-
+  loadValuesByPropertyId(event) {
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
     );
@@ -293,42 +304,51 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
       this.isListSelected = true;
 
-    this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
-      <number>event.target.value,
-      (propertyValues: FixedAssetCardPropertyValue[]) => {
-        this.fixedassetpropertyvalues = propertyValues;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+      this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
+        <number>event.target.value,
+        (propertyValues: FixedAssetCardPropertyValue[]) => {
+          this.fixedassetpropertyvalues = propertyValues;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     } else {
       this.isListSelected = false;
     }
   }
 
-  getPropertyValue(event:any){    
-    this.propertyValue=event.target.value;
+  getPropertyValue(event: any) {
+    this.propertyValue = event.target.value;
   }
 
-  async insertPropertyValueToArray(propertyId:any) {
-    
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>this.dataTablePropertyValue.TGT_copySource();
+  async insertPropertyValueToArray(propertyId: any) {
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
 
-      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-        (this.faPropertyDetails.length + 1) * -1;      
-      let fixedasset=this.fixedassetproperty.find(x=>x.FixedAssetCardPropertyId == Number(propertyId.value));
-      this.fixedAssetPropertyDetail.FixedAssetCardProperty=fixedasset;
-      if(this.isListSelected==true){
-        this.fixedAssetPropertyDetail.Value=this.propertyValue;
-      }
-      this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
-      this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+      (this.faPropertyDetails.length + 1) * -1;
+    let fixedasset = this.fixedassetproperty.find(
+      x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+    );
+    this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+    if (this.isListSelected == true) {
+      this.fixedAssetPropertyDetail.Value = this.propertyValue;
+    }
+    this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+    this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
 
-      this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-      propertyId = null;
-
+    this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+    propertyId = null;
   }
 
-  
+  preview(files) {
+    if (files.length === 0) return;
+
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => (this.imgURL = reader.result.toString());
+  }
 }
