@@ -10,9 +10,13 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './checkout-fixed-asset.component.html',
   styleUrls: ['./checkout-fixed-asset.component.css']
 })
-export class CheckoutFixedAssetComponent extends BaseComponent  implements OnInit {
+export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit {
 
   exitFixedAssetList: FixedAsset[] = [];
+
+  isTableRefreshing: boolean = false;
+
+  isTableExporting: boolean = false;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "exitfixedasset",
@@ -32,76 +36,61 @@ export class CheckoutFixedAssetComponent extends BaseComponent  implements OnIni
         classes: [],
         placeholder: "",
         type: "text"
-      },      
+      },
       {
         columnDisplayName: "Departman",
-        columnName: ["Department","Name"],
+        columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      },      
+      },
       {
         columnDisplayName: "Lokasyon",
-        columnName: ["Location","Name"],
+        columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       }
-      // ,{
-      //   columnDisplayName: "Fiyat",
-      //   columnName: ["CheckOutPrice"],
-      //   isActive: true,
-      //   classes: [],
-      //   placeholder: "",
-      //   type: "text"
-      // },
-      // {
-      //   columnDisplayName: "Para Birimi",
-      //   columnName: ["Currency","Name"],
-      //   isActive: true,
-      //   classes: [],
-      //   placeholder: "",
-      //   type: "text"
-      // },
-      // {
-      //   columnDisplayName: "Açıklama",
-      //   columnName: ["CheckOutDescription"],
-      //   isActive: true,
-      //   classes: [],
-      //   placeholder: "",
-      //   type: "text"
-      // }
-
     ],
     {
       isDesc: false,
       column: ["Barcode"]
-     }
+    }
   );
 
-  constructor(protected baseService:BaseService) {
+  constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadExitList();
-    this.dataTable.isMultipleSelectedActive=false;
-   }
+    this.dataTable.isMultipleSelectedActive = false;
+  }
 
   ngOnInit() {
   }
 
 
-  loadExitList(){
+  loadExitList() {
     this.baseService.fixedAssetService.GetExitFixedAssetList(
-      (exitFixedAsset:FixedAsset[])=>{
-        this.exitFixedAssetList=exitFixedAsset;
+      (exitFixedAsset: FixedAsset[]) => {
+        this.exitFixedAssetList = exitFixedAsset;
         this.dataTable.TGT_loadData(this.exitFixedAssetList);
       },
-      (error:HttpErrorResponse)=>{
+      (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }
 
-  clearFilter(){
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadExitList();
+
+    this.isTableRefreshing = false;
   }
+
 }
