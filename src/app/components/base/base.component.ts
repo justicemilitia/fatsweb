@@ -20,16 +20,6 @@ export abstract class BaseComponent implements OnInit {
 
   public Version: string = "6.0.100";
 
-  public Firms = [{
-    Name: 'Trinoks',
-    Id: 1
-  }, {
-    Name: 'Vector',
-    Id: 2
-  }]
-
-  public Firm: {};
-
   public Languages: SystemLanguage[] = [{
     Culture: 'tr',
     ImageUrl: '../../../assets/img/tr.png',
@@ -49,7 +39,6 @@ export abstract class BaseComponent implements OnInit {
   public IsAuthForInsert: boolean = false;
 
   constructor(protected baseService: BaseService) {
-    this.Firm = this.Firms[0];
 
     if (this.baseService.router.routerState.root.firstChild != null) {
       let keyword = this.baseService.router.routerState.root.firstChild.snapshot.data["pageKeyword"];
@@ -89,18 +78,15 @@ export abstract class BaseComponent implements OnInit {
   }
 
   changeFirm(firmId: number) {
-    let oldFirm = this.Firm;
-    this.Firm = this.Firms.find(x => x.Id == Number(firmId));
-    if (this.Firm) {
+    let firm = this.baseService.authenticationService.Firms.find(x => x.FirmId == Number(firmId));
+    if (firm) {
       this.baseService.authenticationService.changeFirm(firmId,
         () => {
           console.log("Firma Değişti");
         },(error) => {
-          this.Firm = oldFirm;
           console.log(error);
         });
-    }else
-      this.Firm = oldFirm;
+    }
   }
 
   pageRoute(key: string) {

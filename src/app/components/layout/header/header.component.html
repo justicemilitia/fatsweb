@@ -17,13 +17,13 @@
         <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" type="button" id="dropdownMenu2"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="dropdown-button-content">
-            {{Firm.Name}}
+            {{firm ? firm.Name : ''}}
           </div>
         </button>
         <div class="dropdown-menu">
-          <ng-container *ngFor="let firm of Firms">
+          <ng-container *ngFor="let firm of baseService.firms">
 
-            <button class="dropdown-item" (click)="changeFirm(firm.Id)" type="button">
+            <button class="dropdown-item" (click)="changeFirm(firm.FirmId)" type="button">
               {{firm.Name}}
             </button>
 

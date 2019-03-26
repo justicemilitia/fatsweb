@@ -22,29 +22,29 @@ import { getAnErrorResponse } from 'src/app/declarations/extends';
 export class AuthenticationService {
   constructor(private httpClient: HttpClient, private router: Router) {
 
-    this.userToken = this.getToken();
-    if (this.userToken != "") this.roles = this.getRoleMenus();
+    if (this.getToken() != "") {
+      this.roles = this.getRoleMenus();
+      this.currentFirm = this.getCurrentFirm();
+    }
 
   }
-
-  userToken: string; //uygulama boyunca token'a ulaşabilmem gerektiği için tanımladım.
-  roles: RoleAuthorization[] = [];
   jwtHelper: JwtHelperService = new JwtHelperService();
+  roles: RoleAuthorization[] = [];
+  Firms: Firm[] = [];
+  currentFirm: Firm = null;
   TOKEN_KEY = "token";
   ROLE_KEY = "role";
-  response: boolean;
+  FIRM_KEY = "firm"
 
   Login(user: User, success, failed) {
     this.httpClient
       .post(SERVICE_URL + LOGIN, user, { headers: GET_HEADERS() })
       .subscribe(
         data => {
-          this.userToken = data["token"];
-          this.roles = <RoleAuthorization[]>data["menu_auth"];
 
-          this.saveSession(data["token"], <RoleAuthorization[]>(
-            data["menu_auth"]
-          ));
+          this.roles = <RoleAuthorization[]>data["menu_auth"];
+          this.currentFirm = this.Firms.find(x => x.FirmId == Number(user.FirmId));
+          this.saveSession(data["token"], <RoleAuthorization[]>(data["menu_auth"]), this.currentFirm);
 
           success();
 
@@ -60,16 +60,17 @@ export class AuthenticationService {
       return false;
     }
   }
-
-
-  saveSession(token: any, roles: RoleAuthorization[]) {
+  
+  saveSession(token: any, roles: RoleAuthorization[], firm: Firm) {
     localStorage.setItem(this.TOKEN_KEY, token);
     localStorage.setItem(this.ROLE_KEY, JSON.stringify(roles));
+    localStorage.setItem(this.FIRM_KEY, JSON.stringify(firm));
   }
 
   logOut() {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.ROLE_KEY);
+    localStorage.removeItem(this.FIRM_KEY);
   }
 
   isLoggedIn() {
@@ -92,9 +93,10 @@ export class AuthenticationService {
         headers: GET_HEADERS(this.getToken())
       }).subscribe((data) => {
 
+        let newToken = data["token"];
         localStorage.removeItem(this.TOKEN_KEY);
-        this.userToken = data["token"];
-        localStorage.setItem(this.TOKEN_KEY, this.userToken);
+        this.currentFirm = this.Firms.find(x => x.FirmId == firmId);
+        localStorage.setItem(this.TOKEN_KEY, newToken);
 
         success();
 
@@ -107,6 +109,10 @@ export class AuthenticationService {
 
   getRoleMenus(): RoleAuthorization[] {
     return <RoleAuthorization[]>JSON.parse(localStorage.getItem(this.ROLE_KEY));
+  }
+
+  getCurrentFirm(): Firm {
+    return <Firm>JSON.parse(localStorage.getItem(this.FIRM_KEY));
   }
 
   getCurrentUserId() {

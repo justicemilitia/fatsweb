@@ -14,9 +14,9 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
     $(".az-navbar-two").trigger("click");
   }
 
-
-  constructor(protected baseService: BaseService) {
+  constructor(public baseService: BaseService) {
     super(baseService);
+    
   }
 
   ngOnInit() {
