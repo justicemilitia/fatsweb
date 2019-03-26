@@ -114,6 +114,7 @@ ul.nav-link-item-ul-sub {
 
 .az-navbar-two .nav-link {
   text-transform: none;
+  cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   flex: 1;

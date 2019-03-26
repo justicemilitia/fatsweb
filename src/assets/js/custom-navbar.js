@@ -15,11 +15,9 @@ function closeAllOpenSubItems() {
 function closeAllOpenMainItems() {
     /* Close All open main items */
     $('.nav-link').each(function (i, v) {
-        if (!$(event.target).is($(v))) {
-            let parent = $(v).parent();
-            parent.removeClass("nav-active");
-            parent.children("ul").eq(0).css("display", 'none');
-        }
+        let parent = $(v).parent();
+        parent.removeClass("nav-active");
+        parent.children("ul").eq(0).css("display", 'none');
     });
 }
 
