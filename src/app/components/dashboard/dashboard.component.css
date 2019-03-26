@@ -1,11 +1,24 @@
 @media (min-width: 992px) {
-.az-content-dashboard-ten {
-    margin-left:0;
-}
+    .az-content-dashboard-ten {
+        margin-left: 0;
+    }
 }
 
 @media (min-width: 1200px) {
-.az-content-dashboard-ten .az-content-body {
-    margin-top:0;
+    .az-content-dashboard-ten .az-content-body {
+        margin-top: 0;
+    }
 }
+
+.az-rating-value {
+    text-align: center;
+}
+
+.az-rating-label {
+    text-align: center;
+}
+
+.mg-y-20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
