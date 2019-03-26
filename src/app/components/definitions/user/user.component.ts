@@ -147,7 +147,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   onSubmit(data: NgForm) {
     /* if company id exists means update it otherwise insert it */
-    if (data.value.CompanyId == null) {
+    if (this.currentUser.UserId == null) {
       this.insertUser(data);
     } else {
       this.updateUser(data);

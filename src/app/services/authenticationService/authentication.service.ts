@@ -7,7 +7,8 @@ import {
   SERVICE_URL,
   LOGIN,
   GET_HEADERS,
-  GET_USERFIRM_LIST
+  GET_USERFIRM_LIST,
+  CHANGE_FIRM
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
 import { UserFirm } from "src/app/models/UserFirm";
@@ -78,6 +79,30 @@ export class AuthenticationService {
 
   getToken() {
     return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  updateToken() {
+
+  }
+
+  changeFirm(firmId: number, success, failed) {
+    this.httpClient.post(SERVICE_URL + CHANGE_FIRM, {
+      FirmId: firmId
+    }, {
+        headers: GET_HEADERS(this.getToken())
+      }).subscribe((data) => {
+
+        localStorage.removeItem(this.TOKEN_KEY);
+        this.userToken = data["token"];
+        localStorage.setItem(this.TOKEN_KEY, this.userToken);
+
+        success();
+
+      }, (error) => {
+
+        failed(error);
+
+      })
   }
 
   getRoleMenus(): RoleAuthorization[] {

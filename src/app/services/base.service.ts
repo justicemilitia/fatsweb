@@ -36,6 +36,7 @@ import { DepreciationService } from './depreciation-service/depreciation.service
   providedIn: "root"
 })
 export class BaseService {
+
   constructor(
     public authenticationService: AuthenticationService,
     public userService: UserService,

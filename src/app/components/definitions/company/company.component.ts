@@ -155,7 +155,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     /* if company id exists means update it otherwise insert it */
-    if (data.value.CompanyId == null) {
+    if (this.company.CompanyId == null) {
       this.addCompany(data);
     } else {
       this.updateCompany(data);

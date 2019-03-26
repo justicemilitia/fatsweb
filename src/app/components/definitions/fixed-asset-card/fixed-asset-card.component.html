@@ -51,7 +51,6 @@
         </button>
       </div>
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
-        <input type="hidden" name="FixedAssetCardId" [(ngModel)]="fixedAssetCard.FixedAssetCardId" />
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">

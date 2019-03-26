@@ -83,7 +83,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
   onSubmit(data: NgForm) {
 
     /* if id is empty means it is insert otherwise update */
-    if (data.value.FixedAssetCardBrandId == null)
+    if (this.fixedAssetCardBrand.FixedAssetCardBrandId == null)
       this.addFixedAssetCardBrand(data);
     else this.updateFixedAssetCardBrand(data);
 

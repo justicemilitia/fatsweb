@@ -134,7 +134,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
     if (data.form.invalid == true) return;
 
-    if (data.value.RoleId == null) 
+    if (this.role.RoleId == null) 
       this.addRole(data);
     else 
       this.updateRole(data);

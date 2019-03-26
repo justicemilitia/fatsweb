@@ -1,37 +1,42 @@
 <div class="az-content az-content-dashboard-four">
-    <div class="media media-dashboard">
-      <div class="media-body">
-        <!-- Bread Crumb -->
-          <div class="az-content-breadcrumb">
-            <span>TANIMLAMALAR</span>
-            <span>ASKIYA ALMA SEBEPLERİ</span>
-        </div>
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+      <div class="az-content-breadcrumb">
+        <span>TANIMLAMALAR</span>
+        <span>ASKIYA ALMA SEBEPLERİ</span>
+      </div>
       <div class="card card-dashboard-twelve mg-b-20">
-          <div class="card-header">
-        <h2 class="az-content-title" style="margin-left:0">Askıya Alma Sebepleri</h2>
-        <div class="grp-btn-action">
-          <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
-              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
-          </button>
-                      
-          <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
-            <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
-          </button>
+        <div class="card-header">
+          <h2 class="az-content-title" style="margin-left:0">Askıya Alma Sebepleri</h2>
+          <div class="grp-btn-action">
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
+            </button>
 
-          <button type="button" (click)="deleteSuspension()" class="btn btn-danger btn-delete-custom">
-            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
-            <i class="fas fa-trash"></i></button>
-          <button class="btn btn-az-primary" id="btnAddSuspension" data-toggle="modal" data-target="#modalSuspension" (click)="resetForm(data,true)">
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
+
+            <button type="button" (click)="deleteSuspension()" class="btn btn-danger btn-delete-custom">
+              {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+              <i class="fas fa-trash"></i></button>
+            <button class="btn btn-az-primary" id="btnAddSuspension" data-toggle="modal" data-target="#modalSuspension"
+              (click)="resetForm(data,true)">
               <i class="fa fa-plus-circle fa-plus-circle-add"></i>
-            Askıya Alma Nedeni Ekle
-          </button>
-          <button style="display:none" id="btnEditSuspension" data-toggle="modal" data-target="#modalSuspension" (click)="resetForm(data,false)" >Düzenle
-          </button>
-        </div>
+              Askıya Alma Nedeni Ekle
+            </button>
+            <button style="display:none" id="btnEditSuspension" data-toggle="modal" data-target="#modalSuspension"
+              (click)="resetForm(data,false)">Düzenle
+            </button>
+          </div>
         </div>
         <div class="sales-overview">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>         
-          </div>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          </tree-grid-table>
+        </div>
       </div>
     </div>
     <!-- az-content-body -->
@@ -39,56 +44,54 @@
 </div>
 
 <div id="modalSuspension" class="modal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content modal-content-demo">
-        <div class="modal-header">
-          <h6 class="modal-title">Askıya Alma Sebepleri</h6>
-          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form name="form" #data="ngForm"  (ngSubmit)="onSubmit(data)">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Askıya Alma Sebepleri</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
         <div class="modal-body">
-          <input type="hidden" name="CheckOutReasonId" [(ngModel)]="suspension.CheckOutReasonId"/>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Askıya Alma Kodu</label>
-              <input  [(ngModel)]="suspension.CheckOutReasonCode" #CheckOutReasonCode="ngModel" name="CheckOutReasonCode" 
-                type="text" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonCode.invalid }" 
-                class="form-control" maxlength="50" required/>     
-                <div *ngIf="data.submitted && CheckOutReasonCode.invalid" class="invalid-feedback">
-                  <div *ngIf="CheckOutReasonCode.errors.required">Bu alan zorunludur.</div>
-                  <div *ngIf="CheckOutReasonCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-                </div>
-            </div>      
+              <input [(ngModel)]="suspension.CheckOutReasonCode" #CheckOutReasonCode="ngModel" name="CheckOutReasonCode"
+                type="text" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonCode.invalid }"
+                class="form-control" maxlength="50" required />
+              <div *ngIf="data.submitted && CheckOutReasonCode.invalid" class="invalid-feedback">
+                <div *ngIf="CheckOutReasonCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="CheckOutReasonCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+              </div>
+            </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Askıya Alma Sebebi</label>
-              <input  [(ngModel)]="suspension.Name" name="Name" #Name="ngModel" type="text" class="form-control"
-                required maxlength="50" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" /> 
+              <input [(ngModel)]="suspension.Name" name="Name" #Name="ngModel" type="text" class="form-control" required
+                maxlength="50" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
-                  <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-                </div>
-            </div>      
+                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+              </div>
+            </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-                <label>Açıklama</label>
-                <textarea  [(ngModel)]="suspension.Description" name="Description" rows="3" type="text" style="resize:none"  class="form-control"></textarea>
+              <label>Açıklama</label>
+              <textarea [(ngModel)]="suspension.Description" name="Description" rows="3" type="text" style="resize:none"
+                class="form-control"></textarea>
             </div>
           </div>
-      </div>
+        </div>
         <div class="modal-footer">
-            <button id="btnInsertOrUpdateSuspension" type="submit" 
-            class="btn btn-az-primary" data-toggle="modal" 
-            data-target="#modalAddSuspension">{{suspension.CheckOutReasonId ? 'Askıya Alma Sebebini Güncelle' : 'Askıya Alma Sebebi Ekle'}}</button>   
-          </div>
+          <button id="btnInsertOrUpdateSuspension" type="submit" class="btn btn-az-primary" data-toggle="modal"
+            data-target="#modalAddSuspension">{{suspension.CheckOutReasonId ? 'Askıya Alma Sebebini Güncelle' : 'Askıya Alma Sebebi Ekle'}}</button>
+        </div>
       </form>
-        <!-- modal-body -->
-      </div>
+      <!-- modal-body -->
     </div>
-    <!-- modal-dialog -->
   </div>
-
+  <!-- modal-dialog -->
+</div>

@@ -84,7 +84,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
     if (data.form.invalid == true) return;
 
     /* if fixed asset card category id exists means update it, otherwise insert it */
-    if (data.value.FixedAssetCardCategoryId == null) {
+    if (this.fixedAssetCardCategory.FixedAssetCardCategoryId == null) {
       this.addFixedAssetCardCategory(data);
     } else {
       this.updateFixedAssetCardCategory(data);

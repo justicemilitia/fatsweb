@@ -77,7 +77,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
     if (data.form.invalid) return true;
 
-    if (data.value.ExpenseCenterId == null) {
+    if (this.expenseCenter.ExpenseCenterId == null) {
       this.addExpenseCenter(data);
     } else {
       this.updateExpenseCenter(data);

@@ -55,7 +55,6 @@
       </div>
       <form name="form" #data="ngForm" (ngSubmit)="doRoleAuthorization(data)  && data.form.valid" novalidate>
         <div class="modal-body">
-          <input type="hidden" [(ngModel)]="roleAuthorization.RoleAuthorizationId" name="RoleAuthorizationId" />
           <div class="row justify-content-center">
           <div class="col-md-12 form-group">
               <label class="required-span">Rol</label>
