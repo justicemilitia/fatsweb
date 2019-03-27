@@ -45,12 +45,10 @@
             </button>
             <div class="divider"></div>
             <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
-            title="Demirbaş Filtreleme">
+              title="Demirbaş Filtreleme">
               <i class="fas fa-filter"></i>
             </button>
           </div>
-
-
 
           <div class="grp-btn-action">
             <button class="btn btn-success btn-excel-custom" style="margin-right:10px" data-toggle="tooltip"
@@ -68,9 +66,10 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
           </div>
+
           <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalOperation"></button>
+
         </div>
-        <p class="mg-b-20"></p>
         <div class="sales-overview">
           <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
           </tree-grid-table>
