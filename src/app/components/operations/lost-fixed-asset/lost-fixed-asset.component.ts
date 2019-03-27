@@ -93,6 +93,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
         this.dataTable.TGT_loadData(this.lostFaList);
       },
       (error: HttpErrorResponse) => {
+        this.dataTable.isLoading = false;
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }

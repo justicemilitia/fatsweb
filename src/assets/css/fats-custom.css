@@ -540,7 +540,7 @@ label.custom-file:hover {
     border: 1px solid #ced4da !important;
     padding-top: 2px !important;
     padding-bottom: 2px !important;
-    padding-left: 3px !important;
+    padding-left: 15px !important;
 }
 
 .multiselect-dropdown .dropdown-btn .selected-item {

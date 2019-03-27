@@ -5,10 +5,10 @@ import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Department } from "../../../models/Department";
 import { Role } from "../../../models/Role";
-import { Firm } from "../../../models/Firm";
 import { User } from "../../../models/User";
 import { Location } from "../../../models/Location";
 import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
+import UserTitle from 'src/app/models/UserTitle';
 
 @Component({
   selector: "app-user",
@@ -47,8 +47,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   /* Store the roles to insert users */
   roles: Role[] = [];
 
-  /* Store firms to insert users */
-  firms: Firm[] = [];
+  /* Store user titles to insert users */
+  userTitles: UserTitle[] = [];
 
   dropdownSettings = {};
 
@@ -73,7 +73,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Unvan',
-        columnName: ['UserTitle'],
+        columnName: ['UserTitle','Title'],
         isActive: true,
         classes: [],
         placeholder: '',
