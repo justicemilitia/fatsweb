@@ -13,15 +13,15 @@
           <h2 class="az-content-title">Demirbaş Özellikleri</h2>
           <div class="grp-btn-action">
 
-              <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
-                  <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
-                    [class.btn-refresh-loader]="isTableExporting == true"></i>
-                </button>
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+                <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
+            </button>
     
-                <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
-                  <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
-                    [class.btn-refresh-loader]="isTableRefreshing == true"></i>
-                </button>
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+                <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
 
             <button type="button" (click)="deleteFixedAssetCardProperties()" class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
@@ -34,14 +34,14 @@
             <button style="display:none" id="btnEditFixedAssetCardProperty" data-toggle="modal"
               data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,false)">Özellik Düzenle
             </button>
-            
-          </div>
-          </div>
-          <div class="sales-overview">
-            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          
           </div>
         </div>
+        <div class="sales-overview">
+            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        </div>
       </div>
+    </div>
       <!-- az-content-body -->
     </div>
   </div>
