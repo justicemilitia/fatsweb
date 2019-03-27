@@ -56,7 +56,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     await this.baseService.fixedAssetService.ExitFixedAsset(
       fixedAssetIds, checkOutReasonId,
       () => {
-        this.faDataTable.TGT_removeItemsByIds(this.fixedAsset.FixedAssetIds);
+        this.faDataTable.TGT_removeItemsByIds(fixedAssetIds);
         this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
       },
       (error: HttpErrorResponse) => {

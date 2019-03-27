@@ -161,7 +161,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
           () => {
             this.isWaitingInsertOrUpdate = false;
 
-            this.dataTable.TGT_removeItemsByIds(this.lostFa.FixedAssetIds);
+            this.dataTable.TGT_removeItemsByIds(lostFixedAssetIds);
 
             this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
           },
@@ -222,14 +222,15 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
     }
     else {
 
-      $("#btnExitFa").trigger("click");
-
       let fixedAssetBarcodes = "";
       selectedItems.forEach((e, i) => {
         fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
-
       });
+
       this.faBarcodes = fixedAssetBarcodes;
+
+      $("#btnExitFa").trigger("click");
+
     }
   }
 
