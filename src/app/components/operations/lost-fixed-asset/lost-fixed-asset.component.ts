@@ -151,12 +151,13 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     if (data.form.invalid == true) return;
 
-    this.lostFa.FixedAssetIds = this.selectedSuspendFa();
+    let lostFixedAssetIds = this.selectedSuspendFa();
+    let checkOutReasonId = Number(this.transaction.CheckOutReasonId);
     this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
       if (response == true) {
         this.isWaitingInsertOrUpdate = true;
         this.baseService.fixedAssetService.ExitFixedAsset(
-          this.lostFa,
+          lostFixedAssetIds, checkOutReasonId,
           () => {
             this.isWaitingInsertOrUpdate = false;
 

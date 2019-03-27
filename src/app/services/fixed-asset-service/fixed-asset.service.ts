@@ -32,13 +32,13 @@ export class FixedAssetService {
   constructor(
     private httpclient: HttpClient,
     private authenticationService: AuthenticationService
-  ) {}
+  ) { }
 
-  GetFixedAsset(success,failed){
+  GetFixedAsset(success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + GET_FIXED_ASSET,
-        {Page:"1", PerPage: "100", sortOrder: "asc", filter: {}},
+        { Page: "1", PerPage: "100", sortOrder: "asc", filter: {} },
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
         }
@@ -63,28 +63,28 @@ export class FixedAssetService {
       );
   }
 
-  GetExitFixedAssetList(success, failed){
+  GetExitFixedAssetList(success, failed) {
     this.httpclient
-    .get(SERVICE_URL + GET_EXITFIXEDASSETLIST, {
-      headers: GET_HEADERS(this.authenticationService.getToken())
-    })
-    .subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let exitFixedAssets: FixedAsset[] = [];
-          (<FixedAsset[]>response.ResultObject).forEach(e => {
-            let efa: FixedAsset = new FixedAsset();
-            Object.assign(efa, e);
-            exitFixedAssets.push(efa);
-          });
-          success(exitFixedAssets, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
-        }
-      }, (error: HttpErrorResponse) => {
-        failed(error);
-      });
+      .get(SERVICE_URL + GET_EXITFIXEDASSETLIST, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let exitFixedAssets: FixedAsset[] = [];
+            (<FixedAsset[]>response.ResultObject).forEach(e => {
+              let efa: FixedAsset = new FixedAsset();
+              Object.assign(efa, e);
+              exitFixedAssets.push(efa);
+            });
+            success(exitFixedAssets, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        }, (error: HttpErrorResponse) => {
+          failed(error);
+        });
   }
 
   GetFixedAssetProperties(success, failed) {
@@ -113,16 +113,19 @@ export class FixedAssetService {
       );
   }
 
-  ExitFixedAsset(fixedAssetIds:FixedAsset, success, failed){
+  ExitFixedAsset(fixedAssetIds: number[], reasonId: number, success, failed) {
     this.httpclient
       .post(
-        SERVICE_URL + EXIT_FIXEDASSET, fixedAssetIds, {
+        SERVICE_URL + EXIT_FIXEDASSET, {
+          "FixedAssetIds": fixedAssetIds,
+          "CheckOutReasonId" : reasonId
+        }, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if (response.ResultStatus == true) {        
+          if (response.ResultStatus == true) {
             success(fixedAssetIds, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
@@ -134,7 +137,7 @@ export class FixedAssetService {
       );
   }
 
-  ChangeBarcode(fixedAsset: FixedAsset, success, failed){
+  ChangeBarcode(fixedAsset: FixedAsset, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + UPDATE_FIXEDASSETLOCATION, fixedAsset, {
@@ -157,7 +160,7 @@ export class FixedAssetService {
       );
   }
 
-  ChangeLocation(fixedAsset: FixedAsset, success, failed){
+  ChangeLocation(fixedAsset: FixedAsset, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + UPDATE_FIXEDASSETLOCATION, fixedAsset, {
@@ -180,7 +183,7 @@ export class FixedAssetService {
       );
   }
 
-  ChangeDepartment(fixedAsset: FixedAsset, success, failed){
+  ChangeDepartment(fixedAsset: FixedAsset, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + UPDATE_FIXEDASSETDEPARTMENT, fixedAsset, {
@@ -202,7 +205,7 @@ export class FixedAssetService {
         }
       );
   }
-  ChangeFirm(fixedAsset: FixedAsset, success, failed){
+  ChangeFirm(fixedAsset: FixedAsset, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + UPDATE_FIXEDASSETFIRM, fixedAsset, {
@@ -225,7 +228,7 @@ export class FixedAssetService {
       );
   }
 
-  ChangeDebit(fixedAsset: FixedAssetUser, success, failed){
+  ChangeDebit(fixedAsset: FixedAssetUser, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + ADD_FIXEDASSETDEBIT, fixedAsset, {
@@ -248,7 +251,7 @@ export class FixedAssetService {
       );
   }
 
-  DeleteDebit(fixedAsset: FixedAssetUser, success, failed){
+  DeleteDebit(fixedAsset: FixedAssetUser, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + DELETE_FIXEDASSETDEBIT, fixedAsset, {
@@ -271,7 +274,7 @@ export class FixedAssetService {
       );
   }
 
-  ChangeCollectiveParameter(fixedAsset: FixedAsset, success, failed){
+  ChangeCollectiveParameter(fixedAsset: FixedAsset, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + CHANGE_COLLECTIVEPARAMETER, fixedAsset, {
