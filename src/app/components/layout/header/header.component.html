@@ -14,16 +14,16 @@
     <!-- az-header-center -->
     <div class="az-header-right">
       <div class="dropdown firm-dropdown">
-        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" type="button" id="dropdownMenu2"
+        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" (click)="loadFirms()" type="button" id="dropdownMenu2"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="dropdown-button-content">
-            {{Firm.Name}}
+            {{baseService.authenticationService.currentFirm ? baseService.authenticationService.currentFirm.Name : ''}}
           </div>
         </button>
         <div class="dropdown-menu">
-          <ng-container *ngFor="let firm of Firms">
+          <ng-container *ngFor="let firm of baseService.authenticationService.Firms">
 
-            <button class="dropdown-item" (click)="changeFirm(firm.Id)" type="button">
+            <button class="dropdown-item" (click)="changeFirm(firm.FirmId)" type="button">
               {{firm.Name}}
             </button>
 
@@ -60,7 +60,8 @@
         <li class="nav-item" routerLink="/dashboard" routerLinkActive="active"><a class="nav-link"><i
               class="typcn icon-default typcn-home-outline" style="font-size: 22px;"></i>Ana Sayfa</a></li>
         <li class="drop-right nav-item">
-          <a href="#" onclick="return false" class="nav-link with-sub"><i class="typcn typcn-edit"></i>Tanımlamalar</a>
+          <a href="#" onclick="return false" class="nav-link with-sub">
+            <i class="typcn typcn-edit"></i>Tanımlamalar</a>
           <ul class="nav-link-item-ul">
             <li class="nav-link-item-parent">
               <a class="nav-link-item-parent-link" href="#" onclick="return false">Genel Tanımlar <span

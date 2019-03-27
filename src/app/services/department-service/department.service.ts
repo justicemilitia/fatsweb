@@ -22,7 +22,7 @@ import { getAnErrorResponse } from 'src/app/declarations/extends';
 })
 export class DepartmentService {
   departmentData: Department[] = [];
-
+  
   constructor(
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService,

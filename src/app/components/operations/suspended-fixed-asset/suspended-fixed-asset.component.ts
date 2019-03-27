@@ -17,20 +17,20 @@ import * as $ from "jquery";
 })
 export class SuspendedFixedAssetComponent extends BaseComponent implements OnInit {
 
-    /* Is Table Exporting */
-  isTableExporting:boolean = false;
-    /* Is Table Refreshing */
-  isTableRefreshing:boolean = false;
+  /* Is Table Exporting */
+  isTableExporting: boolean = false;
+  /* Is Table Refreshing */
+  isTableRefreshing: boolean = false;
 
-  suspendedList:FixedAsset[]=[];
-  suspendedFa:FixedAsset=new FixedAsset();
-  Ids:number[]=[];
-  transaction:TransactionLog=new TransactionLog();
+  suspendedList: FixedAsset[] = [];
+  suspendedFa: FixedAsset = new FixedAsset();
+  Ids: number[] = [];
+  transaction: TransactionLog = new TransactionLog();
   transactionLogs: TransactionLog[] = [];
   currencies: Currency;
-  checkedOutReasons: CheckOutReason[] =[];
-  locations:Location[]=[];
-  faBarcodes:string;
+  checkedOutReasons: CheckOutReason[] = [];
+  locations: Location[] = [];
+  faBarcodes: string;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "suspendedfixedasset",
@@ -50,18 +50,18 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
         classes: [],
         placeholder: "",
         type: "text"
-      },      
+      },
       {
         columnDisplayName: "Departman",
-        columnName: ["Department","Name"],
+        columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      },      
+      },
       {
         columnDisplayName: "Lokasyon",
-        columnName: ["Location","Name"],
+        columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -71,18 +71,18 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
     {
       isDesc: false,
       column: ["Barcode"]
-     }
+    }
   );
-  
-  constructor(protected baseService:BaseService){
+
+  constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadSuspendedList();
     this.loadDropdown();
-   }
+  }
 
-  ngOnInit(){}
+  ngOnInit() { }
 
-  loadDropdown(){
+  loadDropdown() {
 
     /* Load checked out reasons to checked out reason dropdown */
     this.baseService.checkOutReasonService.GetCheckOutReason(
@@ -94,8 +94,8 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
       }
     );
 
-      /* Load currencies to currencies dropdown */
-     this.baseService.currencyService.GetCurrencies(
+    /* Load currencies to currencies dropdown */
+    this.baseService.currencyService.GetCurrencies(
       currencies => {
         this.currencies = currencies;
       },
@@ -106,138 +106,139 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
 
     /* Load locations to locations dropdown */
     this.baseService.locationService.GetLocations(
-    locations=>{
-      this.locations=locations;
-    },
-    (error:HttpErrorResponse)=>{
-      this.baseService.popupService.ShowErrorPopup(error);
-    }
+      locations => {
+        this.locations = locations;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
     );
   }
 
-    loadSuspendedList(){
-      this.baseService.suspendedService.GetFixedAssetsSuspendedList(
-        (suspended:FixedAsset[])=>{
-          this.suspendedList=suspended;
-          this.dataTable.TGT_loadData(this.suspendedList);
-        },
-        (error:HttpErrorResponse)=>{
-          this.baseService.popupService.ShowErrorPopup(error);
-        });
-    }
-
-    selectedSuspendFa(){
-
-      let selectedItems=this.dataTable.TGT_getSelectedItems();
-
-      let itemIds: number[] = selectedItems.map(x => x.getId());
-      this.Ids = itemIds;
-      return this.Ids;
-    }
-    
-    undoSuspendedFixedAsset(data:NgForm){
-
-      this.suspendedFa.FixedAssetIds=this.selectedSuspendFa();
-
-      this.baseService.popupService.ShowQuestionPopupForOperation((response:boolean)=>{
-        if(response==true){
-
-          this.baseService.suspendedService.UndoSuspensionProcess(this.suspendedFa,
-            ()=>{
-
-              this.dataTable.TGT_removeItemsByIds(this.suspendedFa.FixedAssetIds);
-
-              this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");           
-           
-            },(error:HttpErrorResponse)=>{
-              this.baseService.popupService.ShowErrorPopup(error);
-            });
-         }
+  loadSuspendedList() {
+    this.baseService.suspendedService.GetFixedAssetsSuspendedList(
+      (suspended: FixedAsset[]) => {
+        this.suspendedList = suspended;
+        this.dataTable.TGT_loadData(this.suspendedList);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+        this.dataTable.isLoading = false;
       });
-    }
+  }
 
-    checkOutFixedAsset(data:NgForm){
+  selectedSuspendFa() {
 
-      this.suspendedFa.FixedAssetIds=this.selectedSuspendFa();
-      this.baseService.popupService.ShowQuestionPopupForOperation((response:boolean)=>{
-        if(response==true){
-          
-          this.baseService.fixedAssetService.ExitFixedAsset(
-            this.suspendedFa,
-            () => {        
-              this.dataTable.TGT_removeItemsByIds(this.suspendedFa.FixedAssetIds);
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
 
-              this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
-            },
-            (error: HttpErrorResponse) => {
-              /* Show alert message */
-              this.baseService.popupService.ShowErrorPopup(error);
-              }
-            );
+    let itemIds: number[] = selectedItems.map(x => x.getId());
+    this.Ids = itemIds;
+    return this.Ids;
+  }
+
+  undoSuspendedFixedAsset(data: NgForm) {
+
+    this.suspendedFa.FixedAssetIds = this.selectedSuspendFa();
+
+    this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
+      if (response == true) {
+
+        this.baseService.suspendedService.UndoSuspensionProcess(this.suspendedFa,
+          () => {
+
+            this.dataTable.TGT_removeItemsByIds(this.suspendedFa.FixedAssetIds);
+
+            this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
+
+          }, (error: HttpErrorResponse) => {
+            this.baseService.popupService.ShowErrorPopup(error);
+          });
+      }
+    });
+  }
+
+  checkOutFixedAsset(data: NgForm) {
+
+    this.suspendedFa.FixedAssetIds = this.selectedSuspendFa();
+    this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
+      if (response == true) {
+
+        this.baseService.fixedAssetService.ExitFixedAsset(
+          this.suspendedFa,
+          () => {
+            this.dataTable.TGT_removeItemsByIds(this.suspendedFa.FixedAssetIds);
+
+            this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
+          },
+          (error: HttpErrorResponse) => {
+            /* Show alert message */
+            this.baseService.popupService.ShowErrorPopup(error);
           }
+        );
+      }
+    });
+  }
+
+  selectedBarcodes() {
+
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
+
+      return;
+    }
+    else {
+
+      $("#btnOpenSuspendedFa").trigger("click");
+
+      let fixedAssetBarcodes = "";
+      selectedItems.forEach((e, i) => {
+        fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
+
       });
-    }
-
-    selectedBarcodes() {
-
-      let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-
-      
-      if (!selectedItems || selectedItems.length == 0) {
-        this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir demirbaş seçiniz"
-        );
-                
-        return;
-      }
-      else{
-        
-         $("#btnOpenSuspendedFa").trigger("click");
-
-        let fixedAssetBarcodes = "";
-        selectedItems.forEach(e => {
-          fixedAssetBarcodes += e.Barcode + ", ";
-          
-        });
-        this.faBarcodes=fixedAssetBarcodes;
-      }   
-    }
-
-    selectedExitBarcodes(){
-      let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-
-      
-      if (!selectedItems || selectedItems.length == 0) {
-        this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir demirbaş seçiniz"
-        );
-                
-        return;
-      }
-      else{
-        
-        $("#btnExitFa").trigger("click");
-
-       let fixedAssetBarcodes = "";
-       selectedItems.forEach(e => {
-         fixedAssetBarcodes += e.Barcode + ", ";
-         
-       });
-       this.faBarcodes=fixedAssetBarcodes;
-     }  
-    }
-    
-    async refreshTable() {
-      this.isTableRefreshing = true;
-
-      this.dataTable.isLoading = true;
-
-      this.dataTable.TGT_clearData();
-
-      await this.loadSuspendedList();
-
-      this.isTableRefreshing = false;
-
+      this.faBarcodes = fixedAssetBarcodes;
     }
   }
+
+  selectedExitBarcodes() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
+
+      return;
+    }
+    else {
+
+      $("#btnExitFa").trigger("click");
+
+      let fixedAssetBarcodes = "";
+      selectedItems.forEach((e,i) => {
+        fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
+
+      });
+      this.faBarcodes = fixedAssetBarcodes;
+    }
+  }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadSuspendedList();
+
+    this.isTableRefreshing = false;
+
+  }
+}
 

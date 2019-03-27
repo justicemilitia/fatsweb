@@ -30,11 +30,14 @@ import { SuspendedFixedAssetService } from './suspended-fixed-asset-service/susp
 import { CurrencyService } from './currency-service/currency.service';
 import { LostFixedAssetService } from './lost-fixed-asset-service/lost-fixed-asset.service';
 import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asset-create.service';
+import { DepreciationService } from './depreciation-service/depreciation.service';
+import { AlertInfoService } from '../extends/alert-infos/alert-infos-service/alert-info.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class BaseService {
+
   constructor(
     public authenticationService: AuthenticationService,
     public userService: UserService,
@@ -63,9 +66,11 @@ export class BaseService {
     public roleAuthorizationService: RoleAuthorizationService,
     public lostFixedAssetService:LostFixedAssetService,
     public suspendedService:SuspendedFixedAssetService,
+    public depreciationService:DepreciationService,
     public fileUploadService:FileUploadService,    
     public spinner: NgxSpinnerService,
     public router: Router,
-    public dashboardService:DashboardService) {}
+    public dashboardService:DashboardService,
+    public alertInfoService:AlertInfoService) {}
 
 }

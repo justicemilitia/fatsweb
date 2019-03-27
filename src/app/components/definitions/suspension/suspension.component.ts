@@ -73,7 +73,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) { 
-    if (data.value.CheckOutReasonId == null) {
+    if (this.suspension.CheckOutReasonId == null) {
       this.addSuspension(data);
     } else {
       this.updateSuspension(data);

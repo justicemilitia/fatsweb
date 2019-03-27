@@ -13,7 +13,6 @@ import{MatStepperModule,MatIconModule,MatButtonModule} from "@angular/material";
 import { LoginComponent } from "./components/login/login.component";
 import { HeaderComponent } from "./components/layout/header/header.component";
 import { FooterComponent } from "./components/layout/footer/footer.component";
-import { LayoutComponent } from "./components/layout/layout.component";
 import { CompanyComponent } from "./components/definitions/company/company.component";
 import { UserComponent } from "./components/definitions/user/user.component";
 import { DepartmentComponent } from "./components/definitions/department/department.component";
@@ -56,6 +55,8 @@ import { FaDeleteDebitComponent } from "./components/operations/fixed-asset/fa-d
 import { FaChangeDebitComponent } from "./components/operations/fixed-asset/fa-change-debit/fa-change-debit.component";
 import { FaChangeCollectiveParameterComponent } from "./components/operations/fixed-asset/fa-change-collective-parameter/fa-change-collective-parameter.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FileUploadModule  } from 'ng2-file-upload';
+import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     HeaderComponent,
     FooterComponent,
-    LayoutComponent,
     UserComponent,
     CompanyComponent,
     DepartmentComponent,
@@ -102,7 +102,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SuspensionComponent,
     SuspendedFixedAssetComponent,
     LostFixedAssetComponent,
-    CheckoutFixedAssetComponent
+    CheckoutFixedAssetComponent,
+    AlertInfosComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +120,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
     MatIconModule,
     MatStepperModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FileUploadModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

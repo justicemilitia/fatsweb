@@ -1,5 +1,6 @@
 body {
     font-family: "Roboto", "Helvetica Neue", "Helvetica", "sans-serif" !important;
+    overflow-x:hidden;
 }
 .az-content .container, .az-content .container-fluid {
     padding-left: 60px;
@@ -211,17 +212,19 @@ body {
 }
 
 .firm-dropdown-button {
-    height: 40px !important;
-    background: white !important;
+    height: 40px;
+    background-color: white !important;
     border-color: #ced4da !important;
+    border-width: 1px;
     color: #495057 !important;
-    width: fit-content !important;
-    border-radius: 0 !important;
+    width: fit-content;
+    border-radius: 0 ;
     min-width: 160px;
-    display: inline-flex !important;
+    display: inline-flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-right: 10px;
 }
 
 .firm-dropdown-button:focus {
@@ -387,6 +390,14 @@ label.custom-file:hover {
     padding-top: 8px;
 }
 
+.btn-back-custom {
+    margin-right: 10px;
+    font-size: 16px;
+    height: 30px;
+    padding: 8px 13px;
+    color: white;
+    width: 40.25px;
+}
 
 .btn-excel-custom {
     padding-left: 14px;
@@ -419,9 +430,11 @@ label.custom-file:hover {
 
 .multiselect-dropdown .dropdown-btn {
     border-radius: 0 !important;
-    height: 27px !important;
-    padding: 3px !important;
-    padding-left: 15px !important;
+    min-height: 27px;
+    border: 1px solid #ced4da !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    padding-left: 3px !important;
 }
 
 .multiselect-dropdown .dropdown-btn .selected-item{

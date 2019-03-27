@@ -1,4 +1,10 @@
-import { Component, OnInit, AfterViewInit, DoCheck } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  DoCheck,
+  Directive,EventEmitter
+} from "@angular/core";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { Department } from "src/app/models/Department";
@@ -18,7 +24,34 @@ import { FixedAssetPropertyDetails } from "src/app/models/FixedAssetPropertyDeta
 import { PropertyValueTypes } from "src/app/declarations/property-value-types.enum";
 import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
 import { Currency } from "src/app/models/Currency";
-import * as $ from 'jquery';
+import * as $ from "jquery";
+import { FixedAssetFile } from "src/app/models/FixedAssetFile";
+import { Depreciation } from "src/app/models/Depreciation";
+import {
+  HttpClient,
+  HttpRequest,
+  HttpResponse,
+  HttpEvent
+} from "@angular/common/http";
+import { FileUploader, FileLikeObject, FileSelectDirective, FileDropDirective,FileUploaderOptions} from "ng2-file-upload";
+
+  function readBase64(file): Promise<any> {
+    var reader  = new FileReader();
+    var future = new Promise((resolve, reject) => {
+      reader.addEventListener("load", function () {
+        resolve(reader.result);
+      }, false);
+
+      reader.addEventListener("error", function (event) {
+        reject(event);
+      }, false);
+
+      reader.readAsDataURL(file);
+    });
+    return future;
+  }
+
+const URL='';
 
 @Component({
   selector: "app-fa-create",
@@ -26,12 +59,15 @@ import * as $ from 'jquery';
   styleUrls: ["./fa-create.component.css"]
 })
 
-export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
+// @Directive({ selector: "[ng2FileSelect]" })
+// @Directive({ selector: "[ng2FileDrop]" })
 
+export class FaCreateComponent extends BaseComponent
+  implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
-
+  
   departments: Department[] = [];
   companies: Company[] = [];
   locations: Location[] = [];
@@ -45,18 +81,24 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   fixedassetproperty: FixedAssetCardProperty[] = [];
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
   ifrscurrencies: Currency[] = [];
-  currencies:Currency[]=[];
-  faPropertyDetails:FixedAssetPropertyDetails[]=[];
+  currencies: Currency[] = [];
+  faPropertyDetails: FixedAssetPropertyDetails[] = [];
+  depreciationTypes: Depreciation[] = [];
 
   fixedAsset: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+  fixedAssetFile: FixedAssetFile = new FixedAssetFile();
 
+  propertyValue: string;
   BarcodeIsUnique: boolean = true;
   disabledBarcode: boolean = true;
   errorMessage: string = "";
   isListSelected: boolean = false;
+
+  public imagePath;
+  imgURL: any;
 
   /* Fixed Asset Card Property Value Data Table */
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
@@ -64,7 +106,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     [
       {
         columnDisplayName: "Özellik Adı",
-        columnName: ["FixedAssetCardPropertyId"],
+        columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -85,7 +127,10 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     }
   );
 
-  constructor(protected baseService: BaseService) {
+  constructor(
+    protected baseService: BaseService,
+    public HttpClient: HttpClient
+  ) {
     super(baseService);
     this.loadDropdown();
     this.dataTablePropertyValue.isPagingActive = false;
@@ -95,6 +140,8 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
+
+    this.loadFixedAssetProperties();
   }
 
   ngOnInit() {}
@@ -166,6 +213,15 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.baseService.currencyService.GetCurrencies(
       (ifrscurrencies: Currency[]) => {
         this.currencies = ifrscurrencies;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.baseService.depreciationService.GetDepreciationCalculationTypes(
+      (depreciationTypes: Depreciation[]) => {
+        this.depreciationTypes = depreciationTypes;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -281,8 +337,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     );
   }
 
-  getPropertyId(event:any) {
-
+  loadValuesByPropertyId(event) {
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
     );
@@ -290,39 +345,80 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
       this.isListSelected = true;
 
-    this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
-      <number>event.target.value,
-      (propertyValues: FixedAssetCardPropertyValue[]) => {
-        this.fixedassetpropertyvalues = propertyValues;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+      this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
+        <number>event.target.value,
+        (propertyValues: FixedAssetCardPropertyValue[]) => {
+          this.fixedassetpropertyvalues = propertyValues;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     } else {
       this.isListSelected = false;
     }
   }
 
-  async insertPropertyValueToArray(faValue:any) {
-    
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>this.dataTablePropertyValue.TGT_copySource();
-
-    if (
-      faValue != "" &&
-      !this.faPropertyDetails.find(x => x.Value == faValue)
-    ) {
-      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-        (this.faPropertyDetails.length + 1) * -1;
-      this.fixedAssetPropertyDetail.Value = faValue;
-      //this.fixedAssetPropertyDetail.FixedAssetCardPropertyId =propertyId.value;  
-      this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
-      this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
-      this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-      faValue = null;
-
-    } else {
-      faValue = null;
-    }
+  getPropertyValue(event: any) {
+    this.propertyValue = event.target.value;
   }
+
+  async insertPropertyValueToArray(propertyId: any) {
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
+
+    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+      (this.faPropertyDetails.length + 1) * -1;
+    let fixedasset = this.fixedassetproperty.find(
+      x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+    );
+    this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+    if (this.isListSelected == true) {
+      this.fixedAssetPropertyDetail.Value = this.propertyValue;
+    }
+    this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+    this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+
+    this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+    propertyId = null;
+  }
+
+  preview(files) {
+    if (files.length === 0) return;
+
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => (this.imgURL = reader.result.toString());
+  }
+
+//#region FILE UPLOAD
+
+  public uploader:FileUploader = new FileUploader({
+    url: URL, 
+    disableMultipart:true
+    });
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+
+  fileObject: any;
+
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
+  }
+  
+  public onFileSelected(event: EventEmitter<File[]>) {
+    const file: File = event[0];
+
+    console.log(file);
+
+    readBase64(file)
+      .then(function(data) {
+      console.log(data);
+    })
+
+  }
+//#endregion
+  
 }

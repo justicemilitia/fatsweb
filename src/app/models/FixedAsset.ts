@@ -8,6 +8,7 @@ import { FixedAssetStatus } from './FixedAssetStatus';
 import { Department } from './Department';
 import { Currency } from './Currency';
 import { FixedAssetPropertyDetails } from './FixedAssetPropertyDetails';
+import { FixedAssetFile } from './FixedAssetFile';
 
 export class FixedAsset implements IData {
   getParentId(): number {
@@ -74,7 +75,7 @@ export class FixedAsset implements IData {
   FixedAssetStatus: FixedAssetStatus;
   FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
   FixedAssetIds : number[];
-
+  FixedAssetFiles: FixedAssetFile[];
 
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();
@@ -86,5 +87,4 @@ export class FixedAsset implements IData {
 
     this.Currency = new Currency();
   }
-
 }

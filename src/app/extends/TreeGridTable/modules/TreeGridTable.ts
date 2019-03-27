@@ -608,7 +608,7 @@ export class TreeGridTable {
     }
 
     /**
-     * Clear data table.
+     * Clear data table with all its sources.
      */
     public TGT_clearData() {
         
@@ -627,6 +627,7 @@ export class TreeGridTable {
 
         /* if the datasource null or empty return */
         if (!_datasource || _datasource.length == 0) {
+            this.isLoading = false;
             this.TGT_clearData();
             return;
         }

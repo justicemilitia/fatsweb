@@ -87,7 +87,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     /* if company id exists means update it otherwise insert it */
-    if (data.value.FixedAssetStatusId == null) {
+    if (this.status.FixedAssetStatusId == null) {
       this.addStatus(data);
     } else {
       this.updateStatus(data);

@@ -3,13 +3,16 @@ import swal from "src/../node_modules/sweetalert";
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../error-service/error.service';
 import { LanguageService } from '../language-service/language.service';
+import { AlertInfoService } from 'src/app/extends/alert-infos/alert-infos-service/alert-info.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class PopupService {
 
-  constructor(private errorService: ErrorService, private languageService: LanguageService) {
+  constructor(private errorService: ErrorService,
+    private languageService: LanguageService,
+    private alertSerivce: AlertInfoService) {
 
   }
 
@@ -19,35 +22,31 @@ export class PopupService {
 
 
   ShowAlertPopup(message: string) {
-    swal(message, "", "warning");
+    //swal(message, "", "warning");
+    this.alertSerivce.pushDanger(message);
   }
 
   ShowSuccessPopup(message: string) {
-    swal({
+    /*swal({
       title: "İşlem Başarılı",
       text: message,
       icon: "success"
-    });
+    });*/
+    this.alertSerivce.pushSuccess(message);
   }
 
   ShowErrorPopup(error: HttpErrorResponse) {
-    swal({
-      title: "İşlem Başarısız",
-      text: this.languageService.getValue(error.statusText),
-      icon: "warning"
-    }).then(() => {
+    this.alertSerivce.pushDanger(this.languageService.getValue(error.statusText));
+    setTimeout(() => {
       this.errorService.errorManager(error);
-    });
+    }, 2000);
   }
 
   ShowMenuAuthorizePopup(ok) {
-    swal({
-      title: "Menü için yetkiniz bulunmamaktadır!",
-      text: "",
-      icon: "warning"
-    }).then(() => {
+    this.alertSerivce.pushDanger("Menü için yetkiniz bulunmamaktadır!");
+    setTimeout(() => {
       ok()
-    });
+    }, 2000);
   }
 
   ShowQuestionPopupForDelete(callback) {
@@ -82,7 +81,7 @@ export class PopupService {
       });
   }
 
-  ShowQuestionPopupForOperation(callBack){
+  ShowQuestionPopupForOperation(callBack) {
     swal({
       title: "Bu kaydı güncellemek istediğinize emin misiniz?",
       text: "Bu işlem geri alınamaz.",
@@ -99,7 +98,7 @@ export class PopupService {
       });
   }
 
-  ShowQuestionPopupForFoundFixedAsset(callBack){
+  ShowQuestionPopupForFoundFixedAsset(callBack) {
     swal({
       title: "Seçili demirbaşlar 'Demirbaş Listesine eklenecektir' ?",
       text: "İşlemi onaylıyor musunuz ?",

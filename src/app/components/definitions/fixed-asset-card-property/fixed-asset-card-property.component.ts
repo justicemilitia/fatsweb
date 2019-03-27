@@ -152,7 +152,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
   onSubmit(data: NgForm) {
     /* if fixed asset card property id exists means update it, otherwise insert it */
-    if (data.value.FixedAssetCardPropertyId == null) {
+    if (this.fixedAssetCardProperty.FixedAssetCardPropertyId == null) {
       this.addFixedAssetCardProperty(data);
     } else {
       this.updateFixedAssetCardProperty(data);

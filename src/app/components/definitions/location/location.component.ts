@@ -22,11 +22,11 @@ export class LocationComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
   /* Is Table Refreshing */
-  isTableRefreshing:boolean = false;
+  isTableRefreshing: boolean = false;
 
   /* Is Table Exporting */
 
-  isTableExporting:boolean = false;
+  isTableExporting: boolean = false;
 
   /* Location list */
   locations: Location[] = [];
@@ -110,7 +110,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
-    if (data.value.LocationId == null) {
+    if (this.location.LocationId == null) {
       this.addLocation(data);
     } else {
       this.updateLocation(data);
@@ -149,9 +149,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
         else
-          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -185,6 +185,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
       /* Show pop up */
       this.baseService.popupService.ShowSuccessPopup(message);
+
       this.location.LocationId = inserted.LocationId;
 
       /* Push new item the current list of locations then reload table */
@@ -196,9 +197,10 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
     }, (error: HttpErrorResponse) => {
 
-      /* Show alert message */
-      this.baseService.popupService.ShowErrorPopup(error);
       this.isWaitingInsertOrUpdate = false;
+
+      /* Show error message */
+      this.baseService.popupService.ShowErrorPopup(error);
 
     });
   }
@@ -222,7 +224,6 @@ export class LocationComponent extends BaseComponent implements OnInit {
           /* Close loading icon */
           this.isWaitingInsertOrUpdate = false;
 
-          /* Show pop up*/
           this.baseService.popupService.ShowSuccessPopup(message);
 
           /* After update succeed get parent location then update it in table. */
@@ -247,8 +248,6 @@ export class LocationComponent extends BaseComponent implements OnInit {
           /* Show error message */
           this.baseService.popupService.ShowErrorPopup(error);
 
-          console.log(error);
-
         });
       }
     });
@@ -264,7 +263,10 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         /* if error show pop up */
+
+        /* Show error message */
         this.baseService.popupService.ShowErrorPopup(error);
+
       }
     );
   }
@@ -293,8 +295,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
       /* hide spinner */
       this.baseService.spinner.hide();
 
-      /* show error message */
+      /* Show error message */
       this.baseService.popupService.ShowErrorPopup(error);
+
     }
     );
   }

@@ -122,7 +122,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
-    if (data.value.UserRoleId == null) this.addUserRole(data);
+    if (this.userRole.UserRoleId == null) this.addUserRole(data);
     else this.updateUserRole(data);
   }
 
