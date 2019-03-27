@@ -6,5 +6,6 @@ export enum FixedAssetOperations {
     changeFirm=5,
     changeDebit=6,
     deleteDebit=7,
-    exitFixedAsset=8
+    exitFixedAsset=8,
+    changeCollectiveParameter=9
 }

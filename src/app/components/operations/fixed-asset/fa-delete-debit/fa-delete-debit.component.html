@@ -1,80 +1,69 @@
 <form name="form" #data="ngForm" (ngSubmit)="DeleteDebit(data)">
     <div class="modal-body">
-      <div class="row justify-content-center">
-      <!-- BARKOD -->      
-        <div class="col-md-6 form-group">
-          <label>Barkod</label>
-          <input
-            name="Barcodes"
-            value="{{ faBarcode.Barcode }}"
-            type="text"
-            class="form-control"
-            disabled
-          />
-        </div>
-      <!-- DEMİRBAŞ ADI -->      
-        <div class="col-md- form-group">
-          <label>Demirbaş Adı</label>
-          <input
-            name="Name"
-            value="{{ faBarcode.FixedAssetCard.Name }}"
-            type="text"
-            class="form-control"
-            disabled
-          />
-        </div>
-      </div>
-  
-      <!-- DEMİRBAŞ ADI -->
-      <!-- <div class="row justify-content-center">
-        <div class="col-md-12 form-group">
-          <label>Demirbaş Adı</label>
-          <input
-            name="Name"
-            value="{{ faBarcode.FixedAssetCard.Name }}"
-            type="text"
-            class="form-control"
-            disabled
-          />
-        </div>
-      </div> -->
-  
-      <!-- YENİ ZİMMET -->
-      <div class="row justify-content-center">
-        <div class="col-md-12 form-group">
-          <label>Zimmetli Personel</label>
-          <ng-multiselect-dropdown
-          [placeholder]="'Seçiniz'"
-          [data]="users"
-          [(ngModel)]="UserId"
-          name="userIds" 
-          #userIds="ngModel"              
-          [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }"        
-          [settings]="dropdownSettings"
-          (onSelect)="onItemSelect($event)"
-          (onSelectAll)="onSelectAll($event)">
-          </ng-multiselect-dropdown>
-          <div
-            *ngIf="data.submitted && UserId.invalid"
-            class="invalid-feedback"
-          >
-            <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
+
+        <!-- BARKOD -->            
+        <div class="row justify-content-center">
+          <div class="col-md-12 form-group">
+            <label>Barkod</label>
+            <input
+              name="Barcodes"
+              value="{{ faBarcode.Barcode }}"
+              type="text"
+              class="form-control"
+              disabled
+            />
           </div>
         </div>
-      </div> 
+
+        <!-- DEMİRBAŞ ADI -->
+        <div class="row justify-content-center">
+          <div class="col-md-12 form-group">
+            <label>Demirbaş Adı</label>
+            <input
+              name="Name"
+              value="{{ faBarcode.FixedAssetCard.Name }}"
+              type="text"
+              class="form-control"
+              disabled
+            />
+          </div>
+        </div>
+
+        <!-- YENİ ZİMMET -->
+        <div class="row justify-content-center">
+          <div class="col-md-12 form-group">
+            <label>Zimmetli Personel</label>
+            <ng-multiselect-dropdown
+              [placeholder]="'Seçiniz'"
+              [data]="users"
+              [(ngModel)]="UserId"
+              name="userIds"
+              #userIds="ngModel"
+              [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }"
+              [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (click)="loadUsers()"
+            >
+            </ng-multiselect-dropdown>
+            <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
+              <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
+            </div>
+          </div>
+        </div>
+
     </div>
-  
-    <!-- modal-body -->
-    <div class="modal-footer">
-      <button
-        class="btn btn-orange"
-        id="btnDeleteDepartment"
-        type="submit"
-        data-toggle="modal"
-        data-target="#modalDeleteDepartment"
-      >
-        Zimmeti İptal Et
-      </button>
-    </div>
-  </form>
-  
+ 
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button
+      class="btn btn-orange"
+      id="btnDeleteDebit"
+      type="submit"
+      data-toggle="modal"
+      data-target="#modalDeleteDebit"
+    >
+     Zimmeti İptal Et
+    </button>
+  </div>
+</form>

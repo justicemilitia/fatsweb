@@ -88,15 +88,16 @@ export class UserService {
       );
   }
 
-  GetFirms(callback) {
+  GetFirms(callback, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_FIRM_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(
         result => {
           callback(<Firm[]>result["ResultObject"]);
         },
-        error => console.error(error)
-      );
+        (error: HttpErrorResponse) => {
+          failed(error);
+        });
   }
 
   InsertUser(user: User, success, failed) {
