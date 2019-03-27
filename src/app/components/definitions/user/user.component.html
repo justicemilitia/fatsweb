@@ -58,21 +58,32 @@
       <form #data="ngForm" (ngSubmit)="onSubmit(data) && !data.form.invalid" class="form-register">
         <div class="modal-body">
           <div class="row justify-content-center">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <label class="required-span">Kullanıcı Kodu</label>
-              <input type="text" [(ngModel)]="currentUser.UserCode"
+              <input type="text" autocomplete="off" [(ngModel)]="currentUser.UserCode"
                 [ngClass]="{ 'is-invalid': data.submitted && UserCode.invalid }" #UserCode="ngModel" name="UserCode"
                 required class="form-control" maxlength="50" />
-              <div *ngIf="data.submitted && FirstName.invalid" class="invalid-feedback">
+              <div *ngIf="data.submitted && UserCode.invalid" class="invalid-feedback">
                 <div *ngIf="UserCode.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="UserCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="required-span">E-posta</label>
+              <input type="email" name="UserMail" autocomplete="off" #UserMail="ngModel" required maxlength="50"
+                class="form-control" [(ngModel)]="currentUser.UserMail"
+                [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" email />
+              <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
+                <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="UserMail.errors.email">Lütfen Geçerli Email Giriniz.</div>
+                <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">İsim</label>
-              <input type="text" [(ngModel)]="currentUser.FirstName"
+              <input type="text" autocomplete="off" [(ngModel)]="currentUser.FirstName"
                 [ngClass]="{ 'is-invalid': data.submitted && FirstName.invalid }" #FirstName="ngModel" name="FirstName"
                 required class="form-control" maxlength="50" />
               <div *ngIf="data.submitted && FirstName.invalid" class="invalid-feedback">
@@ -82,7 +93,7 @@
             </div>
             <div class="form-group col-md-6">
               <label class="required-span">Soyisim</label>
-              <input type="text" [(ngModel)]="currentUser.LastName" #LastName="ngModel"
+              <input type="text" autocomplete="off" [(ngModel)]="currentUser.LastName" #LastName="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && LastName.invalid }" name="LastName" required
                 class="form-control" maxlength="50" />
               <div *ngIf="data.submitted && LastName.invalid" class="invalid-feedback">
@@ -123,49 +134,25 @@
           <!-- form-group -->
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label class="required-span">Unvan</label>
-              <input type="text" #UserTitle="ngModel" name="UserTitle" required class="form-control"
-                [(ngModel)]="currentUser.UserTitle" maxlength="50"
-                [ngClass]="{ 'is-invalid': data.submitted && UserTitle.invalid }" />
-              <div *ngIf="data.submitted && UserTitle.invalid" class="invalid-feedback">
-                <div *ngIf="UserTitle.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="UserTitle.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label class="required-span">Şirket</label>
-              <select #FirmId="ngModel" [(ngModel)]="currentUser.FirmId" name="FirmId" required class="form-control"
-                [ngClass]="{ 'is-invalid': data.submitted && FirmId.invalid }">
+              <label class="required-span">Ünvan</label>
+              <select #UserTitleId="ngModel" [(ngModel)]="currentUser.UserTitleId" name="UserTitleId" required
+                class="form-control" [ngClass]="{ 'is-invalid': data.submitted && UserTitleId.invalid }">
                 <option [ngValue]="null">Seçiniz</option>
-                <option *ngFor="let firm of firms" value={{firm.FirmId}}>
-                  {{firm.Name}}
+                <option *ngFor="let title of userTitles" value={{title.UserTitleId}}>
+                  {{title.Title}}
                 </option>
               </select>
-              <div *ngIf="data.submitted && FirmId.invalid" class="invalid-feedback">
-                <div *ngIf="FirmId.errors.required">Bu alan zorunludur.</div>
+              <div *ngIf="data.submitted && UserTitleId.invalid" class="invalid-feedback">
+                <div *ngIf="UserTitleId.errors.required">Bu alan zorunludur.</div>
               </div>
             </div>
-          </div>
-          <!-- form-group -->
-          <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Rol</label>
-
               <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="roles" [settings]="dropdownSettings"
                 (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
               </ng-multiselect-dropdown>
-
-              <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
-                <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label class="required-span">E-posta</label>
-              <input type="email" name="UserMail" #UserMail="ngModel" required maxlength="50" class="form-control"
-                [(ngModel)]="currentUser.UserMail" [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" />
-              <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
-                <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+              <div style="display:block" *ngIf="data.submitted && (!currentUser.UserRoles || currentUser.UserRoles.length == 0)" class="invalid-feedback">
+                <div>Bu alan zorunludur.</div>
               </div>
             </div>
           </div>
@@ -174,7 +161,7 @@
             <div class="form-group col-md-6">
               <label class="required-span">Şifre</label>
               <input type="password" #Password="ngModel" maxlength="16" name="Password" required class="form-control"
-                [(ngModel)]="currentUser.Password"
+                [(ngModel)]="currentUser.Password" autocomplete="off"
                 [ngClass]="{ 'is-invalid': data.submitted && (Password.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value)) }" />
               <div *ngIf="data.submitted && Password.invalid" class="invalid-feedback">
                 <div *ngIf="Password.errors.required">Bu alan zorunludur.</div>
@@ -189,7 +176,7 @@
             <div class="form-group col-md-6">
               <label class="required-span">Şifre Tekrar</label>
               <input type="password" maxlength="16" #PasswordConfirm="ngModel" ngModel name="PasswordConfirm" required
-                class="form-control"
+                autocomplete="off" class="form-control"
                 [ngClass]="{ 'is-invalid': data.submitted && (PasswordConfirm.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value))  }" />
               <div *ngIf="data.submitted && PasswordConfirm.invalid" class="invalid-feedback">
                 <div *ngIf="PasswordConfirm.errors.required">Bu alan zorunludur.</div>
@@ -201,7 +188,8 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>Telefon</label>
-              <input type="text" name="PhoneNumber" class="form-control" [(ngModel)]="currentUser.PhoneNumber" />
+              <input type="text" autocomplete="off" name="PhoneNumber" class="form-control"
+                [(ngModel)]="currentUser.PhoneNumber" />
             </div>
             <div class="form-group col-md-6">
               <label>Bağlı Olduğu Kişi</label>

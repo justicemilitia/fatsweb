@@ -38,6 +38,7 @@ export const INSERT_USER = "auth/register";
 export const UPDATE_USER = "User/UpdateUser";
 export const GET_SYSTEM_USER_LIST = "User/GetSystemUserList";
 export const DELETE_USER = "User/RemoveByIdList";
+export const GET_USERTITLE_LIST = "UserTitle/GetTitleList";
 //#endregion
 
 //#region FixedAssetCards
@@ -46,7 +47,7 @@ export const GET_FIXEDASSETCARD_BY_ID = "fixedAssetcard/GetFixedAssetCardById";
 export const INSERT_FIXEDASSETCARD = "fixedassetcard/AddFixedAssetCard";
 export const UPDATE_FIXEDASSETCARD = "fixedassetcard/UpdateFixedAssets";
 export const DELETE_FIXEDASSETCARD = "fixedassetcard/RemoveByIdList";
-export const GET_FA_CARDS_BY_CATEGORY_ID="FixedAssetCard/GetFixedAssetCardByCategoryId";
+export const GET_FA_CARDS_BY_CATEGORY_ID = "FixedAssetCard/GetFixedAssetCardByCategoryId";
 //#endregion
 
 //#region FixedAssets
@@ -70,8 +71,8 @@ export const CHANGE_COLLECTIVEPARAMETER = "FixedAsset/CollectiveChangeProcess";
 //#endregion
 
 //#region FixedAssetCreate
-export const UNIQUE_BARCODE ="FixedAsset/BarcodeUniqueControl";
-export const GET_PROPERTYVALUE_LIST_BY_PROPERTYVALUE_ID="FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
+export const UNIQUE_BARCODE = "FixedAsset/BarcodeUniqueControl";
+export const GET_PROPERTYVALUE_LIST_BY_PROPERTYVALUE_ID = "FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
 ////#region FixedAssets
 
 //#region ExitFixedAssets
@@ -81,19 +82,19 @@ export const GET_EXITFIXEDASSETLIST = "FixedAsset/GetExitFixedAssetList";
 
 
 //#region SuspendedFixedAsset
-export const GET_SUSPENDED_LIST="FixedAsset/GetFixedAssetsSuspendedList";
-export const UNDO_SUSPENSION_PROCESS="FixedAsset/UndoSuspensionProcess";
+export const GET_SUSPENDED_LIST = "FixedAsset/GetFixedAssetsSuspendedList";
+export const UNDO_SUSPENSION_PROCESS = "FixedAsset/UndoSuspensionProcess";
 export const UPDATE_FIXEDASSETSUSPENDEDSTATUS = "FixedAsset/UpdateFixedAssetIsSuspendedStatus";
 //#endregion
 
 //#region LostFixedAsset
-export const GET_LOST_FA_LIST="FixedAsset/GetFixedAssetsLostList";
-export const UNDO_LOST_PROCESS="FixedAsset/UndoLostByArrayProcess";
+export const GET_LOST_FA_LIST = "FixedAsset/GetFixedAssetsLostList";
+export const UNDO_LOST_PROCESS = "FixedAsset/UndoLostByArrayProcess";
 export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostStatus";
 //#endregion
 
 //#region LostFixedAsset
-export const GET_CHECKOUT_FA_LIST="";
+export const GET_CHECKOUT_FA_LIST = "";
 
 //#endregion
 
@@ -108,7 +109,7 @@ export const UPDATE_FIXEDASSETCARDCATEGORY =
   "FixedAssetCardCategories/UpdateFixedAssetCardCategories";
 export const DELETE_FIXEDASSETCARDCATEGORY =
   "FixedAssetCardCategories/RemoveByIdList";
-export const GET_MODELS_BY_BRAND_ID=
+export const GET_MODELS_BY_BRAND_ID =
   "FixedAssetsCardModels/GetFixedAssetsCardModelsByBrandId";
 //#endregion
 
@@ -120,7 +121,7 @@ export const UPDATE_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/UpdateFix
 export const DELETE_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/RemoveByIdList";
 export const GET_FIXEDASSETCARDPROPERTY_BY_TYPEID = "FixedAssetCardProperties/GetFixedAssetCardPropertyByTypeId";
 export const GET_FIXEDASSETCARDPROPERTYTYPE_LIST = "FixedAssetPropertyTypes/GetFixedAssetPropertyTypesList";
-export const GET_PROPERTYVALUES_BY_PROPERTYID="FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
+export const GET_PROPERTYVALUES_BY_PROPERTYID = "FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
 //#endregion
 
 
@@ -171,16 +172,16 @@ export const GET_CHECKOUTREASON_LIST = "CheckOutReasons/GetCheckOutReasonsList";
 export const GET_SUSPENDED_BY_ID = "CheckOutReasons/GetSuspendedById";
 export const INSERT_CHECKOUTREASON = "CheckOutReasons/AddCheckOutReasons";
 export const UPDATE_CHECKOUTREASON = "CheckOutReasons/UpdateCheckOutReasons";
-export const GET_SUSPENSION_LIST="CheckOutReasons/GetCheckOutReasonsIsSuspendedList";
-export const DELETE_SUSPENSION="CheckOutReasons/RemoveByIdList";
+export const GET_SUSPENSION_LIST = "CheckOutReasons/GetCheckOutReasonsIsSuspendedList";
+export const DELETE_SUSPENSION = "CheckOutReasons/RemoveByIdList";
 //#endregion
 
 //#region FixedAssetStatus
 export const GET_FIXEDASSETSTATUS_LIST = "FixedAssetStatus/GetFixedAssetStatusList";
-  export const INSERT_STATUS="FixedAssetStatus/AddFixedAssetStatus";
-  export const UPDATE_STATUS="FixedAssetStatus/UpdateFixedAssetStatus";
-  export const GET_FIXEDASSETSTATUS_BY_ID="FixedAssetStatus/GetFixedAssetStatusById";
-  export const DELETE_STATUS="FixedAssetStatus/RemoveFixedAssetStatusByIdList";
+export const INSERT_STATUS = "FixedAssetStatus/AddFixedAssetStatus";
+export const UPDATE_STATUS = "FixedAssetStatus/UpdateFixedAssetStatus";
+export const GET_FIXEDASSETSTATUS_BY_ID = "FixedAssetStatus/GetFixedAssetStatusById";
+export const DELETE_STATUS = "FixedAssetStatus/RemoveFixedAssetStatusByIdList";
 //#endregion
 
 //#region ExpenseCenters
@@ -194,7 +195,7 @@ export const DELETE_EXPENSECENTER = "ExpenseCenter/RemoveByIdList";
 //region FixedAsset
 export const GET_FIXED_ASSET = "FixedAsset/GetFixedAssetsList";
 export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
-export const  UPLOAD_IMAGE = "FixedAsset/UploadImage";
+export const UPLOAD_IMAGE = "FixedAsset/UploadImage";
 //endregion
 
 
@@ -211,9 +212,9 @@ export const Do_ROLE_AUTHORIZATIONS = "role/DoRoleAuthorizations"
 export const GET_ROLE_AUTHORIZATION_LIST = "Role/GetRoleAuthorizationList";
 export const GET_ROLE_AUTHORIZATION_LIST_BY_FIRMID = "Role/GetMenuListbyFirmId";
 export const INSERT_ROLE_AUTHORIZATION = "Role/AddRoleAuthorizationsByArray";
-export const GET_ROLE_AUTHORIZATION_LIST_BY_ROLEID="Role/GetRoleAuthorizationListbyRoleId";
-export const UPDATE_ROLE_AUTHORIZATION="Role/UpdateRoleAuthorizationsByArray";
-export const DELETE_ROLE_AUTHORIZATION="Role/RemoveRoleAuthorizationsByIdList";
+export const GET_ROLE_AUTHORIZATION_LIST_BY_ROLEID = "Role/GetRoleAuthorizationListbyRoleId";
+export const UPDATE_ROLE_AUTHORIZATION = "Role/UpdateRoleAuthorizationsByArray";
+export const DELETE_ROLE_AUTHORIZATION = "Role/RemoveRoleAuthorizationsByIdList";
 //#endregion
 
 //#region UserRole
@@ -232,7 +233,7 @@ export const GET_USERFIRM_LIST_WITHOUT_PARAMS = "UserFirms/GetUserFirmsListbyFir
 export const GET_CITY_BY_COUNTRY_ID = "definition/GetCityByCountryId";
 
 //#region FixedAssetForm
-export const CREATE_FIXED_ASSET_FORM="PdfCreator/CreateFixedAssetDeliveryForm";
+export const CREATE_FIXED_ASSET_FORM = "PdfCreator/CreateFixedAssetDeliveryForm";
 //#endregion
 
 //#region Dashboard

@@ -25,12 +25,12 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
-  
+
   /* Is Table Refreshing */
-  isTableRefreshing:boolean = false;
+  isTableRefreshing: boolean = false;
 
   /* Is Table Exporting */
-  isTableExporting:boolean = false;
+  isTableExporting: boolean = false;
 
   /* Store the current edit user */
   currentUser: User = new User();
@@ -73,7 +73,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Unvan',
-        columnName: ['UserTitle','Title'],
+        columnName: ['UserTitle', 'Title'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -176,8 +176,8 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.currentUser.UserId = insertedUser.UserId;
 
         /* Object bindings to store in datatable */
-        this.currentUser.Role = this.roles.find(x => x.RoleId == this.currentUser.RoleId);
         this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
+        this.currentUser.UserTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
         this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
         /* Load Table */
@@ -211,8 +211,8 @@ export class UserComponent extends BaseComponent implements OnInit {
       if (response == true) {
 
         /* Object bindings to store in datatable */
-        let role = this.roles.find(x => x.RoleId == this.currentUser.RoleId);
         let department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
+        let userTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
         let parentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
         /* loading icon visible */
@@ -227,8 +227,8 @@ export class UserComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowSuccessPopup(message);
 
           /* Load related values to current model */
-          this.currentUser.Role = role;
           this.currentUser.Department = department;
+          this.currentUser.UserTitle = userTitle;
           this.currentUser.ParentUser = parentUser;
 
           /* Update in table the current user */
@@ -391,32 +391,28 @@ export class UserComponent extends BaseComponent implements OnInit {
       });
     }
 
-    /* Get Firms */
-    if (this.firms.length == 0) {
-      this.baseService.userService.GetFirms(firms => {
-        this.firms = firms;
-      },
-      (error: HttpErrorResponse) => {
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
+    /* Get User titles */
+    if (this.userTitles.length == 0) {
+      this.baseService.userService.GetUserTitles(titles => {
+        this.userTitles = titles;
       });
     }
 
   }
 
-  onItemSelect(item: User) {
-    if (this.currentUser["Roles"] == null)
-      this.currentUser["Roles"] = [];
-    this.currentUser["Roles"].push(item);
+  onItemSelect(item: Role) {
+    if (this.currentUser["UserRoles"] == null)
+      this.currentUser["UserRoles"] = [];
+    this.currentUser["UserRoles"].push(item);
   }
 
-  onSelectAll(items: any) {
-    
-    if (this.currentUser["Roles"] == null)
-      this.currentUser["Roles"] = [];
+  onSelectAll(items: Role[]) {
+
+    if (this.currentUser["UserRoles"] == null)
+      this.currentUser["UserRoles"] = [];
 
     items.forEach(element => {
-      this.currentUser["Roles"].push(element);
+      this.currentUser["UserRoles"].push(element);
     });
 
   }

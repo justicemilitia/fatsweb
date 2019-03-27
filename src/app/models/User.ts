@@ -16,7 +16,7 @@ export class User implements IData {
     getId(): number {
         return this.UserId;
     }
-
+    UserTitleId:number;
     isExtended: boolean;
     UserId: number;
     UserMail: string;
@@ -28,7 +28,7 @@ export class User implements IData {
     Password: string;
     PhoneNumber: number;
     ParentUserId: number;
-    Role: Role;
+    UserRoles: Role[];
     ParentUser: User;
     Department: Department;
     InverseParentUser: User[];
@@ -36,7 +36,7 @@ export class User implements IData {
     LocationId: number;
     constructor() {
         this.Department = new Department();
-        this.Role = new Role();
+        this.UserRoles = [];
         this.UserTitle = new UserTitle();
         this.InverseParentUser = [];
     }
