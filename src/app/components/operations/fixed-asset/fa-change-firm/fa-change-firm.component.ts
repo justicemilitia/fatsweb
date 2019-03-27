@@ -65,7 +65,12 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     /* Load firms to firm dropdown */
     await this.baseService.userService.GetFirms(firms => {
         this.firms = firms;
-      });
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
 }

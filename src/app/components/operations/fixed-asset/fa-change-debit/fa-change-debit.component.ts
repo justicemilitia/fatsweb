@@ -22,7 +22,6 @@ import { FixedAssetUser } from '../../../../models/FixedAssetUser';
 export class FaChangeDebitComponent extends BaseComponent implements OnInit {
 
   @Input() faBarcode: FixedAsset = new FixedAsset();
-  // faExitIds: number[] = [];
   fixedAssetUser: FixedAssetUser= new FixedAssetUser();
 
   /* List Of Users */
@@ -38,7 +37,6 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit {
     this.dropdownSettings = {
       singleSelection: false,
       idField: "UserId",
-      // textField: "UserMail",
       textField: "UserMail",
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
@@ -57,7 +55,6 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit {
       insertedUserIds.push(e.UserId);
     });
 
-    // this.fixedAssetUser.UserIds = data.value.userIds[0].UserId;
     this.fixedAssetUser.UserIds = insertedUserIds;
     this.fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
 

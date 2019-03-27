@@ -65,6 +65,10 @@ export const UPDATE_FIXEDASSETDEBIT = "FixedAsset/ChangeDebitPersonOnBarcode";
 export const DELETE_FIXEDASSETDEBIT = "FixedAsset/DeleteDebitPersonOnBarcode";
 //#endregion
 
+//#region ChangeCollectiveParameter
+export const CHANGE_COLLECTIVEPARAMETER = "FixedAsset/CollectiveChangeProcess";
+//#endregion
+
 //#region FixedAssetCreate
 export const UNIQUE_BARCODE ="FixedAsset/BarcodeUniqueControl";
 export const GET_PROPERTYVALUE_LIST_BY_PROPERTYVALUE_ID="FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";

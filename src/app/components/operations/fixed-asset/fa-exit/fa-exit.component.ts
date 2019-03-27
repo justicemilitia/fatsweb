@@ -32,7 +32,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   faExitIds: number[] = [];
   fixedAsset: FixedAsset = new FixedAsset();
   @Input() faDataTable: TreeGridTable;
-  @Input() faBarcodes: string;
+  @Input() faBarcode: string;
 
   constructor(baseService: BaseService) {
     super(baseService);

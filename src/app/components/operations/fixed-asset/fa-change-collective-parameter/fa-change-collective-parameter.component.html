@@ -1,0 +1,209 @@
+<form name="form" #data="ngForm" (ngSubmit)="ChangeCollectiveParameter(data)">
+    <div class="modal-body">
+        <!-- SEÇİLİ DEMİRBAŞLAR -->
+        <div class="row justify-content-center">
+            <div class="col-md-4 form-group">
+              <label>Demirbaşlar</label>
+              <div class="col-md" style="margin-left:-30px;">
+                  <div class="card card-body bg-gray-200 bd-0" style="height:340px; width:120px;">
+                    <p class="card-text"></p>
+                  </div><!-- card -->
+                </div><!-- col -->
+            </div>
+
+          <!-- TOPLU ALANLAR -->
+          <!-- <div class="justify-content-center"> -->
+          <div class="col-md-8 form-group">
+             
+              <!-- ŞİRKET - SİGORTA ŞİRKETİ -->
+              <div class="row">
+
+                  <!-- ŞİRKET -->
+                  <div class="col-md-6 form-group">
+                      <label>Firma</label>
+                      <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+                        <option [ngValue]="null">Seçiniz</option>
+                        <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                          {{ firm.Name }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <!-- SİGORTA ŞİRKETİ -->
+                    <div class="col-md-6 form-group">
+                        <label>Sigorta Şirketi</label>
+                        <select [(ngModel)]="fixedAsset.InsuranceCompanyId" name="InsuranceCompanyId" class="form-control" #InsuranceCompanyId="ngModel">
+                            <option [ngValue]="null">Seçiniz</option>
+                            <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
+                              {{ company.Name }}
+                            </option>
+                          </select>
+                    </div>
+              </div>
+
+              <!-- DEPARTMAN - LOKASYON -->
+              <div class="row">
+
+                <!-- DEPARTMAN -->
+                    <div class="col-md-6 form-group">
+                      <label>Departman</label>
+                      <select
+                        [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control" #DepartmentId="ngModel">
+                        <option [ngValue]="null">Seçiniz</option>
+                        <option
+                          *ngFor="let department of departments" value="{{ department.DepartmentId }}">
+                          {{ department.Name }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <!-- LOKASYON -->
+                    <div class="col-md-6 form-group">
+                        <label>Lokasyon</label>
+                        <select
+                          [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel">
+                          <option [ngValue]="null">Seçiniz</option>
+                          <option
+                            *ngFor="let location of locations"
+                            value="{{ location.LocationId }}">
+                            {{ location.Name }}
+                          </option>
+                        </select>
+                    </div>
+
+              </div>
+
+              <!-- MARKA - MODEL -->
+              <div class="row">
+                
+                <!-- MARKA -->
+                <div class="form-group col-md-6">
+                    <label>Marka</label>                  
+                    <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2-no-search" 
+                     (change)="loadModelByBrandId($event)" #FixedAssetCardBrandId="ngModel">
+                      <option [ngValue]="null">Seçiniz</option>
+                      <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
+                    </select> 
+                </div>
+
+                <!-- MODEL -->
+                <div class="form-group col-md-6">
+                    <label>Model</label>                  
+                    <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2-no-search" #FixedAssetCardModelId="ngModel">
+                        <option [ngValue]="null" >Seçiniz</option>
+                        <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
+                      </select> 
+                  </div>
+
+              </div>
+
+              <!-- TEDARİKÇİ - MASRAF YERİ -->
+              <div class="row">
+
+              <!-- TEDARİKÇİ -->
+              <div class="col-md-6 form-group">
+                    <label>Sigorta Şirketi</label>
+                    <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control" #CompanyId="ngModel">
+                        <option [ngValue]="null">Seçiniz</option>
+                        <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
+                          {{ company.Name }}
+                        </option>
+                      </select>
+              </div>
+
+              <!-- MASRAF YERİ -->
+              <div class="form-group col-md-6">
+                  <label>Masraf Yeri</label>                
+                    <select [(ngModel)]="fixedAsset.ExpenseCenterId" name="ExpenseCenterId" class="form-control select2-no-search" #ExpenseCenterId="ngModel">
+                        <option value="-1" >Seçiniz</option>
+                        <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
+                    </select>
+                  </div>
+              </div>
+
+              <!-- FATURA TARİHİ - FATURA NUMARASI -->
+              <div class="row">
+
+                  <!-- FATURA TARİHİ -->
+                  <div class="col-md-6 form-group">
+                      <label>Fatura Tarihi</label>
+                      <div class="input-group">
+                        <div class="input-group-append">
+                          <div (click)="invoiceDate.toggle()" class="input-group-text">
+                            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                          </div>
+                        </div>
+                        <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="invoiceDate"
+                          [(ngModel)]="fixedAsset.InvoiceDate" ngbDatepicker #invoiceDate="ngbDatepicker" #invoiceDateModel="ngModel">
+                      </div>
+                    </div>
+
+                    <!-- FATURA NUMARASI -->
+                    <div class="form-group col-md-6">
+                        <label>Fatura Numarası</label>
+                        <input [(ngModel)]="fixedAsset.InvoiceNo" name="invoiceNo" type="text" class="form-control" #invoiceNo="ngModel"/>
+                    </div>
+              </div>
+
+              <!-- GARANTİ SÜRESİ -->
+              <div class="row">
+
+                <!-- BAŞLANGIÇ TARİHİ -->
+                <div class="col-md-6 form-group">
+                    <label>Başlangıç Tarihi</label>
+                    <div class="input-group">
+                      <div class="input-group-append">
+                        <div (click)="guaranteeStartDate.toggle()" class="input-group-text">
+                          <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                        </div>
+                      </div>
+                      <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="guaranteeStartDate"
+                        [(ngModel)]="fixedAsset.GuaranteeStartDate" ngbDatepicker #guaranteeStartDate="ngbDatepicker" #guaranteeStartDateModel="ngModel">
+                    </div>
+                  </div>
+
+                <!-- BİTİŞ TARİHİ -->
+                <div class="col-md-6 form-group">
+                    <label>Bitiş Tarihi</label>
+                    <div class="input-group">
+                      <div class="input-group-append">
+                        <div (click)="guaranteeEndDate.toggle()" class="input-group-text">
+                          <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                        </div>
+                      </div>
+                      <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="guaranteeEndDate"
+                        [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker" #guaranteeEndDateModel="ngModel">
+                    </div>
+                  </div>
+              
+              </div>
+
+              <!-- DEMİRBAŞ STATÜSÜ -->
+              <div class="row">
+                  <div class="form-group col-md-6">
+                      <label>Demirbaş Statüsü</label>                    
+                      <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%;border: radius 0px;"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
+                          <option [ngValue]="null">Seçiniz</option>
+                          <option *ngFor="let status of statuses" value="{{status.FixedAssetStatusId}}">{{status.Name}}</option>
+                      </select>   
+                  </div>
+              </div>
+
+          </div>
+ <!-- </div> -->
+    </div>
+  </div>
+ 
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button
+      class="btn btn-orange"
+      id="btnChangeCollectiveParameter"
+      type="submit"
+      data-toggle="modal"
+      data-target="#modalChangeCollectiveParameter"
+    >
+     Kaydet
+    </button>
+  </div>
+</form>

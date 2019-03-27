@@ -395,6 +395,10 @@ export class UserComponent extends BaseComponent implements OnInit {
     if (this.firms.length == 0) {
       this.baseService.userService.GetFirms(firms => {
         this.firms = firms;
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        this.baseService.popupService.ShowErrorPopup(error);
       });
     }
 

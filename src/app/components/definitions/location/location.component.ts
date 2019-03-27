@@ -263,8 +263,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         /* if error show pop up */
-        this.baseService.alertInfoService.pushDanger(error.message);
-        this.baseService.errorService.errorManager(error);
+
+        /* Show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
 
       }
     );
@@ -294,8 +295,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
       /* hide spinner */
       this.baseService.spinner.hide();
 
-      this.baseService.alertInfoService.pushDanger(error.message);
-      this.baseService.errorService.errorManager(error);
+      /* Show error message */
+      this.baseService.popupService.ShowErrorPopup(error);
 
     }
     );

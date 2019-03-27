@@ -430,6 +430,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
       case FixedAssetOperations.exitFixedAsset:
       this.ExitFixedAssetOperation();
+
+      case FixedAssetOperations.changeCollectiveParameter:
+      this.ChangeCollectiveParameterOperation();
+
       case FixedAssetOperations.createFixedAsset:
       this.CreateFixedAssetOperation();
       break;
@@ -585,7 +589,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     }
     //#endregion
 
-    
+    //#region Change Collective Parameter
+ changeCollectiveParameter_selectedItem: FixedAsset[]=[];
+ ChangeCollectiveParameterOperation(){
+ let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+ 
+ if(selectedItems.length==0){
+   this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+   return;
+ }
+ 
+ this.changeCollectiveParameter_selectedItem=selectedItems;
+
+ $('#showModal').trigger('click');
+
+ }
+//#endregion
  
    //#region Create Fixed Asset Operation
    CreateFixedAssetOperation(){
