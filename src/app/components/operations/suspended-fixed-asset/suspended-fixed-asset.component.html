@@ -11,17 +11,16 @@
         <div class="card-header">
           <h2 class="az-content-title">Askıdaki Demirbaşlar</h2>
           <div class="grp-btn-action">
-            <button (click)="exportAsExcelFile(dataTable)" style="margin-right:10px" class="btn btn-success btn-excel-custom">
+            <button (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i></button>
 
-            <button type="button" (click)="refreshTable()" style="margin-right:10px"
-              class="btn btn-success btn-refresh-custom">
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button class="btn btn-az-primary" type="submit" id="btnSuspendedFa" style="margin-right:10px"
+            <button class="btn btn-az-primary btn-suspend-button" type="submit" id="btnSuspendedFa"
               (click)="selectedBarcodes()">
               <i class="fas fa-level-down-alt"></i></button>
 
@@ -29,7 +28,7 @@
               data-toggle="modal" data-target="#modalSuspendedFa">
               <i class="fas fa-level-down-alt"></i></button>
 
-            <button type="button" class="btn btn-danger btn-delete-custom" style="margin-right:10px"
+            <button type="button" class="btn btn-danger btn-delete-custom" style="margin-right:0"
               (click)="selectedExitBarcodes()">
               <i class="fas fa-minus-circle"></i></button>
 
