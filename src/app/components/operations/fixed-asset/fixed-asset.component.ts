@@ -446,9 +446,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
       case FixedAssetOperations.exitFixedAsset:
         this.ExitFixedAssetOperation();
+        break;
 
       case FixedAssetOperations.changeCollectiveParameter:
         this.ChangeCollectiveParameterOperation();
+        break;
 
       case FixedAssetOperations.createFixedAsset:
         this.CreateFixedAssetOperation();
