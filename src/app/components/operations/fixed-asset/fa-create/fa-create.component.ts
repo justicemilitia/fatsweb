@@ -64,6 +64,7 @@ const URL='';
 
 export class FaCreateComponent extends BaseComponent
   implements OnInit, AfterViewInit {
+    
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
@@ -100,6 +101,57 @@ export class FaCreateComponent extends BaseComponent
   public imagePath;
   imgURL: any;
 
+  /*Fixed Asset List */
+  public dataTable: TreeGridTable = new TreeGridTable(
+    "fixedasset",
+    [
+      {
+        columnDisplayName: "Barkod",
+        columnName: ["Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Demirbaş Adı",
+        columnName: ["FixedAssetCard", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Departman Adı",
+        columnName: ["Department", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Lokasyon Adı",
+        columnName: ["Location", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },          
+      {
+        columnDisplayName: "Fiyat",
+        columnName: ["Price"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+    ],
+    {
+      isDesc: false,
+      column: ["Barcode"]
+    }
+  );
+
   /* Fixed Asset Card Property Value Data Table */
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetcardpropertyvalue",
@@ -135,13 +187,13 @@ export class FaCreateComponent extends BaseComponent
     this.loadDropdown();
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
-    this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
-
-    this.loadFixedAssetProperties();
+    this.dataTable.isPagingActive = false;
+    this.dataTable.isColumnOffsetActive=false;
+    this.dataTable.isDeleteable=true;
   }
 
   ngOnInit() {}
@@ -364,6 +416,7 @@ export class FaCreateComponent extends BaseComponent
   }
 
   async insertPropertyValueToArray(propertyId: any) {
+    
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
     );

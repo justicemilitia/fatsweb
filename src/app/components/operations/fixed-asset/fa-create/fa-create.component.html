@@ -108,8 +108,8 @@
             </select>              
         </div>
         </div>
-        <div>
-            <button mat-button matStepperNext>Next</button>
+        <div class="grp-btn-action">
+            <button mat-button matStepperNext class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
         </div>  
   </mat-step>
   <mat-step label="Özellik Bilgileri">
@@ -160,9 +160,11 @@
             </div>  
           </div>
         </div> 
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+          <div class="grp-btn-action-left">
+            <button mat-button matStepperPrevious style="border-radius:0px; background-color: #e67300; color: white">Back</button>
+          </div>
+          <div class="grp-btn-action">
+            <button mat-button matStepperNext style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
           </div>
   </mat-step>
   <mat-step label="Finansal Bilgiler">
@@ -334,32 +336,21 @@
           </div>        
   </mat-step>
   <mat-step label="Dosya">  
-
-    <style>
-      .my-drop-zone { border: dotted 3px lightgray;    height: 100px; }
-      .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
-      .another-file-over-class { border: dotted 3px #e67300; }
-   
-      html, body { height: 100%; }
-  </style>
-
       <div class="row justify-content-center">
           <div class="form-group col-md-12"> 
             <div ng2FileDrop
             [ngClass]="{'another-file-over-class': hasAnotherDropZoneOver}"
             (fileOver)="fileOverAnother($event)"
             [uploader]="uploader"
-              (onFileDrop)="onFileSelected($event)"
+            (onFileDrop)="onFileSelected($event)"
             class="well my-drop-zone">
-            Dosya
+            <input type="file" ng2FileSelect [uploader]="uploader" multiple (onFileSelected)="onFileSelected($event)"/>
             </div>
-          <input type="file" ng2FileSelect [uploader]="uploader" multiple (onFileSelected)="onFileSelected($event)"/>       
           </div>
         </div>
         <div class="row justify-content-center">
           <div class="form-group col-md-12">
-              <h3></h3>
-             
+              <h3></h3>             
              <table class="table">
                   <thead>
                   <tr>
@@ -372,23 +363,20 @@
                   <tbody>
                   <tr *ngFor="let item of uploader.queue">
                       <td><strong>{{ item?.file?.name }}</strong></td>        
-                      <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td *ngIf="uploader.isHTML5">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                       <td *ngIf="uploader.isHTML5">
                           <div class="progress" style="margin-bottom: 0;">
-                              <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
                           </div>
                       </td>  
                       <td class="text-center">
-                          <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                          <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                          <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                          <span *ngIf="item.isSuccess"><i class="fas fa-check"></i></span>
+                          <span *ngIf="item.isCancel"><i class="fas fa-times"></i></span>
+                          <span *ngIf="item.isError"><i class="far fa-trash-alt"></i></span>
                       </td>         
-                      <td style="float: right;">
-                          <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" style="width:5px;height:5px;background-color: white"  [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                          <span  class='typcn icon-default typcn-plus' style="color:red"></span>
+                      <td style="float: right;">                          
+                          <button type="button" class="btn btn-delete-custom" style="width:3px;height:3px;background-color: white" (click)="item.remove()"><span class='typcn icon-default typcn-minus' style="color:red"></span>
                           </button>
-                          <button type="button" class="btn btn-delete-custom" style="width:5px;height:5px;background-color: white" (click)="item.remove()"><span class='typcn icon-default typcn-minus' style="color:red"></span>
-                        </button>
                       </td>
                   </tr>
                   <p>Dosya Sayısı: {{ uploader?.queue?.length }}</p>
@@ -396,24 +384,21 @@
               </table>  
           </div>
         </div>
-        
         <div class="progress">
             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
         </div>
-        <button type="button" class="btn btn-success btn-s"
-        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-            <span class="glyphicon glyphicon-upload"></span> Upload all
-        </button>
-        <button type="button" class="btn btn-warning btn-s"
-                (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-        </button>
-        <button type="button" class="btn btn-danger btn-s"
-                (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-            <span class="glyphicon glyphicon-trash"></span> Remove all
-        </button>
+        <div class="grp-btn-action">
+            <button type="button" class="btn btn-az-primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+            <span class="glyphicon glyphicon-upload"></span>Tümünü Yükle</button>        
+            <button type="button" class="btn btn-danger" style="margin-left:10px" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+            <span class="fas fa-trash"></span></button>
+        </div>
+        <div class="grp-btn-action">
+
+        </div>
   </mat-step>
   <mat-step label="Demirbaş Listesi">
+      <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
   </mat-step>
   </mat-horizontal-stepper>
   </form>
