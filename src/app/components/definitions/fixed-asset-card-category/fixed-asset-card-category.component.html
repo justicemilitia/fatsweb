@@ -51,7 +51,11 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Demirbaş kategorisi oluşturmak için aşağıdaki alanları doldurunuz.</h6>
+        <h6 class="modal-title">
+            {{
+              fixedAssetCardCategory.FixedAssetCardCategoryId ?  'Demirbaş Kategorisi Güncelle' : 'Demirbaş Kategorisi Ekle'
+            }}
+        </h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

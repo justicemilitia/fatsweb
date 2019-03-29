@@ -52,7 +52,7 @@ function loadData() {
 
     /******************* DASHBOARD CHARTS **************************/
 
-    $.plot('#flotBar1', [{
+    /*$.plot('#flotBar1', [{
       data: [[1, 0], [2, 0], [3, 0], [4, 1], [5, 3], [6, 3], [7, 10], [8, 11], [9, 10], [10, 9], [11, 12], [12, 8], [13, 10], [14, 6], [15, 3]],
       bars: {
         show: true,
@@ -136,7 +136,7 @@ function loadData() {
             size: 9
           }
         }
-      });
+      });*/
 
     $.plot('#flotChart1', [{
       data: dashData5,
@@ -263,7 +263,7 @@ function loadData() {
         xaxis: { show: false }
       });
 
-    /*$.plot('#flotChart6', [{
+    $.plot('#flotChart6', [{
         data: dashData7,
         color: '#fd7e14'
       }], {
@@ -286,13 +286,9 @@ function loadData() {
         max: 80
       },
             xaxis: { show: false }
-        });*/
+        });
 
-    $.plot('#flotChart7', [{
-      data: dashData3,
-      color: '#00cccc',
-      curvedLines: { apply: true }
-    }, {
+    $.plot('#flotChart7', [ {
       data: dashData4,
       color: '#560bd0',
       curvedLines: { apply: true }
@@ -320,7 +316,7 @@ function loadData() {
         },
         xaxis: {
           show: true,
-          ticks: [[0, ''], [20, 'Şubat'], [40, 'Mart'], [60, 'Nisan']],
+          ticks: [[0, ''], [20, 'ŞUBAT'], [40, 'MART'], [60, 'NİSAN']],
           tickColor: 'rgba(255,255,255,0)'
         }
       });
@@ -351,7 +347,7 @@ function loadData() {
         xaxis: {
           show: true,
           max: 40,
-          ticks: [[0, ''], [15, 'Nov 20'], [30, 'Nov 21']],
+          ticks: [[0, ''], [15, 'MART'], [30, 'NİSAN']],
           tickColor: 'rgba(255,255,255,0)'
         }
       });
@@ -390,7 +386,7 @@ function loadData() {
         xaxis: {
           show: true,
           max: 40,
-          ticks: [[0, ''], [15, 'Nov 20'], [30, 'Nov 21']],
+          ticks: [[0, ''], [15, 'MART'], [30, 'NİSAN']],
           tickColor: 'rgba(255,255,255,0)'
         }
       });

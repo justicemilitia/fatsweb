@@ -90,14 +90,14 @@
               <ng-container [ngSwitch]="column.type">
                 <ng-container *ngSwitchCase="'checkbox'">
                   <label class="checkbox-container">
-                    <input type="{{column.type}}" placeholder="{{column.placeholder}}" class="form-control"
+                    <input type="{{column.type}}" placeholder="{{column.placeholder ? column.placeholder : 'Ara'}}" class="form-control"
                       [checked]="dataTable.dataFilters[column.columnName]"
                       (change)="dataTable.dataFilters[column.columnName] = !dataTable.dataFilters[column.columnName]">
                     <span class="checkmark"></span>
                   </label>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
-                  <input type="text" placeholder="{{column.placeholder}}" class="form-control"
+                  <input type="text" placeholder="{{column.placeholder ? column.placeholder : 'Ara'}}" class="form-control"
                     [(ngModel)]="dataTable.dataFilters[column.columnName]">
                 </ng-container>
               </ng-container>

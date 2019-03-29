@@ -20,12 +20,14 @@
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button class="btn btn-az-secondary" style="margin-right:10px" (click)="redirectTo('/roleuser')">
-                <i class="fa fa-list"></i> Rol Kullanıcı Listesi
-              </button>
             <button type="button" (click)="deleteRoles()" style="margin-right:10px" class="btn btn-danger btn-delete-custom">
             {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
             <i class="fas fa-trash"></i></button>
+            
+            <button class="btn btn-az-primary" style="margin-right:10px" (click)="redirectTo('/roleuser')">
+              <i class="fa fa-list" style="margin-right:10px;"></i> Rol Kullanıcı Listesi
+            </button>
+
             <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"><i class="fa fa-plus-circle fa-plus-circle-add"></i> Rol Ekle
             </button>
             <button style="display:none" id="btnEditRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"> Rol Düzenle

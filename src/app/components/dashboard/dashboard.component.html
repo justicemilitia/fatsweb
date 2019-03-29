@@ -2,7 +2,7 @@
   <div class="az-content-body">
     <div class="az-content-body-left">
       <h2 class="az-content-title tx-24 mg-b-5">Merhaba!</h2>
-      <p class="mg-b-20">Your product performance and management dashboard template.</p>
+      <p class="mg-b-20">Demirbaşlarınızın güncel özetini görüntülüyorsunuz.</p>
 
       <div class="row row-sm mg-b-20">
         <div class="col-sm-6 col-lg-4">
@@ -10,18 +10,19 @@
             <div class="card-header">
               <h6 class="card-title">TOPLAM DEMİRBAŞ</h6>
               <div class="chart-legend">
-                <div><span class="bg-primary"></span> New</div>
-                <div><span class="bg-teal"></span> Returning</div>
+                <div><span class="bg-primary"></span> AYLIK</div>
               </div><!-- chart-legend -->
             </div><!-- card-header -->
             <div class="card-body">
               <div class="pd-x-15">
-                <h6>{{countValues.TOTAL ? countValues.TOTAL.TOTAL_ITEMS : 0 }} 
-                  <span class="tx-success"><i class="icon ion-md-arrow-up"></i> 
-                  {{countValues.TOTAL ? (countValues.TOTAL.TOTAL_ITEMS / countValues.TOTAL.TOTAL_PREV2_ITEMS) * 100 : 0 }} %
-                </span>
-              </h6>
-                <label>Avg. Customers/Day</label>
+                <h6>
+                  {{countValues.TOTAL ? countValues.TOTAL.TOTAL_ITEMS : 0 }}
+                  <span class="tx-success">
+                    %{{countValues.TOTAL && countValues.TOTAL.TOTAL_PREV2_ITEMS != 0 ? (countValues.TOTAL.TOTAL_ITEMS / countValues.TOTAL.TOTAL_PREV2_ITEMS) * 100 : 0 }}
+                    <i class="icon ion-md-arrow-up"></i>
+                  </span>
+                </h6>
+                <label>Ort. Demirbaş/Ay</label>
               </div>
               <div class="chart-wrapper">
                 <div id="flotChart7" class="flot-chart"></div>
@@ -32,12 +33,17 @@
         <div class="col-sm-6 col-lg-4 mg-t-20 mg-sm-t-0">
           <div class="card card-dashboard-twentysix card-dark-one">
             <div class="card-header">
-              <h6 class="card-title">Conversions</h6>
+              <h6 class="card-title">AKTİF DEMİRBAŞLAR</h6>
             </div><!-- card-header -->
             <div class="card-body">
               <div class="pd-x-15">
-                <h6>0.23% <span><i class="icon ion-md-arrow-up"></i> 0.20%</span></h6>
-                <label>Purchased</label>
+                <h6>{{countValues.ACTIVE ? countValues.ACTIVE.TOTAL_ITEMS : 0 }}
+                  <span>
+                    %{{countValues.ACTIVE && countValues.ACTIVE.TOTAL_PREV2_ITEMS != 0 ? (countValues.ACTIVE.TOTAL_ITEMS / countValues.ACTIVE.TOTAL_PREV2_ITEMS) * 100 : 0 }}
+                    <i class="icon ion-md-arrow-up"></i>
+                  </span>
+                </h6>
+                <label>Toplam</label>
               </div>
               <div class="chart-wrapper">
                 <div id="flotChart8" class="flot-chart"></div>
@@ -48,12 +54,14 @@
         <div class="col-lg-4 mg-t-20 mg-lg-t-0">
           <div class="card card-dashboard-twentysix card-dark-two">
             <div class="card-header">
-              <h6 class="card-title">Revenue</h6>
+              <h6 class="card-title">DEMİRBAŞ DEĞERİ</h6>
             </div><!-- card-header -->
             <div class="card-body">
               <div class="pd-x-15">
-                <h6>$7,299 <span><i class="icon ion-md-arrow-up"></i> 1.18%</span></h6>
-                <label>Total Sales</label>
+                <h6>
+                  {{countValues.PRICE ? countValues.PRICE.TOTAL_ITEMS : 0 }} ₺
+                </h6>
+                <label>Toplam</label>
               </div>
               <div class="chart-wrapper">
                 <div id="flotChart9" class="flot-chart"></div>
@@ -67,8 +75,8 @@
         <h6 class="card-title">Demirbaşlar</h6>
         <div class="row row-sm">
           <div class="col-6 col-sm-4 col-lg">
-            <label class="card-label">AKTİF DEMİRBAŞLAR</label>
-            <h6 class="card-value">{{assetValues.TotalCountOfFixedAssets}}</h6>
+            <label class="card-label">İLİŞKİLİ DEMİRBAŞLAR</label>
+            <h6 class="card-value">{{assetValues.RelatedFixedAssets}}</h6>
             <div class="chart-wrapper">
               <div id="flotChart1" class="flot-chart"></div>
             </div><!-- chart-wrapper -->
@@ -88,23 +96,30 @@
             </div><!-- chart-wrapper -->
           </div><!-- col -->
           <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
+            <label class="card-label">GARANTİLİ DEMİRBAŞLAR</label>
+            <h6 class="card-value">{{assetValues.GuaranteedFixedAssets}}</h6>
+            <div class="chart-wrapper">
+              <div id="flotChart6" class="flot-chart"></div>
+            </div><!-- chart-wrapper -->
+          </div><!-- col -->
+          <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
+            <label class="card-label">PASİF DEMİRBAŞLAR</label>
+            <h6 class="card-value">{{assetValues.PassiveFixedAssets}}</h6>
+            <div class="chart-wrapper">
+              <div id="flotChart5" class="flot-chart"></div>
+            </div><!-- chart-wrapper -->
+          </div><!-- col -->
+          <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
             <label class="card-label">ÇIKIŞI YAPILMIŞ DEMİRBAŞLAR</label>
             <h6 class="card-value">{{assetValues.CheckedOutFixedAssets}}</h6>
             <div class="chart-wrapper">
               <div id="flotChart4" class="flot-chart"></div>
             </div><!-- chart-wrapper -->
           </div><!-- col -->
-          <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
-            <label class="card-label">AMORTİSMANI HESAPLANAN DEMİRBAŞLAR</label>
-            <h6 class="card-value">{{ assetValues.DepreciationCount }}</h6>
-            <div class="chart-wrapper">
-              <div id="flotChart5" class="flot-chart"></div>
-            </div><!-- chart-wrapper -->
-          </div><!-- col -->
         </div><!-- row -->
       </div><!-- card -->
 
-      <div class="row row-sm">
+      <div class="row row-sm" style="display: none">
         <div class="col-lg-6">
           <div class="card card-dashboard-twentyfour">
             <div class="card-header">
@@ -227,7 +242,7 @@
             </div><!-- table-responsive -->
           </div><!-- card-dashboard-five -->
         </div><!-- col -->
-        <div class="col-lg-4 mg-t-20">
+        <div class="col-lg-4 mg-t-20" >
           <div class="card card-dashboard-eight bg-white">
             <h6 class="card-title">Your Top Countries</h6>
             <span class="d-block mg-b-20">Sales performance revenue based by country</span>
@@ -449,9 +464,9 @@
         </div>
       </div><!-- az-media-list-activity -->
       <a href="" class="btn btn-outline-light btn-block">Tüm Hareketler</a>
-      <hr class="mg-y-25">
-      <label class="az-content-label tx-base mg-b-25">2 Recent Reviews</label>
-      <div class="az-media-list-reviews">
+      <hr style="display: none" class="mg-y-25">
+      <label style="display: none" class="az-content-label tx-base mg-b-25">2 Recent Reviews</label>
+      <div style="display: none" class="az-media-list-reviews">
         <div class="media">
           <div class="az-img-user"><img src="https://via.placeholder.com/500x500" alt=""></div>
           <div class="media-body">

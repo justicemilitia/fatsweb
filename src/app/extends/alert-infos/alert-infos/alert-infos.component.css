@@ -5,7 +5,6 @@
 }
 
 .custom-alert-info {
-    padding-top:20px;
     margin: 0;
     margin-left: 20px;
     margin-top: 12px;
@@ -18,4 +17,6 @@
 
 .custom-alert-info-title {
     margin-bottom: 0;
+    overflow: auto;
+    word-break: break-all;
 }

@@ -37,9 +37,7 @@ export class PopupService {
 
   ShowErrorPopup(error: HttpErrorResponse) {
     this.alertSerivce.pushDanger(this.languageService.getValue(error.statusText));
-    setTimeout(() => {
-      this.errorService.errorManager(error);
-    }, 2000);
+    this.errorService.errorManager(error);
   }
 
   ShowMenuAuthorizePopup(ok) {
