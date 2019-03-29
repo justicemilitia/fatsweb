@@ -4,14 +4,16 @@ import {
   HttpClient,
   HttpRequest,
   HttpEventType,
-  HttpResponse
+  HttpResponse,
+  HttpHeaders
 } from "@angular/common/http";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import {
   SERVICE_URL,
   FILE_UPLOAD,
-  GET_HEADERS
+  GET_HEADERS,
+  UPLOAD_IMAGE
 } from "../../declarations/service-values";
 import { getAnErrorResponse } from "../../declarations/extends";
 
@@ -44,5 +46,33 @@ export class FileUploadService {
           failed(error);
         }
       );
+  }
+
+  ImageUpload(files:any,success,failed){
+
+    let formData = new FormData();
+    
+    if (files && files.length > 0) formData.append(files[0].name, files[0]);
+
+    let headers: HttpHeaders=new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
+    headers = headers.append('Accept', 'application/json');
+
+    this.httpClient.post(SERVICE_URL + UPLOAD_IMAGE, formData,{
+      headers:headers
+    }).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let file = response.ResultObject.toString();
+          success(file, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
   }
 }

@@ -1,6 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
+//export const SERVICE_URL = "http://localhost:11889/api/";
 export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
@@ -72,7 +73,9 @@ export const CHANGE_COLLECTIVEPARAMETER = "FixedAsset/CollectiveChangeProcess";
 //#region FixedAssetCreate
 export const UNIQUE_BARCODE ="FixedAsset/BarcodeUniqueControl";
 export const GET_PROPERTYVALUE_LIST_BY_PROPERTYVALUE_ID="FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
-////#region FixedAssets
+export const GET_VALID_BARCODE_LAST_NUMBER="FixedAsset/GetValidBarcodeLastNumber";
+export const ADD_FIXED_ASSET="FixedAsset/AddFixedAssetWithPieces";
+//#endregion
 
 //#region ExitFixedAssets
 export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
@@ -194,7 +197,7 @@ export const DELETE_EXPENSECENTER = "ExpenseCenter/RemoveByIdList";
 //region FixedAsset
 export const GET_FIXED_ASSET = "FixedAsset/GetFixedAssetsList";
 export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
-export const  UPLOAD_IMAGE = "FixedAsset/UploadImage";
+export const  UPLOAD_IMAGE = "File/UploadImage";
 //endregion
 
 
@@ -204,7 +207,7 @@ export const INSERT_ROLE = "Role/AddRole";
 export const GET_ROLE_BY_ID = "Role/GetRoleById";
 export const GET_ROLE_LIST = "role/GetRoleList";
 export const DELETE_ROLES = "role/RemoveByIdList";
-export const Do_ROLE_AUTHORIZATIONS = "role/DoRoleAuthorizations"
+export const Do_ROLE_AUTHORIZATIONS = "role/DoRoleAuthorizations";
 //#endregion
 
 //#region RoleAuthorization

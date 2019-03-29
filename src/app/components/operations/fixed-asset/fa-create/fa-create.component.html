@@ -1,9 +1,9 @@
-<form name="form" #data="ngForm" novalidate>
-<mat-horizontal-stepper >   
-  <mat-step label="Genel Bilgiler" >
+<form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data)" novalidate>
+<mat-horizontal-stepper [linear]="disabledBarcode==true">   
+  <mat-step label="Genel Bilgiler">
         <div class="row justify-content-center">
           <div class="form-group col-md-6">           
-          <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)" name="Barcode" 
+          <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)" value="{{barcode}}" name="Barcode" 
           [disabled]="disabledBarcode==true" type="text" placeholder="Barkod" class="form-control"
           [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" required/>
           <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
@@ -16,15 +16,13 @@
           </div>
         </div>
         <div class="row justify-content-center">     
-          <div class="form-group col-md-3">
-            <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
+          <div class="form-group col-md-3">         
                 <label class="ckbox">
-                  <input type="checkbox" name="isBarcodeManual" (change)="isBarcodeManual($event)"/><span>Manuel Barkod</span>
-                </label>
-            </div>          
+                  <input [(ngModel)]="fixedAsset.IsBarcodeManual" type="checkbox" name="IsBarcodeManual" #IsBarcodeManual="ngModel" (change)="isBarcodeManual($event)"/><span>Manuel Barkod</span>
+                </label>              
           </div>
           <div class="form-group col-md-3"> 
-                <input type="number" name="quantity" min="1" max="100" placeholder="Adet" class="form-control" required/>         
+                <input type="number" [(ngModel)]="fixedAsset.Quantity" [disabled]="disabledBarcode==false" name="Quantity" min="1" max="100" placeholder="Adet" class="form-control" required/>         
           </div>                          
           <div class="form-group col-md-6">
               <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
@@ -37,42 +35,42 @@
           </div>
         </div>
         <div class="row justify-content-center">
-        <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" style="width:100%;" (click)="loadCategoriesList()" (change)="loadFaCardByCategoryId($event)" class="form-control select2-no-search"  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" #FixedAssetCardCategoryId="ngModel" required >
-                <option [ngValue]="null">Demirbaş Kategorisi Seçiniz</option>
-                <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
-            </select> 
-            <div *ngIf="data.submitted && FixedAssetCardCategoryId.invalid" class="invalid-feedback">
-                <div *ngIf="FixedAssetCardCategoryId.errors.required">Bu alan zorunludur.</div>
-            </div>  
-        </div>
-        <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2-no-search" style="width:100%;"   [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" #UserId="ngModel" required >
-                <option [ngValue]="null">Personel Seçiniz</option>
-                <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
-            </select> 
-            <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
-                  <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
-            </div> 
-        </div>
+          <div class="form-group col-md-6">
+              <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" style="width:100%;" (click)="loadCategoriesList()" (change)="loadFaCardByCategoryId($event)" class="form-control select2-no-search"  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" #FixedAssetCardCategoryId="ngModel" required >
+                  <option [ngValue]="null">Demirbaş Kategorisi Seçiniz</option>
+                  <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
+              </select> 
+              <div *ngIf="data.submitted && FixedAssetCardCategoryId.invalid" class="invalid-feedback">
+                  <div *ngIf="FixedAssetCardCategoryId.errors.required">Bu alan zorunludur.</div>
+              </div>  
+          </div>
+          <div class="form-group col-md-6">
+              <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2-no-search" style="width:100%;"   [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" #UserId="ngModel" required >
+                  <option [ngValue]="null">Personel Seçiniz</option>
+                  <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
+              </select> 
+              <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
+                    <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
+              </div> 
+          </div>
         </div>  
         <div class="row justify-content-center">
-        <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" style="width:100%;"  class="form-control select2-no-search" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardId.invalid }" #FixedAssetCardId="ngModel" required >
-                <option [ngValue]="null">Demirbaş Seçiniz</option>
-                <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>
-            </select> 
-            <div *ngIf="data.submitted && FixedAssetCardId.invalid" class="invalid-feedback">
-                  <div *ngIf="FixedAssetCardId.errors.required">Bu alan zorunludur.</div>
-            </div>        
-        </div>
-        <div class="form-group col-md-6">
-            <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" style="width:100%;" class="form-control select2-no-search" 
-            (click)="loadBrandList()" (change)="loadModelByBrandId($event)">
-              <option [ngValue]="null">Marka Seçiniz</option>
-              <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
-            </select> 
-        </div>
+          <div class="form-group col-md-6">
+              <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" style="width:100%;"  class="form-control select2-no-search" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardId.invalid }" #FixedAssetCardId="ngModel" required >
+                  <option [ngValue]="null">Demirbaş Seçiniz</option>
+                  <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>
+              </select> 
+              <div *ngIf="data.submitted && FixedAssetCardId.invalid" class="invalid-feedback">
+                    <div *ngIf="FixedAssetCardId.errors.required">Bu alan zorunludur.</div>
+              </div>        
+          </div>
+          <div class="form-group col-md-6">
+              <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" style="width:100%;" class="form-control select2-no-search" 
+              (click)="loadBrandList()" (change)="loadModelByBrandId($event)">
+                <option [ngValue]="null">Marka Seçiniz</option>
+                <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
+              </select> 
+          </div>
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
@@ -89,7 +87,7 @@
                 <option [ngValue]="null" >Model Seçiniz</option>
                 <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
               </select> 
-          </div>
+        </div>
         </div>
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
@@ -109,7 +107,7 @@
         </div>
         </div>
         <div class="grp-btn-action">
-            <button mat-button matStepperNext class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <button mat-button matStepperNext type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
         </div>  
   </mat-step>
   <mat-step label="Özellik Bilgileri">
@@ -139,18 +137,20 @@
                 </div>                
             </div>                  
             <div class="form-group col-md-4">
-                <img [src]="imgURL" height="200" *ngIf="imgURL">
+                <img [src]="imgURL" height="200" width="300" *ngIf="imgURL">
             </div>   
           </div>  
           
           <div class="row justify-content-center">  
-          <div class="form-group col-md-8">
-            <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
-          </div> 
+            <div class="form-group col-md-8">
+              <div class="property-values-table">
+               <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+              </div>
+            </div> 
           <div class="form-group col-md-4">        
             <label>Demirbaş Resmi</label>
             <div class="file-area">
-            <input #Picture [(ngModel)]="fixedAsset.Picture" id="FixedAssetImage" accept='image/*' (change)="preview(Picture.files)" name="Picture" type="file" class="form-control-file" style="display:none">
+            <input #Picture [(ngModel)]="imageFile" id="FixedAssetImage" accept='image/*' (change)="addImageFile(Picture.files)" name="Picture" type="file" class="form-control-file" style="display:none">
               <label for="FixedAssetImage" class="custom-file">
                 <label class="custom-file-text" for="FixedAssetImage">
                  Dosya Seçiniz
@@ -159,13 +159,16 @@
               <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
             </div>  
           </div>
-        </div> 
+        </div>
+         
+        <div class="row" style="margin-right: 0px; margin-left: 0px;">
           <div class="grp-btn-action-left">
-            <button mat-button matStepperPrevious style="border-radius:0px; background-color: #e67300; color: white">Back</button>
+            <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
           </div>
           <div class="grp-btn-action">
-            <button mat-button matStepperNext style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <button mat-button matStepperNext type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
           </div>
+        </div>
   </mat-step>
   <mat-step label="Finansal Bilgiler">
             <div class="row justify-content-center">
@@ -226,22 +229,18 @@
             </div>
 
             <div class="row justify-content-center">
-                <div class="form-group col-md-6">
-                    <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
+                <div class="form-group col-md-6">                    
                         <label class="ckbox">
                           <input  [checked]="fixedAsset.WillDepreciationBeCalculated"
                           (change)="fixedAsset.WillDepreciationBeCalculated = !fixedAsset.WillDepreciationBeCalculated" type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
-                        </label>
-                    </div>
+                        </label>                 
                 </div>
-                <div class="form-group col-md-6">
-                    <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
+                <div class="form-group col-md-6">                  
                         <label class="ckbox">
                           <input [checked]="fixedAsset.WillIfrsbeCalculated"
                           (change)="fixedAsset.WillIfrsbeCalculated = !fixedAsset.WillIfrsbeCalculated" type="checkbox"/>
                           <span>IFRS Hesaplanacak mı ?</span>
-                        </label>
-                    </div>
+                        </label>               
                 </div>
             </div>  
 
@@ -274,12 +273,10 @@
 
           <div class="row justify-content-center">
               <div class="form-group col-md-6">
-                  <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
                       <label class="ckbox">
                         <input type="checkbox" [checked]="fixedAsset.IsActivate"
                         (change)="fixedAsset.IsActivate = !fixedAsset.IsActivate"/><span>Demirbaş Aktif mi ?</span>
-                      </label>
-                  </div>    
+                      </label>  
               </div>
               <div class="form-group col-md-3"> 
                   <div class="input-group">
@@ -321,21 +318,24 @@
                 </div>
             </div>
             <div class="form-group col-md-6">
-                <div style="padding-left:15px; padding-top: 5px; margin-right:0px;">
                     <label class="ckbox">
                       <input type="checkbox" [checked]="fixedAsset.HasInflationIndexation"
                       (change)="fixedAsset.HasInflationIndexation = !fixedAsset.HasInflationIndexation"
                       name="HasInflationIndexation" /><span>Enflasyon Hesaplanacak mı ?</span>
                     </label>
-                </div>   
             </div>
           </div> 
-          <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
-          </div>        
+          <div class="row" style="margin-right: 0px; margin-left: 0px;">
+            <div class="grp-btn-action-left">
+              <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
+            </div>
+            <div class="grp-btn-action">
+              <button mat-button matStepperNext type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            </div>
+          </div>     
   </mat-step>
   <mat-step label="Dosya">  
+    <div>
       <div class="row justify-content-center">
           <div class="form-group col-md-12"> 
             <div ng2FileDrop
@@ -387,18 +387,34 @@
         <div class="progress">
             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
         </div>
-        <div class="grp-btn-action">
+        <div class="grp-btn-action" style="margin-bottom: 10px; margin-top: 10px;">
             <button type="button" class="btn btn-az-primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
             <span class="glyphicon glyphicon-upload"></span>Tümünü Yükle</button>        
             <button type="button" class="btn btn-danger" style="margin-left:10px" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
             <span class="fas fa-trash"></span></button>
         </div>
-        <div class="grp-btn-action">
-
+      </div>
+        <div class="row" style="margin-right: 0px; margin-left: 0px;">
+          <div class="grp-btn-action-left">
+            <button mat-button matStepperPrevious  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
+          </div>
+          <div class="grp-btn-action">
+            <button mat-button matStepperNext type="submit" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+          </div>
         </div>
   </mat-step>
   <mat-step label="Demirbaş Listesi">
+      <div class="property-values-table">
       <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+      </div>
+      <div class="row" style="margin-right: 0px; margin-left: 0px;">
+          <div class="grp-btn-action-left">
+            <button mat-button matStepperPrevious class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
+          </div>
+          <div class="grp-btn-action">
+            <button class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white">Kaydet</button>
+          </div>
+      </div>
   </mat-step>
   </mat-horizontal-stepper>
   </form>
