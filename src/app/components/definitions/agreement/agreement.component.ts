@@ -134,7 +134,6 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   constructor(public baseService: BaseService) {
     super(baseService);
-
     this.loadAgreements();
     this.loadCompanies();
   }
