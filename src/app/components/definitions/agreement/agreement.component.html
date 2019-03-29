@@ -174,11 +174,10 @@
             <div class="form-group col-md-6">
               <label>Dosya</label>
               <div class="file-area">
-                <input #agreementFile name="AgreementFile" id="AgreementFile" type="file" class="form-control-file"
-                  [(ngModel)]="agreementFiles" style="display:none">
+                <input #agreementFile name="AgreementFile" (change)="changeFile($event)" id="AgreementFile" type="file" class="form-control-file" style="display:none">
                 <label for="AgreementFile" class="custom-file">
                   <label class="custom-file-text" for="AgreementFile">
-                    {{agreementFile.files.length > 0 ? agreementFile.files[0].name : agreement.AgreementFile ? agreement.AgreementFile : 'Dosya Seçiniz'}}
+                    {{agreementFiles.length > 0 ? agreementFiles[0].name : agreement.AgreementFile ? agreement.AgreementFile : 'Dosya Seçiniz'}}
                   </label>
                 </label>
                 <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>

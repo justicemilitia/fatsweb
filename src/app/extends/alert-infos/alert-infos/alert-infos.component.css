@@ -1,14 +1,15 @@
 .custom-alert-info-area {
-    position: absolute;
+    position: fixed;
     right: 0;
+    z-index: 9000000;
 }
 
 .custom-alert-info {
+    padding-top:20px;
     margin: 0;
     margin-left: 20px;
     margin-top: 12px;
     margin-right: 20px;
-    z-index: 90000;
     width: 300px;
     max-width: 300px;
     right: 0;

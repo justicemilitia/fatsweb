@@ -1,7 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -34,7 +34,7 @@ export const CHANGE_FIRM = "Firm/ChangeFirmSession";
 //#region Users
 export const GET_USER_LIST = "user/GetUserList";
 export const GET_USER_BY_ID = "user/GetUserById";
-export const INSERT_USER = "auth/register";
+export const INSERT_USER = "User/AddUser";
 export const UPDATE_USER = "User/UpdateUser";
 export const GET_SYSTEM_USER_LIST = "User/GetSystemUserList";
 export const DELETE_USER = "User/RemoveByIdList";
@@ -240,6 +240,7 @@ export const CREATE_FIXED_ASSET_FORM = "PdfCreator/CreateFixedAssetDeliveryForm"
 export const GET_DASHBOARD_FIXED_ASSETS_INFO = "Dashboard/GetDashboardValues";
 export const GET_DASHBOARD_TRANSACTIONS_INFO = "Dashboard/GetDashboardTransactions";
 export const GET_DASHBOARD_PERSONALS_INFO = "Dashboard/GetDashboardPersonalInfo";
+export const GET_DASHBOARD_FIXED_ASSETS_COUNTS = "Dashboard/GetDashboardFixedAssetsCount";
 //#endregion
 
 //#region Depreciation

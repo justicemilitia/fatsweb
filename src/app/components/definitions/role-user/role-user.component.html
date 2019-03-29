@@ -52,15 +52,6 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Rol</label>
-              <select [(ngModel)]="userRole.RoleId" name="RoleId" class="form-control select2-no-search">
-                <option value="-1">Seçiniz</option>
-                <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="form-group col-md-12">
               <label class="required-span">Kullanıcı</label>
               <div *ngIf="visible;then insertUserRole else updateUserRole"></div>
               <ng-template #insertUserRole>
@@ -79,6 +70,16 @@
               </ng-template>
             </div>
           </div>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+              <label class="required-span">Rol</label>
+              <select [(ngModel)]="userRole.RoleId" name="RoleId" class="form-control select2-no-search">
+                <option value="-1">Seçiniz</option>
+                <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
+              </select>
+            </div>
+          </div>
+          
         </div>
         <div class="modal-footer">
           <button id="btnAddRole" type="submit" class="btn btn-az-primary" data-toggle="modal"

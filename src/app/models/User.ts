@@ -1,7 +1,7 @@
 import { Department } from './Department';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
-import { Role } from './Role';
 import UserTitle from './UserTitle';
+import { UserRole } from './UserRole';
 
 export class User implements IData {
     childIndex: number;
@@ -16,7 +16,7 @@ export class User implements IData {
     getId(): number {
         return this.UserId;
     }
-    UserTitleId:number;
+    UserTitleId: number;
     isExtended: boolean;
     UserId: number;
     UserMail: string;
@@ -28,15 +28,20 @@ export class User implements IData {
     Password: string;
     PhoneNumber: number;
     ParentUserId: number;
-    UserRoles: Role[];
+    UserRoles: UserRole[];
     ParentUser: User;
     Department: Department;
     InverseParentUser: User[];
     UserCode: string;
     LocationId: number;
+    /**
+     * To Update Roles
+     */
+    RoleIds: any[];
     constructor() {
         this.Department = new Department();
         this.UserRoles = [];
+        this.RoleIds = [];
         this.UserTitle = new UserTitle();
         this.InverseParentUser = [];
     }

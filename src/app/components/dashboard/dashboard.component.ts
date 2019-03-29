@@ -5,6 +5,7 @@ import vDashboardFixedAssets from 'src/app/models/vDashboardFixedAssets';
 import vGetDashboardTransactions from 'src/app/models/vGetDashboardTransactions';
 import { Firm } from 'src/app/models/Firm';
 import vGetDashboardPersonalInfo from 'src/app/models/GetDashboardPersonalInfo';
+import { vGetDashboardFixedAssetCounts } from 'src/app/models/vGetDashboardFixedAssetCounts';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,15 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   transactions: vGetDashboardTransactions[] = [];
 
   personalValues: vGetDashboardPersonalInfo = new vGetDashboardPersonalInfo();
+
+  countValues: any = {};
+
+
+  countEnums = {
+    Month: 1,
+    Year: 0
+
+  }
 
   constructor(public baseService: BaseService) {
     super(baseService);
@@ -47,6 +57,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     this.loadValues();
     this.loadTransactions();
     this.loadPersonals();
+    this.loadCounts();
   }
 
   async loadValues() {
@@ -70,6 +81,19 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
       Object.assign(this.personalValues, result);
     }, (result) => {
       // Error
-    })
+    });
   }
+
+  async loadCounts() {
+    this.baseService.dashboardService.GetDashboardFixedAssetsCount(this.countEnums.Month, (result) => {
+      Object.assign(this.countValues, result);
+    }, (result) => {
+      // Error
+    });
+  }
+
+  bindCountsToFlowCharts() {
+    
+  }
+
 }

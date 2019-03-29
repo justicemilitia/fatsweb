@@ -84,7 +84,13 @@ export class UserService {
       .get(SERVICE_URL + GET_ROLE_LIST, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(
         result => {
-          callback(<Role[]>result["ResultObject"]);
+          let roles = [];
+          (<Role[]>result["ResultObject"]).forEach(x => {
+            let role = new Role();
+            Object.assign(role, x);
+            roles.push(role);
+          })
+          callback(roles);
         },
         error => console.error(error)
       );
@@ -131,6 +137,7 @@ export class UserService {
   }
 
   UpdateUser(user: User, success, failed) {
+    console.log(JSON.stringify(user));
     this.httpClient.post(SERVICE_URL + UPDATE_USER, user, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(result => {
         let response: Response = <Response>result;

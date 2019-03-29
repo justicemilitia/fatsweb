@@ -50,6 +50,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   /* Store user titles to insert users */
   userTitles: UserTitle[] = [];
 
+  currentUserRoles: Role[] = [];
+
   dropdownSettings = {};
 
   /* Data Table instance */
@@ -138,6 +140,7 @@ export class UserComponent extends BaseComponent implements OnInit {
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset modal form then reload lists */
     data.resetForm(this.currentUser);
+    this.currentUserRoles = [];
     this.loadDropdownList();
     if (isNewItem == true) {
       this.currentUser = new User();
@@ -162,6 +165,8 @@ export class UserComponent extends BaseComponent implements OnInit {
     /* Say user to wait */
     this.isWaitingInsertOrUpdate = true;
 
+    this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
+
     /* insert into service */
     this.baseService.userService.InsertUser(this.currentUser,
       (insertedUser: User, message: string) => {
@@ -180,6 +185,8 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.currentUser.UserTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
         this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
+        this.currentUserRoles.splice(0);
+
         /* Load Table */
         this.users.push(this.currentUser);
         this.dataTable.TGT_loadData(this.users);
@@ -194,8 +201,6 @@ export class UserComponent extends BaseComponent implements OnInit {
 
         /* Show failed message */
         this.baseService.popupService.ShowErrorPopup(error);
-
-        console.log(error);
 
       });
   }
@@ -215,6 +220,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         let userTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
         let parentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
+        this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
         /* loading icon visible */
         this.isWaitingInsertOrUpdate = true;
 
@@ -329,6 +335,15 @@ export class UserComponent extends BaseComponent implements OnInit {
         /* bind result to model */
         Object.assign(this.currentUser, result);
 
+        this.currentUserRoles.splice(0);
+
+        this.currentUser.UserRoles.forEach(e => {
+          let role = this.roles.find(y => y.RoleId == e.RoleId);
+          if (role)
+            this.currentUserRoles.push(role);
+        });
+
+
       }, 1000);
     }, (error: HttpErrorResponse) => {
 
@@ -401,18 +416,20 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   onItemSelect(item: Role) {
-    if (this.currentUser["UserRoles"] == null)
-      this.currentUser["UserRoles"] = [];
-    this.currentUser["UserRoles"].push(item);
+    if (this.currentUserRoles == null)
+      this.currentUserRoles = [];
+    if (this.currentUserRoles.findIndex(x => x.RoleId == item.RoleId) == -1)
+      this.currentUserRoles.push(item);
   }
 
   onSelectAll(items: Role[]) {
 
-    if (this.currentUser["UserRoles"] == null)
-      this.currentUser["UserRoles"] = [];
+    if (this.currentUserRoles == null)
+      this.currentUserRoles = [];
 
     items.forEach(element => {
-      this.currentUser["UserRoles"].push(element);
+      if (this.currentUserRoles.findIndex(x => x.RoleId == element.RoleId) == -1)
+        this.currentUserRoles.push(element);
     });
 
   }

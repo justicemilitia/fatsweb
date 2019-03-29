@@ -42,7 +42,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   /* List of companies */
   companies: Company[] = [];
 
-  agreementFiles: any;
+  agreementFiles: any[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
@@ -146,6 +146,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
       this.agreement = new Agreement();
       this.clearFiles();
     }
+    data.reset();
     data.resetForm(this.agreement);
 
   }
@@ -155,7 +156,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
 
     if (data.value.Price) {
-      if (!this.isNumeric(data.value.Price.value)) {
+      if (!this.isNumeric(data.value.Price)) {
         return;
       }
     }
@@ -430,8 +431,24 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   clearFiles() {
-    this.agreementFiles = '';
-    this.agreement.AgreementFile = null;
+    this.agreementFiles = [];
+  }
+
+  changeFile(event) {
+    this.agreementFiles = event.target.files;
+  }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadAgreements();
+
+    this.isTableRefreshing = false;
+
   }
 
 }

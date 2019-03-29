@@ -148,10 +148,13 @@
             </div>
             <div class="form-group col-md-6">
               <label class="required-span">Rol</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="roles" [settings]="dropdownSettings"
-                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+              <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="'Seçiniz'"
+                [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)">
               </ng-multiselect-dropdown>
-              <div style="display:block" *ngIf="data.submitted && (!currentUser.UserRoles || currentUser.UserRoles.length == 0)" class="invalid-feedback">
+              <div style="display:block"
+                *ngIf="data.submitted && (!currentUserRoles || currentUserRoles.length == 0)"
+                class="invalid-feedback">
                 <div>Bu alan zorunludur.</div>
               </div>
             </div>

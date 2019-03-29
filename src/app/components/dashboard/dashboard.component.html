@@ -8,7 +8,7 @@
         <div class="col-sm-6 col-lg-4">
           <div class="card card-dashboard-twentysix">
             <div class="card-header">
-              <h6 class="card-title">Customers</h6>
+              <h6 class="card-title">TOPLAM DEMİRBAŞ</h6>
               <div class="chart-legend">
                 <div><span class="bg-primary"></span> New</div>
                 <div><span class="bg-teal"></span> Returning</div>
@@ -16,7 +16,11 @@
             </div><!-- card-header -->
             <div class="card-body">
               <div class="pd-x-15">
-                <h6>156 <span class="tx-success"><i class="icon ion-md-arrow-up"></i> 3.7%</span></h6>
+                <h6>{{countValues.TOTAL ? countValues.TOTAL.TOTAL_ITEMS : 0 }} 
+                  <span class="tx-success"><i class="icon ion-md-arrow-up"></i> 
+                  {{countValues.TOTAL ? (countValues.TOTAL.TOTAL_ITEMS / countValues.TOTAL.TOTAL_PREV2_ITEMS) * 100 : 0 }} %
+                </span>
+              </h6>
                 <label>Avg. Customers/Day</label>
               </div>
               <div class="chart-wrapper">
