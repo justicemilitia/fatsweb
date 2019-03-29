@@ -159,14 +159,16 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
 
   checkOutFixedAsset(data: NgForm) {
 
-    this.suspendedFa.FixedAssetIds = this.selectedSuspendFa();
+    let fixedAssetIds = this.selectedSuspendFa();
+    let checkOutReasonId = Number(this.transaction.CheckOutReasonId);
+
     this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
       if (response == true) {
 
         this.baseService.fixedAssetService.ExitFixedAsset(
-          this.suspendedFa,
+          fixedAssetIds, checkOutReasonId,
           () => {
-            this.dataTable.TGT_removeItemsByIds(this.suspendedFa.FixedAssetIds);
+            this.dataTable.TGT_removeItemsByIds(fixedAssetIds);
 
             this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
           },
@@ -220,7 +222,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
       $("#btnExitFa").trigger("click");
 
       let fixedAssetBarcodes = "";
-      selectedItems.forEach((e,i) => {
+      selectedItems.forEach((e, i) => {
         fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
 
       });

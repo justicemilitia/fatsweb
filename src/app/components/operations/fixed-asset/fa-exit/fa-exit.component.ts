@@ -39,7 +39,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     this.LoadDropdownList();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit(data: NgForm) {
     this.exitFixedAsset(data);
@@ -49,17 +49,18 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
+    let fixedAssetIds = (<FixedAsset[]>(
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
-
+    let checkOutReasonId = Number(this.transactionLog.CheckOutReasonId);
     await this.baseService.fixedAssetService.ExitFixedAsset(
-      this.fixedAsset,
+      fixedAssetIds, checkOutReasonId,
       () => {
-        this.faDataTable.TGT_removeItemsByIds(this.fixedAsset.FixedAssetIds);
+        this.faDataTable.TGT_removeItemsByIds(fixedAssetIds);
         this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
       },
       (error: HttpErrorResponse) => {
+        console.log(error);
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
       }

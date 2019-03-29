@@ -18,6 +18,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
   isWaitingInsertOrUpdate: boolean = false;
 
+  isTableRefreshing: boolean = false;
+
+  isTableExporting:boolean = false;
+
   fixedAssets: FixedAsset[] = [];
 
   fixedAsset: FixedAsset = new FixedAsset();
@@ -322,9 +326,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     this.loadFixedAssetProperties();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadFixedAsset();
+
+    this.isTableRefreshing = false;
+  }
 
   loadFixedAsset() {
+
     this.baseService.fixedAssetService.GetFixedAsset(
       (fa: FixedAsset[]) => {
         this.fixedAssets = fa;
@@ -363,7 +380,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadFixedAssetPropertyValues() {}
+  loadFixedAssetPropertyValues() { }
 
   public selectedIds() {
     let selectedItems = this.dataTable.TGT_getSelectedItems();
@@ -383,8 +400,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   public selectedBarcodes() {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
     let fixedAssetBarcodes = "";
-    selectedItems.forEach(e => {
-      fixedAssetBarcodes += e.Barcode + ", ";
+    selectedItems.forEach((e, i) => {
+      fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
     });
 
     return fixedAssetBarcodes;
@@ -393,223 +410,224 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   public selectedFixedAssetName() {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
     let fixedAssetName = "";
-    selectedItems.forEach(e => {
-      fixedAssetName += e.FixedAssetCard.Name + ", ";
-      // this.fixedAssetBarcodes=
+    selectedItems.forEach((e, i) => {
+      fixedAssetName += e.FixedAssetCard.Name + (i == selectedItems.length - 1 ? '' : ", ");
     });
 
     return fixedAssetName;
   }
-    currentOperation:FixedAssetOperations=null;
-    public doOperation(operationType: FixedAssetOperations) {
-      this.currentOperation=operationType;
-    switch(operationType){
+  currentOperation: FixedAssetOperations = null;
+  public doOperation(operationType: FixedAssetOperations) {
+    this.currentOperation = operationType;
+    switch (operationType) {
       case FixedAssetOperations.changeBarcodes:
-      this.ChangeBarcodeOperation();
-      break;
+        this.ChangeBarcodeOperation();
+        break;
 
       case FixedAssetOperations.changeLocation:
-      this.ChangeLocationOperation();
-      break;
+        this.ChangeLocationOperation();
+        break;
 
       case FixedAssetOperations.changeDepartment:
-      this.ChangeDepartmentOperation();
-      break;
+        this.ChangeDepartmentOperation();
+        break;
 
       case FixedAssetOperations.changeFirm:
-      this.ChangeFirmOperation();
-      break;
+        this.ChangeFirmOperation();
+        break;
 
       case FixedAssetOperations.changeDebit:
-      this.ChangeDebitOperation();
-      break;
-      
+        this.ChangeDebitOperation();
+        break;
+
       case FixedAssetOperations.deleteDebit:
-      this.DeleteDebitOperation();
-      break;
+        this.DeleteDebitOperation();
+        break;
 
       case FixedAssetOperations.exitFixedAsset:
-      this.ExitFixedAssetOperation();
+        this.ExitFixedAssetOperation();
+        break;
 
       case FixedAssetOperations.changeCollectiveParameter:
-      this.ChangeCollectiveParameterOperation();
+        this.ChangeCollectiveParameterOperation();
+        break;
 
       case FixedAssetOperations.createFixedAsset:
-      this.CreateFixedAssetOperation();
-      break;
+        this.CreateFixedAssetOperation();
+        break;
     }
   }
 
-    //#region Change Barcode Operation
-    changeBarcode_selectedItem: FixedAsset = new FixedAsset();
-    ChangeBarcodeOperation(){
-    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-    
-    if(selectedItems.length>1){
+  //#region Change Barcode Operation
+  changeBarcode_selectedItem: FixedAsset = new FixedAsset();
+  ChangeBarcodeOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length > 1) {
       this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
       return;
     }
-    
-    if(selectedItems.length==0){
+
+    if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
       return;
     }
-    
-    this.changeBarcode_selectedItem=selectedItems[0];
+
+    this.changeBarcode_selectedItem = selectedItems[0];
 
     $('#showModal').trigger('click');
 
-    }
+  }
   //#endregion
 
-    //#region Change Location Operation
-    changeLocation_selectedItem: FixedAsset = new FixedAsset();
-    ChangeLocationOperation(){
-    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-    
-    if(selectedItems.length>1){
+  //#region Change Location Operation
+  changeLocation_selectedItem: FixedAsset = new FixedAsset();
+  ChangeLocationOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length > 1) {
       this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
       return;
     }
-    
-    if(selectedItems.length==0){
+
+    if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
       return;
     }
-    
-    this.changeLocation_selectedItem=selectedItems[0];
+
+    this.changeLocation_selectedItem = selectedItems[0];
 
     $('#showModal').trigger('click');
 
-    }
+  }
   //#endregion
 
-    //#region Change Department Operation
-    changeDepartment_selectedItem: FixedAsset = new FixedAsset();
-    ChangeDepartmentOperation(){
-    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-    
-    if(selectedItems.length>1){
+  //#region Change Department Operation
+  changeDepartment_selectedItem: FixedAsset = new FixedAsset();
+  ChangeDepartmentOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length > 1) {
       this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
       return;
     }
-    
-    if(selectedItems.length==0){
+
+    if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
       return;
     }
-    
-    this.changeDepartment_selectedItem=selectedItems[0];
+
+    this.changeDepartment_selectedItem = selectedItems[0];
 
     $('#showModal').trigger('click');
 
-    }
+  }
   //#endregion
 
-    //#region Change Firm Operation
-   changeFirm_selectedItem: FixedAsset = new FixedAsset();
-   ChangeFirmOperation(){
-   let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-   
-   if(selectedItems.length>1){
-     this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
-     return;
-   }
-   
-   if(selectedItems.length==0){
-     this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
-     return;
-   }
-   
-   this.changeFirm_selectedItem=selectedItems[0];
+  //#region Change Firm Operation
+  changeFirm_selectedItem: FixedAsset = new FixedAsset();
+  ChangeFirmOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
-   $('#showModal').trigger('click');
-
-   }
- //#endregion
-
-    //#region Change Debit Operation
-    changeDebit_selectedItem: FixedAsset = new FixedAsset();
-    ChangeDebitOperation(){
-    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-    
-    if(selectedItems.length>1){
+    if (selectedItems.length > 1) {
       this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
       return;
     }
-    
-    if(selectedItems.length==0){
+
+    if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
       return;
     }
-    
-    this.changeDebit_selectedItem=selectedItems[0];
+
+    this.changeFirm_selectedItem = selectedItems[0];
 
     $('#showModal').trigger('click');
 
-    }
+  }
   //#endregion
 
-    //#region Delete Debit Operation
-    deleteDebit_selectedItem: FixedAsset = new FixedAsset();
-    DeleteDebitOperation(){
-    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-    
-    if(selectedItems.length>1){
+  //#region Change Debit Operation
+  changeDebit_selectedItem: FixedAsset = new FixedAsset();
+  ChangeDebitOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length > 1) {
       this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
       return;
     }
-    
-    if(selectedItems.length==0){
+
+    if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
       return;
     }
-    
-    this.deleteDebit_selectedItem=selectedItems[0];
+
+    this.changeDebit_selectedItem = selectedItems[0];
 
     $('#showModal').trigger('click');
 
-    }
+  }
   //#endregion
 
-    //#region ExitFixedAssetOperation
-    exit_selectedItem: FixedAsset = new FixedAsset();
-    ExitFixedAssetOperation(){
-    let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+  //#region Delete Debit Operation
+  deleteDebit_selectedItem: FixedAsset = new FixedAsset();
+  DeleteDebitOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
-    if(selectedItems.length==0){
+    if (selectedItems.length > 1) {
+      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      return;
+    }
+
+    if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
       return;
     }
 
-    this.exit_selectedItem=selectedItems[0];
+    this.deleteDebit_selectedItem = selectedItems[0];
 
     $('#showModal').trigger('click');
 
+  }
+  //#endregion
+
+  //#region ExitFixedAssetOperation
+  exit_selectedBarcodes: string;
+  ExitFixedAssetOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      return;
     }
-    //#endregion
 
-    //#region Change Collective Parameter
- changeCollectiveParameter_selectedItem: FixedAsset[]=[];
- ChangeCollectiveParameterOperation(){
- let selectedItems= <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
- 
- if(selectedItems.length==0){
-   this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
-   return;
- }
- 
- this.changeCollectiveParameter_selectedItem=selectedItems;
+    this.exit_selectedBarcodes = this.selectedBarcodes();
 
- $('#showModal').trigger('click');
+    $('#showModal').trigger('click');
 
- }
-//#endregion
- 
-   //#region Create Fixed Asset Operation
-   CreateFixedAssetOperation(){
+  }
+  //#endregion
+
+  //#region Change Collective Parameter
+  changeCollectiveParameter_selectedItem: FixedAsset[] = [];
+  ChangeCollectiveParameterOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      return;
+    }
+
+    this.changeCollectiveParameter_selectedItem = selectedItems;
+
+    $('#showModal').trigger('click');
+
+  }
+  //#endregion
+
+  //#region Create Fixed Asset Operation
+  CreateFixedAssetOperation() {
     $('#showModal').trigger('click');
   }
-   //#endregion
+  //#endregion
 }
 

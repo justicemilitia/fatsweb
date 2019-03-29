@@ -1,85 +1,80 @@
-        <div class="row justify-content-center">
-          <h5>Çıkış işlemi için bilgileri giriniz.</h5>
+<form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
+  <div class="modal-body">
+    <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" />
+
+    <!-- BARKODLAR -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Barkod</label>
+        <input name="Barcodes" value="{{faBarcode}}" type="text" class="form-control" disabled />
+      </div>
+    </div>
+
+    <!-- ÇIKIŞ TİPİ -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label class="required-span">Çıkış Tipi</label>
+        <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
+          #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
+          <option>Yok</option>
+          <option *ngFor="let checkedOutReason of checkedOutReasons" value={{checkedOutReason.CheckOutReasonId}}>
+            {{checkedOutReason.Name}}
+          </option>
+        </select>
+        <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+          <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
         </div>
+      </div>
+    </div>
 
-        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
-          <div class="modal-body">
-            <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" />
+    <!-- FİYAT & PARA BİRİMİ -->
+    <div class="row justify-content-center">
+      <div class="col-md-6 form-group">
+        <label>Fiyat</label>
+        <input [(ngModel)]="transactionLog.CheckoutPrice" name="CheckoutPrice" class="form-control" type="text"
+          #CheckoutPrice="ngModel">
+      </div>
 
-              <!-- BARKODLAR -->
-              <div class="row justify-content-center">
-                <div class="col-md-12 form-group">
-                  <label>Barkod</label>
-                  <input name="Barcodes" value="{{faBarcodes}}" type="text" class="form-control" disabled/>            
-                </div>
-              </div>
-     
-              <!-- ÇIKIŞ TİPİ -->
-            <div class="row justify-content-center">              
-              <div class="col-md-12 form-group">
-                <label class="required-span">Çıkış Tipi</label>                
-                    <select [(ngModel)]="transactionLog.CheckOutReasonId"
-                      name="CheckOutReasonId" class="form-control" 
-                      #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
-                      <option>Yok</option>
-                      <option *ngFor="let checkedOutReason of checkedOutReasons"
-                      value={{checkedOutReason.CheckOutReasonId}}>
-                      {{checkedOutReason.Name}}
-                      </option>
-                    </select>
-                    <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
-                        <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
-                    </div>
-              </div>
-            </div>
+      <div class="col-md-6 form-group">
+        <label>Para Birimi</label>
+        <select [(ngModel)]="transactionLog.CurrencyId" name="CurrencyId" style="resize:none0" class="form-control"
+          type="text">
+          <option [ngValue]="null">Yok</option>
+          <option *ngFor="let currency of currencies" value={{currency.CurrencyId}}>
+            {{currency.Name}}
+          </option>
+        </select>
+      </div>
+    </div>
 
-              <!-- FİYAT & PARA BİRİMİ -->
-              <div class="row justify-content-center">
-                <div class="col-md-6 form-group">
-                  <label>Fiyat</label>
-                  <input [(ngModel)]="transactionLog.CheckoutPrice" name="CheckoutPrice" class="form-control" type="text" #CheckoutPrice="ngModel">
-                </div>
+    <!-- AÇIKLAMA -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Açıklama</label>
+        <textarea [(ngModel)]="transactionLog.Description" name="Description" style="resize:none" rows="2"
+          class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
+      </div>
+    </div>
 
-                <div class="col-md-6 form-group">
-                  <label class="required-span">Para Birimi</label>
-                   <select [(ngModel)]="transactionLog.CurrencyId" name="CurrencyId" style="resize:none0"
-                      class="form-control" type="text">
-                      <option [ngValue]="null">Yok</option>
-                      <option *ngFor="let currency of currencies" value={{currency.CurrencyId}}>
-                        {{currency.Name}}
-                      </option>
-                  </select>
-                </div>
-              </div>
-              
-              <!-- AÇIKLAMA -->
-              <div class="row justify-content-center">
-                <div class="col-md-12 form-group">
-                  <label>Açıklama</label>
-                  <textarea [(ngModel)]="transactionLog.Description" name="Description" style="resize:none" rows="2"
-                    class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
-                </div>
-              </div>
-        
-              <!-- FORM BASMA -->
-              <div class="row justify-content-center">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="ckbox">
-                      <input type="checkbox"
-                        name="PrintExitForm" /><span>Demirbaş çıkış formu basılsın.</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
+    <!-- FORM BASMA -->
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="ckbox">
+            <input type="checkbox" name="PrintExitForm" /><span>Demirbaş çıkış formu basılsın.</span>
+          </label>
         </div>
+      </div>
+    </div>
 
-          <!-- modal-body -->
-          <div class="modal-footer">
-            <button class="btn btn-orange" id="btnExitFixedAsset" type="submit" data-toggle="modal" data-target="#modalExitFixedAsset">
-              Kaydet
-            </button>
-            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-          </div>
-        </form>
+  </div>
+
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button class="btn btn-az-primary" id="btnExitFixedAsset" type="submit" data-toggle="modal"
+      data-target="#modalExitFixedAsset">
+      Kaydet
+    </button>
+    <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+  </div>
+</form>

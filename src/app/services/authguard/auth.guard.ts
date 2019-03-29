@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from "@angular/core";
+import { Injectable } from "@angular/core";
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -8,7 +8,6 @@ import {
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { MENU_LOGIN, MENU_DASHBOARD } from "src/app/declarations/page-values";
 import { PopupService } from '../popup-service/popup.service';
-import { Observable } from 'rxjs';
 
 
 @Injectable({

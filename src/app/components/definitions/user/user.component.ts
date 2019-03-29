@@ -5,10 +5,10 @@ import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Department } from "../../../models/Department";
 import { Role } from "../../../models/Role";
-import { Firm } from "../../../models/Firm";
 import { User } from "../../../models/User";
 import { Location } from "../../../models/Location";
 import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
+import UserTitle from 'src/app/models/UserTitle';
 
 @Component({
   selector: "app-user",
@@ -25,12 +25,12 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
-  
+
   /* Is Table Refreshing */
-  isTableRefreshing:boolean = false;
+  isTableRefreshing: boolean = false;
 
   /* Is Table Exporting */
-  isTableExporting:boolean = false;
+  isTableExporting: boolean = false;
 
   /* Store the current edit user */
   currentUser: User = new User();
@@ -47,8 +47,10 @@ export class UserComponent extends BaseComponent implements OnInit {
   /* Store the roles to insert users */
   roles: Role[] = [];
 
-  /* Store firms to insert users */
-  firms: Firm[] = [];
+  /* Store user titles to insert users */
+  userTitles: UserTitle[] = [];
+
+  currentUserRoles: Role[] = [];
 
   dropdownSettings = {};
 
@@ -73,7 +75,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: 'Unvan',
-        columnName: ['UserTitle'],
+        columnName: ['UserTitle', 'Title'],
         isActive: true,
         classes: [],
         placeholder: '',
@@ -138,6 +140,7 @@ export class UserComponent extends BaseComponent implements OnInit {
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset modal form then reload lists */
     data.resetForm(this.currentUser);
+    this.currentUserRoles = [];
     this.loadDropdownList();
     if (isNewItem == true) {
       this.currentUser = new User();
@@ -162,6 +165,8 @@ export class UserComponent extends BaseComponent implements OnInit {
     /* Say user to wait */
     this.isWaitingInsertOrUpdate = true;
 
+    this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
+
     /* insert into service */
     this.baseService.userService.InsertUser(this.currentUser,
       (insertedUser: User, message: string) => {
@@ -176,9 +181,11 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.currentUser.UserId = insertedUser.UserId;
 
         /* Object bindings to store in datatable */
-        this.currentUser.Role = this.roles.find(x => x.RoleId == this.currentUser.RoleId);
         this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
+        this.currentUser.UserTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
         this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
+
+        this.currentUserRoles.splice(0);
 
         /* Load Table */
         this.users.push(this.currentUser);
@@ -195,8 +202,6 @@ export class UserComponent extends BaseComponent implements OnInit {
         /* Show failed message */
         this.baseService.popupService.ShowErrorPopup(error);
 
-        console.log(error);
-
       });
   }
 
@@ -211,10 +216,11 @@ export class UserComponent extends BaseComponent implements OnInit {
       if (response == true) {
 
         /* Object bindings to store in datatable */
-        let role = this.roles.find(x => x.RoleId == this.currentUser.RoleId);
         let department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
+        let userTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
         let parentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
+        this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
         /* loading icon visible */
         this.isWaitingInsertOrUpdate = true;
 
@@ -227,8 +233,8 @@ export class UserComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowSuccessPopup(message);
 
           /* Load related values to current model */
-          this.currentUser.Role = role;
           this.currentUser.Department = department;
+          this.currentUser.UserTitle = userTitle;
           this.currentUser.ParentUser = parentUser;
 
           /* Update in table the current user */
@@ -329,6 +335,15 @@ export class UserComponent extends BaseComponent implements OnInit {
         /* bind result to model */
         Object.assign(this.currentUser, result);
 
+        this.currentUserRoles.splice(0);
+
+        this.currentUser.UserRoles.forEach(e => {
+          let role = this.roles.find(y => y.RoleId == e.RoleId);
+          if (role)
+            this.currentUserRoles.push(role);
+        });
+
+
       }, 1000);
     }, (error: HttpErrorResponse) => {
 
@@ -391,32 +406,30 @@ export class UserComponent extends BaseComponent implements OnInit {
       });
     }
 
-    /* Get Firms */
-    if (this.firms.length == 0) {
-      this.baseService.userService.GetFirms(firms => {
-        this.firms = firms;
-      },
-      (error: HttpErrorResponse) => {
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
+    /* Get User titles */
+    if (this.userTitles.length == 0) {
+      this.baseService.userService.GetUserTitles(titles => {
+        this.userTitles = titles;
       });
     }
 
   }
 
-  onItemSelect(item: User) {
-    if (this.currentUser["Roles"] == null)
-      this.currentUser["Roles"] = [];
-    this.currentUser["Roles"].push(item);
+  onItemSelect(item: Role) {
+    if (this.currentUserRoles == null)
+      this.currentUserRoles = [];
+    if (this.currentUserRoles.findIndex(x => x.RoleId == item.RoleId) == -1)
+      this.currentUserRoles.push(item);
   }
 
-  onSelectAll(items: any) {
-    
-    if (this.currentUser["Roles"] == null)
-      this.currentUser["Roles"] = [];
+  onSelectAll(items: Role[]) {
+
+    if (this.currentUserRoles == null)
+      this.currentUserRoles = [];
 
     items.forEach(element => {
-      this.currentUser["Roles"].push(element);
+      if (this.currentUserRoles.findIndex(x => x.RoleId == element.RoleId) == -1)
+        this.currentUserRoles.push(element);
     });
 
   }

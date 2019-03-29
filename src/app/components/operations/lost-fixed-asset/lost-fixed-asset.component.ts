@@ -93,6 +93,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
         this.dataTable.TGT_loadData(this.lostFaList);
       },
       (error: HttpErrorResponse) => {
+        this.dataTable.isLoading = false;
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }
@@ -151,16 +152,17 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     if (data.form.invalid == true) return;
 
-    this.lostFa.FixedAssetIds = this.selectedSuspendFa();
+    let lostFixedAssetIds = this.selectedSuspendFa();
+    let checkOutReasonId = Number(this.transaction.CheckOutReasonId);
     this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
       if (response == true) {
         this.isWaitingInsertOrUpdate = true;
         this.baseService.fixedAssetService.ExitFixedAsset(
-          this.lostFa,
+          lostFixedAssetIds, checkOutReasonId,
           () => {
             this.isWaitingInsertOrUpdate = false;
 
-            this.dataTable.TGT_removeItemsByIds(this.lostFa.FixedAssetIds);
+            this.dataTable.TGT_removeItemsByIds(lostFixedAssetIds);
 
             this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
           },
@@ -221,14 +223,15 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
     }
     else {
 
-      $("#btnExitFa").trigger("click");
-
       let fixedAssetBarcodes = "";
       selectedItems.forEach((e, i) => {
         fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
-
       });
+
       this.faBarcodes = fixedAssetBarcodes;
+
+      $("#btnExitFa").trigger("click");
+
     }
   }
 
