@@ -1,12 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-<<<<<<< HEAD
-export const SERVICE_URL = "http://localhost:5000/api/";
-=======
-//export const SERVICE_URL = "http://localhost:11889/api/";
 export const SERVICE_URL = "http://dev.fatsapi.com/api/";
->>>>>>> 4069fd298a405d285a122f7e5ce1662b9a4c8a72
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -103,11 +98,8 @@ export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostSta
 //#endregion
 
 //#region LostFixedAsset
-<<<<<<< HEAD
 export const LOST_PROCESS="FixedAsset/SetLostByArrayProcess";
-=======
 export const GET_CHECKOUT_FA_LIST = "";
->>>>>>> 4069fd298a405d285a122f7e5ce1662b9a4c8a72
 
 //#endregion
 

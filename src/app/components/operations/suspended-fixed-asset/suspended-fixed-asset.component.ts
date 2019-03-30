@@ -161,24 +161,11 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
 
   async checkOutFixedAsset(data: NgForm) {
 
-<<<<<<< HEAD
     if (data.form.invalid == true) return;
 
     this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
-=======
-    let fixedAssetIds = this.selectedSuspendFa();
-    let checkOutReasonId = Number(this.transaction.CheckOutReasonId);
-
-    this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
-      if (response == true) {
-
-        this.baseService.fixedAssetService.ExitFixedAsset(
-          fixedAssetIds, checkOutReasonId,
-          () => {
-            this.dataTable.TGT_removeItemsByIds(fixedAssetIds);
->>>>>>> 4069fd298a405d285a122f7e5ce1662b9a4c8a72
 
     await this.baseService.fixedAssetService.ExitFixedAsset(
       this.transactionLog,

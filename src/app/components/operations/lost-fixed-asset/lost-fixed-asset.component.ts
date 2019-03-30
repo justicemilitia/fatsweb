@@ -154,7 +154,6 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     if (data.form.invalid == true) return;
 
-<<<<<<< HEAD
     this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
@@ -174,28 +173,6 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
       (error: HttpErrorResponse) => {
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
-=======
-    let lostFixedAssetIds = this.selectedSuspendFa();
-    let checkOutReasonId = Number(this.transaction.CheckOutReasonId);
-    this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
-      if (response == true) {
-        this.isWaitingInsertOrUpdate = true;
-        this.baseService.fixedAssetService.ExitFixedAsset(
-          lostFixedAssetIds, checkOutReasonId,
-          () => {
-            this.isWaitingInsertOrUpdate = false;
-
-            this.dataTable.TGT_removeItemsByIds(lostFixedAssetIds);
-
-            this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
-          },
-          (error: HttpErrorResponse) => {
-            this.isWaitingInsertOrUpdate = false;
-            /* Show alert message */
-            this.baseService.popupService.ShowErrorPopup(error);
-          }
-        );
->>>>>>> 4069fd298a405d285a122f7e5ce1662b9a4c8a72
       }
     );
   }

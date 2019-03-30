@@ -55,7 +55,6 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-<<<<<<< HEAD
     await this.baseService.popupService.ShowQuestionPopupForDeleteWithoutUndo(
       (response: boolean) => {
         if (response == true) {
@@ -82,22 +81,6 @@ export class FaExitComponent extends BaseComponent implements OnInit {
             }
           );
         }
-=======
-    let fixedAssetIds = (<FixedAsset[]>(
-      this.faDataTable.TGT_getSelectedItems()
-    )).map(x => x.FixedAssetId);
-    let checkOutReasonId = Number(this.transactionLog.CheckOutReasonId);
-    await this.baseService.fixedAssetService.ExitFixedAsset(
-      fixedAssetIds, checkOutReasonId,
-      () => {
-        this.faDataTable.TGT_removeItemsByIds(fixedAssetIds);
-        this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
->>>>>>> 4069fd298a405d285a122f7e5ce1662b9a4c8a72
       }
     );
   }
