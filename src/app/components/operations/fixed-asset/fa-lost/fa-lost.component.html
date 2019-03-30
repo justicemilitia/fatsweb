@@ -1,0 +1,27 @@
+  <div class="modal-header">
+    <h6 class="modal-title">Uyarı!</h6>
+    <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <form name="form" #data="ngForm" (ngSubmit)="lostFixedAsset(data)">
+      <div class="modal-body">
+        <div>
+          <p style="width:500px;">Seçili demirbaşlarınız kayıp olarak işaretlenecek ve "Kayıp Demirbaşlar" listesine taşınacaktır. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+        </div>
+        <br>
+        <div class="property-values-table">
+          <tree-grid-table class="table-scroll" [dataTable]="dataTable"></tree-grid-table>
+        </div>
+      </div>
+  
+      <!-- modal-body -->
+      <div class="modal-footer">
+        <button class="btn btn-az-primary" id="btnLostFixedAsset" style="width:150px;" type="submit" data-toggle="modal"
+          data-target="#modalLostFixedAsset">
+          Evet
+        </button>
+        <button class="btn btn-az-danger" data-dismiss="modal" style="width:150px;" data-toggle="modal" aria-label="Close">Hayır</button>
+      </div>
+  </form>

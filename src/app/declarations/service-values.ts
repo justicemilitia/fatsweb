@@ -59,6 +59,7 @@ export const UPDATE_FIXEDASSETLOCATION = "FixedAsset/ChangeLocation";
 export const UPDATE_FIXEDASSETDEPARTMENT = "FixedAsset/ChangeDepartment";
 export const UPDATE_FIXEDASSETFIRM = "FixedAsset/ChangeFirm";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
+export const SUSPENSIONPROCESS = "FixedAsset/SuspensionProcess";
 //#endregion
 
 //#region FixedAssetDebit
@@ -98,6 +99,7 @@ export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostSta
 //#endregion
 
 //#region LostFixedAsset
+export const LOST_PROCESS="FixedAsset/SetLostByArrayProcess";
 export const GET_CHECKOUT_FA_LIST = "";
 
 //#endregion

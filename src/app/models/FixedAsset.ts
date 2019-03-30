@@ -81,6 +81,7 @@ export class FixedAsset implements IData {
   FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
   FixedAssetIds : number[];
   FixedAssetFiles: FixedAssetFile[];
+  InsuranceCompanyId: number;
 
   IsBarcodeManual: boolean=false;
   Quantity:number;

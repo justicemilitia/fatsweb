@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BaseComponent } from '../../base/base.component';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 import { BaseService } from 'src/app/services/base.service';
@@ -25,11 +25,13 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
   suspendedList: FixedAsset[] = [];
   suspendedFa: FixedAsset = new FixedAsset();
   Ids: number[] = [];
-  transaction: TransactionLog = new TransactionLog();
+  transactionLog: TransactionLog = new TransactionLog();
   transactionLogs: TransactionLog[] = [];
   currencies: Currency;
   checkedOutReasons: CheckOutReason[] = [];
   locations: Location[] = [];
+  @Input() faDataTable: TreeGridTable;
+  @Input() faBarcode: string;
   faBarcodes: string;
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -157,28 +159,31 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
     });
   }
 
-  checkOutFixedAsset(data: NgForm) {
+  async checkOutFixedAsset(data: NgForm) {
 
-    let fixedAssetIds = this.selectedSuspendFa();
-    let checkOutReasonId = Number(this.transaction.CheckOutReasonId);
+    if (data.form.invalid == true) return;
 
-    this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
-      if (response == true) {
+    this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
+      this.faDataTable.TGT_getSelectedItems()
+    )).map(x => x.FixedAssetId);
 
-        this.baseService.fixedAssetService.ExitFixedAsset(
-          fixedAssetIds, checkOutReasonId,
-          () => {
-            this.dataTable.TGT_removeItemsByIds(fixedAssetIds);
+    await this.baseService.fixedAssetService.ExitFixedAsset(
+      this.transactionLog,
+      (insertedItem: TransactionLog, message) => {
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
 
-            this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
-          },
-          (error: HttpErrorResponse) => {
-            /* Show alert message */
-            this.baseService.popupService.ShowErrorPopup(error);
-          }
-        );
+        /* Set inserted Item id to model */
+        this.transactionLog.TransactionLogId = insertedItem.TransactionLogId;
+
+        /* Push inserted item to Property list */
+        this.transactionLogs.push(this.transactionLog);
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        this.baseService.popupService.ShowErrorPopup(error);
       }
-    });
+    );
   }
 
   selectedBarcodes() {
