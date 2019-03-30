@@ -1,10 +1,11 @@
 export default class vDashboardFixedAssets {
 
-    public RowID:number;
-    public TotalCountOfFixedAssets:number;
-    public LostFixedAssets:number;
-    public SuspendedFixedAssets:number;
-    public CheckedOutFixedAssets:number;
-    public DepreciationCount:number;
+    RowID:number;
+    GuaranteedFixedAssets:number;
+    LostFixedAssets:number;
+    SuspendedFixedAssets:number;
+    PassiveFixedAssets:number;
+    CheckedOutFixedAssets:number;
+    RelatedFixedAssets:number;
 
 }

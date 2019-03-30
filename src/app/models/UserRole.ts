@@ -25,6 +25,5 @@ export class UserRole implements IData {
   
   constructor(){
     this.Role=new Role();
-    this.User=new User();
   }
 }

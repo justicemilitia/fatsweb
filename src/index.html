@@ -53,14 +53,20 @@
         });
       });
 
+      
       setTimeout(() => {
         let currentLocation = window.location.href.split('/');
-        if (currentLocation.length == 0)
+        if (currentLocation.length == 0) {
           loadData();
-        else {
+          $('body').css('background', '#e9ecef');
+
+        } else {
           let item = currentLocation[currentLocation.length - 1];
           if (item == 'dashboard') {
             loadData();
+            $('body').css('background', '#e9ecef');
+          }else {
+            $('body').css('background', '#f8f9fa');
           }
         }
       }, 750);

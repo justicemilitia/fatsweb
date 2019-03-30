@@ -1,6 +1,7 @@
 .custom-alert-info-area {
-    position: absolute;
+    position: fixed;
     right: 0;
+    z-index: 9000000;
 }
 
 .custom-alert-info {
@@ -8,7 +9,6 @@
     margin-left: 20px;
     margin-top: 12px;
     margin-right: 20px;
-    z-index: 90000;
     width: 300px;
     max-width: 300px;
     right: 0;
@@ -17,4 +17,6 @@
 
 .custom-alert-info-title {
     margin-bottom: 0;
+    overflow: auto;
+    word-break: break-all;
 }

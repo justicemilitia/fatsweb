@@ -139,23 +139,31 @@ body {
 .modal-title {
     font-size: 15px;
     line-height: 1;
-    padding: 3px;
-    padding-left: 10px;
+    padding: 5px;
+    padding-left: 0;
+    flex:1;
 }
 
 .modal-footer {
     padding: .4rem !important;
     justify-content: center !important;
+    border-top: none;
 }
 
 .modal-footer>button {
     min-height: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .modal-header {
     padding: .4rem !important;
+    text-align:center;
 }
 
+.modal-content .close {
+    margin-right: 5px;
+}
 .btn-new-custom-fa {
     font-size: 14px !important;
     min-height: 20px;
@@ -527,6 +535,15 @@ label.custom-file:hover {
     display: block;
 }
 
+.bg-primary {
+    background-color: #8d5adf !important;
+}
+
+.modal-body {
+    padding: 15px;
+    padding-bottom:0px;
+}
+
 .color-custom-input {
     color: #fff;
     font-weight: bold;
@@ -540,11 +557,12 @@ label.custom-file:hover {
     border: 1px solid #ced4da !important;
     padding-top: 2px !important;
     padding-bottom: 2px !important;
-    padding-left: 3px !important;
+    padding-left: 15px !important;
 }
 
 .multiselect-dropdown .dropdown-btn .selected-item {
     font-size: 12px;
+    margin-top:1px !important;
 }
 
 .multiselect-dropdown .dropdown-btn .dropdown-down {
