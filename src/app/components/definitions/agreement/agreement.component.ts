@@ -194,54 +194,19 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         itemIds,
         (notDeletedItemIds: number[]) => {
           /* Deactive the spinner */
-          this.baseService.spinner.hide();
+        this.baseService.spinner.hide();
 
-          /* if any item exists in not deleted items */
-          if (notDeletedItemIds) {
-            /* Service return us not deleted ids. We will delete ids which exists in notDeletedItemIds number array */
-            for (let ii = 0; ii < itemIds.length; ii++) {
-              if (notDeletedItemIds.includes(itemIds[ii])) {
-                itemIds.splice(ii, 1);
-                ii--;
-              }
-            }
+        /* if all of them removed */
+        if (itemIds.length == 1)
+          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+        else
+          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
 
-            /* if any value couldnt delete then show popup */
-            if (itemIds.length == 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                "Hiçbir Kayıt Silinemedi!"
-              );
-              return;
-            }
+        /* Clear ids from source */
+        this.dataTable.TGT_removeItemsByIds(itemIds);
 
-            /* if some of them is deleted show this */
-            if (itemIds.length > 0) {
-              this.baseService.popupService.ShowAlertPopup(
-                selectedItems.length.toString() +
-                " kayıttan " +
-                itemIds.length.toString() +
-                "'i silinebildi!"
-              );
-            }
-          } else {
-            /* if all of them removed */
-            this.baseService.popupService.ShowAlertPopup(
-              " Tüm kayıtlar başarıyla silindi!"
-            );
-          }
-
-          /* Now Delete items from the source */
-          for (let ii = 0; ii < itemIds.length; ii++) {
-            let index = this.agreements.findIndex(
-              x => x.AgreementId == itemIds[ii]
-            );
-            if (index > -1) {
-              this.agreements.splice(index, 1);
-            }
-          }
-
-          /* Reload Page */
-          this.dataTable.TGT_loadData(this.agreements);
+        /* Get current table source */
+        this.agreements = <Agreement[]>this.dataTable.TGT_copySource();
         },
         (error: HttpErrorResponse) => {
           this.baseService.spinner.hide();
