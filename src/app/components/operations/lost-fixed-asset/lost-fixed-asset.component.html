@@ -70,7 +70,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Çıkış Tipi</label>
-              <select [(ngModel)]="transaction.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
+              <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
                 #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }"
                 required>
                 <option>Yok</option>
@@ -88,13 +88,13 @@
           <div class="row justify-content-center">
             <div class="col-md-6 form-group">
               <label>Fiyat</label>
-              <input [(ngModel)]="transaction.CheckoutPrice" name="CheckoutPrice" class="form-control" type="text"
+              <input [(ngModel)]="transactionLog.CheckoutPrice" name="CheckoutPrice" class="form-control" type="text"
                 #CheckoutPrice="ngModel">
             </div>
 
             <div class="col-md-6 form-group">
               <label>Para Birimi</label>
-              <select [(ngModel)]="transaction.CurrencyId" name="CurrencyId" style="resize:none0" class="form-control"
+              <select [(ngModel)]="transactionLog.CurrencyId" name="CurrencyId" style="resize:none0" class="form-control"
                 type="text">
                 <option [ngValue]="null">Yok</option>
                 <option *ngFor="let currency of currencies" value={{currency.CurrencyId}}>
@@ -108,7 +108,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label>Açıklama</label>
-              <textarea [(ngModel)]="transaction.Description" name="Description" style="resize:none" rows="2"
+              <textarea [(ngModel)]="transactionLog.Description" name="Description" style="resize:none" rows="2"
                 class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
             </div>
           </div>

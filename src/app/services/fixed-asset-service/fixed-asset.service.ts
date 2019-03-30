@@ -14,7 +14,9 @@ import {
   UPDATE_FIXEDASSETDEBIT,
   DELETE_FIXEDASSETDEBIT,
   ADD_FIXEDASSETDEBIT,
-  CHANGE_COLLECTIVEPARAMETER
+  CHANGE_COLLECTIVEPARAMETER,
+  SUSPENSIONPROCESS,
+  LOST_PROCESS
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -113,20 +115,65 @@ export class FixedAssetService {
       );
   }
 
-  ExitFixedAsset(fixedAssetIds: number[], reasonId: number, success, failed) {
+  ExitFixedAsset(transactionLog: TransactionLog, success, failed){
     this.httpclient
       .post(
-        SERVICE_URL + EXIT_FIXEDASSET, {
-          "FixedAssetIds": fixedAssetIds,
-          "CheckOutReasonId" : reasonId
-        }, {
+        SERVICE_URL + EXIT_FIXEDASSET, transactionLog, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            success(fixedAssetIds, response.LanguageKeyword);
+            let insertedTransactionLog: TransactionLog = new TransactionLog();
+            Object.assign(insertedTransactionLog, response.ResultObject);
+            success(insertedTransactionLog, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  SuspendFixedAsset(fixedAsset: TransactionLog, success, failed){
+    this.httpclient
+    .post(
+      SERVICE_URL + SUSPENSIONPROCESS, fixedAsset, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+    .subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let updatedFixedAsset: FixedAsset = new FixedAsset();
+          Object.assign(updatedFixedAsset, response.ResultObject);
+          success(response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
+
+  LostFixedAsset(transactionLog: TransactionLog, success, failed){
+    this.httpclient
+      .post(
+        SERVICE_URL + LOST_PROCESS, transactionLog, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedTransactionLog: TransactionLog = new TransactionLog();
+            Object.assign(insertedTransactionLog, response.ResultObject);
+            success(insertedTransactionLog, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

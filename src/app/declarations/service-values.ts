@@ -1,7 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:5000/api/";
 export const LOGIN = "Auth/token";
 
 //#region Departments
@@ -57,6 +57,7 @@ export const UPDATE_FIXEDASSETLOCATION = "FixedAsset/ChangeLocation";
 export const UPDATE_FIXEDASSETDEPARTMENT = "FixedAsset/ChangeDepartment";
 export const UPDATE_FIXEDASSETFIRM = "FixedAsset/ChangeFirm";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
+export const SUSPENSIONPROCESS = "FixedAsset/SuspensionProcess";
 //#endregion
 
 //#region FixedAssetDebit
@@ -93,7 +94,7 @@ export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostSta
 //#endregion
 
 //#region LostFixedAsset
-export const GET_CHECKOUT_FA_LIST="";
+export const LOST_PROCESS="FixedAsset/SetLostByArrayProcess";
 
 //#endregion
 

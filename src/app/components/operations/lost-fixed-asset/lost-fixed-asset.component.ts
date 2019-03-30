@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, NgModule, Input } from '@angular/core';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 import { BaseComponent } from '../../base/base.component';
 import { BaseService } from 'src/app/services/base.service';
@@ -32,9 +32,11 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
   lostFa: FixedAsset = new FixedAsset();
   Ids: number[] = [];
   faBarcodes: string;
-  transaction: TransactionLog = new TransactionLog();
+  transactionLog: TransactionLog = new TransactionLog();  
   transactionLogs: TransactionLog[] = [];
   checkedOutReasons: CheckOutReason[] = [];
+  @Input() faDataTable: TreeGridTable;
+  @Input() faBarcode: string;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "lostfixedasset",
@@ -147,33 +149,33 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
     }
   }
 
-  checkOutFixedAsset(data: NgForm) {
+  async checkOutFixedAsset(data: NgForm) {
 
     if (data.form.invalid == true) return;
 
-    let lostFixedAssetIds = this.selectedSuspendFa();
-    let checkOutReasonId = Number(this.transaction.CheckOutReasonId);
-    this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
-      if (response == true) {
-        this.isWaitingInsertOrUpdate = true;
-        this.baseService.fixedAssetService.ExitFixedAsset(
-          lostFixedAssetIds, checkOutReasonId,
-          () => {
-            this.isWaitingInsertOrUpdate = false;
+    this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
+      this.faDataTable.TGT_getSelectedItems()
+    )).map(x => x.FixedAssetId);
 
-            this.dataTable.TGT_removeItemsByIds(this.lostFa.FixedAssetIds);
+    await this.baseService.fixedAssetService.ExitFixedAsset(
+      this.transactionLog,
+      (insertedItem: TransactionLog, message) => {
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
 
-            this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
-          },
-          (error: HttpErrorResponse) => {
-            this.isWaitingInsertOrUpdate = false;
-            /* Show alert message */
-            this.baseService.popupService.ShowErrorPopup(error);
-          }
-        );
+        /* Set inserted Item id to model */
+        this.transactionLog.TransactionLogId = insertedItem.TransactionLogId;
+
+        /* Push inserted item to Property list */
+        this.transactionLogs.push(this.transactionLog);
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        this.baseService.popupService.ShowErrorPopup(error);
       }
-    });
+    );
   }
+
 
   selectedSuspendFa() {
     let selectedItems = this.dataTable.TGT_getSelectedItems();

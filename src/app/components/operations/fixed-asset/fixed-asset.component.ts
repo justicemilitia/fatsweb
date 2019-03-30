@@ -455,6 +455,14 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       case FixedAssetOperations.createFixedAsset:
         this.CreateFixedAssetOperation();
         break;
+
+        case FixedAssetOperations.suspendFixedAsset:
+        this.SuspendFixedAssetOperation();
+        break;
+
+        case FixedAssetOperations.lostFixedAsset:
+        this.LostFixedAssetOperation();
+        break;
     }
   }
 
@@ -608,7 +616,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   //#endregion
 
   //#region Change Collective Parameter
-  changeCollectiveParameter_selectedItem: FixedAsset[] = [];
+  changeCollectiveParameter_selectedBarcodes: string;
   ChangeCollectiveParameterOperation() {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
@@ -617,12 +625,48 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    this.changeCollectiveParameter_selectedItem = selectedItems;
+    this.changeCollectiveParameter_selectedBarcodes = this.selectedBarcodes();
 
     $('#showModal').trigger('click');
 
   }
   //#endregion
+
+  //#region Suspend Fixed Asset  
+  suspend_selectedBarcodes: string;  
+  SuspendFixedAssetOperation(){
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      return;
+    }
+
+    this.suspend_selectedBarcodes = this.selectedBarcodes();
+
+    $('#showModal').trigger('click');
+
+  }
+
+  //#endregion
+
+ //#region Lost Fixed Asset  
+ lost_selectedBarcodes: FixedAsset[];  
+ LostFixedAssetOperation(){
+   let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+   if (selectedItems.length == 0) {
+     this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+     return;
+   }
+
+   this.lost_selectedBarcodes = selectedItems;
+
+   $('#showModal').trigger('click');
+
+ }
+
+ //#endregion
 
   //#region Create Fixed Asset Operation
   CreateFixedAssetOperation() {

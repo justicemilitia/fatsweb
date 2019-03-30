@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, NgModule } from '@angular/core';
+import { Component, OnInit, Input, NgModule, AfterViewInit } from '@angular/core';
 import { BaseComponent } from '../../../base/base.component';
 import * as $ from 'jquery';
 import { Department } from '../../../../models/Department';
@@ -15,6 +15,7 @@ import { FixedAsset } from '../../../../models/FixedAsset';
 import { ReactiveFormsModule, NgForm } from '@angular/forms';
 import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGridTable';
 import { FirmService } from '../../../../services/firm-service/firm.service';
+import { convertNgbDateToDateString } from '../../../../declarations/extends';
 
 @Component({
   selector: 'app-fa-change-collective-parameter',
@@ -26,10 +27,10 @@ import { FirmService } from '../../../../services/firm-service/firm.service';
   declarations: [FaChangeCollectiveParameterComponent],
   providers: [FaChangeCollectiveParameterComponent]
 })
-export class FaChangeCollectiveParameterComponent extends BaseComponent implements OnInit {
+export class FaChangeCollectiveParameterComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
-    $(".select2").trigger("click");
+    $("").trigger("click");
   }
 
   @Input() faBarcode: FixedAsset = new FixedAsset();  
@@ -156,7 +157,19 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
 
-    this.fixedAsset.FirmId = data.value.FirmId ;
+    this.fixedAsset.FirmId = Number(data.value.FirmId);
+    this.fixedAsset.InsuranceCompanyId = Number(data.value.InsuranceCompanyId);
+    this.fixedAsset. DepartmentId=Number(data.value.DepartmentId);
+    this.fixedAsset.LocationId=Number(data.value.LocationId);
+    this.fixedAsset.FixedAssetCardBrandId=Number(data.value.FixedAssetCardBrandId);
+    this.fixedAsset.FixedAssetCardModelId=Number(data.value.FixedAssetCardModelId);
+    this.fixedAsset.CompanyId=Number(data.value.CompanyId);
+    this.fixedAsset.ExpenseCenterId=Number(data.value.ExpenseCenterId);
+    this.fixedAsset.InvoiceDate=data.value.InvoiceDate;
+    this.fixedAsset.InvoiceNo=data.value.InvoiceNo;
+    this.fixedAsset.GuaranteeStartDate=convertNgbDateToDateString(data.value.guaranteeStartDate);
+    this.fixedAsset.GuaranteeEndDate=convertNgbDateToDateString(data.value.guaranteeEndDate);
+    this.fixedAsset.StatusId=Number(data.value.StatusId);
 
     let cloneItem=new FixedAsset();
     Object.assign(cloneItem, this.fixedAsset);
@@ -169,6 +182,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
+        console.log(error);
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );

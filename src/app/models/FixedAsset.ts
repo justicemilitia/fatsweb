@@ -76,6 +76,7 @@ export class FixedAsset implements IData {
   FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
   FixedAssetIds : number[];
   FixedAssetFiles: FixedAssetFile[];
+  InsuranceCompanyId: number;
 
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();

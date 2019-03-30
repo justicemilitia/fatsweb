@@ -390,7 +390,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
   async insertPropertyValueToArray(value: any) {
     value.value = value.value.trim();
-
+  
     this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
 
     if (
