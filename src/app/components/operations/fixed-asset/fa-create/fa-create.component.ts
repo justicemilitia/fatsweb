@@ -69,10 +69,11 @@ const URL = "";
   templateUrl: "./fa-create.component.html",
   styleUrls: ["./fa-create.component.css"]
 })
+
 @Directive({ selector: "[ng2FileSelect]" })
 @Directive({ selector: "[ng2FileDrop]" })
-export class FaCreateComponent extends BaseComponent
-  implements OnInit, AfterViewInit {
+
+export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
@@ -121,7 +122,6 @@ export class FaCreateComponent extends BaseComponent
   imageFile: any;
   fileBarcode:any;
   insertedFixedAsset = new FixedAsset();
-
 
   /*Fixed Asset List */
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -219,7 +219,9 @@ export class FaCreateComponent extends BaseComponent
     this.dataTable.isPagingActive = false;
     this.dataTable.isColumnOffsetActive = false;
     this.dataTable.isDeleteable = true;
-    this.dataTable.isTableEditable=true;    
+    if(this.validBarcode == true){
+      this.dataTable.isTableEditable=true;   
+    }
   }
 
   ngOnInit() {
@@ -488,6 +490,7 @@ export class FaCreateComponent extends BaseComponent
   getValidBarcode() {
     this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
       barcode => {
+        
         this.barcode = barcode;
       },
       (error: HttpErrorResponse) => {

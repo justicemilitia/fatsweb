@@ -1,3 +1,9 @@
+<div class="modal-header">
+  <h6 class="modal-title">Demirbaş giriş işlemi için bilgileri giriniz.</h6>
+  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data)">
 <mat-horizontal-stepper [linear]="disabledBarcode==true">   
   <mat-step label="Genel Bilgiler">
@@ -348,8 +354,8 @@
           <button class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white">Kaydet</button>
         </div>
     </div>
-</mat-step>
- <mat-step label="Dosya">  
+  </mat-step>
+  <mat-step label="Dosya">  
     <div>
       <div class="row justify-content-center">
           <div class="form-group col-md-12"> 
@@ -418,7 +424,6 @@
           </div>
         </div>
   </mat-step>
-
   </mat-horizontal-stepper>
   </form>
 
