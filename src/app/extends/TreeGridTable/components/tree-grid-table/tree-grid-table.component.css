@@ -191,6 +191,11 @@ select option:hover {
     padding-left:5px;
 }
 
+.tree-table-body-filter-tr > td > input::placeholder {
+    font-style: italic;
+    font-size: 12px;
+}
+
 tr.tree-table-body-filter-tr:first-child td:first-child {
     padding-left: 6px !important;
 }

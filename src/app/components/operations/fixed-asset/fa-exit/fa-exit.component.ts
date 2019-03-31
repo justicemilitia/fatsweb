@@ -1,4 +1,10 @@
-import { Component, OnInit, NgModule, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  NgModule,
+  Input,
+  AfterViewInit
+} from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
@@ -39,7 +45,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     this.LoadDropdownList();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   onSubmit(data: NgForm) {
     this.exitFixedAsset(data);
@@ -49,20 +55,32 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    let fixedAssetIds = (<FixedAsset[]>(
-      this.faDataTable.TGT_getSelectedItems()
-    )).map(x => x.FixedAssetId);
-    let checkOutReasonId = Number(this.transactionLog.CheckOutReasonId);
-    await this.baseService.fixedAssetService.ExitFixedAsset(
-      fixedAssetIds, checkOutReasonId,
-      () => {
-        this.faDataTable.TGT_removeItemsByIds(fixedAssetIds);
-        this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
+    await this.baseService.popupService.ShowQuestionPopupForDeleteWithoutUndo(
+      (response: boolean) => {
+        if (response == true) {
+          this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
+            this.faDataTable.TGT_getSelectedItems()
+          )).map(x => x.FixedAssetId);
+
+            this.baseService.fixedAssetService.ExitFixedAsset(
+            this.transactionLog,
+            (insertedItem: TransactionLog, message) => {
+              /* Show success pop up */
+              this.baseService.popupService.ShowSuccessPopup(message);
+
+              /* Set inserted Item id to model */
+              this.transactionLog.TransactionLogId =
+                insertedItem.TransactionLogId;
+
+              /* Push inserted item to Property list */
+              this.transactionLogs.push(this.transactionLog);
+            },
+            (error: HttpErrorResponse) => {
+              /* Show alert message */
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
+        }
       }
     );
   }

@@ -53,6 +53,8 @@ import { FaChangeDepartmentComponent } from "./components/operations/fixed-asset
 import { FaChangeFirmComponent } from "./components/operations/fixed-asset/fa-change-firm/fa-change-firm.component";
 import { FaDeleteDebitComponent } from "./components/operations/fixed-asset/fa-delete-debit/fa-delete-debit.component";
 import { FaChangeDebitComponent } from "./components/operations/fixed-asset/fa-change-debit/fa-change-debit.component";
+import { FaSuspendComponent } from "./components/operations/fixed-asset/fa-suspend/fa-suspend.component";
+import { FaLostComponent } from "./components/operations/fixed-asset/fa-lost/fa-lost.component";
 import { FaChangeCollectiveParameterComponent } from "./components/operations/fixed-asset/fa-change-collective-parameter/fa-change-collective-parameter.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule  } from 'ng2-file-upload';
@@ -97,6 +99,8 @@ import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-inf
     FaChangeDebitComponent,
     FaDeleteDebitComponent,
     FaChangeCollectiveParameterComponent,
+    FaSuspendComponent,
+    FaLostComponent,
     FaBindingComponent,
     FixedAssetCardPropertyComponent,
     SuspensionComponent,

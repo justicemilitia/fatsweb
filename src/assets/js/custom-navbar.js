@@ -1,5 +1,32 @@
 $(document).ready(() => {
+
+    if (window.innerWidth < 1100) {
+        let navigation = $('.az-navbar');
+        if (!navigation.hasClass('closed'))
+            navigation.addClass('closed');
+    }
+
+    $('')
+
     doParentsSelected();
+
+    $('.nav-mobile-button').on('click', function () {
+        let navigation = $('.az-navbar');
+        if (navigation.hasClass('closed'))
+            navigation.removeClass('closed');
+        else
+            navigation.addClass('closed');
+    });
+
+
+    $(window).resize(function () {
+        if (window.innerWidth < 1100) {
+            let navigation = $('.az-navbar');
+            if (!navigation.hasClass('closed'))
+                navigation.addClass('closed');
+        }
+    });
+
 })
 
 function closeAllOpenSubItems() {
@@ -74,6 +101,16 @@ $('body').on('click', '.nav-link-item-link', function (event) {
 
     doParentsSelected();
 
+});
+
+$(document).on('click', (e) => {
+    if (window.innerWidth < 1100) {
+        if (e.pageX > 300) {
+            let navigation = $('.az-navbar');
+            if (!navigation.hasClass('closed'))
+                navigation.addClass('closed');
+        }
+    }
 });
 
 /* Close Item Outside of the column helper and open area */

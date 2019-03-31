@@ -149,6 +149,15 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
+
+    /* Form Validation */
+    if (data.form.invalid == true) return;
+
+    /* are Roles selected */
+    if (!this.currentUserRoles || this.currentUserRoles.length == 0) {
+      return;
+    } 
+
     /* if company id exists means update it otherwise insert it */
     if (this.currentUser.UserId == null) {
       this.insertUser(data);
@@ -158,9 +167,6 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   async insertUser(data: NgForm) {
-
-    /* Form Validation */
-    if (data.form.invalid == true) return;
 
     /* Say user to wait */
     this.isWaitingInsertOrUpdate = true;
@@ -207,9 +213,6 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   async updateUser(data: NgForm) {
 
-    /* Check model state */
-    if (data.form.invalid == true) return;
-
     /* Ask for approve question if its true then update the location */
     await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
 
@@ -238,7 +241,11 @@ export class UserComponent extends BaseComponent implements OnInit {
           this.currentUser.ParentUser = parentUser;
 
           /* Update in table the current user */
-          this.dataTable.TGT_updateData(updateUser);
+          this.dataTable.TGT_updateData(this.currentUser);
+
+          let newUser = new User();
+          Object.assign(newUser,this.currentUser);
+          this.currentUser = newUser;
 
           /* Get original source after update completed */
           this.users = <User[]>this.dataTable.TGT_copySource();

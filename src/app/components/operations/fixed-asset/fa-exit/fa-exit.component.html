@@ -1,3 +1,10 @@
+<div class="modal-header">
+    <h6 class="modal-title">Çıkış işlemi için bilgileri giriniz.</h6>
+    <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
 <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
   <div class="modal-body">
     <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" />
@@ -75,6 +82,5 @@
       data-target="#modalExitFixedAsset">
       Kaydet
     </button>
-    <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
   </div>
 </form>

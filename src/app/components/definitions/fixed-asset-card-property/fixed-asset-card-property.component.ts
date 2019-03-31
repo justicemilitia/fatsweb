@@ -143,6 +143,9 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     data.resetForm(this.fixedAssetCardProperty);
     if (isNewItem == true) {
       this.fixedAssetCardProperty = new FixedAssetCardProperty();
+      this.fixedAssetCardPropertyValues =[];
+      this.dataTablePropertyValue.TGT_clearData();
+      this.isListSelected = false;
     }
   }
 
@@ -188,11 +191,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
           /* if all of them removed */
           if (itemIds.length == 1)
-            this.baseService.popupService.ShowAlertPopup(
+            this.baseService.popupService.ShowSuccessPopup(
               "Kayıt Başarıyla silindi!"
             );
           else
-            this.baseService.popupService.ShowAlertPopup(
+            this.baseService.popupService.ShowSuccessPopup(
               "Tüm kayıtlar başarıyla silindi!"
             );
 
@@ -221,6 +224,8 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
     /* Close waiting loader */
     this.isWaitingInsertOrUpdate = true;
+
+    this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
 
     this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
 
@@ -272,8 +277,10 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         if (response == true) {
           /* Change button to loading */
           this.isWaitingInsertOrUpdate = true;
-          this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
 
+          this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
+
+          this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
 
           /* Update Model to database */
           this.baseService.fixedAssetCardPropertyService.UpdateFixedAssetCardProperty(
@@ -288,6 +295,10 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
               /* Create a fixed asset for updated item to create a refrences */
               let updatedModel = new FixedAssetCardProperty();
               Object.assign(updatedModel, this.fixedAssetCardProperty);
+
+              if (updatedModel.FixedAssetTypeId != PropertyValueTypes.Liste) {
+                updatedModel.FixedAssetPropertyValues = [];
+              }
 
               /* Display item updated */
               updatedModel.FixedAssetPropertyValues.forEach((p, i) => {
@@ -390,7 +401,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
   async insertPropertyValueToArray(value: any) {
     value.value = value.value.trim();
-
+  
     this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
 
     if (
@@ -398,22 +409,30 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
       !this.fixedAssetCardPropertyValues.find(x => x.Value == value.value)
     ) {
       this.fixedAssetCardPropertyValue.Value = value.value;
-      this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId =
-        (this.fixedAssetCardPropertyValues.length + 1) * -1;
+      this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId = this.getValueId();
       this.fixedAssetCardPropertyValues.push(this.fixedAssetCardPropertyValue);
       this.dataTablePropertyValue.TGT_loadData(this.fixedAssetCardPropertyValues);
       this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
       value.value = null;
+      $('#value').focus();
     } else {
       value.value = null;
     }
+  }
+
+  getValueId() {
+    let id = 0;
+    this.fixedAssetCardPropertyValues.forEach(e => {
+      if (e.FixedAssetPropertyValueId < id)
+        id = e.FixedAssetPropertyValueId;
+    })
+    return id - 1;
   }
 
   async loadFixedAssetCardPropertyTypes() {
     await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardPropertyTypes(
       (fixedAssetPropertyTypes: FixedAssetCardPropertyType[]) => {
         this.fixedAssetCardPropertyTypes = fixedAssetPropertyTypes;
-        console.log(this.fixedAssetCardPropertyTypes);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -424,7 +443,9 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   changeValue(event) {
     if (event.target.value == PropertyValueTypes.Liste.toLocaleString())
       this.isListSelected = true;
-    else this.isListSelected = false;
+    else {
+      this.isListSelected = false;
+    }
   }
 
   async refreshTable() {

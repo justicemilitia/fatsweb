@@ -1,0 +1,92 @@
+<div class="modal-header">
+    <h6 class="modal-title">Askıya alma bilgilerini giriniz.</h6>
+    <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+<form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
+  <div class="modal-body">
+    <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" />
+
+    <!-- BARKODLAR -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Barkodlar</label>
+        <input name="Barcodes" value="{{faBarcode}}" type="text" class="form-control" disabled />
+      </div>
+    </div>
+
+    <!-- ÇIKIŞ TİPİ -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label class="required-span">Askıya Alma Nedeni</label>
+        <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
+          #CheckOutReasonId="ngModel">
+          <option>Yok</option>
+          <option *ngFor="let suspension of suspensions" value={{suspension.CheckOutReasonId}}>
+            {{suspension.Name}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- BEKLENEN DÖNÜŞ TARİHİ -->
+  <div class="row justify-content-center">    
+    <div class="col-md-12 form-group">
+      <label>Beklenen Dönüş Tarihi</label>
+      <div class="input-group">
+        <div class="input-group-append">
+          <div (click)="checkInExpectedArrivalDate.toggle()" class="input-group-text">
+            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+          </div>
+        </div>
+        <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="guaranteeEndDate"
+          [(ngModel)]="transactionLog.CheckInExpectedArrivalDate" ngbDatepicker #checkInExpectedArrivalDate="ngbDatepicker" #CheckInExpectedArrivalDate="ngModel">
+      </div>
+    </div>
+  </div>
+
+
+    <!-- AÇIKLAMA -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Açıklama</label>
+        <textarea [(ngModel)]="transactionLog.CheckOutDescription" name="CheckOutDescription" style="resize:none" rows="2"
+          class="form-control" type="text" maxlength="100" #CheckOutDescription="ngModel"></textarea>
+      </div>
+    </div>
+
+    <!-- FORM BASMA -->
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="ckbox">
+            <input type="checkbox" name="PrintExitForm" /><span>Askıya alma formu basılsın.</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+      <!-- MAIL İLE HATIRLATMA -->
+      <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="ckbox">
+                <input type="checkbox" name="PrintExitForm" /><span>Mail ile hatırlatma istiyorum.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button class="btn btn-az-primary" id="btnExitFixedAsset" type="submit" data-toggle="modal"
+      data-target="#modalExitFixedAsset">
+      Kaydet
+    </button>
+    <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+  </div>
+</form>

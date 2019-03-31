@@ -119,9 +119,9 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
         else
-          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear ids from source */
         this.dataTable.TGT_removeItemsByIds(itemIds);

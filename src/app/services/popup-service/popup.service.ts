@@ -16,10 +16,6 @@ export class PopupService {
 
   }
 
-  ShowHello() {
-    swal("Selam canım :)", "", "success");
-  }
-
 
   ShowAlertPopup(message: string) {
     //swal(message, "", "warning");
@@ -37,9 +33,7 @@ export class PopupService {
 
   ShowErrorPopup(error: HttpErrorResponse) {
     this.alertSerivce.pushDanger(this.languageService.getValue(error.statusText));
-    setTimeout(() => {
-      this.errorService.errorManager(error);
-    }, 2000);
+    this.errorService.errorManager(error);
   }
 
   ShowMenuAuthorizePopup(ok) {
@@ -114,4 +108,125 @@ export class PopupService {
         }
       });
   }
+
+  ShowQuestionPopupForLocationUpdate(callBack) {
+    swal({
+      title: "Uyarı!",
+      text: "Seçili demirbaşın lokasyon bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  ShowQuestionPopupForDepartmentUpdate(callBack) {
+    swal({
+      title: "Uyarı!",
+      text: "Seçili demirbaşın departman bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  ShowQuestionPopupForFirmUpdate(callBack) {
+    swal({
+      title: "Uyarı!",
+      text: "Seçili demirbaşın şirket bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  ShowQuestionPopupForBarcodeUpdate(callBack) {
+    swal({
+      title: "Uyarı!",
+      text: "Seçili demirbaşın barkod bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  ShowQuestionPopupForDebitUpdate(callBack) {
+    swal({
+      title: "Uyarı!",
+      text: "Seçili demirbaşın zimmet bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  ShowQuestionPopupForDebitDelete(callBack) {
+    swal({
+      title: "Uyarı!",
+      text: "Seçili demirbaşın zimmet bilgisi silinecektir. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  ShowQuestionPopupForDeleteWithoutUndo(callBack) {
+    swal({
+      title: "Uyarı!",
+      text: "Bu işlem geri alınamaz. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  
 }

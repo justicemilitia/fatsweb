@@ -1,6 +1,9 @@
-<!-- <div class="row justify-content-center">
-    <h6 class="modal-title">Çıkış işlemi için bilgileri giriniz.</h6>
-  </div> -->
+<div class="modal-header">
+  <h6 class="modal-title">Barkod değişimi için gerekli bilgileri giriniz.</h6>
+  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
   <form name="form" #data="ngForm" (ngSubmit)="ChangeBarcode(data)">
     <div class="modal-body">

@@ -137,7 +137,6 @@ export class UserService {
   }
 
   UpdateUser(user: User, success, failed) {
-    console.log(JSON.stringify(user));
     this.httpClient.post(SERVICE_URL + UPDATE_USER, user, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(result => {
         let response: Response = <Response>result;

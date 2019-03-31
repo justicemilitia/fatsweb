@@ -1,17 +1,17 @@
 import { Component, OnInit, NgModule, Input } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
-import { BaseService } from '../../../../services/base.service';
-import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGridTable';
-import { FixedAsset } from '../../../../models/FixedAsset';
-import { HttpErrorResponse } from '@angular/common/http';
+import { BaseService } from "../../../../services/base.service";
+import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
+import { FixedAsset } from "../../../../models/FixedAsset";
+import { HttpErrorResponse } from "@angular/common/http";
 import * as $ from "jquery";
-import { Firm } from '../../../../models/Firm';
+import { Firm } from "../../../../models/Firm";
 
 @Component({
-  selector: 'app-fa-change-firm',
-  templateUrl: './fa-change-firm.component.html',
-  styleUrls: ['./fa-change-firm.component.css']
+  selector: "app-fa-change-firm",
+  templateUrl: "./fa-change-firm.component.html",
+  styleUrls: ["./fa-change-firm.component.css"]
 })
 @NgModule({
   imports: [ReactiveFormsModule],
@@ -19,51 +19,53 @@ import { Firm } from '../../../../models/Firm';
   providers: [FaChangeFirmComponent]
 })
 export class FaChangeFirmComponent extends BaseComponent implements OnInit {
-
   @Input() faBarcode: FixedAsset = new FixedAsset();
   newFirmId: number;
 
-   /* List Of Firms */
+  /* List Of Firms */
   firms: Firm[] = [];
 
-   constructor(baseService: BaseService) {
+  constructor(baseService: BaseService) {
     super(baseService);
     this.loadDropdownList();
   }
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async ChangeFirm(data: NgForm) {
-
     /* Is Form Valid */
     if (data.form.invalid == true) return;
-    let cloneItem=new FixedAsset();
-    Object.assign(cloneItem, this.faBarcode);
 
+    await this.baseService.popupService.ShowQuestionPopupForLocationUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          let cloneItem = new FixedAsset();
+          Object.assign(cloneItem, this.faBarcode);
 
-    cloneItem.FirmId=data.value.firmIds;
+          cloneItem.FirmId = data.value.firmIds;
 
-     await this.baseService.fixedAssetService.ChangeFirm(
-      cloneItem,
-      (insertedItem: FixedAsset, message) => {
-        /* Show success pop up */
-        this.baseService.popupService.ShowSuccessPopup(message);
+            this.baseService.fixedAssetService.ChangeFirm(
+            cloneItem,
+            (insertedItem: FixedAsset, message) => {
+              /* Show success pop up */
+              this.baseService.popupService.ShowSuccessPopup(message);
 
-        /* Set inserted Item id to model */
-        this.faBarcode.Barcode = cloneItem.Barcode;
-
-      },
-      (error: HttpErrorResponse) => {
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
+              /* Set inserted Item id to model */
+              this.faBarcode.Barcode = cloneItem.Barcode;
+            },
+            (error: HttpErrorResponse) => {
+              /* Show alert message */
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
+        }
       }
     );
   }
 
   async loadDropdownList() {
-
     /* Load firms to firm dropdown */
-    await this.baseService.userService.GetFirms(firms => {
+    await this.baseService.userService.GetFirms(
+      firms => {
         this.firms = firms;
       },
       (error: HttpErrorResponse) => {
@@ -72,5 +74,4 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
       }
     );
   }
-
 }

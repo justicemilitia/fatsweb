@@ -1,19 +1,24 @@
+<div class="modal-header">
+  <h6 class="modal-title">Toplu değişim yapılacak alanları belirleyiniz.</h6>
+  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
 <form name="form" #data="ngForm" (ngSubmit)="ChangeCollectiveParameter(data)">
     <div class="modal-body">
-        <!-- SEÇİLİ DEMİRBAŞLAR -->
-        <div class="row justify-content-center">
-            <div class="col-md-4 form-group">
-              <label>Demirbaşlar</label>
-              <div class="col-md" style="margin-left:-30px;">
-                  <div class="card card-body bg-gray-200 bd-0" style="height:340px; width:120px;">
-                    <p class="card-text"></p>
-                  </div><!-- card -->
-                </div><!-- col -->
-            </div>
 
-          <!-- TOPLU ALANLAR -->
+        <!-- BARKODLAR -->
+    <div class="row justify-content-center">
+        <div class="col-md-12 form-group">
+          <label>Seçili Demirbaşlar</label>
+          <input name="Barcodes" value="{{faBarcode}}" type="text" class="form-control" disabled />
+        </div>
+      </div>
+
+        <div class="row justify-content-center">
           <!-- <div class="justify-content-center"> -->
-          <div class="col-md-8 form-group">
+          <div class="col-md-12 form-group">
              
               <!-- ŞİRKET - SİGORTA ŞİRKETİ -->
               <div class="row">
@@ -102,7 +107,7 @@
 
               <!-- TEDARİKÇİ -->
               <div class="col-md-6 form-group">
-                    <label>Sigorta Şirketi</label>
+                    <label>Tedarikçi</label>
                     <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control" #CompanyId="ngModel">
                         <option [ngValue]="null">Seçiniz</option>
                         <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
@@ -141,7 +146,7 @@
                     <!-- FATURA NUMARASI -->
                     <div class="form-group col-md-6">
                         <label>Fatura Numarası</label>
-                        <input [(ngModel)]="fixedAsset.InvoiceNo" name="invoiceNo" type="text" class="form-control" #invoiceNo="ngModel"/>
+                        <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" class="form-control" #InvoiceNo="ngModel"/>
                     </div>
               </div>
 
@@ -182,7 +187,7 @@
               <div class="row">
                   <div class="form-group col-md-6">
                       <label>Demirbaş Statüsü</label>                    
-                      <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%;border: radius 0px;"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
+                      <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%;border: radius 0px;" #StatusId="ngModel">
                           <option [ngValue]="null">Seçiniz</option>
                           <option *ngFor="let status of statuses" value="{{status.FixedAssetStatusId}}">{{status.Name}}</option>
                       </select>   

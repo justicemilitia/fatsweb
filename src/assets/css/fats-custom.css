@@ -139,21 +139,30 @@ body {
 .modal-title {
     font-size: 15px;
     line-height: 1;
-    padding: 3px;
-    padding-left: 10px;
+    padding: 5px;
+    padding-left: 0;
+    flex: 1;
 }
 
 .modal-footer {
     padding: .4rem !important;
     justify-content: center !important;
+    border-top: none;
 }
 
 .modal-footer>button {
     min-height: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .modal-header {
     padding: .4rem !important;
+    text-align: center;
+}
+
+.modal-content .close {
+    margin-right: 5px;
 }
 
 .btn-new-custom-fa {
@@ -527,6 +536,15 @@ label.custom-file:hover {
     display: block;
 }
 
+.bg-primary {
+    background-color: #8d5adf !important;
+}
+
+.modal-body {
+    padding: 15px;
+    padding-bottom: 0px;
+}
+
 .color-custom-input {
     color: #fff;
     font-weight: bold;
@@ -545,7 +563,7 @@ label.custom-file:hover {
 
 .multiselect-dropdown .dropdown-btn .selected-item {
     font-size: 12px;
-    margin-top:1px !important;
+    margin-top: 1px !important;
 }
 
 .multiselect-dropdown .dropdown-btn .dropdown-down {
@@ -555,7 +573,7 @@ label.custom-file:hover {
 }
 
 
-@media (max-width: 1099px) {
+@media (max-width: 991px) {
     .stellarnav ul {
         display: flex;
         flex-direction: column;
@@ -584,7 +602,10 @@ label.custom-file:hover {
     .az-navbar.az-navbar-two {
         z-index: 9999;
         display: inline-block;
-        border-right: 1px solid #b5b5b5;
+        border-right: 1px solid #dee2e6;
+        margin-top: 60px;
+        padding: 15px;
+        padding-top: 0px;
     }
 
     .nav-link {
@@ -601,9 +622,44 @@ label.custom-file:hover {
         width: 100% !important;
         padding-left: 10px !important;
     }
+
+    .az-navbar .nav-item {
+        outline: #ced4da;
+    }
+
+    .az-navbar .nav-item {
+        position: relative;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .az-navbar.az-navbar-two.hide {
+        display: none;
+    }
+
+    .nav-mobile-button {
+        display: none;
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        color: #000000;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        cursor: pointer;
+    }
+
+    .az-navbar.closed {
+        display: none;
+    }
+
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 992px) {
+
+    .nav-mobile-button {
+        display:none;
+    }
 
     .nav-item {
         outline: none;
