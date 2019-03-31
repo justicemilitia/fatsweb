@@ -24,6 +24,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
   countValues: any = {};
 
+  math = Math;
 
   countEnums = {
     Month: 1,

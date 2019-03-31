@@ -681,6 +681,7 @@ label.custom-file:hover {
 
     .stellarnav ul {
         background: #fcfcfc !important;
+        display: flex;
     }
 
     .stellarnav ul ul {
