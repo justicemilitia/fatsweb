@@ -1,34 +1,26 @@
 <div class="modal-header">
-  <h6 class="modal-title">Barkod değişimi için gerekli bilgileri giriniz.</h6>
+  <h6 class="modal-title">Demirbaş ilişkilendirme işlemi için gerekli bilgileri giriniz.</h6>
   <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
-  <form name="form" #data="ngForm" (ngSubmit)="ChangeBarcode(data)">
+  <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
     <div class="modal-body">
       <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
 
         <!-- BARKOD -->
       <div class="row justify-content-center">
         <div class="col-md-12 form-group">
-          <label>Barkod</label>
-          <input name="Barcodes" value="{{faBarcode.Barcode}}" type="text" class="form-control" disabled/>          
+          <label>Seçili Barkod(lar)</label>
+          <input name="Barcodes" value="{{faBarcode}}" type="text" class="form-control" disabled/>          
         </div>
       </div>
 
-         <!-- DEMİRBAŞ ADI -->
-         <div class="row justify-content-center">
-          <div class="col-md-12 form-group">
-            <label>Demirbaş Adı</label>
-            <input name="Name" value="{{faBarcode.FixedAssetCard.Name}}" type="text" class="form-control" disabled/>                        
-          </div>
-        </div>
-
-        <!-- YENİ BARKOD -->
+        <!-- İLİŞKİLEDİRİLECEK BARKOD -->
         <div class="row justify-content-center">
           <div class="col-md-12 form-group">
-            <label>Yeni Barkod</label>
+            <label>İlişkilendirilecek Barkod</label>
             <input [(ngModel)]="Barcode" name="newBarcodes" type="text" class="form-control" #newBarcodes="ngModel" 
             [ngClass]="{ 'is-invalid': data.submitted && newBarcodes.invalid }" required/>
             <div *ngIf="data.submitted && newBarcodes.invalid" class="invalid-feedback">
@@ -41,9 +33,8 @@
 
     <!-- modal-body -->
     <div class="modal-footer">
-      <button class="btn btn-orange" id="btnChangeBarcode" type="submit" data-toggle="modal" data-target="#modalChangeBarcode">
-        Kaydet
+      <button class="btn btn-orange" id="btnChangeRelationship" type="submit" data-toggle="modal" data-target="#modalRelationship">
+        Demirbaş İlişkilendir
       </button>
-      <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
     </div>
   </form>

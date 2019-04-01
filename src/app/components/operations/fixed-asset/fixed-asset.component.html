@@ -19,7 +19,7 @@
                 class="fas fa-minus-circle"></i></button>
 
             <button class="btn btn-az-primary btn-relation-button" data-toggle="tooltip" data-placement="bottom"
-              title="Demirbaş İlişkiendir"><i class="fas fa-link"></i></button>
+              title="Demirbaş İlişkiendir"><i class="fas fa-link" (click)="doOperation(12)"></i></button>
             <button class="btn btn-az-primary btn-suspend-button" data-toggle="tooltip" data-placement="bottom"
               title="Askıya Al"><i class="fas fa-level-up-alt" (click)="doOperation(10)"></i></button>
             <button class="btn btn-az-primary btn-lost-assets" data-toggle="tooltip" data-placement="bottom"
@@ -87,6 +87,9 @@
 
       <app-fa-change-location [faBarcode]="changeLocation_selectedItem" *ngIf="currentOperation==3">
       </app-fa-change-location>
+
+      <app-fa-relationship [faBarcode]="relationship_selectedItem" [faDataTable]="dataTable" *ngIf="currentOperation==12">
+      </app-fa-relationship>
 
       <app-fa-change-department [faBarcode]="changeDepartment_selectedItem" *ngIf="currentOperation==4">
       </app-fa-change-department>

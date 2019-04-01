@@ -16,7 +16,8 @@ import {
   ADD_FIXEDASSETDEBIT,
   CHANGE_COLLECTIVEPARAMETER,
   SUSPENSIONPROCESS,
-  LOST_PROCESS
+  LOST_PROCESS,
+  CHANGE_RELATIONSHIP
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -325,6 +326,29 @@ export class FixedAssetService {
     this.httpclient
       .post(
         SERVICE_URL + CHANGE_COLLECTIVEPARAMETER, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAsset: FixedAssetUser = new FixedAssetUser();
+            Object.assign(updatedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  ChangeRelationship(transationLog: TransactionLog, success, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + CHANGE_RELATIONSHIP, transationLog, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
