@@ -114,20 +114,13 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Personel",
-        columnName: ["User","FirstName"],
+        columnName: ["FixedAssetUsers","User","FirstName"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
-      {
-        columnDisplayName: "Açıklama",
-        columnName: ["Description"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
+
       // {
       //   columnDisplayName: "Şirket",
       //   columnName: ["Company","Name"],
