@@ -37,7 +37,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    await this.baseService.popupService.ShowQuestionPopupForLocationUpdate(
+    await this.baseService.popupService.ShowQuestionPopupForDepartmentUpdate(
       (response: boolean) => {
         if (response == true) {
           let cloneItem = new FixedAsset();

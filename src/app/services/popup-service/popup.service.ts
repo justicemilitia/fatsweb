@@ -228,5 +228,21 @@ export class PopupService {
       });
   }
 
+  ShowQuestionPopupForChangeRelationhip(callBack) {
+    swal({
+      title: "Uyarı!",
+      text: "Seçim yapılan demirbaşlar ilgili demirbaş ile ilişkliendirilecektir. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
   
 }

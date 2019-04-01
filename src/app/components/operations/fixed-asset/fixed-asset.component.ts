@@ -7,7 +7,7 @@ import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTab
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
-import { User } from '../../../models/LoginUser';
+import { User } from "../../../models/LoginUser";
 
 @Component({
   selector: "app-fixed-asset",
@@ -15,12 +15,11 @@ import { User } from '../../../models/LoginUser';
   styleUrls: ["./fixed-asset.component.css"]
 })
 export class FixedAssetComponent extends BaseComponent implements OnInit {
-
   isWaitingInsertOrUpdate: boolean = false;
 
   isTableRefreshing: boolean = false;
 
-  isTableExporting:boolean = false;
+  isTableExporting: boolean = false;
 
   fixedAssets: FixedAsset[] = [];
 
@@ -326,7 +325,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     this.loadFixedAssetProperties();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async refreshTable() {
     this.isTableRefreshing = true;
@@ -341,7 +340,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   }
 
   loadFixedAsset() {
-
     this.baseService.fixedAssetService.GetFixedAsset(
       (fa: FixedAsset[]) => {
         this.fixedAssets = fa;
@@ -380,7 +378,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadFixedAssetPropertyValues() { }
+  loadFixedAssetPropertyValues() {}
 
   public selectedIds() {
     let selectedItems = this.dataTable.TGT_getSelectedItems();
@@ -401,7 +399,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
     let fixedAssetBarcodes = "";
     selectedItems.forEach((e, i) => {
-      fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
+      fixedAssetBarcodes +=
+        e.Barcode + (i == selectedItems.length - 1 ? "" : ", ");
     });
 
     return fixedAssetBarcodes;
@@ -411,7 +410,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
     let fixedAssetName = "";
     selectedItems.forEach((e, i) => {
-      fixedAssetName += e.FixedAssetCard.Name + (i == selectedItems.length - 1 ? '' : ", ");
+      fixedAssetName +=
+        e.FixedAssetCard.Name + (i == selectedItems.length - 1 ? "" : ", ");
     });
 
     return fixedAssetName;
@@ -456,13 +456,17 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         this.CreateFixedAssetOperation();
         break;
 
-        case FixedAssetOperations.suspendFixedAsset:
+      case FixedAssetOperations.suspendFixedAsset:
         this.SuspendFixedAssetOperation();
         break;
 
-        case FixedAssetOperations.lostFixedAsset:
+      case FixedAssetOperations.lostFixedAsset:
         this.LostFixedAssetOperation();
         break;
+
+      case FixedAssetOperations.changeRelationship:
+      this.FixedAssetRelationshipOperation();
+      break;
     }
   }
 
@@ -472,19 +476,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length > 1) {
-      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Birden fazla demirbaş seçtiniz.!"
+      );
       return;
     }
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.changeBarcode_selectedItem = selectedItems[0];
 
-    $('#showModal').trigger('click');
-
+    $("#showModal").trigger("click");
   }
   //#endregion
 
@@ -494,19 +501,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length > 1) {
-      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Birden fazla demirbaş seçtiniz.!"
+      );
       return;
     }
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.changeLocation_selectedItem = selectedItems[0];
 
-    $('#showModal').trigger('click');
-
+    $("#showModal").trigger("click");
   }
   //#endregion
 
@@ -516,19 +526,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length > 1) {
-      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Birden fazla demirbaş seçtiniz.!"
+      );
       return;
     }
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.changeDepartment_selectedItem = selectedItems[0];
 
-    $('#showModal').trigger('click');
-
+    $("#showModal").trigger("click");
   }
   //#endregion
 
@@ -538,19 +551,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length > 1) {
-      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Birden fazla demirbaş seçtiniz.!"
+      );
       return;
     }
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.changeFirm_selectedItem = selectedItems[0];
 
-    $('#showModal').trigger('click');
-
+    $("#showModal").trigger("click");
   }
   //#endregion
 
@@ -560,19 +576,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length > 1) {
-      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Birden fazla demirbaş seçtiniz.!"
+      );
       return;
     }
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.changeDebit_selectedItem = selectedItems[0];
 
-    $('#showModal').trigger('click');
-
+    $("#showModal").trigger("click");
   }
   //#endregion
 
@@ -582,19 +601,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length > 1) {
-      this.baseService.popupService.ShowAlertPopup("Birden fazla demirbaş seçtiniz.!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Birden fazla demirbaş seçtiniz.!"
+      );
       return;
     }
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.deleteDebit_selectedItem = selectedItems[0];
 
-    $('#showModal').trigger('click');
-
+    $("#showModal").trigger("click");
   }
   //#endregion
 
@@ -604,14 +626,33 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.exit_selectedBarcodes = this.selectedBarcodes();
 
-    $('#showModal').trigger('click');
+    $("#showModal").trigger("click");
+  }
+  //#endregion
 
+  //#region FixedAssetRelationshipOperation
+  relationship_selectedItem: string;
+  FixedAssetRelationshipOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
+      return;
+    }
+
+    this.relationship_selectedItem = this.selectedBarcodes();
+
+    $("#showModal").trigger("click");
   }
   //#endregion
 
@@ -621,57 +662,59 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.changeCollectiveParameter_selectedBarcodes = this.selectedBarcodes();
 
-    $('#showModal').trigger('click');
-
+    $("#showModal").trigger("click");
   }
   //#endregion
 
-  //#region Suspend Fixed Asset  
-  suspend_selectedBarcodes: string;  
-  SuspendFixedAssetOperation(){
+  //#region Suspend Fixed Asset
+  suspend_selectedBarcodes: string;
+  SuspendFixedAssetOperation() {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
     if (selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
       return;
     }
 
     this.suspend_selectedBarcodes = this.selectedBarcodes();
 
-    $('#showModal').trigger('click');
-
+    $("#showModal").trigger("click");
   }
 
   //#endregion
 
- //#region Lost Fixed Asset  
- lost_selectedBarcodes: FixedAsset[];  
- LostFixedAssetOperation(){
-   let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+  //#region Lost Fixed Asset
+  lost_selectedBarcodes: FixedAsset[];
+  LostFixedAssetOperation() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
-   if (selectedItems.length == 0) {
-     this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
-     return;
-   }
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
+      return;
+    }
 
-   this.lost_selectedBarcodes = selectedItems;
+    this.lost_selectedBarcodes = selectedItems;
 
-   $('#showModal').trigger('click');
+    $("#showModal").trigger("click");
+  }
 
- }
-
- //#endregion
+  //#endregion
 
   //#region Create Fixed Asset Operation
   CreateFixedAssetOperation() {
-    $('#showModal').trigger('click');
+    $("#showModal").trigger("click");
   }
   //#endregion
 }
-

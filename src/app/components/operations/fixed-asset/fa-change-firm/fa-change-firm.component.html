@@ -45,7 +45,7 @@
             class="form-control"
             (click)="loadDropdownList()"
             #firmIds="ngModel"
-            [ngClass]="{ 'is-invalid': data.submitted && FirmId.invalid }"
+            [ngClass]="{ 'is-invalid': data.submitted && firmIds.invalid }"
             required
           >
             <option [ngValue]="null">Yok</option>
@@ -57,10 +57,10 @@
             </option>
           </select>
           <div
-            *ngIf="data.submitted && FirmId.invalid"
+            *ngIf="data.submitted && firmIds.invalid"
             class="invalid-feedback"
           >
-            <div *ngIf="FirmId.errors.required">Bu alan zorunludur.</div>
+            <div *ngIf="firmIds.errors.required">Bu alan zorunludur.</div>
           </div>
         </div>
       </div> 

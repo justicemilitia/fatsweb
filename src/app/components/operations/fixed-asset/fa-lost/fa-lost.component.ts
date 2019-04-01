@@ -76,6 +76,7 @@ export class FaLostComponent extends BaseComponent
     this.dataTable.isTableEditable = true;
     this.dataTable.isMultipleSelectedActive = false;
     this.dataTable.isLoading = false;
+    this.dataTable.isFilterActive=false;
   }
 
   ngOnInit() {

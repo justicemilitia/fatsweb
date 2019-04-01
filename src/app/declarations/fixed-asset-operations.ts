@@ -9,5 +9,6 @@ export enum FixedAssetOperations {
     exitFixedAsset=8,
     changeCollectiveParameter=9,
     suspendFixedAsset=10,
-    lostFixedAsset=11
+    lostFixedAsset=11,
+    changeRelationship=12
 }
