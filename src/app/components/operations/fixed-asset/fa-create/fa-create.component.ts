@@ -1,14 +1,4 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  DoCheck,
-  Directive,
-  EventEmitter,
-  NgModule,
-  OnChanges,
-  ViewChild
-} from "@angular/core";
+import { Component, OnInit, AfterViewInit, DoCheck, Directive, EventEmitter, NgModule, OnChanges, ViewChild} from "@angular/core";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { Department } from "src/app/models/Department";
@@ -33,41 +23,14 @@ import * as $ from "jquery";
 import { FixedAssetFile } from "src/app/models/FixedAssetFile";
 import { Depreciation } from "src/app/models/Depreciation";
 
-import {
-  HttpClient,
-  HttpRequest,
-  HttpResponse,
-  HttpEvent
-} from "@angular/common/http";
+import { HttpClient, HttpRequest, HttpResponse, HttpEvent } from "@angular/common/http";
 import { FileUploader } from "ng2-file-upload";
 import { NgForm, FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { convertNgbDateToDateString } from "src/app/declarations/extends";
 import { CdkStepper } from '@angular/cdk/stepper';
 import { MatVerticalStepper, MatHorizontalStepper } from '@angular/material';
 
-function readBase64(file): Promise<any> {
-  var reader = new FileReader();
-  var future = new Promise((resolve, reject) => {
-    reader.addEventListener(
-      "load",
-      function() {
-        resolve(reader.result);
-      },
-      false
-    );
 
-    reader.addEventListener(
-      "error",
-      function(event) {
-        reject(event);
-      },
-      false
-    );
-
-    reader.readAsDataURL(file);
-  });
-  return future;
-}
 
 const URL = "";
 @Component({
@@ -87,10 +50,10 @@ const URL = "";
 
 export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
  
-
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
+
   isWaitingValidBarcode: boolean = false;
   isLinear = false;
   fixedAssetForm:FormGroup;
@@ -130,6 +93,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   editable: boolean = true;
   fixedAssetFiles: string[] = [];
   visibleInsertButton:boolean=false;
+
   @ViewChild('stepper') stepper: MatHorizontalStepper;
 
   public imagePath;
@@ -489,9 +453,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   async insertPropertyValueToArray(propertyId: any) {
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
     this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
       (this.faPropertyDetails.length + 1) * -1;
@@ -507,6 +469,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
 
     this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
     propertyId = null;
+  
   }
 
   addImageFile(imageFile) {
@@ -558,18 +521,34 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
       let fixedasset = new FixedAsset();
       fixedasset.Barcode = this.barcode.toString();
       fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
+
       let department = this.departments.find(x => x.DepartmentId == Number(data.value.DepartmentId));
       let fixedassetcard = this.fixedassetcards.find(x => x.FixedAssetCardId == Number(data.value.FixedAssetCardId));
+      let fixedassetcategory=this.fixedassetcategories.find(x=>x.FixedAssetCardCategoryId==Number(data.value.FixedAssetCardCategoryId));
       let location = this.locations.find(x => x.LocationId == Number(data.value.LocationId));
+      let expensecenter=this.expensecenters.find(x=>x.ExpenseCenterId==Number(data.value.ExpenseCenterId));
+      fixedasset.FixedAssetCardBrandId=Number(data.value.FixedAssetCardBrandId);
+      fixedasset.FixedAssetCardModelId=Number(data.value.FixedAssetCardCategoryId);      
       fixedasset.IsActive=Boolean(data.value.IsActive);
+      fixedasset.ActivationDate=data.value.activationDate;
+      fixedasset.ExpenseCenter=expensecenter;
+      fixedasset.SerialNumber=data.value.SerialNumber;     
+      fixedasset.FixedAssetCardCategory=fixedassetcategory;
       fixedasset.Location = location;
       fixedasset.Department = department;
       fixedasset.FixedAssetCard = fixedassetcard;
       fixedasset.Price=data.value.Price;
+      fixedasset.GuaranteeStartDate=data.value.guaranteeStartDate;
+      fixedasset.GuaranteeEndDate=data.value.guaranteeEndDate;
+      fixedasset.CurrencyId=Number(data.value.CurrencyId);
+      fixedasset.InvoiceDate=data.value.invoiceDate;
+      fixedasset.InvoiceNo=data.value.InvoiceNo;
+      fixedasset.ReceiptDate=data.value.receiptDate;
+
       if (this.fixedAssets.length>0){
         let lastBarcode=this.fixedAssets[this.fixedAssets.length-1].Barcode;
         fixedasset.Barcode=(Number(lastBarcode) + 1).toString();      
-      }else{
+      } else{
         fixedasset.Barcode=this.barcode.toString();
       }
       this.fixedAssets.push(fixedasset);
@@ -614,7 +593,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.insertedFixedAsset.CompanyId = this.fixedAsset.CompanyId == null ? null: Number(this.fixedAsset.CompanyId);
     this.insertedFixedAsset.DepreciationCalculationTypeID = this.fixedAsset.DepreciationCalculationTypeID == null ? null: Number(this.fixedAsset.DepreciationCalculationTypeID);
     this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null: Number(this.fixedAsset.ExpenseCenterId);
-    this.insertedFixedAsset.StatusId = Number(this.fixedAsset.StatusId);
+    this.insertedFixedAsset.StatusId = this.fixedAsset.StatusId == null ? null : Number(this.fixedAsset.StatusId);
     this.insertedFixedAsset.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId == null ? null: Number(this.fixedAsset.IFRSCurrecyId);
     this.insertedFixedAsset.UserId = this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
     this.insertedFixedAsset.ActivationDate = this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
@@ -623,6 +602,9 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.insertedFixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
     this.insertedFixedAsset.GuaranteeStartDate = this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
     this.insertedFixedAsset.IsActive=this.fixedAsset.IsActive;
+    this.insertedFixedAsset.FixedAssetCardBrandId=this.fixedAsset.FixedAssetCardBrandId == null ? null : Number(this.fixedAsset.FixedAssetCardBrandId);
+    this.insertedFixedAsset.FixedAssetCardModelId=this.fixedAsset.FixedAssetCardModelId==null ? null :Number(this.fixedAsset.FixedAssetCardModelId);
+    
     this.insertedFixedAsset.Picture = this.imgURL;
 
     let barcodes = this.fixedAssets.map(x => x.Barcode);
@@ -632,19 +614,19 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.baseService.fixedAssetCreateService.AddFixedAsset(this.insertedFixedAsset,
       (barcodes: [], status , message) => {
       if(status == true){
-        this.editable=false;
-        this.dataTable.isTableEditable=false;    
+        this.editable = false;
+        this.dataTable.isTableEditable = false;    
         this.visibleInsertButton = true;
         this.baseService.popupService.ShowSuccessPopup(message);        
       } else {
         this.validBarcode=true;
         this.doAllVisible();
         this.doItemsHidden(barcodes);
-        this.editable=false;
+        this.editable = false;
         this.visibleInsertButton = true;
         this.baseService.popupService.ShowErrorPopup(message); 
       }
-     },  
+      },  
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
@@ -677,7 +659,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
         this.baseService.spinner.hide();
 
         this.baseService.popupService.ShowErrorPopup(error);
-        
+
       });
   }
 
@@ -688,9 +670,9 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     }
 
     this.insertFile();
-    // readBase64(file).then(function(data) {
-    //   console.log(data);
-    // });
+
+    this.fixedAsset=new FixedAsset();
+
   }
   //#endregion
 }
