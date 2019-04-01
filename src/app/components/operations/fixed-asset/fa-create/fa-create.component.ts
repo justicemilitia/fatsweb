@@ -4,7 +4,8 @@ import {
   AfterViewInit,
   DoCheck,
   Directive,
-  EventEmitter
+  EventEmitter,
+  NgModule
 } from "@angular/core";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "src/app/components/base/base.component";
@@ -36,8 +37,9 @@ import {
   HttpEvent
 } from "@angular/common/http";
 import { FileUploader } from "ng2-file-upload";
-import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
+import { NgForm, FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { convertNgbDateToDateString } from "src/app/declarations/extends";
+import {CdkStepperModule} from '@angular/cdk/stepper';
 
 function readBase64(file): Promise<any> {
   var reader = new FileReader();
@@ -73,12 +75,20 @@ const URL = "";
 @Directive({ selector: "[ng2FileSelect]" })
 @Directive({ selector: "[ng2FileDrop]" })
 
+@NgModule({
+  imports: [ReactiveFormsModule],
+  declarations: [FaCreateComponent],
+  providers: [FaCreateComponent]
+})
+
 export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
 
+  isWaitingValidBarcode: boolean = false;
+  isLinear = false;
   fixedAssetForm:FormGroup;
 
   departments: Department[] = [];
@@ -115,7 +125,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   quantity: number;
   validBarcode=false;
 
-  files: any[] = [];
+  fafiles: string[] = [];
 
   public imagePath;
   imgURL: any;
@@ -205,7 +215,8 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
 
   constructor(
     protected baseService: BaseService,
-    public HttpClient: HttpClient
+    public HttpClient: HttpClient,
+    private _formBuilder: FormBuilder
   ) {
     super(baseService);
     this.loadDropdown();
@@ -219,14 +230,17 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.dataTable.isPagingActive = false;
     this.dataTable.isColumnOffsetActive = false;
     this.dataTable.isDeleteable = true;
-    if(this.validBarcode == true){
+
       this.dataTable.isTableEditable=true;   
-    }
+    
   }
 
   ngOnInit() {
-    this.fixedAssetForm = new FormGroup({
-      'SerialNumber': new FormControl(null, Validators.required)
+    // this.fixedAssetForm = new FormGroup({
+    //   'SerialNumber': new FormControl(null, Validators.required)
+    // });
+    this.fixedAssetForm = this._formBuilder.group({
+      SerialNumber: ['', Validators.required]
     });
   }
 
@@ -407,6 +421,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
       this.barcode = null;
     } else {
       this.disabledBarcode = true;
+      this.getValidBarcode();
     }
   }
 
@@ -488,9 +503,12 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   getValidBarcode() {
+
+    this.isWaitingValidBarcode =true;
+
     this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
       barcode => {
-        
+        this.isWaitingValidBarcode=false;        
         this.barcode = barcode;
       },
       (error: HttpErrorResponse) => {
@@ -500,10 +518,12 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   addToFixedAssetList(data: NgForm) {
+    
     if (this.fixedAsset.Quantity == 0 || this.fixedAsset.Quantity == null) this.fixedAsset.Quantity = 1;
     this.quantity = this.fixedAsset.Quantity;
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
+
     for (let i = 0; i < this.quantity; i++) {
       let fixedasset = new FixedAsset();
       fixedasset.Barcode = this.barcode.toString();
@@ -563,11 +583,11 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.insertedFixedAsset.StatusId = Number(this.fixedAsset.StatusId);
     this.insertedFixedAsset.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId == null ? null: Number(this.fixedAsset.IFRSCurrecyId);
     this.insertedFixedAsset.UserId = this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
-    this.insertedFixedAsset.ActivationDate = convertNgbDateToDateString(this.fixedAsset.ActivationDate);
-    this.insertedFixedAsset.InvoiceDate = convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
-    this.insertedFixedAsset.ReceiptDate = convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
-    this.insertedFixedAsset.GuaranteeEndDate = convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
-    this.insertedFixedAsset.GuaranteeStartDate = convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
+    this.insertedFixedAsset.ActivationDate = this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
+    this.insertedFixedAsset.InvoiceDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
+    this.insertedFixedAsset.ReceiptDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
+    this.insertedFixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
+    this.insertedFixedAsset.GuaranteeStartDate = this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
 
     this.insertedFixedAsset.Picture = this.imgURL;
 
@@ -604,7 +624,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   insertFile(){
-    this.baseService.fileUploadService.FileUpload(this.fileBarcode,this.files,
+    this.baseService.fileUploadService.FileUpload(this.fileBarcode,this.fafiles,
       ()=>{},
       (error:HttpErrorResponse)=>{
         this.baseService.popupService.ShowErrorPopup(error);
@@ -612,13 +632,14 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   public onFileSelected(event) {
-    const file: File = event[0];
-    this.files = event.target.files;
-    console.log(file);
 
-    readBase64(file).then(function(data) {
-      console.log(data);
-    });
+    for (var i = 0; i < event.target.files.length; i++) { 
+      this.fafiles.push(event.target.files[i]);
+    }
+
+    // readBase64(file).then(function(data) {
+    //   console.log(data);
+    // });
   }
   //#endregion
 }
