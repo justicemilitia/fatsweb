@@ -7,68 +7,71 @@
         <span>DEMİRBAŞ LİSTESİ</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
-        <div class="card-header">
-          <!-- <h2 class="az-content-title">Demirbaş Listesi</h2>     -->
-          <div class="grp-btn-action-left">
-            <button class="btn btn-az-primary btn-create-assets" style="margin-right:10px" data-toggle="tooltip"
-              data-placement="bottom" (click)="doOperation(1)" title="Demirbaş Girişi"><i
-                class="fas fa-plus-circle"></i></button>
-
-            <button class="btn btn-danger btn-exit-assets" style="margin-right:10px" data-toggle="tooltip"
-              data-placement="bottom" title="Demirbaş Çıkışı" (click)="doOperation(8)"><i
-                class="fas fa-minus-circle"></i></button>
-
-            <button class="btn btn-az-primary btn-relation-button" data-toggle="tooltip" data-placement="bottom"
-              title="Demirbaş İlişkiendir"><i class="fas fa-link" (click)="doOperation(12)"></i></button>
-            <button class="btn btn-az-primary btn-suspend-button" data-toggle="tooltip" data-placement="bottom"
-              title="Askıya Al"><i class="fas fa-level-up-alt" (click)="doOperation(10)"></i></button>
-            <button class="btn btn-az-primary btn-lost-assets" data-toggle="tooltip" data-placement="bottom"
-              title="Kayıp Demirbaş"><i class="fas fa-search-minus" (click)="doOperation(11)"></i></button>
-            <div class="divider"></div>
-            <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
-              title="Zimmet Değiştir" (click)="doOperation(6)"><i class="fas fa-user-edit"></i></button>
-            <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
-              title="Zimmet İptal" (click)="doOperation(7)"><i class="fas fa-user-times"></i></button>
-            <div class="divider"></div>
-            <button class="btn btn-az-primary btn-change-barcode" data-toggle="tooltip" data-placement="bottom"
-              title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
-            <button class="btn btn-az-primary btn-change-firm" data-toggle="tooltip" data-placement="bottom"
-              title="Şirket Değiştirme" (click)="doOperation(5)"><i class="fas fa-building"></i></button>
-            <button class="btn btn-az-primary btn-change-location" data-toggle="tooltip" data-placement="bottom"
-              title="Lokasyon Değiştirme" (click)="doOperation(3)"><i class="fas fa-map-marker-alt"></i></button>
-            <button class="btn btn-az-primary btn-change-department" data-toggle="tooltip" data-placement="bottom"
-              title="Departman Değiştirme" (click)="doOperation(4)"><i class="fas fa-sitemap"></i></button>
-            <div class="divider"></div>
-            <button class="btn btn-az-primary btn-change-group-button" data-toggle="tooltip" data-placement="bottom"
-              title="Toplu Parametre Değiştirme" (click)="doOperation(9)">
-              <i class="fas fa-retweet"></i>
-            </button>
-            <div class="divider"></div>
-            <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
-              title="Demirbaş Filtreleme">
-              <i class="fas fa-filter"></i>
-            </button>
+        <div class="card-header" style="flex-direction: column;align-items: flex-start">
+          <div style="display:flex">
+            <h2 class="az-content-title">Demirbaş Listesi</h2>
           </div>
+          <div style="display: flex;width: 100%;">
+            <div class="grp-btn-action-left">
+              <button class="btn btn-az-primary btn-create-assets" style="margin-right:10px" data-toggle="tooltip"
+                data-placement="bottom" (click)="doOperation(1)" title="Demirbaş Girişi"><i
+                  class="fas fa-plus-circle"></i></button>
 
-          <div class="grp-btn-action">
-            <button class="btn btn-success btn-excel-custom" style="margin-right:10px" data-toggle="tooltip"
-              data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>
+              <button class="btn btn-danger btn-exit-assets" style="margin-right:10px" data-toggle="tooltip"
+                data-placement="bottom" title="Demirbaş Çıkışı" (click)="doOperation(8)"><i
+                  class="fas fa-minus-circle"></i></button>
 
-            <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
-              data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
-                [ngClass]="{'far fa-file-excel':isTableExporting == false}"
-                [class.btn-refresh-loader]="isTableExporting == true"></i>
-            </button>
+              <button class="btn btn-az-primary btn-relation-button" data-toggle="tooltip" data-placement="bottom"
+                title="Demirbaş İlişkiendir"><i class="fas fa-link"></i></button>
+              <button class="btn btn-az-primary btn-suspend-button" data-toggle="tooltip" data-placement="bottom"
+                title="Askıya Al"><i class="fas fa-level-up-alt" (click)="doOperation(10)"></i></button>
+              <button class="btn btn-az-primary btn-lost-assets" data-toggle="tooltip" data-placement="bottom"
+                title="Kayıp Demirbaş"><i class="fas fa-search-minus" (click)="doOperation(11)"></i></button>
+              <div class="divider"></div>
+              <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
+                title="Zimmet Değiştir" (click)="doOperation(6)"><i class="fas fa-user-edit"></i></button>
+              <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
+                title="Zimmet İptal" (click)="doOperation(7)"><i class="fas fa-user-times"></i></button>
+              <div class="divider"></div>
+              <button class="btn btn-az-primary btn-change-barcode" data-toggle="tooltip" data-placement="bottom"
+                title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
+              <button class="btn btn-az-primary btn-change-firm" data-toggle="tooltip" data-placement="bottom"
+                title="Şirket Değiştirme" (click)="doOperation(5)"><i class="fas fa-building"></i></button>
+              <button class="btn btn-az-primary btn-change-location" data-toggle="tooltip" data-placement="bottom"
+                title="Lokasyon Değiştirme" (click)="doOperation(3)"><i class="fas fa-map-marker-alt"></i></button>
+              <button class="btn btn-az-primary btn-change-department" data-toggle="tooltip" data-placement="bottom"
+                title="Departman Değiştirme" (click)="doOperation(4)"><i class="fas fa-sitemap"></i></button>
+              <div class="divider"></div>
+              <button class="btn btn-az-primary btn-change-group-button" data-toggle="tooltip" data-placement="bottom"
+                title="Toplu Parametre Değiştirme" (click)="doOperation(9)">
+                <i class="fas fa-retweet"></i>
+              </button>
+              <div class="divider"></div>
+              <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
+                title="Demirbaş Filtreleme">
+                <i class="fas fa-filter"></i>
+              </button>
+            </div>
 
-            <button type="button" (click)="refreshTable()" style="margin-right:10px" data-toggle="tooltip"
-              data-placement="bottom" title="Form" class="btn btn-success btn-refresh-custom">
-              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
-                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
-            </button>
+            <div class="grp-btn-action">
+              <button class="btn btn-success btn-excel-custom" style="margin-right:10px" data-toggle="tooltip"
+                data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>
+
+              <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
+                data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
+                  [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                  [class.btn-refresh-loader]="isTableExporting == true"></i>
+              </button>
+
+              <button type="button" (click)="refreshTable()" style="margin-right:10px" data-toggle="tooltip"
+                data-placement="bottom" title="Form" class="btn btn-success btn-refresh-custom">
+                <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                  [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+              </button>
+            </div>
+
+            <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalOperation"></button>
           </div>
-
-          <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalOperation"></button>
-
         </div>
         <div class="sales-overview">
           <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
@@ -103,12 +106,14 @@
       <app-fa-exit [faBarcode]="exit_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==8">
       </app-fa-exit>
 
-      <app-fa-suspend [faBarcode]="suspend_selectedBarcodes" [faDataTable]="dataTable"  *ngIf="currentOperation==10"></app-fa-suspend>
+      <app-fa-suspend [faBarcode]="suspend_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==10">
+      </app-fa-suspend>
 
-      <app-fa-lost [faBarcode]="lost_selectedBarcodes" [faDataTable]="dataTable"  *ngIf="currentOperation==11"></app-fa-lost>
+      <app-fa-lost [faBarcode]="lost_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==11">
+      </app-fa-lost>
 
-      <app-fa-change-collective-parameter [faBarcode]="changeCollectiveParameter_selectedBarcodes" [faDataTable]="dataTable"
-        *ngIf="currentOperation==9"></app-fa-change-collective-parameter>
+      <app-fa-change-collective-parameter [faBarcode]="changeCollectiveParameter_selectedBarcodes"
+        [faDataTable]="dataTable" *ngIf="currentOperation==9"></app-fa-change-collective-parameter>
 
       <app-fa-create *ngIf="currentOperation==1"></app-fa-create>
     </div>

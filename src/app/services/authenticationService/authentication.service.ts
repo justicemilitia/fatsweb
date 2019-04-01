@@ -9,14 +9,14 @@ import {
   GET_HEADERS,
   GET_USERFIRM_LIST,
   CHANGE_FIRM,
-  GET_USERFIRM_LIST_WITHOUT_PARAMS
+  GET_USERFIRM_LIST_WITHOUT_PARAMS,
+  FORGET_PASSWORD
 } from "src/app/declarations/service-values";
 import RoleAuthorization from "src/app/models/RoleAuthorization";
 import { UserFirm } from "src/app/models/UserFirm";
 import { Firm } from 'src/app/models/Firm';
 import { Response } from 'src/app/models/Response';
 import { getAnErrorResponse } from 'src/app/declarations/extends';
-import { PopupService } from '../popup-service/popup.service';
 
 @Injectable({
   providedIn: "root"
@@ -192,5 +192,19 @@ export class AuthenticationService {
     }
   }
 
+  sendRecoveryCode(email:string,success,failed) {
+    this.httpClient.post(SERVICE_URL + FORGET_PASSWORD, {
+      UserMail:email
+    }).subscribe((response) => {
+      let result:Response = <Response>response;
+      if (result.ResultStatus == true) {
+        success(result.LanguageKeyword);
+      }else {
+        failed(getAnErrorResponse(result.LanguageKeyword));
+      }
+    },(error) => {
+      failed(error);
+    })
+  }
 
 }
