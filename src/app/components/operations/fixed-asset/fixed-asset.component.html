@@ -7,47 +7,6 @@
         <span>DEMİRBAŞ LİSTESİ</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
-        <div class="card-header">
-          <!-- <h2 class="az-content-title">Demirbaş Listesi</h2>     -->
-          <div class="grp-btn-action-left">
-            <button class="btn btn-az-primary btn-create-assets" style="margin-right:10px" data-toggle="tooltip"
-              data-placement="bottom" (click)="doOperation(1)" title="Demirbaş Girişi"><i
-                class="fas fa-plus-circle"></i></button>
-
-            <button class="btn btn-danger btn-exit-assets" style="margin-right:10px" data-toggle="tooltip"
-              data-placement="bottom" title="Demirbaş Çıkışı" (click)="doOperation(8)"><i
-                class="fas fa-minus-circle"></i></button>
-
-            <button class="btn btn-az-primary btn-relation-button" data-toggle="tooltip" data-placement="bottom"
-              title="Demirbaş İlişkilendir"><i class="fas fa-link" (click)="doOperation(12)"></i></button>
-            <button class="btn btn-az-primary btn-suspend-button" data-toggle="tooltip" data-placement="bottom"
-              title="Askıya Al"><i class="fas fa-level-up-alt" (click)="doOperation(10)"></i></button>
-            <button class="btn btn-az-primary btn-lost-assets" data-toggle="tooltip" data-placement="bottom"
-              title="Kayıp Demirbaş"><i class="fas fa-search-minus" (click)="doOperation(11)"></i></button>
-            <div class="divider"></div>
-            <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
-              title="Zimmet Değiştir" (click)="doOperation(6)"><i class="fas fa-user-edit"></i></button>
-            <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
-              title="Zimmet İptal" (click)="doOperation(7)"><i class="fas fa-user-times"></i></button>
-            <div class="divider"></div>
-            <button class="btn btn-az-primary btn-change-barcode" data-toggle="tooltip" data-placement="bottom"
-              title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
-            <button class="btn btn-az-primary btn-change-firm" data-toggle="tooltip" data-placement="bottom"
-              title="Şirket Değiştirme" (click)="doOperation(5)"><i class="fas fa-building"></i></button>
-            <button class="btn btn-az-primary btn-change-location" data-toggle="tooltip" data-placement="bottom"
-              title="Lokasyon Değiştirme" (click)="doOperation(3)"><i class="fas fa-map-marker-alt"></i></button>
-            <button class="btn btn-az-primary btn-change-department" data-toggle="tooltip" data-placement="bottom"
-              title="Departman Değiştirme" (click)="doOperation(4)"><i class="fas fa-sitemap"></i></button>
-            <div class="divider"></div>
-            <button class="btn btn-az-primary btn-change-group-button" data-toggle="tooltip" data-placement="bottom"
-              title="Toplu Parametre Değiştirme" (click)="doOperation(9)">
-              <i class="fas fa-retweet"></i>
-            </button>
-            <div class="divider"></div>
-            <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
-              title="Demirbaş Filtreleme" (click)="doOperation(13)">
-              <i class="fas fa-filter"></i>
-            </button>
         <div class="card-header" style="flex-direction: column;align-items: flex-start">
           <div style="display:flex">
             <h2 class="az-content-title">Demirbaş Listesi</h2>
@@ -156,8 +115,6 @@
       <app-fa-change-collective-parameter [faBarcode]="changeCollectiveParameter_selectedBarcodes"
         [faDataTable]="dataTable" *ngIf="currentOperation==9"></app-fa-change-collective-parameter>
 
-      <app-fa-filter *ngIf="currentOperation==13"></app-fa-filter>
-        
       <app-fa-create *ngIf="currentOperation==1"></app-fa-create>
     </div>
   </div>
