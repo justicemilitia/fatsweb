@@ -6,7 +6,7 @@
 </div>
 <form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data) && data.form.valid" novalidate>
 <mat-horizontal-stepper (selectionChange)="selectionChange(stepper)" linear #stepper >   
-  <mat-step label="Genel Bilgiler" [stepControl]="UserId" [stepControl]="StatusId" [stepControl]="LocationId" [stepControl]="DepartmentId" [stepControl]="FixedAssetCardId" [stepControl]="FixedAssetCardCategoryId">
+  <mat-step label="Genel Bilgiler" [editable]="editable" [stepControl]="UserId" [stepControl]="StatusId" [stepControl]="LocationId" [stepControl]="DepartmentId" [stepControl]="FixedAssetCardId" [stepControl]="FixedAssetCardCategoryId">
         <div class="row justify-content-center">
             <div class="form-group col-md-6">           
             <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
@@ -125,10 +125,10 @@
         </div>
         </div>
         <div class="grp-btn-action">
-            <button mat-button matStepperNext [disabled]="!data.form.valid ? true : null" class="btn btn-az-primary" (click)="addToFixedAssetList(fixedAsset)" type="button" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <button mat-button matStepperNext [disabled]="!data.form.valid ? true : null" class="btn btn-az-primary" type="button" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
         </div>  
   </mat-step>
-  <mat-step label="Özellik Bilgileri">
+  <mat-step label="Özellik Bilgileri" [editable]="editable">
     <div style="display:flex; justify-content: flex-start">
     <div style="flex:1">
         <div class="row justify-content-center">         
@@ -199,14 +199,14 @@
           </div>
         </div>
   </mat-step>
-  <mat-step label="Finansal Bilgiler">
+  <mat-step label="Finansal Bilgiler" [editable]="editable">  
             <div class="row justify-content-center">
               <div class="form-group col-md-3">
                   <label>Fiyat</label>
                   <input [(ngModel)]="fixedAsset.Price" name="Price" type="text" placeholder="Fiyat" class="form-control"/>               
               </div>
               <div class="form-group col-md-3"> 
-                <label>Para Birimi</label>
+                  <label>Para Birimi</label>
                   <select [(ngModel)]="fixedAsset.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
                     <option value="-1" >Para Pirimi</option>
                     <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
@@ -219,13 +219,12 @@
               <div class="form-group col-md-3">   
               <label>Fatura Tarihi</label> 
               <div class="input-group">
-                  <div class="input-group-append"
-                  [class.is-invalid]="data.submitted && (!fixedAsset.InvoiceDate || invoiceDateModel.status == 'INVALID' )">
+                  <div class="input-group-append">
                     <div (click)="invoiceDate.toggle()" class="input-group-text">
                       <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                     </div>
                   </div>
-                  <input class="form-control" type="text" placeholder="Fatura Tarihi" name="invoiceDate"
+                  <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="invoiceDate"
                   [(ngModel)]="fixedAsset.InvoiceDate" ngbDatepicker #invoiceDate="ngbDatepicker" #invoiceDateModel="ngModel"/>     
               </div>
             </div>
@@ -234,8 +233,7 @@
                     <div class="form-group col-md-3">
                     <label>Makbuz Tarihi</label>  
                     <div class="input-group">
-                        <div class="input-group-append"
-                        [class.is-invalid]="data.submitted && (!fixedAsset.ReceiptDate || receiptDateModel.status == 'INVALID' )">
+                        <div class="input-group-append">
                           <div (click)="receiptDate.toggle()" class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
@@ -254,8 +252,7 @@
                     <div class="form-group col-md-3"> 
                         <label>Garanti Başlangıç Süresi</label> 
                         <div class="input-group">
-                            <div class="input-group-append" 
-                            [class.is-invalid]="data.submitted && (!fixedAsset.GuaranteeStartDate || guaranteeStartDateModel.status == 'INVALID' )">
+                            <div class="input-group-append">
                               <div (click)="guaranteeStartDate.toggle()" class="input-group-text">
                                 <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                               </div>
@@ -267,13 +264,12 @@
                     <div class="form-group col-md-3">
                         <label>Garanti Bitiş Süresi</label> 
                         <div class="input-group">
-                            <div class="input-group-append"
-                            [class.is-invalid]="data.submitted && (!fixedAsset.GuaranteeEndDate || guaranteeEndDateModel.status == 'INVALID' )">
+                            <div class="input-group-append">
                               <div (click)="guaranteeEndDate.toggle()" class="input-group-text">
                                 <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                               </div>
                             </div>
-                            <input class="form-control" type="text" placeholder="Garanti Süresi Bitiş Tarihi" name="guaranteeEndDate"
+                            <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="guaranteeEndDate"
                             [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker" #guaranteeEndDateModel="ngModel"/> 
                          </div>
                     </div>
@@ -290,23 +286,21 @@
                 <div class="form-group col-md-3">
                     <label></label> 
                 <label class="ckbox" style="margin-top: 15px">
-                    <input type="checkbox"  [checked]="fixedAsset.HasInflationIndexation"
-                    (change)="fixedAsset.HasInflationIndexation = !fixedAsset.HasInflationIndexation"
+                    <input type="checkbox" [(ngModel)]="fixedAsset.HasInflationIndexation" name="HasInflationIndexation"               
                     name="HasInflationIndexation" /><span>Enflasyon Hesaplanacak mı ?</span>
                   </label>
                 </div>
                 <div class="form-group col-md-3">
                     <label></label> 
                     <label class="ckbox" style="margin-top: 15px">
-                        <input type="checkbox" [checked]="fixedAsset.IsActivate"
-                        (change)="fixedAsset.IsActivate = !fixedAsset.IsActivate"/><span>Demirbaş Aktif mi ?</span>
-                      </label>  
+                        <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" name="IsActive" #IsActive="ngModel"
+                       /><span>Demirbaş Aktif mi ?</span>
+                    </label>                    
                 </div>
                 <div class="form-group col-md-3">
                     <label>Aktifleştirme Tarihi</label>
                     <div class="input-group">
-                        <div class="input-group-append" 
-                        [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )">
+                        <div class="input-group-append">
                           <div (click)="activationDate.toggle()" class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
@@ -320,7 +314,7 @@
             <div class="row justify-content-center">
                 <div class="form-group col-md-3">                    
                         <label class="ckbox" style="margin-top: 15px">
-                          <input  [checked]="fixedAsset.WillDepreciationBeCalculated"
+                          <input [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" name="WillDepreciationBeCalculated"  [checked]="fixedAsset.WillDepreciationBeCalculated"
                           (change)="fixedAsset.WillDepreciationBeCalculated = !fixedAsset.WillDepreciationBeCalculated" type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
                         </label>                 
                 </div>
@@ -330,7 +324,7 @@
                 </div>
                 <div class="form-group col-md-3">                  
                         <label class="ckbox" style="margin-top: 15px">
-                          <input [checked]="fixedAsset.WillIfrsbeCalculated"
+                          <input [(ngModel)]="fixedAsset.WillIfrsbeCalculated" name="WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
                           (change)="fixedAsset.WillIfrsbeCalculated = !fixedAsset.WillIfrsbeCalculated" type="checkbox"/>
                           <span>IFRS Hesaplanacak mı ?</span>
                         </label>               
@@ -338,10 +332,10 @@
                 <div class="form-group col-md-3">
                     <label>IFRS Periyodu</label> 
                     <input [(ngModel)]="fixedAsset.Ifrsperiod" name="Ifrsperiod" type="text" placeholder="IFRS Periyodu" class="form-control"/>
-                  </div>
+                </div>
             </div>  
 
-            <div class="row justify-content-center">
+          <div class="row justify-content-center">
               <div class="form-group col-md-6">
                   <label>Amortisman Yöntemi</label> 
                   <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" name="DepreciationCalculationTypeId" style="width: 50%;" class="form-control select2-no-search">
@@ -370,18 +364,23 @@
             </div>
           </div>     
   </mat-step>
-  <mat-step label="Demirbaş Listesi">
+  <mat-step label="Demirbaş Listesi" [editable]="editable">
     <div class="property-values-table">
     <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
     </div>
-    <div class="row" style="margin-right: 0px; margin-left: 0px;">
+      <div class="row" style="margin-right: 0px; margin-left: 0px;">
         <div class="grp-btn-action-left">
           <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; margin-right:10px; color: white">Geri</button>
           <button *ngIf="validBarcode" (click)="toggleValidBarcodes()" type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İncele</button>
-        
-        </div>
+       </div>
         <div class="grp-btn-action">
-          <button class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white">Kaydet</button>
+          <div *ngIf="visibleInsertButton;then insertFile else insertFixedAsset"></div>
+         <ng-template #insertFixedAsset>
+          <button  class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white">Kaydet</button>
+        </ng-template>
+        <ng-template #insertFile>
+          <button mat-button matStepperNext  class="btn btn-az-primary" type="button" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+        </ng-template>
         </div>
     </div>
   </mat-step>
@@ -391,7 +390,7 @@
           <div class="form-group col-md-12"> 
             <div ng2FileDrop
             [ngClass]="{'another-file-over-class': hasAnotherDropZoneOver}"
-            (fileOver)="fileOverAnother($event)"
+            (fileOver)="onFileSelected($event)"
             [uploader]="uploader"
             (onFileDrop)="onFileSelected($event)"
             class="well my-drop-zone">
@@ -399,7 +398,7 @@
             <label for="FixedAssetFiles" class="custom-file">
               <label class="custom-file-text" for="FixedAssetFiles">
                 Dosya Seçiniz
-              </label>
+              </label>  
             </label>  
           </div>
           </div>
@@ -407,14 +406,14 @@
         <div class="row justify-content-center">
           <div class="form-group col-md-12">
               <h3></h3>     
-              <div class="property-values-table">        
+              <!-- <div class="property-values-table">        
                 <tree-grid-table [dataTable]="dataTableFile"></tree-grid-table>
-            </div>
+              </div> -->
           </div>
         </div>
-        <div class="progress">
+        <!-- <div class="progress">
             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-        </div>
+        </div> -->
         <div class="grp-btn-action" style="margin-bottom: 10px; margin-top: 10px;">
             <!-- <button type="button" class="btn btn-az-primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
             <span class="glyphicon glyphicon-upload"></span>Tümünü Yükle</button>         -->
@@ -423,12 +422,9 @@
         </div>
       </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
-          <div class="grp-btn-action-left">
-            <button mat-button matStepperPrevious  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
-          </div>
-          <div class="grp-btn-action">
+            <div class="grp-btn-action">
             <button mat-button matStepperNext (click)="insertFile()" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
-          </div>
+            </div>
         </div>
   </mat-step>
   </mat-horizontal-stepper>
