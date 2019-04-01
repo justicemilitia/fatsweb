@@ -4,7 +4,10 @@ import {
   AfterViewInit,
   DoCheck,
   Directive,
-  EventEmitter
+  EventEmitter,
+  NgModule,
+  OnChanges,
+  ViewChild
 } from "@angular/core";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "src/app/components/base/base.component";
@@ -29,6 +32,7 @@ import { Currency } from "src/app/models/Currency";
 import * as $ from "jquery";
 import { FixedAssetFile } from "src/app/models/FixedAssetFile";
 import { Depreciation } from "src/app/models/Depreciation";
+
 import {
   HttpClient,
   HttpRequest,
@@ -36,8 +40,10 @@ import {
   HttpEvent
 } from "@angular/common/http";
 import { FileUploader } from "ng2-file-upload";
-import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
+import { NgForm, FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { convertNgbDateToDateString } from "src/app/declarations/extends";
+import { CdkStepper } from '@angular/cdk/stepper';
+import { MatVerticalStepper, MatHorizontalStepper } from '@angular/material';
 
 function readBase64(file): Promise<any> {
   var reader = new FileReader();
@@ -73,14 +79,21 @@ const URL = "";
 @Directive({ selector: "[ng2FileSelect]" })
 @Directive({ selector: "[ng2FileDrop]" })
 
+@NgModule({
+  imports: [ReactiveFormsModule],
+  declarations: [FaCreateComponent],
+  providers: [FaCreateComponent]
+})
+
 export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
+ 
 
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
-
+  isWaitingValidBarcode: boolean = false;
+  isLinear = false;
   fixedAssetForm:FormGroup;
-
   departments: Department[] = [];
   companies: Company[] = [];
   locations: Location[] = [];
@@ -115,7 +128,9 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   quantity: number;
   validBarcode=false;
 
-  files: any[] = [];
+  fixedAssetFiles: string[] = [];
+  
+  @ViewChild('stepper') stepper: MatHorizontalStepper;
 
   public imagePath;
   imgURL: any;
@@ -203,9 +218,28 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     }
   );
 
+  public dataTableFile: TreeGridTable = new TreeGridTable(
+    "fixedassetfile",
+    [
+      {
+        columnDisplayName: "Dosya adı",
+        columnName: ["FileName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",        
+      },
+    ],
+    {
+      isDesc: false,
+      column: ["FileName"]      
+    }
+  );
+
   constructor(
     protected baseService: BaseService,
-    public HttpClient: HttpClient
+    public HttpClient: HttpClient,
+    // private _formBuilder: FormBuilder
   ) {
     super(baseService);
     this.loadDropdown();
@@ -219,15 +253,16 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.dataTable.isPagingActive = false;
     this.dataTable.isColumnOffsetActive = false;
     this.dataTable.isDeleteable = true;
-    if(this.validBarcode == true){
-      this.dataTable.isTableEditable=true;   
-    }
+    this.dataTable.isTableEditable=true;   
+    this.dataTableFile.isPagingActive=false;
+    this.dataTableFile.isColumnOffsetActive=false;
+    this.dataTableFile.isDeleteable=true;
+    this.dataTableFile.isMultipleSelectedActive=false;
+    this.dataTableFile.isLoading=false;    
   }
 
   ngOnInit() {
-    this.fixedAssetForm = new FormGroup({
-      'SerialNumber': new FormControl(null, Validators.required)
-    });
+
   }
 
   loadDropdown() {
@@ -296,7 +331,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
 
     this.baseService.currencyService.GetCurrencies(
       (ifrscurrencies: Currency[]) => {
-        this.currencies = ifrscurrencies;
+        this.ifrscurrencies = ifrscurrencies;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -311,9 +346,20 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-  }
 
-  loadBrandList() {
+    if (this.fixedassetcategories && this.fixedassetcategories.length == 0) {
+      this.fixedassetcards = [];
+
+      this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
+        (categories: FixedAssetCardCategory[]) => {
+          this.fixedassetcategories = categories;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+    
     if (this.brands && this.brands.length == 0) {
       this.models = [];
 
@@ -324,6 +370,15 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
         (error: HttpErrorResponse) => {}
       );
     }
+
+    this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
+      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
+        this.fixedassetproperty = fixedAssetCardProperties;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   loadModelByBrandId(event: any) {
@@ -340,21 +395,6 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
         <number>event.target.value,
         (models: FixedAssetCardModel[]) => {
           this.models = models;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
-  }
-
-  loadCategoriesList() {
-    if (this.fixedassetcategories && this.fixedassetcategories.length == 0) {
-      this.fixedassetcards = [];
-
-      this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
-        (categories: FixedAssetCardCategory[]) => {
-          this.fixedassetcategories = categories;
         },
         (error: HttpErrorResponse) => {
           this.baseService.popupService.ShowErrorPopup(error);
@@ -407,6 +447,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
       this.barcode = null;
     } else {
       this.disabledBarcode = true;
+      this.getValidBarcode();
     }
   }
 
@@ -488,9 +529,12 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   getValidBarcode() {
+
+    this.isWaitingValidBarcode =true;
+
     this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
       barcode => {
-        
+        this.isWaitingValidBarcode=false;        
         this.barcode = barcode;
       },
       (error: HttpErrorResponse) => {
@@ -500,25 +544,32 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   addToFixedAssetList(data: NgForm) {
+
+    this.dataTable.TGT_clearData();
+
     if (this.fixedAsset.Quantity == 0 || this.fixedAsset.Quantity == null) this.fixedAsset.Quantity = 1;
     this.quantity = this.fixedAsset.Quantity;
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
+
     for (let i = 0; i < this.quantity; i++) {
       let fixedasset = new FixedAsset();
       fixedasset.Barcode = this.barcode.toString();
       fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
-      let department = this.departments.find(
-        x => x.DepartmentId == Number(data.value.DepartmentId)
-      );
+      let department = this.departments.find(x => x.DepartmentId == Number(data.value.DepartmentId));
       let fixedassetcard = this.fixedassetcards.find(x => x.FixedAssetCardId == Number(data.value.FixedAssetCardId));
       let location = this.locations.find(x => x.LocationId == Number(data.value.LocationId));
 
       fixedasset.Location = location;
       fixedasset.Department = department;
       fixedasset.FixedAssetCard = fixedassetcard;
+      if (this.fixedAssets.length>0){
+        let lastBarcode=this.fixedAssets[this.fixedAssets.length-1].Barcode;
+        fixedasset.Barcode=(Number(lastBarcode) + 1).toString();      
+      }else{
+        fixedasset.Barcode=this.barcode.toString();
+      }
       this.fixedAssets.push(fixedasset);
-      this.barcode = Number(this.barcode) + 1;
     }
 
     this.dataTable.TGT_loadData(this.fixedAssets);
@@ -563,11 +614,11 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.insertedFixedAsset.StatusId = Number(this.fixedAsset.StatusId);
     this.insertedFixedAsset.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId == null ? null: Number(this.fixedAsset.IFRSCurrecyId);
     this.insertedFixedAsset.UserId = this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
-    this.insertedFixedAsset.ActivationDate = convertNgbDateToDateString(this.fixedAsset.ActivationDate);
-    this.insertedFixedAsset.InvoiceDate = convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
-    this.insertedFixedAsset.ReceiptDate = convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
-    this.insertedFixedAsset.GuaranteeEndDate = convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
-    this.insertedFixedAsset.GuaranteeStartDate = convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
+    this.insertedFixedAsset.ActivationDate = this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
+    this.insertedFixedAsset.InvoiceDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
+    this.insertedFixedAsset.ReceiptDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
+    this.insertedFixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
+    this.insertedFixedAsset.GuaranteeStartDate = this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
 
     this.insertedFixedAsset.Picture = this.imgURL;
 
@@ -604,21 +655,24 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   insertFile(){
-    this.baseService.fileUploadService.FileUpload(this.fileBarcode,this.files,
-      ()=>{},
+    this.baseService.fileUploadService.FileUpload(this.fileBarcode,this.fixedAssetFiles,      
+      ()=>{
+        this.baseService.popupService.ShowSuccessPopup("Dosya Yükleme Başarılı!");
+      },
       (error:HttpErrorResponse)=>{
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }
 
   public onFileSelected(event) {
-    const file: File = event[0];
-    this.files = event.target.files;
-    console.log(file);
 
-    readBase64(file).then(function(data) {
-      console.log(data);
-    });
+    for (var i = 0; i < event.target.files.length; i++) { 
+      this.fixedAssetFiles.push(event.target.files[i]);
+    }
+
+    // readBase64(file).then(function(data) {
+    //   console.log(data);
+    // });
   }
   //#endregion
 }

@@ -1,82 +1,63 @@
 <div class="modal-header">
   <h6 class="modal-title">Departman değişimi için gerekli bilgileri giriniz.</h6>
-  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <button id="CloseModal" (click)="resetForm(data)" type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
 <form name="form" #data="ngForm" (ngSubmit)="ChangeDepartment(data)">
-    <div class="modal-body">
-      <!-- BARKOD -->
-      <div class="row justify-content-center">
-        <div class="col-md-12 form-group">
-          <label>Barkod</label>
-          <input
-            name="Barcodes"
-            value="{{ faBarcode.Barcode }}"
-            type="text"
-            class="form-control"
-            disabled
-          />
+  <div class="modal-body">
+    <!-- BARKOD -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Barkod</label>
+        <input name="Barcodes" value="{{ faBarcode.Barcode }}" type="text" class="form-control" disabled />
+      </div>
+    </div>
+
+    <!-- DEMİRBAŞ ADI -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Demirbaş Adı</label>
+        <input name="Name" value="{{ faBarcode.FixedAssetCard.Name }}" type="text" class="form-control" disabled />
+      </div>
+    </div>
+
+    <!-- ESKİ DEPARTMAN -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Departman</label>
+        <input name="DepartmentName" value="{{ faBarcode.Department.Name }}" type="text" class="form-control"
+          disabled />
+      </div>
+    </div>
+
+    <!-- YENİ DEPARTMAN -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Yeni Departman</label>
+        <select [(ngModel)]="DepartmentId" name="departmentIds" class="form-control" (click)="loadDropdownList()"
+          #departmentIds="ngModel" [ngClass]="{ 'is-invalid': data.submitted && departmentIds.invalid }" required>
+          <option [ngValue]="null">Yok</option>
+          <option *ngFor="let department of departments" value="{{ department.DepartmentId }}">
+            {{ department.Name }}
+          </option>
+        </select>
+        <div *ngIf="data.submitted && departmentIds.invalid" class="invalid-feedback">
+          <div *ngIf="departmentIds.errors.required">Bu alan zorunludur.</div>
         </div>
       </div>
-  
-      <!-- DEMİRBAŞ ADI -->
-      <div class="row justify-content-center">
-        <div class="col-md-12 form-group">
-          <label>Demirbaş Adı</label>
-          <input
-            name="Name"
-            value="{{ faBarcode.FixedAssetCard.Name }}"
-            type="text"
-            class="form-control"
-            disabled
-          />
-        </div>
-      </div>
-  
-      <!-- YENİ DEPARTMAN -->
-      <div class="row justify-content-center">
-        <div class="col-md-12 form-group">
-          <label>Yeni Departman</label>
-          <select
-            [(ngModel)]="DepartmentId"
-            name="departmentIds"
-            class="form-control"
-            (click)="loadDropdownList()"
-            #departmentIds="ngModel"
-            [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }"
-            required
-          >
-            <option [ngValue]="null">Yok</option>
-            <option
-              *ngFor="let department of departments"
-              value="{{ department.DepartmentId }}"
-            >
-              {{ department.Name }}
-            </option>
-          </select>
-          <div
-            *ngIf="data.submitted && DepartmentId.invalid"
-            class="invalid-feedback"
-          >
-            <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
-          </div>
-        </div>
-      </div> 
     </div>
-  
-    <!-- modal-body -->
-    <div class="modal-footer">
-      <button
-        class="btn btn-orange"
-        id="btnChangeDepartment"
-        type="submit"
-        data-toggle="modal"
-        data-target="#modalChangeDepartment"
-      >
-        Kaydet
-      </button>
-    </div>
-  </form>
-  
+  </div>
+
+
+
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-orange" id="btnChangeDepartment" type="submit"
+      data-toggle="modal" data-target="#modalChangeDepartment">
+      Kaydet
+    </button>
+    <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+  </div>
+</form>

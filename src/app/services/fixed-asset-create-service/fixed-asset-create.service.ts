@@ -90,7 +90,7 @@ export class FixedAssetCreateService {
   }
 
   FixedAssetImage(){
-
+    
   }
 
   AddFixedAssetFile(){

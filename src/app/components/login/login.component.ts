@@ -19,6 +19,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
   isLoggining: boolean = false;
   errorMessage: string = '';
 
+  isWaitingForResetPassword: boolean = false;
+  resetPasswordSucceed: boolean = false;
+
   constructor(protected baseService: BaseService) {
     super(baseService);
   }
@@ -70,7 +73,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   async GetUserFirms(usermail: string) {
 
-    if (usermail == '')
+    if (usermail == '' || !usermail)
       return;
 
     /* Loading State of firms */
@@ -87,7 +90,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.isUserFirmsGetting = false;
         this.errorMessage = '';
 
-      },(error: HttpErrorResponse) => {
+      }, (error: HttpErrorResponse) => {
         /* if any error show on screen and stop getting firms */
         this.errorMessage = error.statusText;
         this.firms = [];
@@ -95,6 +98,35 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
       });
 
+  }
+
+  async SendRecoveryCode(data: NgForm) {
+
+    if (data.form.invalid == true) return;
+
+    if (!data.value.email || data.value.email.length < 2)
+      return;
+
+    this.isWaitingForResetPassword = true;
+    await this.baseService.authenticationService.sendRecoveryCode(data.value.email, (message) => {
+
+      this.isWaitingForResetPassword = false;
+      this.resetPasswordSucceed = true;
+      this.baseService.popupService.ShowSuccessPopup(message);
+      data.reset();
+
+    }, (error: HttpErrorResponse) => {
+
+      this.baseService.popupService.ShowErrorPopup(error);
+      this.isWaitingForResetPassword = false;
+
+    });
+  }
+
+  resetPasswordAreas(data: NgForm) {
+    data.reset();
+    this.isWaitingForResetPassword = false;
+    this.resetPasswordSucceed = false;
   }
 
 }

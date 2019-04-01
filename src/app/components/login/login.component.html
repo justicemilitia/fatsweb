@@ -19,22 +19,23 @@
             [ngClass]="{ 'is-invalid': loginForm.submitted && UserMail.invalid }"
             (focusout)="GetUserFirms(loginUser.UserMail)" type="email" class="form-control"
             placeholder="E-posta adresinizi giriniz" required minlength="5" maxlength="50" />
-            <div *ngIf="loginForm.submitted && UserMail.invalid" class="invalid-feedback">
-              <div *ngIf="UserMail.errors.email">Lütfen geçerli bir e-posta giriniz.</div>
-              <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
-              <div *ngIf="UserMail.errors.minlength">Minimum 5 karakter giriniz.</div>
-              <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-            </div>
+          <div *ngIf="loginForm.submitted && UserMail.invalid" class="invalid-feedback">
+            <div *ngIf="UserMail.errors.email">Lütfen geçerli bir e-posta giriniz.</div>
+            <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
+            <div *ngIf="UserMail.errors.minlength">Minimum 5 karakter giriniz.</div>
+            <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+          </div>
         </div>
         <div class="form-group" style="margin-top: 19px;">
           <input type="password" #Password="ngModel" id="Password" name="Password" autocomplete="off"
             [(ngModel)]="loginUser.Password" [ngClass]="{ 'is-invalid': loginForm.submitted && Password.invalid }"
-            type="password" class="form-control" placeholder="Şifrenizi giriniz" minlength="1" maxlength="16" required />
-            <div *ngIf="loginForm.submitted && Password.invalid" class="invalid-feedback">
-                <div *ngIf="Password.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="Password.errors.minlength">Minimum 1 karakter giriniz.</div>
-                <div *ngIf="Password.errors.maxlength">Maksimum 16 karakter giriniz.</div>
-              </div>
+            type="password" class="form-control" placeholder="Şifrenizi giriniz" minlength="1" maxlength="16"
+            required />
+          <div *ngIf="loginForm.submitted && Password.invalid" class="invalid-feedback">
+            <div *ngIf="Password.errors.required">Bu alan zorunludur.</div>
+            <div *ngIf="Password.errors.minlength">Minimum 1 karakter giriniz.</div>
+            <div *ngIf="Password.errors.maxlength">Maksimum 16 karakter giriniz.</div>
+          </div>
         </div>
 
         <div id="userFirms" class="form-group">
@@ -87,8 +88,8 @@
       <!-- form-group -->
     </div>
     <div class="az-signin-footer">
-      <p><a data-toggle="modal"
-        data-target="#forgotPasswordModal" onclick="return false;">Şifremi unuttum</a></p>
+      <p><a class="forgetPassword" data-toggle="modal" data-target="#forgotPasswordModal"
+          onclick="return false;">Şifremi unuttum</a></p>
     </div>
   </div>
   <!-- az-card-signin -->
@@ -101,24 +102,45 @@
 
 <!-- MODAL EFFECTS -->
 <div #content id="forgotPasswordModal" class="modal">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content modal-content-demo">
-      <div class="modal-header">
-        <h6 class="modal-title">Message Preview</h6>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  <form #recoveryForm="ngForm" (ngSubmit)="SendRecoveryCode(recoveryForm)">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content modal-content-demo">
+        <div class="modal-header">
+          <h6 class="modal-title" *ngIf="resetPasswordSucceed == false">Şifremi yenile</h6>
+          <h6 class="modal-title" *ngIf="resetPasswordSucceed == true">Şifre yenileme tamamlandı.</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="resetPasswordSucceed == true">
+            <h6>Yeni şifreniz eposta adresinize gönderilmiştir.</h6>
+        </div>
+        <div class="modal-body" *ngIf="resetPasswordSucceed == false">
+          <h6>Şifrenizi yenilemek için epostanızı giriniz</h6>
+          <div class="form-group">
+            <label class="required-span">E-Posta</label>
+            <input class="form-control" [ngClass]="{ 'is-invalid': recoveryForm.submitted && email.invalid }"
+              type="email" style="min-height:27px" name="email" email #email="ngModel" required
+              [(ngModel)]="recoveryForm.email" />
+            <div *ngIf="recoveryForm.submitted && email.invalid" class="invalid-feedback">
+              <div *ngIf="email.errors.required">Bu alan zorunludur.</div>
+              <div *ngIf="email.errors.email">Lütfen geçerli bir eposta giriniz.</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" *ngIf="resetPasswordSucceed == false">
+          <div *ngIf="isWaitingForResetPassword == true">
+            <div class="loader"></div>
+          </div>
+          <button type="submit" *ngIf="isWaitingForResetPassword == false"
+            class="btn btn-indigo">Gönder</button>
+          <button type="button" *ngIf="isWaitingForResetPassword == false"
+            class="btn btn-outline-light" data-dismiss="modal">Kapat</button>
+        </div>
+        <div class="modal-footer" *ngIf="resetPasswordSucceed == true">
+          <button type="button" class="btn btn-outline-light" (click)="resetPasswordAreas(recoveryForm)" data-dismiss="modal">Kapat</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <h6>Why We Use Electoral College, Not Popular Vote</h6>
-        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking
-          at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as
-          opposed to using 'Content here, content here', making it look like readable English. </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-indigo">Save changes</button>
-        <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div><!-- modal-dialog -->
+    </div><!-- modal-dialog -->
+  </form>
 </div><!-- modal -->

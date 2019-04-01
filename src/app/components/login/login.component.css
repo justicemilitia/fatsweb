@@ -2,6 +2,10 @@
     background-color:white;
 }
 
+.forgetPassword {
+    cursor: pointer;
+}
+
 .btn-orange{
 background-color: #e67300;
 color: white;
