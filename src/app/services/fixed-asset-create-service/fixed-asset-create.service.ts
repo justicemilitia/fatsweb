@@ -19,6 +19,7 @@ import { FixedAsset } from "src/app/models/FixedAsset";
   providedIn: "root"
 })
 export class FixedAssetCreateService {
+  
   constructor(
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService
@@ -77,16 +78,22 @@ export class FixedAssetCreateService {
         if(response.ResultStatus==true){
           let insertedFixedAsset: FixedAsset = new FixedAsset();
           Object.assign(insertedFixedAsset, response.ResultObject);
-          success(insertedFixedAsset, response.LanguageKeyword);
-        }
-        else{
-          getAnErrorResponse(response.LanguageKeyword);
+          success(insertedFixedAsset, response.ResultStatus ,response.LanguageKeyword);
+        } else {          
+          let existBarcode: []=[];
+          Object.assign(existBarcode, response.ResultObject);
+          success(existBarcode, response.ResultStatus, response.LanguageKeyword);
         }
       },(error:HttpErrorResponse)=>{
         failed(error);
       });
   }
 
-  FixedAssetImage(){}
-  AddFixedAssetFile(){}
+  FixedAssetImage(){
+
+  }
+
+  AddFixedAssetFile(){
+    
+  }
 }

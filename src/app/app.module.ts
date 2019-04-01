@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { routes } from "./app-routing.module";
@@ -56,6 +56,7 @@ import { FaChangeDebitComponent } from "./components/operations/fixed-asset/fa-c
 import { FaSuspendComponent } from "./components/operations/fixed-asset/fa-suspend/fa-suspend.component";
 import { FaLostComponent } from "./components/operations/fixed-asset/fa-lost/fa-lost.component";
 import { FaChangeCollectiveParameterComponent } from "./components/operations/fixed-asset/fa-change-collective-parameter/fa-change-collective-parameter.component";
+import { FaRelationshipComponent } from "./components/operations/fixed-asset/fa-relationship/fa-relationship.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule  } from 'ng2-file-upload';
 import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
@@ -103,6 +104,7 @@ import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-inf
     FaLostComponent,
     FaBindingComponent,
     FixedAssetCardPropertyComponent,
+    FaRelationshipComponent,
     SuspensionComponent,
     SuspendedFixedAssetComponent,
     LostFixedAssetComponent,
@@ -125,7 +127,8 @@ import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-inf
     MatIconModule,
     MatStepperModule,
     BrowserAnimationsModule,
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

@@ -91,6 +91,9 @@
       <app-fa-change-location [faBarcode]="changeLocation_selectedItem" *ngIf="currentOperation==3">
       </app-fa-change-location>
 
+      <app-fa-relationship [faBarcode]="relationship_selectedItem" [faDataTable]="dataTable" *ngIf="currentOperation==12">
+      </app-fa-relationship>
+
       <app-fa-change-department [faBarcode]="changeDepartment_selectedItem" *ngIf="currentOperation==4">
       </app-fa-change-department>
 

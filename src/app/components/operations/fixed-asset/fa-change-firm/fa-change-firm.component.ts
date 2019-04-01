@@ -35,7 +35,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    await this.baseService.popupService.ShowQuestionPopupForLocationUpdate(
+    await this.baseService.popupService.ShowQuestionPopupForFirmUpdate(
       (response: boolean) => {
         if (response == true) {
           let cloneItem = new FixedAsset();

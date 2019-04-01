@@ -49,7 +49,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+    await this.baseService.popupService.ShowQuestionPopupForDebitUpdate(
       (response: boolean) => {
         if (response == true) {
           data.value.userIds.forEach(e => {
