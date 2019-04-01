@@ -2,10 +2,8 @@ import { Component, OnInit, NgModule, Input } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
-import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
-import * as $ from "jquery";
 import { Department } from "../../../../models/Department";
 
 @Component({
@@ -20,42 +18,48 @@ import { Department } from "../../../../models/Department";
 })
 export class FaChangeDepartmentComponent extends BaseComponent
   implements OnInit {
+
   @Input() faBarcode: FixedAsset = new FixedAsset();
   newDepartmentId: number;
 
   /* List Of Departments */
   departments: Department[] = [];
 
+  /* Is Waiting For An Insert Or Update */
+  isWaitingInsertOrUpdate = false;
+
   constructor(baseService: BaseService) {
     super(baseService);
     this.loadDropdownList();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async ChangeDepartment(data: NgForm) {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    await this.baseService.popupService.ShowQuestionPopupForDepartmentUpdate(
+    this.baseService.popupService.ShowQuestionPopupForDepartmentUpdate(
       (response: boolean) => {
         if (response == true) {
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
 
           cloneItem.DepartmentId = data.value.departmentIds;
+          this.isWaitingInsertOrUpdate = true;
 
           this.baseService.fixedAssetService.ChangeDepartment(
             cloneItem,
             (insertedItem: FixedAsset, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
-
+              this.isWaitingInsertOrUpdate = false;
               /* Set inserted Item id to model */
               this.faBarcode.Barcode = cloneItem.Barcode;
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
+              this.isWaitingInsertOrUpdate = false;
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
