@@ -20,7 +20,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
   implements OnInit {
 
   @Input() faBarcode: FixedAsset = new FixedAsset();
-  newDepartmentId: number;
+  newDepartmentId: number = null;
 
   /* List Of Departments */
   departments: Department[] = [];
@@ -46,6 +46,8 @@ export class FaChangeDepartmentComponent extends BaseComponent
           Object.assign(cloneItem, this.faBarcode);
 
           cloneItem.DepartmentId = data.value.departmentIds;
+          cloneItem.Department = this.departments.find(x => x.DepartmentId == cloneItem.DepartmentId);
+
           this.isWaitingInsertOrUpdate = true;
 
           this.baseService.fixedAssetService.ChangeDepartment(
@@ -55,7 +57,9 @@ export class FaChangeDepartmentComponent extends BaseComponent
               this.baseService.popupService.ShowSuccessPopup(message);
               this.isWaitingInsertOrUpdate = false;
               /* Set inserted Item id to model */
-              this.faBarcode.Barcode = cloneItem.Barcode;
+              this.faBarcode.DepartmentId = cloneItem.DepartmentId;
+              this.faBarcode.Department = cloneItem.Department;
+              data.resetForm();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -66,6 +70,11 @@ export class FaChangeDepartmentComponent extends BaseComponent
         }
       }
     );
+  }
+
+  resetForm(data:NgForm) {
+    data.resetForm();
+    this.newDepartmentId = null;
   }
 
   async loadDropdownList() {
