@@ -57,6 +57,7 @@ import { FaSuspendComponent } from "./components/operations/fixed-asset/fa-suspe
 import { FaLostComponent } from "./components/operations/fixed-asset/fa-lost/fa-lost.component";
 import { FaChangeCollectiveParameterComponent } from "./components/operations/fixed-asset/fa-change-collective-parameter/fa-change-collective-parameter.component";
 import { FaRelationshipComponent } from "./components/operations/fixed-asset/fa-relationship/fa-relationship.component";
+import { FaFilterComponent } from "./components/operations/fixed-asset/fa-filter/fa-filter.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule  } from 'ng2-file-upload';
 import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
@@ -105,6 +106,7 @@ import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-inf
     FaBindingComponent,
     FixedAssetCardPropertyComponent,
     FaRelationshipComponent,
+    FaFilterComponent,
     SuspensionComponent,
     SuspendedFixedAssetComponent,
     LostFixedAssetComponent,

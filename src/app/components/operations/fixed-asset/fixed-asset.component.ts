@@ -467,6 +467,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       case FixedAssetOperations.changeRelationship:
       this.FixedAssetRelationshipOperation();
       break;
+
+      case FixedAssetOperations.filter:
+      this.FilterOperation();
+      break;
     }
   }
 
@@ -712,9 +716,16 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
   //#endregion
 
+ //#region Change Collective Parameter
+ FilterOperation() {
+   $("#showModal").trigger("click");
+ }
+ //#endregion
+
   //#region Create Fixed Asset Operation
   CreateFixedAssetOperation() {
     $("#showModal").trigger("click");
   }
   //#endregion
+
 }

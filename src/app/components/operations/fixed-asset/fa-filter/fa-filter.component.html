@@ -1,0 +1,228 @@
+<div class="modal-header">
+  <h6 class="modal-title">Filtrelenecek alanları belirleyiniz.</h6>
+  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form name="form" #data="ngForm" (ngSubmit)="Filter(data)">
+    <div class="modal-body" style="width:900px;">
+
+      <!-- BARKOD, DEMİRBAŞ ADI, KATEGORİ, DEMİRBAŞ GİRİŞ TARİH ARALIĞI -->
+      <div class="row justify-content-center">
+
+        <!-- BARKOD -->
+        <div class="col-md-2 form-group">
+          <label>Barkod</label>
+          <input [(ngModel)]="fixedAsset.Barcode" name="Barcode" type="text" class="form-control" />
+        </div>
+
+        <!-- DEMİRBAŞ ADI -->
+        <div class="col-md-2 form-group">
+          <label>Demirbaş Adı</label>
+          <select [(ngModel)]="fixedAsset.FixedAssetCard" name="FirmId" class="form-control" #FirmId="ngModel">
+            <option [ngValue]="null">Seçiniz</option>
+            <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+              {{ firm.Name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- KATEGORİ -->
+        <div class="col-md-2 form-group">
+            <label>Kategori</label>
+            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+              <option [ngValue]="null">Seçiniz</option>
+              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                {{ firm.Name }}
+              </option>
+            </select>
+          </div>
+
+        <!-- DEMİRBAŞ GİRİŞ TARİH ARALIĞI -->
+        <div class="col-md-6 form-group">
+            <label>Demirbaş Giriş Tarih Aralığı</label>
+            <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                    <div class="input-group">
+                      <div class="input-group-append">
+                        <div (click)="endDate.toggle()" class="input-group-text">
+                          <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                        </div>
+                      </div>
+                      <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
+                        [(ngModel)]="agreement.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"/>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                      <div class="input-group">
+                        <div class="input-group-append">
+                          <div (click)="endDate.toggle()" class="input-group-text">
+                            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                          </div>
+                        </div>
+                        <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                          [(ngModel)]="agreement.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel"/>
+                      </div>
+                  </div>
+            </div>
+          </div>
+        
+        </div>
+      
+      <!-- DEPARTMAN, MARKA, DEMİRBAŞ STATÜSÜ, ÖZELLİK TİPİ, ÖZELLİK DEĞERİ -->
+      <div class="row justify-content-center">
+
+          <!-- DEPARTMAN -->
+          <div class="col-md-2 form-group">
+            <label>Departman</label>
+            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+              <option [ngValue]="null">Seçiniz</option>
+              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                {{ firm.Name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- MARKA -->
+          <div class="col-md-2 form-group">
+            <label>Marka</label>
+            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+              <option [ngValue]="null">Seçiniz</option>
+              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                {{ firm.Name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- DEMİRBAŞ STATÜSÜ -->
+          <div class="col-md-2 form-group">
+              <label>Demirbaş Statüsü</label>
+              <select [(ngModel)]="fixedAsset.StatusId" name="FirmId" class="form-control" #FirmId="ngModel">
+                <option [ngValue]="null">Seçiniz</option>
+                <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                  {{ firm.Name }}
+                </option>
+              </select>
+          </div>
+           
+          <div class="col-md-6 form-group">
+            
+            <div class="row justify-content-center">
+              <!-- ÖZELLİK TİPİ -->
+              <div class="col-md-6 form-group">
+                  <label>Özellik Tipi</label>
+                  <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+                    <option [ngValue]="null">Seçiniz</option>
+                    <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                      {{ firm.Name }}
+                    </option>
+                  </select>
+              </div>
+
+              <!-- ÖZELLİK DEĞERİ -->
+              <div class="col-md-6 form-group">
+                  <label>Özellik Değeri</label>
+                  <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+                    <option [ngValue]="null">Seçiniz</option>
+                    <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                      {{ firm.Name }}
+                    </option>
+                  </select>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+      <!-- LOKASYON, MODEL, PERSONEL, GARANTİSİ BİTENLER -->
+      <div class="row justify-content-center">
+
+          <!-- LOKASYON -->
+          <div class="col-md-4 form-group">
+            <label>Lokasyon</label>
+            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+              <option [ngValue]="null">Seçiniz</option>
+              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                {{ firm.Name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- MODEL -->
+          <div class="col-md-4 form-group">
+            <label>Model</label>
+            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+              <option [ngValue]="null">Seçiniz</option>
+              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                {{ firm.Name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- PERSONEL -->
+          <div class="col-md-4 form-group">
+              <label>Personel</label>
+              <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+                <option [ngValue]="null">Seçiniz</option>
+                <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                  {{ firm.Name }}
+                </option>
+              </select>
+            </div>
+      </div>
+
+      <!-- GARANTİSİ OLANLAR, AMORTİSMANI HESAPLANANLAR -->
+        <div class="row justify-content-center">
+          <div class="form-group col-md-5">
+                <label class="ckbox">
+                  <input type="checkbox" id="PressDebitForm" 
+                    name="PressDebitForm"/><span>Garantisi olanlar</span>
+                </label>
+          </div>
+          <div class="form-group col-md-7">
+              <label class="ckbox">
+                <input type="checkbox" id="PressDebitForm" 
+                  name="PressDebitForm"/><span>Amortismanı hesaplananlar</span>
+              </label>
+          </div>
+        </div>
+        
+        <!-- İLİŞKİLİ DEMİRBAŞLAR, IFRS AMORTİSMANI HESAPLANANLAR -->
+        <div class="row justify-content-center">
+            <div class="form-group col-md-5">
+                  <label class="ckbox">
+                    <input type="checkbox" id="PressDebitForm" 
+                      name="PressDebitForm"/><span>İlişkili Demirbaşlar</span>
+                  </label>
+            </div>
+            <div class="form-group col-md-7">
+                <label class="ckbox">
+                  <input type="checkbox" id="PressDebitForm" 
+                    name="PressDebitForm"/><span>IFRS Amortismanı Hesaplananlar</span>
+                </label>
+            </div>      
+          </div>
+        </div>
+        <div class="col-md-6">
+            <div class="sales-overview">
+                <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+            </div>
+        </div>
+      </div>
+    </div>
+ 
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button
+      class="btn btn-az-primary"
+      id="btnChangeCollectiveParameter"
+      type="submit"
+      data-toggle="modal"
+      data-target="#modalChangeCollectiveParameter"
+    >
+     Filtrele
+    </button>
+  </div>
+</form>

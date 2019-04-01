@@ -27,6 +27,13 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {}
 
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.faBarcode);
+    if (isNewItem == true) {
+      this.faBarcode = new FixedAsset();
+    }
+  }
+
   async ChangeBarcode(data: NgForm) {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
@@ -37,7 +44,7 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
 
-          cloneItem.Barcode = this.newBarcode;
+          cloneItem.Barcode = data.value.newBarcodes;
 
           this.baseService.fixedAssetService.ChangeBarcode(
             cloneItem,
@@ -47,6 +54,7 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
 
               /* Set inserted Item id to model */
               this.faBarcode.Barcode = cloneItem.Barcode;
+              this.resetForm(data, true);
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
