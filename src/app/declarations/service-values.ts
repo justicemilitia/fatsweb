@@ -4,6 +4,7 @@ import { HttpHeaders } from "@angular/common/http";
 export const SERVICE_URL = "http://localhost:11889/api/";
 //export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
+export const FORGET_PASSWORD = "Auth/forgotpassword"
 
 //#region Departments
 export const GET_DEPARTMENT_LIST = "Department/GetDepartmentsList";
