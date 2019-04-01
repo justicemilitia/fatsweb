@@ -6,78 +6,47 @@
 </div>
 
 <form name="form" #data="ngForm" (ngSubmit)="ChangeFirm(data)">
-    <div class="modal-body">
-      <!-- BARKOD -->
-      <div class="row justify-content-center">
-        <div class="col-md-12 form-group">
-          <label>Barkod</label>
-          <input
-            name="Barcodes"
-            value="{{ faBarcode.Barcode }}"
-            type="text"
-            class="form-control"
-            disabled
-          />
+  <div class="modal-body">
+    <!-- BARKOD -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Barkod</label>
+        <input name="Barcodes" value="{{ faBarcode.Barcode }}" type="text" class="form-control" disabled />
+      </div>
+    </div>
+
+    <!-- DEMİRBAŞ ADI -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Demirbaş Adı</label>
+        <input name="Name" value="{{ faBarcode.FixedAssetCard.Name }}" type="text" class="form-control" disabled />
+      </div>
+    </div>
+
+    <!-- YENİ FİRMA -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Yeni Firma</label>
+        <select [(ngModel)]="FirmId" name="firmIds" class="form-control" (click)="loadDropdownList()" #firmIds="ngModel"
+          [ngClass]="{ 'is-invalid': data.submitted && firmIds.invalid }" required>
+          <option [ngValue]="null">Yok</option>
+          <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+            {{ firm.Name }}
+          </option>
+        </select>
+        <div *ngIf="data.submitted && firmIds.invalid" class="invalid-feedback">
+          <div *ngIf="firmIds.errors.required">Bu alan zorunludur.</div>
         </div>
       </div>
-  
-      <!-- DEMİRBAŞ ADI -->
-      <div class="row justify-content-center">
-        <div class="col-md-12 form-group">
-          <label>Demirbaş Adı</label>
-          <input
-            name="Name"
-            value="{{ faBarcode.FixedAssetCard.Name }}"
-            type="text"
-            class="form-control"
-            disabled
-          />
-        </div>
-      </div>
-  
-      <!-- YENİ FİRMA -->
-      <div class="row justify-content-center">
-        <div class="col-md-12 form-group">
-          <label>Yeni Firma</label>
-          <select
-            [(ngModel)]="FirmId"
-            name="firmIds"
-            class="form-control"
-            (click)="loadDropdownList()"
-            #firmIds="ngModel"
-            [ngClass]="{ 'is-invalid': data.submitted && firmIds.invalid }"
-            required
-          >
-            <option [ngValue]="null">Yok</option>
-            <option
-              *ngFor="let firm of firms"
-              value="{{ firm.FirmId }}"
-            >
-              {{ firm.Name }}
-            </option>
-          </select>
-          <div
-            *ngIf="data.submitted && firmIds.invalid"
-            class="invalid-feedback"
-          >
-            <div *ngIf="firmIds.errors.required">Bu alan zorunludur.</div>
-          </div>
-        </div>
-      </div> 
     </div>
-  
-    <!-- modal-body -->
-    <div class="modal-footer">
-      <button
-        class="btn btn-orange"
-        id="btnChangeFirm"
-        type="submit"
-        data-toggle="modal"
-        data-target="#modalChangeFirm"
-      >
-        Kaydet
-      </button>
-      <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
-    </div>
-  </form>
-  
+  </div>
+
+  <!-- modal-body -->
+  <div class="modal-footer">
+    <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-orange" id="btnChangeFirm" type="submit"
+      data-toggle="modal" data-target="#modalChangeFirm">
+      Kaydet
+    </button>
+    <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+  </div>
+</form>

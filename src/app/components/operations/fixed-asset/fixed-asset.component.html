@@ -97,7 +97,7 @@
       <app-fa-change-department [faBarcode]="changeDepartment_selectedItem" *ngIf="currentOperation==4">
       </app-fa-change-department>
 
-      <app-fa-change-firm [faBarcode]="changeFirm_selectedItem" *ngIf="currentOperation==5"></app-fa-change-firm>
+      <app-fa-change-firm [faTable]="dataTable" [faBarcode]="changeFirm_selectedItem" *ngIf="currentOperation==5"></app-fa-change-firm>
 
       <app-fa-change-debit [faBarcode]="changeDebit_selectedItem" *ngIf="currentOperation==6"></app-fa-change-debit>
 
