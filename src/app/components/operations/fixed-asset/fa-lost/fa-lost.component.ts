@@ -87,14 +87,11 @@ export class FaLostComponent extends BaseComponent
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    await this.baseService.popupService.ShowQuestionPopupForLocationUpdate(
-      (response: boolean) => {
-        if (response == true) {
           this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
             this.faDataTable.TGT_getSelectedItems()
           )).map(x => x.FixedAssetId);
 
-            this.baseService.fixedAssetService.LostFixedAsset(
+            await this.baseService.fixedAssetService.LostFixedAsset(
             this.transactionLog,
             (insertedItem: TransactionLog, message) => {
               /* Show success pop up */
@@ -112,9 +109,6 @@ export class FaLostComponent extends BaseComponent
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-      }
-    );
   }
 
   loadLostFixedAsset() {

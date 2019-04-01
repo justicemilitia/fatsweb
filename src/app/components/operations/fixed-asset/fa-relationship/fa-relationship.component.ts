@@ -19,10 +19,13 @@ import { TransactionLog } from "../../../../models/TransactionLog";
   providers: [FaRelationshipComponent]
 })
 export class FaRelationshipComponent extends BaseComponent implements OnInit {
-  transactionLog: TransactionLog = new TransactionLog();
-  transactionLogs: TransactionLog[] = [];
+  // transactionLog: TransactionLog = new TransactionLog();
+  // transactionLogs: TransactionLog[] = [];
+  fixedAsset: FixedAsset = new FixedAsset();
+  fixedAssets: FixedAsset[]=[];
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
+  @Input() selectedFixedAssetId: number;
 
   constructor(baseService: BaseService) {
     super(baseService);
@@ -37,25 +40,26 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
+    this.fixedAsset.Barcode=data.value.newBarcodes;
+    this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
+      this.faDataTable.TGT_getSelectedItems()
+    )).map(x => x.FixedAssetId);
+
     await this.baseService.popupService.ShowQuestionPopupForChangeRelationhip(
       (response: boolean) => {
         if (response == true) {
-          this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
-            this.faDataTable.TGT_getSelectedItems()
-          )).map(x => x.FixedAssetId);
-
           this.baseService.fixedAssetService.ChangeRelationship(
-            this.transactionLog,
-            (insertedItem: TransactionLog, message) => {
+            this.fixedAsset,
+            (insertedItem: FixedAsset, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
 
               /* Set inserted Item id to model */
-              this.transactionLog.TransactionLogId =
-                insertedItem.TransactionLogId;
+              this.fixedAsset.FixedAssetId =
+                insertedItem.FixedAssetId;
 
               /* Push inserted item to Property list */
-              this.transactionLogs.push(this.transactionLog);
+              this.fixedAssets.push(this.fixedAsset);
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */

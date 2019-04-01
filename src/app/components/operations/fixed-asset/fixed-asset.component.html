@@ -19,7 +19,7 @@
                 class="fas fa-minus-circle"></i></button>
 
             <button class="btn btn-az-primary btn-relation-button" data-toggle="tooltip" data-placement="bottom"
-              title="Demirbaş İlişkiendir"><i class="fas fa-link" (click)="doOperation(12)"></i></button>
+              title="Demirbaş İlişkilendir"><i class="fas fa-link" (click)="doOperation(12)"></i></button>
             <button class="btn btn-az-primary btn-suspend-button" data-toggle="tooltip" data-placement="bottom"
               title="Askıya Al"><i class="fas fa-level-up-alt" (click)="doOperation(10)"></i></button>
             <button class="btn btn-az-primary btn-lost-assets" data-toggle="tooltip" data-placement="bottom"
@@ -45,7 +45,7 @@
             </button>
             <div class="divider"></div>
             <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
-              title="Demirbaş Filtreleme">
+              title="Demirbaş Filtreleme" (click)="doOperation(13)">
               <i class="fas fa-filter"></i>
             </button>
           </div>
@@ -110,6 +110,8 @@
       <app-fa-change-collective-parameter [faBarcode]="changeCollectiveParameter_selectedBarcodes" [faDataTable]="dataTable"
         *ngIf="currentOperation==9"></app-fa-change-collective-parameter>
 
+      <app-fa-filter *ngIf="currentOperation==13"></app-fa-filter>
+        
       <app-fa-create *ngIf="currentOperation==1"></app-fa-create>
     </div>
   </div>

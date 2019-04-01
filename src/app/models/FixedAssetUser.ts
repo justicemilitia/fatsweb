@@ -8,4 +8,5 @@ export class FixedAssetUser {
   FixedAssets: FixedAsset;
   Users: User;
   UserIds : number[];  
+  IsCreateDebitForm: boolean;
 }

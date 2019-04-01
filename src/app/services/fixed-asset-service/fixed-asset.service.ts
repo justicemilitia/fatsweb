@@ -188,7 +188,7 @@ export class FixedAssetService {
   ChangeBarcode(fixedAsset: FixedAsset, success, failed) {
     this.httpclient
       .post(
-        SERVICE_URL + UPDATE_FIXEDASSETLOCATION, fixedAsset, {
+        SERVICE_URL + UPDATE_FIXEDASSETBARCODENUMBER, fixedAsset, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
@@ -279,7 +279,7 @@ export class FixedAssetService {
   ChangeDebit(fixedAsset: FixedAssetUser, success, failed) {
     this.httpclient
       .post(
-        SERVICE_URL + ADD_FIXEDASSETDEBIT, fixedAsset, {
+        SERVICE_URL + UPDATE_FIXEDASSETDEBIT, fixedAsset, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
@@ -345,10 +345,10 @@ export class FixedAssetService {
       );
   }
 
-  ChangeRelationship(transationLog: TransactionLog, success, failed) {
+  ChangeRelationship(fixedAsset: FixedAsset, success, failed) {
     this.httpclient
       .post(
-        SERVICE_URL + CHANGE_RELATIONSHIP, transationLog, {
+        SERVICE_URL + CHANGE_RELATIONSHIP, fixedAsset, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
