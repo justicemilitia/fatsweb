@@ -127,9 +127,9 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   barcode: number;
   quantity: number;
   validBarcode=false;
-
+  editable: boolean = true;
   fixedAssetFiles: string[] = [];
-  
+  visibleInsertButton:boolean=false;
   @ViewChild('stepper') stepper: MatHorizontalStepper;
 
   public imagePath;
@@ -550,8 +550,10 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     if (this.fixedAsset.Quantity == 0 || this.fixedAsset.Quantity == null) this.fixedAsset.Quantity = 1;
     this.quantity = this.fixedAsset.Quantity;
 
-    this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
+    if(this.disabledBarcode==false)
+    this.barcode = data.value.Barcode;
 
+    this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
     for (let i = 0; i < this.quantity; i++) {
       let fixedasset = new FixedAsset();
       fixedasset.Barcode = this.barcode.toString();
@@ -559,10 +561,11 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
       let department = this.departments.find(x => x.DepartmentId == Number(data.value.DepartmentId));
       let fixedassetcard = this.fixedassetcards.find(x => x.FixedAssetCardId == Number(data.value.FixedAssetCardId));
       let location = this.locations.find(x => x.LocationId == Number(data.value.LocationId));
-
+      fixedasset.IsActive=Boolean(data.value.IsActive);
       fixedasset.Location = location;
       fixedasset.Department = department;
       fixedasset.FixedAssetCard = fixedassetcard;
+      fixedasset.Price=data.value.Price;
       if (this.fixedAssets.length>0){
         let lastBarcode=this.fixedAssets[this.fixedAssets.length-1].Barcode;
         fixedasset.Barcode=(Number(lastBarcode) + 1).toString();      
@@ -598,10 +601,10 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   addFixedAsset() {
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
-
+    this.insertedFixedAsset=this.fixedAssets[0];
+  
+    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
+    
     this.insertedFixedAsset.FixedAssetPropertyDetails = propertyDetail;
     this.insertedFixedAsset.CurrencyId = this.fixedAsset.CurrencyId == null ? null: Number(this.fixedAsset.CurrencyId);
     this.insertedFixedAsset.DepartmentId = Number(this.fixedAsset.DepartmentId);
@@ -616,10 +619,10 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.insertedFixedAsset.UserId = this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
     this.insertedFixedAsset.ActivationDate = this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
     this.insertedFixedAsset.InvoiceDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
-    this.insertedFixedAsset.ReceiptDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
+    this.insertedFixedAsset.ReceiptDate = this.fixedAsset.ReceiptDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
     this.insertedFixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
     this.insertedFixedAsset.GuaranteeStartDate = this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
-
+    this.insertedFixedAsset.IsActive=this.fixedAsset.IsActive;
     this.insertedFixedAsset.Picture = this.imgURL;
 
     let barcodes = this.fixedAssets.map(x => x.Barcode);
@@ -629,12 +632,17 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.baseService.fixedAssetCreateService.AddFixedAsset(this.insertedFixedAsset,
       (barcodes: [], status , message) => {
       if(status == true){
-        this.baseService.popupService.ShowSuccessPopup(message);
+        this.editable=false;
+        this.dataTable.isTableEditable=false;    
+        this.visibleInsertButton = true;
+        this.baseService.popupService.ShowSuccessPopup(message);        
       } else {
         this.validBarcode=true;
         this.doAllVisible();
         this.doItemsHidden(barcodes);
-        this.baseService.popupService.ShowErrorPopup(message);
+        this.editable=false;
+        this.visibleInsertButton = true;
+        this.baseService.popupService.ShowErrorPopup(message); 
       }
      },  
       (error: HttpErrorResponse) => {
@@ -655,12 +663,21 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   insertFile(){
+    this.baseService.spinner.show();
+
     this.baseService.fileUploadService.FileUpload(this.fileBarcode,this.fixedAssetFiles,      
-      ()=>{
+      (file:string,message)=>{  
+
+          this.baseService.spinner.hide();  
+        
         this.baseService.popupService.ShowSuccessPopup("Dosya Yükleme Başarılı!");
       },
       (error:HttpErrorResponse)=>{
+
+        this.baseService.spinner.hide();
+
         this.baseService.popupService.ShowErrorPopup(error);
+        
       });
   }
 
@@ -670,6 +687,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
       this.fixedAssetFiles.push(event.target.files[i]);
     }
 
+    this.insertFile();
     // readBase64(file).then(function(data) {
     //   console.log(data);
     // });
