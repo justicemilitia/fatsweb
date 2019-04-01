@@ -2,11 +2,10 @@ import { Component, OnInit, NgModule, Input } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
-import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
-import * as $ from "jquery";
 import { Firm } from "../../../../models/Firm";
+import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: "app-fa-change-firm",
@@ -20,16 +19,20 @@ import { Firm } from "../../../../models/Firm";
 })
 export class FaChangeFirmComponent extends BaseComponent implements OnInit {
   @Input() faBarcode: FixedAsset = new FixedAsset();
+  @Input() faTable: TreeGridTable = null;
   newFirmId: number;
 
   /* List Of Firms */
   firms: Firm[] = [];
 
+  /* Is Waiting For An Insert Or Update */
+  isWaitingInsertOrUpdate = false;
+
   constructor(baseService: BaseService) {
     super(baseService);
     this.loadDropdownList();
   }
-  ngOnInit() {}
+  ngOnInit() { }
 
   async ChangeFirm(data: NgForm) {
     /* Is Form Valid */
@@ -43,23 +46,39 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
           cloneItem.FirmId = data.value.firmIds;
 
-            this.baseService.fixedAssetService.ChangeFirm(
+          this.isWaitingInsertOrUpdate = true;
+
+          this.baseService.fixedAssetService.ChangeFirm(
             cloneItem,
             (insertedItem: FixedAsset, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
 
+              this.isWaitingInsertOrUpdate = false;
+
               /* Set inserted Item id to model */
-              this.faBarcode.Barcode = cloneItem.Barcode;
+              this.faBarcode.FirmId = cloneItem.FirmId;
+              if (this.faBarcode.FirmId != this.baseService.authenticationService.currentFirm.FirmId)
+                this.faTable.TGT_removeItem(this.faBarcode);
+
             },
             (error: HttpErrorResponse) => {
+
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
+
+              this.isWaitingInsertOrUpdate = false;
+
             }
           );
         }
       }
     );
+  }
+
+  resetForm(data: NgForm) {
+    data.resetForm();
+    this.newFirmId = null;
   }
 
   async loadDropdownList() {

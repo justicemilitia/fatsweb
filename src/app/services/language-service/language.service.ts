@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import Language from "../../models/Language";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { LANGUAGE_URL } from 'src/app/declarations/service-values';
 
 @Injectable({
   providedIn: "root"
@@ -9,7 +10,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class LanguageService {
 
   languages: Language[] = [];
-  path: string = "../../../assets/language/language.json";
+  path: string = LANGUAGE_URL;
   locale: string = "tr";
 
   get language() {
@@ -22,10 +23,7 @@ export class LanguageService {
   }
 
   LoadLanguages() {
-    let headers = new HttpHeaders();
-    headers = headers.append("Content-Type", "application/json");
-    headers = headers.append("Control-Allow-Origin", "*");
-    this.httpclient.get(this.path, { headers: headers }).subscribe(data => {
+    this.httpclient.get(this.path).subscribe(data => {
       this.languages = <Language[]>data;
     });
   }

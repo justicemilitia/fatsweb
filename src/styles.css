@@ -1,25 +1,98 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-body { 
-  font-family: Roboto, Arial, sans-serif;
-  margin: 0;
+body {
+    font-family: Roboto, Arial, sans-serif;
+    margin: 0;
 }
 
 .basic-container {
-  padding: 30px;
+    padding: 30px;
 }
 
 .version-info {
-  font-size: 8pt;
-  float: right;
+    font-size: 8pt;
+    float: right;
 }
 
 .swal-button {
-  border-radius: 0;
+    border-radius: 0;
 }
 
 .swal-modal {
-  border-radius: 0;
-  margin-right: 16px;
+    border-radius: 0;
+    width: 350px;
+    margin-right: 16px;
+}
+
+.swal-icon {
+    width: 50px;
+    height: 50px;
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 50%;
+    padding: 0;
+    position: relative;
+    box-sizing: content-box;
+    margin: 10px auto !important;
+}
+
+.swal-icon--warning__body {
+    width: 5px;
+    height: 25px;
+    top: 10px;
+    border-radius: 2px;
+    margin-left: -2px;
+}
+
+.swal-title {
+  color: rgba(0,0,0,.65);
+  font-weight: 600;
+  text-transform: none;
+  position: relative;
+  display: block;
+  padding: 13px 16px;
+  font-size: 22px;
+  line-height: normal;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.swal-text {
+  font-size: 13px;
+  position: relative;
+  float: none;
+  line-height: normal;
+  vertical-align: top;
+  text-align: left;
+  display: inline-block;
+  margin: 0;
+  padding: 0 10px;
+  font-weight: 400;
+  color: rgba(0,0,0,.64);
+  max-width: calc(100% - 20px);
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+.swal-button {
+  border-radius: 0px;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 5px 10px;
+  margin: 0;
+}
+
+.swal-title:not(:last-child) {
+  margin-top:10px;
+}
+
+.swal-footer {
+  text-align: right;
+  padding-top: 13px;
+  margin-top: 5px;
+  padding: 10px 16px;
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }

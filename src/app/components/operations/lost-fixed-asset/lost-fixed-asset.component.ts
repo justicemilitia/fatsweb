@@ -154,9 +154,10 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     if (data.form.invalid == true) return;
 
-    this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
-      this.faDataTable.TGT_getSelectedItems()
-    )).map(x => x.FixedAssetId);
+    // this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
+    //   this.faDataTable.TGT_getSelectedItems()
+    // )).map(x => x.FixedAssetId);
+    this.transactionLog.FixedAssetIds=this.selectedSuspendFa();
 
     await this.baseService.fixedAssetService.ExitFixedAsset(
       this.transactionLog,

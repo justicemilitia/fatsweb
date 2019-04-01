@@ -2,10 +2,8 @@ import { Component, OnInit, NgModule, Input } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
-import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
-import * as $ from "jquery";
 
 @Component({
   selector: "app-fa-change-barcode",
@@ -18,14 +16,23 @@ import * as $ from "jquery";
   providers: [FaChangeBarcodeComponent]
 })
 export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
+
   @Input() faBarcode: FixedAsset = new FixedAsset();
   newBarcode: string = "";
+  /* Is Waiting For An Insert Or Update */
+  isWaitingInsertOrUpdate = false;
 
   constructor(baseService: BaseService) {
     super(baseService);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+
+  resetForm(data: NgForm) {
+    data.resetForm();
+    this.newBarcode = null;
+  }
 
   async ChangeBarcode(data: NgForm) {
     /* Is Form Valid */
@@ -34,10 +41,13 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
     await this.baseService.popupService.ShowQuestionPopupForBarcodeUpdate(
       (response: boolean) => {
         if (response == true) {
+          
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
 
-          cloneItem.Barcode = this.newBarcode;
+          cloneItem.Barcode = data.value.newBarcodes;
+
+          this.isWaitingInsertOrUpdate = true;
 
           this.baseService.fixedAssetService.ChangeBarcode(
             cloneItem,
@@ -47,10 +57,15 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
 
               /* Set inserted Item id to model */
               this.faBarcode.Barcode = cloneItem.Barcode;
+              this.resetForm(data);
+
+              this.isWaitingInsertOrUpdate = false;
+
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
+              this.isWaitingInsertOrUpdate = false;
             }
           );
         }
