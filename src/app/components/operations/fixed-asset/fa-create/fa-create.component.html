@@ -5,7 +5,7 @@
   </button>
 </div>
 <form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data) && data.form.valid" novalidate>
-<mat-horizontal-stepper  linear #stepper >   
+<mat-horizontal-stepper (selectionChange)="selectionChange(stepper)" linear #stepper >   
   <mat-step label="Genel Bilgiler" [editable]="editable" [stepControl]="UserId" [stepControl]="StatusId" [stepControl]="LocationId" [stepControl]="DepartmentId" [stepControl]="FixedAssetCardId" [stepControl]="FixedAssetCardCategoryId">
         <div class="row justify-content-center">
             <div class="form-group col-md-6">           
@@ -307,14 +307,13 @@
                         </div>
                         <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
                         [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
-                        />
-                        <!-- [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )" required  -->
-                        <!-- <div *ngIf="data.submitted && activationDateModel.invalid" class="invalid-feedback">
+                        [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )" required />
+                        <div *ngIf="data.submitted && activationDateModel.invalid" class="invalid-feedback">
                             <div *ngIf="activationDateModel.errors.required">Bu alan zorunludur.</div>
                             <div *ngIf="!activationDateModel.errors.required && activationDateModel.status == 'INVALID'">
                               Lütfen Geçerli Format Giriniz.
                             </div>
-                        </div> -->
+                        </div>
                       </div>
                 </div>
             </div>
