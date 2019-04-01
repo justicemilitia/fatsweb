@@ -5,13 +5,14 @@
   </button>
 </div>
 <form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data) && data.form.valid" novalidate>
-<mat-horizontal-stepper (selectionChange)="selectionChange(stepper)" linear #stepper >   
+<mat-horizontal-stepper linear #stepper >   
   <mat-step label="Genel Bilgiler" [editable]="editable" [stepControl]="UserId" [stepControl]="StatusId" [stepControl]="LocationId" [stepControl]="DepartmentId" [stepControl]="FixedAssetCardId" [stepControl]="FixedAssetCardCategoryId">
         <div class="row justify-content-center">
-            <div class="form-group col-md-6">           
+            <div class="form-group col-md-6">  
+            <label class="required-span">Barkod</label>
             <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
             value="{{barcode}}" name="Barcode" [disabled]="disabledBarcode==true" type="text" 
-            placeholder="Barkod" class="form-control"
+            class="form-control"
             [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" required/>
             <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>
             <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
@@ -20,7 +21,8 @@
             <div *ngIf="errorMessage!= ''">{{errorMessage}}</div>
             </div>                 
             <div class="form-group col-md-6">
-              <input [(ngModel)]="fixedAsset.SerialNumber"name="SerialNumber" type="text" placeholder="Seri Numarası" class="form-control"/>
+                <label>Seri Numarası</label>
+              <input [(ngModel)]="fixedAsset.SerialNumber"name="SerialNumber" type="text"  class="form-control"/>
             </div>
         </div>
         <div class="row justify-content-center">     
@@ -30,7 +32,8 @@
                 </label>              
           </div>
           <div class="form-group col-md-3"> 
-                <input type="number" [(ngModel)]="fixedAsset.Quantity" [disabled]="disabledBarcode==false" name="Quantity" min="1" max="100" placeholder="Adet" class="form-control"/>         
+              <label>Adet</label>
+                <input type="number" [(ngModel)]="fixedAsset.Quantity" [disabled]="disabledBarcode==false" name="Quantity" min="1" max="100" class="form-control"/>         
           </div>                          
           <div class="form-group col-md-6">
               <label class="required-span">Statü</label>
@@ -38,7 +41,6 @@
                   <option value="-1">Demirbaş Statüsü Seçiniz</option>
                   <option *ngFor="let statu of statuses" value="{{statu.FixedAssetStatusId}}">{{statu.Name}}</option>
               </select>
-
               <div *ngIf="data.submitted && StatusId.invalid" class="invalid-feedback">
                 <div *ngIf="StatusId.errors.required">Bu alan zorunludur.</div>
               </div>        
@@ -102,7 +104,7 @@
             <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" style="width:100%;"  class="form-control select2-no-search">
                 <option [ngValue]="null" >Model Seçiniz</option>
                 <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
-              </select> 
+            </select> 
         </div>
         </div>
         <div class="row justify-content-center">
@@ -430,7 +432,7 @@
       </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="grp-btn-action">
-            <button mat-button matStepperNext (click)="insertFile()" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <button mat-button matStepperNext (click)="insertFile() && stepper.reset()" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
             </div>
         </div>
   </mat-step>

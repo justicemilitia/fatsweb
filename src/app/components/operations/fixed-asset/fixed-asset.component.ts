@@ -58,7 +58,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Demirbaş Kategorisi",
-        columnName: ["FixedAssetCardCategory", "Name"],
+        columnName: ["FixedAssetCard","FixedAssetCardCategory","Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -74,7 +74,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Marka",
-        columnName: ["FixedAssetCardBrand", "Name"],
+        columnName: ["FixedAssetCardModel","FixedAssetCardBrand", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -90,7 +90,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Statü",
-        columnName: ["FixedAssetStatus", "Name"],
+        columnName: ["Status", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -98,7 +98,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Statü Kodu",
-        columnName: ["FixedAssetStatus", "FixedAssetStatusCode"],
+        columnName: ["Status", "FixedAssetStatusCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -107,6 +107,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       {
         columnDisplayName: "Fiyat",
         columnName: ["Price"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Personel",
+        columnName: ["User","FirstName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Açıklama",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -169,7 +185,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Receipt Date",
+        columnDisplayName: "Makbuz Tarihi",
         columnName: ["ReceiptDate"],
         isActive: true,
         classes: [],
@@ -303,15 +319,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
-      },
-      {
-        columnDisplayName: "Masraf Yeri",
-        columnName: ["ExpenseCenter", "Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
+      }      
     ],
     {
       isDesc: false,
