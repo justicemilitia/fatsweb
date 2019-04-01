@@ -30,8 +30,10 @@ export class FileUploadService {
 
     let formData=new FormData();
     formData.append("BarcodeIds",barcodes);
-    if (files && files.length > 0) formData.append(files[0].name, files[0]);
-
+    if (files && files.length > 0) 
+    for(let i=0; i < files.length;i++){
+    formData.append(files[i].name, files[i]);
+    }
     let headers:HttpHeaders=new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
     headers = headers.append('Accept', 'application/json');

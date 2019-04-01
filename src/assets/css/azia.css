@@ -8716,7 +8716,7 @@ textarea.parsley-success:focus {
   line-height: 1;
   margin-bottom: 0; }
   .ckbox span {
-    padding-left: 15px; }
+    padding-left: 5px; }
     .ckbox span:empty {
       float: left; }
     .ckbox span:before, .ckbox span:after {
