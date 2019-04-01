@@ -106,10 +106,7 @@ export class FixedAssetCardPropertyService {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let _updatedFixedAssetCardProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
-            Object.assign(
-              _updatedFixedAssetCardProperty,
-              fixedAssetCardProperty
-            );
+            Object.assign(_updatedFixedAssetCardProperty,fixedAssetCardProperty);
             success(_updatedFixedAssetCardProperty, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));

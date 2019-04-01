@@ -1,19 +1,25 @@
-<form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data)" novalidate>
+<div class="modal-header">
+  <h6 class="modal-title">Demirbaş giriş işlemi için bilgileri giriniz.</h6>
+  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data)">
 <mat-horizontal-stepper [linear]="disabledBarcode==true">   
   <mat-step label="Genel Bilgiler">
         <div class="row justify-content-center">
-          <div class="form-group col-md-6">           
-          <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)" value="{{barcode}}" name="Barcode" 
-          [disabled]="disabledBarcode==true" type="text" placeholder="Barkod" class="form-control"
-          [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" required/>
-          <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
-            <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
-          </div>
-          <div *ngIf="errorMessage!= ''">{{errorMessage}}</div>
-        </div>                 
-          <div class="form-group col-md-6">
-          <input [(ngModel)]="fixedAsset.SerialNumber" name="SerialNumber" type="text" placeholder="Seri Numarası" class="form-control"/>
-          </div>
+            <div class="form-group col-md-6">           
+            <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)" value="{{barcode}}" name="Barcode" 
+            [disabled]="disabledBarcode==true" type="text" placeholder="Barkod" class="form-control"
+            [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" required/>
+            <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
+              <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
+            </div>
+            <div *ngIf="errorMessage!= ''">{{errorMessage}}</div>
+            </div>                 
+            <div class="form-group col-md-6">
+              <input [(ngModel)]="fixedAsset.SerialNumber"name="SerialNumber" type="text" placeholder="Seri Numarası" class="form-control"/>
+            </div>
         </div>
         <div class="row justify-content-center">     
           <div class="form-group col-md-3">         
@@ -107,7 +113,7 @@
         </div>
         </div>
         <div class="grp-btn-action">
-            <button mat-button matStepperNext type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <button mat-button matStepperNext class="btn btn-az-primary" type="button" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
         </div>  
   </mat-step>
   <mat-step label="Özellik Bilgileri">
@@ -166,7 +172,7 @@
             <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
           </div>
           <div class="grp-btn-action">
-            <button mat-button matStepperNext type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <button mat-button matStepperNext type="button"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
           </div>
         </div>
   </mat-step>
@@ -330,9 +336,24 @@
               <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
             </div>
             <div class="grp-btn-action">
-              <button mat-button matStepperNext type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+              <button mat-button matStepperNext  type="submit"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
             </div>
           </div>     
+  </mat-step>
+  <mat-step label="Demirbaş Listesi">
+    <div class="property-values-table">
+    <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+    </div>
+    <div class="row" style="margin-right: 0px; margin-left: 0px;">
+        <div class="grp-btn-action-left">
+          <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; margin-right:10px; color: white">Geri</button>
+          <button *ngIf="validBarcode" (click)="toggleValidBarcodes()" type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İncele</button>
+        
+        </div>
+        <div class="grp-btn-action">
+          <button class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white">Kaydet</button>
+        </div>
+    </div>
   </mat-step>
   <mat-step label="Dosya">  
     <div>
@@ -344,31 +365,30 @@
             [uploader]="uploader"
             (onFileDrop)="onFileSelected($event)"
             class="well my-drop-zone">
-            <input type="file" ng2FileSelect [uploader]="uploader" multiple (onFileSelected)="onFileSelected($event)"/>
-            </div>
+            <input #fixedAssetFiles name="FixedAssetFiles" id="FixedAssetFiles" type="file"  ng2FileSelect [uploader]="uploader" multiple (onFileSelected)="onFileSelected($event)" style="display:none"/>
+            <label for="FixedAssetFiles" class="custom-file">
+              <label class="custom-file-text" for="FixedAssetFiles">
+                Dosya Seçiniz
+              </label>
+            </label>  
+          </div>
           </div>
         </div>
         <div class="row justify-content-center">
           <div class="form-group col-md-12">
-              <h3></h3>             
+              <h3></h3>     
+              <div class="property-values-table">        
              <table class="table">
                   <thead>
                   <tr>
                       <th width="50%">Dosya Adı</th>    
-                      <th>Progress</th>
-                      <th>Status</th>                  
-                      <th></th>              
+                      <th></th>
+                      <th></th> 
                   </tr>
                   </thead>
                   <tbody>
                   <tr *ngFor="let item of uploader.queue">
-                      <td><strong>{{ item?.file?.name }}</strong></td>        
-                      <td *ngIf="uploader.isHTML5">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                      <td *ngIf="uploader.isHTML5">
-                          <div class="progress" style="margin-bottom: 0;">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                          </div>
-                      </td>  
+                      <td><strong>{{ item?.file?.name }}</strong></td>      
                       <td class="text-center">
                           <span *ngIf="item.isSuccess"><i class="fas fa-check"></i></span>
                           <span *ngIf="item.isCancel"><i class="fas fa-times"></i></span>
@@ -382,16 +402,17 @@
                   <p>Dosya Sayısı: {{ uploader?.queue?.length }}</p>
                   </tbody>
               </table>  
+            </div>
           </div>
         </div>
         <div class="progress">
             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
         </div>
         <div class="grp-btn-action" style="margin-bottom: 10px; margin-top: 10px;">
-            <button type="button" class="btn btn-az-primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-            <span class="glyphicon glyphicon-upload"></span>Tümünü Yükle</button>        
-            <button type="button" class="btn btn-danger" style="margin-left:10px" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-            <span class="fas fa-trash"></span></button>
+            <!-- <button type="button" class="btn btn-az-primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+            <span class="glyphicon glyphicon-upload"></span>Tümünü Yükle</button>         -->
+            <!-- <button type="button" class="btn btn-danger" style="margin-left:10px" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+            <span class="fas fa-trash"></span></button> -->
         </div>
       </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
@@ -399,22 +420,9 @@
             <button mat-button matStepperPrevious  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
           </div>
           <div class="grp-btn-action">
-            <button mat-button matStepperNext type="submit" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <button mat-button matStepperNext (click)="insertFile()" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
           </div>
         </div>
-  </mat-step>
-  <mat-step label="Demirbaş Listesi">
-      <div class="property-values-table">
-      <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
-      </div>
-      <div class="row" style="margin-right: 0px; margin-left: 0px;">
-          <div class="grp-btn-action-left">
-            <button mat-button matStepperPrevious class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
-          </div>
-          <div class="grp-btn-action">
-            <button class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white">Kaydet</button>
-          </div>
-      </div>
   </mat-step>
   </mat-horizontal-stepper>
   </form>

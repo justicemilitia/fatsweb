@@ -94,7 +94,7 @@
                     name="FixedAssetTypeId" class="form-control txt-width" 
                     #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetTypeId.invalid }" required 
                     (change)="changeValue($event, fixedAssetCardProperty)">
-                    <option>Yok</option>
+                    <option [ngValue]="null">Yok</option>
                     <option *ngFor="let fixedAssetType of fixedAssetTypes"
                     value={{fixedAssetType.Id}}>
                     {{fixedAssetType.Name}}
@@ -122,7 +122,7 @@
               <div class="flexProperty">                    
                 <div style="flex:1;">
                   <input #Value name="Value" class="form-control" type="text"
-                  style="font-size: 13px;height: 27px;"
+                  style="font-size: 13px;height: 27px;" id="value"
                   [ngClass]="{ 'is-invalid': data.submitted && Value.invalid }" required>
                   <div *ngIf="data.submitted && Value.invalid" class="invalid-feedback">
                     <div *ngIf="Value.errors.required">Bu alan zorunludur.</div>

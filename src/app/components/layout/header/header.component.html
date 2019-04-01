@@ -2,6 +2,10 @@
   <div class="container-fluid">
     <div class="az-header-left">
       <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span></h1>
+      <div class="nav-mobile-button">
+        <span class="fa fa-list">
+        </span>
+      </div>
     </div>
     <!-- az-header-left -->
     <div class="az-header-center">
@@ -14,8 +18,8 @@
     <!-- az-header-center -->
     <div class="az-header-right">
       <div class="dropdown firm-dropdown">
-        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" (click)="loadFirms()" type="button" id="dropdownMenu2"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle firm-dropdown-button" (click)="loadFirms()" type="button"
+          id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="dropdown-button-content">
             {{baseService.authenticationService.currentFirm ? baseService.authenticationService.currentFirm.Name : ''}}
           </div>

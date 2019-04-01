@@ -1,18 +1,18 @@
 export const GetFixedAssetTypes  = () => {
     return [
     {
-        Id:1,
+        Id:2,
         Name:"Metin"
     },
     {	
-        Id:2,
+        Id:3,
         Name:"Sayısal"
     },
     {
-        Id:3,	
+        Id:1,	
         Name:"Liste"
     },{
         Id:4,
-	    Name:"Tekil"
+	    Name:"Ondalıklı Sayı"
     }];
 }

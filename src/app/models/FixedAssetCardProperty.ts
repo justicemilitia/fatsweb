@@ -17,14 +17,19 @@ export class FixedAssetCardProperty implements IData {
     isChecked: boolean;
     isVisible: boolean;
 
-    FixedAssetCardPropertyId:number;
-    FixedAssetCardPropertyCode:string;
+    FixedAssetCardPropertyId: number;
+    FixedAssetCardPropertyCode: string;
     FixedAssetCardPropertyTypeId: number;
-    FixedAssetTypeId: number;
+    FixedAssetTypeId: number = null;
     Name: string;
     IsUnique: boolean;
-    FixedAssetPropertyValues: FixedAssetCardPropertyValue[]=[];
-    FixedAssetAsDisplay:string = '';
+    FixedAssetPropertyValues: FixedAssetCardPropertyValue[] = [];
+    FixedAssetAsDisplay: string = '';
     FixedAssetType: FixedAssetCardPropertyType;
-    
+
+    constructor() {
+        this.FixedAssetTypeId = null;
+
+    }
+
 }

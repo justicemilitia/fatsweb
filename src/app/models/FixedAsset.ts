@@ -81,6 +81,7 @@ export class FixedAsset implements IData {
   FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
   FixedAssetIds : number[];
   FixedAssetFiles: FixedAssetFile[];
+  willDisplay:boolean = false;
   InsuranceCompanyId: number;
 
   IsBarcodeManual: boolean=false;
@@ -93,7 +94,6 @@ export class FixedAsset implements IData {
     this.FixedAssetStatus = new FixedAssetStatus();
     this.ExpenseCenter = new ExpenseCenter();
     this.FixedAssetCardCategory = new FixedAssetCardCategory();
-
     this.Currency = new Currency();
   }
 }
