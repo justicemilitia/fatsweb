@@ -19,7 +19,7 @@ export class PopupService {
 
   ShowAlertPopup(message: string) {
     //swal(message, "", "warning");
-    this.alertSerivce.pushDanger(message);
+    this.alertSerivce.pushDanger(this.languageService.getValue(message));
   }
 
   ShowSuccessPopup(message: string) {
@@ -28,7 +28,7 @@ export class PopupService {
       text: message,
       icon: "success"
     });*/
-    this.alertSerivce.pushSuccess(message);
+    this.alertSerivce.pushSuccess(this.languageService.getValue(message));
   }
 
   ShowErrorPopup(error: HttpErrorResponse) {
@@ -244,5 +244,5 @@ export class PopupService {
         }
       });
   }
-  
+
 }
