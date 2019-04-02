@@ -236,25 +236,26 @@
             </div>
             </div>
             <div class="row justify-content-center">
-                    <div class="form-group col-md-3">
-                    <label>Makbuz Tarihi</label>  
+                <div class="form-group col-md-3">
+                    <label></label> 
+                    <label class="ckbox" style="margin-top: 15px">
+                        <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" name="IsActive" #IsActive="ngModel"
+                       /><span>Demirbaş Aktif mi ?</span>
+                    </label>                    
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Aktifleştirme Tarihi</label>
                     <div class="input-group">
                         <div class="input-group-append">
-                          <div (click)="receiptDate.toggle()" class="input-group-text">
+                          <div (click)="activationDate.toggle()" class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
                         </div>
-                        <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="receiptDate" 
-                        [(ngModel)]="fixedAsset.ReceiptDate" ngbDatepicker #receiptDate="ngbDatepicker" #receiptDateModel="ngModel"/>  
+                        <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
+                        [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
+                         />                        
                       </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Masraf Merkezi</label> 
-                        <select [(ngModel)]="fixedAsset.ExpenseCenterId" placeholder="Masraf"name="ExpenseCenterId" class="form-control select2-no-search">
-                            <option value="-1">Masraf Merkezi</option>
-                            <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
-                        </select>
-                    </div>
+                </div>       
                     <div class="form-group col-md-3"> 
                         <label>Garanti Başlangıç Süresi</label> 
                         <div class="input-group">
@@ -297,26 +298,24 @@
                   </label>
                 </div>
                 <div class="form-group col-md-3">
-                    <label></label> 
-                    <label class="ckbox" style="margin-top: 15px">
-                        <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" name="IsActive" #IsActive="ngModel"
-                       /><span>Demirbaş Aktif mi ?</span>
-                    </label>                    
-                </div>
-                <div class="form-group col-md-3">
-                    <label>Aktifleştirme Tarihi</label>
+                    <label>Makbuz Tarihi</label>  
                     <div class="input-group">
                         <div class="input-group-append">
-                          <div (click)="activationDate.toggle()" class="input-group-text">
+                          <div (click)="receiptDate.toggle()" class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
                         </div>
-                        <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
-                        [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
-                         />
-                        
+                        <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="receiptDate" 
+                        [(ngModel)]="fixedAsset.ReceiptDate" ngbDatepicker #receiptDate="ngbDatepicker" #receiptDateModel="ngModel"/>  
                       </div>
-                </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Masraf Merkezi</label> 
+                        <select [(ngModel)]="fixedAsset.ExpenseCenterId" placeholder="Masraf"name="ExpenseCenterId" class="form-control select2-no-search">
+                            <option value="-1">Masraf Merkezi</option>
+                            <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
+                        </select>
+                    </div>
             </div>
 
             <div class="row justify-content-center">
