@@ -113,7 +113,7 @@
               <!-- ÖZELLİK TİPİ -->
               <div class="col-md-6 form-group">
                   <label>Özellik Tipi</label>
-                  <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
+                  <select name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
                     <option value="-1">Özellik Seçiniz</option>
                     <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                 </select> 
@@ -129,11 +129,15 @@
                     </option>
                   </select>
               </div>
+
             </div>
           </div>
+
       </div>
+      
       <div class="row justify-content-center">
         <div class="col-md-6">
+
       <!-- LOKASYON, MODEL, PERSONEL, GARANTİSİ BİTENLER -->
       <div class="row justify-content-center">
 
@@ -168,7 +172,8 @@
                   {{ firm.Name }}
                 </option>
               </select>
-            </div>
+          </div>
+
       </div>
 
       <!-- GARANTİSİ OLANLAR, AMORTİSMANI HESAPLANANLAR -->
@@ -195,19 +200,24 @@
                       name="PressDebitForm"/><span>İlişkili Demirbaşlar</span>
                   </label>
             </div>
+
             <div class="form-group col-md-7">
                 <label class="ckbox">
                   <input type="checkbox" id="PressDebitForm" 
                     name="PressDebitForm"/><span>IFRS Amortismanı Hesaplananlar</span>
                 </label>
             </div>      
-          </div>
         </div>
+
+        </div>
+
+        <!-- ÖZELLİK TABLOSU -->
         <div class="col-md-6">
             <div class="sales-overview">
                 <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
             </div>
         </div>
+
       </div>
     </div>
  
