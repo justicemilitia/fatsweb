@@ -1,12 +1,10 @@
-import { Component, OnInit, NgModule, Input } from "@angular/core";
+import { Component, OnInit, NgModule, Input, SimpleChanges, OnChanges } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
-import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
-import * as $ from "jquery";
-import { User } from "../../../../models/LoginUser";
+import { User } from "../../../../models/User";
 import { FixedAssetUser } from "../../../../models/FixedAssetUser";
 
 @Component({
@@ -19,9 +17,9 @@ import { FixedAssetUser } from "../../../../models/FixedAssetUser";
   declarations: [FaChangeDebitComponent],
   providers: [FaChangeDebitComponent]
 })
-export class FaChangeDebitComponent extends BaseComponent implements OnInit {
+export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnChanges {
+
   @Input() faBarcode: FixedAsset = new FixedAsset();
-  fixedAssetUser: FixedAssetUser = new FixedAssetUser();
 
   /* List Of Users */
   users: User[] = [];
@@ -32,6 +30,17 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit {
     super(baseService);
     this.loadUsers();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["faBarcode"].previousValue != changes["faBarcode"].currentValue) {
+      if (this.faBarcode.FixedAssetUsers) {
+        this.faBarcode.FixedAssetUsers.forEach((e: any) => {
+          this.selectedUser.push(e.User);
+        });
+      }
+    }
+  }
+
   ngOnInit() {
     this.dropdownSettings = {
       singleSelection: false,
@@ -56,22 +65,33 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit {
             insertedUserIds.push(e.UserId);
           });
 
-          this.fixedAssetUser.UserIds = insertedUserIds;
-          this.fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
+          let fixedAssetUser: FixedAssetUser = new FixedAssetUser();
 
-          let cloneItem = new FixedAssetUser();
-          Object.assign(cloneItem, this.fixedAssetUser);
-
+          fixedAssetUser.UserIds = insertedUserIds;
+          fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
           // cloneItem.userId=data.value.userIds;
 
           this.baseService.fixedAssetService.ChangeDebit(
-            cloneItem,
+            fixedAssetUser,
             (insertedItem: FixedAssetUser, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
 
               /* Set inserted Item id to model */
               // this.faBarcode.Barcode = cloneItem.Barcode;
+              insertedUserIds.forEach(e => {
+                let user = this.users.find(x => x.UserId == e);
+                if (user) {
+                  let exists = this.faBarcode.FixedAssetUsers.find(x => x.UserId == user.UserId);
+                  if (!exists) {
+                    let auser = new FixedAssetUser();
+                    auser.UserId = user.UserId;
+                    auser.User = user;
+                    this.faBarcode.FixedAssetUsers.push(auser);
+                  }
+                }
+              })
+
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -95,22 +115,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit {
     );
   }
 
-  // async loadUsers() {
-  //   await this.baseService.userService.GetUsers(
-  //     (users: User[]) => {
-  //       this.users = users;
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       this.baseService.popupService.ShowErrorPopup(error);
-  //     }
-  //   );
-  // }
 
-  onItemSelect(item: User) {
-    this.selectedUser.push(item);
-  }
-
-  onSelectAll(items: any) {
-    this.selectedUser.push(items);
+  resetForm(data: NgForm) {
+    this.selectedUser = [];
   }
 }
