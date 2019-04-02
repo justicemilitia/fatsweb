@@ -4,7 +4,11 @@
   padding-top: 3px;
   border-radius: 0;
 }
-
+.btn-orange {
+  background: #e67300;
+  color: white;
+  border-radius: 0px;
+}
 .flexProperty {
   flex: 1;
   flex-direction: row;
@@ -39,5 +43,5 @@
 .another-file-over-class {
   border: dotted 3px #e67300;
 }
-
-html, body { height: 100%; }
+/* 
+html, body { height: 100%; } */

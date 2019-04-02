@@ -20,10 +20,10 @@
         <!-- DEMİRBAŞ ADI -->
         <div class="col-md-2 form-group">
           <label>Demirbaş Adı</label>
-          <select [(ngModel)]="fixedAsset.FixedAssetCard" name="FirmId" class="form-control" #FirmId="ngModel">
+          <select [(ngModel)]="fixedAsset.FixedAssetCard.Name" name="FirmId" class="form-control" #FirmId="ngModel">
             <option [ngValue]="null">Seçiniz</option>
-            <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-              {{ firm.Name }}
+            <option *ngFor="let fixedAssetCard of fixedAssetCards" value="{{ fixedAssetCard.FixedAssetCardId }}">
+              {{ fixedAssetCard.FixedAssetCardId }}
             </option>
           </select>
         </div>
@@ -31,10 +31,10 @@
         <!-- KATEGORİ -->
         <div class="col-md-2 form-group">
             <label>Kategori</label>
-            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+            <select [(ngModel)]="fixedAsset.FixedassetcategoryId" name="FixedassetcategoryId" class="form-control" #FixedassetcategoryId="ngModel">
               <option [ngValue]="null">Seçiniz</option>
-              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-                {{ firm.Name }}
+              <option *ngFor="let fixedassetcategory of fixedassetcategories" value="{{ fixedassetcategory.FixedAssetCategoryId }}">
+                {{ fixedassetcategory.Name }}
               </option>
             </select>
           </div>
@@ -51,7 +51,7 @@
                         </div>
                       </div>
                       <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
-                        [(ngModel)]="agreement.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"/>
+                        [(ngModel)]="fixedAsset.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"/>
                     </div>
                   </div>
 
@@ -63,7 +63,7 @@
                           </div>
                         </div>
                         <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
-                          [(ngModel)]="agreement.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel"/>
+                          [(ngModel)]="fixedAsset.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel"/>
                       </div>
                   </div>
             </div>
@@ -77,10 +77,10 @@
           <!-- DEPARTMAN -->
           <div class="col-md-2 form-group">
             <label>Departman</label>
-            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+            <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control" #DepartmentId="ngModel">
               <option [ngValue]="null">Seçiniz</option>
-              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-                {{ firm.Name }}
+              <option *ngFor="let department of departments" value="{{ department.DepartmentId }}">
+                {{ department.Name }}
               </option>
             </select>
           </div>
@@ -88,10 +88,10 @@
           <!-- MARKA -->
           <div class="col-md-2 form-group">
             <label>Marka</label>
-            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+            <select [(ngModel)]="fixedAsset.BrandId" name="FirmId" class="form-control" #FirmId="ngModel">
               <option [ngValue]="null">Seçiniz</option>
-              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-                {{ firm.Name }}
+              <option *ngFor="let brand of brands" value="{{ brand.BrandId }}">
+                {{ brand.Name }}
               </option>
             </select>
           </div>
@@ -99,10 +99,10 @@
           <!-- DEMİRBAŞ STATÜSÜ -->
           <div class="col-md-2 form-group">
               <label>Demirbaş Statüsü</label>
-              <select [(ngModel)]="fixedAsset.StatusId" name="FirmId" class="form-control" #FirmId="ngModel">
+              <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control" #StatusId="ngModel">
                 <option [ngValue]="null">Seçiniz</option>
-                <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-                  {{ firm.Name }}
+                <option *ngFor="let statu of status" value="{{ statu.StatuId }}">
+                  {{ statu.Name }}
                 </option>
               </select>
           </div>
@@ -113,12 +113,10 @@
               <!-- ÖZELLİK TİPİ -->
               <div class="col-md-6 form-group">
                   <label>Özellik Tipi</label>
-                  <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
-                    <option [ngValue]="null">Seçiniz</option>
-                    <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-                      {{ firm.Name }}
-                    </option>
-                  </select>
+                  <select name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
+                    <option value="-1">Özellik Seçiniz</option>
+                    <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+                </select> 
               </div>
 
               <!-- ÖZELLİK DEĞERİ -->
@@ -131,11 +129,15 @@
                     </option>
                   </select>
               </div>
+
             </div>
           </div>
+
       </div>
+      
       <div class="row justify-content-center">
         <div class="col-md-6">
+
       <!-- LOKASYON, MODEL, PERSONEL, GARANTİSİ BİTENLER -->
       <div class="row justify-content-center">
 
@@ -170,7 +172,8 @@
                   {{ firm.Name }}
                 </option>
               </select>
-            </div>
+          </div>
+
       </div>
 
       <!-- GARANTİSİ OLANLAR, AMORTİSMANI HESAPLANANLAR -->
@@ -197,19 +200,24 @@
                       name="PressDebitForm"/><span>İlişkili Demirbaşlar</span>
                   </label>
             </div>
+
             <div class="form-group col-md-7">
                 <label class="ckbox">
                   <input type="checkbox" id="PressDebitForm" 
                     name="PressDebitForm"/><span>IFRS Amortismanı Hesaplananlar</span>
                 </label>
             </div>      
-          </div>
         </div>
+
+        </div>
+
+        <!-- ÖZELLİK TABLOSU -->
         <div class="col-md-6">
             <div class="sales-overview">
-                <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+                <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
             </div>
         </div>
+
       </div>
     </div>
  

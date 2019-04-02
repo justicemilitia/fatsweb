@@ -40,34 +40,17 @@ import {
   HttpEvent
 } from "@angular/common/http";
 import { FileUploader } from "ng2-file-upload";
-import { NgForm, FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from "@angular/forms";
+import {
+  NgForm,
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+  ReactiveFormsModule
+} from "@angular/forms";
 import { convertNgbDateToDateString } from "src/app/declarations/extends";
-import { CdkStepper } from '@angular/cdk/stepper';
-import { MatVerticalStepper, MatHorizontalStepper } from '@angular/material';
-
-function readBase64(file): Promise<any> {
-  var reader = new FileReader();
-  var future = new Promise((resolve, reject) => {
-    reader.addEventListener(
-      "load",
-      function() {
-        resolve(reader.result);
-      },
-      false
-    );
-
-    reader.addEventListener(
-      "error",
-      function(event) {
-        reject(event);
-      },
-      false
-    );
-
-    reader.readAsDataURL(file);
-  });
-  return future;
-}
+import { CdkStepper } from "@angular/cdk/stepper";
+import { MatVerticalStepper, MatHorizontalStepper } from "@angular/material";
 
 const URL = "";
 @Component({
@@ -75,25 +58,22 @@ const URL = "";
   templateUrl: "./fa-create.component.html",
   styleUrls: ["./fa-create.component.css"]
 })
-
 @Directive({ selector: "[ng2FileSelect]" })
 @Directive({ selector: "[ng2FileDrop]" })
-
 @NgModule({
   imports: [ReactiveFormsModule],
   declarations: [FaCreateComponent],
   providers: [FaCreateComponent]
 })
-
-export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
- 
-
+export class FaCreateComponent extends BaseComponent
+  implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
+
   isWaitingValidBarcode: boolean = false;
   isLinear = false;
-  fixedAssetForm:FormGroup;
+  fixedAssetForm: FormGroup;
   departments: Department[] = [];
   companies: Company[] = [];
   locations: Location[] = [];
@@ -126,16 +106,17 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   isListSelected: boolean = false;
   barcode: number;
   quantity: number;
-  validBarcode=false;
-
+  validBarcode = false;
+  editable: boolean = true;
   fixedAssetFiles: string[] = [];
-  
-  @ViewChild('stepper') stepper: MatHorizontalStepper;
+  visibleInsertButton: boolean = false;
+  isResetForm: boolean = false;
+  @ViewChild("stepper") stepper: MatHorizontalStepper;
 
   public imagePath;
   imgURL: any;
   imageFile: any;
-  fileBarcode:any;
+  fileBarcode: any;
   insertedFixedAsset = new FixedAsset();
 
   /*Fixed Asset List */
@@ -186,8 +167,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     ],
     {
       isDesc: false,
-      column: ["Barcode"],
-      
+      column: ["Barcode"]
     }
   );
 
@@ -227,19 +207,18 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text",        
-      },
+        type: "text"
+      }
     ],
     {
       isDesc: false,
-      column: ["FileName"]      
+      column: ["FileName"]
     }
   );
 
   constructor(
     protected baseService: BaseService,
-    public HttpClient: HttpClient,
-    // private _formBuilder: FormBuilder
+    public HttpClient: HttpClient // private _formBuilder: FormBuilder
   ) {
     super(baseService);
     this.loadDropdown();
@@ -253,17 +232,15 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     this.dataTable.isPagingActive = false;
     this.dataTable.isColumnOffsetActive = false;
     this.dataTable.isDeleteable = true;
-    this.dataTable.isTableEditable=true;   
-    this.dataTableFile.isPagingActive=false;
-    this.dataTableFile.isColumnOffsetActive=false;
-    this.dataTableFile.isDeleteable=true;
-    this.dataTableFile.isMultipleSelectedActive=false;
-    this.dataTableFile.isLoading=false;    
+    this.dataTable.isTableEditable = true;
+    this.dataTableFile.isPagingActive = false;
+    this.dataTableFile.isColumnOffsetActive = false;
+    this.dataTableFile.isDeleteable = true;
+    this.dataTableFile.isMultipleSelectedActive = false;
+    this.dataTableFile.isLoading = false;
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   loadDropdown() {
     this.baseService.departmentService.GetDepartments(
@@ -359,7 +336,7 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
         }
       );
     }
-    
+
     if (this.brands && this.brands.length == 0) {
       this.models = [];
 
@@ -529,12 +506,11 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   getValidBarcode() {
-
-    this.isWaitingValidBarcode =true;
+    this.isWaitingValidBarcode = true;
 
     this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
       barcode => {
-        this.isWaitingValidBarcode=false;        
+        this.isWaitingValidBarcode = false;
         this.barcode = barcode;
       },
       (error: HttpErrorResponse) => {
@@ -544,30 +520,67 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   addToFixedAssetList(data: NgForm) {
-
+    if (this.isResetForm == true) {
+      data.resetForm(this.fixedAsset);
+    }
     this.dataTable.TGT_clearData();
 
-    if (this.fixedAsset.Quantity == 0 || this.fixedAsset.Quantity == null) this.fixedAsset.Quantity = 1;
+    if (this.fixedAsset.Quantity == 0 || this.fixedAsset.Quantity == null)
+      this.fixedAsset.Quantity = 1;
     this.quantity = this.fixedAsset.Quantity;
 
-    this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
+    if (this.disabledBarcode == false) this.barcode = data.value.Barcode;
 
+    this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
     for (let i = 0; i < this.quantity; i++) {
       let fixedasset = new FixedAsset();
       fixedasset.Barcode = this.barcode.toString();
       fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
-      let department = this.departments.find(x => x.DepartmentId == Number(data.value.DepartmentId));
-      let fixedassetcard = this.fixedassetcards.find(x => x.FixedAssetCardId == Number(data.value.FixedAssetCardId));
-      let location = this.locations.find(x => x.LocationId == Number(data.value.LocationId));
 
+      let department = this.departments.find(
+        x => x.DepartmentId == Number(data.value.DepartmentId)
+      );
+      let fixedassetcard = this.fixedassetcards.find(
+        x => x.FixedAssetCardId == Number(data.value.FixedAssetCardId)
+      );
+      let fixedassetcategory = this.fixedassetcategories.find(
+        x =>
+          x.FixedAssetCardCategoryId ==
+          Number(data.value.FixedAssetCardCategoryId)
+      );
+      let location = this.locations.find(
+        x => x.LocationId == Number(data.value.LocationId)
+      );
+      let expensecenter = this.expensecenters.find(
+        x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId)
+      );
+      fixedasset.FixedAssetCardBrandId = Number(
+        data.value.FixedAssetCardBrandId
+      );
+      fixedasset.FixedAssetCardModelId = Number(
+        data.value.FixedAssetCardCategoryId
+      );
+      fixedasset.IsActive = Boolean(data.value.IsActive);
+      fixedasset.ActivationDate = data.value.activationDate;
+      fixedasset.ExpenseCenter = expensecenter;
+      fixedasset.SerialNumber = data.value.SerialNumber;
+      fixedasset.FixedAssetCardCategory = fixedassetcategory;
       fixedasset.Location = location;
       fixedasset.Department = department;
       fixedasset.FixedAssetCard = fixedassetcard;
-      if (this.fixedAssets.length>0){
-        let lastBarcode=this.fixedAssets[this.fixedAssets.length-1].Barcode;
-        fixedasset.Barcode=(Number(lastBarcode) + 1).toString();      
-      }else{
-        fixedasset.Barcode=this.barcode.toString();
+      fixedasset.Price = data.value.Price;
+      fixedasset.GuaranteeStartDate = data.value.guaranteeStartDate;
+      fixedasset.GuaranteeEndDate = data.value.guaranteeEndDate;
+      fixedasset.CurrencyId = Number(data.value.CurrencyId);
+      fixedasset.InvoiceDate = data.value.invoiceDate;
+      fixedasset.InvoiceNo = data.value.InvoiceNo;
+      fixedasset.ReceiptDate = data.value.receiptDate;
+
+      if (this.fixedAssets.length > 0) {
+        let lastBarcode = this.fixedAssets[this.fixedAssets.length - 1].Barcode;
+        fixedasset.Barcode = (Number(lastBarcode) + 1).toString();
+      } else {
+        fixedasset.Barcode = this.barcode.toString();
       }
       this.fixedAssets.push(fixedasset);
     }
@@ -579,64 +592,120 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     if (!this.dataTable.dataFilters.willDisplay)
       this.dataTable.dataFilters.willDisplay = true;
     else
-    this.dataTable.dataFilters.willDisplay = !this.dataTable.dataFilters.willDisplay;
+      this.dataTable.dataFilters.willDisplay = !this.dataTable.dataFilters
+        .willDisplay;
   }
 
   doAllVisible() {
-    this.dataTable.originalSource.forEach((e:FixedAsset)=> {
+    this.dataTable.originalSource.forEach((e: FixedAsset) => {
       e.willDisplay = true;
     });
   }
 
-  doItemsHidden(items:string[]) {
-    this.dataTable.originalSource.forEach((e:FixedAsset)=> {
-      if(!items.includes(e.Barcode)) 
-        e.willDisplay=false;   
+  doItemsHidden(items: string[]) {
+    this.dataTable.originalSource.forEach((e: FixedAsset) => {
+      if (!items.includes(e.Barcode)) e.willDisplay = false;
     });
   }
 
   addFixedAsset() {
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
+    this.insertedFixedAsset = this.fixedAssets[0];
+
     let propertyDetail = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
     );
 
     this.insertedFixedAsset.FixedAssetPropertyDetails = propertyDetail;
-    this.insertedFixedAsset.CurrencyId = this.fixedAsset.CurrencyId == null ? null: Number(this.fixedAsset.CurrencyId);
+    this.insertedFixedAsset.CurrencyId =
+      this.fixedAsset.CurrencyId == null
+        ? null
+        : Number(this.fixedAsset.CurrencyId);
     this.insertedFixedAsset.DepartmentId = Number(this.fixedAsset.DepartmentId);
     this.insertedFixedAsset.LocationId = Number(this.fixedAsset.LocationId);
-    this.insertedFixedAsset.FixedAssetCardId = Number(this.fixedAsset.FixedAssetCardId);
-    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(this.fixedAsset.FixedAssetCardCategoryId);
-    this.insertedFixedAsset.CompanyId = this.fixedAsset.CompanyId == null ? null: Number(this.fixedAsset.CompanyId);
-    this.insertedFixedAsset.DepreciationCalculationTypeID = this.fixedAsset.DepreciationCalculationTypeID == null ? null: Number(this.fixedAsset.DepreciationCalculationTypeID);
-    this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null: Number(this.fixedAsset.ExpenseCenterId);
-    this.insertedFixedAsset.StatusId = Number(this.fixedAsset.StatusId);
-    this.insertedFixedAsset.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId == null ? null: Number(this.fixedAsset.IFRSCurrecyId);
-    this.insertedFixedAsset.UserId = this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
-    this.insertedFixedAsset.ActivationDate = this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
-    this.insertedFixedAsset.InvoiceDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
-    this.insertedFixedAsset.ReceiptDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
-    this.insertedFixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
-    this.insertedFixedAsset.GuaranteeStartDate = this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
+    this.insertedFixedAsset.FixedAssetCardId = Number(
+      this.fixedAsset.FixedAssetCardId
+    );
+    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(
+      this.fixedAsset.FixedAssetCardCategoryId
+    );
+    this.insertedFixedAsset.CompanyId =
+      this.fixedAsset.CompanyId == null
+        ? null
+        : Number(this.fixedAsset.CompanyId);
+    this.insertedFixedAsset.DepreciationCalculationTypeID =
+      this.fixedAsset.DepreciationCalculationTypeID == null
+        ? null
+        : Number(this.fixedAsset.DepreciationCalculationTypeID);
+    this.insertedFixedAsset.ExpenseCenterId =
+      this.fixedAsset.ExpenseCenterId == null
+        ? null
+        : Number(this.fixedAsset.ExpenseCenterId);
+    this.insertedFixedAsset.StatusId =
+      this.fixedAsset.StatusId == null
+        ? null
+        : Number(this.fixedAsset.StatusId);
+    this.insertedFixedAsset.IFRSCurrecyId =
+      this.fixedAsset.IFRSCurrecyId == null
+        ? null
+        : Number(this.fixedAsset.IFRSCurrecyId);
+    this.insertedFixedAsset.UserId =
+      this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
+    this.insertedFixedAsset.ActivationDate =
+      this.fixedAsset.ActivationDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
+    this.insertedFixedAsset.InvoiceDate =
+      this.fixedAsset.InvoiceDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
+    this.insertedFixedAsset.ReceiptDate =
+      this.fixedAsset.ReceiptDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
+    this.insertedFixedAsset.GuaranteeEndDate =
+      this.fixedAsset.GuaranteeEndDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
+    this.insertedFixedAsset.GuaranteeStartDate =
+      this.fixedAsset.GuaranteeStartDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
+    this.insertedFixedAsset.IsActive = this.fixedAsset.IsActive;
+    this.insertedFixedAsset.FixedAssetCardBrandId =
+      this.fixedAsset.FixedAssetCardBrandId == null
+        ? null
+        : Number(this.fixedAsset.FixedAssetCardBrandId);
+    this.insertedFixedAsset.FixedAssetCardModelId =
+      this.fixedAsset.FixedAssetCardModelId == null
+        ? null
+        : Number(this.fixedAsset.FixedAssetCardModelId);
 
     this.insertedFixedAsset.Picture = this.imgURL;
 
     let barcodes = this.fixedAssets.map(x => x.Barcode);
     this.insertedFixedAsset.BarcodeIds = <[]>barcodes;
-    this.fileBarcode=barcodes;
+    this.fileBarcode = barcodes;
 
-    this.baseService.fixedAssetCreateService.AddFixedAsset(this.insertedFixedAsset,
-      (barcodes: [], status , message) => {
-      if(status == true){
-        this.baseService.popupService.ShowSuccessPopup(message);
-      } else {
-        this.validBarcode=true;
-        this.doAllVisible();
-        this.doItemsHidden(barcodes);
-        this.baseService.popupService.ShowErrorPopup(message);
-      }
-     },  
+    this.baseService.fixedAssetCreateService.AddFixedAsset(
+      this.insertedFixedAsset,
+      (barcodes: [], status, message) => {
+        if (status == true) {
+          this.editable = false;
+          this.dataTable.isTableEditable = false;
+          this.visibleInsertButton = true;
+          this.dataTable.TGT_clearData();
+          this.baseService.popupService.ShowSuccessPopup(message);
+        } else {
+          this.validBarcode = true;
+          this.doAllVisible();
+          this.doItemsHidden(barcodes);
+          this.editable = false;
+          this.visibleInsertButton = true;
+          this.baseService.popupService.ShowErrorPopup(message);
+        }
+      },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
@@ -649,30 +718,51 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
     disableMultipart: true
   });
   public hasAnotherDropZoneOver: boolean = false;
- 
+
   public fileOverAnother(e: any): void {
     this.hasAnotherDropZoneOver = e;
   }
 
-  insertFile(){
-    this.baseService.fileUploadService.FileUpload(this.fileBarcode,this.fixedAssetFiles,      
-      ()=>{
-        this.baseService.popupService.ShowSuccessPopup("Dosya Yükleme Başarılı!");
+  insertFile() {
+    this.baseService.spinner.show();
+
+    this.baseService.fileUploadService.FileUpload(
+      this.fileBarcode,
+      this.fixedAssetFiles,
+      (file: string, message) => {
+        this.baseService.spinner.hide();
+
+        this.baseService.popupService.ShowSuccessPopup(
+          "Dosya Yükleme Başarılı!"
+        );
       },
-      (error:HttpErrorResponse)=>{
+      (error: HttpErrorResponse) => {
+        this.baseService.spinner.hide();
+
         this.baseService.popupService.ShowErrorPopup(error);
-      });
+      }
+    );
   }
 
-  public onFileSelected(event) {
+  resetForm(data: NgForm) {
+    this.editable = true;
+    this.fixedAsset = new FixedAsset();
+    this.stepper.reset();
+    data.resetForm(this.fixedAsset);
+    this.isResetForm = true;
 
-    for (var i = 0; i < event.target.files.length; i++) { 
+    this.dataTable.TGT_clearData();
+
+
+  }
+  public onFileSelected(event) {
+    for (var i = 0; i < event.target.files.length; i++) {
       this.fixedAssetFiles.push(event.target.files[i]);
     }
 
-    // readBase64(file).then(function(data) {
-    //   console.log(data);
-    // });
+    this.insertFile();
+
+    this.fixedAsset = new FixedAsset();
   }
   //#endregion
 }
