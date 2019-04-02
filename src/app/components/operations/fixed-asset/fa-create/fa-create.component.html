@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h6 class="modal-title">Demirbaş giriş işlemi için bilgileri giriniz.</h6>
-  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <button id="CloseModal" type="button" class="close" (click)="resetForm(data)" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -194,10 +194,14 @@
          
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
           <div class="grp-btn-action-left">
-            <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
+            <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;">Geri</button>
           </div>
           <div class="grp-btn-action">
-            <button mat-button matStepperNext type="button"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <button mat-button matStepperNext type="button"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white; min-height: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;">İleri</button>
           </div>
         </div>
   </mat-step>
@@ -309,13 +313,8 @@
                         </div>
                         <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
                         [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
-                        [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )" required />
-                        <div *ngIf="data.submitted && activationDateModel.invalid" class="invalid-feedback">
-                            <div *ngIf="activationDateModel.errors.required">Bu alan zorunludur.</div>
-                            <div *ngIf="!activationDateModel.errors.required && activationDateModel.status == 'INVALID'">
-                              Lütfen Geçerli Format Giriniz.
-                            </div>
-                        </div>
+                         />
+                        
                       </div>
                 </div>
             </div>
@@ -366,10 +365,14 @@
           </div>    
           <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
+              <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
+              padding-top: 5px;
+              padding-bottom: 5px;">Geri</button>
             </div>
             <div class="grp-btn-action">
-              <button mat-button matStepperNext  type="submit"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+              <button mat-button matStepperNext  type="submit"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
+              padding-top: 5px;
+              padding-bottom: 5px;">İleri</button>
             </div>
           </div>     
   </mat-step>
@@ -381,14 +384,19 @@
         <div class="grp-btn-action-left">
           <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; margin-right:10px; color: white">Geri</button>
           <button *ngIf="validBarcode" (click)="toggleValidBarcodes()" type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İncele</button>
-       </div>
+          <div *ngIf="validBarcode" style="color:red">Eklemek istediğiniz barkod sistemde bulunmaktadır.</div>
+        </div>
         <div class="grp-btn-action">
           <div *ngIf="visibleInsertButton;then insertFile else insertFixedAsset"></div>
          <ng-template #insertFixedAsset>
-          <button  class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white">Kaydet</button>
+          <button  class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
+          padding-top: 5px;
+          padding-bottom: 5px;">Kaydet</button>
         </ng-template>
         <ng-template #insertFile>
-          <button mat-button matStepperNext  class="btn btn-az-primary" type="button" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+          <button mat-button matStepperNext  class="btn btn-az-primary" type="button" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
+          padding-top: 5px;
+          padding-bottom: 5px;">İleri</button>
         </ng-template>
         </div>
     </div>
@@ -432,8 +440,16 @@
       </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="grp-btn-action">
-            <button mat-button matStepperNext (click)="insertFile() && stepper.reset()" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
-            </div>
+              <div *ngIf=""></div>
+          <!-- <ng-template #fileInsert> -->
+            <button mat-button (click)="insertFile() && stepper.reset() && resetForm(data)" type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;">Bitir</button>
+          <!-- </ng-template> -->
+          <!-- <ng-template> -->
+     
+          <!-- </ng-template> -->
+          </div>
         </div>
   </mat-step>
   </mat-horizontal-stepper>
