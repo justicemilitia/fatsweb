@@ -229,7 +229,6 @@ export class RoleComponent extends BaseComponent implements OnInit {
     await this.loadRoles();
 
     this.isTableRefreshing = false;
-
   }
 
 
