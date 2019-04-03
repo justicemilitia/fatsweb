@@ -17,19 +17,39 @@
       </div>
     </div>
 
-    <!-- ÇIKIŞ TİPİ -->
-    <div class="row justify-content-center">
+    <!-- ASKIYA ALMA NEDENLERİ -->
+    <!-- <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label class="required-span">Askıya Alma Nedeni</label>
         <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
-          #CheckOutReasonId="ngModel">
+          #CheckOutReasonId="ngModel" required>
           <option>Yok</option>
           <option *ngFor="let suspension of suspensions" value={{suspension.CheckOutReasonId}}>
             {{suspension.Name}}
           </option>
         </select>
+        <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+            <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+          </div>
       </div>
-    </div>
+    </div> -->
+
+    <div class="row justify-content-center">
+        <div class="col-md-12 form-group">
+          <label class="required-span">Askıya Alma Nedeni</label>
+          <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
+            #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }"
+            required>
+            <option>Yok</option>
+            <option *ngFor="let suspension of suspensions" value={{suspension.CheckOutReasonId}}>
+              {{suspension.Name}}
+            </option>
+          </select>
+          <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+            <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+          </div>
+        </div>
+      </div>
 
     <!-- BEKLENEN DÖNÜŞ TARİHİ -->
   <div class="row justify-content-center">    

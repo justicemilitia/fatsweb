@@ -15,6 +15,7 @@ export const GET_DEPARTMENT_BY_ID = "Department/GetDepartmentById";
 export const INSERT_DEPARTMENT = "Department/AddDepartment";
 export const UPDATE_DEPARTMENT = "Department/UpdateDepartment";
 export const DELETE_DEPARTMENT = "Department/RemoveByIdList";
+export const GET_DEPARTMENT_LIST_BY_LOCATION_ID = "Department/GetDepartmentsByLocationId";
 //#endregion
 
 //#region Locations

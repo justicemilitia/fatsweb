@@ -1,22 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { BaseComponent } from '../../base/base.component';
-import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
-import { BaseService } from 'src/app/services/base.service';
-import { FixedAsset } from 'src/app/models/FixedAsset';
-import { HttpErrorResponse } from '@angular/common/http';
-import { TransactionLog } from 'src/app/models/TransactionLog';
-import { NgForm } from '@angular/forms';
-import { Currency } from 'src/app/models/Currency';
-import { CheckOutReason } from 'src/app/models/CheckOutReason';
+import { Component, OnInit, Input } from "@angular/core";
+import { BaseComponent } from "../../base/base.component";
+import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
+import { BaseService } from "src/app/services/base.service";
+import { FixedAsset } from "src/app/models/FixedAsset";
+import { HttpErrorResponse } from "@angular/common/http";
+import { TransactionLog } from "src/app/models/TransactionLog";
+import { NgForm } from "@angular/forms";
+import { Currency } from "src/app/models/Currency";
+import { CheckOutReason } from "src/app/models/CheckOutReason";
 import * as $ from "jquery";
 
 @Component({
-  selector: 'app-suspended-fixed-asset',
-  templateUrl: './suspended-fixed-asset.component.html',
-  styleUrls: ['./suspended-fixed-asset.component.css']
+  selector: "app-suspended-fixed-asset",
+  templateUrl: "./suspended-fixed-asset.component.html",
+  styleUrls: ["./suspended-fixed-asset.component.css"]
 })
-export class SuspendedFixedAssetComponent extends BaseComponent implements OnInit {
-
+export class SuspendedFixedAssetComponent extends BaseComponent
+  implements OnInit {
   /* Is Table Exporting */
   isTableExporting: boolean = false;
   /* Is Table Refreshing */
@@ -27,7 +27,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
   Ids: number[] = [];
   transactionLog: TransactionLog = new TransactionLog();
   transactionLogs: TransactionLog[] = [];
-  currencies: Currency;
+  currencies: Currency[] = [];
   checkedOutReasons: CheckOutReason[] = [];
   locations: Location[] = [];
   @Input() faDataTable: TreeGridTable;
@@ -82,10 +82,9 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
     this.loadDropdown();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   loadDropdown() {
-
     /* Load checked out reasons to checked out reason dropdown */
     this.baseService.checkOutReasonService.GetCheckOutReason(
       checkedOutReasons => {
@@ -126,11 +125,11 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
         this.dataTable.isLoading = false;
-      });
+      }
+    );
   }
 
   selectedSuspendFa() {
-
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
     let itemIds: number[] = selectedItems.map(x => x.getId());
@@ -139,33 +138,37 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
   }
 
   undoSuspendedFixedAsset(data: NgForm) {
+    if (data.form.invalid == true) return;
 
     this.suspendedFa.FixedAssetIds = this.selectedSuspendFa();
 
-    this.baseService.popupService.ShowQuestionPopupForOperation((response: boolean) => {
-      if (response == true) {
+    this.baseService.popupService.ShowQuestionPopupForOperation(
+      (response: boolean) => {
+        if (response == true) {
+          this.baseService.suspendedService.UndoSuspensionProcess(
+            this.suspendedFa,
+            () => {
+              this.dataTable.TGT_removeItemsByIds(
+                this.suspendedFa.FixedAssetIds
+              );
 
-        this.baseService.suspendedService.UndoSuspensionProcess(this.suspendedFa,
-          () => {
-
-            this.dataTable.TGT_removeItemsByIds(this.suspendedFa.FixedAssetIds);
-
-            this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
-
-          }, (error: HttpErrorResponse) => {
-            this.baseService.popupService.ShowErrorPopup(error);
-          });
+              this.baseService.popupService.ShowSuccessPopup(
+                "İşlem başarılı !"
+              );
+            },
+            (error: HttpErrorResponse) => {
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
+        }
       }
-    });
+    );
   }
 
   async checkOutFixedAsset(data: NgForm) {
-
     if (data.form.invalid == true) return;
 
-    this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
-      this.faDataTable.TGT_getSelectedItems()
-    )).map(x => x.FixedAssetId);
+    this.transactionLog.FixedAssetIds = this.selectedSuspendFa();
 
     await this.baseService.fixedAssetService.ExitFixedAsset(
       this.transactionLog,
@@ -187,9 +190,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
   }
 
   selectedBarcodes() {
-
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
@@ -197,15 +198,13 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
       );
 
       return;
-    }
-    else {
-
+    } else {
       $("#btnOpenSuspendedFa").trigger("click");
 
       let fixedAssetBarcodes = "";
       selectedItems.forEach((e, i) => {
-        fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
-
+        fixedAssetBarcodes +=
+          e.Barcode + (i == selectedItems.length - 1 ? "" : ", ");
       });
       this.faBarcodes = fixedAssetBarcodes;
     }
@@ -214,22 +213,19 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
   selectedExitBarcodes() {
     let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
-
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz"
       );
 
       return;
-    }
-    else {
-
+    } else {
       $("#btnExitFa").trigger("click");
 
       let fixedAssetBarcodes = "";
       selectedItems.forEach((e, i) => {
-        fixedAssetBarcodes += e.Barcode + (i == selectedItems.length - 1 ? '' : ", ");
-
+        fixedAssetBarcodes +=
+          e.Barcode + (i == selectedItems.length - 1 ? "" : ", ");
       });
       this.faBarcodes = fixedAssetBarcodes;
     }
@@ -245,7 +241,5 @@ export class SuspendedFixedAssetComponent extends BaseComponent implements OnIni
     await this.loadSuspendedList();
 
     this.isTableRefreshing = false;
-
   }
 }
-

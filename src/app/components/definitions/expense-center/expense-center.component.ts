@@ -105,11 +105,11 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
           this.baseService.spinner.hide();
 
           if (itemIds.length == 1)
-            this.baseService.popupService.ShowAlertPopup(
-              "Kayıt Başarıyla silindi!"
+            this.baseService.popupService.ShowSuccessPopup(
+              "Kayıt başarıyla silindi!"
             );
           else
-            this.baseService.popupService.ShowAlertPopup(
+            this.baseService.popupService.ShowSuccessPopup(
               "Tüm kayıtlar başarıyla silindi!"
             );
 
