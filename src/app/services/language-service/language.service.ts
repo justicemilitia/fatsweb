@@ -35,7 +35,7 @@ export class LanguageService {
 
   getValue(key: string): string {
 
-    if (this.language.length == 0)
+    if (this.languages.length == 0)
       this.LoadLanguages();
 
     let item = this.languages.find(x => x.LanguageKeyword == key);

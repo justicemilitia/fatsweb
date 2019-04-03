@@ -1,13 +1,12 @@
-import { Component, OnInit, NgModule, Input } from "@angular/core";
+import { Component, OnInit, NgModule, Input, OnChanges } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
-import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
-import * as $ from "jquery";
-import { User } from "../../../../models/LoginUser";
+import { User } from "../../../../models/User";
 import { FixedAssetUser } from "../../../../models/FixedAssetUser";
+import { SimpleChanges } from "@angular/core";
 
 @Component({
   selector: "app-fa-delete-debit",
@@ -19,19 +18,19 @@ import { FixedAssetUser } from "../../../../models/FixedAssetUser";
   declarations: [FaDeleteDebitComponent],
   providers: [FaDeleteDebitComponent]
 })
-export class FaDeleteDebitComponent extends BaseComponent implements OnInit {
+export class FaDeleteDebitComponent extends BaseComponent implements OnInit, OnChanges {
+
   @Input() faBarcode: FixedAsset = new FixedAsset();
-  fixedAssetUser: FixedAssetUser = new FixedAssetUser();
 
   users: User[] = [];
-  selectedUser: User[] = [];
+  UserIds: User[] = [];
   dropdownSettings = {};
 
   constructor(baseService: BaseService) {
     super(baseService);
-    // this.loadDropdownList();
     this.loadUsers();
   }
+
   ngOnInit() {
     this.dropdownSettings = {
       singleSelection: false,
@@ -44,7 +43,20 @@ export class FaDeleteDebitComponent extends BaseComponent implements OnInit {
     };
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["faBarcode"].previousValue != changes["faBarcode"].currentValue) {
+      if (this.faBarcode.FixedAssetUsers) {
+        this.faBarcode.FixedAssetUsers.forEach((e: FixedAssetUser) => {
+          let foundUser = this.users.find(x => x.UserId == e.User.UserId);
+          if (foundUser)
+            this.UserIds.push(foundUser);
+        });
+      }
+    }
+  }
+
   async DeleteDebit(data: NgForm) {
+
     let deletedUserIds: number[] = [];
 
     /* Is Form Valid */
@@ -53,26 +65,31 @@ export class FaDeleteDebitComponent extends BaseComponent implements OnInit {
     await this.baseService.popupService.ShowQuestionPopupForDebitDelete(
       (response: boolean) => {
         if (response == true) {
-          data.value.userIds.forEach(e => {
-            deletedUserIds.push(e.UserId);
+
+          this.faBarcode.FixedAssetUsers.forEach((e: FixedAssetUser) => {
+            if (this.UserIds.find(x => x.UserId == e.User.UserId) == null)
+              deletedUserIds.push(e.User.UserId);
           });
 
-          this.fixedAssetUser.UserIds = deletedUserIds;
-          this.fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
+          let fixedAssetUser: FixedAssetUser = new FixedAssetUser();
 
-          let cloneItem = new FixedAssetUser();
-          Object.assign(cloneItem, this.faBarcode);
 
-          // cloneItem.userId=data.value.userIds;
+          fixedAssetUser.UserIds = deletedUserIds;
+          fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
 
           this.baseService.fixedAssetService.DeleteDebit(
-            cloneItem,
+            fixedAssetUser,
             (insertedItem: FixedAsset, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
 
               /* Set inserted Item id to model */
-              // this.faBarcode.Barcode = cloneItem.Barcode;
+              deletedUserIds.forEach(e => {
+                let index = this.faBarcode.FixedAssetUsers.findIndex(x => x.UserId == e);
+                if (index >= 0)
+                  this.faBarcode.FixedAssetUsers.splice(index, 1);
+              });
+
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -80,18 +97,6 @@ export class FaDeleteDebitComponent extends BaseComponent implements OnInit {
             }
           );
         }
-      }
-    );
-  }
-
-  async loadDropdownList() {
-    /* Load users to user dropdown */
-    await this.baseService.userService.GetUsers(
-      users => {
-        this.users = users;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
@@ -107,11 +112,10 @@ export class FaDeleteDebitComponent extends BaseComponent implements OnInit {
       }
     );
   }
-  onItemSelect(item: User) {
-    this.selectedUser.push(item);
+
+  resetForm(data: NgForm) {
+    this.UserIds = [];
+    this.faBarcode = null;
   }
 
-  onSelectAll(items: any) {
-    this.selectedUser.push(items);
-  }
 }

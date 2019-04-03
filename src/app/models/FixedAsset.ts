@@ -11,6 +11,7 @@ import { FixedAssetPropertyDetails } from './FixedAssetPropertyDetails';
 import { FixedAssetFile } from './FixedAssetFile';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from './Location';
+import { FixedAssetUser } from './FixedAssetUser';
 
 export class FixedAsset implements IData {
   getParentId(): number {
@@ -27,7 +28,7 @@ export class FixedAsset implements IData {
   isChecked: boolean;
   isVisible: boolean;
 
-  BarcodeIds:[];
+  BarcodeIds: [];
   FixedAssetId: number;
   FixedAssetParentId: number;
   FixedAssetCardCategoryId: number;
@@ -54,13 +55,13 @@ export class FixedAsset implements IData {
   Ifrsprice: number;
   WillIfrsbeCalculated: boolean;
   Ifrsperiod: number;
-  IFRSCurrecyId:number;
+  IFRSCurrecyId: number;
   HasInflationIndexation: boolean;
   GuaranteeStartDate: NgbDate;
   GuaranteeEndDate: NgbDate;
   ActivationDate: NgbDate;
-  Picture:string;
-  UserId:number;  
+  Picture: string;
+  UserId: number;
   CreationDate: Date;
   CreatorId: number;
   ModifiedDate: Date;
@@ -79,13 +80,13 @@ export class FixedAsset implements IData {
   FixedAssetCardBrand: FixedAssetCardBrand;
   FixedAssetStatus: FixedAssetStatus;
   FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
-  FixedAssetIds : number[];
+  FixedAssetIds: number[];
   FixedAssetFiles: FixedAssetFile[];
-  willDisplay:boolean = false;
+  willDisplay: boolean = false;
   InsuranceCompanyId: number;
-
-  IsBarcodeManual: boolean=false;
-  Quantity:number;
+  FixedAssetUsers: FixedAssetUser[];
+  IsBarcodeManual: boolean = false;
+  Quantity: number;
 
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();

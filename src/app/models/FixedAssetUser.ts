@@ -1,12 +1,12 @@
 import { FixedAsset } from './FixedAsset';
-import { User } from './LoginUser';
+import { User } from './User';
 
 export class FixedAssetUser {
   FixedAssetUserId: number;
   UserId: number;
   FixedAssetId: number;
   FixedAssets: FixedAsset;
-  Users: User;
+  User: User;
   UserIds : number[];  
   IsCreateDebitForm: boolean;
 }
