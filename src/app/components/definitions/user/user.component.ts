@@ -294,7 +294,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
         else
           this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
 

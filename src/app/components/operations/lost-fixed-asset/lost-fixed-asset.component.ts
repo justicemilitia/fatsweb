@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule, NgForm } from '@angular/forms';
 import { TransactionLog } from 'src/app/models/TransactionLog';
 import { CheckOutReason } from 'src/app/models/CheckOutReason';
+import { Currency } from '../../../models/Currency';
 
 @Component({
   selector: 'app-lost-fixed-asset',
@@ -35,6 +36,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
   transactionLog: TransactionLog = new TransactionLog();  
   transactionLogs: TransactionLog[] = [];
   checkedOutReasons: CheckOutReason[] = [];
+  currencies: Currency[] = [];  
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
 
@@ -83,7 +85,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
   constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadLostFixedAssetList();
-    this.loadCheckOutReasons();
+    this.loadDropdown();
   }
 
   ngOnInit() { }
@@ -100,10 +102,22 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
       });
   }
 
-  loadCheckOutReasons() {
+  loadDropdown() {
+
+    /* Load checked out reasons to checked out reason dropdown */
     this.baseService.checkOutReasonService.GetCheckOutReason(
       checkedOutReasons => {
         this.checkedOutReasons = checkedOutReasons;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    /* Load currencies to currencies dropdown */
+    this.baseService.currencyService.GetCurrencies(
+      currencies => {
+        this.currencies = currencies;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

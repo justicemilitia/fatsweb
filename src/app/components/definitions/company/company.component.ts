@@ -111,6 +111,14 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
+        columnDisplayName: "Vergi Dairesi ",
+        columnName: ["TaxNumber"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
         columnDisplayName: "Faks",
         columnName: ["SecondPhone"],
         isActive: true,
