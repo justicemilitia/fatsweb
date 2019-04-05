@@ -44,6 +44,23 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Yeni Departman</label>
+        <select [(ngModel)]="fixedAsset.LocationId" name="LocationId"  (change)="getLocationId($event)" class="form-control" #LocationId="ngModel"
+          [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
+          <option [ngValue]="null">Yok</option>
+          <option *ngFor="let loc of locations" [ngValue]="loc.LocationId">
+            {{ dep.Name }}
+          </option>
+        </select>
+        <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
+          <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+        </div>
+      </div>
+    </div>    
+
+    <!-- YENİ DEPARTMAN -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Yeni Departman</label>
         <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId"  class="form-control" #DepartmentId="ngModel"
           [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }" required>
           <option [ngValue]="null">Yok</option>
@@ -56,24 +73,6 @@
         </div>
       </div>
     </div>
-
-    <!-- YENİ DEPARTMAN -->
-    <div class="row justify-content-center">
-      <div class="col-md-12 form-group">
-        <label>Yeni Departman</label>
-        <select [(ngModel)]="fixedAsset.LocationId" name="LocationId"  class="form-control" #LocationId="ngModel"
-          [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
-          <option [ngValue]="null">Yok</option>
-          <option *ngFor="let loc of locations" [ngValue]="loc.LocationId">
-            {{ dep.Name }}
-          </option>
-        </select>
-        <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
-          <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
-        </div>
-      </div>
-    </div>
-
 
     <!-- YENİ PERSONEL -->
     <div class="row justify-content-center">
