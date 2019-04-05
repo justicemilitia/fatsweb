@@ -54,6 +54,10 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   dropdownSettings = {};
 
+  checkedSystemUser:boolean = false;
+
+  isInsertOrUpdate:boolean = false;
+
   /* Data Table instance */
   public dataTable: TreeGridTable = new TreeGridTable("user",
     [
@@ -153,16 +157,19 @@ export class UserComponent extends BaseComponent implements OnInit {
     /* Form Validation */
     if (data.form.invalid == true) return;
 
-    /* are Roles selected */
-    if (!this.currentUserRoles || this.currentUserRoles.length == 0) {
-      return;
-    } 
-
+    if(this.checkedSystemUser==true){
+      /* are Roles selected */
+      if (!this.currentUserRoles || this.currentUserRoles.length == 0) {
+        return;
+      } 
+    }
     /* if company id exists means update it otherwise insert it */
     if (this.currentUser.UserId == null) {
       this.insertUser(data);
+      this.isInsertOrUpdate=false;
     } else {
       this.updateUser(data);
+      this.isInsertOrUpdate=true;
     }
   }
 
@@ -200,6 +207,8 @@ export class UserComponent extends BaseComponent implements OnInit {
         /* Reset form */
         this.resetForm(data, true);
 
+        this.checkedSystemUser = false;
+
       }, (error: HttpErrorResponse) => {
 
         /* Change loading bar status */
@@ -222,8 +231,10 @@ export class UserComponent extends BaseComponent implements OnInit {
         let department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
         let userTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
         let parentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
-
+        if(this.checkedSystemUser == true)
         this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
+        else
+          this.currentUser.RoleIds=[];
         /* loading icon visible */
         this.isWaitingInsertOrUpdate = true;
 
@@ -326,6 +337,8 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     /* load companies if not loaded */
     this.loadDropdownList();
+
+    this.isInsertOrUpdate=true;
 
     /* get company information from server */
     await this.baseService.userService.GetUserById(item.UserId, (result: User) => {
@@ -461,6 +474,14 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.currentUserRoles.push(element);
     });
 
+  }
+
+  isSystemUser(event){
+    if (event.target.checked == true) {
+      this.checkedSystemUser = true;
+    } else {
+      this.checkedSystemUser = false;  
+    }
   }
 
   async refreshTable() {

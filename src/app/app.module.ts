@@ -62,7 +62,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule  } from 'ng2-file-upload';
 import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
 import { InputTrimModule } from 'ng2-trim-directive';
-
+import {NgxMaskModule} from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -134,6 +134,7 @@ import { InputTrimModule } from 'ng2-trim-directive';
     FileUploadModule,
     ReactiveFormsModule,
     InputTrimModule
+    NgxMaskModule.forRoot()
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

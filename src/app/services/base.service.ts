@@ -32,6 +32,7 @@ import { LostFixedAssetService } from './lost-fixed-asset-service/lost-fixed-ass
 import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asset-create.service';
 import { DepreciationService } from './depreciation-service/depreciation.service';
 import { AlertInfoService } from '../extends/alert-infos/alert-infos-service/alert-info.service';
+import { FirmService } from './firm-service/firm.service';
 
 @Injectable({
   providedIn: "root"
@@ -71,6 +72,7 @@ export class BaseService {
     public spinner: NgxSpinnerService,
     public router: Router,
     public dashboardService:DashboardService,
+    public firmService:FirmService,
     public alertInfoService:AlertInfoService) {}
 
 }

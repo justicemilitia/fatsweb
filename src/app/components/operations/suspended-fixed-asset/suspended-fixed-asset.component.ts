@@ -85,7 +85,26 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
-      }
+      },
+      {
+        columnDisplayName: "Askıya Alınma Sebebi",
+        columnName: ["CheckOutReasonName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Askıya Alınma Tarihi",
+        columnName: ["TransactionDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
+        }
+      },
     ],
     {
       isDesc: false,

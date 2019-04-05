@@ -10,25 +10,27 @@ import {
   UPDATE_DEPARTMENT,
   GET_DEPARTMENT_BY_ID,
   DELETE_DEPARTMENT,
-  GET_DEPARTMENT_LIST_BY_LOCATION_ID
+  GET_DEPARTMENT_LIST_BY_LOCATION_ID,
+  GET_DEPARTMENTS_BY_FIRM_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Department } from "../../models/Department";
 import { Response } from "src/app/models/Response";
 import { ErrorService } from "../error-service/error.service";
-import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { getAnErrorResponse } from "src/app/declarations/extends";
+import { getMatIconFailedToSanitizeLiteralError } from "@angular/material";
 
 @Injectable({
   providedIn: "root"
 })
 export class DepartmentService {
   departmentData: Department[] = [];
-  
+
   constructor(
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService,
     private errorService: ErrorService
-  ) { }
+  ) {}
 
   GetDepartments(success, failed) {
     this.httpClient
@@ -47,9 +49,7 @@ export class DepartmentService {
             });
             success(departments, response.LanguageKeyword);
           } else {
-            failed(
-              getAnErrorResponse(response.LanguageKeyword)
-            );
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {
@@ -58,21 +58,51 @@ export class DepartmentService {
       );
   }
 
-  GetDepartmentsByLocationId(departmentId:number,success,failed) {
-    this.httpClient.get(SERVICE_URL + GET_DEPARTMENT_LIST_BY_LOCATION_ID + "/" + departmentId,{
-      headers:GET_HEADERS(this.authenticationService.getToken())
-    }).subscribe(
-      result=>{
-        let response:Response=<Response>result;
-        if((<[]>response.ResultObject).length!=0){
-          success(response.ResultObject,response.LanguageKeyword);
-        }else{
-          failed(getAnErrorResponse(response.LanguageKeyword));
+  GetDepartmentsByLocationId(departmentId: number, success, failed) {
+    this.httpClient
+      .get(
+        SERVICE_URL + GET_DEPARTMENT_LIST_BY_LOCATION_ID + "/" + departmentId,
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
         }
-      },(error:HttpErrorResponse)=>{
-        failed(error);
-      }
-    );
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if ((<[]>response.ResultObject).length != 0) {
+            success(response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  GetDepartmentsByFirmId(firmId: number, success, failed) {
+    this.httpClient
+      .get(SERVICE_URL + GET_DEPARTMENTS_BY_FIRM_ID + "/" + firmId, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response = <Response>result;
+          if (response.ResultStatus == true) {
+            let departments: Department[] = [];
+            (<Department[]>response.ResultObject).forEach(e => {
+              let dep: Department = new Department();
+              Object.assign(dep, e);
+              departments.push(dep);
+            });
+            success(departments, response.LanguageKeyword);
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
   }
 
   InsertDepartment(department: Department, success, failed) {
@@ -131,13 +161,16 @@ export class DepartmentService {
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
-      }
-      );
+      });
   }
 
   DeleteDepartments(ids: number[], success, failed) {
     this.httpClient
-      .post(SERVICE_URL + DELETE_DEPARTMENT, { DepartmentIds: ids }, { headers: GET_HEADERS(this.authenticationService.getToken()) })
+      .post(
+        SERVICE_URL + DELETE_DEPARTMENT,
+        { DepartmentIds: ids },
+        { headers: GET_HEADERS(this.authenticationService.getToken()) }
+      )
       .subscribe(
         result => {
           let response: Response = <Response>result;
@@ -146,8 +179,10 @@ export class DepartmentService {
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
-        }, error => {
+        },
+        error => {
           failed(error);
-        });
+        }
+      );
   }
 }

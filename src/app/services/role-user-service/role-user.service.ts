@@ -97,9 +97,14 @@ export class RoleUserService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let insertedUserRole: UserRole = new UserRole();
-            Object.assign(insertedUserRole, response.ResultObject);
-            success(insertedUserRole, response.LanguageKeyword);
+            let insertedUserRoles: UserRole[] = [];
+            (<UserRole[]>response.ResultObject).forEach(e=>{
+              let insertedUserRole:UserRole=new UserRole();
+              Object.assign(insertedUserRole,e);
+              insertedUserRoles.push(insertedUserRole);
+            });
+
+            success(insertedUserRoles, response.LanguageKeyword);            
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -175,4 +180,5 @@ export class RoleUserService {
         }
       );
   }
+
 }

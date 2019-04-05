@@ -128,7 +128,7 @@
               <div class="row justify-content-center">
                   <div class="form-group col-md-12">
                   <label class="required-span">Telefon</label>
-                  <input [(ngModel)]="company.Phone" name="Phone" #Phone="ngModel" type="text" class="form-control"
+                  <input [(ngModel)]="company.Phone" mask="(000) 000-0000" [showMaskTyped] = "true" name="Phone" #Phone="ngModel" type="text" class="form-control"
                     [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" maxlength="11" required />
                   <div *ngIf="data.submitted && Phone.invalid" class="invalid-feedback">
                     <div *ngIf="Phone.errors.required">Bu alan zorunludur.</div>

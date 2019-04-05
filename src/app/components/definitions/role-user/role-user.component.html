@@ -13,16 +13,24 @@
 
           <h2 class="az-content-title" style="margin-left: 0px;">Rol - Kullanıcı Tanımlama</h2>
           <div class="grp-btn-action">
+
             <button type="button" routerLink="/role" class="btn btn-danger btn-back-custom">
               <i class="fas fa-arrow-left"></i></button>
+
             <button type="button" (click)="deleteRoleUser()" class="btn btn-danger btn-delete-custom">
               {{dataTableUserRole.TGT_getSelectedItems().length > 0 ? dataTableUserRole.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
+
+            <button id="refreshUserRole" type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i></button>
+
             <button id="btnAddUserRole" class="btn btn-az-primary" data-toggle="modal"
               data-target="#modalUserRoleDefinition" (click)="resetForm(data,true)">Role Kullanıcı Ata</button>
+
             <button style="display:none" id="btnEditUserRole" data-toggle="modal" data-target="#modalUserRoleDefinition"
               (click)="resetForm(data,false)">Role Kullanıcı Ata
             </button>
+
           </div>
         </div>
         <p class="mg-b-20"></p>
@@ -61,9 +69,8 @@
                 </ng-multiselect-dropdown>
               </ng-template>
               <ng-template #updateUserRole>
-                <label>Rol</label>
-                <select [(ngModel)]="userRole.UserId" name="UserId" class="form-control select2-no-search"
-                  style="width: 250px">
+                <select [(ngModel)]="userRole.UserId" [disabled] name="UserId" class="form-control select2-no-search"
+                  style="width: 100%">
                   <option value="-1">Seçiniz</option>
                   <option *ngFor="let user of systemUsers" value={{user.UserId}}>{{user.UserMail}}</option>
                 </select>
@@ -86,6 +93,7 @@
             data-target="#modalAddUserRole" *ngIf="isWaitingInsertOrUpdate == false">
             {{userRole.UserRoleId ? 'Kullanıcı Rolünü Güncelle' : 'Kullanıcı Rolü Ekle'}}
           </button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
       <!--USER ROLE MODAL-->

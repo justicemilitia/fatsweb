@@ -10,7 +10,7 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { User } from "src/app/models/User";
 import * as $ from "jquery";
 import { BaseComponent } from "../../base/base.component";
-import RoleAuthorization from 'src/app/models/RoleAuthorization';
+import RoleAuthorization from "src/app/models/RoleAuthorization";
 
 @Component({
   selector: "app-rol-user",
@@ -19,6 +19,9 @@ import RoleAuthorization from 'src/app/models/RoleAuthorization';
 })
 export class RoleUserComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
+
+  /* Is Table Refreshing */
+  isTableRefreshing: boolean = false;
 
   userRoles: UserRole[] = [];
   userRole: UserRole = new UserRole();
@@ -32,9 +35,8 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
   visible: boolean = true;
 
   constructor(protected baseService: BaseService) {
-
     super(baseService);
-    
+
     this.loadUserRole();
     this.loadSystemUser();
     this.loadRoles();
@@ -139,15 +141,17 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     await this.baseService.roleUserService.InsertUserRole(
       this.role.RoleId,
       userIds,
-      (insertedItem: UserRole, message) => {
-        this.baseService.popupService.ShowSuccessPopup(message);
-        this.userRole.UserRoleId = insertedItem.UserRoleId;
+      (insertedItem: UserRole[], message) => {
+        setTimeout(() => {
+        $("refreshUserRole").trigger("click");
 
-        this.userRoles.push(this.userRole);
-        this.dataTableUserRole.TGT_loadData(this.userRoles);
+        this.baseService.popupService.ShowSuccessPopup(message);
 
         this.resetForm(data, true);
+        
         this.isWaitingInsertOrUpdate = false;
+      }, 1000);
+
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -191,7 +195,6 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
   }
 
   async deleteRoleUser() {
-
     let selectedItems = this.dataTableUserRole.TGT_getSelectedItems();
 
     if (!selectedItems || selectedItems.length == 0) {
@@ -202,7 +205,6 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     }
 
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
-
       this.baseService.spinner.show();
 
       let itemIds: number[] = selectedItems.map(x => x.getId());
@@ -213,11 +215,11 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
           this.baseService.spinner.hide();
 
           if (itemIds.length == 1)
-            this.baseService.popupService.ShowAlertPopup(
+            this.baseService.popupService.ShowSuccessPopup(
               "Kayıt Başarıyla silindi!"
             );
           else
-            this.baseService.popupService.ShowAlertPopup(
+            this.baseService.popupService.ShowSuccessPopup(
               "Tüm kayıtlar başarıyla silindi!"
             );
 
@@ -251,6 +253,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
           this.visible = false;
           this.userRole.RoleId = item.RoleId;
           this.userRole.UserId = item.UserId;
+          this.userRole.UserRoleId = item.UserRoleId;
 
           this.baseService.spinner.hide();
           Object.assign(this.userRole, result);
@@ -270,5 +273,18 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
 
   onSelectAll(items: any) {
     this.selectedUser.push(items);
+  }
+  
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTableUserRole.isLoading = true;
+
+    this.dataTableUserRole.TGT_clearData();
+
+    await this.loadUserRole();
+
+    this.isTableRefreshing = false;
+
   }
 }

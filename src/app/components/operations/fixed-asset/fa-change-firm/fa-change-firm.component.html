@@ -27,18 +27,71 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Yeni Firma</label>
-        <select [(ngModel)]="FirmId" name="firmIds" class="form-control" (click)="loadDropdownList()" #firmIds="ngModel"
-          [ngClass]="{ 'is-invalid': data.submitted && firmIds.invalid }" required>
+        <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" (change)="getFirmId($event)" #FirmId="ngModel"
+          [ngClass]="{ 'is-invalid': data.submitted && FirmId.invalid }" required>
           <option [ngValue]="null">Yok</option>
-          <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+          <option *ngFor="let firm of userFirms" value={{firm.FirmId}}>
             {{ firm.Name }}
           </option>
         </select>
-        <div *ngIf="data.submitted && firmIds.invalid" class="invalid-feedback">
-          <div *ngIf="firmIds.errors.required">Bu alan zorunludur.</div>
+        <div *ngIf="data.submitted && FirmId.invalid" class="invalid-feedback">
+          <div *ngIf="FirmId.errors.required">Bu alan zorunludur.</div>
         </div>
       </div>
     </div>
+    
+    <!-- YENİ LOKASYON -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Yeni Departman</label>
+        <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId"  class="form-control" #DepartmentId="ngModel"
+          [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }" required>
+          <option [ngValue]="null">Yok</option>
+          <option *ngFor="let dep of departments" [ngValue]="dep.DepartmentId">
+            {{ dep.Name }}
+          </option>
+        </select>
+        <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
+          <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YENİ DEPARTMAN -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Yeni Departman</label>
+        <select [(ngModel)]="fixedAsset.LocationId" name="LocationId"  class="form-control" #LocationId="ngModel"
+          [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
+          <option [ngValue]="null">Yok</option>
+          <option *ngFor="let loc of locations" [ngValue]="loc.LocationId">
+            {{ dep.Name }}
+          </option>
+        </select>
+        <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
+          <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- YENİ PERSONEL -->
+    <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+        <label>Zimmetlenecek Personel</label>
+        <select [(ngModel)]="fixedAsset.LocationId" name="LocationId"  class="form-control" #LocationId="ngModel"
+          [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
+          <option [ngValue]="null">Yok</option>
+          <option *ngFor="let loc of locations" [ngValue]="loc.LocationId">
+            {{ dep.Name }}
+          </option>
+        </select>
+        <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
+          <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- modal-body -->
