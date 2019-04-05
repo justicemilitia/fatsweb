@@ -133,7 +133,7 @@ import {NgxMaskModule} from 'ngx-mask';
     BrowserAnimationsModule,
     FileUploadModule,
     ReactiveFormsModule,
-    InputTrimModule
+    InputTrimModule,
     NgxMaskModule.forRoot()
   ],
   providers: [AuthGuard],
