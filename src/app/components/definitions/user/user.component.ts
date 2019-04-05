@@ -435,6 +435,28 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   }
 
+  loadDepartmentByLocationId(event: any){
+    this.departments = [];
+
+    if (!event.target.value || event.target.value == "") {
+      this.currentUser.DepartmentId = null;
+      this.currentUser.Department = new Department();
+      return;
+    }
+
+    if (event.target.value) {
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+        <number>event.target.value,
+        (departments: Department[]) => {
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+  }
+
   onItemSelect(item: Role) {
     if (this.currentUserRoles == null)
       this.currentUserRoles = [];

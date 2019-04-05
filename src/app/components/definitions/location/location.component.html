@@ -62,7 +62,7 @@
             <div class="form-group col-md-6">
               <label class="required-span">Lokasyon Kodu</label>
               <input [(ngModel)]="location.LocationCode" #LocationCode="ngModel" maxlength="50" name="LocationCode"
-                type="text" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }"
+                type="text" trim="blur" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }"
                 required />
               <div *ngIf="data.submitted && LocationCode.invalid" class="invalid-feedback">
                 <div *ngIf="LocationCode.errors.required">Bu alan zorunludur.</div>
@@ -71,7 +71,7 @@
             </div>
             <div class="form-group col-md-6">
               <label class="required-span">Lokasyon Barkodu</label>
-              <input [(ngModel)]="location.Barcode" name="Barcode" type="text" class="form-control" #Barcode="ngModel"
+              <input [(ngModel)]="location.Barcode" name="Barcode" type="text" trim="blur" class="form-control" #Barcode="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
                 <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
@@ -83,7 +83,7 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Lokasyon Adı</label>
-              <input [(ngModel)]="location.Name" name="Name" type="text" class="form-control" #Name="ngModel"
+              <input [(ngModel)]="location.Name" name="Name" type="text" trim="blur" class="form-control" #Name="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>

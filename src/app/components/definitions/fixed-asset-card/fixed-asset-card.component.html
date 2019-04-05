@@ -55,7 +55,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Demirbaş Kart Kodu</label>
-              <input type="text" [(ngModel)]="fixedAssetCard.FixedAssetCardCode" #FixedAssetCardCode="ngModel"
+              <input type="text" trim="blur" [(ngModel)]="fixedAssetCard.FixedAssetCardCode" #FixedAssetCardCode="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCode.invalid }" name="FixedAssetCardCode"
                 required maxlength="50" class="form-control" />
               <div *ngIf="data.submitted && FixedAssetCardCode.invalid" class="invalid-feedback">
@@ -68,7 +68,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Demirbaş Kart Adı</label>
-              <input [(ngModel)]="fixedAssetCard.Name" name="Name" type="text" class="form-control" #Name="ngModel"
+              <input [(ngModel)]="fixedAssetCard.Name" name="Name" type="text" trim="blur" class="form-control" #Name="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
