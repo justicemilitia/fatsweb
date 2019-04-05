@@ -33,10 +33,10 @@ export class FirmService {
         result=>{
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let userFirms: UserFirm[] = [];
+            let userFirms: Firm[] = [];
 
             (<UserFirm[]>response.ResultObject).forEach(e => {
-              let firm: UserFirm = new UserFirm();
+              let firm: Firm = new Firm();
               Object.assign(firm, e.Firm);
               userFirms.push(firm);  
             });

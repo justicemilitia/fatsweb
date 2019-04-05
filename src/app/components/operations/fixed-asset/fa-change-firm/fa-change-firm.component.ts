@@ -5,8 +5,9 @@ import { BaseService } from "../../../../services/base.service";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Firm } from "../../../../models/Firm";
-import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
-import { UserFirm } from 'src/app/models/UserFirm';
+import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
+import { UserFirm } from "src/app/models/UserFirm";
+import { Department } from "src/app/models/Department";
 
 @Component({
   selector: "app-fa-change-firm",
@@ -26,9 +27,15 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
   /* List Of Firms */
   firms: Firm[] = [];
 
-  userFirms:UserFirm[]=[];
+  userFirms: Firm[] = [];
 
-  firmId:number;
+  firmId: number;
+
+  fixedAsset: FixedAsset = new FixedAsset();
+
+  departments: Department[] = [];
+
+  locations: Location[] = [];
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
 
@@ -36,7 +43,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     super(baseService);
     this.loadDropdownList();
   }
-  ngOnInit() { }
+  ngOnInit() {}
 
   async ChangeFirm(data: NgForm) {
     /* Is Form Valid */
@@ -49,7 +56,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
           Object.assign(cloneItem, this.faBarcode);
 
           cloneItem.FirmId = data.value.firmIds;
-        
+
           this.isWaitingInsertOrUpdate = true;
 
           this.baseService.fixedAssetService.ChangeFirm(
@@ -62,17 +69,17 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
               /* Set inserted Item id to model */
               this.faBarcode.FirmId = cloneItem.FirmId;
-              if (this.faBarcode.FirmId != this.baseService.authenticationService.currentFirm.FirmId)
+              if (
+                this.faBarcode.FirmId !=
+                this.baseService.authenticationService.currentFirm.FirmId
+              )
                 this.faTable.TGT_removeItem(this.faBarcode);
-
             },
             (error: HttpErrorResponse) => {
-
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
 
               this.isWaitingInsertOrUpdate = false;
-
             }
           );
         }
@@ -98,16 +105,39 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     );
 
     this.baseService.firmService.GetUserFirmList(
-      (firms:UserFirm[])=>{
-        this.userFirms=firms;
+      (firms: Firm[]) => {
+        this.userFirms = firms;
       },
-      (error:HttpErrorResponse)=>{
+      (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
-      })
+      }
+    );
+  }
+
+  loadDropdownListByFirmId() {
+    this.baseService.departmentService.GetDepartmentsByFirmId(
+      this.firmId,
+      departments => {
+        this.departments = departments;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.baseService.locationService.GetLocationsByFirmId(
+      this.firmId,
+      locations => {
+        this.locations = locations;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
 
   }
-  
-  getFirmId(event){
+
+  getFirmId(event) {
     if (event.target.value) {
       this.firmId = Number(event.target.value);
     }

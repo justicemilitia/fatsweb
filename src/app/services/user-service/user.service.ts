@@ -47,6 +47,8 @@ export class UserService {
       );
   }
 
+
+
   GetLocations(callback, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_LOCATION_LIST, { headers: GET_HEADERS(this.aService.getToken()) })

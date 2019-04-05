@@ -2,8 +2,8 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 //export const SERVICE_URL = "http://localhost:5000/api/";
-export const SERVICE_URL = "http://localhost:11889/api/";
-//export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+//export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
@@ -25,6 +25,7 @@ export const GET_LOCATION_BY_ID = "Locations/GetLocationsById";
 export const INSERT_LOCATION = "Locations/AddLocation";
 export const UPDATE_LOCATION = "Locations/UpdateLocation";
 export const DELETE_LOCATION = "Locations/RemoveByIdList";
+export const GET_LOCATIONS_BY_FIRM_ID = "Locations/GetLocationsByFirmId";
 //#endregion
 
 //#region Currency
@@ -46,6 +47,7 @@ export const UPDATE_USER = "User/UpdateUser";
 export const GET_SYSTEM_USER_LIST = "User/GetSystemUserList";
 export const DELETE_USER = "User/RemoveByIdList";
 export const GET_USERTITLE_LIST = "UserTitle/GetTitleList";
+export const GET_USER_LIST_BY_FIRM_ID ="User/GetUsersByFirmId";
 //#endregion
 
 //#region FixedAssetCards
