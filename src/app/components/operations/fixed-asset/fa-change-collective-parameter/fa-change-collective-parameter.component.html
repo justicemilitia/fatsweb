@@ -49,8 +49,22 @@
               <!-- DEPARTMAN - LOKASYON -->
               <div class="row">
 
-                <!-- DEPARTMAN -->
+                    <!-- LOKASYON -->
                     <div class="col-md-6 form-group">
+                        <label>Lokasyon</label>
+                        <select
+                          [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel"  (change)="loadDepartmentByLocationId($event)">
+                          <option [ngValue]="null">Seçiniz</option>
+                          <option
+                            *ngFor="let location of locations"
+                            value="{{ location.LocationId }}">
+                            {{ location.Name }}
+                          </option>
+                        </select>
+                    </div>
+
+                     <!-- DEPARTMAN -->
+                     <div class="col-md-6 form-group">
                       <label>Departman</label>
                       <select
                         [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control" #DepartmentId="ngModel">
@@ -61,21 +75,6 @@
                         </option>
                       </select>
                     </div>
-
-                    <!-- LOKASYON -->
-                    <div class="col-md-6 form-group">
-                        <label>Lokasyon</label>
-                        <select
-                          [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel">
-                          <option [ngValue]="null">Seçiniz</option>
-                          <option
-                            *ngFor="let location of locations"
-                            value="{{ location.LocationId }}">
-                            {{ location.Name }}
-                          </option>
-                        </select>
-                    </div>
-
               </div>
 
               <!-- MARKA - MODEL -->

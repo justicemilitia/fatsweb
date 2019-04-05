@@ -50,6 +50,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   constructor(protected baseService: BaseService) {
     super(baseService);  
     this.loadDropdownList(); 
+    
    }
 
   ngOnInit() {
@@ -77,14 +78,14 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     );
 
     // DepartmentList
-    this.baseService.departmentService.GetDepartments(
-      (departments: Department[]) => {
-        this.departments = departments;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+    // this.baseService.departmentService.GetDepartments(
+    //   (departments: Department[]) => {
+    //     this.departments = departments;
+    //   },
+    //   (error: HttpErrorResponse) => {
+    //     this.baseService.popupService.ShowErrorPopup(error);
+    //   }
+    // );
 
     // LocationList
     this.baseService.locationService.GetLocations(
@@ -124,6 +125,29 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       (error: HttpErrorResponse) => {}
     );
   }
+
+  loadDepartmentByLocationId(event: any){
+    this.departments = [];
+
+    if (!event.target.value || event.target.value == "") {
+      this.fixedAsset.DepartmentId = null;
+      this.fixedAsset.Department = new Department();
+      return;
+    }
+
+    if (event.target.value) {
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+        <number>event.target.value,
+        (departments: Department[]) => {
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+  }
+
 
   loadModelByBrandId(event: any) {
     this.models = [];

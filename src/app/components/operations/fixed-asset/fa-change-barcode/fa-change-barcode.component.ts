@@ -4,6 +4,7 @@ import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
+import { InputTrimDirective } from 'ng2-trim-directive';
 
 @Component({
   selector: "app-fa-change-barcode",
@@ -11,7 +12,7 @@ import { HttpErrorResponse } from "@angular/common/http";
   styleUrls: ["./fa-change-barcode.component.css"]
 })
 @NgModule({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, InputTrimDirective],
   declarations: [FaChangeBarcodeComponent],
   providers: [FaChangeBarcodeComponent]
 })
@@ -36,7 +37,7 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
 
   async ChangeBarcode(data: NgForm) {
     /* Is Form Valid */
-    if (data.form.invalid == true) return;
+if (data.form.invalid == true) return;
 
     await this.baseService.popupService.ShowQuestionPopupForBarcodeUpdate(
       (response: boolean) => {
@@ -72,4 +73,5 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
 }

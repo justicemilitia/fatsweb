@@ -184,6 +184,8 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
         /* Push inserted item to Property list */
         this.transactionLogs.push(this.transactionLog);
+
+        this.refreshTable();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

@@ -29,7 +29,7 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Yeni Barkod</label>
-        <input [(ngModel)]="Barcode" name="newBarcodes" type="text" class="form-control" #newBarcodes="ngModel"
+        <input [(ngModel)]="Barcode" name="newBarcodes" type="text" class="form-control" trim="blur" #newBarcodes="ngModel"
           [ngClass]="{ 'is-invalid': data.submitted && newBarcodes.invalid }" required />
         <div *ngIf="data.submitted && newBarcodes.invalid" class="invalid-feedback">
           <div *ngIf="newBarcodes.errors.required">Bu alan zorunludur.</div>

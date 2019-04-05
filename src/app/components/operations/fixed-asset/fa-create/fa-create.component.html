@@ -11,7 +11,7 @@
             <div class="form-group col-md-6">  
             <label class="required-span">Barkod</label>
             <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
-            value="{{barcode}}" name="Barcode" [disabled]="disabledBarcode==true" type="text" 
+            value="{{barcode}}" name="Barcode" [disabled]="disabledBarcode==true" type="text" trim="blur" 
             class="form-control"
             [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" required/>
             <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>

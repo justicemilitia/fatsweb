@@ -9,7 +9,8 @@ import {
   GET_LOCATION_LIST,
   UPDATE_DEPARTMENT,
   GET_DEPARTMENT_BY_ID,
-  DELETE_DEPARTMENT
+  DELETE_DEPARTMENT,
+  GET_DEPARTMENT_LIST_BY_LOCATION_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Department } from "../../models/Department";
@@ -55,6 +56,23 @@ export class DepartmentService {
           failed(error);
         }
       );
+  }
+
+  GetDepartmentsByLocationId(departmentId:number,success,failed) {
+    this.httpClient.get(SERVICE_URL + GET_DEPARTMENT_LIST_BY_LOCATION_ID + "/" + departmentId,{
+      headers:GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(
+      result=>{
+        let response:Response=<Response>result;
+        if((<[]>response.ResultObject).length!=0){
+          success(response.ResultObject,response.LanguageKeyword);
+        }else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      }
+    );
   }
 
   InsertDepartment(department: Department, success, failed) {

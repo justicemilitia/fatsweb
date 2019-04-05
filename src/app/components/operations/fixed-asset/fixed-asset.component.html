@@ -63,7 +63,7 @@
                   [class.btn-refresh-loader]="isTableExporting == true"></i>
               </button>
 
-              <button type="button" (click)="refreshTable()" style="margin-right:10px" data-toggle="tooltip"
+              <button type="button" id="btnRefresh" (click)="refreshTable()" style="margin-right:10px" data-toggle="tooltip"
                 data-placement="bottom" title="Form" class="btn btn-success btn-refresh-custom">
                 <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                   [class.btn-refresh-loader]="isTableRefreshing == true"></i>
