@@ -61,7 +61,7 @@ import { FaFilterComponent } from "./components/operations/fixed-asset/fa-filter
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule  } from 'ng2-file-upload';
 import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
-
+import {NgxMaskModule} from 'ngx-mask'
 @NgModule({
   declarations: [
     AppComponent,
@@ -130,7 +130,8 @@ import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-inf
     MatStepperModule,
     BrowserAnimationsModule,
     FileUploadModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

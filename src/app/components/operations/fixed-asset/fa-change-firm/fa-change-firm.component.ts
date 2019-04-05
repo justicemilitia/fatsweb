@@ -6,6 +6,7 @@ import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Firm } from "../../../../models/Firm";
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { UserFirm } from 'src/app/models/UserFirm';
 
 @Component({
   selector: "app-fa-change-firm",
@@ -25,6 +26,9 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
   /* List Of Firms */
   firms: Firm[] = [];
 
+  userFirms:UserFirm[]=[];
+
+  firmId:number;
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
 
@@ -45,7 +49,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
           Object.assign(cloneItem, this.faBarcode);
 
           cloneItem.FirmId = data.value.firmIds;
-
+        
           this.isWaitingInsertOrUpdate = true;
 
           this.baseService.fixedAssetService.ChangeFirm(
@@ -92,5 +96,20 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+
+    this.baseService.firmService.GetUserFirmList(
+      (firms:UserFirm[])=>{
+        this.userFirms=firms;
+      },
+      (error:HttpErrorResponse)=>{
+        this.baseService.popupService.ShowErrorPopup(error);
+      })
+
+  }
+  
+  getFirmId(event){
+    if (event.target.value) {
+      this.firmId = Number(event.target.value);
+    }
   }
 }

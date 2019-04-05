@@ -2,8 +2,8 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 //export const SERVICE_URL = "http://localhost:5000/api/";
-//export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
+//export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
@@ -16,6 +16,7 @@ export const INSERT_DEPARTMENT = "Department/AddDepartment";
 export const UPDATE_DEPARTMENT = "Department/UpdateDepartment";
 export const DELETE_DEPARTMENT = "Department/RemoveByIdList";
 export const GET_DEPARTMENT_LIST_BY_LOCATION_ID = "Department/GetDepartmentsByLocationId";
+export const GET_DEPARTMENTS_BY_FIRM_ID = "Department/GetDepartmentsByFirmId";
 //#endregion
 
 //#region Locations
