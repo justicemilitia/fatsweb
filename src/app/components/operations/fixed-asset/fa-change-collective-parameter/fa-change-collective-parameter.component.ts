@@ -16,6 +16,7 @@ import { ReactiveFormsModule, NgForm } from '@angular/forms';
 import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGridTable';
 import { FirmService } from '../../../../services/firm-service/firm.service';
 import { convertNgbDateToDateString } from '../../../../declarations/extends';
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: 'app-fa-change-collective-parameter',
@@ -34,7 +35,9 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   }
 
   @Input() faBarcode: FixedAsset = new FixedAsset();  
-  @Input() faDataTable: TreeGridTable;  
+  @Input() faDataTable: TreeGridTable; 
+  @Input() faComponent: FixedAssetComponent;
+
   firms: Firm[] = []; 
   companies: Company[] = [];   
   departments: Department[] = [];
@@ -203,6 +206,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       (insertedItem: FixedAsset, message) => {
         /* Show success pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
+        this.faComponent.loadFixedAsset();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

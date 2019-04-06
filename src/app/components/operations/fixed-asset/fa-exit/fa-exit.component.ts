@@ -39,6 +39,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   fixedAsset: FixedAsset = new FixedAsset();
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
+  @Input() faComponent: FixedAssetComponent;
 
   constructor(baseService: BaseService) {
     super(baseService);
@@ -74,6 +75,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
 
               /* Push inserted item to Property list */
               this.transactionLogs.push(this.transactionLog);
+              this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */

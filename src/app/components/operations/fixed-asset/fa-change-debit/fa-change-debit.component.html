@@ -24,7 +24,7 @@
     </div>
 
     <!-- YENİ ZİMMET -->
-    <div class="row justify-content-center">
+    <!-- <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Zimmetli Personel</label>
         <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="users" [(ngModel)]="selectedUser" name="userIds"
@@ -35,6 +35,32 @@
           <div *ngIf="userIds.errors.required">Bu alan zorunludur.</div>
         </div>
       </div>
+    </div> -->
+
+    <!-- YENİ ZİMMET -->
+    <div class="row justify-content-center" style="width:600px;">
+
+        <!-- KULLANICI LİSTESİ -->
+        <div class="col-md-5 form-group">
+            <tree-grid-table class="table-scroll" style="margin-left:20px;" [dataTable]="dataTableDebit"></tree-grid-table>
+        </div>
+
+        <!-- ZİMMET DEĞİŞTİRME BUTONU -->
+        <div class="col-md-1 form-group" style="padding-left:6px;">
+          <div class="form-group">
+              <button class="btn btn-az-primary" style="margin-top:20px; margin-left:0px;" data-toggle="tooltip" data-placement="bottom" title="Zimmetle"><i class="fas fa-arrow-right"></i></button>
+          </div>
+          <div class="form-group">
+              <button class="btn btn-az-primary" style="margin-top:10px; margin-left:0px;" data-toggle="tooltip" data-placement="bottom" title="Zimmeti İptal Et"><i class="fas fa-arrow-left"></i></button>
+          </div>
+        </div>
+
+
+        <!-- ZİMMETLİ PERSONEL -->
+        <div class="col-md-5 form-group">
+            <tree-grid-table class="table-scroll" style="margin-right:20px;" [dataTable]="dataTableOldDebit"></tree-grid-table>
+        </div>
+
     </div>
 
     <!-- ZİMMET FORMU BASILSIN -->

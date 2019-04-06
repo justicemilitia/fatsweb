@@ -17,7 +17,8 @@ import {
   DELETE_USER,
   GET_USER_BY_ID,
   GET_USERTITLE_LIST,
-  GET_USER_LIST_BY_FIRM_ID
+  GET_USER_LIST_BY_FIRM_ID,
+  GET_DEBITUSER_LIST
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { User } from "../../models/User";
@@ -28,6 +29,7 @@ import { Firm } from "../../models/Firm";
 import { Response } from "src/app/models/Response";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import UserTitle from "src/app/models/UserTitle";
+import { FixedAssetUser } from 'src/app/models/FixedAssetUser';
 
 @Injectable({
   providedIn: "root"
@@ -88,6 +90,30 @@ export class UserService {
       );
   }
 
+  GetDebitUsers(callback, failed) {
+    this.httpClient
+      .get(SERVICE_URL + GET_DEBITUSER_LIST, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          let users: FixedAssetUser[] = [];
+
+          (<User[]>response.ResultObject).forEach(e => {
+            let usr: FixedAssetUser = new FixedAssetUser();
+            Object.assign(usr, e);
+            users.push(usr);
+          });
+
+          callback(users);
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+  
   GetUserByFirmId(firmId: number,success,failed) {
     this.httpClient
       .get(SERVICE_URL + GET_USER_LIST_BY_FIRM_ID + "/" + firmId, {

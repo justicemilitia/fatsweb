@@ -5,6 +5,7 @@ import { BaseService } from "../../../../services/base.service";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Department } from "../../../../models/Department";
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: "app-fa-change-department",
@@ -20,6 +21,8 @@ export class FaChangeDepartmentComponent extends BaseComponent
   implements OnInit {
 
   @Input() faBarcode: FixedAsset = new FixedAsset();
+  @Input() faComponent: FixedAssetComponent;
+
   newDepartmentId: number = null;
 
   /* List Of Departments */
@@ -39,7 +42,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    this.baseService.popupService.ShowQuestionPopupForDepartmentUpdate(
+    await this.baseService.popupService.ShowQuestionPopupForDepartmentUpdate(
       (response: boolean) => {
         if (response == true) {
           let cloneItem = new FixedAsset();
@@ -60,6 +63,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
               this.faBarcode.DepartmentId = cloneItem.DepartmentId;
               this.faBarcode.Department = cloneItem.Department;
               data.resetForm();
+              this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -77,15 +81,35 @@ export class FaChangeDepartmentComponent extends BaseComponent
     this.newDepartmentId = null;
   }
 
-  async loadDropdownList() {
-    /* Load locations to location dropdown */
-    await this.baseService.departmentService.GetDepartments(
-      departments => {
-        this.departments = departments;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+  // async loadDropdownList() {
+  //   /* Load departments to department dropdown */
+  //   this.baseService.departmentService.GetDepartmentsByLocationId(
+  //     this.faBarcode.DepartmentId,
+  //     (departments: Department[]) => {
+  //       this.departments = departments;
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       this.baseService.popupService.ShowErrorPopup(error);
+  //     }
+  //   );
+  // }
+
+  loadDropdownList(){
+
+    if (!this.faBarcode.Location || this.faBarcode.Location.LocationId==0) {
+      return;
+    }
+
+    if (this.faBarcode.Location) {
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+        this.faBarcode.Location.LocationId,
+        (departments: Department[]) => {
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
   }
 }
