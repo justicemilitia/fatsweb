@@ -58,10 +58,10 @@ export class DepartmentService {
       );
   }
 
-  GetDepartmentsByLocationId(departmentId: number, success, failed) {
+  GetDepartmentsByLocationId(locationId: number, success, failed) {
     this.httpClient
       .get(
-        SERVICE_URL + GET_DEPARTMENT_LIST_BY_LOCATION_ID + "/" + departmentId,
+        SERVICE_URL + GET_DEPARTMENT_LIST_BY_LOCATION_ID + "/" + locationId,
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
         }

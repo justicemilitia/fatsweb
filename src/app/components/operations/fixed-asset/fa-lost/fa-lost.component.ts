@@ -14,6 +14,7 @@ import { BaseService } from "../../../../services/base.service";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { TransactionLog } from "../../../../models/TransactionLog";
 import { HttpErrorResponse } from "@angular/common/http";
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: "app-fa-lost",
@@ -37,6 +38,7 @@ export class FaLostComponent extends BaseComponent
   transactionLogs: TransactionLog[] = [];
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: FixedAsset[] = [];
+  @Input() faComponent: FixedAssetComponent;
   fixedAssets: FixedAsset[] = [];
 
   /* Lost Fixed Asset Data Table */
@@ -103,6 +105,7 @@ export class FaLostComponent extends BaseComponent
 
               /* Push inserted item to Property list */
               this.transactionLogs.push(this.transactionLog);
+              this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */

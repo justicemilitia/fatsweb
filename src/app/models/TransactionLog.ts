@@ -13,6 +13,7 @@ export class TransactionLog {
     CheckOutToWhom : number;
     CheckOutPrice : number;
     CheckOutLocationId: number;
+    UndoSuspensionDate: Date;
     CurrencyId:number;
     CheckInExpectedArrivalDate : Date;
     FromParentInventory: number;

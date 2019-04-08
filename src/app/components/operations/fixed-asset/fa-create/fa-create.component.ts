@@ -7,7 +7,8 @@ import {
   EventEmitter,
   NgModule,
   OnChanges,
-  ViewChild
+  ViewChild,
+  Input
 } from "@angular/core";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "src/app/components/base/base.component";
@@ -51,6 +52,7 @@ import {
 import { convertNgbDateToDateString } from "src/app/declarations/extends";
 import { CdkStepper } from "@angular/cdk/stepper";
 import { MatVerticalStepper, MatHorizontalStepper } from "@angular/material";
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 const URL = "";
 @Component({
@@ -111,6 +113,7 @@ export class FaCreateComponent extends BaseComponent
   fixedAssetFiles: string[] = [];
   visibleInsertButton: boolean = false;
   isResetForm: boolean = false;
+  @Input() faComponent: FixedAssetComponent;
   @ViewChild("stepper") stepper: MatHorizontalStepper;
 
   public imagePath;
@@ -697,6 +700,8 @@ export class FaCreateComponent extends BaseComponent
           this.visibleInsertButton = true;
           this.dataTable.TGT_clearData();
           this.baseService.popupService.ShowSuccessPopup(message);
+        this.faComponent.loadFixedAsset();
+
         } else {
           this.validBarcode = true;
           this.doAllVisible();
@@ -705,6 +710,7 @@ export class FaCreateComponent extends BaseComponent
           this.visibleInsertButton = true;
           this.baseService.popupService.ShowErrorPopup(message);
         }
+
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -742,6 +748,28 @@ export class FaCreateComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  loadDepartmentByLocationId(event: any){
+    this.departments = [];
+
+    if (!event.target.value || event.target.value == "") {
+      this.fixedAsset.DepartmentId = null;
+      this.fixedAsset.Department = new Department();
+      return;
+    }
+
+    if (event.target.value) {
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+        <number>event.target.value,
+        (departments: Department[]) => {
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
   }
 
   resetForm(data: NgForm) {

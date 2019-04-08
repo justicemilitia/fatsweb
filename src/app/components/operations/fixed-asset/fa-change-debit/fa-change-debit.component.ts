@@ -6,6 +6,7 @@ import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { User } from "../../../../models/User";
 import { FixedAssetUser } from "../../../../models/FixedAssetUser";
+import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: "app-fa-change-debit",
@@ -24,11 +25,83 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
   /* List Of Users */
   users: User[] = [];
   selectedUser: User[] = [];
+  fixedAssetUsers: FixedAssetUser[] = [];
   dropdownSettings = {};
+
+  /* All Users Data Table */
+  public dataTableDebit: TreeGridTable = new TreeGridTable(
+    "allUsers",
+    [
+      {
+        columnDisplayName: "Kullanıcı Listesi",
+        columnName: ["|FirstNameAndLastName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.FirstName + ' ' + value.LastName;
+          }
+          else {
+            return '';
+          }
+        }
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["|FirstNameAndLastName"]
+    }
+  );
+
+  /* Debit Users Data Table */
+  public dataTableOldDebit: TreeGridTable = new TreeGridTable(
+    "debitUsers",
+    [
+      {
+        columnDisplayName: "Zimmetli Personel",
+        columnName: ["A"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value && value.length != 0) {
+            return (<FixedAssetUser[]>value).map(x => x.User.FirstName + ' ' + x.User.LastName)[0]
+          }
+          else {
+            return '';
+          }
+        }
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["A"]
+    }
+  );
 
   constructor(baseService: BaseService) {
     super(baseService);
-    this.loadUsers();
+
+    //Tüm Kullanıcılar
+    this.dataTableDebit.isConfigOpen = false;
+    this.dataTableDebit.isLoading = false;
+    this.dataTableDebit.isPagingActive = false;
+    this.dataTableDebit.isTableEditable = false;
+    this.dataTableDebit.isDeleteable = false;
+    this.dataTableDebit.isColumnOffsetActive = false;
+
+    //Zimmetli Personel
+    this.dataTableOldDebit.isConfigOpen = false;
+    this.dataTableOldDebit.isLoading = false;
+    this.dataTableOldDebit.isPagingActive = false;
+    this.dataTableOldDebit.isTableEditable = false;
+    this.dataTableOldDebit.isColumnOffsetActive = false;
+
+    this.loadUserList();
+    this.loadDebitUserList();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -103,18 +176,44 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     );
   }
 
-  async loadUsers() {
-    /* Load users to user dropdown */
-    await this.baseService.userService.GetUsers(
-      (users: User[]) => {
+  // async loadUsers() {
+  //   /* Load users to user dropdown */
+  //   await this.baseService.userService.GetUsers(
+  //     (users: User[]) => {
+  //       this.users = users;
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       this.baseService.popupService.ShowErrorPopup(error);
+  //     }
+  //   );
+  // }
+
+  loadUserList() {
+    this.baseService.userService.GetUsers(
+      users => {
         this.users = users;
+        this.users.forEach(e=> {
+          e.ParentUserId = null;
+        })
+        this.dataTableDebit.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+      });
+  }
+
+  loadDebitUserList() {
+    this.baseService.userService.GetDebitUsers(
+      (faUsers: FixedAssetUser[]) => {
+        this.fixedAssetUsers = faUsers;
+        this.dataTableOldDebit.TGT_loadData(this.users);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+        this.dataTableOldDebit.isLoading = false;
       }
     );
   }
-
 
   resetForm(data: NgForm) {
     this.selectedUser = [];

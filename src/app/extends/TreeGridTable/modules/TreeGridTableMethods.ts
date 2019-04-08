@@ -1,4 +1,5 @@
 import { IData } from '../models/interfaces/IData';
+import { IColumn } from '../models/interfaces/IColumn';
 
 
 export class TreeGridTableMethods {
@@ -14,7 +15,7 @@ export class TreeGridTableMethods {
         return (item != null ? item : null);
     }
 
-    public static doSearch(obj: IData, filter: any): boolean {
+    public static doSearch(obj: IData, filter: any,columns:IColumn[]): boolean {
         let keys = Object.keys(filter);
         for (let ii = 0; ii < keys.length; ii++) {
             let key = keys[ii];
@@ -23,9 +24,16 @@ export class TreeGridTableMethods {
             if (key == "isChecked") {
                 return filter[key] == true ? obj[key] == filter[key] : true;
             }
-
+            
             /* Filter for the rest */
-            let val = this.getValue(obj, key.split(','));
+            let val = null;
+
+            if (key.startsWith('|')) {
+                val = columns.find(x=>x.columnName[0] == key).formatter(obj);
+            }else {
+                val= this.getValue(obj, key.split(','));
+            }
+            
             switch (typeof val) {
                 case "string":
                     if (!this.filterText(val, filter[key]))

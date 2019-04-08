@@ -5,6 +5,7 @@ import { BaseService } from "../../../../services/base.service";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { InputTrimDirective } from 'ng2-trim-directive';
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: "app-fa-change-barcode",
@@ -19,6 +20,7 @@ import { InputTrimDirective } from 'ng2-trim-directive';
 export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
 
   @Input() faBarcode: FixedAsset = new FixedAsset();
+  @Input() faComponent: FixedAssetComponent;
   newBarcode: string = "";
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
@@ -62,6 +64,7 @@ if (data.form.invalid == true) return;
 
               this.isWaitingInsertOrUpdate = false;
 
+              this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */

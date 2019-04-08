@@ -8,7 +8,12 @@ import { Firm } from "../../../../models/Firm";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { UserFirm } from "src/app/models/UserFirm";
 import { Department } from "src/app/models/Department";
+<<<<<<< HEAD
 import { User } from "src/app/models/User";
+=======
+import { User } from 'src/app/models/User';
+import { FixedAssetComponent } from '../fixed-asset.component';
+>>>>>>> beba64b1add53a5d1ba82eb6dd0e809d8c2a1f63
 
 @Component({
   selector: "app-fa-change-firm",
@@ -23,6 +28,8 @@ import { User } from "src/app/models/User";
 export class FaChangeFirmComponent extends BaseComponent implements OnInit {
   @Input() faBarcode: FixedAsset = new FixedAsset();
   @Input() faTable: TreeGridTable = null;
+  @Input() faComponent: FixedAssetComponent;
+
   newFirmId: number;
 
   /* List Of Firms */
@@ -84,6 +91,8 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
                 this.baseService.authenticationService.currentFirm.FirmId
               )
                 this.faTable.TGT_removeItem(this.faBarcode);
+
+                this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
