@@ -8,12 +8,8 @@ import { Firm } from "../../../../models/Firm";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { UserFirm } from "src/app/models/UserFirm";
 import { Department } from "src/app/models/Department";
-<<<<<<< HEAD
-import { User } from "src/app/models/User";
-=======
 import { User } from 'src/app/models/User';
 import { FixedAssetComponent } from '../fixed-asset.component';
->>>>>>> beba64b1add53a5d1ba82eb6dd0e809d8c2a1f63
 
 @Component({
   selector: "app-fa-change-firm",
