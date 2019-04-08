@@ -25,6 +25,7 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
 
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
+  @Input() faComponent: FixedAssetComponent;
   suspensions: CheckOutReason[]=[];
   transactionLog: TransactionLog = new TransactionLog();
   transactionLogs: TransactionLog[]=[];
@@ -47,7 +48,7 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
 
-    this.transactionLog.CheckInExpectedArrivalDate = convertNgbDateToDateString(data.value.CheckInExpectedArrivalDate);
+    this.transactionLog.CheckInExpectedArrivalDate = convertNgbDateToDateString(data.value.checkInExpectedArrivalDate);
 
     await this.baseService.fixedAssetService.SuspendFixedAsset(
       this.transactionLog,
@@ -60,6 +61,9 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
 
         /* Push inserted item to Property list */
         this.transactionLogs.push(this.transactionLog);
+
+        this.resetForm(data, true);
+        this.faComponent.loadFixedAsset();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -79,4 +83,14 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
       }
     );
   }  
+
+  resetForm(data: NgForm, isNewItem: boolean) {
+    if (isNewItem == true) {
+      this.transactionLog = new TransactionLog();
+    }
+    data.reset();
+    data.resetForm(this.transactionLog);
+
+  }
+  
 }

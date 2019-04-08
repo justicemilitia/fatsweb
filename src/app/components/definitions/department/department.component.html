@@ -60,7 +60,7 @@
           <div class="row justify-content-center">
             <div class="col-md-6 form-group">
               <label class="required-span">Ad</label>
-              <input [(ngModel)]="department.Name" name="Name" type="text" class="form-control" #Name="ngModel"
+              <input [(ngModel)]="department.Name" name="Name" type="text" trim="blur" class="form-control" #Name="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
@@ -70,7 +70,7 @@
 
             <div class="col-md-6 form-group">
               <label class="required-span">Departman Kodu</label>
-              <input [(ngModel)]="department.DepartmentCode" name="DepartmentCode" type="text" class="form-control"
+              <input [(ngModel)]="department.DepartmentCode" name="DepartmentCode" type="text" trim="blur" class="form-control"
                 #DepartmentCode="ngModel" required maxlength="50"
                 [ngClass]="{ 'is-invalid': data.submitted && DepartmentCode.invalid }" />
               <div *ngIf="data.submitted && DepartmentCode.invalid" class="invalid-feedback">

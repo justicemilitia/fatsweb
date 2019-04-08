@@ -52,6 +52,25 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
         classes: [],
         placeholder: "",
         type: "text"
+      },
+      {
+        columnDisplayName: "Çıkış Tipi",
+        columnName: ["CheckOutReasonName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Çıkış Tarihi",
+        columnName: ["TransactionDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
+        }
       }
     ],
     {

@@ -9,6 +9,7 @@ import { NgForm } from "@angular/forms";
 import { Currency } from "src/app/models/Currency";
 import { CheckOutReason } from "src/app/models/CheckOutReason";
 import * as $ from "jquery";
+import { FixedAssetUser } from '../../../models/FixedAssetUser';
 
 @Component({
   selector: "app-suspended-fixed-asset",
@@ -54,6 +55,22 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
+        columnDisplayName: "Zimmetli Personel",
+        columnName: ["FixedAssetUsers"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text", 
+        formatter: (value) => {
+          if(value && value.length!=0){
+            return (<FixedAssetUser[]>value).map(x=>x.User.FirstName + ' ' + x.User.LastName)[0]
+          }
+          else{ 
+            return '';
+          }
+      }
+      },
+      {
         columnDisplayName: "Departman",
         columnName: ["Department", "Name"],
         isActive: true,
@@ -68,7 +85,26 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
-      }
+      },
+      {
+        columnDisplayName: "Askıya Alınma Sebebi",
+        columnName: ["CheckOutReasonName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Askıya Alınma Tarihi",
+        columnName: ["TransactionDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
+        }
+      },
     ],
     {
       isDesc: false,

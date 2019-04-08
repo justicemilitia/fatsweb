@@ -17,23 +17,7 @@
       </div>
     </div>
 
-    <!-- ASKIYA ALMA NEDENLERİ -->
-    <!-- <div class="row justify-content-center">
-      <div class="col-md-12 form-group">
-        <label class="required-span">Askıya Alma Nedeni</label>
-        <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
-          #CheckOutReasonId="ngModel" required>
-          <option>Yok</option>
-          <option *ngFor="let suspension of suspensions" value={{suspension.CheckOutReasonId}}>
-            {{suspension.Name}}
-          </option>
-        </select>
-        <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
-            <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
-          </div>
-      </div>
-    </div> -->
-
+    <!-- ASKIYA ALMA NEDENİ -->
     <div class="row justify-content-center">
         <div class="col-md-12 form-group">
           <label class="required-span">Askıya Alma Nedeni</label>
@@ -54,19 +38,27 @@
     <!-- BEKLENEN DÖNÜŞ TARİHİ -->
   <div class="row justify-content-center">    
     <div class="col-md-12 form-group">
-      <label>Beklenen Dönüş Tarihi</label>
-      <div class="input-group">
-        <div class="input-group-append">
-          <div (click)="checkInExpectedArrivalDate.toggle()" class="input-group-text">
-            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-          </div>
+    <label class="required-span">Beklenen Dönüş Tarihi</label>
+    <div class="input-group">
+      <div class="input-group-append"
+        [class.is-invalid]="data.submitted && (!transactionLog.CheckInExpectedArrivalDate || checkInExpectedArrivalDateModel.status == 'INVALID' )">
+        <div (click)="checkInExpectedArrivalDate.toggle()" class="input-group-text">
+          <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
         </div>
-        <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="guaranteeEndDate"
-          [(ngModel)]="transactionLog.CheckInExpectedArrivalDate" ngbDatepicker #checkInExpectedArrivalDate="ngbDatepicker" #CheckInExpectedArrivalDate="ngModel">
+      </div>
+      <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="checkInExpectedArrivalDate"
+        [(ngModel)]="transactionLog.CheckInExpectedArrivalDate" ngbDatepicker #checkInExpectedArrivalDate="ngbDatepicker" #checkInExpectedArrivalDateModel="ngModel"
+        [class.is-invalid]="data.submitted && (!transactionLog.CheckInExpectedArrivalDate || checkInExpectedArrivalDateModel.status == 'INVALID' )"
+        required>
+      <div *ngIf="data.submitted && checkInExpectedArrivalDateModel.invalid" class="invalid-feedback">
+        <div *ngIf="checkInExpectedArrivalDateModel.errors.required">Bu alan zorunludur.</div>
+        <div *ngIf="!checkInExpectedArrivalDateModel.errors.required && checkInExpectedArrivalDateModel.status == 'INVALID'">
+          Lütfen Geçerli Format Giriniz.
+        </div>
       </div>
     </div>
+   </div>
   </div>
-
 
     <!-- AÇIKLAMA -->
     <div class="row justify-content-center">

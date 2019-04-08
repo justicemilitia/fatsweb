@@ -58,7 +58,7 @@
             <div class="col-md-12 form-group">
               <label class="required-span">Askıya Alma Kodu</label>
               <input [(ngModel)]="suspension.CheckOutReasonCode" #CheckOutReasonCode="ngModel" name="CheckOutReasonCode"
-                type="text" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonCode.invalid }"
+                type="text" trim="blur" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonCode.invalid }"
                 class="form-control" maxlength="50" required />
               <div *ngIf="data.submitted && CheckOutReasonCode.invalid" class="invalid-feedback">
                 <div *ngIf="CheckOutReasonCode.errors.required">Bu alan zorunludur.</div>
@@ -69,7 +69,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Askıya Alma Sebebi</label>
-              <input [(ngModel)]="suspension.Name" name="Name" #Name="ngModel" type="text" class="form-control" required
+              <input [(ngModel)]="suspension.Name" name="Name" #Name="ngModel" type="text" trim="blur" class="form-control" required
                 maxlength="50" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>

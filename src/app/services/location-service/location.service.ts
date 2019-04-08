@@ -8,13 +8,14 @@ import {
   INSERT_LOCATION,
   UPDATE_LOCATION,
   GET_LOCATION_BY_ID,
-  DELETE_LOCATION
+  DELETE_LOCATION,
+  GET_LOCATIONS_BY_FIRM_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
 import { Location } from "../../models/Location";
-import { ErrorService } from '../error-service/error.service';
-import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { ErrorService } from "../error-service/error.service";
+import { getAnErrorResponse } from "src/app/declarations/extends";
 
 @Injectable({
   providedIn: "root"
@@ -26,7 +27,7 @@ export class LocationService {
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService,
     private errorService: ErrorService
-  ) { }
+  ) {}
 
   GetLocations(success, failed) {
     this.httpClient
@@ -54,6 +55,26 @@ export class LocationService {
       );
   }
 
+  GetLocationsByFirmId(firmId: number, success, failed) {
+    this.httpClient
+      .get(SERVICE_URL + GET_LOCATIONS_BY_FIRM_ID + "/" + firmId)
+      .subscribe(result=>{
+        let response:Response=<Response>result;
+        if(response.ResultStatus==true){
+          let locations:Location[]=[];
+          (<Location[]>response.ResultObject).forEach(e=>{
+            let location:Location=new Location();
+            Object.assign(location,e);
+            locations.push(location);
+          });
+          success(locations,response.LanguageKeyword);
+        } else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      });
+  }
   InsertLocation(location: Location, success, failed) {
     this.httpClient
       .post(SERVICE_URL + INSERT_LOCATION, location, {
@@ -120,7 +141,11 @@ export class LocationService {
 
   DeleteLocations(ids: number[], success, failed) {
     this.httpClient
-      .post(SERVICE_URL + DELETE_LOCATION, { "LocationIds": ids }, { headers: GET_HEADERS(this.authenticationService.getToken()) })
+      .post(
+        SERVICE_URL + DELETE_LOCATION,
+        { LocationIds: ids },
+        { headers: GET_HEADERS(this.authenticationService.getToken()) }
+      )
       .subscribe(
         result => {
           let response: Response = <Response>result;
@@ -129,8 +154,10 @@ export class LocationService {
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
-        }, (error: HttpErrorResponse) => {
+        },
+        (error: HttpErrorResponse) => {
           failed(error);
-        });
+        }
+      );
   }
 }

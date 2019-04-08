@@ -16,6 +16,7 @@ import { ReactiveFormsModule, NgForm } from '@angular/forms';
 import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGridTable';
 import { FirmService } from '../../../../services/firm-service/firm.service';
 import { convertNgbDateToDateString } from '../../../../declarations/extends';
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: 'app-fa-change-collective-parameter',
@@ -34,7 +35,9 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   }
 
   @Input() faBarcode: FixedAsset = new FixedAsset();  
-  @Input() faDataTable: TreeGridTable;  
+  @Input() faDataTable: TreeGridTable; 
+  @Input() faComponent: FixedAssetComponent;
+
   firms: Firm[] = []; 
   companies: Company[] = [];   
   departments: Department[] = [];
@@ -50,6 +53,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   constructor(protected baseService: BaseService) {
     super(baseService);  
     this.loadDropdownList(); 
+    
    }
 
   ngOnInit() {
@@ -77,14 +81,14 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     );
 
     // DepartmentList
-    this.baseService.departmentService.GetDepartments(
-      (departments: Department[]) => {
-        this.departments = departments;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+    // this.baseService.departmentService.GetDepartments(
+    //   (departments: Department[]) => {
+    //     this.departments = departments;
+    //   },
+    //   (error: HttpErrorResponse) => {
+    //     this.baseService.popupService.ShowErrorPopup(error);
+    //   }
+    // );
 
     // LocationList
     this.baseService.locationService.GetLocations(
@@ -124,6 +128,29 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       (error: HttpErrorResponse) => {}
     );
   }
+
+  loadDepartmentByLocationId(event: any){
+    this.departments = [];
+
+    if (!event.target.value || event.target.value == "") {
+      this.fixedAsset.DepartmentId = null;
+      this.fixedAsset.Department = new Department();
+      return;
+    }
+
+    if (event.target.value) {
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+        <number>event.target.value,
+        (departments: Department[]) => {
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+  }
+
 
   loadModelByBrandId(event: any) {
     this.models = [];
@@ -179,6 +206,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       (insertedItem: FixedAsset, message) => {
         /* Show success pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
+        this.faComponent.loadFixedAsset();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

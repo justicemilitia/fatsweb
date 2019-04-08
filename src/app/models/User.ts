@@ -34,6 +34,7 @@ export class User implements IData {
     InverseParentUser: User[];
     UserCode: string;
     LocationId: number;
+    IsSystemUser: boolean;
     /**
      * To Update Roles
      */

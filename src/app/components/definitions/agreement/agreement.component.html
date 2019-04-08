@@ -63,7 +63,7 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Sözleşme No</label>
-              <input [(ngModel)]="agreement.No" name="No" type="text" class="form-control" #No="ngModel"
+              <input [(ngModel)]="agreement.No" name="No" type="text" trim="blur" class="form-control" #No="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && No.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && No.invalid" class="invalid-feedback">
                 <div *ngIf="No.errors.required">Bu alan zorunludur.</div>
@@ -74,7 +74,7 @@
             <!-- SÖZLEŞME ADI -->
             <div class="form-group col-md-6">
               <label class="required-span">Sözleşme Adı</label>
-              <input [(ngModel)]="agreement.Name" name="Name" type="text" class="form-control" #Name="ngModel"
+              <input [(ngModel)]="agreement.Name" name="Name" type="text" trim="blur" class="form-control" #Name="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
@@ -87,7 +87,7 @@
             <!-- SÖZLEŞME KODU -->
             <div class="form-group col-md-6">
               <label class="required-span">Sözleşme Kodu</label>
-              <input [(ngModel)]="agreement.AgreementCode" #AgreementCode="ngModel" name="AgreementCode" type="text"
+              <input [(ngModel)]="agreement.AgreementCode" #AgreementCode="ngModel" name="AgreementCode" type="text" trim="blur"
                 class="form-control" [ngClass]="{ 'is-invalid': data.submitted && AgreementCode.invalid }" required
                 maxlength="50" />
               <div *ngIf="data.submitted && AgreementCode.invalid" class="invalid-feedback">
