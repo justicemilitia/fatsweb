@@ -28,78 +28,77 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
   fixedAssetUsers: FixedAssetUser[] = [];
   dropdownSettings = {};
 
- /* All Users Data Table */
- public dataTableDebit: TreeGridTable = new TreeGridTable(
-  "allUsers",
-  [
-    {
-      columnDisplayName: "Kullanıcı Listesi",
-      columnName: ["FirstName"],
-      isActive: true,
-      classes: [],
-      placeholder: "",
-      type: "text"
-      // formatter: (value) => {
-      //   if(value && value.length!=0){
-      //     return (<User[]>value).map(x=>x.FirstName + ' ' + x.LastName)[0]
-      //   }
-      //   else{ 
-      //     return '';
-      //   }
-      // }
-    }
-  ],
-  {
-    isDesc: false,
-    column: ["FirstName"]
-  }
-);
-
-/* Debit Users Data Table */
-public dataTableOldDebit: TreeGridTable = new TreeGridTable(
-  "debitUsers",
-  [
-    {
-      columnDisplayName: "Zimmetli Personel",
-      columnName: [""],
-      isActive: true,
-      classes: [],
-      placeholder: "",
-      type: "text",
-      formatter: (value) => {
-        if(value && value.length!=0){
-          return (<FixedAssetUser[]>value).map(x=>x.User.FirstName + ' ' + x.User.LastName)[0]
-        }
-        else{ 
-          return '';
+  /* All Users Data Table */
+  public dataTableDebit: TreeGridTable = new TreeGridTable(
+    "allUsers",
+    [
+      {
+        columnDisplayName: "Kullanıcı Listesi",
+        columnName: ["|FirstNameAndLastName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.FirstName + ' ' + value.LastName;
+          }
+          else {
+            return '';
+          }
         }
       }
+    ],
+    {
+      isDesc: false,
+      column: ["|FirstNameAndLastName"]
     }
-  ],
-  {
-    isDesc: false,
-    column: [""]
-  }
-);
+  );
+
+  /* Debit Users Data Table */
+  public dataTableOldDebit: TreeGridTable = new TreeGridTable(
+    "debitUsers",
+    [
+      {
+        columnDisplayName: "Zimmetli Personel",
+        columnName: ["A"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value && value.length != 0) {
+            return (<FixedAssetUser[]>value).map(x => x.User.FirstName + ' ' + x.User.LastName)[0]
+          }
+          else {
+            return '';
+          }
+        }
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["A"]
+    }
+  );
 
   constructor(baseService: BaseService) {
     super(baseService);
 
     //Tüm Kullanıcılar
-    this.dataTableDebit.isConfigOpen=false;
-    this.dataTableDebit.isLoading=false;
-    this.dataTableDebit.isPagingActive=false;
-    this.dataTableDebit.isTableEditable=false;
-    this.dataTableDebit.isDeleteable=false;
-    this.dataTableDebit.isColumnOffsetActive=false;
+    this.dataTableDebit.isConfigOpen = false;
+    this.dataTableDebit.isLoading = false;
+    this.dataTableDebit.isPagingActive = false;
+    this.dataTableDebit.isTableEditable = false;
+    this.dataTableDebit.isDeleteable = false;
+    this.dataTableDebit.isColumnOffsetActive = false;
 
     //Zimmetli Personel
-    this.dataTableOldDebit.isConfigOpen=false;
-    this.dataTableOldDebit.isLoading=false;
-    this.dataTableOldDebit.isPagingActive=false;
-    this.dataTableOldDebit.isTableEditable=false;
-    this.dataTableOldDebit.isDeleteable=false;
-    this.dataTableOldDebit.isColumnOffsetActive=false;
+    this.dataTableOldDebit.isConfigOpen = false;
+    this.dataTableOldDebit.isLoading = false;
+    this.dataTableOldDebit.isPagingActive = false;
+    this.dataTableOldDebit.isTableEditable = false;
+    this.dataTableOldDebit.isColumnOffsetActive = false;
 
     this.loadUserList();
     this.loadDebitUserList();
@@ -191,11 +190,14 @@ public dataTableOldDebit: TreeGridTable = new TreeGridTable(
 
   loadUserList() {
     this.baseService.userService.GetUsers(
-      users=>{
+      users => {
         this.users = users;
+        this.users.forEach(e=> {
+          e.ParentUserId = null;
+        })
         this.dataTableDebit.TGT_loadData(this.users);
       },
-      (error:HttpErrorResponse)=>{
+      (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }
