@@ -43,16 +43,16 @@
     <!-- YENİ LOKASYON -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Yeni Departman</label>
+        <label>Yeni Lokasyon</label>
         <select [(ngModel)]="fixedAsset.LocationId" name="LocationId"  (change)="getLocationId($event)" class="form-control" #LocationId="ngModel"
           [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
           <option [ngValue]="null">Yok</option>
-          <option *ngFor="let loc of locations" [ngValue]="loc.LocationId">
-            {{ dep.Name }}
+          <option *ngFor="let loc of locations" value={{loc.LocationId}}>
+            {{ loc.Name }}
           </option>
         </select>
-        <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
-          <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+        <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
+          <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
         </div>
       </div>
     </div>    
@@ -64,7 +64,7 @@
         <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId"  class="form-control" #DepartmentId="ngModel"
           [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }" required>
           <option [ngValue]="null">Yok</option>
-          <option *ngFor="let dep of departments" [ngValue]="dep.DepartmentId">
+          <option *ngFor="let dep of departments" value={{dep.DepartmentId}}>
             {{ dep.Name }}
           </option>
         </select>
@@ -78,20 +78,19 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Zimmetlenecek Personel</label>
-        <select [(ngModel)]="fixedAsset.LocationId" name="LocationId"  class="form-control" #LocationId="ngModel"
-          [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
+        <select [(ngModel)]="fixedAsset.UserId" name="UserId"  class="form-control" #UserId="ngModel"
+          [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required>
           <option [ngValue]="null">Yok</option>
-          <option *ngFor="let loc of locations" [ngValue]="loc.LocationId">
-            {{ dep.Name }}
+          <option *ngFor="let user of users" value={{user.UserId}}>
+            {{ user.Name }}
           </option>
         </select>
-        <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
-          <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+        <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
+          <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
         </div>
       </div>
     </div>
-
-  </div>
+   </div>
 
   <!-- modal-body -->
   <div class="modal-footer">

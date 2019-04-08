@@ -35,15 +35,16 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
   firmId: number;
 
-  locationId:number;
+  locationId: number;
 
   fixedAsset: FixedAsset = new FixedAsset();
 
   departments: Department[] = [];
-  
-  users:User[]=[];
+
+  users: User[] = [];
 
   locations: Location[] = [];
+
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
 
@@ -51,6 +52,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     super(baseService);
     this.loadDropdownList();
   }
+
   ngOnInit() {}
 
   async ChangeFirm(data: NgForm) {
@@ -63,7 +65,10 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
 
-          cloneItem.FirmId = data.value.firmIds;
+          cloneItem.FirmId = Number(data.value.FirmId);
+          cloneItem.LocationId=Number(data.value.LocationId);
+          cloneItem.DepartmentId=Number(data.value.DepartmentId);
+          cloneItem.UserId=Number(data.value.UserId);
 
           this.isWaitingInsertOrUpdate = true;
 
@@ -125,16 +130,6 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
   }
 
   loadDropdownListByFirmId() {
-    this.baseService.departmentService.GetDepartmentsByFirmId(
-      this.firmId,
-      departments => {
-        this.departments = departments;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-
     this.baseService.locationService.GetLocationsByFirmId(
       this.firmId,
       locations => {
@@ -145,24 +140,40 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
       }
     );
 
-    this.baseService.userService.GetUserByFirmId(this.firmId,
-      users=>{
+    this.baseService.userService.GetUserByFirmId(
+      this.firmId,
+      users => {
         this.users = users;
       },
-      (error:HttpErrorResponse)=>{
+      (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
-      });
+      }
+    );
   }
 
+  loadDepartmentByLocationId() {
+    this.baseService.departmentService.GetDepartmentsByLocationId(
+      this.locationId,
+      departments => {
+        this.departments = departments;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+  
   getFirmId(event) {
     if (event.target.value) {
       this.firmId = Number(event.target.value);
+      this.loadDropdownListByFirmId();
     }
   }
 
-  getLocationId(event){
+  getLocationId(event) {
     if (event.target.value) {
       this.locationId = Number(event.target.value);
+      this.loadDepartmentByLocationId();
     }
   }
 }
