@@ -62,6 +62,14 @@ export class UserComponent extends BaseComponent implements OnInit {
   public dataTable: TreeGridTable = new TreeGridTable("user",
     [
       {
+        columnDisplayName: 'Kullanıcı Kodu',
+        columnName: ['UserCode'],
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text'
+      },
+      {
         columnDisplayName: 'İsim',
         columnName: ['FirstName'],
         isActive: true,

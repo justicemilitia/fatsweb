@@ -212,6 +212,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
         /* Hide Loading Spinner */
         this.baseService.spinner.hide();
+        
 
         /* Show error message */
         this.baseService.popupService.ShowErrorPopup(error);
