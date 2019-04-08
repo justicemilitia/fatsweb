@@ -418,13 +418,13 @@ insertUser(data: NgForm) {
   async loadDropdownList() {
 
     // Departmanların listelenmesi
-    if (this.departments.length == 0) {
-      this.baseService.departmentService.GetDepartments((departments: Department[]) => {
-        this.departments = departments
-      }, (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      });
-    }
+    // if (this.departments.length == 0) {
+    //   this.baseService.departmentService.GetDepartments((departments: Department[]) => {
+    //     this.departments = departments
+    //   }, (error: HttpErrorResponse) => {
+    //     this.baseService.popupService.ShowErrorPopup(error);
+    //   });
+    // }
 
     // Lokasyonların listelenmesi      
     if (this.locations.length == 0) {

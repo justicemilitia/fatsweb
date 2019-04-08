@@ -81,30 +81,34 @@
           </div>
 
           <div class="row justify-content-center">
+
+            <!-- BAĞLI OLDUĞU LOKASYON  -->
             <div class="col-md-6 form-group">
-              <label>Bağlı Olduğu Departman</label>
-              <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none"
-                class="form-control" type="text">
-                <option [ngValue]="null">Yok</option>
-                <option *ngFor="let department of getDepartmentsWithoutCurrent" value={{department.DepartmentId}}>
-                  {{department.Name}}
-                </option>
-              </select>
-            </div>
-            <div class="col-md-6 form-group">
-              <label class="required-span">Bağlı Olduğu Lokasyon</label>
-              <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control"
-                (click)="loadDropdownList()" #LocationId="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
-                <option [ngValue]="null">Yok</option>
-                <option *ngFor="let location of locations" value={{location.LocationId}}>
-                  {{location.Name}}
-                </option>
-              </select>
-              <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
-                <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+                <label class="required-span">Bağlı Olduğu Lokasyon</label>
+                <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control"  (change)="loadDepartmentByLocationId($event)"
+                  (click)="loadDropdownList()" #LocationId="ngModel"
+                  [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
+                  <option value="">Yok</option>
+                  <option *ngFor="let location of locations" value= "{{location.LocationId}}">
+                    {{location.Name}}
+                  </option>
+                </select>
+                <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
+                  <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+                </div>
               </div>
-            </div>
+
+              <!-- BAĞLI OLDUĞU DEPARTMAN  -->
+              <div class="col-md-6 form-group">
+                <label>Bağlı Olduğu Departman</label>
+                <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none"
+                  class="form-control" type="text">
+                  <option [ngValue]="null">Yok</option>
+                  <option *ngFor="let department of ddlDepartments" value={{department.DepartmentId}}>
+                    {{department.Name}}
+                  </option>
+                </select>
+              </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
