@@ -744,6 +744,28 @@ export class FaCreateComponent extends BaseComponent
     );
   }
 
+  loadDepartmentByLocationId(event: any){
+    this.departments = [];
+
+    if (!event.target.value || event.target.value == "") {
+      this.fixedAsset.DepartmentId = null;
+      this.fixedAsset.Department = new Department();
+      return;
+    }
+
+    if (event.target.value) {
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+        <number>event.target.value,
+        (departments: Department[]) => {
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+  }
+
   resetForm(data: NgForm) {
     this.editable = true;
     this.fixedAsset = new FixedAsset();

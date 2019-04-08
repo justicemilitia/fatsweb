@@ -144,10 +144,10 @@
           <!-- LOKASYON -->
           <div class="col-md-4 form-group">
             <label>Lokasyon</label>
-            <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+            <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel" (change)="loadDepartmentByLocationId($event)">
               <option [ngValue]="null">Seçiniz</option>
-              <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-                {{ firm.Name }}
+              <option *ngFor="let location of locations" value="{{ location.LocationId }}">
+                {{ location.Name }}
               </option>
             </select>
           </div>

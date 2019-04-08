@@ -53,7 +53,7 @@
                     <div class="col-md-6 form-group">
                         <label>Lokasyon</label>
                         <select
-                          [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel"  (change)="loadDepartmentByLocationId($event)">
+                          [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel" (change)="loadDepartmentByLocationId($event)">
                           <option [ngValue]="null">Seçiniz</option>
                           <option
                             *ngFor="let location of locations"

@@ -79,42 +79,24 @@
               </select>
             </div>
           </div>
-          <!-- <div class="row justify-content-center">
-            <div class="col-md-12 form-group">
-              <label class="required-span">Askıdan Alma Tarihi</label>
-              <div class="input-group">
-                <div class="input-group-append">
-                  <div (click)="startDate.toggle()" class="input-group-text">
-                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                  </div>
-                </div>
-                <input [(ngModel)]="transactionLog.CheckInExpectedArrivalDate" #CheckInExpectedArrivalDate="ngModel"
-                  class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate" ngbDatepicker
-                  #startDate="ngbDatepicker"  [ngClass]="{ 'is-invalid': data.submitted && startDate.invalid }" required>
-              </div>
-              <div *ngIf="data.submitted && startDate.invalid" class="invalid-feedback">
-                  <div *ngIf="startDate.errors.required">Bu alan zorunludur.</div>
-                </div>
-            </div>
-          </div> -->
 
           <div class="row justify-content-center">
               <div class="col-md-12 form-group">            
               <label class="required-span">Askıdan Alma Tarihi</label>
               <div class="input-group">
                 <div class="input-group-append"
-                  [class.is-invalid]="data.submitted && (!transactionLog.CheckInExpectedArrivalDate || checkInExpectedArrivalDateModel.status == 'INVALID' )">
-                  <div (click)="checkInExpectedArrivalDate.toggle()" class="input-group-text">
+                  [class.is-invalid]="data.submitted && (!transactionLog.UndoSuspensionDate || undoSuspensionDateModel.status == 'INVALID' )">
+                  <div (click)="undoSuspensionDate.toggle()" class="input-group-text">
                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                   </div>
                 </div>
-                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="checkInExpectedArrivalDate"
-                  [(ngModel)]="transactionLog.CheckInExpectedArrivalDate" ngbDatepicker #checkInExpectedArrivalDate="ngbDatepicker" #checkInExpectedArrivalDateModel="ngModel"
-                  [class.is-invalid]="data.submitted && (!transactionLog.CheckInExpectedArrivalDate || CheckInExpectedArrivalDateModel.status == 'INVALID' )"
+                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="undoSuspensionDate"
+                  [(ngModel)]="transactionLog.UndoSuspensionDate" ngbDatepicker #undoSuspensionDate="ngbDatepicker" #undoSuspensionDateModel="ngModel"
+                  [class.is-invalid]="data.submitted && (!transactionLog.UndoSuspensionDate || UndoSuspensionDateModel.status == 'INVALID' )"
                   required />
-                <div *ngIf="data.submitted && checkInExpectedArrivalDateModel.invalid" class="invalid-feedback">
-                  <div *ngIf="checkInExpectedArrivalDateModel.errors.required">Bu alan zorunludur.</div>
-                  <div *ngIf="!checkInExpectedArrivalDateModel.errors.required && checkInExpectedArrivalDateModel.status == 'INVALID'">
+                <div *ngIf="data.submitted && undoSuspensionDateModel.invalid" class="invalid-feedback">
+                  <div *ngIf="undoSuspensionDateModel.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="!undoSuspensionDateModel.errors.required && undoSuspensionDateModel.status == 'INVALID'">
                     Lütfen Geçerli Format Giriniz.
                   </div>
                 </div>

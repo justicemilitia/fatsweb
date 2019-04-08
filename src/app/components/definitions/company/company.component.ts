@@ -200,7 +200,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         if (itemIds.length == 1)
           this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
         else
-          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);
