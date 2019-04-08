@@ -8,6 +8,8 @@ import { Firm } from "../../../../models/Firm";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { UserFirm } from "src/app/models/UserFirm";
 import { Department } from "src/app/models/Department";
+import { User } from 'src/app/models/User';
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: "app-fa-change-firm",
@@ -22,6 +24,8 @@ import { Department } from "src/app/models/Department";
 export class FaChangeFirmComponent extends BaseComponent implements OnInit {
   @Input() faBarcode: FixedAsset = new FixedAsset();
   @Input() faTable: TreeGridTable = null;
+  @Input() faComponent: FixedAssetComponent;
+
   newFirmId: number;
 
   /* List Of Firms */
@@ -31,9 +35,13 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
   firmId: number;
 
+  locationId:number;
+
   fixedAsset: FixedAsset = new FixedAsset();
 
   departments: Department[] = [];
+  
+  users:User[]=[];
 
   locations: Location[] = [];
   /* Is Waiting For An Insert Or Update */
@@ -74,6 +82,8 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
                 this.baseService.authenticationService.currentFirm.FirmId
               )
                 this.faTable.TGT_removeItem(this.faBarcode);
+
+                this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -135,11 +145,24 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
       }
     );
 
+    this.baseService.userService.GetUserByFirmId(this.firmId,
+      users=>{
+        this.users = users;
+      },
+      (error:HttpErrorResponse)=>{
+        this.baseService.popupService.ShowErrorPopup(error);
+      });
   }
 
   getFirmId(event) {
     if (event.target.value) {
       this.firmId = Number(event.target.value);
+    }
+  }
+
+  getLocationId(event){
+    if (event.target.value) {
+      this.locationId = Number(event.target.value);
     }
   }
 }

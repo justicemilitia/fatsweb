@@ -7,6 +7,7 @@ import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as $ from "jquery";
 import { TransactionLog } from "../../../../models/TransactionLog";
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: "app-fa-relationship",
@@ -26,6 +27,7 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
   @Input() selectedFixedAssetId: number;
+  @Input() faComponent: FixedAssetComponent;
 
   constructor(baseService: BaseService) {
     super(baseService);
@@ -60,6 +62,7 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
 
               /* Push inserted item to Property list */
               this.fixedAssets.push(this.fixedAsset);
+              this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */

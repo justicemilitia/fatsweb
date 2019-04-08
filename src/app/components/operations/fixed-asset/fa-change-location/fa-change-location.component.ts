@@ -5,6 +5,7 @@ import { BaseService } from "../../../../services/base.service";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Location } from 'src/app/models/Location';
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: "app-fa-change-location",
@@ -18,6 +19,8 @@ import { Location } from 'src/app/models/Location';
 })
 export class FaChangeLocationComponent extends BaseComponent implements OnInit {
   @Input() faBarcode: FixedAsset = new FixedAsset();
+  @Input() faComponent: FixedAssetComponent;
+  
   newLocationId: number = null;
 
   /* List Of Locations */
@@ -60,6 +63,7 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
               this.faBarcode.LocationId = cloneItem.LocationId;
               this.faBarcode.Location = cloneItem.Location;
               data.resetForm();
+              this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */

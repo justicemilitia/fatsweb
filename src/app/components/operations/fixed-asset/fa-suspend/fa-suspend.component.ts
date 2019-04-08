@@ -25,6 +25,7 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
 
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
+  @Input() faComponent: FixedAssetComponent;
   suspensions: CheckOutReason[]=[];
   transactionLog: TransactionLog = new TransactionLog();
   transactionLogs: TransactionLog[]=[];
@@ -62,8 +63,7 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
         this.transactionLogs.push(this.transactionLog);
 
         this.resetForm(data, true);
-           /* Trigger to model to show it */
-          //  $("#btnRefresh").trigger("click");
+        this.faComponent.loadFixedAsset();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

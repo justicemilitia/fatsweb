@@ -36,7 +36,7 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Yeni Departman</label>
-        <select [(ngModel)]="DepartmentId" name="departmentIds" class="form-control" (click)="loadDropdownList()"
+        <select [(ngModel)]="DepartmentId" name="departmentIds" class="form-control"
           #departmentIds="ngModel" [ngClass]="{ 'is-invalid': data.submitted && departmentIds.invalid }" required>
           <option [ngValue]="null">Yok</option>
           <option *ngFor="let department of departments" value="{{ department.DepartmentId }}">

@@ -818,7 +818,9 @@ export class TreeGridTable {
                 }
             }
         }
+
         if (column.formatter) {
+                item = data;
             return column.formatter(item);
         } else {
             return item;
@@ -1139,7 +1141,7 @@ export class TreeGridTable {
             let item: IData = _datasource[ii];
 
             /* if item contains given data then do its parent and their children visible (not extended) */
-            if (TreeGridTableMethods.doSearch(item, this.dataFilters)) {
+            if (TreeGridTableMethods.doSearch(item, this.dataFilters,this.dataColumns)) {
                 this.TGT_doVisibleWithParents(item);
                 this.TGT_doVisibleWithChildren(item);
             }
