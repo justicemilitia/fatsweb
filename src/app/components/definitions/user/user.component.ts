@@ -214,24 +214,10 @@ insertUser(data: NgForm) {
         /* Show popup for success */
         this.baseService.popupService.ShowSuccessPopup(message);
 
-        /* Inserted user id matches with current user to add it to table */
-        //this.currentUser.UserId = insertedUser.UserId;
-
-        /* Object bindings to store in datatable */
-        // this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
-        // this.currentUser.UserTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
-        // this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
-
-        //this.currentUserRoles.splice(0);
-
-
-        /* Load Table */
-        this.users.push(this.currentUser);
-        this.dataTable.TGT_loadData(this.users);
-
         /* Reset form */
         this.resetForm(data, true);
 
+        this.refreshTable();
 
         this.checkedSystemUser = false;
 
