@@ -56,7 +56,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
       },
       {
         columnDisplayName: "Zimmetli Personel",
-        columnName: ["FixedAssetUsers"],
+        columnName: ["FixedAssetUsers", "User"],
         isActive: true,
         classes: [],
         placeholder: "",

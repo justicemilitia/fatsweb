@@ -82,7 +82,7 @@
           [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required>
           <option [ngValue]="null">Yok</option>
           <option *ngFor="let user of users" value={{user.UserId}}>
-            {{ user.Name }}
+            {{ user.FirstName + ' ' + user.LastName}}
           </option>
         </select>
         <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">

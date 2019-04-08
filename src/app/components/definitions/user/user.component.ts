@@ -118,6 +118,22 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: 'text'
       },
       {
+        columnDisplayName: 'Bağlı Olduğu Personel',
+        columnName: ['|User'],
+        isActive: true,
+        classes: [],
+        placeholder: '',
+        type: 'text',
+        formatter: (value) => {
+          if(value){
+            return value.ParentUser ? value.ParentUser.FirstName + ' ' + value.ParentUser.LastName : '';
+          }
+          else{ 
+            return '';
+          }
+      }
+      },
+      {
         columnDisplayName: 'Açıklama',
         columnName: ['Description'],
         isActive: true,
@@ -181,7 +197,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
   }
 
-  async insertUser(data: NgForm) {
+insertUser(data: NgForm) {
 
     /* Say user to wait */
     this.isWaitingInsertOrUpdate = true;
@@ -199,14 +215,15 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowSuccessPopup(message);
 
         /* Inserted user id matches with current user to add it to table */
-        this.currentUser.UserId = insertedUser.UserId;
+        //this.currentUser.UserId = insertedUser.UserId;
 
         /* Object bindings to store in datatable */
-        this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
-        this.currentUser.UserTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
-        this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
+        // this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
+        // this.currentUser.UserTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
+        // this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
 
-        this.currentUserRoles.splice(0);
+        //this.currentUserRoles.splice(0);
+
 
         /* Load Table */
         this.users.push(this.currentUser);
@@ -214,6 +231,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
         /* Reset form */
         this.resetForm(data, true);
+
 
         this.checkedSystemUser = false;
 
@@ -400,13 +418,13 @@ export class UserComponent extends BaseComponent implements OnInit {
   async loadDropdownList() {
 
     // Departmanların listelenmesi
-    if (this.departments.length == 0) {
-      this.baseService.departmentService.GetDepartments((departments: Department[]) => {
-        this.departments = departments
-      }, (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      });
-    }
+    // if (this.departments.length == 0) {
+    //   this.baseService.departmentService.GetDepartments((departments: Department[]) => {
+    //     this.departments = departments
+    //   }, (error: HttpErrorResponse) => {
+    //     this.baseService.popupService.ShowErrorPopup(error);
+    //   });
+    // }
 
     // Lokasyonların listelenmesi      
     if (this.locations.length == 0) {
@@ -502,7 +520,6 @@ export class UserComponent extends BaseComponent implements OnInit {
     await this.loadUsers();
 
     this.isTableRefreshing = false;
-
   }
 
 }

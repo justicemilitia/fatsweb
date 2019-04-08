@@ -107,10 +107,12 @@
               <label class="required-span">Lokasyon</label>
               <select #LocationId="ngModel" name="LocationId" required class="form-control"
                 [(ngModel)]="currentUser.LocationId" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" (change)="loadDepartmentByLocationId($event)">
-                <option [ngValue]="null">Seçiniz</option>
-                <option *ngFor="let location of locations" value="{{ location.LocationId }}">
-                  {{location.Name}}
-                </option>
+                <option value="">Seçiniz</option>
+                <option
+                *ngFor="let location of locations"
+                value = "{{location.LocationId}}">
+                {{ location.Name }}
+              </option>
               </select>
               <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
                 <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
@@ -121,8 +123,8 @@
               <select #DepartmentId="ngModel" name="DepartmentId" required class="form-control"
                 [(ngModel)]="currentUser.DepartmentId"
                 [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }">
-                <option [ngValue]="null">Seçiniz</option>
-                <option *ngFor="let department of departments" [ngValue]="department.DepartmentId">
+                <option [ngValue]="">Seçiniz</option>
+                <option *ngFor="let department of departments" value = "{{department.DepartmentId}}" >
                   {{department.Name}}
                 </option>
               </select>
@@ -176,6 +178,18 @@
               </select>
             </div>
           </div>
+
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+                <label>Açıklama</label>
+                <input [(ngModel)]="currentUser.Description" name="Description" #Description="ngModel"
+                  class="form-control" type="text"/>
+                  <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                    <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                  </div>
+              </div>
+          </div>
+          
           <div class="row justify-content-center">
               <div class="form-group col-md-12">
                   <label class="ckbox" style="margin-top: 15px">
@@ -212,36 +226,9 @@
                       </div>
                     </div>
               </div>
-            <!-- </ng-template> -->
-            <!-- <ng-template [ngIf]="isInsertOrUpdate==true">
-                <div class="row justify-content-center" *ngIf="checkedSystemUser==true">
-                    <div class="form-group col-md-6">
-                      <label class="required-span">Şifre</label>
-                      <input type="password" #Password="ngModel" maxlength="16" name="Password" required class="form-control"
-                        [(ngModel)]="currentUser.Password"
-                        [ngClass]="{ 'is-invalid': data.submitted && (Password.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value)) }" />
-                      <div *ngIf="data.submitted && Password.invalid" class="invalid-feedback">
-                        <div *ngIf="Password.errors.required">Bu alan zorunludur.</div>
-                        <div *ngIf="Password.errors.maxlength">Maksimum 16 karakter giriniz.</div>
-                      </div>
-                      <div
-                        *ngIf="data.submitted && !PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value"
-                        class="invalid-feedback">
-                        <div>Şifreleriniz Uyuşmamaktadır.</div>
-                      </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label class="required-span">Şifre Tekrar</label>
-                      <input type="password" maxlength="16" #PasswordConfirm="ngModel" ngModel name="PasswordConfirm" required
-                        autocomplete="off" class="form-control"
-                        [ngClass]="{ 'is-invalid': data.submitted && (PasswordConfirm.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value))  }" />
-                      <div *ngIf="data.submitted && PasswordConfirm.invalid" class="invalid-feedback">
-                        <div *ngIf="PasswordConfirm.errors.required">Bu alan zorunludur.</div>
-                        <div *ngIf="PasswordConfirm.errors.maxlength">Maksimum 16 karakter giriniz.</div>
-                      </div>
-                    </div>
-              </div>
-            </ng-template> -->
+
+            
+
         </div>     
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnCreateUser" type="submit" data-toggle="modal"

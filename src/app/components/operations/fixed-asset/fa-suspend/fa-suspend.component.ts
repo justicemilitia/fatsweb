@@ -61,9 +61,10 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
 
         /* Push inserted item to Property list */
         this.transactionLogs.push(this.transactionLog);
+        
+        this.faComponent.loadFixedAsset();      
 
         this.resetForm(data, true);
-        this.faComponent.loadFixedAsset();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
