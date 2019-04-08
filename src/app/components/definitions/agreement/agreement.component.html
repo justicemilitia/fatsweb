@@ -145,7 +145,7 @@
                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                   </div>
                 </div>
-                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate" [min]="startDate"
                   [(ngModel)]="agreement.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel"
                   [class.is-invalid]="data.submitted && (!agreement.EndDate || endDateModel.status == 'INVALID' )"
                   required />

@@ -246,14 +246,14 @@ export class FaCreateComponent extends BaseComponent
   ngOnInit() {}
 
   loadDropdown() {
-    this.baseService.departmentService.GetDepartments(
-      (departments: Department[]) => {
-        this.departments = departments;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+    // this.baseService.departmentService.GetDepartments(
+    //   (departments: Department[]) => {
+    //     this.departments = departments;
+    //   },
+    //   (error: HttpErrorResponse) => {
+    //     this.baseService.popupService.ShowErrorPopup(error);
+    //   }
+    // );
 
     this.baseService.companyService.GetCompanies(
       (companies: Company[]) => {

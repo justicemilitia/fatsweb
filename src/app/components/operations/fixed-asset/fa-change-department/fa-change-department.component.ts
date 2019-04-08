@@ -1,11 +1,18 @@
-import { Component, OnInit, NgModule, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  NgModule,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
 import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Department } from "../../../../models/Department";
-import { FixedAssetComponent } from '../fixed-asset.component';
+import { FixedAssetComponent } from "../fixed-asset.component";
 
 @Component({
   selector: "app-fa-change-department",
@@ -18,8 +25,14 @@ import { FixedAssetComponent } from '../fixed-asset.component';
   providers: [FaChangeDepartmentComponent]
 })
 export class FaChangeDepartmentComponent extends BaseComponent
-  implements OnInit {
-
+  implements OnInit, OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes["faBarcode"].currentValue != changes["faBarcode"].previousValue
+    ) {
+      this.loadDropdownList();
+    }
+  }
   @Input() faBarcode: FixedAsset = new FixedAsset();
   @Input() faComponent: FixedAssetComponent;
 
@@ -36,7 +49,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
     this.loadDropdownList();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async ChangeDepartment(data: NgForm) {
     /* Is Form Valid */
@@ -49,7 +62,9 @@ export class FaChangeDepartmentComponent extends BaseComponent
           Object.assign(cloneItem, this.faBarcode);
 
           cloneItem.DepartmentId = data.value.departmentIds;
-          cloneItem.Department = this.departments.find(x => x.DepartmentId == cloneItem.DepartmentId);
+          cloneItem.Department = this.departments.find(
+            x => x.DepartmentId == cloneItem.DepartmentId
+          );
 
           this.isWaitingInsertOrUpdate = true;
 
@@ -76,7 +91,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
     );
   }
 
-  resetForm(data:NgForm) {
+  resetForm(data: NgForm) {
     data.resetForm();
     this.newDepartmentId = null;
   }
@@ -94,9 +109,10 @@ export class FaChangeDepartmentComponent extends BaseComponent
   //   );
   // }
 
-  loadDropdownList(){
+  loadDropdownList() {
+    this.departments = [];
 
-    if (!this.faBarcode.Location || this.faBarcode.Location.LocationId==0) {
+    if (this.faBarcode.Location.LocationId == 0 || !this.faBarcode.Location.LocationId) {
       return;
     }
 

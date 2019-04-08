@@ -95,6 +95,7 @@ export class FixedAsset implements IData {
     this.FixedAssetStatus = new FixedAssetStatus();
     this.ExpenseCenter = new ExpenseCenter();
     this.FixedAssetCardCategory = new FixedAssetCardCategory();
+    this.Location = new Location();
     this.Currency = new Currency();
   }
 }
