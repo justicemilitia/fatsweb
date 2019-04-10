@@ -143,11 +143,12 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       userIds,
       (insertedItem: UserRole[], message) => {
         setTimeout(() => {
-        $("refreshUserRole").trigger("click");
 
         this.baseService.popupService.ShowSuccessPopup(message);
 
         this.resetForm(data, true);
+
+        this.refreshTable();
         
         this.isWaitingInsertOrUpdate = false;
       }, 1000);

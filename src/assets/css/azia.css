@@ -345,17 +345,17 @@ textarea {
 
 fieldset {
   min-width: 0;
-  padding: 0;
+  padding: 5px;
   margin: 0;
-  border: 0; }
+  border: 1px; }
 
 legend {
   display: block;
-  width: 100%;
+  /*width: 100%;*/
   max-width: 100%;
   padding: 0;
-  margin-bottom: .5rem;
-  font-size: 1.5rem;
+  /*margin-bottom: .5rem;*/
+  font-size: inherit;
   line-height: inherit;
   color: inherit;
   white-space: normal; }

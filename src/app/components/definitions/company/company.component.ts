@@ -9,6 +9,8 @@ import { City } from "src/app/models/City";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import * as $ from "jquery";
 import { HttpErrorResponse } from "@angular/common/http";
+import { FixedAsset } from 'src/app/models/FixedAsset';
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-company",
@@ -208,14 +210,20 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         /* Get latest companies from table*/
         this.companies = <Company[]>this.dataTable.TGT_copySource();
 
-      }, (error: HttpErrorResponse) => {
+      }, (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
 
         /* Hide Loading Spinner */
         this.baseService.spinner.hide();
-        
+    itemIds.forEach(e => {
+     let barcode:string = this.companies.find(x=>x.CompanyId==e.Id).CompanyCode;
+     console.log(barcode);
+    });
+        console.log(itemIds);
+
+        let item:string[];
 
         /* Show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
+        this.baseService.popupService.ShowDeletePopup(error,item);
 
       });
     });

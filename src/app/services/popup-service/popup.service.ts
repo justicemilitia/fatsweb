@@ -37,6 +37,15 @@ export class PopupService {
     this.errorService.errorManager(error);
   }
 
+  ShowDeletePopup(error: HttpErrorResponse, barcodes:string[]) {
+    swal({
+      title: barcodes + "kullanılamaz",
+      text: " ",
+      icon: "warning"
+    });
+    this.errorService.errorManager(error);
+  }
+
   ShowMenuAuthorizePopup(ok) {
     this.alertSerivce.pushDanger("Menü için yetkiniz bulunmamaktadır!");
     setTimeout(() => {

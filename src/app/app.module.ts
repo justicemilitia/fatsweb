@@ -64,6 +64,7 @@ import { FileUploadModule  } from 'ng2-file-upload';
 import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
 import { InputTrimModule } from 'ng2-trim-directive';
 import {NgxMaskModule} from 'ngx-mask';
+import { TransactionListComponent } from './components/operations/transaction-list/transaction-list.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import {NgxMaskModule} from 'ngx-mask';
     SuspendedFixedAssetComponent,
     LostFixedAssetComponent,
     CheckoutFixedAssetComponent,
-    AlertInfosComponent
+    AlertInfosComponent,
+    TransactionListComponent
   ],
   imports: [
     BrowserModule,

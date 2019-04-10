@@ -33,6 +33,7 @@ import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asse
 import { DepreciationService } from './depreciation-service/depreciation.service';
 import { AlertInfoService } from '../extends/alert-infos/alert-infos-service/alert-info.service';
 import { FirmService } from './firm-service/firm.service';
+import { TransactionService } from './transaction-service/transaction.service';
 
 @Injectable({
   providedIn: "root"
@@ -73,6 +74,7 @@ export class BaseService {
     public router: Router,
     public dashboardService:DashboardService,
     public firmService:FirmService,
+    public transactionService:TransactionService,
     public alertInfoService:AlertInfoService) {}
 
 }

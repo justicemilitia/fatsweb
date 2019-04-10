@@ -268,7 +268,9 @@ export const GET_DASHBOARD_FIXED_ASSETS_COUNTS = "Dashboard/GetDashboardFixedAss
 export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
 //#endregion
 
-
+//#region TransactionList
+export const GET_TRANSACTION_LIST = "TransactionLog/TransactionLogsList";
+//#endregion
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
 

@@ -15,6 +15,7 @@ import { User } from "../../../models/LoginUser";
   styleUrls: ["./fixed-asset.component.css"]
 })
 export class FixedAssetComponent extends BaseComponent implements OnInit {
+  
   isWaitingInsertOrUpdate: boolean = false;
 
   isTableRefreshing: boolean = false;
