@@ -216,7 +216,7 @@ export class FixedAssetService {
       );
   }
 
-  BreakFixedAssetRelationship(fixedAsset: FixedAsset, success, failed){
+  BreakFixedAssetRelationship(fixedAsset: FixedAssetRelationship, success, failed){
     this.httpclient
       .post(
         SERVICE_URL + BREAK_RELATIONSHIP, fixedAsset, {
