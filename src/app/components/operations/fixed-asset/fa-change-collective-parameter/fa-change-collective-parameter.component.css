@@ -3,3 +3,21 @@
     color: white;
     border-radius: 0px;
   }
+
+  .field_set{
+    border:1;
+    border-color: #d0cbcb;
+    border-style: solid;
+  }
+  .flexProperty {
+    flex: 1;
+    flex-direction: row;
+    display: flex;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+  }
+  .property-add-value {
+    width: 30px;
+    padding-left: 12px;
+    align-self: center;
+  }

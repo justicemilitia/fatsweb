@@ -8,7 +8,9 @@
 <mat-horizontal-stepper linear #stepper >   
   <mat-step label="Genel Bilgiler" [editable]="editable" [stepControl]="UserId" [stepControl]="StatusId" [stepControl]="LocationId" [stepControl]="DepartmentId" [stepControl]="FixedAssetCardId" [stepControl]="FixedAssetCardCategoryId">
         <div class="row justify-content-center">
-            <div class="form-group col-md-6">  
+
+            <!--BARCODE-->
+            <div class="form-group col-md-6">              
             <label class="required-span">Barkod</label>
             <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
             value="{{barcode}}" name="Barcode" [disabled]="disabledBarcode==true" type="text" trim="blur" 
@@ -19,22 +21,31 @@
               <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
             </div>
             <div *ngIf="errorMessage!= ''">{{errorMessage}}</div>
-            </div>                 
+            </div>            
+
+              <!--SERIAL NUMBER-->
             <div class="form-group col-md-6">
                 <label>Seri Numarası</label>
               <input [(ngModel)]="fixedAsset.SerialNumber"name="SerialNumber" type="text"  class="form-control"/>
             </div>
         </div>
-        <div class="row justify-content-center">     
+
+        <div class="row justify-content-center">   
+
+           <!--MANUAL BARCODE-->
           <div class="form-group col-md-3">         
                 <label class="ckbox">
                   <input [(ngModel)]="fixedAsset.IsBarcodeManual" type="checkbox" name="IsBarcodeManual" #IsBarcodeManual="ngModel" (change)="isBarcodeManual($event)"/><span>Manuel Barkod</span>
                 </label>              
           </div>
+
+          <!--QUANTITY-->
           <div class="form-group col-md-3"> 
               <label>Adet</label>
                 <input type="number" [(ngModel)]="fixedAsset.Quantity" [disabled]="disabledBarcode==false" name="Quantity" min="1" max="100" class="form-control"/>         
-          </div>                          
+          </div>   
+          
+          <!-- FIXED ASSET STATUS-->
           <div class="form-group col-md-6">
               <label class="required-span">Statü</label>
               <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
@@ -44,9 +55,11 @@
               <div *ngIf="data.submitted && StatusId.invalid" class="invalid-feedback">
                 <div *ngIf="StatusId.errors.required">Bu alan zorunludur.</div>
               </div>        
-          </div>
+          </div>          
         </div>
+
         <div class="row justify-content-center">
+          <!-- FIXED ASSET CATEGORY -->
           <div class="form-group col-md-6">
               <label class="required-span">Demirbaş Kategorisi</label>
               <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" style="width:100%;" (change)="loadFaCardByCategoryId($event)" class="form-control select2-no-search"  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" #FixedAssetCardCategoryId="ngModel" required >
@@ -57,6 +70,8 @@
                   <div *ngIf="FixedAssetCardCategoryId.errors.required">Bu alan zorunludur.</div>
               </div>  
           </div>
+
+          <!-- USER -->
           <div class="form-group col-md-6">
               <label>Personel</label>
               <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2-no-search" style="width:100%;"  #UserId="ngModel">
@@ -65,7 +80,9 @@
               </select>             
           </div>
         </div>  
+
         <div class="row justify-content-center">
+          <!-- FIXED ASSET CARD -->
           <div class="form-group col-md-6">
               <label class="required-span">Demirbaş Kartı</label>
               <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" style="width:100%;"  class="form-control select2-no-search" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardId.invalid }" #FixedAssetCardId="ngModel" required >
@@ -76,6 +93,8 @@
                     <div *ngIf="FixedAssetCardId.errors.required">Bu alan zorunludur.</div>
               </div>        
           </div>
+
+          <!-- FIXED ASSET BRAND -->
           <div class="form-group col-md-6">
               <label>Marka</label>
               <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" style="width:100%;" class="form-control select2-no-search" 
@@ -128,7 +147,7 @@
         </div>  
   </mat-step>
   <mat-step label="Özellik Bilgileri" [editable]="editable">
-    <div style="display:flex; justify-content: flex-start">
+    <div style="display:flex; justify-content: flex-start; margin-left: 15px;">
     <div style="flex:1">
         <div class="row justify-content-center">         
             <div class="form-group col-md-6">
@@ -187,7 +206,7 @@
           </div>
         </div>
       </div>
-        </div>
+      </div>
          
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
           <div class="grp-btn-action-left">

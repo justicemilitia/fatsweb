@@ -63,7 +63,7 @@
               <label class="required-span">Kullanıcı</label>
               <div *ngIf="visible;then insertUserRole else updateUserRole"></div>
               <ng-template #insertUserRole>
-                <ng-multiselect-dropdown [placeholder]="'Seçiniz'"  [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required #UserId="ngModel"
+                <ng-multiselect-dropdown [placeholder]="'Seçiniz'"  [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required
                  [data]="systemUsers" [(ngModel)]="userRole.UserId"
                   name="UserId" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
                   (onSelectAll)="onSelectAll($event)">

@@ -154,7 +154,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
   loadDepartmentByLocationId() {
     this.baseService.departmentService.GetDepartmentsByLocationId(
       this.locationId,
-      departments => {
+      departments => {1
         this.departments = departments;
       },
       (error: HttpErrorResponse) => {

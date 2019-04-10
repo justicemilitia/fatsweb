@@ -87,6 +87,7 @@ export class FixedAsset implements IData {
   FixedAssetUsers: FixedAssetUser[];
   IsBarcodeManual: boolean = false;
   Quantity: number;
+  Tablename:string;  
 
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();

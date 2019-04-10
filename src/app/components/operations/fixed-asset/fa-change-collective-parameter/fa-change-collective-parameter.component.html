@@ -14,43 +14,74 @@
           <label>Seçili Demirbaşlar</label>
           <input name="Barcodes" value="{{faBarcode}}" type="text" class="form-control" disabled />
         </div>
-      </div>
+    </div>
 
-        <div class="row justify-content-center">
-          <!-- <div class="justify-content-center"> -->
-          <div class="col-md-12 form-group">
+        <div class="row justify-content-center">       
              
-              <!-- ŞİRKET - SİGORTA ŞİRKETİ -->
+             <div class="col-md-12 form-group">
+             <fieldset class="field_set">  
+                <legend>Genel Bilgiler</legend>
+
+                <!--DEMİRBAŞ KATEGORİSİ - DEMİRBAŞ KARTI - DEMİRBAŞ RESMİ -->
+             <div class="row">
+              <!--DEMİRBAŞ KATEGORİSİ -->
+
+                <div class="col-md-3 form-group" >
+                    <label>Demirbaş Kategorisi</label>
+                    <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" (change)="loadFaCardByCategoryId($event)" class="form-control" #FixedAssetCardCategoryId="ngModel">
+                      <option [ngValue]="null">Seçiniz</option>
+                      <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}                      
+                      </option>
+                    </select>
+                </div>
+
+                <!-- DEMİRBAŞ KARTI -->
+                <div class="col-md-3 form-group">
+                    <label>Demirbaş Kartı</label>
+                    <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" [attr.required] = "selectFixedAssetCard == true ? true : undefined" class="form-control" #FixedAssetCardId="ngModel">
+                      <option [ngValue]="null">Seçiniz</option>
+                      <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>          
+                    </select>
+                    <div *ngIf="selectFixedAssetCard == true" style="color:red">Bu alan zorunludur.</div>
+                    <div *ngIf="data.submitted && FixedAssetCardId.invalid" class="invalid-feedback">
+                        <div *ngIf="FixedAssetCardId.errors.required">Bu alan zorunludur.</div>
+                  </div> 
+                </div>
+
+                  <!--SERİ NO-->
+                <div class="col-md-3 form-group">
+                    <label>Seri No</label>
+                    <input [(ngModel)]="fixedAsset.SerialNumber" name="SerialNumber" type="text" class="form-control" #SerialNumber="ngModel" >
+                </div>
+
+                <!-- TEDARİKÇİ -->
+                <div class="col-md-3 form-group">
+                    <label>Tedarikçi</label>
+                    <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control" #CompanyId="ngModel">
+                        <option [ngValue]="null">Seçiniz</option>
+                        <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
+                          {{ company.Name }}
+                        </option>
+                      </select>
+                </div>
+         
+              </div>
+              <!-- DEPARTMAN - LOKASYON - AKTİFLİK DURUMU-->
               <div class="row">
 
-                  <!-- ŞİRKET -->
-                  <div class="col-md-6 form-group">
+                  <!-- FİRMA -->
+                  <div class="col-md-3 form-group">
                       <label>Firma</label>
-                      <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+                      <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" (change)="getFirmId($event)" class="form-control" #FirmId="ngModel">
                         <option [ngValue]="null">Seçiniz</option>
                         <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
                           {{ firm.Name }}
                         </option>
                       </select>
-                    </div>
-
-                    <!-- SİGORTA ŞİRKETİ -->
-                    <div class="col-md-6 form-group">
-                        <label>Sigorta Şirketi</label>
-                        <select [(ngModel)]="fixedAsset.InsuranceCompanyId" name="InsuranceCompanyId" class="form-control" #InsuranceCompanyId="ngModel">
-                            <option [ngValue]="null">Seçiniz</option>
-                            <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
-                              {{ company.Name }}
-                            </option>
-                          </select>
-                    </div>
-              </div>
-
-              <!-- DEPARTMAN - LOKASYON -->
-              <div class="row">
-
+                  </div>
+  
                     <!-- LOKASYON -->
-                    <div class="col-md-6 form-group">
+                    <div class="col-md-3 form-group">
                         <label>Lokasyon</label>
                         <select
                           [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel" (change)="loadDepartmentByLocationId($event)">
@@ -59,12 +90,12 @@
                             *ngFor="let location of locations"
                             value = "{{location.LocationId}}">
                             {{ location.Name }}
-                          </option>
+                      </option>
                         </select>
                     </div>
-
+  
                      <!-- DEPARTMAN -->
-                     <div class="col-md-6 form-group">
+                     <div class="col-md-3 form-group">
                       <label>Departman</label>
                       <select
                         [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control" #DepartmentId="ngModel">
@@ -75,86 +106,159 @@
                         </option>
                       </select>
                     </div>
+
+                    <!-- STATÜ -->
+                    <div class="form-group col-md-3">                    
+                        <label>Demirbaş Statüsü</label>                    
+                        <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%;border: radius 0px;" #StatusId="ngModel">
+                            <option [ngValue]="null">Seçiniz</option>
+                            <option *ngFor="let status of statuses" value="{{status.FixedAssetStatusId}}">{{status.Name}}</option>
+                        </select>                     
+                    </div>
+
               </div>
 
-              <!-- MARKA - MODEL -->
-              <div class="row">
+                 <!-- MARKA - MODEL -->
+                 <div class="row">
                 
-                <!-- MARKA -->
-                <div class="form-group col-md-6">
-                    <label>Marka</label>                  
-                    <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2-no-search" 
-                     (change)="loadModelByBrandId($event)" #FixedAssetCardBrandId="ngModel">
-                      <option [ngValue]="null">Seçiniz</option>
-                      <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
-                    </select> 
+                    <!-- MARKA -->
+                    <div class="form-group col-md-3">
+                        <label>Marka</label>                  
+                        <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2-no-search" 
+                         (change)="loadModelByBrandId($event)" #FixedAssetCardBrandId="ngModel">
+                          <option [ngValue]="null">Seçiniz</option>
+                          <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
+                        </select> 
+                    </div>
+    
+                    <!-- MODEL -->
+                    <div class="form-group col-md-3">
+                        <label>Model</label>                  
+                        <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2-no-search" #FixedAssetCardModelId="ngModel">
+                            <option [ngValue]="null" >Seçiniz</option>
+                            <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
+                          </select> 
+                      </div>
+
+                        <!-- AKTİF Mİ ? -->
+                        <div class="form-group col-md-3">
+                            <label></label> 
+                            <label class="ckbox" style="margin-top: 20px">
+                                <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" name="IsActive" #IsActive="ngModel"
+                              /><span>Aktif mi ?</span>
+                            </label>                    
+                        </div>
+
+                        <!-- AKTİFLİK TARİHİ -->
+                        <div class="form-group col-md-3">
+                            <label>Aktifleştirme Tarihi</label>
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                  <div (click)="activationDate.toggle()" class="input-group-text">
+                                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                                  </div>
+                                </div>
+                                <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
+                                [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
+                                />                        
+                              </div>
+                        </div> 
+                       
+                  </div>
+            </fieldset>  
+          </div>
+               
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-12 form-group">             
+              <fieldset class="field_set">
+                  <legend>Finansal Bilgiler</legend>
+              <div class="row">
+
+                  <!-- FİYAT -->
+                  <div class="col-md-3 form-group">
+                    <div class="row">
+                      <div class="col-md-6 form-group">
+                     <label>Fiyat</label>
+                     <input [(ngModel)]="fixedAsset.Price" name="Price" type="text" class="form-control" #Price="ngModel" >
+                    </div>
+
+                    <!-- PARA BİRİMİ -->
+                    <div class="col-md-6 form-group">
+                     <label>Para Birimi</label>
+                     <select [(ngModel)]="fixedAsset.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
+                       <option value="-1" >Para Pirimi</option>
+                       <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
+                     </select>  
+                    </div>
+                  </div>
                 </div>
 
-                <!-- MODEL -->
-                <div class="form-group col-md-6">
-                    <label>Model</label>                  
-                    <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2-no-search" #FixedAssetCardModelId="ngModel">
-                        <option [ngValue]="null" >Seçiniz</option>
-                        <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
-                      </select> 
-                  </div>
+                    
+                  <div class="col-md-3 form-group">
 
-              </div>
-
-              <!-- TEDARİKÇİ - MASRAF YERİ -->
-              <div class="row">
-
-              <!-- TEDARİKÇİ -->
-              <div class="col-md-6 form-group">
-                    <label>Tedarikçi</label>
-                    <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control" #CompanyId="ngModel">
-                        <option [ngValue]="null">Seçiniz</option>
-                        <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
-                          {{ company.Name }}
-                        </option>
+                      <!-- SİGORTA ŞİRKETİ -->              
+                      <label>Sigorta Şirketi</label>
+                      <select [(ngModel)]="fixedAsset.InsuranceCompanyId" name="InsuranceCompanyId" class="form-control" #InsuranceCompanyId="ngModel">
+                          <option [ngValue]="null">Seçiniz</option>
+                          <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
+                            {{ company.Name }}
+                          </option>
                       </select>
-              </div>
-
-              <!-- MASRAF YERİ -->
-              <div class="form-group col-md-6">
-                  <label>Masraf Yeri</label>                
-                    <select [(ngModel)]="fixedAsset.ExpenseCenterId" name="ExpenseCenterId" class="form-control select2-no-search" #ExpenseCenterId="ngModel">
-                        <option value="-1" >Seçiniz</option>
-                        <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
-                    </select>
+          
                   </div>
-              </div>
 
-              <!-- FATURA TARİHİ - FATURA NUMARASI -->
-              <div class="row">
-
-                  <!-- FATURA TARİHİ -->
-                  <div class="col-md-6 form-group">
+                   <!-- FATURA TARİHİ -->
+                  <div class="col-md-3 form-group">
                       <label>Fatura Tarihi</label>
                       <div class="input-group">
+                          <div class="input-group-append">
+                            <div (click)="invoiceDate.toggle()" class="input-group-text">
+                              <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                            </div>
+                          </div>
+                          <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="invoiceDate"
+                            [(ngModel)]="fixedAsset.InvoiceDate" ngbDatepicker #invoiceDate="ngbDatepicker" #invoiceDateModel="ngModel">
+                      </div>
+                  </div>
+
+                  <!-- FATURA NUMARASI -->
+                  <div class="form-group col-md-3">
+                      <label>Fatura Numarası</label>
+                      <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" class="form-control" #InvoiceNo="ngModel"/>
+                  </div>
+                </div>
+                
+                <div class="row">
+
+                <!-- MASRAF YERİ -->
+                <div class="form-group col-md-3">
+                    <label>Masraf Yeri</label>                
+                      <select [(ngModel)]="fixedAsset.ExpenseCenterId" name="ExpenseCenterId" class="form-control select2-no-search" #ExpenseCenterId="ngModel">
+                          <option value="-1" >Seçiniz</option>
+                          <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
+                      </select>
+                </div>
+
+                <!-- MAKBUZ TARİHİ -->           
+                <div class="form-group col-md-3">
+                    <label>Makbuz Tarihi</label>  
+                    <div class="input-group">
                         <div class="input-group-append">
-                          <div (click)="invoiceDate.toggle()" class="input-group-text">
+                          <div (click)="receiptDate.toggle()" class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
                         </div>
-                        <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="invoiceDate"
-                          [(ngModel)]="fixedAsset.InvoiceDate" ngbDatepicker #invoiceDate="ngbDatepicker" #invoiceDateModel="ngModel">
+                        <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="receiptDate" 
+                        [(ngModel)]="fixedAsset.ReceiptDate" ngbDatepicker #receiptDate="ngbDatepicker" #receiptDateModel="ngModel"/>  
                       </div>
-                    </div>
-
-                    <!-- FATURA NUMARASI -->
-                    <div class="form-group col-md-6">
-                        <label>Fatura Numarası</label>
-                        <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" class="form-control" #InvoiceNo="ngModel"/>
-                    </div>
-              </div>
-
-              <!-- GARANTİ SÜRESİ -->
-              <div class="row">
+                </div> 
 
                 <!-- BAŞLANGIÇ TARİHİ -->
-                <div class="col-md-6 form-group">
-                    <label>Başlangıç Tarihi</label>
+                <div class="col-md-3 form-group">
+                    <label>Garanti Başlangıç Tarihi</label>
                     <div class="input-group">
                       <div class="input-group-append">
                         <div (click)="guaranteeStartDate.toggle()" class="input-group-text">
@@ -167,8 +271,8 @@
                   </div>
 
                 <!-- BİTİŞ TARİHİ -->
-                <div class="col-md-6 form-group">
-                    <label>Bitiş Tarihi</label>
+                <div class="col-md-3 form-group">
+                    <label>Garanti Bitiş Tarihi</label>
                     <div class="input-group">
                       <div class="input-group-append">
                         <div (click)="guaranteeEndDate.toggle()" class="input-group-text">
@@ -179,25 +283,82 @@
                         [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker" #guaranteeEndDateModel="ngModel">
                     </div>
                   </div>
-              
-              </div>
+                </div>
+              </fieldset>
+            </div>
+        </div>
 
-              <!-- DEMİRBAŞ STATÜSÜ -->
+        <div class="row justify-content-center">
+            <div class="col-md-12 form-group">   
+            <fieldset class="field_set">
+                <legend>Demirbaş Özellikleri</legend>
               <div class="row">
-                  <div class="form-group col-md-6">
-                      <label>Demirbaş Statüsü</label>                    
-                      <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%;border: radius 0px;" #StatusId="ngModel">
-                          <option [ngValue]="null">Seçiniz</option>
-                          <option *ngFor="let status of statuses" value="{{status.FixedAssetStatusId}}">{{status.Name}}</option>
-                      </select>   
-                  </div>
+                  <div style="display:flex; justify-content: flex-start; margin-left:15px">
+                      <div style="flex:1">
+                          <div class="row justify-content-center">         
+                              <div class="form-group col-md-6">
+                                <label>Özellik Adı</label>
+                                  <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
+                                      <option value="-1">Özellik Seçiniz</option>
+                                      <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+                                  </select>   
+                              </div>
+                            </div>
+                            <div class="row justify-content-center">   
+                              <div class="form-group col-md-6"> 
+                                  <label>Özellik Değeri</label>    
+                                   <div class="flexProperty">        
+                                    <div style="flex:1;">            
+                                     <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search">
+                                          <option [ngValue]="null">Özellik Değeri Seçiniz</option>
+                                          <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
+                                     </select> 
+                                     <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
+                                    style="font-size: 13px;height: 27px;">
+                                    </div>
+                                    <div class="property-add-value">                    
+                                        <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
+                                    </div>  
+                                  </div>                
+                              </div> 
+                            </div>                           
+                          </div>
+                          <div style="display:flex;justify-content: space-between;width: 300px;flex-direction: column;padding: 7px;"> 
+                              <div class="row justify-content-center">
+                                  <div class="form-group col-md-12">
+                                      <div class="property-values-table">
+                                       <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+                                      </div>
+                                    </div>
+                              </div> 
+                          </div>
+                          <div style="display:flex;justify-content: space-between;width: 300px;flex-direction: column;padding: 7px;"> 
+                            <div class="form-group">
+                                <label>Demirbaş Resmi</label>
+                            </div>
+                            <div class="row justify-content-center">  
+                              <div class="form-group col-md-12">
+                                <img [src]="imgURL" height="200" width="300" *ngIf="imgURL">
+                            </div> 
+                            <div class="form-group col-md-12">                                  
+                              <div class="file-area">
+                              <input #Picture [(ngModel)]="imageFile" id="FixedAssetImage" accept='image/*' (change)="addImageFile(Picture.files)" name="Picture" type="file" class="form-control-file" style="display:none">
+                                <label for="FixedAssetImage" class="custom-file">
+                                  <label class="custom-file-text" for="FixedAssetImage">
+                                   Dosya Seçiniz
+                                  </label>
+                                </label>
+                                <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
+                              </div>  
+                            </div>
+                          </div>
+                        </div>
+                      </div>
               </div>
-
+            </fieldset>
           </div>
- <!-- </div> -->
+        </div>
     </div>
-  </div>
- 
   <!-- modal-body -->
   <div class="modal-footer">
     <button

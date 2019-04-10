@@ -10,6 +10,7 @@ import { Agreement } from "../../../models/Agreement";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import { Company } from "../../../models/Company";
 import { convertDateToNgbDate, convertNgbDateToDateString } from 'src/app/declarations/extends';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: "app-agreement",
@@ -43,6 +44,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   companies: Company[] = [];
 
   agreementFiles: any[] = [];
+
+  minDate:NgbDate;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
