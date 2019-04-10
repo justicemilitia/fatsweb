@@ -1,3 +1,5 @@
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+
 export class TransactionLog {
 
     TransactionLogId : number;
@@ -13,7 +15,7 @@ export class TransactionLog {
     CheckOutToWhom : string;
     CheckOutPrice : number;
     CheckOutLocationId: number;
-    UndoSuspensionDate: Date;
+    UndoSuspensionDate: NgbDate;
     CurrencyId:number;
     CheckInExpectedArrivalDate : Date;
     FromParentInventory: string;

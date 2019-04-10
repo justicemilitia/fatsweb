@@ -17,7 +17,8 @@ import {
   CHANGE_COLLECTIVEPARAMETER,
   SUSPENSIONPROCESS,
   LOST_PROCESS,
-  CHANGE_RELATIONSHIP
+  CHANGE_RELATIONSHIP,
+  BREAK_RELATIONSHIP
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -27,6 +28,7 @@ import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { TransactionLog } from '../../models/TransactionLog';
 import { FixedAssetComponent } from '../../components/operations/fixed-asset/fixed-asset.component';
 import { FixedAssetUser } from '../../models/FixedAssetUser';
+import { FixedAssetRelationship } from '../../models/FixedAssetRelationship';
 
 @Injectable({
   providedIn: "root"
@@ -52,6 +54,35 @@ export class FixedAssetService {
             let fixedAssets: FixedAsset[] = [];
             (<FixedAsset[]>response.ResultObject).forEach(e => {
               let fa: FixedAsset = new FixedAsset();
+              Object.assign(fa, e);
+              fixedAssets.push(fa);
+            });
+            success(fixedAssets, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  GetFixedAssetRelationship(success, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + GET_FIXED_ASSET,
+        { Page: "1", PerPage: "100", sortOrder: "asc", filter: {} },
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      ).subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let fixedAssets: FixedAssetRelationship[] = [];
+            (<FixedAssetRelationship[]>response.ResultObject).forEach(e => {
+              let fa: FixedAssetRelationship = new FixedAssetRelationship();
               Object.assign(fa, e);
               fixedAssets.push(fa);
             });
@@ -175,6 +206,29 @@ export class FixedAssetService {
             let insertedTransactionLog: TransactionLog = new TransactionLog();
             Object.assign(insertedTransactionLog, response.ResultObject);
             success(insertedTransactionLog, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  BreakFixedAssetRelationship(fixedAsset: FixedAsset, success, failed){
+    this.httpclient
+      .post(
+        SERVICE_URL + BREAK_RELATIONSHIP, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedFixedAsset: TransactionLog = new TransactionLog();
+            Object.assign(insertedFixedAsset, response.ResultObject);
+            success(insertedFixedAsset, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

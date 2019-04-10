@@ -25,6 +25,8 @@ import { SuspensionComponent } from './components/definitions/suspension/suspens
 import { SuspendedFixedAssetComponent } from './components/operations/suspended-fixed-asset/suspended-fixed-asset.component';
 import { LostFixedAssetComponent } from './components/operations/lost-fixed-asset/lost-fixed-asset.component';
 import { CheckoutFixedAssetComponent } from './components/operations/checkout-fixed-asset/checkout-fixed-asset.component';
+import { FixedAssetRelationship } from './models/FixedAssetRelationship';
+import { RelationshipFixedAssetComponent } from './components/operations/relationship-fixed-asset/relationship-fixed-asset.component';
 
 export const routes: Routes = [
   {
@@ -168,6 +170,12 @@ export const routes: Routes = [
     path: "checkoutfixedasset",
     component: CheckoutFixedAssetComponent,
     data: { pageKeyword: pages.MENU_CHECKEDOUTFIXEDASSETS }
+    // //canActivate: [AuthGuard]
+  },
+  {
+    path: "relationshipfixedasset",
+    component: RelationshipFixedAssetComponent,
+    data: { pageKeyword: pages.MENU_FIXEDASSETRELATIONSHIP }
     // //canActivate: [AuthGuard]
   }
 ];

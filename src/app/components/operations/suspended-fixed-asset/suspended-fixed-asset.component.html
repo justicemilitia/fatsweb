@@ -57,7 +57,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm" (ngSubmit)="undoSuspendedFixedAsset(data)">
+      <form name="form" #dataSuspend="ngForm" (ngSubmit)="undoSuspendedFixedAsset(dataSuspend)">
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
@@ -68,11 +68,11 @@
           <div class="row justify-content-center">
             <div class="col-md-6 form-group">
               <label>Askıdan Alma Bedeli</label>
-              <input [(ngModel)]="transactionLog.CheckOutPrice" name="CheckOutPrice" type="text" class="form-control" #CheckOutPrice="ngModel"/>
+              <input [(ngModel)]="transactionLogSuspended.CheckOutPrice" name="CheckOutPrice" type="text" class="form-control" #CheckOutPrice="ngModel"/>
             </div>
             <div class="col-md-6 form-group">
               <label>Para Birimi</label>
-              <select [(ngModel)]="transactionLog.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
+              <select [(ngModel)]="transactionLogSuspended.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
                 <option [ngValue]="null">Yok</option>
                 <option *ngFor="let currency of currencies" value={{currency.CurrencyId}}>
                   {{currency.Name}}</option>
@@ -81,20 +81,21 @@
           </div>
 
           <div class="row justify-content-center">
-              <div class="col-md-12 form-group">            
+
+          <div class="form-group col-md-12">
               <label class="required-span">Askıdan Alma Tarihi</label>
               <div class="input-group">
                 <div class="input-group-append"
-                  [class.is-invalid]="data.submitted && (!transactionLog.UndoSuspensionDate || undoSuspensionDateModel.status == 'INVALID' )">
+                  [class.is-invalid]="dataSuspend.submitted && (!transactionLogSuspended.UndoSuspensionDate || undoSuspensionDateModel.status == 'INVALID' )">
                   <div (click)="undoSuspensionDate.toggle()" class="input-group-text">
                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                   </div>
                 </div>
-                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="undoSuspensionDate"
-                  [(ngModel)]="transactionLog.UndoSuspensionDate" ngbDatepicker #undoSuspensionDate="ngbDatepicker" #undoSuspensionDateModel="ngModel"
-                  [class.is-invalid]="data.submitted && (!transactionLog.UndoSuspensionDate || UndoSuspensionDateModel.status == 'INVALID' )"
+                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="undoSuspensionDate" [min]="startDate"
+                  [(ngModel)]="transactionLogSuspended.UndoSuspensionDate" ngbDatepicker #undoSuspensionDate="ngbDatepicker" #undoSuspensionDateModel="ngModel"
+                  [class.is-invalid]="dataSuspend.submitted && (!transactionLogSuspended.UndoSuspensionDate || undoSuspensionDateModel.status == 'INVALID' )"
                   required />
-                <div *ngIf="data.submitted && undoSuspensionDateModel.invalid" class="invalid-feedback">
+                <div *ngIf="dataSuspend.submitted && undoSuspensionDateModel.invalid" class="invalid-feedback">
                   <div *ngIf="undoSuspensionDateModel.errors.required">Bu alan zorunludur.</div>
                   <div *ngIf="!undoSuspensionDateModel.errors.required && undoSuspensionDateModel.status == 'INVALID'">
                     Lütfen Geçerli Format Giriniz.
@@ -108,7 +109,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label>Açıklama</label>
-              <textarea [(ngModel)]="transactionLog.CheckOutDescription" name="CheckOutDescription" type="text"
+              <textarea [(ngModel)]="transactionLogSuspended.CheckOutDescription" name="CheckOutDescription" type="text"
                 style="resize:none;height: 80px;" rows="3" class="form-control" maxlength="150"></textarea>
             </div>
           </div>
@@ -142,7 +143,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form #data="ngForm" (ngSubmit)="checkOutFixedAsset(data)" class="form-register" novalidate>
+        <form #dataExit="ngForm" (ngSubmit)="checkOutFixedAsset(dataExit)" class="form-register" novalidate>
           <div class="modal-body">
             <!-- BARKODLAR -->
             <div class="row justify-content-center">
@@ -157,14 +158,14 @@
               <div class="col-md-12 form-group">
                 <label class="required-span">Çıkış Tipi</label>
                 <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
-                  #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }"
+                  #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': dataExit.submitted && CheckOutReasonId.invalid }"
                   required>
                   <option>Yok</option>
                   <option *ngFor="let checkedOutReason of checkedOutReasons" value={{checkedOutReason.CheckOutReasonId}}>
                     {{checkedOutReason.Name}}
                   </option>
                 </select>
-                <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
+                <div *ngIf="dataExit.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
                   <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
                 </div>
               </div>
