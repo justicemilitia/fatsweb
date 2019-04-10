@@ -49,6 +49,14 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   propertyValue: string;
   isListSelected: boolean = false;
   selectFixedAssetCard:boolean=false;
+  selectedFirm:boolean=false;
+  selectedDepartment:boolean=false;
+
+    
+  public imagePath;
+  imgURL: any;
+  imageFile: any;
+  fileBarcode: any;
 
   firms: Firm[] = []; 
   companies: Company[] = [];   
@@ -105,6 +113,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
+    this.dataTablePropertyValue.isFilterActive=false;
     
    }
 
@@ -206,7 +215,9 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   }
 
   loadDepartmentByLocationId(event: any){
+
     this.departments = [];
+    this.selectedFirm=false;
 
     if (!event.target.value || event.target.value == "") {
       this.fixedAsset.DepartmentId = null;
@@ -218,10 +229,10 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       this.baseService.departmentService.GetDepartmentsByLocationId(
         <number>event.target.value,
         (departments: Department[]) => {
-          this.departments = departments;
+          this.departments = departments;      
         },
         (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
+          this.baseService.popupService.ShowErrorPopup(error);        
         }
       );
     }
@@ -251,8 +262,10 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   }
 
   loadFaCardByCategoryId(event: any) {
+
     this.fixedassetcards = [];
     this.selectFixedAssetCard = true;
+
     if (!event.target.value || event.target.value == "") {
       this.fixedAsset.FixedAssetCardId = null;
       this.fixedAsset.FixedAssetCard = new FixedAssetCard();
@@ -310,6 +323,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     if (event.target.value) {
       this.firmId = Number(event.target.value);
       this.loadDropdownListByFirmId();
+      this.selectedFirm=true;
     }
   }
 
@@ -352,7 +366,9 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
 
     this.fixedAsset.FirmId =this.fixedAsset.FirmId == null ? null : Number(data.value.FirmId);
     this.fixedAsset.InsuranceCompanyId = this.fixedAsset.InsuranceCompanyId == null ? null : Number(data.value.InsuranceCompanyId);
+    
     this.fixedAsset. DepartmentId= this.fixedAsset.DepartmentId == null ? null : Number(data.value.DepartmentId);
+  
     this.fixedAsset.LocationId=this.fixedAsset.LocationId == null ? null : Number(data.value.LocationId);
     this.fixedAsset.FixedAssetCardBrandId=this.fixedAsset.FixedAssetCardBrandId == null ? null :  Number(data.value.FixedAssetCardBrandId);
     this.fixedAsset.FixedAssetCardModelId=this.fixedAsset.FixedAssetCardModelId==null ? null :Number(data.value.FixedAssetCardModelId);
@@ -390,5 +406,39 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  selectedFixedAssetCard(event){
+
+    this.selectFixedAssetCard=false;
+
+  }
+
+  selectDepartment(event){
+
+    this.selectedDepartment = true;
+    if (!event.target.value || event.target.value == "") {
+
+      return;
+    }
+  }
+
+  addImageFile(imageFile) {
+    if (imageFile.length === 0) return;
+
+    var reader = new FileReader();
+    this.imagePath = imageFile;
+    reader.readAsDataURL(imageFile[0]);
+    reader.onload = _event => (this.imgURL = reader.result.toString());
+
+    // this.baseService.fileUploadService.ImageUpload(
+    //   imageFile,
+    //   result => {
+    //     this.imgURL = result;
+    //   },
+    //   (error: HttpErrorResponse) => {
+    //     this.baseService.popupService.ShowErrorPopup(error);
+    //   }
+    // );
   }
 }

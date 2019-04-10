@@ -38,7 +38,7 @@
                 <!-- DEMİRBAŞ KARTI -->
                 <div class="col-md-3 form-group">
                     <label>Demirbaş Kartı</label>
-                    <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" [attr.required] = "selectFixedAssetCard == true ? true : undefined" class="form-control" #FixedAssetCardId="ngModel">
+                    <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" [attr.required] = "selectFixedAssetCard == true ? true : undefined" (change)="selectedFixedAssetCard($event)" class="form-control" #FixedAssetCardId="ngModel">
                       <option [ngValue]="null">Seçiniz</option>
                       <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>          
                     </select>
@@ -78,6 +78,7 @@
                           {{ firm.Name }}
                         </option>
                       </select>
+                      
                   </div>
   
                     <!-- LOKASYON -->
@@ -92,13 +93,14 @@
                             {{ location.Name }}
                       </option>
                         </select>
+                        <div *ngIf="selectedFirm == true" style="color:red">Bu alan zorunludur.</div>
                     </div>
   
                      <!-- DEPARTMAN -->
                      <div class="col-md-3 form-group">
                       <label>Departman</label>
                       <select
-                        [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control" #DepartmentId="ngModel">
+                        [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control" (change)="selectDepartment($event)" #DepartmentId="ngModel">
                         <option [ngValue]="">Seçiniz</option>
                         <option
                           *ngFor="let department of departments" value="{{ department.DepartmentId }}">
@@ -141,12 +143,17 @@
                       </div>
 
                         <!-- AKTİF Mİ ? -->
-                        <div class="form-group col-md-3">
-                            <label></label> 
-                            <label class="ckbox" style="margin-top: 20px">
-                                <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" name="IsActive" #IsActive="ngModel"
-                              /><span>Aktif mi ?</span>
-                            </label>                    
+                        <div class="form-group col-md-3">                   
+                         <div class="row" style="margin-left:30px">
+                            <div class="col-md-6" style="margin-top:20px">                             
+                              <input type="radio" [(ngModel)]="fixedAsset.IsActive" class="form-check-input" [value]="true" name="IsActive" #IsActive="ngModel"
+                              /><span>Aktif</span>
+                            </div>
+                            <div class="col-md-6" style="margin-top:20px">
+                              <input type="radio" [(ngModel)]="fixedAsset.IsActive" class="form-check-input" [value]="false" name="IsActive" #IsActive="ngModel"
+                              /><span>Pasif</span>
+                            </div>        
+                          </div> 
                         </div>
 
                         <!-- AKTİFLİK TARİHİ -->
@@ -296,7 +303,7 @@
                   <div style="display:flex; justify-content: flex-start; margin-left:15px">
                       <div style="flex:1">
                           <div class="row justify-content-center">         
-                              <div class="form-group col-md-6">
+                              <div class="form-group col-md-12">
                                 <label>Özellik Adı</label>
                                   <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
                                       <option value="-1">Özellik Seçiniz</option>
@@ -305,7 +312,7 @@
                               </div>
                             </div>
                             <div class="row justify-content-center">   
-                              <div class="form-group col-md-6"> 
+                              <div class="form-group col-md-12"> 
                                   <label>Özellik Değeri</label>    
                                    <div class="flexProperty">        
                                     <div style="flex:1;">            
@@ -323,16 +330,16 @@
                               </div> 
                             </div>                           
                           </div>
-                          <div style="display:flex;justify-content: space-between;width: 300px;flex-direction: column;padding: 7px;"> 
+                          <div style="display:flex;justify-content: space-between;width: 488px;margin-left: 50px;flex-direction: column;padding: 10px;"> 
                               <div class="row justify-content-center">
                                   <div class="form-group col-md-12">
                                       <div class="property-values-table">
                                        <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
                                       </div>
-                                    </div>
+                                  </div>
                               </div> 
                           </div>
-                          <div style="display:flex;justify-content: space-between;width: 300px;flex-direction: column;padding: 7px;"> 
+                          <div style="display:flex;justify-content: space-between;width: 200px; margin-left:15px;flex-direction: column;padding: 7px;"> 
                             <div class="form-group">
                                 <label>Demirbaş Resmi</label>
                             </div>
