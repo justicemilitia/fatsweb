@@ -7,8 +7,8 @@ import { Department } from "../../../models/Department";
 import { Role } from "../../../models/Role";
 import { User } from "../../../models/User";
 import { Location } from "../../../models/Location";
-import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
-import UserTitle from 'src/app/models/UserTitle';
+import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
+import UserTitle from "src/app/models/UserTitle";
 
 @Component({
   selector: "app-user",
@@ -21,8 +21,6 @@ import UserTitle from 'src/app/models/UserTitle';
   providers: [UserComponent]
 })
 export class UserComponent extends BaseComponent implements OnInit {
-
-
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
 
@@ -54,97 +52,99 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   dropdownSettings = {};
 
-  checkedSystemUser:boolean = false;
+  checkedSystemUser: boolean = false;
 
-  isInsertOrUpdate:boolean = false;
+  isInsertOrUpdate: boolean = false;
 
   /* Data Table instance */
-  public dataTable: TreeGridTable = new TreeGridTable("user",
+  public dataTable: TreeGridTable = new TreeGridTable(
+    "user",
     [
       {
-        columnDisplayName: 'Kullanıcı Kodu',
-        columnName: ['UserCode'],
+        columnDisplayName: "Kullanıcı Kodu",
+        columnName: ["UserCode"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       },
       {
-        columnDisplayName: 'İsim',
-        columnName: ['FirstName'],
+        columnDisplayName: "İsim",
+        columnName: ["FirstName"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       },
       {
-        columnDisplayName: 'Soyisim',
-        columnName: ['LastName'],
+        columnDisplayName: "Soyisim",
+        columnName: ["LastName"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       },
       {
-        columnDisplayName: 'Unvan',
-        columnName: ['UserTitle', 'Title'],
+        columnDisplayName: "Unvan",
+        columnName: ["UserTitle", "Title"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       },
       {
-        columnDisplayName: 'Departman',
-        columnName: ['Department', 'Name'],
+        columnDisplayName: "Departman",
+        columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       },
       {
-        columnDisplayName: 'Telefon',
-        columnName: ['PhoneNumber'],
+        columnDisplayName: "Telefon",
+        columnName: ["PhoneNumber"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       },
       {
-        columnDisplayName: 'E-mail',
-        columnName: ['UserMail'],
+        columnDisplayName: "E-mail",
+        columnName: ["UserMail"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       },
       {
-        columnDisplayName: 'Bağlı Olduğu Personel',
-        columnName: ['|User'],
+        columnDisplayName: "Bağlı Olduğu Personel",
+        columnName: ["|User"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text',
-        formatter: (value) => {
-          if(value){
-            return value.ParentUser ? value.ParentUser.FirstName + ' ' + value.ParentUser.LastName : '';
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          if (value) {
+            return value.ParentUser
+              ? value.ParentUser.FirstName + " " + value.ParentUser.LastName
+              : "";
+          } else {
+            return "";
           }
-          else{ 
-            return '';
-          }
-      }
+        }
       },
       {
-        columnDisplayName: 'Açıklama',
-        columnName: ['Description'],
+        columnDisplayName: "Açıklama",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
-        placeholder: '',
-        type: 'text'
+        placeholder: "",
+        type: "text"
       }
     ],
     {
       isDesc: false,
-      column: ['FirstName']
+      column: ["FirstName"]
     }
   );
 
@@ -163,7 +163,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     this.loadUsers();
   }
-  ngOnInit() { }
+  ngOnInit() {}
 
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset modal form then reload lists */
@@ -173,150 +173,133 @@ export class UserComponent extends BaseComponent implements OnInit {
     if (isNewItem == true) {
       this.currentUser = new User();
     }
-
   }
 
   onSubmit(data: NgForm) {
-
     /* Form Validation */
     if (data.form.invalid == true) return;
 
-    if(this.checkedSystemUser==true){
+    if (this.checkedSystemUser == true) {
       /* are Roles selected */
       if (!this.currentUserRoles || this.currentUserRoles.length == 0) {
         return;
-      } 
+      }
     }
     /* if company id exists means update it otherwise insert it */
     if (this.currentUser.UserId == null) {
       this.insertUser(data);
-      this.isInsertOrUpdate=false;
+      this.isInsertOrUpdate = false;
     } else {
       this.updateUser(data);
-      this.isInsertOrUpdate=true;
+      this.isInsertOrUpdate = true;
     }
   }
 
-insertUser(data: NgForm) {
-
+  async insertUser(data: NgForm) {
     /* Say user to wait */
     this.isWaitingInsertOrUpdate = true;
 
     this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
 
     /* insert into service */
-    this.baseService.userService.InsertUser(this.currentUser,
+    this.baseService.userService.InsertUser(
+      this.currentUser,
       (insertedUser: User, message: string) => {
-
         /* Change loading bar status */
         this.isWaitingInsertOrUpdate = false;
 
         /* Show popup for success */
         this.baseService.popupService.ShowSuccessPopup(message);
 
-        /* Inserted user id matches with current user to add it to table */
-        //this.currentUser.UserId = insertedUser.UserId;
-
-        /* Object bindings to store in datatable */
-        // this.currentUser.Department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
-        // this.currentUser.UserTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
-        // this.currentUser.ParentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
-
-        //this.currentUserRoles.splice(0);
-
-
-        /* Load Table */
-        this.users.push(this.currentUser);
-        this.dataTable.TGT_loadData(this.users);
-
         /* Reset form */
         this.resetForm(data, true);
 
+        this.refreshTable();
 
         this.checkedSystemUser = false;
-
-      }, (error: HttpErrorResponse) => {
-
+      },
+      (error: HttpErrorResponse) => {
         /* Change loading bar status */
         this.isWaitingInsertOrUpdate = false;
 
         /* Show failed message */
         this.baseService.popupService.ShowErrorPopup(error);
-
-      });
+      }
+    );
   }
 
   async updateUser(data: NgForm) {
-
     /* Ask for approve question if its true then update the location */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          /* Object bindings to store in datatable */
+          let department = this.departments.find(
+            x => x.DepartmentId == this.currentUser.DepartmentId
+          );
+          let userTitle = this.userTitles.find(
+            x => x.UserTitleId == this.currentUser.UserTitleId
+          );
+          let parentUser = this.users.find(
+            x => x.UserId == this.currentUser.ParentUserId
+          );
+          if (this.checkedSystemUser == true)
+            this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
+          else this.currentUser.RoleIds = [];
+          /* loading icon visible */
+          this.isWaitingInsertOrUpdate = true;
 
-      if (response == true) {
+          this.baseService.userService.UpdateUser(
+            this.currentUser,
+            (updateUser, message) => {
+              /* Close loading icon */
+              this.isWaitingInsertOrUpdate = false;
 
-        /* Object bindings to store in datatable */
-        let department = this.departments.find(x => x.DepartmentId == this.currentUser.DepartmentId);
-        let userTitle = this.userTitles.find(x => x.UserTitleId == this.currentUser.UserTitleId);
-        let parentUser = this.users.find(x => x.UserId == this.currentUser.ParentUserId);
-        if(this.checkedSystemUser == true)
-        this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
-        else
-          this.currentUser.RoleIds=[];
-        /* loading icon visible */
-        this.isWaitingInsertOrUpdate = true;
+              /* Show pop up*/
+              this.baseService.popupService.ShowSuccessPopup(message);
 
-        this.baseService.userService.UpdateUser(this.currentUser, (updateUser, message) => {
+              /* Load related values to current model */
+              this.currentUser.Department = department;
+              this.currentUser.UserTitle = userTitle;
+              this.currentUser.ParentUser = parentUser;
 
-          /* Close loading icon */
-          this.isWaitingInsertOrUpdate = false;
+              /* Update in table the current user */
+              this.dataTable.TGT_updateData(this.currentUser);
 
-          /* Show pop up*/
-          this.baseService.popupService.ShowSuccessPopup(message);
+              let newUser = new User();
+              Object.assign(newUser, this.currentUser);
+              this.currentUser = newUser;
 
-          /* Load related values to current model */
-          this.currentUser.Department = department;
-          this.currentUser.UserTitle = userTitle;
-          this.currentUser.ParentUser = parentUser;
+              /* Get original source after update completed */
+              this.users = <User[]>this.dataTable.TGT_copySource();
+            },
+            (error: HttpErrorResponse) => {
+              /* Close loader */
+              this.isWaitingInsertOrUpdate = false;
 
-          /* Update in table the current user */
-          this.dataTable.TGT_updateData(this.currentUser);
-
-          let newUser = new User();
-          Object.assign(newUser,this.currentUser);
-          this.currentUser = newUser;
-
-          /* Get original source after update completed */
-          this.users = <User[]>this.dataTable.TGT_copySource();
-
-        }, (error: HttpErrorResponse) => {
-
-          /* Close loader */
-          this.isWaitingInsertOrUpdate = false;
-
-          /* Show error message */
-          this.baseService.popupService.ShowErrorPopup(error);
-
-        });
-
+              /* Show error message */
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
+        }
       }
-
-    });
-
+    );
   }
 
   async deleteUsers() {
-
     /* Get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir kayıt seçiniz");
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir kayıt seçiniz"
+      );
       return;
     }
 
     /* Show Question Message */
     await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
-
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -324,37 +307,40 @@ insertUser(data: NgForm) {
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
       /* Delete all */
-      this.baseService.userService.DeleteUsers(itemIds, () => {
+      this.baseService.userService.DeleteUsers(
+        itemIds,
+        () => {
+          /* Deactive the spinner */
+          this.baseService.spinner.hide();
 
-        /* Deactive the spinner */
-        this.baseService.spinner.hide();
+          /* if all of them removed */
+          if (itemIds.length == 1)
+            this.baseService.popupService.ShowSuccessPopup(
+              "Kayıt Başarıyla silindi!"
+            );
+          else
+            this.baseService.popupService.ShowAlertPopup(
+              "Tüm kayıtlar başarıyla silindi!"
+            );
 
-        /* if all of them removed */
-        if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
-        else
-          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+          /* Clear all the ids from table */
+          this.dataTable.TGT_removeItemsByIds(itemIds);
 
-        /* Clear all the ids from table */
-        this.dataTable.TGT_removeItemsByIds(itemIds);
+          /* Get current original sources */
+          this.users = <User[]>this.dataTable.TGT_copySource();
+        },
+        (error: HttpErrorResponse) => {
+          /* Hide spinner then show error message */
+          this.baseService.spinner.hide();
 
-        /* Get current original sources */
-        this.users = <User[]>this.dataTable.TGT_copySource();
-
-      }, (error: HttpErrorResponse) => {
-
-        /* Hide spinner then show error message */
-        this.baseService.spinner.hide();
-
-        /* Show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
-
-      });
+          /* Show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     });
   }
 
   async onDoubleClickItem(item: User) {
-
     /* Clear Model */
     this.currentUser = new User();
 
@@ -364,59 +350,55 @@ insertUser(data: NgForm) {
     /* load companies if not loaded */
     this.loadDropdownList();
 
-    this.isInsertOrUpdate=true;
+    this.isInsertOrUpdate = true;
 
     /* get company information from server */
-    await this.baseService.userService.GetUserById(item.UserId, (result: User) => {
+    await this.baseService.userService.GetUserById(
+      item.UserId,
+      (result: User) => {
+        /* then bind it to company model to update */
+        setTimeout(() => {
+          /* close loading */
+          this.baseService.spinner.hide();
 
-      /* then bind it to company model to update */
-      setTimeout(() => {
+          /* Trigger to model to show it */
+          $("#btnEditUser").trigger("click");
 
-        /* close loading */
+          /* bind result to model */
+          Object.assign(this.currentUser, result);
+
+          this.currentUserRoles.splice(0);
+
+          this.currentUser.UserRoles.forEach(e => {
+            let role = this.roles.find(y => y.RoleId == e.RoleId);
+            if (role) this.currentUserRoles.push(role);
+          });
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        /* hide spinner */
         this.baseService.spinner.hide();
 
-        /* Trigger to model to show it */
-        $("#btnEditUser").trigger("click");
-
-        /* bind result to model */
-        Object.assign(this.currentUser, result);
-
-        this.currentUserRoles.splice(0);
-
-        this.currentUser.UserRoles.forEach(e => {
-          let role = this.roles.find(y => y.RoleId == e.RoleId);
-          if (role)
-            this.currentUserRoles.push(role);
-        });
-
-
-      }, 1000);
-    }, (error: HttpErrorResponse) => {
-
-      /* hide spinner */
-      this.baseService.spinner.hide();
-
-      /* show error message */
-      this.baseService.popupService.ShowErrorPopup(error);
-
-    });
-
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   async loadUsers() {
-
     /* Load just user to table */
-    this.baseService.userService.GetUsers((usrs: User[]) => {
-      this.users = usrs;
-      this.dataTable.TGT_loadData(this.users);
-    }, (error: HttpErrorResponse) => {
-      this.baseService.popupService.ShowErrorPopup(error);
-    });
-
+    this.baseService.userService.GetUsers(
+      (usrs: User[]) => {
+        this.users = usrs;
+        this.dataTable.TGT_loadData(this.users);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   async loadDropdownList() {
-
     // Departmanların listelenmesi
     // if (this.departments.length == 0) {
     //   this.baseService.departmentService.GetDepartments((departments: Department[]) => {
@@ -426,23 +408,29 @@ insertUser(data: NgForm) {
     //   });
     // }
 
-    // Lokasyonların listelenmesi      
+    // Lokasyonların listelenmesi
     if (this.locations.length == 0) {
-      this.baseService.locationService.GetLocations((locations: Location[]) => {
-        this.locations = locations
-      }, (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      });
+      this.baseService.locationService.GetLocations(
+        (locations: Location[]) => {
+          this.locations = locations;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     }
 
     /* Reload users again */
     if (this.users.length == 0) {
-      this.baseService.userService.GetUsers((users: User[]) => {
-        this.users = users;
-        this.dataTable.TGT_loadData(this.users);
-      }, (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      });
+      this.baseService.userService.GetUsers(
+        (users: User[]) => {
+          this.users = users;
+          this.dataTable.TGT_loadData(this.users);
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     }
 
     /* Get Roles */
@@ -458,10 +446,9 @@ insertUser(data: NgForm) {
         this.userTitles = titles;
       });
     }
-
   }
 
-  loadDepartmentByLocationId(event: any){
+  loadDepartmentByLocationId(event: any) {
     this.departments = [];
 
     if (!event.target.value || event.target.value == "") {
@@ -484,29 +471,27 @@ insertUser(data: NgForm) {
   }
 
   onItemSelect(item: Role) {
-    if (this.currentUserRoles == null)
-      this.currentUserRoles = [];
+    if (this.currentUserRoles == null) this.currentUserRoles = [];
     if (this.currentUserRoles.findIndex(x => x.RoleId == item.RoleId) == -1)
       this.currentUserRoles.push(item);
   }
 
   onSelectAll(items: Role[]) {
-
-    if (this.currentUserRoles == null)
-      this.currentUserRoles = [];
+    if (this.currentUserRoles == null) this.currentUserRoles = [];
 
     items.forEach(element => {
-      if (this.currentUserRoles.findIndex(x => x.RoleId == element.RoleId) == -1)
+      if (
+        this.currentUserRoles.findIndex(x => x.RoleId == element.RoleId) == -1
+      )
         this.currentUserRoles.push(element);
     });
-
   }
 
-  isSystemUser(event){
+  isSystemUser(event) {
     if (event.target.checked == true) {
       this.checkedSystemUser = true;
     } else {
-      this.checkedSystemUser = false;  
+      this.checkedSystemUser = false;
     }
   }
 
@@ -521,5 +506,4 @@ insertUser(data: NgForm) {
 
     this.isTableRefreshing = false;
   }
-
 }

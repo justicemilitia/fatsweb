@@ -1,0 +1,23 @@
+{
+    "deploy": {
+        "targets": [
+            {
+                "type": "local",
+                "name": "My local folder",
+                "description": "A local folder",
+                "dir": "C:/deploy"
+            }
+        ]
+
+    },
+    "packages": [
+        {
+            "name": "Version 2.3.4",
+            "description": "Package version 2.3.4",
+            "files": [
+                "**/*"
+            ],            
+            "deployOnSave": true
+        }
+    ]
+}

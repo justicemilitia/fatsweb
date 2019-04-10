@@ -86,9 +86,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text",
-        formatter: value => {
-          return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
-        }
+        // formatter: value => {
+        //   return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
+        // }
       },
       {
         columnDisplayName: "Bitiş Tarihi",
@@ -97,9 +97,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text",
-        formatter: value => {
-          return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
-        }
+        // formatter: value => {
+        //   return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
+        // }
       },
       {
         columnDisplayName: "Tutar",
