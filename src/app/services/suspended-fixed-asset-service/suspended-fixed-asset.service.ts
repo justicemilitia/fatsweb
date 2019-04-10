@@ -44,7 +44,7 @@ export class SuspendedFixedAssetService {
       });
     }
 
-    UndoSuspensionProcess(ids:FixedAsset,success,failed){
+    UndoSuspensionProcess(ids:TransactionLog,success,failed){
       this.httpclient.post(SERVICE_URL+UNDO_SUSPENSION_PROCESS,ids,{
         headers:GET_HEADERS(this.authenticationService.getToken())
       }).subscribe(result=>{

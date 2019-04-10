@@ -27,6 +27,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
   suspendedFa: FixedAsset = new FixedAsset();
   Ids: number[] = [];
   transactionLog: TransactionLog = new TransactionLog();
+  transactionLogSuspended: TransactionLog = new TransactionLog();
   transactionLogs: TransactionLog[] = [];
   currencies: Currency[] = [];
   checkedOutReasons: CheckOutReason[] = [];
@@ -56,19 +57,27 @@ export class SuspendedFixedAssetComponent extends BaseComponent
       },
       {
         columnDisplayName: "Zimmetli Personel",
-        columnName: ["FixedAssetUsers", "User"],
+        columnName: ["|FixedAssetUsers"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text", 
-        formatter: (value) => {
-          if(value && value.length!=0){
-            return (<FixedAssetUser[]>value).map(x=>x.User.FirstName + ' ' + x.User.LastName)[0]
-          }
-          else{ 
-            return '';
-          }
-      }
+      //   formatter: (value) => {
+      //     if(value && value.length!=0){
+      //       return (<FixedAssetUser[]>value).map(x=>x.User.FirstName + ' ' + x.User.LastName)[0]
+      //     }
+      //     else{ 
+      //       return '';
+      //     }
+      // }
+      formatter: (value) => {
+        if(value){
+          return value.FixedAssetUsers.length>0 ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
+        }
+        else{ 
+          return '';
+        }
+    }
       },
       {
         columnDisplayName: "Departman",
@@ -96,13 +105,13 @@ export class SuspendedFixedAssetComponent extends BaseComponent
       },
       {
         columnDisplayName: "Askıya Alınma Tarihi",
-        columnName: ["TransactionDate"],
+        columnName: ["|TransactionDate"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value ? value.substring(0, 10).split("-").reverse().join("-") : "";
+          return value ? value.TransactionDate.substring(0, 10).split("-").reverse().join("-") : "";
         }
       },
     ],
@@ -173,19 +182,19 @@ export class SuspendedFixedAssetComponent extends BaseComponent
     return this.Ids;
   }
 
-  undoSuspendedFixedAsset(data: NgForm) {
-    if (data.form.invalid == true) return;
+  undoSuspendedFixedAsset(dataSuspend: NgForm) {
+    if (dataSuspend.form.invalid == true) return;
 
-    this.suspendedFa.FixedAssetIds = this.selectedSuspendFa();
+    this.transactionLogSuspended.FixedAssetIds = this.selectedSuspendFa();
 
     this.baseService.popupService.ShowQuestionPopupForOperation(
       (response: boolean) => {
         if (response == true) {
           this.baseService.suspendedService.UndoSuspensionProcess(
-            this.suspendedFa,
+            this.transactionLogSuspended,
             () => {
               this.dataTable.TGT_removeItemsByIds(
-                this.suspendedFa.FixedAssetIds
+                this.transactionLogSuspended.FixedAssetIds
               );
 
               this.baseService.popupService.ShowSuccessPopup(
@@ -201,8 +210,8 @@ export class SuspendedFixedAssetComponent extends BaseComponent
     );
   }
 
-  async checkOutFixedAsset(data: NgForm) {
-    if (data.form.invalid == true) return;
+  async checkOutFixedAsset(dataExit: NgForm) {
+    if (dataExit.form.invalid == true) return;
 
     this.transactionLog.FixedAssetIds = this.selectedSuspendFa();
 
@@ -217,6 +226,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
 
         /* Push inserted item to Property list */
         this.transactionLogs.push(this.transactionLog);
+        this.loadSuspendedList();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

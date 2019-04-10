@@ -20,6 +20,7 @@ export class PopupService {
   ShowAlertPopup(message: string) {
     //swal(message, "", "warning");
     this.alertSerivce.pushDanger(this.languageService.getValue(message));
+    this.alertSerivce
   }
 
   ShowSuccessPopup(message: string) {
@@ -231,7 +232,24 @@ export class PopupService {
   ShowQuestionPopupForChangeRelationhip(callBack) {
     swal({
       title: "Uyarı!",
-      text: "Seçim yapılan demirbaşlar ilgili demirbaş ile ilişkliendirilecektir. İşlemi onaylıyor musunuz?",
+      text: "Seçimi yapılan demirbaşlar ilgili demirbaş ile ilişkilendirilecektir. İşlemi onaylıyor musunuz?",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  ShowQuestionPopupForBreakRelationship(callBack){
+    swal({
+      title: "Uyarı!",
+      text: "Seçimi yapılan demirbaşların ilişkisi koparılacaktır. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
       dangerMode: true,

@@ -72,6 +72,7 @@ export const UPDATE_FIXEDASSETFIRM = "FixedAsset/ChangeFirm";
 export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetById";
 export const SUSPENSIONPROCESS = "FixedAsset/SuspensionProcess";
 export const CHANGE_RELATIONSHIP = "FixedAsset/SetFixedAssetRelationship";
+export const BREAK_RELATIONSHIP = "FixedAsset/BreakFixedAssetRelationship";
 //#endregion
 
 //#region FixedAssetDebit
