@@ -74,9 +74,13 @@ export class FileUploadService {
     }).subscribe(
       result => {
         let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let file = response.ResultObject.toString();
-          success(file, response.LanguageKeyword);
+        
+        if (response.ResultStatus == true) {       
+          //let file = {};
+          let filePath = response.ResultObject;
+
+          //Object.assign(file,response.ResultObject);
+          success(filePath, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }

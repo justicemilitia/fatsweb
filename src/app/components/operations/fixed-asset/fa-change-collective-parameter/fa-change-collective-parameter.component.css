@@ -21,3 +21,24 @@
     padding-left: 12px;
     align-self: center;
   }
+
+  .my-drop-zone {
+    border: dotted 1px lightgray;
+    height: 100px;
+    width:100px
+  }
+
+  .custom-file-text {
+    margin: 0;
+    padding: 0px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.file-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
