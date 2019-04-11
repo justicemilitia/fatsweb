@@ -14,6 +14,7 @@ import { FixedAssetCardModel } from '../../../../models/FixedAssetCardModel';
 import { FixedAsset } from '../../../../models/FixedAsset';
 import { FixedAssetCard } from '../../../../models/FixedAssetCard';
 import { FixedAssetCardPropertyValue } from '../../../../models/FixedAssetCardPropertyValue';
+import { FixedAssetCardProperty } from '../../../../models/FixedAssetCardProperty';
 
 @Component({
   selector: 'app-fa-filter',
@@ -33,9 +34,10 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   locations: Location[] = [];
   statuses: FixedAssetStatus[] = [];
   fixedassetcategories: FixedAssetCardCategory[] = [];
-  staffs: User[] = [];
+  users: User[] = [];
   brands: FixedAssetCardBrand[] = [];
   models: FixedAssetCardModel[] = [];
+  properties: FixedAssetCardProperty[] = [];
   fixedAsset: FixedAsset = new FixedAsset();
   fixedAssetCards: FixedAssetCard[] = [];
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
@@ -44,7 +46,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   dropdownSettingsForDepartment = {};
   dropdownSettingsForLocation = {};
   dropdownSettingsForCategory = {};
-  dropdownSettingsForStatu = {};
+  dropdownSettingsForStatus = {};
   dropdownSettingsForBrand = {};
   dropdownSettingsForModel = {};
   dropdownSettingsForUser = {};
@@ -127,7 +129,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
       itemsShowLimit: 10,
       allowSearchFilter: true
     };
-    this.dropdownSettingsForStatu = {
+    this.dropdownSettingsForStatus = {
       singleSelection: false,
       idField: "StatusId",
       textField: "Name",
@@ -157,7 +159,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     this.dropdownSettingsForUser = {
       singleSelection: false,
       idField: "UserId",
-      textField: "Name",
+      textField: "UserMail",
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
       itemsShowLimit: 10,
@@ -219,7 +221,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     // User
     this.baseService.userService.GetUsers(
       (users: User[]) => {
-        this.staffs = users;
+        this.users = users;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -237,6 +239,14 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
         (error: HttpErrorResponse) => {}
       );
     }
+
+    //Model
+      this.baseService.fixedAssetCardModelService.GetFixedAssetCardModels(
+        (models: FixedAssetCardModel[]) => {
+          this.models = models;
+        },
+        (error: HttpErrorResponse) => {}
+      );
 
   }
 
