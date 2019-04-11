@@ -62,6 +62,9 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
 
               /* Push inserted item to Property list */
               this.fixedAssets.push(this.fixedAsset);
+
+              this.resetForm(data);
+              
               this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
@@ -72,5 +75,10 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
         }
       }
     );
+  }
+
+  resetForm(data: NgForm) {
+    data.resetForm();
+    this.fixedAsset.Barcode = null;
   }
 }

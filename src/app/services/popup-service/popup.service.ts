@@ -20,7 +20,6 @@ export class PopupService {
   ShowAlertPopup(message: string) {
     //swal(message, "", "warning");
     this.alertSerivce.pushDanger(this.languageService.getValue(message));
-    this.alertSerivce
   }
 
   ShowSuccessPopup(message: string) {
@@ -270,6 +269,15 @@ export class PopupService {
           callBack(false);
         }
       });
+  }
+
+  
+  ShowQuestionPopupForRelationalFixedAsset() {
+    swal(
+      "Uyarı!",
+      "Seçilen demirbaşların ilişkisi bulunmadığı için işlem gerçekleştirilemedi!",
+      "warning"
+    )
   }
 
 }
