@@ -37,10 +37,17 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   brands: FixedAssetCardBrand[] = [];
   models: FixedAssetCardModel[] = [];
   fixedAsset: FixedAsset = new FixedAsset();
-  fixedassetcards: FixedAssetCard[] = [];
+  fixedAssetCards: FixedAssetCard[] = [];
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
   
-  
+  dropdownSettingsForCard = {};
+  dropdownSettingsForDepartment = {};
+  dropdownSettingsForLocation = {};
+  dropdownSettingsForCategory = {};
+  dropdownSettingsForStatu = {};
+  dropdownSettingsForBrand = {};
+  dropdownSettingsForModel = {};
+  dropdownSettingsForUser = {};
 
   
   /* Fixed Asset Card Property Value Data Table */
@@ -82,6 +89,80 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
    }
 
   ngOnInit() {
+    
+    this.dropdownSettingsForCard = {
+      singleSelection: false,
+      idField: "FixedAssetCardId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
+
+    this.dropdownSettingsForDepartment = {
+      singleSelection: false,
+      idField: "DepartmentId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
+    this.dropdownSettingsForLocation = {
+      singleSelection: false,
+      idField: "LocationId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
+    this.dropdownSettingsForCategory = {
+      singleSelection: false,
+      idField: "FixedAssetCardCategoryId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
+    this.dropdownSettingsForStatu = {
+      singleSelection: false,
+      idField: "StatusId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
+    this.dropdownSettingsForBrand = {
+      singleSelection: false,
+      idField: "FixedAssetCardBrandId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
+    this.dropdownSettingsForModel = {
+      singleSelection: false,
+      idField: "FixedAssetCardModelId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
+    this.dropdownSettingsForUser = {
+      singleSelection: false,
+      idField: "UserId",
+      textField: "Name",
+      selectAllText: "Hepsini Seç",
+      unSelectAllText: "Temizle",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
   }
 
   loadDropdownList(){
@@ -125,6 +206,16 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
       }
     );
 
+    //Card
+    this.baseService.fixedAssetCardService.GetFixedAssetCards(
+      (faCards: FixedAssetCard[]) => {
+        this.fixedAssetCards = faCards;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
     // User
     this.baseService.userService.GetUsers(
       (users: User[]) => {
@@ -149,47 +240,47 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
 
   }
 
-  loadModelByBrandId(event: any) {
-    this.models = [];
+  // loadModelByBrandId(event: any) {
+  //   this.models = [];
 
-    if (!event.target.value || event.target.value == "") {
-      this.fixedAsset.FixedAssetCardModelId = null;
-      this.fixedAsset.FixedAssetCardModel = new FixedAssetCardModel();
-      return;
-    }
+  //   if (!event.target.value || event.target.value == "") {
+  //     this.fixedAsset.FixedAssetCardModelId = null;
+  //     this.fixedAsset.FixedAssetCardModel = new FixedAssetCardModel();
+  //     return;
+  //   }
 
-    if (event.target.value) {
-      this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
-        <number>event.target.value,
-        (models: FixedAssetCardModel[]) => {
-          this.models = models;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
-  }
+  //   if (event.target.value) {
+  //     this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
+  //       <number>event.target.value,
+  //       (models: FixedAssetCardModel[]) => {
+  //         this.models = models;
+  //       },
+  //       (error: HttpErrorResponse) => {
+  //         this.baseService.popupService.ShowErrorPopup(error);
+  //       }
+  //     );
+  //   }
+  // }
 
-  loadFaCardByCategoryId(event: any) {
-    this.fixedassetcards = [];
+  // loadFaCardByCategoryId(event: any) {
+  //   this.fixedAssetCards = [];
 
-    if (!event.target.value || event.target.value == "") {
-      this.fixedAsset.FixedAssetCardId = null;
-      this.fixedAsset.FixedAssetCard = new FixedAssetCard();
-      return;
-    }
+  //   if (!event.target.value || event.target.value == "") {
+  //     this.fixedAsset.FixedAssetCardId = null;
+  //     this.fixedAsset.FixedAssetCard = new FixedAssetCard();
+  //     return;
+  //   }
 
-    if (event.target.value) {
-      this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
-        <number>event.target.value,
-        (fixedAssetCards: FixedAssetCard[]) => {
-          this.fixedassetcards = fixedAssetCards;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
-  }
+  //   if (event.target.value) {
+  //     this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
+  //       <number>event.target.value,
+  //       (fixedAssetCards: FixedAssetCard[]) => {
+  //         this.fixedAssetCards = fixedAssetCards;
+  //       },
+  //       (error: HttpErrorResponse) => {
+  //         this.baseService.popupService.ShowErrorPopup(error);
+  //       }
+  //     );
+  //   }
+  // }
 }

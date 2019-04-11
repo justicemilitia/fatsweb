@@ -12,6 +12,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { FixedAsset } from "../../../models/FixedAsset";
+import { FixedAssetCreateService } from '../../../services/fixed-asset-create-service/fixed-asset-create.service';
 
 @Component({
   selector: "app-relationship-fixed-asset",
@@ -26,9 +27,9 @@ import { FixedAsset } from "../../../models/FixedAsset";
 export class RelationshipFixedAssetComponent extends BaseComponent
   implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes["faBarcode"]) {
+    if (changes["Ids"]) {
     this.loadRelationalFixedAsset();
-    // }
+    }
   }
 
   /* Fixed Asset list */
@@ -366,8 +367,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
     this.dataTableRelationship.isConfigOpen = false;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit(){}
 
   async loadFixedAssetRelationship() {
     /* Load all fixed asset cards to datatable */
@@ -418,6 +418,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
   }
 
   loadRelationalFixedAsset() {
+    this.parentIds=[];
     let selectedItems = <FixedAssetRelationship[]>(
       this.dataTable.TGT_getSelectedItems()
     );
@@ -434,16 +435,25 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       );
       return;
     } else if (this.parentIds.length == 0) {
-        this.baseService.popupService.ShowAlertPopup(
-          "Seçilen demirbaşların ilişkisi bulunmadığı için işlem gerçekleştirilemedi!"
-        );
+        // this.baseService.popupService.ShowAlertPopup(
+        //   "Seçilen demirbaşların ilişkisi bulunmadığı için işlem gerçekleştirilemedi!"
+        // );
+        // this.baseService.popupService.ShowQuestionPopupForRelationalFixedAsset();
+        $("#btnShowRelationshipModal").trigger("click");
       return;
     }
 
     else {
-      this.dataTableRelationship.TGT_loadData(
-        this.dataTable.TGT_getSelectedItems()
-      );
+      let listedItem: FixedAssetRelationship[]=[];
+
+      selectedItems.forEach(e=>{
+        let item = new FixedAssetRelationship();
+        e.FixedAssetParentId=null;
+        Object.assign(item,e);
+        listedItem.push(item);
+      });
+      
+      this.dataTableRelationship.TGT_loadData(listedItem);
       $("#btnOpenRelationship").trigger("click");
     }
   }

@@ -12,70 +12,38 @@
       <div class="row justify-content-center">
 
         <!-- BARKOD -->
-        <div class="col-md-2 form-group">
+        <div class="col-md-4 form-group">
           <label>Barkod</label>
           <input [(ngModel)]="fixedAsset.Barcode" name="Barcode" type="text" class="form-control" />
         </div>
 
         <!-- DEMİRBAŞ ADI -->
-        <div class="col-md-2 form-group">
+        <div class="col-md-4 form-group">
           <label>Demirbaş Adı</label>
-          <select [(ngModel)]="fixedAsset.FixedAssetCard.Name" name="FirmId" class="form-control" #FirmId="ngModel">
-            <option [ngValue]="null">Seçiniz</option>
-            <option *ngFor="let fixedAssetCard of fixedAssetCards" value="{{ fixedAssetCard.FixedAssetCardId }}">
-              {{ fixedAssetCard.FixedAssetCardId }}
-            </option>
-          </select>
+          <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
+          [data]="fixedAssetCards" [(ngModel)]="fixedAsset.FixedAssetCardId"
+           name="FixedAssetCardId" [settings]="dropdownSettingsForCard" (onSelect)="onItemSelect($event)"
+           (onSelectAll)="onSelectAll($event)">
+         </ng-multiselect-dropdown>
         </div>
 
         <!-- KATEGORİ -->
-        <div class="col-md-2 form-group">
+        <div class="col-md-4 form-group">
             <label>Kategori</label>
-            <select [(ngModel)]="fixedAsset.FixedassetcategoryId" name="FixedassetcategoryId" class="form-control" #FixedassetcategoryId="ngModel">
-              <option [ngValue]="null">Seçiniz</option>
-              <option *ngFor="let fixedassetcategory of fixedassetcategories" value="{{ fixedassetcategory.FixedAssetCategoryId }}">
-                {{ fixedassetcategory.Name }}
-              </option>
-            </select>
-          </div>
-
-        <!-- DEMİRBAŞ GİRİŞ TARİH ARALIĞI -->
-        <div class="col-md-6 form-group">
-            <label>Demirbaş Giriş Tarih Aralığı</label>
-            <div class="row justify-content-center">
-                <div class="form-group col-md-6">
-                    <div class="input-group">
-                      <div class="input-group-append">
-                        <div (click)="endDate.toggle()" class="input-group-text">
-                          <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                        </div>
-                      </div>
-                      <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
-                        [(ngModel)]="fixedAsset.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"/>
-                    </div>
-                  </div>
-
-                  <div class="form-group col-md-6">
-                      <div class="input-group">
-                        <div class="input-group-append">
-                          <div (click)="endDate.toggle()" class="input-group-text">
-                            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                          </div>
-                        </div>
-                        <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
-                          [(ngModel)]="fixedAsset.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel"/>
-                      </div>
-                  </div>
-            </div>
-          </div>
-        
+              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
+              [data]="fixedassetcategories" [(ngModel)]="fixedAsset.FixedAssetCardCategoryId"
+              name="FixedAssetCardCategoryId" [settings]="dropdownSettingsForCategory" (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
         </div>
+
+      </div>
       
       <!-- DEPARTMAN, MARKA, DEMİRBAŞ STATÜSÜ, ÖZELLİK TİPİ, ÖZELLİK DEĞERİ -->
       <div class="row justify-content-center">
 
           <!-- DEPARTMAN -->
-          <div class="col-md-2 form-group">
+          <div class="col-md-4 form-group">
             <label>Departman</label>
             <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control" #DepartmentId="ngModel">
               <option [ngValue]="null">Seçiniz</option>
@@ -83,10 +51,16 @@
                 {{ department.Name }}
               </option>
             </select>
+
+            <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
+            [data]="departments" [(ngModel)]="fixedAsset.DepartmentId"
+            name="DepartmentId" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
           </div>
 
           <!-- MARKA -->
-          <div class="col-md-2 form-group">
+          <div class="col-md-4 form-group">
             <label>Marka</label>
             <select [(ngModel)]="fixedAsset.BrandId" name="FirmId" class="form-control" #FirmId="ngModel">
               <option [ngValue]="null">Seçiniz</option>
@@ -97,7 +71,7 @@
           </div>
 
           <!-- DEMİRBAŞ STATÜSÜ -->
-          <div class="col-md-2 form-group">
+          <div class="col-md-4 form-group">
               <label>Demirbaş Statüsü</label>
               <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control" #StatusId="ngModel">
                 <option [ngValue]="null">Seçiniz</option>
@@ -106,37 +80,9 @@
                 </option>
               </select>
           </div>
-           
-          <div class="col-md-6 form-group">
-            
-            <div class="row justify-content-center">
-              <!-- ÖZELLİK TİPİ -->
-              <div class="col-md-6 form-group">
-                  <label>Özellik Tipi</label>
-                  <select name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
-                    <option value="-1">Özellik Seçiniz</option>
-                    <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
-                </select> 
-              </div>
-
-              <!-- ÖZELLİK DEĞERİ -->
-              <div class="col-md-6 form-group">
-                  <label>Özellik Değeri</label>
-                  <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
-                    <option [ngValue]="null">Seçiniz</option>
-                    <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-                      {{ firm.Name }}
-                    </option>
-                  </select>
-              </div>
-
-            </div>
-          </div>
 
       </div>
       
-      <div class="row justify-content-center">
-        <div class="col-md-6">
 
       <!-- LOKASYON, MODEL, PERSONEL, GARANTİSİ BİTENLER -->
       <div class="row justify-content-center">
@@ -176,49 +122,106 @@
 
       </div>
 
-      <!-- GARANTİSİ OLANLAR, AMORTİSMANI HESAPLANANLAR -->
-        <div class="row justify-content-center">
-          <div class="form-group col-md-5">
-                <label class="ckbox">
-                  <input type="checkbox" id="PressDebitForm" 
-                    name="PressDebitForm"/><span>Garantisi olanlar</span>
-                </label>
+       <!-- DEMİRBAŞ GİRİŞ TARİHİ BAŞLANGIÇ, BİTİŞ -->
+       <div class="row justify-content-center">
+
+          <!-- DEMİRBAŞ GİRİŞ TARİHİ BAŞLANGIÇ -->
+          
+          <div class="form-group col-md-6">
+          <label>Demirbaş Giriş Tarih Aralığı</label>                
+              <div class="input-group">
+                <div class="input-group-append">
+                  <div (click)="endDate.toggle()" class="input-group-text">
+                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                  </div>
+                </div>
+                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
+                  [(ngModel)]="fixedAsset.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"/>
+              </div>
           </div>
-          <div class="form-group col-md-7">
-              <label class="ckbox">
-                <input type="checkbox" id="PressDebitForm" 
-                  name="PressDebitForm"/><span>Amortismanı hesaplananlar</span>
-              </label>
+
+          <!-- DEMİRBAŞ GİRİŞ TARİHİ BİTİŞ -->
+          <div class="form-group col-md-6">
+          <label> </label>                                
+              <div class="input-group">
+                <div class="input-group-append">
+                  <div (click)="endDate.toggle()" class="input-group-text">
+                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                  </div>
+                </div>
+                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                  [(ngModel)]="fixedAsset.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel"/>
+              </div>
           </div>
-        </div>
-        
-        <!-- İLİŞKİLİ DEMİRBAŞLAR, IFRS AMORTİSMANI HESAPLANANLAR -->
+
+    </div>
+
+    
+       
+
+        <!-- ÖZELLİK TİPİ, ÖZELLİK DEĞERİ -->
         <div class="row justify-content-center">
-            <div class="form-group col-md-5">
-                  <label class="ckbox">
-                    <input type="checkbox" id="PressDebitForm" 
-                      name="PressDebitForm"/><span>İlişkili Demirbaşlar</span>
-                  </label>
+
+            <!-- ÖZELLİK TİPİ -->
+            <div class="col-md-6 form-group">
+                <label>Özellik Tipi</label>
+                <select name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
+                  <option value="-1">Özellik Seçiniz</option>
+                  <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+              </select> 
             </div>
 
-            <div class="form-group col-md-7">
-                <label class="ckbox">
-                  <input type="checkbox" id="PressDebitForm" 
-                    name="PressDebitForm"/><span>IFRS Amortismanı Hesaplananlar</span>
-                </label>
-            </div>      
-        </div>
+            <!-- ÖZELLİK DEĞERİ -->
+            <div class="col-md-6 form-group">
+                <label>Özellik Değeri</label>
+                <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
+                  <option [ngValue]="null">Seçiniz</option>
+                  <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
+                    {{ firm.Name }}
+                  </option>
+                </select>
+            </div>
 
         </div>
+        
 
         <!-- ÖZELLİK TABLOSU -->
-        <div class="col-md-6">
-            <div class="sales-overview">
+        <div class="col-md-12">
+            <div class="sales-overview" style="padding-right:0px; padding-left:0px;">
                 <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
             </div>
         </div>
 
-      </div>
+          <!-- GARANTİSİ OLANLAR, AMORTİSMANI HESAPLANANLAR -->
+
+        <!-- GARANTİSİ OLANLAR -->
+        <div class="row justify-content-center">
+            <div class="form-group col-md-4">
+                  <label class="ckbox">
+                    <input type="checkbox" id="PressDebitForm" 
+                      name="PressDebitForm"/><span>Garantisi olanlar</span>
+                  </label>
+            </div>
+  
+            <!-- AMORTİSMANI HESAPLANANLAR -->
+            <div class="form-group col-md-4">
+                <label class="ckbox">
+                  <input type="checkbox" id="PressDebitForm" 
+                    name="PressDebitForm"/><span>Amortismanı hesaplananlar</span>
+                </label>
+            </div>
+  
+            <!-- IFRS AMORTİSMANI HESAPLANANLAR -->
+            <div class="form-group col-md-4">
+                <label class="ckbox">
+                  <input type="checkbox" id="PressDebitForm" 
+                    name="PressDebitForm"/><span>IFRS Amortismanı Hesaplananlar</span>
+                </label>
+            </div>  
+  
+          </div>
+          
+
     </div>
  
   <!-- modal-body -->
