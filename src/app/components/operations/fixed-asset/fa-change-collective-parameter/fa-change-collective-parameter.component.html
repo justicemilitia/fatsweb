@@ -6,7 +6,7 @@
 </div>
 
 <form name="form" #data="ngForm" (ngSubmit)="ChangeCollectiveParameter(data)">
-    <div class="modal-body">
+    <div class="modal-body" style="width:800px">
 
         <!-- BARKODLAR -->
     <div class="row justify-content-center">
@@ -300,67 +300,71 @@
             <fieldset class="field_set">
                 <legend>Demirbaş Özellikleri</legend>
               <div class="row">
-                  <div style="display:flex; justify-content: flex-start; margin-left:15px">
-                      <div style="flex:1">
-                          <div class="row justify-content-center">         
-                              <div class="form-group col-md-12">
-                                <label>Özellik Adı</label>
-                                  <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
-                                      <option value="-1">Özellik Seçiniz</option>
-                                      <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
-                                  </select>   
+                <div class="form-group col-md-3">
+                    <div style="display:flex; justify-content: flex-start;">
+                        <div style="flex:1">
+                            <div class="row justify-content-center">         
+                                <div class="form-group">
+                                  <label>Özellik Adı</label>
+                                    <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
+                                        <option value="-1">Özellik Seçiniz</option>
+                                        <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+                                    </select>   
+                                </div>
                               </div>
-                            </div>
-                            <div class="row justify-content-center">   
-                              <div class="form-group col-md-12"> 
+                              <div class="form-group"> 
                                   <label>Özellik Değeri</label>    
                                    <div class="flexProperty">        
                                     <div style="flex:1;">            
-                                     <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search">
+                                     <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
                                           <option [ngValue]="null">Özellik Değeri Seçiniz</option>
                                           <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
                                      </select> 
                                      <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
                                     style="font-size: 13px;height: 27px;">
-                                    </div>
+                                    </div>     
                                     <div class="property-add-value">                    
                                         <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
-                                    </div>  
+                                    </div>                          
                                   </div>                
                               </div> 
-                            </div>                           
-                          </div>
-                          <div style="display:flex;justify-content: space-between;width: 488px;margin-left: 50px;flex-direction: column;padding: 10px;"> 
-                              <div class="row justify-content-center">
-                                  <div class="form-group col-md-12">
-                                      <div class="property-values-table">
-                                       <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
-                                      </div>
-                                  </div>
-                              </div> 
-                          </div>
-                          <div style="display:flex;justify-content: space-between;width: 200px; margin-left:15px;flex-direction: column;padding: 7px;"> 
-                            <div class="form-group">
-                                <label>Demirbaş Resmi</label>
-                            </div>
-                            <div class="row justify-content-center">  
-                              <div class="form-group col-md-12">
-                                <img [src]="imgURL" height="200" width="300" *ngIf="imgURL">
-                            </div> 
-                            <div class="form-group col-md-12">                                  
-                              <div class="file-area">
-                              <input #Picture [(ngModel)]="imageFile" id="FixedAssetImage" accept='image/*' (change)="addImageFile(Picture.files)" name="Picture" type="file" class="form-control-file" style="display:none">
-                                <label for="FixedAssetImage" class="custom-file">
-                                  <label class="custom-file-text" for="FixedAssetImage">
-                                   Dosya Seçiniz
-                                  </label>
-                                </label>
-                                <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
-                              </div>  
-                            </div>
-                          </div>
                         </div>
-                      </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6" style="padding-top: 18px;">                    
+                    <div class="property-values-table" style="overflow-y: scroll; height: 80px; padding-top:0px;">
+                        <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div style="display:flex;justify-content: space-between; flex-direction: column;"> 
+                        <div class="form-group">
+                            <label>Demirbaş Resmi</label>
+                        </div>
+                        <div class="row justify-content-center" style="margin-top: -9px">  
+                          <div class="form-group col-md-8 well my-drop-zone" *ngIf="!imgURL">
+                            
+                        </div> 
+                          <img [src]="imgURL" height="95" width="100" *ngIf="imgURL">
+                        <div class="row justify-content-center col-md-4">
+                    
+                        <div class="file-area">
+                            <div class="row justify-content-center" >
+                          <input #Picture [(ngModel)]="imageFile" id="FixedAssetImage" accept='image/*' (change)="addImageFile(Picture.files)" name="Picture" type="file" class="form-control-file" style="display:none">
+                          <label for="FixedAssetImage" class="custom-file-text">  
+                            <label class="custom-file-remove" for="FixedAssetImage" ><span  for="FixedAssetImage" class="fa fa-plus"></span>                                
+                                </label>
+                          </label>
+                            </div> 
+                            <div class="row justify-content-center">
+                                <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
+                            </div>
+                          </div>
+                       
+                        </div>
+                        </div>                         
+                    </div>
+                </div>           
               </div>
             </fieldset>
           </div>

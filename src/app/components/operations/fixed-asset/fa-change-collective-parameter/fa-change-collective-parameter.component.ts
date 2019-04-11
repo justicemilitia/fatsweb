@@ -51,12 +51,12 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   selectFixedAssetCard:boolean=false;
   selectedFirm:boolean=false;
   selectedDepartment:boolean=false;
-
     
-  public imagePath;
+  
   imgURL: any;
   imageFile: any;
   fileBarcode: any;
+  picture:any;
 
   firms: Firm[] = []; 
   companies: Company[] = [];   
@@ -118,7 +118,9 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
    }
 
   ngOnInit() {
+    
   }
+
   loadDropdownList() {
 
     // FirmList
@@ -297,6 +299,17 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     );
   }
 
+  loadFixedAssetProperties() {
+    this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
+      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
+        this.fixedassetproperty = fixedAssetCardProperties;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+  
   loadValuesByPropertyId(event) {
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
@@ -411,7 +424,6 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   selectedFixedAssetCard(event){
 
     this.selectFixedAssetCard=false;
-
   }
 
   selectDepartment(event){
@@ -424,21 +436,25 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   }
 
   addImageFile(imageFile) {
+
+    this.baseService.fileUploadService.ImageUpload(
+      imageFile,
+      (result) => {      
+       this.picture=result; 
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    ); 
+
     if (imageFile.length === 0) return;
 
-    var reader = new FileReader();
-    this.imagePath = imageFile;
+    var reader = new FileReader();    
     reader.readAsDataURL(imageFile[0]);
     reader.onload = _event => (this.imgURL = reader.result.toString());
+  }
 
-    // this.baseService.fileUploadService.ImageUpload(
-    //   imageFile,
-    //   result => {
-    //     this.imgURL = result;
-    //   },
-    //   (error: HttpErrorResponse) => {
-    //     this.baseService.popupService.ShowErrorPopup(error);
-    //   }
-    // );
+  clearFiles(){
+    this.imgURL = null;
   }
 }
