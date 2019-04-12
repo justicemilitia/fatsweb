@@ -29,6 +29,7 @@ import { TransactionLog } from '../../models/TransactionLog';
 import { FixedAssetComponent } from '../../components/operations/fixed-asset/fixed-asset.component';
 import { FixedAssetUser } from '../../models/FixedAssetUser';
 import { FixedAssetRelationship } from '../../models/FixedAssetRelationship';
+import { FixedAssetFilter } from '../../models/FixedAssetFilter';
 
 @Injectable({
   providedIn: "root"
@@ -398,6 +399,32 @@ export class FixedAssetService {
         }
       );
   }
+
+  FilterFixedAsset(fixedAsset: FixedAssetFilter, success, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + GET_FIXED_ASSET, fixedAsset,
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedFixedAsset: FixedAssetUser = new FixedAssetUser();
+            Object.assign(insertedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
 
   ChangeRelationship(fixedAsset: FixedAsset, success, failed) {
     this.httpclient

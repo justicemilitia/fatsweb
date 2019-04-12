@@ -1,33 +1,38 @@
-import { Component, OnInit, NgModule } from '@angular/core';
-import { BaseComponent } from '../../../base/base.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGridTable';
-import { BaseService } from '../../../../services/base.service';
-import { Department } from '../../../../models/Department';
-import { FixedAssetStatus } from '../../../../models/FixedAssetStatus';
-import { Company } from '../../../../models/Company';
-import { HttpErrorResponse } from '@angular/common/http';
-import { FixedAssetCardCategory } from '../../../../models/FixedAssetCardCategory';
-import { User } from '../../../../models/LoginUser';
-import { FixedAssetCardBrand } from '../../../../models/FixedAssetCardBrand';
-import { FixedAssetCardModel } from '../../../../models/FixedAssetCardModel';
-import { FixedAsset } from '../../../../models/FixedAsset';
-import { FixedAssetCard } from '../../../../models/FixedAssetCard';
-import { FixedAssetCardPropertyValue } from '../../../../models/FixedAssetCardPropertyValue';
-import { FixedAssetCardProperty } from '../../../../models/FixedAssetCardProperty';
+import { Component, OnInit, NgModule, Input } from "@angular/core";
+import { BaseComponent } from "../../../base/base.component";
+import { ReactiveFormsModule, NgForm } from "@angular/forms";
+import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
+import { BaseService } from "../../../../services/base.service";
+import { Department } from "../../../../models/Department";
+import { Location } from "../../../../models/Location";
+import { FixedAssetStatus } from "../../../../models/FixedAssetStatus";
+import { Company } from "../../../../models/Company";
+import { HttpErrorResponse } from "@angular/common/http";
+import { FixedAssetCardCategory } from "../../../../models/FixedAssetCardCategory";
+import { User } from "../../../../models/User";
+import { FixedAssetCardBrand } from "../../../../models/FixedAssetCardBrand";
+import { FixedAssetCardModel } from "../../../../models/FixedAssetCardModel";
+import { FixedAsset } from "../../../../models/FixedAsset";
+import { FixedAssetCard } from "../../../../models/FixedAssetCard";
+import { FixedAssetCardPropertyValue } from "../../../../models/FixedAssetCardPropertyValue";
+import { FixedAssetCardProperty } from "../../../../models/FixedAssetCardProperty";
+import { FixedAssetPropertyDetails } from "../../../../models/FixedAssetPropertyDetails";
+import { PropertyValueTypes } from "../../../../declarations/property-value-types.enum";
+import { FixedAssetComponent } from "../fixed-asset.component";
+import { FixedAssetFilter } from '../../../../models/FixedAssetFilter';
 
 @Component({
-  selector: 'app-fa-filter',
-  templateUrl: './fa-filter.component.html',
-  styleUrls: ['./fa-filter.component.css']
+  selector: "app-fa-filter",
+  templateUrl: "./fa-filter.component.html",
+  styleUrls: ["./fa-filter.component.css"]
 })
 @NgModule({
   imports: [ReactiveFormsModule],
   declarations: [FaFilterComponent],
   providers: [FaFilterComponent]
 })
-
 export class FaFilterComponent extends BaseComponent implements OnInit {
+  @Input() faComponent: FixedAssetComponent;
 
   departments: Department[] = [];
   companies: Company[] = [];
@@ -38,10 +43,27 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   brands: FixedAssetCardBrand[] = [];
   models: FixedAssetCardModel[] = [];
   properties: FixedAssetCardProperty[] = [];
-  fixedAsset: FixedAsset = new FixedAsset();
+  fixedAsset: FixedAssetFilter = new FixedAssetFilter();
   fixedAssetCards: FixedAssetCard[] = [];
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
-  
+  faPropertyDetails: FixedAssetPropertyDetails[] = [];
+  fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
+  isListSelected: boolean = false;
+  propertyValue: string;
+  fixedassetproperty: FixedAssetCardProperty[] = [];
+  fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
+
+  //Dropdown Selected Items
+  selectedFixedAssetCards: FixedAssetCard[] = [];
+  selectedFixedAssetCardCategories: FixedAssetCardCategory[] = [];
+  selectedDepartments: Department[] = [];
+  selectedBrands: FixedAssetCardBrand[] = [];
+  selectedStatus: FixedAssetStatus[] = [];
+  selectedLocations: Location[] = [];
+  selectedModels: FixedAssetCardModel[] = [];
+  selectedUsers: User[] = [];
+
+  //Dropdown Settings
   dropdownSettingsForCard = {};
   dropdownSettingsForDepartment = {};
   dropdownSettingsForLocation = {};
@@ -51,7 +73,6 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   dropdownSettingsForModel = {};
   dropdownSettingsForUser = {};
 
-  
   /* Fixed Asset Card Property Value Data Table */
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetcardpropertyvalue",
@@ -88,10 +109,9 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
-   }
+  }
 
   ngOnInit() {
-    
     this.dropdownSettingsForCard = {
       singleSelection: false,
       idField: "FixedAssetCardId",
@@ -167,7 +187,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     };
   }
 
-  loadDropdownList(){
+  loadDropdownList() {
     //Department
     this.baseService.departmentService.GetDepartments(
       (departments: Department[]) => {
@@ -241,56 +261,217 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     }
 
     //Model
-      this.baseService.fixedAssetCardModelService.GetFixedAssetCardModels(
-        (models: FixedAssetCardModel[]) => {
-          this.models = models;
-        },
-        (error: HttpErrorResponse) => {}
-      );
+    this.baseService.fixedAssetCardModelService.GetFixedAssetCardModels(
+      (models: FixedAssetCardModel[]) => {
+        this.models = models;
+      },
+      (error: HttpErrorResponse) => {}
+    );
 
+    //Property
+    this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
+      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
+        this.fixedassetproperty = fixedAssetCardProperties;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
-  // loadModelByBrandId(event: any) {
-  //   this.models = [];
+  getPropertyValue(event: any) {
+    this.propertyValue = event.target.value;
+  }
 
-  //   if (!event.target.value || event.target.value == "") {
-  //     this.fixedAsset.FixedAssetCardModelId = null;
-  //     this.fixedAsset.FixedAssetCardModel = new FixedAssetCardModel();
-  //     return;
-  //   }
+  loadValuesByPropertyId(event) {
+    let fixedAssetProperty = this.fixedassetproperty.find(
+      x => x.FixedAssetCardPropertyId == Number(event.target.value)
+    );
 
-  //   if (event.target.value) {
-  //     this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
-  //       <number>event.target.value,
-  //       (models: FixedAssetCardModel[]) => {
-  //         this.models = models;
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         this.baseService.popupService.ShowErrorPopup(error);
-  //       }
-  //     );
-  //   }
-  // }
+    if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
+      this.isListSelected = true;
 
-  // loadFaCardByCategoryId(event: any) {
-  //   this.fixedAssetCards = [];
+      this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
+        <number>event.target.value,
+        (propertyValues: FixedAssetCardPropertyValue[]) => {
+          this.fixedassetpropertyvalues = propertyValues;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    } else {
+      this.isListSelected = false;
+    }
+  }
 
-  //   if (!event.target.value || event.target.value == "") {
-  //     this.fixedAsset.FixedAssetCardId = null;
-  //     this.fixedAsset.FixedAssetCard = new FixedAssetCard();
-  //     return;
-  //   }
+  async insertPropertyValueToArray(propertyId: any) {
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
 
-  //   if (event.target.value) {
-  //     this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
-  //       <number>event.target.value,
-  //       (fixedAssetCards: FixedAssetCard[]) => {
-  //         this.fixedAssetCards = fixedAssetCards;
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         this.baseService.popupService.ShowErrorPopup(error);
-  //       }
-  //     );
-  //   }
-  // }
+    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+      (this.faPropertyDetails.length + 1) * -1;
+    let fixedasset = this.fixedassetproperty.find(
+      x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+    );
+    this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+    if (this.isListSelected == true) {
+      this.fixedAssetPropertyDetail.Value = this.propertyValue;
+    }
+    this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+    this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+
+    this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+    propertyId = null;
+  }
+
+  async FilterFixedAsset(data: NgForm) {
+    /* Is Form Valid */
+    if (data.form.invalid == true) return;
+
+    this.fixedAsset.Barcodes= [];
+    let propertyDetail = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
+
+    // this.fixedAsset.DepartmentId =
+    //   this.fixedAsset.DepartmentId == null
+    //     ? null
+    //     : Number(data.value.DepartmentId);
+
+    // this.fixedAsset.Barcode =
+    //   this.fixedAsset.Barcode == null ? null : data.value.Barcode;
+    // this.fixedAsset.FixedAssetCardId =
+    //   this.fixedAsset.FixedAssetCardId == null
+    //     ? null
+    //     : Number(data.value.FixedAssetCardId);
+    // this.fixedAsset.FixedAssetCardCategoryId =
+    //   this.fixedAsset.FixedAssetCardCategoryId == null
+    //     ? null
+    //     : Number(data.value.FixedAssetCardCategoryId);
+    // this.fixedAsset.DepartmentId =
+    //   this.fixedAsset.DepartmentId == null
+    //     ? null
+    //     : Number(data.value.DepartmentId);
+    // this.fixedAsset.FixedAssetCardBrandId =
+    //   this.fixedAsset.FixedAssetCardBrandId == null
+    //     ? null
+    //     : Number(data.value.FixedAssetCardBrandId);
+    // this.fixedAsset.StatusId =
+    //   this.fixedAsset.StatusId == null ? null : Number(data.value.StatusId);
+    // this.fixedAsset.LocationId =
+    //   this.fixedAsset.LocationId == null ? null : Number(data.value.LocationId);
+    // this.fixedAsset.LocationId =
+    //   this.fixedAsset.UserId == null ? null : Number(data.value.UserId);
+    // this.fixedAsset.FixedAssetCardModelId =
+    //   this.fixedAsset.FixedAssetCardModelId == null
+    //     ? null
+    //     : Number(data.value.FixedAssetCardModelId);
+
+
+    this.fixedAsset.IsSearchRequest=true;
+    this.fixedAsset.Page= 1;
+    this.fixedAsset.PerPage= 100;
+
+    this.fixedAsset.Barcodes.push(data.value.Barcode);
+    // this.fixedAsset.Barcodes = data.value.Barcode;
+    this.fixedAsset.FixedAssetCardName = this.selectedFixedAssetCards == null ? null : this.selectedFixedAssetCards.map(x=>x.FixedAssetCardId);
+    this.fixedAsset.FixedAssetCardCategoryName = this.selectedFixedAssetCardCategories == null ? null : this.selectedFixedAssetCardCategories.map(x=>x.FixedAssetCardCategoryId);
+    this.fixedAsset.Departments = this.selectedDepartments == null ? null : this.selectedDepartments.map(x=>x.DepartmentId);
+    this.fixedAsset.Brands = this.selectedBrands == null ? null : this.selectedBrands.map(x=>x.FixedAssetCardBrandId);
+    this.fixedAsset.Statuses = this.selectedStatus == null ? null :this.selectedStatus.map(x=>x.FixedAssetStatusId);
+    this.fixedAsset.Locations = this.selectedLocations == null ? null : this.selectedLocations.map(x=>x.LocationId);
+    this.fixedAsset.Models = this.selectedModels == null ? null : this.selectedModels.map(x=>x.FixedAssetCardModelId);
+    this.fixedAsset.Users = this.selectedUsers == null ?null : this.selectedUsers.map(x=>x.UserId);
+    
+    this.fixedAsset.StartDate = this.fixedAsset.StartDate == null ? null : data.value.startDate;
+    this.fixedAsset.EndDate = this.fixedAsset.EndDate == null ? null : data.value.endDate;
+    this.fixedAsset.IsGuaranteed = data.value.IsGuaranteed;
+    this.fixedAsset.IsCalculatedDepreciation = data.value.IsCalculatedDepreciation;
+    this.fixedAsset.IsCalculatedIFRSDepreciation = data.value.IsCalculatedIFRSDepreciation;
+
+    this.fixedAsset.FixedAssetPropertyArray = propertyDetail;
+
+    let cloneItem = new FixedAssetFilter();
+    Object.assign(cloneItem, this.fixedAsset);
+
+    await this.baseService.fixedAssetService.FilterFixedAsset(
+      cloneItem,
+      (insertedItem: FixedAssetFilter, message) => {
+        /* Show success pop up */
+        // this.baseService.popupService.ShowSuccessPopup(message);
+        this.faComponent.loadFixedAsset();
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        console.log(error);
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  /* Selected Fixed Asset Cards */
+  onSelectFixedAssetCard(item: FixedAssetCard) {
+    this.selectedFixedAssetCards.push(item);
+  }
+  onSelectAllFixedAssetCard(items: any) {
+    this.selectedFixedAssetCards.push(items);
+  }
+
+  /* Selected Fixed Asset Card Categories */
+  onSelectCategory(item: FixedAssetCardCategory) {
+    this.selectedFixedAssetCardCategories.push(item);
+  }
+  onSelectAllCategory(items: any) {
+    this.selectedFixedAssetCardCategories.push(items);
+  }
+
+  /* Selected Departments */
+  onSelectDepartment(item: Department) {
+    this.selectedDepartments.push(item);
+  }
+  onSelectAllDepartment(items: any) {
+    this.selectedDepartments.push(items);
+  }
+
+  /* Selected Fixed Asset Card Brand */
+  onSelectFixedAssetCardBrand(item: FixedAssetCardBrand) {
+    this.selectedBrands.push(item);
+  }
+  onSelectAllFixedAssetCardBrand(items: any) {
+    this.selectedBrands.push(items);
+  }
+
+  /* Selected Status */
+  onSelectStatus(item: FixedAssetStatus) {
+    this.selectedStatus.push(item);
+  }
+  onSelectAllStatus(items: any) {
+    this.selectedStatus.push(items);
+  }
+
+  /* Selected Location */
+  onSelectLocation(item: Location) {
+    this.selectedLocations.push(item);
+  }
+  onSelectAllLocation(items: any) {
+    this.selectedLocations.push(items);
+  }
+
+  /* Selected Fixed Asset Card Model */
+  onSelectFixedAssetCardModel(item: FixedAssetCardModel) {
+    this.selectedModels.push(item);
+  }
+  onSelectAllFixedAssetCardModel(items: any) {
+    this.selectedModels.push(items);
+  }
+
+  /* Selected Users */
+  onSelectUser(item: User) {
+    this.selectedUsers.push(item);
+  }
+  onSelectAllUser(items: any) {
+    this.selectedUsers.push(items);
+  }
 }

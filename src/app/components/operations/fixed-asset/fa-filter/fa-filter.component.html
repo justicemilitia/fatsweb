@@ -5,14 +5,14 @@
   </button>
 </div>
 
-<form name="form" #data="ngForm" (ngSubmit)="Filter(data)">
+<form name="form" #data="ngForm" (ngSubmit)="FilterFixedAsset(data)">
     <div class="modal-body" style="width:900px;">
 
    <div class="row justify-content-center">
       <div class="col-md-12 form-group">   
         <fieldset class="field_set">
           <legend class="fieldset_text">Genel Bilgiler</legend>
-            <!-- BARKOD, DEMİRBAŞ ADI, KATEGORİ, DEMİRBAŞ GİRİŞ TARİH ARALIĞI -->
+            <!-- BARKOD, DEMİRBAŞ ADI, KATEGORİ -->
             <div class="row justify-content-center">
 
               <!-- BARKOD -->
@@ -26,8 +26,8 @@
                 <label>Demirbaş Adı</label>
                 <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
                 [data]="fixedAssetCards" [(ngModel)]="fixedAsset.FixedAssetCardId"
-                name="FixedAssetCardId" [settings]="dropdownSettingsForCard" (onSelect)="onItemSelect($event)"
-                (onSelectAll)="onSelectAll($event)">
+                name="FixedAssetCardId" [settings]="dropdownSettingsForCard" (onSelect)="onSelectFixedAssetCard($event)"
+                (onSelectAll)="onSelectAllFixedAssetCard($event)">
               </ng-multiselect-dropdown>
               </div>
 
@@ -36,14 +36,14 @@
                   <label>Kategori</label>
                     <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
                     [data]="fixedassetcategories" [(ngModel)]="fixedAsset.FixedAssetCardCategoryId"
-                    name="FixedAssetCardCategoryId" [settings]="dropdownSettingsForCategory" (onSelect)="onItemSelect($event)"
-                    (onSelectAll)="onSelectAll($event)">
+                    name="FixedAssetCardCategoryId" [settings]="dropdownSettingsForCategory" (onSelect)="onSelectCategory($event)"
+                    (onSelectAll)="onSelectAllCategory($event)">
                   </ng-multiselect-dropdown>
               </div>
 
             </div>
             
-            <!-- DEPARTMAN, MARKA, DEMİRBAŞ STATÜSÜ, ÖZELLİK TİPİ, ÖZELLİK DEĞERİ -->
+            <!-- DEPARTMAN, MARKA, DEMİRBAŞ STATÜSÜ -->
             <div class="row justify-content-center">
 
                 <!-- DEPARTMAN -->
@@ -51,8 +51,8 @@
                   <label>Departman</label>
                   <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
                   [data]="departments" [(ngModel)]="fixedAsset.DepartmentId"
-                  name="DepartmentId" [settings]="dropdownSettingsForDepartment" (onSelect)="onItemSelect($event)"
-                  (onSelectAll)="onSelectAll($event)">
+                  name="DepartmentId" [settings]="dropdownSettingsForDepartment" (onSelect)="onSelectDepartment($event)"
+                  (onSelectAll)="onSelectAllDepartment($event)">
                 </ng-multiselect-dropdown>
                 </div>
 
@@ -61,8 +61,8 @@
                   <label>Marka</label>
                   <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
                   [data]="brands" [(ngModel)]="fixedAsset.FixedAssetCardBrandId"
-                  name="FixedAssetCardBrandId" [settings]="dropdownSettingsForBrand" (onSelect)="onItemSelect($event)"
-                  (onSelectAll)="onSelectAll($event)">
+                  name="FixedAssetCardBrandId" [settings]="dropdownSettingsForBrand" (onSelect)="onSelectFixedAssetCardBrand($event)"
+                  (onSelectAll)="onSelectAllFixedAssetCardBrand($event)">
                 </ng-multiselect-dropdown>
                 </div>
 
@@ -71,12 +71,11 @@
                     <label>Demirbaş Statüsü</label>
                     <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
                     [data]="statuses" [(ngModel)]="fixedAsset.StatusId"
-                    name="StatusId" [settings]="dropdownSettingsForStatus" (onSelect)="onItemSelect($event)"
-                    (onSelectAll)="onSelectAll($event)">
+                    name="StatusId" [settings]="dropdownSettingsForStatus" (onSelect)="onSelectStatus($event)"
+                    (onSelectAll)="onSelectAllStatus($event)">
                   </ng-multiselect-dropdown>
                 </div>
             </div>
-            
 
             <!-- LOKASYON, MODEL, PERSONEL, GARANTİSİ BİTENLER -->
             <div class="row justify-content-center">
@@ -86,8 +85,8 @@
                   <label>Lokasyon</label>
                   <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
                   [data]="locations" [(ngModel)]="fixedAsset.LocationId"
-                  name="LocationId" [settings]="dropdownSettingsForLocation" (onSelect)="onItemSelect($event)"
-                  (onSelectAll)="onSelectAll($event)">
+                  name="LocationId" [settings]="dropdownSettingsForLocation" (onSelect)="onSelectLocation($event)"
+                  (onSelectAll)="onSelectAllLocation($event)">
                 </ng-multiselect-dropdown>
                 </div>
 
@@ -96,8 +95,8 @@
                   <label>Model</label>
                   <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
                   [data]="models" [(ngModel)]="fixedAsset.FixedAssetCardModelId"
-                  name="FixedAssetCardModelId" [settings]="dropdownSettingsForModel" (onSelect)="onItemSelect($event)"
-                  (onSelectAll)="onSelectAll($event)">
+                  name="FixedAssetCardModelId" [settings]="dropdownSettingsForModel" (onSelect)="onSelectFixedAssetCardModel($event)"
+                  (onSelectAll)="onSelectAllFixedAssetCardModel($event)">
                 </ng-multiselect-dropdown>
                 </div>
 
@@ -106,8 +105,8 @@
                     <label>Personel</label>
                     <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
                     [data]="users" [(ngModel)]="fixedAsset.UserId"
-                    name="UserId" [settings]="dropdownSettingsForUser" (onSelect)="onItemSelect($event)"
-                    (onSelectAll)="onSelectAll($event)">
+                    name="UserId" [settings]="dropdownSettingsForUser" (onSelect)="onSelectUser($event)"
+                    (onSelectAll)="onSelectAllUser($event)">
                   </ng-multiselect-dropdown>
                 </div>
             </div>
@@ -162,37 +161,47 @@
               <legend class="fieldset_text">Demirbaş Özellikleri</legend>
 
                 <!-- ÖZELLİK TİPİ, ÖZELLİK DEĞERİ -->
-                <div class="row justify-content-center">
+                <div class="row justify-content-center">               
 
                     <!-- ÖZELLİK TİPİ -->
-                    <div class="col-md-6 form-group">
-                        <label>Özellik Tipi</label>
-                        <select name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
-                          <option value="-1">Özellik Seçiniz</option>
-                          <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
-                      </select> 
+                    <div class="col-md-6">
+
+                    <div class="col-md-12 form-group">
+                        <label>Özellik Adı</label>
+                        <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
+                            <option value="-1">Özellik Seçiniz</option>
+                            <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+                        </select> 
                     </div>
 
                     <!-- ÖZELLİK DEĞERİ -->
-                    <div class="col-md-6 form-group">
-                        <label>Özellik Değeri</label>
-                        <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" #FirmId="ngModel">
-                          <option [ngValue]="null">Seçiniz</option>
-                          <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
-                            {{ firm.Name }}
-                          </option>
-                        </select>
-                    </div>
-                </div>
+                    <div class="col-md-12 form-group"> 
+                        <label>Özellik Değeri</label>    
+                        <div class="flexProperty">        
+                            <div style="flex:1;">            
+                             <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
+                                  <option [ngValue]="null">Özellik Değeri Seçiniz</option>
+                                  <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
+                             </select> 
+                             <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
+                            style="font-size: 13px;height: 27px;">
+                            </div>     
+                            <div class="property-add-value">                    
+                                <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
+                            </div>                          
+                          </div>            
+                    </div> 
+
+                 </div>
+                
         
                 <!-- ÖZELLİK TABLOSU -->
-                <div class="row justify-content-center">        
-                <div class="col-md-12">
-                    <div class="sales-overview" style="padding-right:0px; padding-left:0px;">
-                        <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+                <div class="col-md-6">
+                    <div class="property-values-table" style="height: 150px; padding-top:0px;">
+                        <tree-grid-table class="table-scroll" style="overflow-y: scroll; margin-left:20px;" [dataTable]="dataTablePropertyValue"></tree-grid-table>
                     </div>
                 </div>
-              </div>
+            </div>
 
             </fieldset>
           </div>
@@ -209,24 +218,24 @@
                 <!-- GARANTİSİ OLANLAR -->
                 <div class="form-group col-md-3">
                       <label class="ckbox">
-                        <input type="checkbox" id="PressDebitForm" 
-                          name="PressDebitForm"/><span>Garantisi olanlar</span>
+                        <input type="checkbox" [(ngModel)]="IsGuaranteed" id="IsGuaranteed" 
+                          name="IsGuaranteed"/><span>Garantisi olanlar</span>
                       </label>
                 </div>
 
                 <!-- AMORTİSMANI HESAPLANANLAR -->
                 <div class="form-group col-md-4">
                     <label class="ckbox">
-                      <input type="checkbox" id="PressDebitForm" 
-                        name="PressDebitForm"/><span>Amortismanı hesaplananlar</span>
+                      <input type="checkbox" [(ngModel)]="IsCalculatedDepreciation" id="IsCalculatedDepreciation" 
+                        name="IsCalculatedDepreciation"/><span>Amortismanı hesaplananlar</span>
                     </label>
                 </div>
 
                 <!-- IFRS AMORTİSMANI HESAPLANANLAR -->
                 <div class="form-group col-md-5">
                     <label class="ckbox">
-                      <input type="checkbox" id="PressDebitForm" 
-                        name="PressDebitForm"/><span>IFRS Amortismanı Hesaplananlar</span>
+                      <input type="checkbox" [(ngModel)]="IsCalculatedIFRSDepreciation" id="IsCalculatedIFRSDepreciation" 
+                        name="IsCalculatedIFRSDepreciation"/><span>IFRS Amortismanı Hesaplananlar</span>
                     </label>
                 </div>  
               </div>
@@ -242,10 +251,10 @@
   <div class="modal-footer">
     <button
       class="btn btn-az-primary"
-      id="btnChangeCollectiveParameter"
+      id="btnFilterFixedAsset"
       type="submit"
       data-toggle="modal"
-      data-target="#modalChangeCollectiveParameter"
+      data-target="#modalFilterFixedAsset"
     >
      Filtrele
     </button>
