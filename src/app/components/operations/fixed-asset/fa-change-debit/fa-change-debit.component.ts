@@ -7,6 +7,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { User } from "../../../../models/User";
 import { FixedAssetUser } from "../../../../models/FixedAssetUser";
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { FixedAssetComponent } from '../fixed-asset.component';
 
 @Component({
   selector: "app-fa-change-debit",
@@ -21,6 +22,8 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTab
 export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() faBarcode: FixedAsset = new FixedAsset();
+ @Input() faComponent: FixedAssetComponent;
+ selectedIds: number[];
 
   /* List Of Users */
   users: User[] = [];
@@ -102,6 +105,10 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
 
     this.loadUserList();
     this.loadDebitUserList();
+    this.loadDebitUserListByFixedAssetId();
+    // this.selectedIds =  (<FixedAsset[]>(
+    //   this.faComponent.dataTable.TGT_getSelectedItems()
+    // )).map(x => x.FixedAssetId);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -175,18 +182,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
       }
     );
   }
-
-  // async loadUsers() {
-  //   /* Load users to user dropdown */
-  //   await this.baseService.userService.GetUsers(
-  //     (users: User[]) => {
-  //       this.users = users;
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       this.baseService.popupService.ShowErrorPopup(error);
-  //     }
-  //   );
-  // }
+  
 
   loadUserList() {
     this.baseService.userService.GetUsers(
@@ -207,6 +203,21 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
       (faUsers: FixedAssetUser[]) => {
         this.fixedAssetUsers = faUsers;
         this.dataTableOldDebit.TGT_loadData(this.users);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+        this.dataTableOldDebit.isLoading = false;
+      }
+    );
+  }
+
+  loadDebitUserListByFixedAssetId() {
+    
+    this.baseService.fixedAssetService.GetDebitUserListById(
+      this.faBarcode.FixedAssetId,
+      (faUsers: FixedAssetUser[]) => {
+        this.fixedAssetUsers = faUsers;
+        this.dataTableOldDebit.TGT_loadData(this.fixedAssetUsers);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

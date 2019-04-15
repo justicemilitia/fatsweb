@@ -52,6 +52,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   propertyValue: string;
   fixedassetproperty: FixedAssetCardProperty[] = [];
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
+  fixedAssetFilterList: FixedAsset[]=[];
 
   //Dropdown Selected Items
   selectedFixedAssetCards: FixedAssetCard[] = [];
@@ -335,40 +336,6 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
       this.dataTablePropertyValue.TGT_copySource()
     );
 
-    // this.fixedAsset.DepartmentId =
-    //   this.fixedAsset.DepartmentId == null
-    //     ? null
-    //     : Number(data.value.DepartmentId);
-
-    // this.fixedAsset.Barcode =
-    //   this.fixedAsset.Barcode == null ? null : data.value.Barcode;
-    // this.fixedAsset.FixedAssetCardId =
-    //   this.fixedAsset.FixedAssetCardId == null
-    //     ? null
-    //     : Number(data.value.FixedAssetCardId);
-    // this.fixedAsset.FixedAssetCardCategoryId =
-    //   this.fixedAsset.FixedAssetCardCategoryId == null
-    //     ? null
-    //     : Number(data.value.FixedAssetCardCategoryId);
-    // this.fixedAsset.DepartmentId =
-    //   this.fixedAsset.DepartmentId == null
-    //     ? null
-    //     : Number(data.value.DepartmentId);
-    // this.fixedAsset.FixedAssetCardBrandId =
-    //   this.fixedAsset.FixedAssetCardBrandId == null
-    //     ? null
-    //     : Number(data.value.FixedAssetCardBrandId);
-    // this.fixedAsset.StatusId =
-    //   this.fixedAsset.StatusId == null ? null : Number(data.value.StatusId);
-    // this.fixedAsset.LocationId =
-    //   this.fixedAsset.LocationId == null ? null : Number(data.value.LocationId);
-    // this.fixedAsset.LocationId =
-    //   this.fixedAsset.UserId == null ? null : Number(data.value.UserId);
-    // this.fixedAsset.FixedAssetCardModelId =
-    //   this.fixedAsset.FixedAssetCardModelId == null
-    //     ? null
-    //     : Number(data.value.FixedAssetCardModelId);
-
 
     this.fixedAsset.IsSearchRequest=true;
     this.fixedAsset.Page= 1;
@@ -398,10 +365,15 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
 
     await this.baseService.fixedAssetService.FilterFixedAsset(
       cloneItem,
-      (insertedItem: FixedAssetFilter, message) => {
+      (fixedAssets: FixedAsset[]) => {
         /* Show success pop up */
         // this.baseService.popupService.ShowSuccessPopup(message);
-        this.faComponent.loadFixedAsset();
+
+        this.fixedAssetFilterList=fixedAssets;
+        this.faComponent.dataTable.TGT_loadData(this.fixedAssetFilterList);
+       this.faComponent.refreshTable();
+        // $('#').trigger('click');
+        // this.loadFixedAssetFilterList();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -410,6 +382,26 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
+  loadFixedAssetFilterList() {
+    this.baseService.fixedAssetService.GetFixedAsset(
+      (fa: FixedAsset[]) => {
+        // this.fixedAssetFilterList = fa;
+        this.fixedAssetFilterList.forEach(e => {
+          e.FixedAssetPropertyDetails.forEach(p => {
+            if (p.FixedAssetCardPropertyId) {
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+            }
+          });
+        });
+        this.faComponent.dataTable.TGT_loadData(this.fixedAssetFilterList);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
 
   /* Selected Fixed Asset Cards */
   onSelectFixedAssetCard(item: FixedAssetCard) {
