@@ -18,7 +18,8 @@ import {
   SUSPENSIONPROCESS,
   LOST_PROCESS,
   CHANGE_RELATIONSHIP,
-  BREAK_RELATIONSHIP
+  BREAK_RELATIONSHIP,
+  GET_DEBITUSER_BY_ID
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -29,6 +30,8 @@ import { TransactionLog } from '../../models/TransactionLog';
 import { FixedAssetComponent } from '../../components/operations/fixed-asset/fixed-asset.component';
 import { FixedAssetUser } from '../../models/FixedAssetUser';
 import { FixedAssetRelationship } from '../../models/FixedAssetRelationship';
+import { FixedAssetFilter } from '../../models/FixedAssetFilter';
+import { User } from 'src/app/models/LoginUser';
 
 @Injectable({
   providedIn: "root"
@@ -330,6 +333,28 @@ export class FixedAssetService {
       );
   }
 
+  GetDebitUserListById(FixedAssetId: number, success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_DEBITUSER_BY_ID + "/" + FixedAssetId, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let debitUserList: FixedAssetUser[] = [];
+            Object.assign(debitUserList, response.ResultObject);
+            success(debitUserList, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
   ChangeDebit(fixedAsset: FixedAssetUser, success, failed) {
     this.httpclient
       .post(
@@ -398,6 +423,33 @@ export class FixedAssetService {
         }
       );
   }
+
+  FilterFixedAsset(fixedAsset: FixedAssetFilter, callback, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + GET_FIXED_ASSET, fixedAsset,
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedFixedAsset: FixedAssetUser = new FixedAssetUser();
+            Object.assign(insertedFixedAsset, response.ResultObject);
+            callback(<FixedAsset[]>result["ResultObject"]);
+            // success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
 
   ChangeRelationship(fixedAsset: FixedAsset, success, failed) {
     this.httpclient

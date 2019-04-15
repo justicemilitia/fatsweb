@@ -89,6 +89,11 @@ export class FixedAsset implements IData {
   IsBarcodeManual: boolean = false;
   Quantity: number;
   Tablename:string;  
+  StartDate: string;
+  EndDate: NgbDate;
+  IsCalculatedDepreciation:boolean;
+  IsCalculatedIFRSDepreciation: boolean;
+  IsGuaranteed: boolean;
 
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();
