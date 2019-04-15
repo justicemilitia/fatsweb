@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h6 class="modal-title">Toplu değişim yapılacak alanları belirleyiniz.</h6>
-  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <button id="CloseModal" type="button" (click)="resetForm(data)" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -146,11 +146,11 @@
                         <div class="form-group col-md-3">                   
                          <div class="row" style="margin-left:30px">
                             <div class="col-md-6" style="margin-top:20px">                             
-                              <input type="radio" [(ngModel)]="fixedAsset.IsActive" class="form-check-input" [value]="true" name="IsActive" #IsActive="ngModel"
+                              <input type="radio" [(ngModel)]="fixedAsset.IsActive" class="form-check-input" (change)="isActivate(1)" [value]="true" name="IsActive" #IsActive="ngModel"
                               /><span>Aktif</span>
                             </div>
                             <div class="col-md-6" style="margin-top:20px">
-                              <input type="radio" [(ngModel)]="fixedAsset.IsActive" class="form-check-input" [value]="false" name="IsActive" #IsActive="ngModel"
+                              <input type="radio" [(ngModel)]="fixedAsset.IsActive" class="form-check-input" (change)="isActivate(0)" [value]="false" name="IsActive" #IsActive="ngModel"
                               /><span>Pasif</span>
                             </div>        
                           </div> 

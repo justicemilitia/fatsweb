@@ -43,5 +43,9 @@
 .another-file-over-class {
   border: dotted 3px #e67300;
 }
-/* 
-html, body { height: 100%; } */
+
+  .field_set{
+    border:1;
+    border-color: #d0cbcb;
+    border-style: solid;
+  }

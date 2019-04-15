@@ -90,7 +90,7 @@
     </div>
   </div>
 </div>
-<div id="modalOperation" class="modal" data-backdrop="static">
+<div id="modalOperation" class="modal" data-backdrop="static" style="overflow-x: auto;">
   <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;" role="document">
     <div class="modal-content modal-content-demo">
       <app-fa-change-barcode [faBarcode]="changeBarcode_selectedItem" *ngIf="currentOperation==2">
@@ -124,7 +124,7 @@
       </app-fa-filter>
 
       <app-fa-change-collective-parameter [faBarcode]="changeCollectiveParameter_selectedBarcodes"
-        [faDataTable]="dataTable" *ngIf="currentOperation==9"></app-fa-change-collective-parameter>
+        [faDataTable]="dataTable" *ngIf="currentOperation==9" [faComponent]="this"></app-fa-change-collective-parameter>
 
       <app-fa-create *ngIf="currentOperation==1"></app-fa-create>
     </div>

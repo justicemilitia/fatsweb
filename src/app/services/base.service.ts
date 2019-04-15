@@ -29,11 +29,11 @@ import { DashboardService } from './dashboard-service/dashboard.service';
 import { SuspendedFixedAssetService } from './suspended-fixed-asset-service/suspended-fixed-asset.service';
 import { CurrencyService } from './currency-service/currency.service';
 import { LostFixedAssetService } from './lost-fixed-asset-service/lost-fixed-asset.service';
-import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asset-create.service';
 import { DepreciationService } from './depreciation-service/depreciation.service';
 import { AlertInfoService } from '../extends/alert-infos/alert-infos-service/alert-info.service';
 import { FirmService } from './firm-service/firm.service';
 import { TransactionService } from './transaction-service/transaction.service';
+import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asset-create.service';
 
 @Injectable({
   providedIn: "root"

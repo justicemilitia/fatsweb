@@ -35,11 +35,8 @@ import { PropertyValueTypes } from 'src/app/declarations/property-value-types.en
   declarations: [FaChangeCollectiveParameterComponent],
   providers: [FaChangeCollectiveParameterComponent]
 })
-export class FaChangeCollectiveParameterComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class FaChangeCollectiveParameterComponent extends BaseComponent implements OnInit {
 
-  ngAfterViewInit(): void {
-    $("").trigger("click");
-  }
 
   @Input() faBarcode: FixedAsset = new FixedAsset();  
   @Input() faDataTable: TreeGridTable; 
@@ -77,6 +74,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
 
+  
     /* Fixed Asset Card Property Value Data Table */
     public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
       "fixedassetcardpropertyvalue",
@@ -114,13 +112,14 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
     this.dataTablePropertyValue.isFilterActive=false;
-    
+    this.fixedAsset.IsActive=null;
    }
 
   ngOnInit() {
     
   }
 
+  //#region Load Dropdowns
   loadDropdownList() {
 
     // FirmList
@@ -331,8 +330,9 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       this.isListSelected = false;
     }
   }
-
-  getFirmId(event) {
+//#endregion
+  
+getFirmId(event) {
     if (event.target.value) {
       this.firmId = Number(event.target.value);
       this.loadDropdownListByFirmId();
@@ -349,11 +349,8 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       this.dataTablePropertyValue.TGT_copySource()
     );
 
-    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-      (this.faPropertyDetails.length + 1) * -1;
-    let fixedasset = this.fixedassetproperty.find(
-      x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-    );
+    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+    let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value));
     this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
     if (this.isListSelected == true) {
       this.fixedAssetPropertyDetail.Value = this.propertyValue;
@@ -365,7 +362,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     propertyId = null;
   }
 
-  async ChangeCollectiveParameter(data: NgForm){
+ ChangeCollectiveParameter(data: NgForm){
    
     console.log(this.fixedAsset);
 
@@ -395,18 +392,19 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     this.fixedAsset.FixedAssetCardCategoryId= this.fixedAsset.FixedAssetCardCategoryId == null ? null : Number(data.value.FixedAssetCardCategoryId);
     this.fixedAsset.FixedAssetCardId=this.fixedAsset.FixedAssetCardId == null ? null : Number(data.value.FixedAssetCardId);
     this.fixedAsset.SerialNumber=this.fixedAsset.SerialNumber == null ? null : data.value.SerialNumber;
-    this.fixedAsset.IsActive=Boolean(data.value.IsActive);
+    this.fixedAsset.IsActive=this.fixedAsset.IsActive == null ? null :Boolean(data.value.IsActive);
     this.fixedAsset.ActivationDate=this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(data.value.activationDate);
     this.fixedAsset.Price=data.value.Price;
     this.fixedAsset.CurrencyId=this.fixedAsset.CurrencyId == null ? null : Number(data.value.CurrencyId);
     this.fixedAsset.ReceiptDate=this.fixedAsset.ReceiptDate == null ? null : convertNgbDateToDateString(data.value.receiptDate);
     this.fixedAsset.Picture=data.value.Picture;
     this.fixedAsset.FixedAssetPropertyDetails=propertyDetail;
+    this.fixedAsset.Picture=this.picture;
 
     let cloneItem=new FixedAsset();
     Object.assign(cloneItem, this.fixedAsset);
 
-    await this.baseService.fixedAssetService.ChangeCollectiveParameter(
+    this.baseService.fixedAssetService.ChangeCollectiveParameter(
       cloneItem,
       (insertedItem: FixedAsset, message) => {
         /* Show success pop up */
@@ -419,6 +417,8 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+    
+    data.resetForm(this.fixedAsset);
   }
 
   selectedFixedAssetCard(event){
@@ -435,6 +435,13 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     }
   }
 
+  isActivate(item:boolean){
+    if(item==true)
+        this.fixedAsset.IsActive=true;
+    if(item==false)
+        this.fixedAsset.IsActive=false;
+  }
+
   addImageFile(imageFile) {
 
     this.baseService.fileUploadService.ImageUpload(
@@ -447,14 +454,20 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       }
     ); 
 
-    if (imageFile.length === 0) return;
-
     var reader = new FileReader();    
     reader.readAsDataURL(imageFile[0]);
     reader.onload = _event => (this.imgURL = reader.result.toString());
   }
 
   clearFiles(){
+    this.imgURL = null;
+  }
+
+  resetForm(data: NgForm) {
+
+    this.fixedAsset = new FixedAsset();
+    data.resetForm(this.fixedAsset);
+    this.dataTablePropertyValue.TGT_clearData();
     this.imgURL = null;
   }
 }
