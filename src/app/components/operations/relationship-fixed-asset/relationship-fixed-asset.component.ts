@@ -12,7 +12,6 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { FixedAsset } from "../../../models/FixedAsset";
-import { FixedAssetCreateService } from '../../../services/fixed-asset-create-service/fixed-asset-create.service';
 
 @Component({
   selector: "app-relationship-fixed-asset",

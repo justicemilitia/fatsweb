@@ -4,18 +4,25 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data) && data.form.valid" novalidate>
-<mat-horizontal-stepper linear #stepper >   
-  <mat-step label="Genel Bilgiler" [editable]="editable" [stepControl]="UserId" [stepControl]="StatusId" [stepControl]="LocationId" [stepControl]="DepartmentId" [stepControl]="FixedAssetCardId" [stepControl]="FixedAssetCardCategoryId">
+<form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data) && data.form.valid" novalidate >
+<mat-horizontal-stepper linear #stepper>   
+  <mat-step label="Genel Bilgiler" [editable]="editable">
         <div class="row justify-content-center">
 
             <!--BARCODE-->
-            <div class="form-group col-md-6">              
+            <div class="form-group col-md-3">   
             <label class="required-span">Barkod</label>
+
+              <input [(ngModel)]="fixedAsset.Prefix" name="Prefix" type="text" trim="blur" 
+              class="form-control" #Prefix="ngModel"/>            
+            </div>     
+
+            <div class="form-group col-md-3">              
+
             <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
-            value="{{barcode}}" name="Barcode" [disabled]="disabledBarcode==true" type="text" trim="blur" 
+            value="{{barcode}}" name="Barcode" type="text" trim="blur" 
             class="form-control"
-            [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" required/>
+            [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" style="margin-top: 19px;" required/>
             <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>
             <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
               <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
@@ -34,15 +41,15 @@
 
            <!--MANUAL BARCODE-->
           <div class="form-group col-md-3">         
-                <label class="ckbox">
+                <label class="ckbox" style="margin-top: 19px;" >
                   <input [(ngModel)]="fixedAsset.IsBarcodeManual" type="checkbox" name="IsBarcodeManual" #IsBarcodeManual="ngModel" (change)="isBarcodeManual($event)"/><span>Manuel Barkod</span>
                 </label>              
           </div>
-
+          
           <!--QUANTITY-->
           <div class="form-group col-md-3"> 
               <label>Adet</label>
-                <input type="number" [(ngModel)]="fixedAsset.Quantity" [disabled]="disabledBarcode==false" name="Quantity" min="1" max="100" class="form-control"/>         
+                <input type="number" [(ngModel)]="fixedAsset.Quantity" name="Quantity" min="1" max="100" class="form-control"/>         
           </div>   
           
           <!-- FIXED ASSET STATUS-->
@@ -126,13 +133,10 @@
         <div class="row justify-content-center">
         <div class="form-group col-md-6">
                 <label class="required-span">Departman</label>
-                <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2-no-search" style="width:100%;" [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }" #DepartmentId="ngModel" required >
+                <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2-no-search" style="width:100%;" #DepartmentId="ngModel">
                     <option [ngValue]="null" >Departman Seçiniz</option>
                     <option *ngFor="let department of departments" value="{{department.DepartmentId}}">{{department.Name}}</option>
-                    </select> 
-                    <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
-                        <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
-                    </div> 
+                </select>               
         </div>
         <div class="form-group col-md-6">
             <label>Tedarikçi</label>
@@ -143,7 +147,8 @@
         </div>
         </div>
         <div class="grp-btn-action">
-            <button mat-button matStepperNext [disabled]="!data.form.valid ? true : null" class="btn btn-az-primary" type="button" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+            <!-- [disabled]="!data.form.valid ? true : null" -->
+            <button mat-raised-button  class="btn btn-az-primary" (click)="next()" type="submit" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
         </div>  
   </mat-step>
   <mat-step label="Özellik Bilgileri" [editable]="editable">
@@ -222,6 +227,8 @@
         </div>
   </mat-step>
   <mat-step label="Finansal Bilgiler" [editable]="editable">  
+      <fieldset class="field_set">
+          <legend>Finansal Bilgiler</legend>
             <div class="row justify-content-center">
               <div class="form-group col-md-3">
                   <label>Fiyat</label>
@@ -262,14 +269,21 @@
                 <div class="form-group col-md-3">
                     <label>Aktifleştirme Tarihi</label>
                     <div class="input-group">
-                        <div class="input-group-append">
+                        <div class="input-group-append"
+                        [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )">
                           <div (click)="activationDate.toggle()" class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
                         </div>
                         <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
                         [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
-                         />                        
+                        [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )" required/>                        
+                        <div *ngIf="data.submitted && activationDateModel.invalid" class="invalid-feedback">
+                          <div *ngIf="activationDateModel.errors.required">Bu alan zorunludur.</div>
+                          <div *ngIf="!activationDateModel.errors.required && activationDateModel.status == 'INVALID'">
+                            Lütfen Geçerli Format Giriniz.
+                          </div>
+                        </div>
                       </div>
                 </div>       
                     <div class="form-group col-md-3"> 
@@ -333,7 +347,9 @@
                         </select>
                     </div>
             </div>
-
+          </fieldset>
+          <fieldset class="field_set">
+              <legend>Amortisman Bilgileri</legend>
             <div class="row justify-content-center">
                 <div class="form-group col-md-3">                    
                         <label class="ckbox" style="margin-top: 15px">
@@ -377,19 +393,17 @@
                       <option *ngFor="let currency of ifrscurrencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
                   </select> 
               </div>
-          </div>    
+          </div>   
+       </fieldset>  
           <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
-              padding-top: 5px;
-              padding-bottom: 5px;">Geri</button>
+              <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
             </div>
             <div class="grp-btn-action">
-              <button mat-button matStepperNext  type="submit"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
-              padding-top: 5px;
-              padding-bottom: 5px;">İleri</button>
+              <button mat-raised-button type="submit" (click)="nextDataTable()"class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
             </div>
-          </div>     
+          </div>   
+      
   </mat-step>
   <mat-step label="Demirbaş Listesi" [editable]="editable" >
     <div class="property-values-table">

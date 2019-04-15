@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule,NgControl } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { routes } from "./app-routing.module";
@@ -117,7 +117,8 @@ import { TransactionListComponent } from './components/operations/transaction-li
     LostFixedAssetComponent,
     CheckoutFixedAssetComponent,
     AlertInfosComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -138,7 +139,9 @@ import { TransactionListComponent } from './components/operations/transaction-li
     FileUploadModule,
     ReactiveFormsModule,
     InputTrimModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+  
+    
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
