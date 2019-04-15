@@ -32,7 +32,7 @@ import { FixedAssetFilter } from '../../../../models/FixedAssetFilter';
   providers: [FaFilterComponent]
 })
 export class FaFilterComponent extends BaseComponent implements OnInit {
-  @Input() faComponent: FixedAssetComponent;
+  @Input() filterDataTable: TreeGridTable;
 
   departments: Department[] = [];
   companies: Company[] = [];
@@ -53,6 +53,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   fixedassetproperty: FixedAssetCardProperty[] = [];
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
   fixedAssetFilterList: FixedAsset[]=[];
+  
 
   //Dropdown Selected Items
   selectedFixedAssetCards: FixedAssetCard[] = [];
@@ -341,6 +342,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     this.fixedAsset.Page= 1;
     this.fixedAsset.PerPage= 100;
 
+    if(data.value.Barcode)
     this.fixedAsset.Barcodes.push(data.value.Barcode);
     // this.fixedAsset.Barcodes = data.value.Barcode;
     this.fixedAsset.FixedAssetCardName = this.selectedFixedAssetCards == null ? null : this.selectedFixedAssetCards.map(x=>x.FixedAssetCardId);
@@ -370,10 +372,9 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
         // this.baseService.popupService.ShowSuccessPopup(message);
 
         this.fixedAssetFilterList=fixedAssets;
-        this.faComponent.dataTable.TGT_loadData(this.fixedAssetFilterList);
-       this.faComponent.refreshTable();
-        // $('#').trigger('click');
-        // this.loadFixedAssetFilterList();
+        this.filterDataTable.TGT_loadData(this.fixedAssetFilterList);
+        this.loadFixedAssetPropertyList();
+        $("#CloseModal").trigger("click");
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -383,7 +384,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadFixedAssetFilterList() {
+  loadFixedAssetPropertyList() {
     this.baseService.fixedAssetService.GetFixedAsset(
       (fa: FixedAsset[]) => {
         // this.fixedAssetFilterList = fa;
@@ -394,7 +395,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
             }
           });
         });
-        this.faComponent.dataTable.TGT_loadData(this.fixedAssetFilterList);
+        this.filterDataTable.TGT_loadData(this.fixedAssetFilterList);
+        this.loadFixedAssetProperties();
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -402,6 +404,26 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     );
   }
 
+
+  loadFixedAssetProperties() {
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+        this.fixedassetproperty = faProperties;
+        this.fixedassetproperty.forEach(e => {
+          this.filterDataTable.dataColumns.push({
+            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
+            columnDisplayName: e.Name,
+            isActive: true,
+            type: "text"
+          });
+        });
+        this.filterDataTable.TGT_bindActiveColumns();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
 
   /* Selected Fixed Asset Cards */
   onSelectFixedAssetCard(item: FixedAssetCard) {
@@ -466,4 +488,10 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   onSelectAllUser(items: any) {
     this.selectedUsers.push(items);
   }
+
+  resetForm(data: NgForm) {
+    data.resetForm();
+    this.fixedAsset = new FixedAssetFilter();
+  }
+
 }

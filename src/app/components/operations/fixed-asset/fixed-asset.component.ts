@@ -8,6 +8,8 @@ import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
 import { User } from "../../../models/LoginUser";
+import { FixedAssetFilter } from '../../../models/FixedAssetFilter';
+import { FaFilterComponent } from './fa-filter/fa-filter.component';
 
 @Component({
   selector: "app-fixed-asset",
@@ -35,7 +37,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   fixedAssetName: string;
 
   selectedItems: FixedAsset[];
-
   users = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(

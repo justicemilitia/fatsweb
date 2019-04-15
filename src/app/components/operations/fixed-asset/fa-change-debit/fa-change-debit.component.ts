@@ -1,4 +1,11 @@
-import { Component, OnInit, NgModule, Input, SimpleChanges, OnChanges } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  NgModule,
+  Input,
+  SimpleChanges,
+  OnChanges
+} from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
@@ -6,8 +13,8 @@ import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { User } from "../../../../models/User";
 import { FixedAssetUser } from "../../../../models/FixedAssetUser";
-import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
-import { FixedAssetComponent } from '../fixed-asset.component';
+import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
+import { FixedAssetComponent } from "../fixed-asset.component";
 
 @Component({
   selector: "app-fa-change-debit",
@@ -19,15 +26,16 @@ import { FixedAssetComponent } from '../fixed-asset.component';
   declarations: [FaChangeDebitComponent],
   providers: [FaChangeDebitComponent]
 })
-export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnChanges {
-
+export class FaChangeDebitComponent extends BaseComponent
+  implements OnInit, OnChanges {
   @Input() faBarcode: FixedAsset = new FixedAsset();
- @Input() faComponent: FixedAssetComponent;
- selectedIds: number[];
+  @Input() faComponent: FixedAssetComponent;
+  selectedIds: number[];
 
   /* List Of Users */
   users: User[] = [];
   selectedUser: User[] = [];
+  selectedFixedAssetId: number;
   fixedAssetUsers: FixedAssetUser[] = [];
   dropdownSettings = {};
 
@@ -42,12 +50,11 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
         classes: [],
         placeholder: "",
         type: "text",
-        formatter: (value) => {
+        formatter: value => {
           if (value) {
-            return value.FirstName + ' ' + value.LastName;
-          }
-          else {
-            return '';
+            return value.FirstName + " " + value.LastName;
+          } else {
+            return "";
           }
         }
       }
@@ -64,24 +71,23 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     [
       {
         columnDisplayName: "Zimmetli Personel",
-        columnName: ["A"],
+        columnName: ["|FirstNameAndLastNameOld"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text",
-        formatter: (value) => {
-          if (value && value.length != 0) {
-            return (<FixedAssetUser[]>value).map(x => x.User.FirstName + ' ' + x.User.LastName)[0]
-          }
-          else {
-            return '';
+        formatter: value => {
+          if (value && value.User) {
+            return value.User.FirstName + " " + value.User.LastName;
+          } else {
+            return "";
           }
         }
       }
     ],
     {
       isDesc: false,
-      column: ["A"]
+      column: ["|FirstNameAndLastNameOld"]
     }
   );
 
@@ -105,18 +111,21 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
 
     this.loadUserList();
     this.loadDebitUserList();
-    this.loadDebitUserListByFixedAssetId();
-    // this.selectedIds =  (<FixedAsset[]>(
-    //   this.faComponent.dataTable.TGT_getSelectedItems()
-    // )).map(x => x.FixedAssetId);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["faBarcode"].previousValue != changes["faBarcode"].currentValue) {
+    if (
+      changes["faBarcode"].previousValue != changes["faBarcode"].currentValue
+    ) {
       if (this.faBarcode.FixedAssetUsers) {
         this.faBarcode.FixedAssetUsers.forEach((e: any) => {
           this.selectedUser.push(e.User);
         });
+
+        if (this.faBarcode.FixedAssetId) {
+          this.selectedFixedAssetId = this.faBarcode.FixedAssetId;
+          this.loadDebitUserListByFixedAssetId();
+        }
       }
     }
   }
@@ -162,7 +171,9 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
               insertedUserIds.forEach(e => {
                 let user = this.users.find(x => x.UserId == e);
                 if (user) {
-                  let exists = this.faBarcode.FixedAssetUsers.find(x => x.UserId == user.UserId);
+                  let exists = this.faBarcode.FixedAssetUsers.find(
+                    x => x.UserId == user.UserId
+                  );
                   if (!exists) {
                     let auser = new FixedAssetUser();
                     auser.UserId = user.UserId;
@@ -170,8 +181,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
                     this.faBarcode.FixedAssetUsers.push(auser);
                   }
                 }
-              })
-
+              });
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -182,20 +192,20 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
       }
     );
   }
-  
 
   loadUserList() {
     this.baseService.userService.GetUsers(
       users => {
         this.users = users;
-        this.users.forEach(e=> {
+        this.users.forEach(e => {
           e.ParentUserId = null;
-        })
+        });
         this.dataTableDebit.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
-      });
+      }
+    );
   }
 
   loadDebitUserList() {
@@ -212,9 +222,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
   }
 
   loadDebitUserListByFixedAssetId() {
-    
     this.baseService.fixedAssetService.GetDebitUserListById(
-      this.faBarcode.FixedAssetId,
+      this.selectedFixedAssetId,
       (faUsers: FixedAssetUser[]) => {
         this.fixedAssetUsers = faUsers;
         this.dataTableOldDebit.TGT_loadData(this.fixedAssetUsers);
