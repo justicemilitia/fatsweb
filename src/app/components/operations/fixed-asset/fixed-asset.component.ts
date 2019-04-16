@@ -8,6 +8,7 @@ import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
 import { User } from "../../../models/LoginUser";
+import * as $ from "jquery";
 import { FixedAssetFilter } from '../../../models/FixedAssetFilter';
 import { FaFilterComponent } from './fa-filter/fa-filter.component';
 
@@ -16,6 +17,7 @@ import { FaFilterComponent } from './fa-filter/fa-filter.component';
   templateUrl: "./fixed-asset.component.html",
   styleUrls: ["./fixed-asset.component.css"]
 })
+
 export class FixedAssetComponent extends BaseComponent implements OnInit {
   
   isWaitingInsertOrUpdate: boolean = false;
@@ -38,6 +40,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
   selectedItems: FixedAsset[];
   users = [];
+
+  fixedAssetInfo=new FixedAsset();
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -731,4 +735,30 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   }
   //#endregion
 
+
+  onDoubleClickItem(item: FixedAsset) {
+
+    this.fixedAsset=new FixedAsset();
+
+    this.baseService.spinner.show();
+
+ 
+
+    this.baseService.fixedAssetService.GetFixedAssetById(item.FixedAssetId,
+      (result:FixedAsset)=>{
+      
+      this.baseService.spinner.hide();
+
+      Object.assign(this.fixedAsset,result);
+
+    $("#btnFixedAssetInfo").trigger("click");
+      
+    },(error:HttpErrorResponse)=>{
+         /* hide spinner */
+        this.baseService.spinner.hide();
+
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+    });
+  }
 }

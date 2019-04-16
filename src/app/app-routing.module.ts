@@ -27,6 +27,7 @@ import { LostFixedAssetComponent } from './components/operations/lost-fixed-asse
 import { CheckoutFixedAssetComponent } from './components/operations/checkout-fixed-asset/checkout-fixed-asset.component';
 import { FixedAssetRelationship } from './models/FixedAssetRelationship';
 import { RelationshipFixedAssetComponent } from './components/operations/relationship-fixed-asset/relationship-fixed-asset.component';
+import { TransactionListComponent } from './components/operations/transaction-list/transaction-list.component';
 
 export const routes: Routes = [
   {
@@ -176,6 +177,12 @@ export const routes: Routes = [
     path: "relationshipfixedasset",
     component: RelationshipFixedAssetComponent,
     data: { pageKeyword: pages.MENU_FIXEDASSETRELATIONSHIP }
+    // //canActivate: [AuthGuard]
+  },
+  {
+    path: "transactionlist",
+    component: TransactionListComponent,
+    data: { pageKeyword: pages.MENU_TRANSACTIONLIST }
     // //canActivate: [AuthGuard]
   }
 ];

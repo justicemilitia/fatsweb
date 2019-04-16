@@ -9,6 +9,7 @@
     border-color: #d0cbcb;
     border-style: solid;
   }
+  
   .flexProperty {
     flex: 1;
     flex-direction: row;

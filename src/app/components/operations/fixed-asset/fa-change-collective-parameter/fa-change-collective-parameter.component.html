@@ -306,7 +306,7 @@
                             <div class="row justify-content-center">         
                                 <div class="form-group">
                                   <label>Özellik Adı</label>
-                                    <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
+                                    <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%;">
                                         <option value="-1">Özellik Seçiniz</option>
                                         <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                                     </select>   
@@ -342,8 +342,7 @@
                             <label>Demirbaş Resmi</label>
                         </div>
                         <div class="row justify-content-center" style="margin-top: -9px">  
-                          <div class="form-group col-md-8 well my-drop-zone" *ngIf="!imgURL">
-                            
+                          <div class="form-group well my-drop-zone" *ngIf="!imgURL">                          
                         </div> 
                           <img [src]="imgURL" height="95" width="100" *ngIf="imgURL">
                         <div class="row justify-content-center col-md-4">
@@ -377,9 +376,7 @@
       id="btnChangeCollectiveParameter"
       type="submit"
       data-toggle="modal"
-      data-target="#modalChangeCollectiveParameter"
-    >
-     Kaydet
+      data-target="#modalChangeCollectiveParameter">Kaydet
     </button>
   </div>
 </form>

@@ -19,7 +19,8 @@ import {
   LOST_PROCESS,
   CHANGE_RELATIONSHIP,
   BREAK_RELATIONSHIP,
-  GET_DEBITUSER_BY_ID
+  GET_DEBITUSER_BY_ID,
+  GET_FIXEDASSET_BY_ID
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -489,4 +490,23 @@ export class FixedAssetService {
       );
   }
 
+  GetFixedAssetById(fixedAssetId:number, success,failed){
+    this.httpclient
+    .get(SERVICE_URL + GET_FIXEDASSET_BY_ID + "/" + fixedAssetId, {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    })
+    .subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
 }
