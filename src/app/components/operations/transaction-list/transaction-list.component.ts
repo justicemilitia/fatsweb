@@ -38,7 +38,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "İşlemi Gerçekleştiren Kullanıcı",
-        columnName: ["UserId"],
+        columnName: ["UserName"],
         isActive: true,
         classes: [],
         placeholder: "",
