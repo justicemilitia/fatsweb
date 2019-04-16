@@ -7,3 +7,11 @@
   .fieldset_text{
       color:#e67300;
   }
+
+  .flexProperty {
+    flex: 1;
+    flex-direction: row;
+    display: flex;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+  }

@@ -33,8 +33,8 @@
               <div class="divider"></div>
               <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
                 title="Zimmet Değiştir" (click)="doOperation(6)"><i class="fas fa-user-edit"></i></button>
-              <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
-                title="Zimmet İptal" (click)="doOperation(7)"><i class="fas fa-user-times"></i></button>
+              <!-- <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
+                title="Zimmet İptal" (click)="doOperation(7)"><i class="fas fa-user-times"></i></button> -->
               <div class="divider"></div>
               <button class="btn btn-az-primary btn-change-barcode" data-toggle="tooltip" data-placement="bottom"
                 title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
@@ -51,10 +51,16 @@
               </button>
               <div class="divider"></div>
               <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
-                title="Demirbaş Filtreleme" (click)="doOperation(13)">
+                title="Demirbaş Filtreleme" (click)="doOperation(13)" style="margin-right:10px">
                 <i class="fas fa-filter"></i>
               </button>
+              <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
+              title="Filtreyi temizle" (click)="refreshTable()">
+              <i class="fas fa-filter"></i>
+              <i class="fas fa-times" style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
+            </button>
             </div>
+ 
 
             <div class="grp-btn-action">
               <button class="btn btn-success btn-excel-custom" style="margin-right:10px" data-toggle="tooltip"
@@ -65,6 +71,8 @@
                   [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                   [class.btn-refresh-loader]="isTableExporting == true"></i>
               </button>
+              
+
 
               <button type="button" id="btnRefresh" (click)="refreshTable()" style="margin-right:10px" data-toggle="tooltip"
                 data-placement="bottom" title="Form" class="btn btn-success btn-refresh-custom">
@@ -77,7 +85,7 @@
           </div>
         </div>
         <div class="sales-overview">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          <tree-grid-table [dataTable]="dataTable">
           </tree-grid-table>
         </div>
       </div>
@@ -104,7 +112,7 @@
 
       <app-fa-change-debit [faBarcode]="changeDebit_selectedItem" *ngIf="currentOperation==6"></app-fa-change-debit>
 
-      <app-fa-delete-debit [faBarcode]="deleteDebit_selectedItem" *ngIf="currentOperation==7"></app-fa-delete-debit>
+      <!-- <app-fa-delete-debit [faBarcode]="deleteDebit_selectedItem" *ngIf="currentOperation==7"></app-fa-delete-debit> -->
 
       <app-fa-exit [faBarcode]="exit_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==8">
       </app-fa-exit>
@@ -115,7 +123,7 @@
       <app-fa-lost [faBarcode]="lost_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==11">
       </app-fa-lost>
 
-      <app-fa-filter *ngIf="currentOperation==13">
+      <app-fa-filter [filterDataTable]="dataTable" *ngIf="currentOperation==13">
       </app-fa-filter>
 
       <app-fa-change-collective-parameter [faBarcode]="changeCollectiveParameter_selectedBarcodes"

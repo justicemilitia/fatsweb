@@ -38,6 +38,8 @@ import { User } from 'src/app/models/LoginUser';
   providedIn: "root"
 })
 export class FixedAssetService {
+
+
   constructor(
     private httpclient: HttpClient,
     private authenticationService: AuthenticationService
@@ -344,7 +346,11 @@ export class FixedAssetService {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let debitUserList: FixedAssetUser[] = [];
-            Object.assign(debitUserList, response.ResultObject);
+            (<FixedAssetUser[]>response.ResultObject).forEach(e => {
+              let fau: FixedAssetUser = new FixedAssetUser();
+              Object.assign(fau, e);
+              debitUserList.push(fau);
+            });
             success(debitUserList, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
@@ -437,9 +443,18 @@ export class FixedAssetService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let insertedFixedAsset: FixedAssetUser = new FixedAssetUser();
-            Object.assign(insertedFixedAsset, response.ResultObject);
-            callback(<FixedAsset[]>result["ResultObject"]);
+            let fixedAssets: FixedAsset[] = [];
+            (<FixedAsset[]>response.ResultObject).forEach(e => {
+              let fa: FixedAsset = new FixedAsset();
+              Object.assign(fa, e);
+              fixedAssets.push(fa);
+            });
+
+            callback(fixedAssets);
+
+
+            // Object.assign(fixedAssets, response.ResultObject);
+            // callback(<FixedAsset[]>result["ResultObject"]);
             // success(response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
