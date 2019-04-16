@@ -78,8 +78,8 @@ export class FaChangeDebitComponent extends BaseComponent
         placeholder: "",
         type: "text",
         formatter: value => {
-          if (value && value.User) {
-            return value.User.FirstName + " " + value.User.LastName;
+          if (value) {
+            return value.FirstName + " " + value.LastName;
           } else {
             return "";
           }
@@ -237,8 +237,16 @@ export class FaChangeDebitComponent extends BaseComponent
     this.baseService.fixedAssetService.GetDebitUserListById(
       this.selectedFixedAssetId,
       (faUsers: FixedAssetUser[]) => {
-        this.fixedAssetUsers = faUsers;
-        this.dataTableOldDebit.TGT_loadData(this.fixedAssetUsers);
+        // this.fixedAssetUsers = faUsers;
+        // this.dataTableOldDebit.TGT_loadData(this.fixedAssetUsers);
+
+        let userList: User[]=[];
+        faUsers.forEach(e => {
+            let user: User= new User();
+            Object.assign(user, e.User); 
+            userList.push(user); 
+        });
+        this.dataTableOldDebit.TGT_loadData(userList);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -253,6 +261,11 @@ export class FaChangeDebitComponent extends BaseComponent
 
   AddDebitUser() {
     let selectedUsers = <User[]>this.dataTableDebit.TGT_getSelectedItems();
-    selectedUsers.forEach(x => x.UserId);
+    
+    // let oldDebitUser = <User[]>this.dataTableOldDebit.TGT_copySource();
+    this.dataTableOldDebit.TGT_insertDatas(selectedUsers);
+    this.dataTableDebit.TGT_removeItemsByIds(selectedUsers.map(x=>x.UserId));
+    this.dataTableOldDebit.TGT_deselectAllItems();
+
   }
 }
