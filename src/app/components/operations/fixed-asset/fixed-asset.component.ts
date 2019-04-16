@@ -8,12 +8,9 @@ import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
 import { User } from "../../../models/LoginUser";
-<<<<<<< HEAD
 import * as $ from "jquery";
-=======
 import { FixedAssetFilter } from '../../../models/FixedAssetFilter';
 import { FaFilterComponent } from './fa-filter/fa-filter.component';
->>>>>>> 8ef6121fa264bea6aa8ffda94d9290622b35a264
 
 @Component({
   selector: "app-fixed-asset",
