@@ -519,6 +519,30 @@ export class TreeGridTable {
         this.TGT_loadData(this.originalSource);
     }
 
+
+    /**
+     * Insert an item in to original source.
+     * @param item insert item
+     */
+    TGT_insertData(item:IData):void {
+        this.originalSource.push(item);
+        this.TGT_loadData(this.originalSource);
+    }
+
+    /**
+     * Insert Any Item Array to original data source.
+     * @param items IData items which will insert.
+     */
+    TGT_insertDatas(items:IData[]):void {
+        
+        items.forEach(e=> {
+            this.originalSource.push(e);
+        });
+
+        this.TGT_loadData(this.originalSource);
+
+      }
+
     /**
      * Calculate total page, active page, previous and next pages.
      */
