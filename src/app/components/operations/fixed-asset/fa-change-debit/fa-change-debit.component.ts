@@ -126,7 +126,7 @@ export class FaChangeDebitComponent extends BaseComponent
         if (this.faBarcode.FixedAssetId) {
           this.selectedFixedAssetId = this.faBarcode.FixedAssetId;
           this.loadDebitUserListByFixedAssetId();
-          this.loadUserList()
+          this.loadUserList();
         }
       }
     }
@@ -144,23 +144,20 @@ export class FaChangeDebitComponent extends BaseComponent
     };
   }
 
-  async ChangeDebit(data: NgForm) {
+  async ChangeDebit() {
     let insertedUserIds: number[] = [];
-    /* Is Form Valid */
-    if (data.form.invalid == true) return;
 
     await this.baseService.popupService.ShowQuestionPopupForDebitUpdate(
       (response: boolean) => {
         if (response == true) {
-          data.value.userIds.forEach(e => {
-            insertedUserIds.push(e.UserId);
+          this.dataTableOldDebit.TGT_copySource().forEach(e => {
+            insertedUserIds.push(e.getId());
           });
 
           let fixedAssetUser: FixedAssetUser = new FixedAssetUser();
 
           fixedAssetUser.UserIds = insertedUserIds;
           fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
-          // cloneItem.userId=data.value.userIds;
 
           this.baseService.fixedAssetService.ChangeDebit(
             fixedAssetUser,
@@ -266,6 +263,16 @@ export class FaChangeDebitComponent extends BaseComponent
     this.dataTableOldDebit.TGT_insertDatas(selectedUsers);
     this.dataTableDebit.TGT_removeItemsByIds(selectedUsers.map(x=>x.UserId));
     this.dataTableOldDebit.TGT_deselectAllItems();
+
+  }
+
+  DeleteDebitUser() {
+    let selectedUsers = <User[]>this.dataTableOldDebit.TGT_getSelectedItems();
+    
+    // let oldDebitUser = <User[]>this.dataTableOldDebit.TGT_copySource();
+    this.dataTableDebit.TGT_insertDatas(selectedUsers);
+    this.dataTableOldDebit.TGT_removeItemsByIds(selectedUsers.map(x=>x.UserId));
+    this.dataTableDebit.TGT_deselectAllItems();
 
   }
 }
