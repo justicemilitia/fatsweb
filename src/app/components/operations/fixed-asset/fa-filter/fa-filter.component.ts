@@ -20,6 +20,7 @@ import { FixedAssetPropertyDetails } from "../../../../models/FixedAssetProperty
 import { PropertyValueTypes } from "../../../../declarations/property-value-types.enum";
 import { FixedAssetComponent } from "../fixed-asset.component";
 import { FixedAssetFilter } from '../../../../models/FixedAssetFilter';
+import { convertNgbDateToDateString } from '../../../../declarations/extends';
 
 @Component({
   selector: "app-fa-filter",
@@ -153,7 +154,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     };
     this.dropdownSettingsForStatus = {
       singleSelection: false,
-      idField: "StatusId",
+      idField: "FixedAssetStatusId",
       textField: "Name",
       selectAllText: "Hepsini Seç",
       unSelectAllText: "Temizle",
@@ -354,8 +355,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     this.fixedAsset.Models = this.selectedModels == null ? null : this.selectedModels.map(x=>x.FixedAssetCardModelId);
     this.fixedAsset.Users = this.selectedUsers == null ?null : this.selectedUsers.map(x=>x.UserId);
     
-    this.fixedAsset.StartDate = this.fixedAsset.StartDate == null ? null : data.value.startDate;
-    this.fixedAsset.EndDate = this.fixedAsset.EndDate == null ? null : data.value.endDate;
+    this.fixedAsset.StartDate = this.fixedAsset.StartDate == null ? null : convertNgbDateToDateString(data.value.startDate);
+    this.fixedAsset.EndDate = this.fixedAsset.EndDate == null ? null : convertNgbDateToDateString(data.value.endDate);
     this.fixedAsset.IsGuaranteed = data.value.IsGuaranteed;
     this.fixedAsset.IsCalculatedDepreciation = data.value.IsCalculatedDepreciation;
     this.fixedAsset.IsCalculatedIFRSDepreciation = data.value.IsCalculatedIFRSDepreciation;
@@ -458,10 +459,10 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   }
 
   /* Selected Status */
-  onSelectStatus(item: FixedAssetStatus) {
+  onSelectFixedAssetStatus(item: FixedAssetStatus) {
     this.selectedStatus.push(item);
   }
-  onSelectAllStatus(items: any) {
+  onSelectAllFixedAssetStatus(items: any) {
     this.selectedStatus.push(items);
   }
 

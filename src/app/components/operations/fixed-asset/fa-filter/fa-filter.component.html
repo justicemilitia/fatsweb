@@ -68,12 +68,12 @@
 
                 <!-- DEMİRBAŞ STATÜSÜ -->
                 <div class="col-md-4 form-group">
-                    <label>Demirbaş Statüsü</label>
-                    <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
-                    [data]="statuses" [(ngModel)]="fixedAsset.StatusId"
-                    name="StatusId" [settings]="dropdownSettingsForStatus" (onSelect)="onSelectStatus($event)"
-                    (onSelectAll)="onSelectAllStatus($event)">
-                  </ng-multiselect-dropdown>
+                  <label>Demirbaş Statüsü</label>
+                  <ng-multiselect-dropdown [placeholder]="'Seçiniz'" 
+                  [data]="statuses" [(ngModel)]="fixedAsset.StatusId"
+                  name="StatusId" [settings]="dropdownSettingsForStatus" (onSelect)="onSelectFixedAssetStatus($event)"
+                  (onSelectAll)="onSelectAllFixedAssetStatus($event)">
+                </ng-multiselect-dropdown>
                 </div>
             </div>
 

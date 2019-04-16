@@ -38,6 +38,7 @@ export class FaChangeDebitComponent extends BaseComponent
   selectedFixedAssetId: number;
   fixedAssetUsers: FixedAssetUser[] = [];
   dropdownSettings = {};
+  AllUsersWithoutDebitUser: number[] = [];
 
   /* All Users Data Table */
   public dataTableDebit: TreeGridTable = new TreeGridTable(
@@ -125,6 +126,7 @@ export class FaChangeDebitComponent extends BaseComponent
         if (this.faBarcode.FixedAssetId) {
           this.selectedFixedAssetId = this.faBarcode.FixedAssetId;
           this.loadDebitUserListByFixedAssetId();
+          this.loadUserList()
         }
       }
     }
@@ -200,7 +202,17 @@ export class FaChangeDebitComponent extends BaseComponent
         this.users.forEach(e => {
           e.ParentUserId = null;
         });
+
+        this.fixedAssetUsers.forEach((e: FixedAssetUser) => {
+          let foundUserId = e.UserId;
+        if (foundUserId) 
+        this.AllUsersWithoutDebitUser.push(foundUserId);   
+      
+        });
+
         this.dataTableDebit.TGT_loadData(this.users);
+        this.dataTableDebit.TGT_removeItemsByIds(this.AllUsersWithoutDebitUser);
+
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -237,5 +249,10 @@ export class FaChangeDebitComponent extends BaseComponent
 
   resetForm(data: NgForm) {
     this.selectedUser = [];
+  }
+
+  AddDebitUser() {
+    let selectedUsers = <User[]>this.dataTableDebit.TGT_getSelectedItems();
+    selectedUsers.forEach(x => x.UserId);
   }
 }

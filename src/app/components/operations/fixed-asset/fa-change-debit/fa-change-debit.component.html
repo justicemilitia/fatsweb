@@ -45,19 +45,19 @@
             <tree-grid-table class="table-scroll" style="margin-left:20px;" [dataTable]="dataTableDebit"></tree-grid-table>
         </div>
 
-        <!-- ZİMMET DEĞİŞTİRME BUTONU -->
+        <!-- ZİMMET DEĞİŞTİRME BUTONLARI -->
         <div class="col-md-1 form-group" style="padding-left:6px;">
           <div class="form-group">
-              <button class="btn btn-az-primary" style="margin-top:20px; margin-left:13px; padding: 8px; min-height: 13px;" data-toggle="tooltip" data-placement="bottom" title="Zimmetle"><i class="fas fa-arrow-right"></i></button>
+              <button class="btn btn-az-primary" type="button" id="btnAddDebit" (click)="AddDebitUser()" style="margin-top:20px; margin-left:13px; padding: 8px; min-height: 13px;" data-toggle="tooltip" data-placement="bottom" title="Zimmetle"><i class="fas fa-arrow-right"></i></button>
           </div>
           <div class="form-group">
-              <button class="btn btn-az-primary" style="margin-top:10px; margin-left:13px;  padding: 8px; min-height: 13px;" data-toggle="tooltip" data-placement="bottom" title="Zimmeti İptal Et"><i class="fas fa-arrow-left"></i></button>
+              <button class="btn btn-az-primary" type="button" id="btnDeleteDebit" style="margin-top:10px; margin-left:13px;  padding: 8px; min-height: 13px;" data-toggle="tooltip" data-placement="bottom" title="Zimmeti İptal Et"><i class="fas fa-arrow-left"></i></button>
           </div>
         </div>
 
 
         <!-- ZİMMETLİ PERSONEL -->
-        <div class="col-md-5 form-group">
+        <div class="col-md-5 form-group" style="overflow-y: scroll; height: 300px; padding-top:0px;">
             <tree-grid-table class="table-scroll" style="margin-right:20px;" [dataTable]="dataTableOldDebit"></tree-grid-table>
         </div>
 

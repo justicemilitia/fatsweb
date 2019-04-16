@@ -93,31 +93,31 @@
 <div id="modalOperation" class="modal" data-backdrop="static" style="overflow-x: auto;">
   <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;" role="document">
     <div class="modal-content modal-content-demo">
-      <app-fa-change-barcode [faBarcode]="changeBarcode_selectedItem" *ngIf="currentOperation==2">
+      <app-fa-change-barcode [faBarcode]="changeBarcode_selectedItem" *ngIf="currentOperation==2" [faComponent]="this">
       </app-fa-change-barcode>
 
-      <app-fa-change-location [faBarcode]="changeLocation_selectedItem" *ngIf="currentOperation==3">
+      <app-fa-change-location [faBarcode]="changeLocation_selectedItem" *ngIf="currentOperation==3" [faComponent]="this">
       </app-fa-change-location>
 
-      <app-fa-relationship [faBarcode]="relationship_selectedItem" [faDataTable]="dataTable" *ngIf="currentOperation==12">
+      <app-fa-relationship [faBarcode]="relationship_selectedItem" [faDataTable]="dataTable" *ngIf="currentOperation==12" [faComponent]="this">
       </app-fa-relationship>
 
-      <app-fa-change-department [faBarcode]="changeDepartment_selectedItem" *ngIf="currentOperation==4">
+      <app-fa-change-department [faBarcode]="changeDepartment_selectedItem" *ngIf="currentOperation==4" [faComponent]="this">
       </app-fa-change-department>
 
-      <app-fa-change-firm [faTable]="dataTable" [faBarcode]="changeFirm_selectedItem" *ngIf="currentOperation==5"></app-fa-change-firm>
+      <app-fa-change-firm [faTable]="dataTable" [faBarcode]="changeFirm_selectedItem" *ngIf="currentOperation==5" [faComponent]="this"></app-fa-change-firm>
 
-      <app-fa-change-debit [faBarcode]="changeDebit_selectedItem" *ngIf="currentOperation==6"></app-fa-change-debit>
+      <app-fa-change-debit [faBarcode]="changeDebit_selectedItem" *ngIf="currentOperation==6" [faComponent]="this"></app-fa-change-debit>
 
       <!-- <app-fa-delete-debit [faBarcode]="deleteDebit_selectedItem" *ngIf="currentOperation==7"></app-fa-delete-debit> -->
 
-      <app-fa-exit [faBarcode]="exit_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==8">
+      <app-fa-exit [faBarcode]="exit_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==8" [faComponent]="this">
       </app-fa-exit>
 
-      <app-fa-suspend [faBarcode]="suspend_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==10">
+      <app-fa-suspend [faBarcode]="suspend_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==10" [faComponent]="this">
       </app-fa-suspend>
 
-      <app-fa-lost [faBarcode]="lost_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==11">
+      <app-fa-lost [faBarcode]="lost_selectedBarcodes" [faDataTable]="dataTable" *ngIf="currentOperation==11" [faComponent]="this">
       </app-fa-lost>
 
       <app-fa-filter [filterDataTable]="dataTable" *ngIf="currentOperation==13">
@@ -126,7 +126,7 @@
       <app-fa-change-collective-parameter [faBarcode]="changeCollectiveParameter_selectedBarcodes"
         [faDataTable]="dataTable" *ngIf="currentOperation==9" [faComponent]="this"></app-fa-change-collective-parameter>
 
-      <app-fa-create *ngIf="currentOperation==1"></app-fa-create>
+      <app-fa-create *ngIf="currentOperation==1" [faComponent]="this"></app-fa-create>
     </div>
   </div>
   <!-- modal-dialog -->

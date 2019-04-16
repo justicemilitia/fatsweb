@@ -111,7 +111,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value ? value.TransactionDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.TransactionDate ? value.TransactionDate.substring(0, 10).split("-").reverse().join("-") : "";
         }
       },
     ],
