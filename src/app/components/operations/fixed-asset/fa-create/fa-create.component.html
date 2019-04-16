@@ -20,7 +20,7 @@
 
                 <div class="form-group col-md-8">
                     <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
-                    value="{{barcode}}" name="Barcode" type="text" trim="blur" 
+                    value="{{barcode}}" name="Barcode" type="number" trim="blur" 
                     class="form-control"
                     [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" style="margin-top: 19px; margin-left: -20px; width: 150px;" required/>
                     <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>
@@ -35,7 +35,7 @@
               <!--QUANTITY-->
             <div class="form-group col-md-3">          
                   <label>Adet</label>
-                    <input type="number" [(ngModel)]="fixedAsset.Quantity" name="Quantity" min="1" max="100" class="form-control"/>    
+                    <input type="number" [(ngModel)]="fixedAsset.Quantity" name="Quantity" placeholder="1" min="1" max="100" class="form-control"/>    
             </div>    
             
             <!--SERIAL NUMBER-->
