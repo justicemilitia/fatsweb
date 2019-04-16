@@ -1,0 +1,10 @@
+.my-drop-zone {
+    border: dotted 1px lightgray;
+    height: 100px;
+    width:100px
+  }
+
+  .label-text{
+    margin-left: 0px;
+    margin-top: 5px;
+  }

@@ -80,9 +80,11 @@ export class FaCreateComponent extends BaseComponent
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
+
   isFinished:boolean=false;
   isWaitingValidBarcode: boolean = false;
   isLinear = false;
+
   fixedAssetForm: FormGroup;
   departments: Department[] = [];
   companies: Company[] = [];
@@ -102,7 +104,7 @@ export class FaCreateComponent extends BaseComponent
   depreciationTypes: Depreciation[] = [];
   fixedAssets: FixedAsset[] = [];
   propertydetail: FixedAssetPropertyDetails[] = [];
-
+  fixedAssetFiles:FixedAssetFile[]=[];
   fixedAsset: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
@@ -118,7 +120,7 @@ export class FaCreateComponent extends BaseComponent
   quantity: number;
   validBarcode = false;
   editable: boolean = true;
-  fixedAssetFiles: string[] = [];
+  fixedAssetFilesDataTable: FixedAssetFile[] = [];
   visibleInsertButton: boolean = false;
   isResetForm: boolean = false;
   picture:any;
@@ -268,6 +270,8 @@ export class FaCreateComponent extends BaseComponent
       this.stepper.next();
     } else return;
   }
+
+//#region Load Dropdown
 
   loadDropdown() {
 
@@ -421,32 +425,6 @@ export class FaCreateComponent extends BaseComponent
     }
   }
 
-  isBarcodeUnique(barcode: string) {
-    if (barcode == "") return;
-
-    this.baseService.fixedAssetCreateService.isBarcodeUnique(
-      barcode,
-      result => {
-        this.BarcodeIsUnique = false;
-        this.errorMessage = "";
-      },
-      (error: HttpErrorResponse) => {
-        this.BarcodeIsUnique = true;
-        this.errorMessage = error.statusText;
-      }
-    );
-  }
-
-  isBarcodeManual(event) {
-    if (event.target.checked == true) {
-      this.disabledBarcode = false;
-      this.barcode = null;
-    } else {
-      this.disabledBarcode = true;
-      this.getValidBarcode();
-    }
-  }
-
   loadFixedAssetProperties() {
     this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
       (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
@@ -480,7 +458,74 @@ export class FaCreateComponent extends BaseComponent
     }
   }
 
-  getPropertyValue(event: any) {
+  loadDepartmentByLocationId(event: any) {
+    this.departments = [];
+
+    if (!event.target.value || event.target.value == "") {
+      this.fixedAsset.DepartmentId = null;
+      this.fixedAsset.Department = new Department();
+      return;
+    }
+
+    if (event.target.value) {
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+        <number>event.target.value,
+        (departments: Department[]) => {
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+  }
+
+  //#endregion
+
+//#region Barcode control
+  isBarcodeUnique(barcode: string) {
+    if (barcode == "") return;
+
+    this.baseService.fixedAssetCreateService.isBarcodeUnique(
+      barcode,
+      result => {
+        this.BarcodeIsUnique = false;
+        this.errorMessage = "";
+      },
+      (error: HttpErrorResponse) => {
+        this.BarcodeIsUnique = true;
+        this.errorMessage = error.statusText;
+      }
+    );
+  }
+
+  isBarcodeManual(event) {
+    if (event.target.checked == true) {
+      this.disabledBarcode = false;
+      this.barcode = null;
+    } else {
+      this.disabledBarcode = true;
+      this.getValidBarcode();
+    }
+  }
+
+  getValidBarcode() {
+    this.isWaitingValidBarcode = true;
+
+    this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
+      barcode => {
+        this.isWaitingValidBarcode = false;
+        this.barcode = barcode;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+//#endregion
+ 
+getPropertyValue(event: any) {
     this.propertyValue = event.target.value;
   }
 
@@ -489,11 +534,8 @@ export class FaCreateComponent extends BaseComponent
       this.dataTablePropertyValue.TGT_copySource()
     );
 
-    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-      (this.faPropertyDetails.length + 1) * -1;
-    let fixedasset = this.fixedassetproperty.find(
-      x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-    );
+    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+    let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value));
     this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
     if (this.isListSelected == true) {
       this.fixedAssetPropertyDetail.Value = this.propertyValue;
@@ -523,23 +565,6 @@ export class FaCreateComponent extends BaseComponent
 
   clearFiles(){
     this.imgURL = null;
-  }
-
-  getValidBarcode() {
-    this.isWaitingValidBarcode = true;
-
-    this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
-      barcode => {
-        this.isWaitingValidBarcode = false;
-        this.barcode = barcode;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
-
-  LoadDataTable(event){
   }
 
   addToFixedAssetList(data: NgForm) {
@@ -587,7 +612,11 @@ export class FaCreateComponent extends BaseComponent
     
         fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
     
-          fixedasset.Barcode = this.fixedAsset.Prefix + this.barcode.toString();
+        if(this.fixedAsset.Prefix != null)
+          this.fixedAsset.Barcode = this.fixedAsset.Prefix + this.barcode.toString();
+        else
+          this.fixedAsset.Barcode = this.barcode.toString();
+
           this.barcode = (Number(this.barcode) + 1);
 
         Object.assign(fixedasset,this.fixedAsset);
@@ -664,7 +693,7 @@ export class FaCreateComponent extends BaseComponent
           this.visibleInsertButton = true;
           this.dataTable.TGT_clearData();
           this.baseService.popupService.ShowSuccessPopup(message);
-          this.faComponent.loadFixedAsset();
+          //this.faComponent.loadFixedAsset();
         } else {
           this.validBarcode = true;
           this.doAllVisible();
@@ -685,24 +714,62 @@ export class FaCreateComponent extends BaseComponent
     url: URL,
     disableMultipart: true
   });
+
   public hasAnotherDropZoneOver: boolean = false;
 
   public fileOverAnother(e: any): void {
     this.hasAnotherDropZoneOver = e;
   }
 
-  insertFile() {
+  addFileDataTable(){
+
+  }
+
+  resetForm(data: NgForm) {
+
+    this.editable = true;
+
+    this.fixedAsset = new FixedAsset();
+
+    this.stepper.reset();
+
+    data.resetForm(this.fixedAsset);
+    
+    this.isResetForm = true;
+
+    this.dataTable.TGT_clearData();
+    this.dataTableFile.TGT_clearData();
+  }
+
+  public onFileSelected(event) {
+
+    for (var i = 0; i < event.target.files.length; i++) {
+
+      let files:FixedAssetFile=new FixedAssetFile();
+      files.FileName=event.target.files[i].name;
+      files.FixedAssetFileId=(this.fixedAssetFilesDataTable.length + 1) * -1;
+      this.fixedAssetFiles.push(event.target.files[i]);
+      this.fixedAssetFilesDataTable.push(files);      
+    }
+
+    this.dataTableFile.TGT_loadData(this.fixedAssetFilesDataTable);  
+
+    this.fixedAsset = new FixedAsset();
+  }
+
+  insertFiles() { 
+
     this.baseService.spinner.show();
 
     this.baseService.fileUploadService.FileUpload(
       this.fileBarcode,
       this.fixedAssetFiles,
-      (file: string, message) => {
+      (file: string[], message) => {
         this.baseService.spinner.hide();
 
-        this.baseService.popupService.ShowSuccessPopup(
-          "Dosya Yükleme Başarılı!"
-        );
+        this.baseService.popupService.ShowSuccessPopup("Dosya Yükleme Başarılı!");
+
+        this.dataTableFile.TGT_clearData();
       },
       (error: HttpErrorResponse) => {
         this.baseService.spinner.hide();
@@ -711,47 +778,6 @@ export class FaCreateComponent extends BaseComponent
       }
     );
   }
-
-  loadDepartmentByLocationId(event: any) {
-    this.departments = [];
-
-    if (!event.target.value || event.target.value == "") {
-      this.fixedAsset.DepartmentId = null;
-      this.fixedAsset.Department = new Department();
-      return;
-    }
-
-    if (event.target.value) {
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-        <number>event.target.value,
-        (departments: Department[]) => {
-          this.departments = departments;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
-  }
-
-  resetForm(data: NgForm) {
-    this.editable = true;
-    this.fixedAsset = new FixedAsset();
-    this.stepper.reset();
-    data.resetForm(this.fixedAsset);
-    this.isResetForm = true;
-
-    this.dataTable.TGT_clearData();
-  }
-
-  public onFileSelected(event) {
-    for (var i = 0; i < event.target.files.length; i++) {
-      this.fixedAssetFiles.push(event.target.files[i]);
-    }
-
-    this.insertFile();
-
-    this.fixedAsset = new FixedAsset();
-  }
+  
   //#endregion
 }

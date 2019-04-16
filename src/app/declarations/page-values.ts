@@ -64,3 +64,4 @@ export const MENU_CYCLECOUNTRESULTS="Menu_CycleCountResults"
 export const MENU_CYCLECOUNTSTATUS="Menu_CycleCountStatus"
 export const MENU_STATUSLIST = "Menu_StatusList";
 export const MENU_FIXEDASSETRELATIONSHIP = "Menu_FixedAssetRelationship";
+export const MENU_TRANSACTIONLIST="Menu_TransactionList";

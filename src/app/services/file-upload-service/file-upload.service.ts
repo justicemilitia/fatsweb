@@ -32,7 +32,7 @@ export class FileUploadService {
     formData.append("BarcodeIds",barcodes);
     if (files && files.length > 0) 
     for(let i=0; i < files.length;i++){
-    formData.append(files[i].name, files[i]);
+    formData.append(files[i].FileName, files[i]);
     }
     let headers:HttpHeaders=new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
@@ -46,7 +46,7 @@ export class FileUploadService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let file = {};
+            let file = [];
             Object.assign(file, response.ResultObject);
             success(file, response.LanguageKeyword);
           } else {

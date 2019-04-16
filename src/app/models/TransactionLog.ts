@@ -1,6 +1,21 @@
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 
-export class TransactionLog {
+export class TransactionLog implements IData{
+    getParentId(): number {
+       return null;
+    }
+    getChildren(): IData[] {
+        return [];
+    }
+    getId(): number {
+        return this.TransactionLogId;
+    }
+    
+    childIndex: number;
+    isExtended: boolean;
+    isChecked: boolean;
+    isVisible: boolean;
 
     TransactionLogId : number;
     TransactionTypeId : number;
@@ -89,4 +104,8 @@ export class TransactionLog {
     ToGuaranteeEndDate: Date;
     FixedAssetIsActive: boolean;
     FixedAssetActivationDate: Date;
+    Page:number;
+    PerPage:number;
+    StartDate:Date;
+    EndDate:Date;
 }
