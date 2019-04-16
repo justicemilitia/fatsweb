@@ -709,22 +709,6 @@ getPropertyValue(event: any) {
     );
   }
 
-  // #region FILE UPLOAD
-  public uploader: FileUploader = new FileUploader({
-    url: URL,
-    disableMultipart: true
-  });
-
-  public hasAnotherDropZoneOver: boolean = false;
-
-  public fileOverAnother(e: any): void {
-    this.hasAnotherDropZoneOver = e;
-  }
-
-  addFileDataTable(){
-
-  }
-
   resetForm(data: NgForm) {
 
     this.editable = true;
@@ -740,6 +724,21 @@ getPropertyValue(event: any) {
     this.dataTable.TGT_clearData();
     this.dataTableFile.TGT_clearData();
   }
+
+  // #region FILE UPLOAD
+  
+  public uploader: FileUploader = new FileUploader({
+    url: URL,
+    disableMultipart: true
+  });
+
+  public hasAnotherDropZoneOver: boolean = false;
+
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
+  }
+
+
 
   public onFileSelected(event) {
 
@@ -779,5 +778,6 @@ getPropertyValue(event: any) {
     );
   }
   
+
   //#endregion
 }
