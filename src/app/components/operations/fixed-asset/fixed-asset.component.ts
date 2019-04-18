@@ -751,7 +751,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
       Object.assign(this.fixedAsset,result);
 
-    $("#btnFixedAssetInfo").trigger("click");
+      $("#btnFixedAssetInfo").trigger("click");
       
     },(error:HttpErrorResponse)=>{
          /* hide spinner */

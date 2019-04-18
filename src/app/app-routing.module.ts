@@ -111,7 +111,7 @@ export const routes: Routes = [
     path: "status",
     component: FixedAssetStatusComponent,
     canActivate: [AuthGuard],
-    data: { pageKeyword: pages.MENU_STATUSLIST }
+    data: { pageKeyword: pages.MENU_FIXEDASSETSTATUS }
   },
   {
     path: "role",

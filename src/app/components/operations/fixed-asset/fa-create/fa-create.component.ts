@@ -1,15 +1,4 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  DoCheck,
-  Directive,
-  EventEmitter,
-  NgModule,
-  OnChanges,
-  ViewChild,
-  Input
-} from "@angular/core";
+import {Component, OnInit, AfterViewInit, Directive, NgModule, ViewChild, Input } from "@angular/core";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { Department } from "src/app/models/Department";
@@ -34,32 +23,15 @@ import * as $ from "jquery";
 import { FixedAssetFile } from "src/app/models/FixedAssetFile";
 import { Depreciation } from "src/app/models/Depreciation";
 
-import {
-  HttpClient,
-  HttpRequest,
-  HttpResponse,
-  HttpEvent
-} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { FileUploader } from "ng2-file-upload";
-import {
-  NgForm,
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder,
-  ReactiveFormsModule
-} from "@angular/forms";
+import { NgForm, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { convertNgbDateToDateString } from "src/app/declarations/extends";
-import { CdkStepper } from "@angular/cdk/stepper";
-import {
-  MatVerticalStepper,
-  MatHorizontalStepper,
-  MatStep,
-  MatStepper
-} from "@angular/material";
+import { MatStepper } from "@angular/material";
 import { FixedAssetComponent } from "../fixed-asset.component";
 
 const URL = "";
+
 @Component({
   selector: "app-fa-create",
   templateUrl: "./fa-create.component.html",
@@ -75,8 +47,8 @@ const URL = "";
   providers: [FaCreateComponent]
 })
 
-export class FaCreateComponent extends BaseComponent
-  implements OnInit, AfterViewInit {
+export class FaCreateComponent extends BaseComponent implements OnInit, AfterViewInit {
+
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
@@ -105,6 +77,9 @@ export class FaCreateComponent extends BaseComponent
   fixedAssets: FixedAsset[] = [];
   propertydetail: FixedAssetPropertyDetails[] = [];
   fixedAssetFiles:FixedAssetFile[]=[];
+  fixedAssetFilesDataTable: FixedAssetFile[] = [];
+
+
   fixedAsset: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
@@ -120,7 +95,6 @@ export class FaCreateComponent extends BaseComponent
   quantity: number;
   validBarcode = false;
   editable: boolean = true;
-  fixedAssetFilesDataTable: FixedAssetFile[] = [];
   visibleInsertButton: boolean = false;
   isResetForm: boolean = false;
   picture:any;
@@ -259,7 +233,7 @@ export class FaCreateComponent extends BaseComponent
 
   next() {
     if (this.fixedAsset.FixedAssetCardId != null && this.fixedAsset.FixedAssetCardCategoryId != null 
-      && this.fixedAsset.LocationId != null && this.fixedAsset.StatusId != null) {
+      && this.fixedAsset.LocationId != null && this.fixedAsset.StatusId != null && this.fixedAsset.Barcode != null) {
       this.stepper.next();
     } else return;
   }

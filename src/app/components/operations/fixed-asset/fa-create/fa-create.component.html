@@ -158,67 +158,7 @@
 
   </mat-step>
   <mat-step label="Özellik Bilgileri" (click)="$event.stopPropagation()" [editable]="editable">
-    <!-- <div style="display:flex; justify-content: flex-start; margin-left: 15px;">
-    <div style="flex:1">
-        <div class="row justify-content-center">         
-            <div class="form-group col-md-6">
-              <label>Özellik Adı</label>
-                <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
-                    <option value="-1">Özellik Seçiniz</option>
-                    <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
-                </select>   
-            </div>
-            <div class="form-group col-md-6"> 
-                <label>Özellik Değeri</label>    
-                 <div class="flexProperty">        
-                  <div style="flex:1;">            
-                   <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search">
-                        <option [ngValue]="null">Özellik Değeri Seçiniz</option>
-                        <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
-                   </select> 
-                   <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
-                  style="font-size: 13px;height: 27px;">
-                  </div>
-                  <div class="property-add-value">                    
-                      <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
-                  </div>  
-                </div>                
-            </div>    
-              
-          </div>
-          <div class="row justify-content-center">
-              <div class="form-group col-md-12">
-                  <div class="property-values-table">
-                   <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
-                  </div>
-                </div>
-          </div>  
-        </div>
-        <div style="display:flex;justify-content: space-between;width: 300px;flex-direction: column;padding: 7px;"> 
-          <div class="form-group">
-              <label>Demirbaş Resmi</label>
-          </div>
-          <div class="row justify-content-center">  
-              <div class="form-group col-md-8 well my-drop-zone" *ngIf="!imgURL">                          
-                        </div> 
-            <div class="form-group col-md-12">
-              <img [src]="imgURL" height="200" width="300" *ngIf="imgURL">
-          </div> 
-          <div class="form-group col-md-12">      
-          
-            <div class="file-area">
-            <input #Picture [(ngModel)]="imageFile" id="FixedAssetImage" accept='image/*' (change)="addImageFile(Picture.files)" name="Picture" type="file" class="form-control-file" style="display:none">
-              <label for="FixedAssetImage" class="custom-file">
-                <label class="custom-file-text" for="FixedAssetImage">
-                 Dosya Seçiniz
-                </label>
-              </label>
-              <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
-            </div>  
-          </div>
-        </div>
-      </div>
-      </div> -->
+  
       <div class="row justify-content-center">
           <div class="col-md-12 form-group">   
       <div class="row">
@@ -228,7 +168,7 @@
                       <div class="row justify-content-center">         
                           <div class="form-group">
                             <label>Özellik Adı</label>
-                              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%; margin-right: 41px;">
+                              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%; margin-right: 55px;">
                                   <option value="-1">Özellik Seçiniz</option>
                                   <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                               </select>   
