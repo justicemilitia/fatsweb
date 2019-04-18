@@ -16,13 +16,13 @@ export class TreeGridTable {
     /**
      * Show error message in table
      */
-    public errorMessage:string = '';
+    public errorMessage: string = '';
 
     /**
      * Store the active columns to increase performance.
      * To Update this TGT_bindActiveColumns method must use
      */
-    public activeColumns:IColumn[] = [];
+    public activeColumns: IColumn[] = [];
 
     /**
      * Is Table Editable
@@ -427,7 +427,7 @@ export class TreeGridTable {
 
     }
 
-    public TGT_getItemParentIds(data:IData):boolean {
+    public TGT_getItemParentIds(data: IData): boolean {
         return true;
         //this.
 
@@ -509,11 +509,11 @@ export class TreeGridTable {
         this.TGT_loadData(this.originalSource);
     }
 
-    public TGT_removeItem(item:IData) {
+    public TGT_removeItem(item: IData) {
 
-        let index = this.originalSource.findIndex(x=>x.getId() == item.getId());
+        let index = this.originalSource.findIndex(x => x.getId() == item.getId());
         if (index > -1) {
-            this.originalSource.splice(index,1);
+            this.originalSource.splice(index, 1);
         }
 
         this.TGT_loadData(this.originalSource);
@@ -524,7 +524,10 @@ export class TreeGridTable {
      * Insert an item in to original source.
      * @param item insert item
      */
-    TGT_insertData(item:IData):void {
+    TGT_insertData(item: IData): void {
+        if (!this.originalSource)
+            this.originalSource = [];
+            
         this.originalSource.push(item);
         this.TGT_loadData(this.originalSource);
     }
@@ -533,15 +536,18 @@ export class TreeGridTable {
      * Insert Any Item Array to original data source.
      * @param items IData items which will insert.
      */
-    TGT_insertDatas(items:IData[]):void {
-        
-        items.forEach(e=> {
+    TGT_insertDatas(items: IData[]): void {
+
+        if (!this.originalSource)
+            this.originalSource = [];
+
+        items.forEach(e => {
             this.originalSource.push(e);
         });
 
         this.TGT_loadData(this.originalSource);
 
-      }
+    }
 
     /**
      * Calculate total page, active page, previous and next pages.
@@ -635,12 +641,12 @@ export class TreeGridTable {
      * Clear data table with all its sources.
      */
     public TGT_clearData() {
-        
-        this.originalSource  = [];
+
+        this.originalSource = [];
         this.dataSource = [];
         this.treeSource = [];
         this.currentPage = 1;
-            
+
     }
 
     /**
@@ -844,7 +850,7 @@ export class TreeGridTable {
         }
 
         if (column.formatter) {
-                item = data;
+            item = data;
             return column.formatter(item);
         } else {
             return item;
@@ -857,10 +863,10 @@ export class TreeGridTable {
      * @param isDown if offset will down set true otherwise set false
      */
     public TGT_offsetColumns(column: IColumn, isDown: boolean) {
-        
+
         /* We find the column index in columns list */
         let index = this.dataColumns.findIndex(x => x.columnName == column.columnName);
-        
+
         /* if column not exists return */
         if (index <= -1)
             return;
@@ -869,7 +875,7 @@ export class TreeGridTable {
 
             /* Get the one bottom item index */
             let downIndex = index + 1;
-            
+
             /* if no more column at the bottom return */
             if (downIndex >= this.dataColumns.length)
                 return;
@@ -879,7 +885,7 @@ export class TreeGridTable {
 
             /* Remove column from array at the bottom */
             this.dataColumns.splice(downIndex, 1);
-            
+
             /* Then add down column and offset column to column array */
             this.dataColumns.splice(index, 1, downItem, column);
 
@@ -1165,7 +1171,7 @@ export class TreeGridTable {
             let item: IData = _datasource[ii];
 
             /* if item contains given data then do its parent and their children visible (not extended) */
-            if (TreeGridTableMethods.doSearch(item, this.dataFilters,this.dataColumns)) {
+            if (TreeGridTableMethods.doSearch(item, this.dataFilters, this.dataColumns)) {
                 this.TGT_doVisibleWithParents(item);
                 this.TGT_doVisibleWithChildren(item);
             }
