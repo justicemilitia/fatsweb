@@ -65,6 +65,7 @@ import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-inf
 import { InputTrimModule } from 'ng2-trim-directive';
 import {NgxMaskModule} from 'ngx-mask';
 import { TransactionListComponent } from './components/operations/transaction-list/transaction-list.component';
+import { UserSettingsComponent } from './components/definitions/user-settings/user-settings.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,7 @@ import { TransactionListComponent } from './components/operations/transaction-li
     CheckoutFixedAssetComponent,
     AlertInfosComponent,
     TransactionListComponent,
-    
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,

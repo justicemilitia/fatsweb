@@ -319,7 +319,7 @@ export class UserComponent extends BaseComponent implements OnInit {
               "Kayıt Başarıyla silindi!"
             );
           else
-            this.baseService.popupService.ShowAlertPopup(
+            this.baseService.popupService.ShowSuccessPopup(
               "Tüm kayıtlar başarıyla silindi!"
             );
 

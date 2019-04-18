@@ -32,4 +32,8 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
     this.baseService.router.navigateByUrl("/login");
   }
 
+  userSettings(){
+    this.baseService.router.navigateByUrl("/usersettings");    
+  }
+
 }
