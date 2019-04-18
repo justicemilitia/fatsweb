@@ -26,8 +26,8 @@ import { FixedAssetComponent } from "../fixed-asset.component";
   declarations: [FaChangeDebitComponent],
   providers: [FaChangeDebitComponent]
 })
-export class FaChangeDebitComponent extends BaseComponent
-  implements OnInit, OnChanges {
+export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnChanges {
+
   @Input() faBarcode: FixedAsset = new FixedAsset();
   @Input() faComponent: FixedAssetComponent;
   selectedIds: number[];
@@ -37,7 +37,7 @@ export class FaChangeDebitComponent extends BaseComponent
   selectedUser: User[] = [];
   selectedFixedAssetId: number;
   fixedAssetUsers: FixedAssetUser[] = [];
-  dropdownSettings = {};
+
   AllUsersWithoutDebitUser: number[] = [];
 
   /* All Users Data Table */
@@ -111,56 +111,44 @@ export class FaChangeDebitComponent extends BaseComponent
     this.dataTableOldDebit.isColumnOffsetActive = false;
 
     this.loadUserList();
-    this.loadDebitUserList();
+    //this.loadDebitUserList();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes["faBarcode"].previousValue != changes["faBarcode"].currentValue
-    ) {
+    if (changes["faBarcode"].previousValue != changes["faBarcode"].currentValue) {
+
       if (this.faBarcode.FixedAssetUsers) {
         this.faBarcode.FixedAssetUsers.forEach((e: any) => {
           this.selectedUser.push(e.User);
         });
-
-        if (this.faBarcode.FixedAssetId) {
-          this.selectedFixedAssetId = this.faBarcode.FixedAssetId;
-          this.loadDebitUserListByFixedAssetId();
-          this.loadUserList()
-        }
       }
+
+      if (this.faBarcode.FixedAssetId) {
+        this.selectedFixedAssetId = this.faBarcode.FixedAssetId;
+        this.loadUserList();
+        //this.loadDebitUserListByFixedAssetId();
+      }
+
     }
   }
 
   ngOnInit() {
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: "UserId",
-      textField: "UserMail",
-      selectAllText: "Hepsini Seç",
-      unSelectAllText: "Temizle",
-      itemsShowLimit: 10,
-      allowSearchFilter: true
-    };
   }
 
-  async ChangeDebit(data: NgForm) {
+  async ChangeDebit() {
     let insertedUserIds: number[] = [];
-    /* Is Form Valid */
-    if (data.form.invalid == true) return;
 
     await this.baseService.popupService.ShowQuestionPopupForDebitUpdate(
       (response: boolean) => {
         if (response == true) {
-          data.value.userIds.forEach(e => {
-            insertedUserIds.push(e.UserId);
+          this.dataTableOldDebit.TGT_copySource().forEach(e => {
+            insertedUserIds.push(e.getId());
           });
 
           let fixedAssetUser: FixedAssetUser = new FixedAssetUser();
 
           fixedAssetUser.UserIds = insertedUserIds;
           fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
-          // cloneItem.userId=data.value.userIds;
 
           this.baseService.fixedAssetService.ChangeDebit(
             fixedAssetUser,
@@ -197,17 +185,24 @@ export class FaChangeDebitComponent extends BaseComponent
 
   loadUserList() {
     this.baseService.userService.GetUsers(
-      users => {
+      (users: User[]) => {
+
         this.users = users;
+
         this.users.forEach(e => {
           e.ParentUserId = null;
         });
 
-        this.fixedAssetUsers.forEach((e: FixedAssetUser) => {
-          let foundUserId = e.UserId;
-        if (foundUserId) 
-        this.AllUsersWithoutDebitUser.push(foundUserId);   
-      
+        this.dataTableOldDebit.TGT_clearData();
+
+        this.selectedUser.forEach((e: User) => {
+          let foundUser = users.find(x => x.UserId == e.UserId);
+          if (foundUser) {
+            let foundUserId = foundUser.UserId;
+            this.AllUsersWithoutDebitUser.push(foundUserId);
+            this.dataTableOldDebit.TGT_insertData(foundUser);
+          }
+
         });
 
         this.dataTableDebit.TGT_loadData(this.users);
@@ -220,7 +215,7 @@ export class FaChangeDebitComponent extends BaseComponent
     );
   }
 
-  loadDebitUserList() {
+  /*loadDebitUserList() {
     this.baseService.userService.GetDebitUsers(
       (faUsers: FixedAssetUser[]) => {
         this.fixedAssetUsers = faUsers;
@@ -231,22 +226,23 @@ export class FaChangeDebitComponent extends BaseComponent
         this.dataTableOldDebit.isLoading = false;
       }
     );
-  }
+  }*/
 
   loadDebitUserListByFixedAssetId() {
     this.baseService.fixedAssetService.GetDebitUserListById(
       this.selectedFixedAssetId,
       (faUsers: FixedAssetUser[]) => {
-        // this.fixedAssetUsers = faUsers;
-        // this.dataTableOldDebit.TGT_loadData(this.fixedAssetUsers);
 
-        let userList: User[]=[];
+        let userList: User[] = [];
+
         faUsers.forEach(e => {
-            let user: User= new User();
-            Object.assign(user, e.User); 
-            userList.push(user); 
+          let user: User = new User();
+          Object.assign(user, e.User);
+          userList.push(user);
         });
+
         this.dataTableOldDebit.TGT_loadData(userList);
+
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -261,11 +257,21 @@ export class FaChangeDebitComponent extends BaseComponent
 
   AddDebitUser() {
     let selectedUsers = <User[]>this.dataTableDebit.TGT_getSelectedItems();
-    
+
     // let oldDebitUser = <User[]>this.dataTableOldDebit.TGT_copySource();
     this.dataTableOldDebit.TGT_insertDatas(selectedUsers);
-    this.dataTableDebit.TGT_removeItemsByIds(selectedUsers.map(x=>x.UserId));
+    this.dataTableDebit.TGT_removeItemsByIds(selectedUsers.map(x => x.UserId));
     this.dataTableOldDebit.TGT_deselectAllItems();
+
+  }
+
+  DeleteDebitUser() {
+    let selectedUsers = <User[]>this.dataTableOldDebit.TGT_getSelectedItems();
+
+    // let oldDebitUser = <User[]>this.dataTableOldDebit.TGT_copySource();
+    this.dataTableDebit.TGT_insertDatas(selectedUsers);
+    this.dataTableOldDebit.TGT_removeItemsByIds(selectedUsers.map(x => x.UserId));
+    this.dataTableDebit.TGT_deselectAllItems();
 
   }
 }
