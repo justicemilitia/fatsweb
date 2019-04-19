@@ -20,7 +20,8 @@ import {
   CHANGE_RELATIONSHIP,
   BREAK_RELATIONSHIP,
   GET_DEBITUSER_BY_ID,
-  GET_FIXEDASSET_BY_ID
+  GET_FIXEDASSET_BY_ID,
+  IMAGE_URL
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -498,8 +499,10 @@ export class FixedAssetService {
     .subscribe(
       result => {
         let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          success(response.ResultObject, response.LanguageKeyword);
+        if (response.ResultStatus == true) { 
+          let fixedassets:FixedAsset=new FixedAsset();
+          Object.assign(fixedassets,response.ResultObject)
+          success(fixedassets, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
@@ -510,7 +513,13 @@ export class FixedAssetService {
     );
   }
 
-  GetImage(imageUrl:string){
-    return this.httpclient.get(SERVICE_URL + "/" + imageUrl, { responseType: 'blob' });
+  GetImage(imageUrl:string,success,failed){
+    return this.httpclient.get( IMAGE_URL + imageUrl).subscribe(
+      result=>{
+        success(result);
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      }
+    );
   }
 }

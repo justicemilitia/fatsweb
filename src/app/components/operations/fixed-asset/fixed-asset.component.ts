@@ -56,6 +56,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   fixedAssetModel:string;
   department:string;
 
+  path:string;
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
     [
@@ -380,6 +382,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       column: []
     }
   )
+  imageToShow: any;
 
   constructor(protected baseService: BaseService) {
     super(baseService);
@@ -798,8 +801,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
  //#endregion
 
   //#region Create Fixed Asset Operation
-  CreateFixedAssetOperation() {
-    this.getValidBarcode();
+  CreateFixedAssetOperation() {  
     $("#showModal").trigger("click");
   }
   //#endregion
@@ -817,7 +819,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       this.baseService.spinner.hide();
       Object.assign(this.fixedAssetInfo,result);
       
-      this.status=result.Status.Name == null ? " " : result.Status.Name;      
+      this.status=result.Status.Name == null ? " " : result.Status.Name;     
+       if(result.FixedAssetCard.FixedAssetCardCategory != null)
       this.category=result.FixedAssetCard.FixedAssetCardCategory.Name;
       if(result.FixedAssetCardModel != null){
       this.fixedAssetBrand=result.FixedAssetCardModel.FixedAssetCardBrand.Name;
@@ -825,10 +828,17 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       }
       this.department=result.Department.Name;
 
+     
       let fixedAssetPropertyDetail:FixedAssetPropertyDetails[]=[];
-      fixedAssetPropertyDetail=result.FixedAssetPropertyDetails;
+      result.FixedAssetPropertyDetails.forEach(e => {
+     
+      });
+      Object.assign(fixedAssetPropertyDetail,result.FixedAssetPropertyDetails);
+      this.dataTablePropertyValue.TGT_loadData(fixedAssetPropertyDetail);
+   
+      // fixedAssetPropertyDetail=result.FixedAssetPropertyDetails;
       
-      //this.dataTablePropertyValue.TGT_loadData(fixedAssetPropertyDetail);
+      // this.dataTablePropertyValue.TGT_loadData(fixedAssetPropertyDetail);
       
       $("#btnFixedAssetInfo").trigger("click");
       
@@ -839,19 +849,5 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         /* show error message */
         this.baseService.popupService.ShowErrorPopup(error);
     });
-  }
-
-  getValidBarcode() {
-    this.isWaitingValidBarcode = true;
-
-    this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
-      barcode => {
-        this.isWaitingValidBarcode = false;
-        this.barcode = barcode;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
   }
 }

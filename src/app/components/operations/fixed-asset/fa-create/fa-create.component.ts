@@ -620,6 +620,7 @@ export class FaCreateComponent extends BaseComponent
     this.fixedAsset.InvoiceDate = data.value.invoiceDate;
     this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
     this.fixedAsset.ReceiptDate = data.value.receiptDate;
+    this.fixedAsset.Picture=this.picture;
 
     if (this.isFinished == true) {
       for (let i = 0; i < this.quantity; i++) {
@@ -742,7 +743,7 @@ export class FaCreateComponent extends BaseComponent
         ? null
         : Number(this.fixedAsset.FixedAssetCardModelId);
 
-    this.insertedFixedAsset.Picture = this.imgURL;
+    this.insertedFixedAsset.Picture = this.picture;
 
     let barcodes = this.fixedAssets.map(x => x.Barcode);
     this.insertedFixedAsset.BarcodeIds = <[]>barcodes;
@@ -787,6 +788,7 @@ export class FaCreateComponent extends BaseComponent
     this.isNewBarcode=true;
     
     this.dataTable.TGT_clearData();
+
     this.dataTableFile.TGT_clearData();
   }
 
