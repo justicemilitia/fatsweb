@@ -11,12 +11,10 @@
         <div class="card-header">
           <h2 class="az-content-title">Hareket Listesi</h2>
           <div class="grp-btn-action">
-
-            <button class="btn btn-az-primary btn-filter-button"  data-toggle="modal" data-target="#modalTransaction"
-                title="Demirbaş Filtreleme" (click)="doOperation(13)">
-                <i class="fas fa-filter"></i>
-              </button>
               
+            <button id="btnTransactionInfo" class="btn btn-success btn-excel-custom" style="display:none" data-toggle="modal" data-target="#modalTransactionLogInfo">
+            </button>
+
             <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
@@ -28,10 +26,15 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
+            <button class="btn btn-az-primary btn-filter-button"  data-toggle="modal" data-target="#modalTransaction"
+            title="Demirbaş Filtreleme" style="margin-left:10px">
+            <i class="fas fa-filter"></i>
+            </button>
+
           </div>
         </div>
         <div class="sales-overview">
-          <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)"  [dataTable]="dataTable"></tree-grid-table>
         </div>
       </div>
     </div>
@@ -40,133 +43,489 @@
 </div>
 <!-- az-content -->
 
-<div id="modalFixedAssetInfo" class="modal" data-backdrop="static">
+<div id="modalTransactionLogInfo" class="modal" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content modal-content-demo">
+      <div class="modal-content modal-content-demo" style="width: 900px;">
         <div class="modal-header">
-          <h6 class="modal-title">Şirket bilgilerini giriniz.</h6>
+          <h6 class="modal-title">Hareket Bilgileri</h6>
           <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body">      
+          <fieldset  class="field_set">
             <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="row label-text">
-                    <div class="form-group">
-                        <label>Barkod :</label><span>{{fixedAsset.Barcode}}</span>  
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Barkod :</label>
+                    </div>
+                    <div class="col-md-6">
+                        <span>{{transaction.Barcode}}</span> 
+                    </div> 
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Hareket Tipi :</label>
+                      </div>
+                      <div class="col-md-6">
+                        <span>{{transaction.TransactionDescription}}</span>
+                      </div>
+                </div>
+              </div>
+              </div> 
+              <div class="row justify-content-center">
+                  <div class="col-md-6">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>İşlemin Gerçekleştiği Tarih :</label>
+                        </div>
+                        <div class="col-md-6">
+                            <span>{{transaction.TransactionDate}}</span> 
+                        </div> 
                     </div>
                   </div>
-                  <div class="row label-text" >
-                    <div class="form-group">
-                        <label>Demirbaş Adı :</label><span>{{fixedAsset.FixedAssetCard.Name}}</span>  
+                  <div class="col-md-6">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                          <label>İşlemi Gerçekleştiren Kullanıcı :</label>
+                          </div>
+                          <div class="col-md-6">
+                            <span>{{transaction.TransactionDate}}</span>
+                          </div>
+                    </div>
+                  </div>
+              </div>
+          </fieldset>
+
+      
+            <div class="row justify-content-center">            
+              <div class="col-md-6">
+                  <fieldset  class="field_set" [hidden]="hideToFixedAsset == true || hideFromFixedAsset == true">
+                      <legend>Eski</legend>
+                  <div class="row" *ngIf="transaction.ExistingBarcode">
+                      <div class="form-group col-md-6">
+                          <label>Barkod :</label>
                       </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ExistingBarcode}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromFixedAssetCardCategoryName">
+                      <div class="form-group col-md-6">
+                          <label>Demirbaş Kategorisi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromFixedAssetCardCategoryName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromFixedAssetCardName">
+                      <div class="form-group col-md-6">
+                          <label>Demirbaş Kartı :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromFixedAssetCardName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromLocationName">
+                      <div class="form-group col-md-6">
+                          <label>Lokasyon :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromLocationName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromDepartmentName">
+                      <div class="form-group col-md-6">
+                          <label>Departman :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromDepartmentName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromCompanyName">
+                      <div class="form-group col-md-6">
+                          <label>Tedarikçi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromCompanyName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromInsuranceCompanyName">
+                      <div class="form-group col-md-6">
+                          <label>Sigorta Şirket :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromInsuranceCompanyName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromUserName">
+                      <div class="form-group col-md-6">
+                          <label>Zimmetli Kullanıcı :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromUserName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromSerialNumber">
+                      <div class="form-group col-md-6">
+                          <label>Seri Numarası :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromSerialNumber}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromStatusName">
+                      <div class="form-group col-md-6">
+                          <label>Demirbaş Statüsü :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromStatusName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromBrandName">
+                      <div class="form-group col-md-6">
+                          <label>Marka :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromBrandName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromModelName">
+                      <div class="form-group col-md-6">
+                          <label>Model :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromModelName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromExpenseCenterName">
+                      <div class="form-group col-md-6">
+                          <label>Masraf Merkezi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromExpenseCenterName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromInvoiceNo">
+                      <div class="form-group col-md-6">
+                          <label>Fatura Numarası :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromInvoiceNo}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromInvoiceDate">
+                      <div class="form-group col-md-6">
+                          <label>Fatura Tarihi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromInvoiceDate}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromGuaranteeStartDate">
+                      <div class="form-group col-md-6">
+                          <label>Garanti Başlangıç Tarihi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromGuaranteeStartDate}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromGuaranteeEndDate">
+                      <div class="form-group col-md-6">
+                          <label>Garanti Bitiş Tarihi:</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromGuaranteeEndDate}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FixedAssetIsActive">
+                      <div class="form-group col-md-6">
+                          <label>Aktiflik Durumu:</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FixedAssetIsActive}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromCompanyName">
+                      <div class="form-group col-md-6">
+                          <label>Tedarikçi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromCompanyName}}</span> 
+                      </div> 
+                  </div>
+                  <div class="row" *ngIf="transaction.FromFirmId">
+                      <div class="form-group col-md-6">
+                          <label>Firma :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FromFirmId}}</span> 
+                      </div> 
+                  </div>
+                </fieldset>
+              </div>           
+            
+              <div class="col-md-6">
+                  <fieldset  class="field_set" [hidden]="hideToFixedAsset == true || hideFromFixedAsset == true">
+                      <legend>Güncel</legend>
+            
+                  <div class="row" *ngIf="transaction.ToFixedAssetCardCategoryName">
+                      <div class="form-group col-md-6">
+                          <label>Demirbaş Kategorisi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToFixedAssetCardCategoryName}}</span> 
+                      </div> 
                   </div>
 
-                  <div class="row label-text" >
-                      <div class="form-group">
-                          <label>Demirbaş Kategorisi :</label><span>{{fixedAsset.Barcode}}</span>  
+                  <div class="row" *ngIf="transaction.NewBarcode">
+                      <div class="form-group col-md-6">
+                          <label>Barkod :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.NewBarcode}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToFixedAssetCardName">
+                      <div class="form-group col-md-6">
+                          <label>Demirbaş Kartı :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToFixedAssetCardName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToLocationName">
+                      <div class="form-group col-md-6">
+                          <label>Lokasyon :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToLocationName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToDepartmentName">
+                      <div class="form-group col-md-6">
+                          <label>Departman :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToDepartmentName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToCompanyName">
+                      <div class="form-group col-md-6">
+                          <label>Tedarikçi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToCompanyName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToInsuranceCompanyName">
+                      <div class="form-group col-md-6">
+                          <label>Sigorta Şirket :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToInsuranceCompanyName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToUserName">
+                      <div class="form-group col-md-6">
+                          <label>Zimmetli Kullanıcı :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToUserName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToSerialNumber">
+                      <div class="form-group col-md-6">
+                          <label>Seri Numarası :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToSerialNumber}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToStatusName">
+                      <div class="form-group col-md-6">
+                          <label>Demirbaş Statüsü :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToStatusName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToBrandName">
+                      <div class="form-group col-md-6">
+                          <label>Marka :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToBrandName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToModelName">
+                      <div class="form-group col-md-6">
+                          <label>Model :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToModelName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToExpenseCenterName">
+                      <div class="form-group col-md-6">
+                          <label>Masraf Merkezi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToExpenseCenterName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToInvoiceNo">
+                      <div class="form-group col-md-6">
+                          <label>Fatura Numarası :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToInvoiceNo}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToInvoiceDate">
+                      <div class="form-group col-md-6">
+                          <label>Fatura Tarihi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToInvoiceDate}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToGuaranteeStartDate">
+                      <div class="form-group col-md-6">
+                          <label>Garanti Başlangıç Tarihi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToGuaranteeStartDate}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToGuaranteeEndDate">
+                      <div class="form-group col-md-6">
+                          <label>Garanti Bitiş Tarihi:</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToGuaranteeEndDate}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.FixedAssetIsActive">
+                      <div class="form-group col-md-6">
+                          <label>Aktiflik Durumu:</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.FixedAssetIsActive}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToCompanyName">
+                      <div class="form-group col-md-6">
+                          <label>Tedarikçi :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToCompanyName}}</span> 
+                      </div> 
+                  </div>
+
+                  <div class="row" *ngIf="transaction.ToFirmName">
+                      <div class="form-group col-md-6">
+                          <label>Firma :</label>
+                      </div>
+                      <div class="col-md-6">
+                          <span>{{transaction.ToFirmName}}</span> 
+                      </div> 
+                  </div>
+                  
+                  </fieldset>
+              </div>
+            </div>
+
+            <fieldset class="field_set"   style = "margin-top: 8px;" [hidden]="hideCheckOutReason == true">
+              <legend>Çıkış Hareketleri</legend>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="row" >
+                            <div class="form-group col-md-6">
+                                <label>Çıkış Nedeni :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <span>{{transaction.CheckOutDescription}}</span> 
+                            </div> 
                         </div>
                     </div>
-                </div>             
-                <div class="col-md-6">
-                    <div style="display:flex;justify-content: space-between; flex-direction: column;">                       
-                        <div class="row justify-content-center" style="margin-top: -9px">  
-                          <div class="form-group well my-drop-zone">
-                        </div> 
-                          <!-- <img [src]="imgURL" height="95" width="100" *ngIf="imgURL"> -->
-                        </div>                         
-                    </div>                     
-                </div>           
-              </div>   
-              <div class="row justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6" >
-                      <label>Lokasyon :</label><span>{{fixedAsset.Location.Name}}</span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Departman :</label><span></span>  
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Çıkış Lokasyonu :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <span>{{transaction.CheckOutLocationName}}</span> 
+                            </div> 
+                        </div>
                     </div>
-              </div>  
-              <div class="Srow justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Demirbaş Statüsü :</label><span></span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Seri Numarası :</label><span>{{fixedAsset.SerialNumber}}</span>  
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6" >
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Satış Bedeli :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <span>{{transaction.CheckOutPrice}}</span> 
+                            </div> 
+                        </div>
                     </div>
-              </div> 
-              <div class="row justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Personel :</label><span></span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Tedarikçi :</label><span></span>  
+                    <div class="col-md-6" >
+                        <div class="row" >
+                            <div class="form-group col-md-6">
+                                <label>Beklenen Dönüş Tarihi :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <span>{{transaction.CheckInExpectedArrivalDate}}</span> 
+                            </div> 
+                        </div>
                     </div>
-              </div> 
-              <div class="row justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Marka :</label><span></span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Model :</label><span></span>  
-                  </div>
-              </div> 
-              <div class="row justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Fiyat :</label><span>{{fixedAsset.Price}}</span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Masraf Merkezi :</label><span></span>  
-                  </div>
-              </div> 
-              <div class="row justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Fatura No :</label><span>{{fixedAsset.InvoiceNo}}</span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Fatura Tarihi :</label><span>{{fixedAsset.InvoiceDate}}</span>  
-                  </div>
-              </div> 
-              <div class="row justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Demirbaş Aktif mi ? :</label><span>{{fixedAsset.WillDepreciationBeCalculated}}</span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Aktifleştirme Tarihi :</label><span>{{fixedAsset.ActivationDate}}</span>  
-                  </div>
-              </div>
-              <div class="row justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Garanti Başlangıç Tarihi :</label><span>{{fixedAsset.GuaranteeStartDate}}</span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Garanti Bitiş Tarihi :</label><span>{{fixedAsset.GuaranteeEndDate}}</span>  
-                  </div>
-              </div>
-              <div class="row justify-content-center" style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Sigorta Şirketi :</label><span>{{fixedAsset.Barcode}}</span>  
-                  </div>
-                  <div class="form-group col-md-6" >
-                      <label>Makbuz Tarihi :</label><span>{{fixedAsset.ReceiptDate}}</span>  
-                  </div>
-              </div>
-              <div class="row justify-content-center"  style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Amortisman Hesaplanacak mı ?:</label><span>{{fixedAsset.Barcode}}</span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>Amortisman Periyodu :</label><span>{{fixedAsset.DepreciationPeriod}}</span>  
-                  </div>
-              </div>
-              <div class="row justify-content-center"  style="margin-top:5px">
-                  <div class="form-group col-md-6">
-                      <label>Amortisman Yöntemi :</label><span>{{fixedAsset.Barcode}}</span>  
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label>IFRS Hesaplanacak mı ? :</label><span>{{fixedAsset.Barcode}}</span>  
-                  </div>
-              </div>   
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="row" >
+                            <div class="form-group col-md-6">
+                                <label>Askıdan Alma Tarihi :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <span>{{transaction.UndoSuspensionDate}}</span> 
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label></label>
+                            </div>
+                            <div class="col-md-6">
+                                <span></span> 
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
         </div>
           <!-- modal-body -->
           <div class="modal-footer">

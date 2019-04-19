@@ -1,0 +1,10 @@
+.field_set{
+    border:1;
+    border-color: #d0cbcb;
+    border-style: solid;
+}
+
+.modal-dialog {
+    max-width: 900px;
+    margin: 1.75rem auto;
+}

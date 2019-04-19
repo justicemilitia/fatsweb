@@ -1,9 +1,9 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-export const SERVICE_URL = "http://localhost:5000/api/";
-// export const SERVICE_URL = "http://localhost:11889/api/";
-// export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+// export const SERVICE_URL = "http://localhost:5000/api/";
+ //export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
@@ -269,6 +269,7 @@ export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/G
 
 //#region TransactionList
 export const GET_TRANSACTION_LIST = "TransactionLog/TransactionLogsList";
+export const GET_TRANSACTION_BY_ID="TransactionLog/TransactionLogsListById";
 //#endregion
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
