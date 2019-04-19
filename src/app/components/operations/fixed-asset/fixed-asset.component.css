@@ -1,10 +1,22 @@
 .my-drop-zone {
     border: dotted 1px lightgray;
-    height: 100px;
-    width:100px
+    height: 250px;
+    width:250px
   }
 
   .label-text{
     margin-left: 0px;
     margin-top: 5px;
   }
+  
+  .field_set{
+    border:1;
+    border-color: #d0cbcb;
+    border-style: solid;
+  }
+
+  .table-scroll{
+    height: 500px;
+    overscroll-behavior-y: contain;
+    overflow-y: scroll;
+    }

@@ -16,7 +16,7 @@ export class FixedAssetStatus implements IData{
     isChecked: boolean;
     isVisible: boolean;
     
-    FixedAssetStatuCode:number;
+    FixedAssetStatuCode:string;
     FixedAssetStatusId:number;
     Name:string;
     Color:string;

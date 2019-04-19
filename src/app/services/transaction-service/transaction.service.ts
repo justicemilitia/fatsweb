@@ -22,7 +22,7 @@ export class TransactionService {
 
   GetTransactionLogList(transaction:TransactionLog, success, failed) {
     transaction.Page=1;
-    transaction.PerPage=10;
+    transaction.PerPage=100;
     this.httpClient
       .post(SERVICE_URL + GET_TRANSACTION_LIST, transaction, {
         headers: GET_HEADERS(this.aService.getToken())

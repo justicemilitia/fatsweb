@@ -15,6 +15,7 @@ import { Response } from "src/app/models/Response";
 import { FixedAssetCard } from "../../models/FixedAssetCard";
 import { ErrorService } from "src/app/services/error-service/error.service";
 import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Injectable({
   providedIn: "root"
@@ -124,7 +125,7 @@ export class FixedAssetCardService {
         if ((<[]>response.ResultObject).length == 0) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+          failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {

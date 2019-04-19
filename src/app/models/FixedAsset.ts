@@ -80,6 +80,7 @@ export class FixedAsset implements IData {
   FixedAssetCardCategory: FixedAssetCardCategory;
   FixedAssetCardBrand: FixedAssetCardBrand;
   FixedAssetStatus: FixedAssetStatus;
+  Status:FixedAssetStatus;
   FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
   FixedAssetIds: number[];
   FixedAssetFiles: FixedAssetFile[];

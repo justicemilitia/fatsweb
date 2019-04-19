@@ -33,18 +33,18 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "transactionloglist",
-    [
+    [   
       {
-        columnDisplayName: "Barkod",
-        columnName: ["NewBarcode"],
+        columnDisplayName: "Hareket Tipi",
+        columnName: ["CheckOutReasonName"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
       {
-        columnDisplayName: "Hareket Tipi",
-        columnName: ["TransactionDescription"],
+        columnDisplayName: "Barkod",
+        columnName: ["NewBarcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -61,6 +61,14 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
       {
         columnDisplayName: "İşlemin Gerçekleştirildiği Tarih",
         columnName: ["TransactionDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Açıklama",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
