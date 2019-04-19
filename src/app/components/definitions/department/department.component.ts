@@ -349,6 +349,9 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       (departments: Department[]) => {
         this.departments = departments;
         this.dataTable.TGT_loadData(this.departments);
+        if(departments.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         /* if error show pop up */

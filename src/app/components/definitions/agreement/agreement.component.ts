@@ -342,6 +342,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
       (agreements: Agreement[]) => {
         this.agreements = agreements;
         this.dataTable.TGT_loadData(this.agreements);
+        if(agreements.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         /* if error show pop up */

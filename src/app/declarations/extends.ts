@@ -16,11 +16,17 @@ export const getAnErrorResponse = (message: string): HttpErrorResponse => {
 export const convertDateToNgbDate = (value: any):NgbDate => {
     
     if (value) {
-            
-        value = value.substring(0, 10).split('-');
+        if (value.includes('/')) {
+            value = value.substring(0, 10).split('/');
+            value = new NgbDate(Number(value[2]),Number(value[0]),Number(value[1]));
+            return value;
+        }else {
 
-        value = new NgbDate(Number(value[0]),Number(value[1]),Number(value[2]));
-        return value;
+            value = value.substring(0, 10).split('-');
+            value = new NgbDate(Number(value[0]),Number(value[1]),Number(value[2]));
+            return value;
+
+        }
     }
 
     return null;
@@ -38,4 +44,14 @@ export const convertNgbDateToDateString = (value:NgbDate):any => {
                 + "T" + "00:00:00";
     }
     return null;
+}
+
+/**
+ * Convert date to ngb date
+ * @param value 
+ */
+export const getToday = ():NgbDate => {
+   
+    let today=new Date();
+    return convertDateToNgbDate(today.toLocaleDateString());
 }

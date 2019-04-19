@@ -141,6 +141,14 @@ export class UserComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
+      },
+      {
+        columnDisplayName: "Sistem Kullanıcısı",
+        columnName: ["IsSystemUser"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "checkbox"
       }
     ],
     {

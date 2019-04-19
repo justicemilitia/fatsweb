@@ -8,8 +8,9 @@ import { Firm } from "../../../../models/Firm";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { UserFirm } from "src/app/models/UserFirm";
 import { Department } from "src/app/models/Department";
-import { User } from 'src/app/models/User';
-import { FixedAssetComponent } from '../fixed-asset.component';
+import { User } from "src/app/models/User";
+import { FixedAssetComponent } from "../fixed-asset.component";
+import { TransactionLog } from "../../../../models/TransactionLog";
 
 @Component({
   selector: "app-fa-change-firm",
@@ -66,9 +67,9 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
           Object.assign(cloneItem, this.faBarcode);
 
           cloneItem.FirmId = Number(data.value.FirmId);
-          cloneItem.LocationId=Number(data.value.LocationId);
-          cloneItem.DepartmentId=Number(data.value.DepartmentId);
-          cloneItem.UserId=Number(data.value.UserId);
+          cloneItem.LocationId = Number(data.value.LocationId);
+          cloneItem.DepartmentId = Number(data.value.DepartmentId);
+          cloneItem.UserId = Number(data.value.UserId);
 
           this.isWaitingInsertOrUpdate = true;
 
@@ -86,9 +87,9 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
                 this.faBarcode.FirmId !=
                 this.baseService.authenticationService.currentFirm.FirmId
               )
-                this.faTable.TGT_removeItem(this.faBarcode);
-
-                this.faComponent.loadFixedAsset();
+                this.resetForm(data, true);
+              this.faTable.TGT_removeItem(this.faBarcode);
+              this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -102,9 +103,12 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     );
   }
 
-  resetForm(data: NgForm) {
-    data.resetForm();
-    this.newFirmId = null;
+  resetForm(data: NgForm, isNewItem:boolean) {
+    
+    data.resetForm(this.fixedAsset);
+    if (isNewItem == true) {
+      this.fixedAsset = new FixedAsset();
+    }
   }
 
   async loadDropdownList() {
@@ -154,7 +158,8 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
   loadDepartmentByLocationId() {
     this.baseService.departmentService.GetDepartmentsByLocationId(
       this.locationId,
-      departments => {1
+      departments => {
+        1;
         this.departments = departments;
       },
       (error: HttpErrorResponse) => {
@@ -162,7 +167,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
       }
     );
   }
-  
+
   getFirmId(event) {
     if (event.target.value) {
       this.firmId = Number(event.target.value);

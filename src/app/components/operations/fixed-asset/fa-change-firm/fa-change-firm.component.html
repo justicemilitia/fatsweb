@@ -78,16 +78,12 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Zimmetlenecek Personel</label>
-        <select [(ngModel)]="fixedAsset.UserId" name="UserId"  class="form-control" #UserId="ngModel"
-          [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required>
+        <select [(ngModel)]="fixedAsset.UserId" name="UserId"  class="form-control" #UserId="ngModel">
           <option [ngValue]="null">Yok</option>
           <option *ngFor="let user of users" value={{user.UserId}}>
             {{ user.FirstName + ' ' + user.LastName}}
           </option>
         </select>
-        <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
-          <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
-        </div>
       </div>
     </div>
    </div>

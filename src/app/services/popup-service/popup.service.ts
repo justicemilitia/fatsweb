@@ -22,6 +22,10 @@ export class PopupService {
     this.alertSerivce.pushDanger(this.languageService.getValue(message));
   }
 
+  ShowWarningPopup(message: string) {
+    this.alertSerivce.pushWarning(this.languageService.getValue(message), "Uyarı!");
+  }
+  
   ShowSuccessPopup(message: string) {
     /*swal({
       title: "İşlem Başarılı",
