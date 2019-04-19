@@ -1,4 +1,10 @@
-import { Component, OnInit, NgModule, Input, AfterViewInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  NgModule,
+  Input,
+  AfterViewInit
+} from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
@@ -8,13 +14,18 @@ import { CheckOutReason } from "../../../../models/CheckOutReason";
 import { FixedAssetComponent } from "../fixed-asset.component";
 import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "../../../../models/FixedAsset";
-import { TransactionLog } from '../../../../models/TransactionLog';
-import { convertNgbDateToDateString } from '../../../../declarations/extends';
+import { TransactionLog } from "../../../../models/TransactionLog";
+import {
+  convertNgbDateToDateString,
+  convertDateToNgbDate,
+  getToday
+} from "../../../../declarations/extends";
+import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: 'app-fa-suspend',
-  templateUrl: './fa-suspend.component.html',
-  styleUrls: ['./fa-suspend.component.css']
+  selector: "app-fa-suspend",
+  templateUrl: "./fa-suspend.component.html",
+  styleUrls: ["./fa-suspend.component.css"]
 })
 @NgModule({
   imports: [ReactiveFormsModule],
@@ -22,20 +33,19 @@ import { convertNgbDateToDateString } from '../../../../declarations/extends';
   providers: [FaSuspendComponent]
 })
 export class FaSuspendComponent extends BaseComponent implements OnInit {
-
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
   @Input() faComponent: FixedAssetComponent;
-  suspensions: CheckOutReason[]=[];
+  suspensions: CheckOutReason[] = [];
   transactionLog: TransactionLog = new TransactionLog();
-  transactionLogs: TransactionLog[]=[];
+  transactionLogs: TransactionLog[] = [];
 
-  constructor(baseService: BaseService) { 
+  constructor(baseService: BaseService) {
     super(baseService);
     this.LoadDropdownList();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   onSubmit(data: NgForm) {
     this.suspendFixedAsset(data);
@@ -48,35 +58,39 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
 
-    this.transactionLog.CheckInExpectedArrivalDate = convertNgbDateToDateString(data.value.checkInExpectedArrivalDate);
+    let cloneItem = new TransactionLog();
+    Object.assign(cloneItem, this.transactionLog);
+
+    cloneItem.CheckInExpectedArrivalDate=  convertNgbDateToDateString(data.value.checkInExpectedArrivalDate);
 
     await this.baseService.fixedAssetService.SuspendFixedAsset(
-      this.transactionLog,
+      cloneItem,
       (insertedItem: TransactionLog, message) => {
         /* Show success pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
 
         /* Set inserted Item id to model */
-        this.transactionLog.TransactionLogId = insertedItem.TransactionLogId;
+        cloneItem.TransactionLogId = insertedItem.TransactionLogId;
 
         /* Push inserted item to Property list */
         this.transactionLogs.push(this.transactionLog);
-        
-        this.faComponent.loadFixedAsset();  
-            
 
-        this.resetForm(data, true);
+        this.faComponent.loadFixedAsset();
+
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
+        // this.resetForm(data, true);
       }
     );
+    this.resetForm(data, true);
+    
   }
 
   async LoadDropdownList() {
-     /* Load suspended reason to suspended reason dropdown */
-     await this.baseService.checkOutReasonService.GetSuspensions(
+    /* Load suspended reason to suspended reason dropdown */
+    await this.baseService.checkOutReasonService.GetSuspensions(
       suspensions => {
         this.suspensions = suspensions;
       },
@@ -84,7 +98,7 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-  }  
+  }
 
   resetForm(data: NgForm, isNewItem: boolean) {
     if (isNewItem == true) {
@@ -92,7 +106,8 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
     }
     data.reset();
     data.resetForm(this.transactionLog);
-
   }
-  
+  today() {
+    return getToday();
+  }
 }

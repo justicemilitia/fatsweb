@@ -48,7 +48,7 @@
       </div>
       <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="checkInExpectedArrivalDate"
         [(ngModel)]="transactionLog.CheckInExpectedArrivalDate" ngbDatepicker #checkInExpectedArrivalDate="ngbDatepicker" #checkInExpectedArrivalDateModel="ngModel"
-        [class.is-invalid]="data.submitted && (!transactionLog.CheckInExpectedArrivalDate || checkInExpectedArrivalDateModel.status == 'INVALID' )"
+        [class.is-invalid]="data.submitted && (!transactionLog.CheckInExpectedArrivalDate || checkInExpectedArrivalDateModel.status == 'INVALID' )" [minDate]="today()"
         required>
       <div *ngIf="data.submitted && checkInExpectedArrivalDateModel.invalid" class="invalid-feedback">
         <div *ngIf="checkInExpectedArrivalDateModel.errors.required">Bu alan zorunludur.</div>
@@ -64,8 +64,8 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Açıklama</label>
-        <textarea [(ngModel)]="transactionLog.CheckOutDescription" name="CheckOutDescription" style="resize:none" rows="2"
-          class="form-control" type="text" maxlength="100" #CheckOutDescription="ngModel"></textarea>
+        <textarea [(ngModel)]="transactionLog.Description" name="Description" style="resize:none" rows="2"
+          class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
       </div>
     </div>
 

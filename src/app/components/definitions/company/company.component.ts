@@ -331,7 +331,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         /* Load Companies then refresh table */
         this.companies = companies;
         this.dataTable.TGT_loadData(this.companies);
-
+        if(companies.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
 
