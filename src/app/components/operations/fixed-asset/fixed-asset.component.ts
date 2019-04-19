@@ -821,7 +821,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       let fixedAssetPropertyDetail:FixedAssetPropertyDetails[]=[];
       fixedAssetPropertyDetail=result.FixedAssetPropertyDetails;
       
-      this.dataTablePropertyValue.TGT_loadData(fixedAssetPropertyDetail);
+      //this.dataTablePropertyValue.TGT_loadData(fixedAssetPropertyDetail);
       
       $("#btnFixedAssetInfo").trigger("click");
       
