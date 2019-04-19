@@ -33,7 +33,7 @@ export class FixedAsset implements IData {
   FixedAssetParentId: number;
   FixedAssetCardCategoryId: number;
   Barcode: string;
-  Prefix
+  Prefix:string;
   SerialNumber: string;
   LocationId: number;
   DepartmentId: number;
