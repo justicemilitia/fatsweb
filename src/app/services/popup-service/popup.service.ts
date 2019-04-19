@@ -38,8 +38,8 @@ export class PopupService {
 
   ShowDeletePopup(error: HttpErrorResponse, barcodes:string[]) {
     swal({
-      title: barcodes + "kullanılamaz",
-      text: " ",
+      title: barcodes + (barcodes.length > 1 ? " kodları sistemde kullanıldığı için silinemez!" : " kodu sistemde kullanıldığı için silinemez!"),
+      text: " ",      
       icon: "warning"
     });
     this.errorService.errorManager(error);

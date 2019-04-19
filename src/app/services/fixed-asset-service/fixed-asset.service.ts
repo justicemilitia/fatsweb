@@ -509,4 +509,8 @@ export class FixedAssetService {
       }
     );
   }
+
+  GetImage(imageUrl:string){
+    return this.httpclient.get(SERVICE_URL + "/" + imageUrl, { responseType: 'blob' });
+  }
 }

@@ -11,6 +11,7 @@ import { User } from "../../../models/LoginUser";
 import * as $ from "jquery";
 import { FixedAssetFilter } from '../../../models/FixedAssetFilter';
 import { FaFilterComponent } from './fa-filter/fa-filter.component';
+import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
 
 @Component({
   selector: "app-fixed-asset",
@@ -42,6 +43,12 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   users = [];
 
   fixedAssetInfo=new FixedAsset();
+
+  category:string;
+  status:string;
+  fixedAssetBrand:string;
+  fixedAssetModel:string;
+  department:string;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -326,10 +333,65 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     }
   );
 
+  public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalue",[
+      {
+        columnDisplayName: "Özellik Adı",
+        columnName: ["FixedAssetCardProperty", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["FixedAssetCardProperty", "Name"]
+    }
+  )
+
+  public dataTableFixedAssetFile: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalue",[
+      {
+        columnDisplayName: "Dosya Adı",
+        columnName: [],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }   
+    ],
+    {
+      isDesc: false,
+      column: []
+    }
+  )
+
   constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadFixedAsset();
     this.loadFixedAssetProperties();
+
+    this.dataTablePropertyValue.isPagingActive = false;
+    this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isTableEditable = true;
+    this.dataTablePropertyValue.isMultipleSelectedActive = false;
+    this.dataTablePropertyValue.isFilterActive=false;
+    this.dataTablePropertyValue.isLoading = false;
+    this.dataTableFixedAssetFile.isPagingActive = false;
+    this.dataTableFixedAssetFile.isColumnOffsetActive = false;
+    this.dataTableFixedAssetFile.isTableEditable = true;
+    this.dataTableFixedAssetFile.isMultipleSelectedActive = false;
+    this.dataTableFixedAssetFile.isLoading = false;
+    this.dataTableFixedAssetFile.isFilterActive=false;
   }
 
   ngOnInit() {}
@@ -742,15 +804,25 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
     this.baseService.spinner.show();
 
- 
-
     this.baseService.fixedAssetService.GetFixedAssetById(item.FixedAssetId,
       (result:FixedAsset)=>{
       
       this.baseService.spinner.hide();
+      Object.assign(this.fixedAssetInfo,result);
+      
+      this.status=result.Status.Name == null ? " " : result.Status.Name;      
+      this.category=result.FixedAssetCard.FixedAssetCardCategory.Name;
+      if(result.FixedAssetCardModel != null){
+      this.fixedAssetBrand=result.FixedAssetCardModel.FixedAssetCardBrand.Name;
+      this.fixedAssetModel=result.FixedAssetCardModel.Name;
+      }
+      this.department=result.Department.Name;
 
-      Object.assign(this.fixedAsset,result);
-
+      let fixedAssetPropertyDetail:FixedAssetPropertyDetails[]=[];
+      fixedAssetPropertyDetail=result.FixedAssetPropertyDetails;
+      
+      this.dataTablePropertyValue.TGT_loadData(fixedAssetPropertyDetail);
+      
       $("#btnFixedAssetInfo").trigger("click");
       
     },(error:HttpErrorResponse)=>{

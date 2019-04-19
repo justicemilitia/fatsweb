@@ -62,22 +62,14 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text", 
-      //   formatter: (value) => {
-      //     if(value && value.length!=0){
-      //       return (<FixedAssetUser[]>value).map(x=>x.User.FirstName + ' ' + x.User.LastName)[0]
-      //     }
-      //     else{ 
-      //       return '';
-      //     }
-      // }
-      formatter: (value) => {
+        formatter: (value) => {
         if(value){
           return value.FixedAssetUsers.length>0 ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
         }
         else{ 
           return '';
         }
-    }
+        }
       },
       {
         columnDisplayName: "Departman",
@@ -104,12 +96,23 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
+        columnDisplayName: "Beklenen Dönüş Tarihi",
+        columnName: ["CheckInExpectedArrivalDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.CheckInExpectedArrivalDate ? value.CheckInExpectedArrivalDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
+      },
+      {
         columnDisplayName: "Askıya Alınma Tarihi",
         columnName: ["|TransactionDate"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text",
+        type: "text", 
         formatter: value => {
           return value.TransactionDate ? value.TransactionDate.substring(0, 10).split("-").reverse().join("-") : "";
         }

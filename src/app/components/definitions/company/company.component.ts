@@ -212,18 +212,27 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
       }, (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
 
+        let barcode:Company;
+
+        let notDeletedCode : string[]=[];
+
+        let companies = <Company[]>this.dataTable.TGT_copySource();
+        
         /* Hide Loading Spinner */
         this.baseService.spinner.hide();
-    itemIds.forEach(e => {
-     let barcode:string = this.companies.find(x=>x.CompanyId==e.Id).CompanyCode;
-     console.log(barcode);
-    });
-        console.log(itemIds);
 
-        let item:string[];
+        itemIds.forEach((e:NotDeletedItem) => {
+          for(let i=0; i<itemIds.length; i++){
+        barcode = companies.find(x=>x.CompanyId == e[i].Id);
+        }     
+        notDeletedCode.push(barcode.CompanyCode);
+        });
 
-        /* Show error message */
-        this.baseService.popupService.ShowDeletePopup(error,item);
+         /* Show error message */
+         if(itemIds.length>0)
+         this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+         else
+         this.baseService.popupService.ShowErrorPopup(error);
 
       });
     });

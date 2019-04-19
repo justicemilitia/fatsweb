@@ -56,7 +56,8 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   isFinished:boolean=false;
   isWaitingValidBarcode: boolean = false;
   isLinear = false;
-
+  isSelectedProperty:boolean=false;
+  visible:boolean = false;
   fixedAssetForm: FormGroup;
   departments: Department[] = [];
   companies: Company[] = [];
@@ -411,12 +412,14 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
   }
 
   loadValuesByPropertyId(event) {
+
+    this.isSelectedProperty=true;
+    this.visible=false;
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
     );
 
     if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
-      this.isListSelected = true;
 
       this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
         <number>event.target.value,
@@ -499,26 +502,37 @@ export class FaCreateComponent extends BaseComponent implements OnInit, AfterVie
 
 //#endregion
  
-getPropertyValue(event: any) {
-    this.propertyValue = event.target.value;
+  getPropertyValue(event: any) {
+      this.propertyValue = event.target.value;
+      this.visible=false;
   }
 
-  async insertPropertyValueToArray(propertyId: any) {
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
+  insertPropertyValueToArray(propertyId: any) {
 
-    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
+
+    if(this.isSelectedProperty==true){
+  
     let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value));
+
+    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;      
     this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
-    if (this.isListSelected == true) {
-      this.fixedAssetPropertyDetail.Value = this.propertyValue;
-    }
+    
+    if (this.isListSelected == true)
+      this.fixedAssetPropertyDetail.Value = this.propertyValue;    
     this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+    
     this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
 
     this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-    propertyId = null;
+    propertyId = null;    
+    this.visible=false;
+    this.isSelectedProperty=false;
+    }
+    else{
+      this.visible=true;
+    }
   }
 
   addImageFile(imageFile) {
@@ -536,7 +550,7 @@ getPropertyValue(event: any) {
     reader.readAsDataURL(imageFile[0]);
     reader.onload = _event => (this.imgURL = reader.result.toString());
   }
-
+ 
   clearFiles(){
     this.imgURL = null;
   }

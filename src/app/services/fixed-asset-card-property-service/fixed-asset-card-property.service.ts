@@ -17,6 +17,7 @@ import { Response } from "src/app/models/Response";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { FixedAssetCardProperty } from "../../models/FixedAssetCardProperty";
 import { FixedAssetCardPropertyValue } from 'src/app/models/FixedAssetCardPropertyValue';
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Injectable({
   providedIn: "root"
@@ -165,7 +166,7 @@ export class FixedAssetCardPropertyService {
           if ((<[]>response.ResultObject).length == 0) {
             success(response.ResultObject, response.LanguageKeyword);
           } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
+            failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
           }
         },
         (error: HttpErrorResponse) => {

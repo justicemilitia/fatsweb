@@ -6,6 +6,7 @@ import { FixedAssetStatus } from "src/app/models/FixedAssetStatus";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ColorPickerService, Cmyk } from "ngx-color-picker";
 import { NgForm } from "@angular/forms";
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-status",
@@ -219,12 +220,28 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
         /* Copy original source to current locations */
         this.statuses = <FixedAssetStatus[]>this.dataTable.TGT_copySource();
 
-      }, (error: HttpErrorResponse) => {
+      }, (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
 
+        let barcode:FixedAssetStatus;
+
+        let notDeletedCode : string[]=[];
+
+        let faStatus = <FixedAssetStatus[]>this.dataTable.TGT_copySource();
+        
         /* Hide spinner then show error message */
         this.baseService.spinner.hide();
 
+        itemIds.forEach((e:NotDeletedItem) => {
+          for(let i=0; i<itemIds.length; i++){
+        barcode = faStatus.find(x=>x.FixedAssetStatusId == e[i].Id);
+        }     
+          notDeletedCode.push(barcode.FixedAssetStatuCode);
+        });
+
         /* Show error message */
+        if(itemIds.length>0)
+        this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        else
         this.baseService.popupService.ShowErrorPopup(error);
 
       });

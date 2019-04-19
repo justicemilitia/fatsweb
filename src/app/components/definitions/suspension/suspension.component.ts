@@ -5,6 +5,7 @@ import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTab
 import { HttpErrorResponse } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
 import { CheckOutReason } from 'src/app/models/CheckOutReason';
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-suspension",
@@ -187,10 +188,30 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
             })
             this.dataTable.TGT_loadData(this.suspensions);
           },
-          (error: HttpErrorResponse) => {
+          (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
+
+            let barcode:CheckOutReason;
+    
+            let notDeletedCode : string[]=[];
+    
+            let suspensions = <CheckOutReason[]>this.dataTable.TGT_copySource();
+            
+            /* Hide spinner then show error message */
             this.baseService.spinner.hide();
-  
+    
+            itemIds.forEach((e:NotDeletedItem) => {
+              for(let i=0; i<itemIds.length; i++){
+            barcode = suspensions.find(x=>x.CheckOutReasonId == e[i].Id);
+            }     
+              notDeletedCode.push(barcode.CheckOutReasonCode);
+            });
+    
+            /* Show error message */
+            if(itemIds.length>0)
+            this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+            else
             this.baseService.popupService.ShowErrorPopup(error);
+    
           }
         );
       });
