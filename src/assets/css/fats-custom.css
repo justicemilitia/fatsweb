@@ -540,10 +540,35 @@ label.custom-file:hover {
     background-color: #8d5adf !important;
 }
 
+
+.bg-primary.primary-active {
+    border: 1px solid orange;
+    border-radius: 1px;
+}
+
 .modal-body {
     padding: 15px;
     padding-bottom: 0px;
 }
+
+@media (min-width: 576px) {
+    .morris-donut-wrapper-demo {
+        height: 200px;
+    }
+}
+
+.morris-donut-wrapper-demo>svg>text {
+    font-weight: 600 !important;
+    font-family: inherit !important;
+    color: #212229 !important;
+}
+
+.morris-donut-title>h6 {
+    margin-bottom: 0 !important;
+    font-size: 13px !important;
+    font-weight: 700px;
+}
+
 
 .color-custom-input {
     color: #fff;
@@ -572,6 +597,15 @@ label.custom-file:hover {
     border-right: 3px solid transparent !important;
 }
 
+
+.flotpie-text {
+    color: #fff;
+    text-align:center;
+    font-weight: bold;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 2px 2px 5px rgba(0, 0, 0, 0.65);
+}
 
 @media (max-width: 991px) {
     .stellarnav ul {
@@ -658,7 +692,7 @@ label.custom-file:hover {
 @media (min-width: 992px) {
 
     .nav-mobile-button {
-        display:none;
+        display: none;
     }
 
     .nav-item {

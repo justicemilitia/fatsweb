@@ -97,6 +97,8 @@ function loadData() {
       });
 
 
+    */
+
     $.plot('#flotLine1', [{
       data: [[1, 0], [2, 0], [3, 0], [4, 1], [5, 3], [6, 3], [7, 10], [8, 11], [9, 12], [10, 9], [11, 12], [12, 8], [13, 5], [14, 10], [15, 11]],
       color: '#ced4da'
@@ -136,7 +138,7 @@ function loadData() {
             size: 9
           }
         }
-      });*/
+      });
 
     $.plot('#flotChart1', [{
       data: dashData5,
@@ -264,31 +266,31 @@ function loadData() {
       });
 
     $.plot('#flotChart6', [{
-        data: dashData7,
-        color: '#fd7e14'
-      }], {
-            series: {
-                shadowSize: 0,
-        lines: {
-          show: true,
-          lineWidth: 2,
-          fill: true,
-          fillColor: { colors: [ { opacity: 0 }, { opacity: .5 } ] }
-        }
-            },
-      grid: {
-        borderWidth: 0,
-        labelMargin: 0
-      },
-            yaxis: {
-        show: false,
-        min: 0,
-        max: 80
-      },
-            xaxis: { show: false }
-        });
+      data: dashData7,
+      color: '#fd7e14'
+    }], {
+        series: {
+          shadowSize: 0,
+          lines: {
+            show: true,
+            lineWidth: 2,
+            fill: true,
+            fillColor: { colors: [{ opacity: 0 }, { opacity: .5 }] }
+          }
+        },
+        grid: {
+          borderWidth: 0,
+          labelMargin: 0
+        },
+        yaxis: {
+          show: false,
+          min: 0,
+          max: 80
+        },
+        xaxis: { show: false }
+      });
 
-    $.plot('#flotChart7', [ {
+    $.plot('#flotChart7', [{
       data: dashData4,
       color: '#560bd0',
       curvedLines: { apply: true }
