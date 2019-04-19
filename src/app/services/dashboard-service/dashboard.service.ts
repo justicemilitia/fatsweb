@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { SERVICE_URL, GET_DASHBOARD_FIXED_ASSETS_INFO, GET_HEADERS, GET_DASHBOARD_TRANSACTIONS_INFO, GET_DASHBOARD_PERSONALS_INFO, GET_DASHBOARD_FIXED_ASSETS_COUNTS, GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_LOCATIONS, GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_DEPARTMENTS, GET_DASHBOARD_FIXED_ASSETS_STATUS_COUNT } from 'src/app/declarations/service-values';
+import { SERVICE_URL, GET_DASHBOARD_FIXED_ASSETS_INFO, GET_HEADERS, GET_DASHBOARD_TRANSACTIONS_INFO, GET_DASHBOARD_PERSONALS_INFO, GET_DASHBOARD_FIXED_ASSETS_COUNTS, GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_LOCATIONS, GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_DEPARTMENTS, GET_DASHBOARD_FIXED_ASSETS_STATUS_COUNT, GET_DASHBOARD_FIXED_ASSET_PRICE_COUNT_LINE } from 'src/app/declarations/service-values';
 import { AuthenticationService } from '../authenticationService/authentication.service';
 import { Response } from 'src/app/models/Response';
 import { getAnErrorResponse } from 'src/app/declarations/extends';
@@ -112,10 +112,24 @@ export class DashboardService {
     })
   }
 
-  GetDashboardFixedAssetsCount(groupTypes:any,success, failed) {
+  GetDashboardFixedAssetsCount(groupTypes: any, success, failed) {
     this.httpClient.get(SERVICE_URL + GET_DASHBOARD_FIXED_ASSETS_COUNTS + "?priceGroupType=" + groupTypes.priceGroupType
-    + "&activeGroupType=" + groupTypes.activeGroupType + "&totalGroupType=" + groupTypes.totalGroupType
-    , {
+      + "&activeGroupType=" + groupTypes.activeGroupType + "&totalGroupType=" + groupTypes.totalGroupType
+      , {
+        headers: GET_HEADERS(this.aService.getToken())
+      }).subscribe((result: Response) => {
+        if (result.ResultStatus == true) {
+          success(result.ResultObject);
+        } else {
+          failed(getAnErrorResponse(result.LanguageKeyword));
+        }
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      })
+  }
+
+  GetDashboardFixedAssetPriceCountLine(groupType: number, success, failed) {
+    this.httpClient.get(SERVICE_URL + GET_DASHBOARD_FIXED_ASSET_PRICE_COUNT_LINE + "?groupType=" + groupType, {
       headers: GET_HEADERS(this.aService.getToken())
     }).subscribe((result: Response) => {
       if (result.ResultStatus == true) {
@@ -127,5 +141,6 @@ export class DashboardService {
       failed(error);
     })
   }
+
 
 }

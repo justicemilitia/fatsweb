@@ -99,47 +99,6 @@ function loadData() {
 
     */
 
-    $.plot('#flotLine1', [{
-      data: [[1, 0], [2, 0], [3, 0], [4, 1], [5, 3], [6, 3], [7, 10], [8, 11], [9, 12], [10, 9], [11, 12], [12, 8], [13, 5], [14, 10], [15, 11]],
-      color: '#ced4da'
-    }, {
-      data: [[1, 0], [2, 0], [3, 1], [4, 2], [5, 2], [6, 5], [7, 8], [8, 12], [9, 9], [10, 11], [11, 5]],
-      color: '#f10075'
-    }], {
-        series: {
-          shadowSize: 0,
-          lines: {
-            show: true,
-            lineWidth: 2,
-            fill: true,
-            fillColor: { colors: [{ opacity: 0 }, { opacity: 0.12 }] }
-          }
-        },
-        grid: {
-          borderWidth: 0
-        },
-        yaxis: {
-          min: 0,
-          max: 15,
-          tickColor: '#ddd',
-          ticks: [[0, ''], [5, '100K'], [10, '200K'], [15, '300K']],
-          font: {
-            color: '#444',
-            size: 10
-          }
-        },
-        xaxis: {
-          mode: 'categories',
-          tickColor: '#eee',
-          ticks: [[0, '3am'], [1, '4am'], [2, '5am'], [3, '6am'], [4, '7am'], [5, '8am'], [6, '9am'], [7, '10am'], [8, '11am'], [9, '12nn'], [10, '1pm'], [11, '2pm'],
-          [12, '3pm'], [13, '4pm'], [14, '5pm']],
-          font: {
-            color: '#999',
-            size: 9
-          }
-        }
-      });
-
     $.plot('#flotChart1', [{
       data: dashData5,
       color: '#560bd0'

@@ -261,6 +261,7 @@ export const GET_DASHBOARD_FIXED_ASSETS_INFO = "Dashboard/GetDashboardValues";
 export const GET_DASHBOARD_TRANSACTIONS_INFO = "Dashboard/GetDashboardTransactions";
 export const GET_DASHBOARD_PERSONALS_INFO = "Dashboard/GetDashboardPersonalInfo";
 export const GET_DASHBOARD_FIXED_ASSETS_COUNTS = "Dashboard/GetDashboardFixedAssetsCount";
+export const GET_DASHBOARD_FIXED_ASSET_PRICE_COUNT_LINE = "Dashboard/GetDashboardFixedAssetPriceCountLine";
 export const GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_LOCATIONS = "Dashboard/GetDashboardFixedAssetCountByLocation";
 export const GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_DEPARTMENTS = "Dashboard/GetDashboardFixedAssetCountByCategory";
 export const GET_DASHBOARD_FIXED_ASSETS_STATUS_COUNT = "Dashboard/GetDashboardFixedAssetsStatusCount";

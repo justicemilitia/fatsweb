@@ -5,7 +5,7 @@ import vDashboardFixedAssets from 'src/app/models/vDashboardFixedAssets';
 import vGetDashboardTransactions from 'src/app/models/vGetDashboardTransactions';
 import { Firm } from 'src/app/models/Firm';
 import vGetDashboardPersonalInfo from 'src/app/models/GetDashboardPersonalInfo';
-import { loadMorris } from 'src/assets/js/chart.morris.js';
+import { loadMorris, loadFlotLine } from 'src/assets/js/chart.morris.js';
 import { loadPieChart } from 'src/assets/js/chart.flot.js';
 import Morris, { ColorizeMorrisses } from 'src/app/models/MorrisModel';
 import FlotPie from 'src/app/models/FlotPie';
@@ -26,6 +26,8 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   personalValues: vGetDashboardPersonalInfo = new vGetDashboardPersonalInfo();
 
   countValues: any = {};
+
+  totalPrices: any[] = [];
 
   fixedAssetGroupTypes = {
     priceGroupType: 1,
@@ -62,7 +64,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     }
   }
 
-  loadFixedAssetsByLocation() {
+  async loadFixedAssetsByLocation() {
 
     this.baseService.dashboardService.GetFixedAssetCountByLocation((result: []) => {
 
@@ -85,7 +87,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
   }
 
-  loadFixedAssetsByCategory() {
+  async loadFixedAssetsByCategory() {
 
     this.baseService.dashboardService.GetFixedAssetCountByDepartment((result: []) => {
 
@@ -100,7 +102,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
       ColorizeMorrisses(ms, true)
 
-      loadMorris(null,ms);
+      loadMorris(null, ms);
 
     }, (result) => {
       // Error
@@ -108,7 +110,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
   }
 
-  loadFixedAssetsStatusCount() {
+  async loadFixedAssetsStatusCount() {
 
     this.baseService.dashboardService.GetFixedAssetsStatusCount((result: []) => {
 
@@ -117,7 +119,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
       result.forEach((e: any) => {
         let f: FlotPie = new FlotPie();
         f.label = e.Name;
-        f.data.push([0,e.TotalCount]);
+        f.data.push([0, e.TotalCount]);
         f.color = e.Color;
         fs.push(f);
       });
@@ -138,6 +140,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     this.loadFixedAssetsByLocation();
     this.loadFixedAssetsByCategory();
     this.loadFixedAssetsStatusCount();
+    this.loadFixedAssetPriceLine(3);
   }
 
   async loadValues() {
@@ -180,8 +183,38 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     });
   }
 
-  bindCountsToFlowCharts() {
+  async loadFixedAssetPriceLine(groupType: number) {
 
+    this.baseService.dashboardService.GetDashboardFixedAssetPriceCountLine(groupType, (result) => {
+      Object.assign(this.totalPrices, result);
+      let multiDimention = [];
+
+      /* Values */
+      this.totalPrices.forEach(e => {
+        multiDimention.push([e.Dates, e.TotalOfItems]);
+      });
+
+      let xValues = [];
+      /* x axis Values */
+      this.totalPrices.forEach((e, i) => {
+        xValues.push([e.Dates, e.Dates.toString()]);
+      });
+
+      this.totalPrices.sort((a, b) => { return a.TotalOfItems - b.TotalOfItems });
+
+      let yValues = [];
+      yValues.push([0, 'TL']);
+      /* Y axis Values */
+      if (this.totalPrices.length > 0) {
+        let highest = this.totalPrices[this.totalPrices.length - 1].TotalOfItems;
+        yValues.push([highest / 2,(highest / 2).toLocaleString().toString() + " TL"]);
+        yValues.push([highest / 4,(highest / 4).toLocaleString().toString() + " TL"]);
+        yValues.push([highest,highest.toLocaleString().toString() + " TL"]);
+      }
+      loadFlotLine(multiDimention, yValues, xValues)
+    }, (result) => {
+      // Error
+    });
   }
 
 }

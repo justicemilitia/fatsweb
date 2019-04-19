@@ -51,12 +51,32 @@
     $("body").on("click", ".az-navbar-two", function () {
 
       $(document).ready(function () {
-        $('.select2').select2({
+        $('.select2').select2({});
+      });
+
+      $('[data-popover-color="head-secondary"]').popover({
+        template: '<div class="popover popover-head-secondary" style="min-width:300px" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+      });
+
+      $('[data-popover-color="primary"]').popover({
+        template: '<div class="popover popover-primary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+      });
+
+      $('[data-popover-color="secondary"]').popover({
+        template: '<div class="popover popover-secondary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+      });
+
+      $(document).on('click', function (e) {
+        $('[data-toggle="popover"],[data-original-title]').each(function () {
+          //the 'is' for buttons that trigger popups
+          //the 'has' for icons within a button that triggers a popup
+          if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false  // fix for BS 3.3.6
+          }
 
         });
       });
 
-      
       setTimeout(() => {
         let currentLocation = window.location.href.split('/');
         if (currentLocation.length == 0) {
@@ -69,7 +89,7 @@
             loadData();
             //loadMorris();
             $('body').css('background', '#e9ecef');
-          }else {
+          } else {
             $('body').css('background', '#f8f9fa');
           }
         }
