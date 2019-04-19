@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from "@angular/core";
+import { Component, OnInit, NgModule, Input } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "src/app/services/base.service";
@@ -12,6 +12,7 @@ import * as $ from "jquery";
 import { FixedAssetFilter } from '../../../models/FixedAssetFilter';
 import { FaFilterComponent } from './fa-filter/fa-filter.component';
 import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
+import { FaCreateComponent } from './fa-create/fa-create.component';
 
 @Component({
   selector: "app-fixed-asset",
@@ -21,6 +22,11 @@ import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDeta
 
 export class FixedAssetComponent extends BaseComponent implements OnInit {
   
+
+  isWaitingValidBarcode: boolean = false;
+
+  barcode: number;
+
   isWaitingInsertOrUpdate: boolean = false;
 
   isTableRefreshing: boolean = false;
@@ -793,6 +799,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
   //#region Create Fixed Asset Operation
   CreateFixedAssetOperation() {
+    this.getValidBarcode();
     $("#showModal").trigger("click");
   }
   //#endregion
@@ -832,5 +839,19 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         /* show error message */
         this.baseService.popupService.ShowErrorPopup(error);
     });
+  }
+
+  getValidBarcode() {
+    this.isWaitingValidBarcode = true;
+
+    this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
+      barcode => {
+        this.isWaitingValidBarcode = false;
+        this.barcode = barcode;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 }
