@@ -377,6 +377,13 @@ export class UserComponent extends BaseComponent implements OnInit {
     /* load companies if not loaded */
     this.loadDropdownList();
 
+    this.loadLocationList();
+
+    if(item.Department)
+      this.loadDepartmentByLocationId({ target: { value: item.LocationId } });
+    else
+      this.departments = [];
+
     this.isInsertOrUpdate = true;
 
     /* get company information from server */
@@ -436,16 +443,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     // }
 
     // Lokasyonların listelenmesi
-    if (this.locations.length == 0) {
-      this.baseService.locationService.GetLocations(
-        (locations: Location[]) => {
-          this.locations = locations;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
+
 
     /* Reload users again */
     if (this.users.length == 0) {
@@ -473,6 +471,24 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.userTitles = titles;
       });
     }
+  }
+
+  loadLocationList(){
+
+    if(this.locations && this.locations.length == 0)
+    {
+      this.departments = [];
+
+      this.baseService.locationService.GetLocations(
+          (locations: Location[]) => {
+            this.locations = locations;
+          },
+          (error:HttpErrorResponse)=>{
+
+          }
+      );      
+    }
+
   }
 
   loadDepartmentByLocationId(event: any) {

@@ -248,6 +248,10 @@ export class FaCreateComponent extends BaseComponent
   ngOnInit() {}
 
   next() {
+    
+    if(this.barcode)
+    this.fixedAsset.Barcode = this.barcode.toString();
+
     if (
       this.fixedAsset.FixedAssetCardId != null &&
       this.fixedAsset.FixedAssetCardCategoryId != null &&
@@ -433,11 +437,10 @@ export class FaCreateComponent extends BaseComponent
   loadValuesByPropertyId(event) {
     this.isSelectedProperty = true;
     this.visible = false;
-    let fixedAssetProperty = this.fixedassetproperty.find(
-      x => x.FixedAssetCardPropertyId == Number(event.target.value)
-    );
+    let fixedAssetProperty = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(event.target.value));
 
     if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
+      this.isListSelected = true;
       this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
         <number>event.target.value,
         (propertyValues: FixedAssetCardPropertyValue[]) => {
@@ -468,7 +471,6 @@ export class FaCreateComponent extends BaseComponent
           this.departments = departments;
         },
         (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
         }
       );
     }
@@ -530,12 +532,10 @@ export class FaCreateComponent extends BaseComponent
     );
 
     if (this.isSelectedProperty == true) {
-      let fixedasset = this.fixedassetproperty.find(
-        x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-      );
+      let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value));
 
-      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-        (this.faPropertyDetails.length + 1) * -1;
+      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+
       this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
 
       if (this.isListSelected == true)
@@ -548,7 +548,8 @@ export class FaCreateComponent extends BaseComponent
       propertyId = null;
       this.visible = false;
       this.isSelectedProperty = false;
-    } else {
+    } 
+    else {
       this.visible = true;
     }
   }

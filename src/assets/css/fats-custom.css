@@ -216,6 +216,7 @@ body {
 .required-span::before {
     color: red;
     content: '*';
+    float: right;
 }
 
 .table-checkbox>input {
