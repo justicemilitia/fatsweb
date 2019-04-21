@@ -89,6 +89,9 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
 
         /* then load them into table */
         this.dataTable.TGT_loadData(this.suspensions);
+        if(suspensions.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         /* Show error message */

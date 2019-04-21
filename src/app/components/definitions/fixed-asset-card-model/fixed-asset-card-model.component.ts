@@ -149,6 +149,9 @@ export class FixedAssetCardModelComponent extends BaseComponent
       (facms: FixedAssetCardModel[]) => {
         this.fixedAssetCardModels = facms;
         this.dataTableModel.TGT_loadData(this.fixedAssetCardModels);
+        if(this.fixedAssetCardModels.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

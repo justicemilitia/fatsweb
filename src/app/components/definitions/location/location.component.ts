@@ -275,8 +275,11 @@ export class LocationComponent extends BaseComponent implements OnInit {
     /* Load all fixed asset cards to datatable */
     await this.baseService.locationService.GetLocations(
       (locs: Location[]) => {
-        this.locations = locs;
+        Object.assign(this.locations, locs);
         this.dataTable.TGT_loadData(this.locations);
+        if(locs.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         /* if error show pop up */

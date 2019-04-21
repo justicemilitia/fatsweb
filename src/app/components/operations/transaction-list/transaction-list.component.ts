@@ -94,6 +94,9 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
       (transactions:TransactionLog[]) => {
         this.transactions=transactions;
         this.dataTable.TGT_loadData(this.transactions);
+        if(this.transactions.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
 

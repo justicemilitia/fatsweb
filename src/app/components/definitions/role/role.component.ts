@@ -116,6 +116,9 @@ export class RoleComponent extends BaseComponent implements OnInit {
       (roles: Role[]) => {
         this.roles = roles;
         this.dataTable.TGT_loadData(this.roles);
+        if(roles.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

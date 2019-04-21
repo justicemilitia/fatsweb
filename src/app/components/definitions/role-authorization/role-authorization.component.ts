@@ -191,6 +191,9 @@ export class RoleAuthorizationComponent extends BaseComponent
       (roleAuthorization: RoleAuthorization[]) => {
         this.tableRoleAuthorization = roleAuthorization;
         this.dataTable.TGT_loadData(this.tableRoleAuthorization);
+        if(roleAuthorization.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

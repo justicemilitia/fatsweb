@@ -425,6 +425,9 @@ export class UserComponent extends BaseComponent implements OnInit {
       (usrs: User[]) => {
         this.users = usrs;
         this.dataTable.TGT_loadData(this.users);
+        if(usrs.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

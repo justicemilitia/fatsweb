@@ -453,6 +453,9 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       });
       
       this.dataTableRelationship.TGT_loadData(listedItem);
+      if(listedItem.length==0){
+        this.baseService.popupService.ShowWarningPopup("Record_not_found");
+      }
       $("#btnOpenRelationship").trigger("click");
     }
   }

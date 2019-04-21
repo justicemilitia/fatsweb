@@ -258,7 +258,9 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
         /* Load data to table */
         this.dataTable.TGT_loadData(this.fixedAssetCardCategories);
-
+        if(fixedAssetCardCategories.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
 
