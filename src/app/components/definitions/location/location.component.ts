@@ -5,6 +5,7 @@ import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Location } from "../../../models/Location";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-location",
@@ -159,12 +160,28 @@ export class LocationComponent extends BaseComponent implements OnInit {
         /* Copy original source to current locations */
         this.locations = <Location[]>this.dataTable.TGT_copySource();
 
-      }, (error: HttpErrorResponse) => {
+      }, (itemIds:NotDeletedItem[] ,error: HttpErrorResponse) => {
 
+        let barcode:Location;
+
+        let notDeletedCode : string[]=[];
+
+        let locations = <Location[]>this.dataTable.TGT_copySource();
+        
         /* Hide spinner then show error message */
         this.baseService.spinner.hide();
 
+        itemIds.forEach((e:NotDeletedItem) => {
+          for(let i=0; i<itemIds.length; i++){
+        barcode = locations.find(x=>x.LocationId == e[i].Id);
+        }     
+          notDeletedCode.push(barcode.Barcode);
+        });
+
         /* Show error message */
+        if(itemIds.length>0)
+        this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        else
         this.baseService.popupService.ShowErrorPopup(error);
 
       });

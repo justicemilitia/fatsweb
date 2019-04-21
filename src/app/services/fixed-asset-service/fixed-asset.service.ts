@@ -20,7 +20,8 @@ import {
   CHANGE_RELATIONSHIP,
   BREAK_RELATIONSHIP,
   GET_DEBITUSER_BY_ID,
-  GET_FIXEDASSET_BY_ID
+  GET_FIXEDASSET_BY_ID,
+  IMAGE_URL
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -44,12 +45,12 @@ export class FixedAssetService {
     private httpclient: HttpClient,
     private authenticationService: AuthenticationService
   ) { }
-
+//page:number, perPage:number,
   GetFixedAsset(success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + GET_FIXED_ASSET,
-        { Page: "1", PerPage: "100", sortOrder: "asc", filter: {} },
+        { Page: "1", PerPage: "100", sortOrder: "desc" },
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
         }
@@ -498,13 +499,25 @@ export class FixedAssetService {
     .subscribe(
       result => {
         let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          success(response.ResultObject, response.LanguageKeyword);
+        if (response.ResultStatus == true) { 
+          let fixedassets:FixedAsset=new FixedAsset();
+          Object.assign(fixedassets,response.ResultObject)
+          success(fixedassets, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
       error => {
+        failed(error);
+      }
+    );
+  }
+
+  GetImage(imageUrl:string,success,failed){
+    return this.httpclient.get( IMAGE_URL + imageUrl).subscribe(
+      result=>{
+        success(result);
+      },(error:HttpErrorResponse)=>{
         failed(error);
       }
     );

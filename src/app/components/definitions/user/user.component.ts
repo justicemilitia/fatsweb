@@ -9,6 +9,7 @@ import { User } from "../../../models/User";
 import { Location } from "../../../models/Location";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import UserTitle from "src/app/models/UserTitle";
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-user",
@@ -337,12 +338,30 @@ export class UserComponent extends BaseComponent implements OnInit {
           /* Get current original sources */
           this.users = <User[]>this.dataTable.TGT_copySource();
         },
-        (error: HttpErrorResponse) => {
+        (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
+
+          let barcode:User;
+  
+          let notDeletedCode : string[]=[];
+  
+          let users = <User[]>this.dataTable.TGT_copySource();
+          
           /* Hide spinner then show error message */
           this.baseService.spinner.hide();
-
+  
+          itemIds.forEach((e:NotDeletedItem) => {
+            for(let i=0; i<itemIds.length; i++){
+          barcode = users.find(x=>x.UserId == e[i].Id);
+          }     
+            notDeletedCode.push(barcode.UserCode);
+          });
+  
           /* Show error message */
+          if(itemIds.length>0)
+          this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          else
           this.baseService.popupService.ShowErrorPopup(error);
+  
         }
       );
     });
@@ -357,6 +376,13 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     /* load companies if not loaded */
     this.loadDropdownList();
+
+    this.loadLocationList();
+
+    if(item.Department)
+      this.loadDepartmentByLocationId({ target: { value: item.LocationId } });
+    else
+      this.departments = [];
 
     this.isInsertOrUpdate = true;
 
@@ -420,16 +446,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     // }
 
     // Lokasyonların listelenmesi
-    if (this.locations.length == 0) {
-      this.baseService.locationService.GetLocations(
-        (locations: Location[]) => {
-          this.locations = locations;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
+
 
     /* Reload users again */
     if (this.users.length == 0) {
@@ -457,6 +474,24 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.userTitles = titles;
       });
     }
+  }
+
+  loadLocationList(){
+
+    if(this.locations && this.locations.length == 0)
+    {
+      this.departments = [];
+
+      this.baseService.locationService.GetLocations(
+          (locations: Location[]) => {
+            this.locations = locations;
+          },
+          (error:HttpErrorResponse)=>{
+
+          }
+      );      
+    }
+
   }
 
   loadDepartmentByLocationId(event: any) {

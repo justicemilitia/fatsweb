@@ -16,6 +16,7 @@ import { AuthenticationService } from "../authenticationService/authentication.s
 import { Response } from "src/app/models/Response";
 import { FixedAssetCardCategory } from "../../models/FixedAssetCardCategory";
 import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Injectable({
   providedIn: "root"
@@ -123,7 +124,7 @@ export class FixedAssetCardCategoryService {
         if ((<[]>response.ResultObject).length == 0) {
           success(response.ResultObject, response.LanguageKeyword);
         } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+          failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
         }
       }, (error: HttpErrorResponse) => {
         failed(error);

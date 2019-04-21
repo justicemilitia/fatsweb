@@ -1,5 +1,4 @@
-import { Component, OnInit, NgModule } from "@angular/core";
-import { ReactiveFormsModule, NgForm } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "src/app/services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -7,10 +6,9 @@ import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTab
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
-import { User } from "../../../models/LoginUser";
 import * as $ from "jquery";
-import { FixedAssetFilter } from '../../../models/FixedAssetFilter';
-import { FaFilterComponent } from './fa-filter/fa-filter.component';
+import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
+import {IMAGE_URL} from "src/app/declarations/service-values";
 
 @Component({
   selector: "app-fixed-asset",
@@ -20,6 +18,11 @@ import { FaFilterComponent } from './fa-filter/fa-filter.component';
 
 export class FixedAssetComponent extends BaseComponent implements OnInit {
   
+
+  isWaitingValidBarcode: boolean = false;
+
+  barcode: number;
+
   isWaitingInsertOrUpdate: boolean = false;
 
   isTableRefreshing: boolean = false;
@@ -27,6 +30,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   isTableExporting: boolean = false;
 
   fixedAssets: FixedAsset[] = [];
+
+  fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
+  faPropertyDetails: FixedAssetPropertyDetails[] = [];
+  fixedAssetPropertyDetails:FixedAssetPropertyDetails[]=[];
 
   fixedAsset: FixedAsset = new FixedAsset();
 
@@ -42,6 +49,16 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   users = [];
 
   fixedAssetInfo=new FixedAsset();
+
+  category:string;
+  status:string;
+  fixedAssetBrand:string;
+  fixedAssetModel:string;
+  department:string;
+  fixedassetcard:string;
+  location:string;
+
+  path:string;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -104,7 +121,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Statü Kodu",
-        columnName: ["Status", "FixedAssetStatusCode"],
+        columnName: ["Status", "FixedAssetStatuCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -120,21 +137,21 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Personel",
-        columnName: ["FixedAssetUsers","User","FirstName"],
+        columnName: ["|FixedAssetUsers"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
-      },
-
-      // {
-      //   columnDisplayName: "Şirket",
-      //   columnName: ["Company","Name"],
-      //   isActive: true,
-      //   classes: [],
-      //   placeholder: "",
-      //   type: "text"
-      // },
+        type: "text",
+        formatter: (value) => {
+          if(value){
+            return value.FixedAssetUsers.length>0 ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
+          }
+          else{ 
+            return '';
+          }
+          }
+        
+      },   
       {
         columnDisplayName: "Lokasyon Adı",
         columnName: ["Location", "Name"],
@@ -189,7 +206,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.ReceiptDate ? value.ReceiptDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
       },
       {
         columnDisplayName: "Fatura No",
@@ -205,16 +225,19 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.InvoiceDate ? value.InvoiceDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
       },
-      // {
-      //   columnDisplayName: "Amortisman hesaplanacak mı ?",
-      //   columnName: ["WillDepreciationBeCalculated"],
-      //   isActive: true,
-      //   classes: [],
-      //   placeholder: "",
-      //   type: "text"
-      // },
+      {
+        columnDisplayName: "Amortisman hesaplanacak mı ?",
+        columnName: ["WillDepreciationBeCalculated"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "checkbox"
+      },
       // {    NESNE DÖNÜLECEK
       //   columnDisplayName: "Amortisman Yöntemi",
       //   columnName: ["DepreciationCalculationType","Name"],
@@ -245,7 +268,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "checkbox"
       },
       {
         columnDisplayName: "Ifrs Periyodu",
@@ -255,21 +278,24 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         placeholder: "",
         type: "text"
       },
-      // {
-      //   columnDisplayName: "Enflasyon İndekslemesi",
-      //   columnName: ["HasInflationIndexation"],
-      //   isActive: true,
-      //   classes: [],
-      //   placeholder: "",
-      //   type: "text"
-      // },
+      {
+        columnDisplayName: "Enflasyon İndekslemesi",
+        columnName: ["HasInflationIndexation"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "checkbox"
+      },
       {
         columnDisplayName: "Garanti Başlangıç Tarihi",
         columnName: ["GuaranteeStartDate"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.GuaranteeStartDate ? value.GuaranteeStartDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
       },
       {
         columnDisplayName: "Garanti Bitiş Tarihi",
@@ -277,7 +303,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.GuaranteeEndDate ? value.GuaranteeEndDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
       },
       {
         columnDisplayName: "Aktivasyon Tarihi",
@@ -285,7 +314,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.ActivationDate ? value.ActivationDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
       },
       {
         columnDisplayName: "Departman Kodu",
@@ -326,10 +358,70 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     }
   );
 
+  public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalue",[
+      {
+        columnDisplayName: "Özellik Adı",
+        columnName: ["FixedAssetCardProperty", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["FixedAssetCardProperty", "Name"]
+    }
+  )
+
+  public dataTableFixedAssetFile: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalue",[
+      {
+        columnDisplayName: "Dosya Adı",
+        columnName: [],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }   
+    ],
+    {
+      isDesc: false,
+      column: []
+    }
+  )
+
+  imageToShow: any;
+  page:number;
+
   constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadFixedAsset();
     this.loadFixedAssetProperties();
+
+    this.dataTablePropertyValue.isPagingActive = false;
+    this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isTableEditable = true;
+    this.dataTablePropertyValue.isMultipleSelectedActive = false;
+    this.dataTablePropertyValue.isFilterActive=false;
+    this.dataTablePropertyValue.isLoading = false;
+    this.dataTableFixedAssetFile.isPagingActive = false;
+    this.dataTableFixedAssetFile.isColumnOffsetActive = false;
+    this.dataTableFixedAssetFile.isTableEditable = true;
+    this.dataTableFixedAssetFile.isMultipleSelectedActive = false;
+    this.dataTableFixedAssetFile.isLoading = false;
+    this.dataTableFixedAssetFile.isFilterActive=false;
+
+    
   }
 
   ngOnInit() {}
@@ -347,6 +439,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   }
 
   loadFixedAsset() {
+
+    // let page:number=this.dataTable.perInPage;
+    // let currentPage:number=this.dataTable.currentPage;
+    //page,currentPage,
     this.baseService.fixedAssetService.GetFixedAsset(
       (fa: FixedAsset[]) => {
         this.fixedAssets = fa;
@@ -385,7 +481,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadFixedAssetPropertyValues() {}
 
   public selectedIds() {
     let selectedItems = this.dataTable.TGT_getSelectedItems();
@@ -730,7 +825,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
  //#endregion
 
   //#region Create Fixed Asset Operation
-  CreateFixedAssetOperation() {
+  CreateFixedAssetOperation() {  
     $("#showModal").trigger("click");
   }
   //#endregion
@@ -742,15 +837,43 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
     this.baseService.spinner.show();
 
- 
-
     this.baseService.fixedAssetService.GetFixedAssetById(item.FixedAssetId,
       (result:FixedAsset)=>{
       
       this.baseService.spinner.hide();
+      Object.assign(this.fixedAssetInfo,result);
+      
+      this.status=result.Status.Name == null ? " " : result.Status.Name;    
 
-      Object.assign(this.fixedAsset,result);
+      if(result.FixedAssetCard !=null)
+      this.fixedassetcard = result.FixedAssetCard.Name;
+      if(result.FixedAssetCard.FixedAssetCardCategory != null)
+      this.category=result.FixedAssetCard.FixedAssetCardCategory.Name;
+      if(result.FixedAssetCardModel != null){
+      this.fixedAssetBrand=result.FixedAssetCardModel.FixedAssetCardBrand.Name;
+      this.fixedAssetModel=result.FixedAssetCardModel.Name;
+      }
+      if(result.Department !=null)
+      this.department=result.Department.Name;
 
+      if(result.FixedAssetPropertyDetails.length > 0){
+        this.fixedAssetInfo.FixedAssetPropertyDetails.forEach(e => {
+          let fixedAssetPropertyDetail:FixedAssetPropertyDetails=new FixedAssetPropertyDetails();
+            fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+            fixedAssetPropertyDetail.Value=e.Value;  
+            fixedAssetPropertyDetail.FixedAssetCardProperty=e.FixedAssetCardProperty;
+            
+            this.fixedAssetPropertyDetails.push(fixedAssetPropertyDetail);
+        });
+
+        this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
+      }
+      
+      if(result.Picture !=null){
+      this.path= IMAGE_URL + result.Picture.replace("ThumbImages/thumb_","");
+      this.fixedAssetInfo.Picture = this.path;
+      }
+      
       $("#btnFixedAssetInfo").trigger("click");
       
     },(error:HttpErrorResponse)=>{

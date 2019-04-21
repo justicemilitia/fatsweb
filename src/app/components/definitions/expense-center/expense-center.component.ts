@@ -7,6 +7,7 @@ import { ExpenseCenter } from "src/app/models/ExpenseCenter";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as $ from "jquery";
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-expense-center",
@@ -122,11 +123,33 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
           this.dataTable.TGT_loadData(this.expCenters);
         },
-        (failedItems: []) => {
+        (failedItems: NotDeletedItem[], error:HttpErrorResponse) => {
+          
+          let barcode:ExpenseCenter;
+
+          let notDeletedCode:string[]=[];
+
+          let expensecenters= <ExpenseCenter[]>this.dataTable.TGT_copySource();
+          
+          /* Hide Loading Spinner */
           this.baseService.spinner.hide();
+
+          failedItems.forEach((e:NotDeletedItem) => {
+            for(let i=0; i<itemIds.length; i++){
+          barcode = expensecenters.find(x=>x.ExpenseCenterId == e[i].Id);
+          }     
+            notDeletedCode.push(barcode.ExpenseCenterCode);
+          });
+
           this.baseService.popupService.ShowAlertPopup(
             "Kayıtlar ilişkili olduğundan silinemedi!"
           );
+
+          /* Show error message */
+          if(failedItems.length>0)
+          this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          else
+          this.baseService.popupService.ShowErrorPopup(error);
         }
       );
     });

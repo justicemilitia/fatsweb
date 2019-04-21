@@ -1,13 +1,21 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
+<<<<<<< HEAD
 export const SERVICE_URL = "http://localhost:5000/api/";
  //export const SERVICE_URL = "http://localhost:11889/api/";
 // export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+=======
+// export const SERVICE_URL = "http://localhost:5000/api/";
+//export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+>>>>>>> ac71ebd06be10ebfaa08cf790dddce740c9eeb92
 export const LOGIN = "Auth/token";
 export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
+
+export const IMAGE_URL ="http://dev.fatsapi.com/"
 
 //#region Departments
 export const GET_DEPARTMENT_LIST = "Department/GetDepartmentsList";
@@ -261,6 +269,10 @@ export const GET_DASHBOARD_FIXED_ASSETS_INFO = "Dashboard/GetDashboardValues";
 export const GET_DASHBOARD_TRANSACTIONS_INFO = "Dashboard/GetDashboardTransactions";
 export const GET_DASHBOARD_PERSONALS_INFO = "Dashboard/GetDashboardPersonalInfo";
 export const GET_DASHBOARD_FIXED_ASSETS_COUNTS = "Dashboard/GetDashboardFixedAssetsCount";
+export const GET_DASHBOARD_FIXED_ASSET_PRICE_COUNT_LINE = "Dashboard/GetDashboardFixedAssetPriceCountLine";
+export const GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_LOCATIONS = "Dashboard/GetDashboardFixedAssetCountByLocation";
+export const GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_DEPARTMENTS = "Dashboard/GetDashboardFixedAssetCountByCategory";
+export const GET_DASHBOARD_FIXED_ASSETS_STATUS_COUNT = "Dashboard/GetDashboardFixedAssetsStatusCount";
 //#endregion
 
 //#region Depreciation

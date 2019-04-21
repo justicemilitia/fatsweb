@@ -34,8 +34,12 @@
           </ng-container>
         </div>
       </div>
-
       <div class="btn-group">
+        <button type="button" class="info-custom-button" data-container="body" data-popover-color="head-secondary"
+          data-placement="bottom" title="Bilgilendirme" data-html="true"
+          [attr.data-content]="drawnContentForApplicationInfo">
+          <i class="typcn icon-default typcn-info-large-outline"></i>
+        </button>
         <button type="button" class="bell-custom-button">
           <i class="far fa-bell fa-bell-custom"></i>
         </button>
@@ -61,8 +65,11 @@
 
     <div class="stellarnav">
       <ul>
-        <li class="nav-item" routerLink="/dashboard" routerLinkActive="active"><a class="nav-link"><i
-              class="typcn icon-default typcn-home-outline" style="font-size: 22px;"></i>Ana Sayfa</a></li>
+        <li class="nav-item" routerLink="/dashboard" routerLinkActive="active">
+          <a class="nav-link">
+            <i class="typcn icon-default typcn-home-outline" style="font-size: 22px;"></i>Ana Sayfa
+          </a>
+        </li>
         <li class="drop-right nav-item">
           <a href="#" onclick="return false" class="nav-link with-sub">
             <i class="typcn typcn-edit"></i>Tanımlamalar</a>
@@ -108,7 +115,7 @@
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardmodel"
                     routerLinkActive="active">Demirbaş Modelleri</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/status"
-                  routerLinkActive="active">Demirbaş Statüleri</a></li>
+                    routerLinkActive="active">Demirbaş Statüleri</a></li>
               </ul>
             </li>
             <li class="nav-link-item-parent">
@@ -142,12 +149,12 @@
                 Çıkışı Yapılmış Demirbaşlar
               </a>
             </li>
-            <li class="nav-link-item-parent">            
-            <a class="nav-link-item-link" routerLink="/relationshipfixedasset" routerLinkActive="active">
-              İlişkili Demirbaşlar
-            </a>
-          </li>
-          <li class="nav-link-item-parent">            
+            <li class="nav-link-item-parent">
+              <a class="nav-link-item-link" routerLink="/relationshipfixedasset" routerLinkActive="active">
+                İlişkili Demirbaşlar
+              </a>
+            </li>
+            <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/transactionlist" routerLinkActive="active">
                 Hareket Listesi
               </a>

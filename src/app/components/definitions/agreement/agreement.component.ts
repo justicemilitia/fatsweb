@@ -11,6 +11,7 @@ import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTa
 import { Company } from "../../../models/Company";
 import { convertDateToNgbDate, convertNgbDateToDateString } from 'src/app/declarations/extends';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-agreement",
@@ -211,11 +212,31 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         /* Get current table source */
         this.agreements = <Agreement[]>this.dataTable.TGT_copySource();
         },
-        (error: HttpErrorResponse) => {
+        (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
+          
+          let barcode:Agreement;
+
+          let notDeletedCode : string[]=[];
+
+          let agreements = <Agreement[]>this.dataTable.TGT_copySource();
+          
+          /* Hide Loading Spinner */
           this.baseService.spinner.hide();
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
+
+          itemIds.forEach((e:NotDeletedItem) => {
+            for(let i=0; i<itemIds.length; i++){
+          barcode = agreements.find(x=>x.AgreementId == e[i].Id);
+          }     
+          notDeletedCode.push(barcode.AgreementCode);
+          });
+  
+            /* Show error message */
+            if(itemIds.length>0)
+            this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+            else
+            this.baseService.popupService.ShowErrorPopup(error);
+  
+        });
     });
   }
 

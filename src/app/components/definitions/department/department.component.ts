@@ -7,6 +7,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { BaseComponent } from "../../base/base.component";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import * as $ from "jquery";
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-department",
@@ -156,11 +157,28 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
           /* Get Original source */
           this.departments = <Department[]>this.dataTable.TGT_copySource();
         },
-        (error: HttpErrorResponse) => {
+        (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
+        
+        let barcode:Department;
+
+        let notDeletedCode : string[]=[];
+
+        let departments = <Department[]>this.dataTable.TGT_copySource();
+        
           /* Hide Loading Spinner */
           this.baseService.spinner.hide();
 
+          itemIds.forEach((e:NotDeletedItem) => {
+            for(let i=0; i<itemIds.length; i++){
+          barcode = departments.find(x=>x.DepartmentId == e[i].Id);
+          }     
+            notDeletedCode.push(barcode.DepartmentCode);
+          });
+
           /* Show error message */
+          if(itemIds.length>0)
+          this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          else
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );

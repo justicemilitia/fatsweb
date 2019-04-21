@@ -27,12 +27,17 @@
   <script src="assets/lib/jquery/jquery.min.js"></script>
   <script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/lib/jquery.flot/jquery.flot.js"></script>
+  <script src="assets/lib/jquery.flot/jquery.flot.pie.js"></script>
   <script src="assets/lib/jquery.flot/jquery.flot.categories.js"></script>
   <script src="assets/lib/jquery.flot/jquery.flot.resize.js"></script>
   <script src="assets/lib/flot.curvedlines/curvedLines.js"></script>
+  <script src="assets/lib/raphael/raphael.min.js"></script>
+  <script src="assets/lib/morris.js/morris.min.js"></script>
   <script src="assets/js/azia.js"></script>
+  <script type="module" src="assets/js/chart.morris.js"></script>
   <script src="assets/js/dashboard.sampledata.js"></script>
-  <script src="assets/js/chart.flot.sampledata.js"></script>
+  <script type="module" src="assets/js/chart.flot.sampledata.js"></script>
+  <script type="module" src="/assets/js/chart.flot.js"></script>
   <script src="assets/js/dashboard-data.js"></script>
   <script src="assets/js/custom-navbar.js"></script>
   <script src="assets/lib/jquery-ui/jquery-ui.min.js"></script>
@@ -41,18 +46,37 @@
   <script src="assets/lib/parsleyjs/parsley.min.js"></script>
   <script src="assets/lib/select2/js/select2.min.js"></script>
 
-
   <script type="text/javascript">
     /* On page load we re init navbar */
     $("body").on("click", ".az-navbar-two", function () {
 
       $(document).ready(function () {
-        $('.select2').select2({
+        $('.select2').select2({});
+      });
+
+      $('[data-popover-color="head-secondary"]').popover({
+        template: '<div class="popover popover-head-secondary" style="min-width:300px" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+      });
+
+      $('[data-popover-color="primary"]').popover({
+        template: '<div class="popover popover-primary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+      });
+
+      $('[data-popover-color="secondary"]').popover({
+        template: '<div class="popover popover-secondary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+      });
+
+      $(document).on('click', function (e) {
+        $('[data-toggle="popover"],[data-original-title]').each(function () {
+          //the 'is' for buttons that trigger popups
+          //the 'has' for icons within a button that triggers a popup
+          if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false  // fix for BS 3.3.6
+          }
 
         });
       });
 
-      
       setTimeout(() => {
         let currentLocation = window.location.href.split('/');
         if (currentLocation.length == 0) {
@@ -63,8 +87,9 @@
           let item = currentLocation[currentLocation.length - 1];
           if (item == 'dashboard') {
             loadData();
+            //loadMorris();
             $('body').css('background', '#e9ecef');
-          }else {
+          } else {
             $('body').css('background', '#f8f9fa');
           }
         }

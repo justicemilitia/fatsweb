@@ -31,6 +31,7 @@ import { Response } from "src/app/models/Response";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import UserTitle from "src/app/models/UserTitle";
 import { FixedAssetUser } from 'src/app/models/FixedAssetUser';
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Injectable({
   providedIn: "root"
@@ -280,7 +281,7 @@ export class UserService {
           if ((<[]>response.ResultObject).length == 0) {
             success(response.ResultObject, response.LanguageKeyword);
           } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
+            failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {

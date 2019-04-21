@@ -10,6 +10,7 @@ import { FixedAssetCardPropertyType } from "../../../models/FixedAssetCardProper
 import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
 import { PropertyValueTypes } from "../../../declarations/property-value-types.enum";
 import { GetFixedAssetTypes } from 'src/app/declarations/fixed-asset-types';
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-fixed-asset-card-property",
@@ -207,12 +208,29 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
             this.dataTable.TGT_copySource()
           );
         },
-        (error: HttpErrorResponse) => {
+        (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
+          let barcode:FixedAssetCardProperty;
+
+          let notDeletedCode : string[]=[];
+  
+          let faCardProperties = <FixedAssetCardProperty[]>this.dataTable.TGT_copySource();
+          
           /* Deactive the spinner */
           this.baseService.spinner.hide();
 
-          /* Show alert pop up */
+          itemIds.forEach((e:NotDeletedItem) => {
+            for(let i=0; i<itemIds.length; i++){
+          barcode = faCardProperties.find(x=>x.FixedAssetCardPropertyId == e[i].Id);
+          }     
+            notDeletedCode.push(barcode.FixedAssetCardPropertyCode);
+          });
+  
+          /* Show error message */
+          if(itemIds.length>0)
+          this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          else
           this.baseService.popupService.ShowErrorPopup(error);
+  
         }
       );
     });

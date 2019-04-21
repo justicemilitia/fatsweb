@@ -7,6 +7,7 @@ import { FixedAssetCardModel } from "../../../models/FixedAssetCardModel";
 import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import * as $ from "jquery";
+import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 
 @Component({
   selector: "app-fixed-asset-card-model",
@@ -297,12 +298,28 @@ export class FixedAssetCardModelComponent extends BaseComponent
         /* Get current table source */
         this.fixedAssetCardModels = <FixedAssetCardModel[]>this.dataTableModel.TGT_copySource();
 
-      }, (error: HttpErrorResponse) => {
+      }, (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
 
+        let barcode:FixedAssetCardModel;
+
+        let notDeletedCode : string[]=[];
+
+        let faModels = <FixedAssetCardModel[]>this.dataTableModel.TGT_copySource();
+        
         /* Deactive the spinner */
         this.baseService.spinner.hide();
 
-        /* Show alert pop up */
+        itemIds.forEach((e:NotDeletedItem) => {
+          for(let i=0; i<itemIds.length; i++){
+        barcode = faModels.find(x=>x.FixedAssetCardModelId == e[i].Id);
+        }     
+          notDeletedCode.push(barcode.FixedAssetCardModelCode);
+        });
+
+        /* Show error message */
+        if(itemIds.length>0)
+        this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        else
         this.baseService.popupService.ShowErrorPopup(error);
 
       });

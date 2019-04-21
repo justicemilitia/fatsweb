@@ -6,7 +6,7 @@
 </div>
 <form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data) && data.form.valid" novalidate >
 <mat-horizontal-stepper linear #stepper>   
-  <mat-step label="Genel Bilgiler" (selectionChange)="next()" [editable]="editable">
+  <mat-step label="Genel Bilgiler"  [editable]="editable">
         <div class="row justify-content-center">
 
             <!--BARCODE-->
@@ -20,14 +20,14 @@
 
                 <div class="form-group col-md-8">
                     <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
-                    value="{{barcode}}" name="Barcode" type="number" trim="blur" 
+                    value="{{barcode}}" name="Barcode" type="text" trim="blur" 
                     class="form-control"
                     [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" style="margin-top: 19px; margin-left: -20px; width: 150px;" required/>
                     <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>
                     <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
                       <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
                     </div>
-                    <div *ngIf="errorMessage!= ''">{{errorMessage}}</div>
+                    <!-- <div *ngIf="errorMessage!= ''">{{errorMessage}}</div> -->
                   </div>
               </div>
             </div>     
@@ -35,7 +35,7 @@
               <!--QUANTITY-->
             <div class="form-group col-md-3">          
                   <label>Adet</label>
-                    <input type="number" [(ngModel)]="fixedAsset.Quantity" name="Quantity" placeholder="1" min="1" max="100" class="form-control"/>    
+                    <input type="text" [(ngModel)]="fixedAsset.Quantity" name="Quantity" placeholder="1" min="1" max="100" class="form-control"/>    
             </div>    
             
             <!--SERIAL NUMBER-->
@@ -142,13 +142,7 @@
                   <option [ngValue]="null">Personel Seçiniz</option>
                   <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
               </select>             
-          </div>  
-
-          </div>
-       
-        <div class="row justify-content-center">
-        
-            <div class="form-group col-md-9"></div>
+          </div> 
         </div>
 
         <div class="grp-btn-action">
@@ -157,7 +151,7 @@
         </div>  
 
   </mat-step>
-  <mat-step label="Özellik Bilgileri" (click)="$event.stopPropagation()" [editable]="editable">
+  <mat-step label="Özellik Bilgileri" [editable]="editable">
   
       <div class="row justify-content-center">
           <div class="col-md-12 form-group">   
@@ -172,6 +166,9 @@
                                   <option value="-1">Özellik Seçiniz</option>
                                   <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                               </select>   
+                              <div *ngIf="visible == true" style="color:red">
+                                <div>Bir özellik seçiniz.</div>
+                              </div>
                           </div>
                         </div>
                         <div class="form-group"> 
@@ -184,6 +181,9 @@
                                </select> 
                                <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
                               style="font-size: 13px;height: 27px;">
+                              <div *ngIf="visible == true" style="color:red">
+                              <div>Özellik değeri giriniz.</div>
+                            </div>
                               </div>     
                               <div class="property-add-value">                    
                                   <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
@@ -230,12 +230,12 @@
     </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
           <div class="grp-btn-action-left">
-            <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
+            <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
             padding-top: 5px;
             padding-bottom: 5px;">Geri</button>
           </div>
           <div class="grp-btn-action">
-            <button mat-button matStepperNext type="button"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white; min-height: 15px;
+            <button mat-button matStepperNext type="button" class="btn btn-orange" style="border-radius:0px; background-color: #e67300; color: white; min-height: 15px;
             padding-top: 5px;
             padding-bottom: 5px;">İleri</button>
           </div>
@@ -412,10 +412,10 @@
        </fieldset>  
           <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
+              <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
             </div>
             <div class="grp-btn-action">
-              <button mat-raised-button type="submit" (click)="nextDataTable()"class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+              <button mat-raised-button type="submit" (click)="nextDataTable()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
             </div>
           </div>   
       
