@@ -9,6 +9,8 @@ import { loadMorris, loadFlotLine } from 'src/assets/js/chart.morris.js';
 import { loadPieChart } from 'src/assets/js/chart.flot.js';
 import Morris, { ColorizeMorrisses } from 'src/app/models/MorrisModel';
 import FlotPie from 'src/app/models/FlotPie';
+import { GetTransactionIcon } from 'src/app/declarations/transaction-icons';
+import { GetDayOfWeekFromDayOfYear, GetMonthOfYearsLong } from 'src/app/declarations/date-values';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +30,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   countValues: any = {};
 
   totalPrices: any[] = [];
+  totalPricesActiveGroup = 2;
 
   fixedAssetGroupTypes = {
     priceGroupType: 1,
@@ -36,11 +39,13 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   }
 
   math = Math;
+  transactionIcons = GetTransactionIcon;
 
   countEnums = {
     Month: 1,
     Year: 0,
-    Day: 2
+    Day: 2,
+    Week: 3
   }
 
   constructor(public baseService: BaseService) {
@@ -140,7 +145,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     this.loadFixedAssetsByLocation();
     this.loadFixedAssetsByCategory();
     this.loadFixedAssetsStatusCount();
-    this.loadFixedAssetPriceLine(3);
+    this.loadFixedAssetPriceLine(null, this.totalPricesActiveGroup);
   }
 
   async loadValues() {
@@ -183,9 +188,16 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     });
   }
 
-  async loadFixedAssetPriceLine(groupType: number) {
+  async loadFixedAssetPriceLine(event, groupType: number) {
 
-    this.baseService.dashboardService.GetDashboardFixedAssetPriceCountLine(groupType, (result) => {
+    this.baseService.dashboardService.GetDashboardFixedAssetPriceCountLine(groupType, 10, (result) => {
+      if (event != null) {
+        $('.card-title-categories').children().removeClass('current');
+        $(event.target).addClass('current');
+      }
+
+      this.totalPricesActiveGroup = groupType;
+      this.totalPrices = [];
       Object.assign(this.totalPrices, result);
       let multiDimention = [];
 
@@ -196,9 +208,21 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
       let xValues = [];
       /* x axis Values */
-      this.totalPrices.forEach((e, i) => {
-        xValues.push([e.Dates, e.Dates.toString()]);
-      });
+      if (groupType == this.countEnums.Week) {
+        this.totalPrices.forEach((e, i) => {
+          xValues.push([e.Dates, e.Dates.toString() + "hafta"]);
+        });
+      } else if (groupType == this.countEnums.Day) {
+        let today = (new Date()).getDay();
+        this.totalPrices.forEach((e, i) => {
+          xValues.push([e.Dates, GetDayOfWeekFromDayOfYear(today - (this.totalPrices.length - 1 - i), 'tr')]);
+        });
+      } else if (groupType == this.countEnums.Month) {
+        let currentMonth = (new Date()).getMonth();
+        this.totalPrices.forEach((e, i) => {
+          xValues.push([e.Dates, GetMonthOfYearsLong('tr')[currentMonth - (this.totalPrices.length - 1 - i)]]);
+        });
+      }
 
       this.totalPrices.sort((a, b) => { return a.TotalOfItems - b.TotalOfItems });
 
@@ -207,10 +231,13 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
       /* Y axis Values */
       if (this.totalPrices.length > 0) {
         let highest = this.totalPrices[this.totalPrices.length - 1].TotalOfItems;
-        yValues.push([highest / 2,(highest / 2).toLocaleString().toString() + " TL"]);
-        yValues.push([highest / 4,(highest / 4).toLocaleString().toString() + " TL"]);
-        yValues.push([highest,highest.toLocaleString().toString() + " TL"]);
+        yValues.push([Math.floor(highest / 2), Math.floor(highest / 2).toLocaleString().toString() + " TL"]);
+        yValues.push([Math.floor(highest / 4), Math.floor(highest / 4).toLocaleString().toString() + " TL"]);
+        yValues.push([Math.floor(highest), Math.floor(highest).toLocaleString().toString() + " TL"]);
       }
+
+      this.totalPrices.sort((a, b) => { return a.Dates - b.Dates });
+
       loadFlotLine(multiDimention, yValues, xValues)
     }, (result) => {
       // Error

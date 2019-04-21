@@ -128,8 +128,8 @@ export class DashboardService {
       })
   }
 
-  GetDashboardFixedAssetPriceCountLine(groupType: number, success, failed) {
-    this.httpClient.get(SERVICE_URL + GET_DASHBOARD_FIXED_ASSET_PRICE_COUNT_LINE + "?groupType=" + groupType, {
+  GetDashboardFixedAssetPriceCountLine(groupType: number,previous:number, success, failed) {
+    this.httpClient.get(SERVICE_URL + GET_DASHBOARD_FIXED_ASSET_PRICE_COUNT_LINE + "?previous=" + previous + "&groupType=" + groupType, {
       headers: GET_HEADERS(this.aService.getToken())
     }).subscribe((result: Response) => {
       if (result.ResultStatus == true) {
