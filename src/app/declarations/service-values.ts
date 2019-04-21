@@ -82,6 +82,7 @@ export const ADD_FIXEDASSETDEBIT = "FixedAsset/AddDebitPersonOnBarcode";
 export const UPDATE_FIXEDASSETDEBIT = "FixedAsset/ChangeDebitPersonOnBarcode";
 export const PRESS_DEBITFORM = "PdfCreator/DebitChangeForm";
 export const DELETE_FIXEDASSETDEBIT = "FixedAsset/DeleteDebitPersonOnBarcode";
+export const GET_FIXEDASSET_DEBIT_FORM="FixedAssetForms/GetFixedAssetDebitFormList";
 // export const PRESS_DELETEDEBITFORM = "PdfCreator/CreateDebitForm";
 //#endregion
 

@@ -94,3 +94,17 @@ input[type=number]::-webkit-outer-spin-button {
   pointer-events: none !important;
 }
 
+.mat-raised-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  min-height: 29px;
+  min-width: 30px;
+  padding: 0 16px;
+  border-radius: 4px;
+  overflow: visible;
+}

@@ -36,6 +36,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
   users: User[] = [];
   selectedUser: User[] = [];
   selectedFixedAssetId: number;
+  fixedAssetUser:FixedAssetUser=new FixedAssetUser();
   fixedAssetUsers: FixedAssetUser[] = [];
 
   AllUsersWithoutDebitUser: number[] = [];
@@ -151,6 +152,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
 
           fixedAssetUser.UserIds = insertedUserIds;
           fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
+          //fixedAssetUser.IsCreateDebitForm = this.IsCreateDebitForm;
 
           this.baseService.fixedAssetService.ChangeDebit(
             fixedAssetUser,
