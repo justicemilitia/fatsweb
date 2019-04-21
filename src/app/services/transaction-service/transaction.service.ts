@@ -20,6 +20,7 @@ export class TransactionService {
     private aService: AuthenticationService
   ) {}
 
+  
   GetTransactionLogList(transaction:TransactionLog, success, failed) {
     transaction.Page=1;
     transaction.PerPage=100;

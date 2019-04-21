@@ -142,13 +142,7 @@
                   <option [ngValue]="null">Personel Seçiniz</option>
                   <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
               </select>             
-          </div>  
-
-          </div>
-       
-        <div class="row justify-content-center">
-        
-            <div class="form-group col-md-9"></div>
+          </div> 
         </div>
 
         <div class="grp-btn-action">
@@ -236,12 +230,12 @@
     </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
           <div class="grp-btn-action-left">
-            <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
+            <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
             padding-top: 5px;
             padding-bottom: 5px;">Geri</button>
           </div>
           <div class="grp-btn-action">
-            <button mat-button matStepperNext type="button"  class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white; min-height: 15px;
+            <button mat-button matStepperNext type="button" class="btn btn-orange" style="border-radius:0px; background-color: #e67300; color: white; min-height: 15px;
             padding-top: 5px;
             padding-bottom: 5px;">İleri</button>
           </div>
@@ -418,10 +412,10 @@
        </fieldset>  
           <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
+              <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
             </div>
             <div class="grp-btn-action">
-              <button mat-raised-button type="submit" (click)="nextDataTable()"class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+              <button mat-raised-button type="submit" (click)="nextDataTable()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
             </div>
           </div>   
       

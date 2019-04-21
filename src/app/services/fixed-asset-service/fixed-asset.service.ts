@@ -50,7 +50,7 @@ export class FixedAssetService {
     this.httpclient
       .post(
         SERVICE_URL + GET_FIXED_ASSET,
-        { Page: "1", PerPage: "100", sortOrder: "asc" },
+        { Page: "1", PerPage: "100", sortOrder: "desc" },
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
         }

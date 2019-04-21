@@ -107,7 +107,10 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
     data.reset();
     data.resetForm(this.transactionLog);
   }
+  
   today() {
+    let getdate:NgbDate = getToday();
+    console.log(getdate);
     return getToday();
   }
 }
