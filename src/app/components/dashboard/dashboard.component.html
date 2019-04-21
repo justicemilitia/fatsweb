@@ -79,42 +79,42 @@
       <div class="card card-body card-dashboard-twentyfive mg-b-20">
         <h6 class="card-title">DEMİRBAŞLAR</h6>
         <div class="row row-sm">
-          <div class="col-6 col-sm-4 col-lg">
+          <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/relationshipfixedasset">
             <label class="card-label">İLİŞKİLİ DEMİRBAŞLAR</label>
             <h6 class="card-value">{{assetValues.RelatedFixedAssets}}</h6>
             <div class="chart-wrapper">
               <div id="flotChart1" class="flot-chart"></div>
             </div><!-- chart-wrapper -->
           </div><!-- col -->
-          <div class="col-6 col-sm-4 col-lg">
+          <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/suspendedfixedasset">
             <label class="card-label">ASKIDAKİ DEMİRBAŞLAR</label>
             <h6 class="card-value">{{assetValues.SuspendedFixedAssets}}</h6>
             <div class="chart-wrapper">
               <div id="flotChart2" class="flot-chart"></div>
             </div><!-- chart-wrapper -->
           </div><!-- col -->
-          <div class="col-6 col-sm-4 col-lg mg-t-20 mg-sm-t-0">
+          <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/lostfixedasset">
             <label class="card-label">KAYIP DEMİRBAŞLAR</label>
             <h6 class="card-value">{{assetValues.LostFixedAssets}}</h6>
             <div class="chart-wrapper">
               <div id="flotChart3" class="flot-chart"></div>
             </div><!-- chart-wrapper -->
           </div><!-- col -->
-          <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
+          <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/fixedasset">
             <label class="card-label">GARANTİLİ DEMİRBAŞLAR</label>
             <h6 class="card-value">{{assetValues.GuaranteedFixedAssets}}</h6>
             <div class="chart-wrapper">
               <div id="flotChart6" class="flot-chart"></div>
             </div><!-- chart-wrapper -->
           </div><!-- col -->
-          <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
+          <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/fixedasset">
             <label class="card-label">PASİF DEMİRBAŞLAR</label>
             <h6 class="card-value">{{assetValues.PassiveFixedAssets}}</h6>
             <div class="chart-wrapper">
               <div id="flotChart5" class="flot-chart"></div>
             </div><!-- chart-wrapper -->
           </div><!-- col -->
-          <div class="col-6 col-sm-4 col-lg mg-t-20 mg-lg-t-0">
+          <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/checkoutfixedasset">
             <label class="card-label">ÇIKIŞI YAPILMIŞ DEMİRBAŞLAR</label>
             <h6 class="card-value">{{assetValues.CheckedOutFixedAssets}}</h6>
             <div class="chart-wrapper">
@@ -153,31 +153,31 @@
         <div class="col-md-8 mg-t-20 mg-lg-t-0">
           <div class="card card-dashboard-twentyfour">
             <div class="card-header">
-              <h6 class="card-title">Store Visitors</h6>
-              <span>This Week</span>
+              <h6 class="card-title">DEMİRBAŞ DEĞERİ</h6>
+              <div class="card-title-categories">
+                <span (click)="loadFixedAssetPriceLine($event,countEnums.Month)">Aylık</span>
+                <span (click)="loadFixedAssetPriceLine($event,countEnums.Week)">Haftalık</span>
+                <span (click)="loadFixedAssetPriceLine($event,countEnums.Day)" class="current">Günlük</span>
+              </div>
             </div><!-- card-header -->
             <div class="card-body">
               <div class="card-body-top">
-                <div>
-                  <h6>297,506</h6>
-                  <label>Total Visitors</label>
+                <div *ngIf="totalPrices && totalPrices.length > 0">
+                  <h6>{{totalPrices[totalPrices.length-1].TotalOfItems + ' TL'}}</h6>
+                  <label>Toplam Değer</label>
                 </div>
-                <div>
+                <!--<div>
                   <h6>38,130</h6>
                   <label>Visits per Day</label>
                 </div>
                 <div>
                   <h6>35.07%</h6>
                   <label>Bounce Rate</label>
-                </div>
+                </div>-->
               </div><!-- card-body-top -->
 
               <div class="d-flex justify-content-between mg-b-15">
-                <label class="az-content-label">Visitors Per Hour</label>
-                <div class="chart-legend">
-                  <div><span class="bg-pink"></span> Today</div>
-                  <div><span class="bg-gray-400"></span> Yesterday</div>
-                </div><!-- chart-legend -->
+                <label class="az-content-label">ANLIK DEMİRBAŞ DEĞERİ</label>
               </div>
               <div class="chart-wrapper">
                 <div id="flotLine1" class="flot-chart"></div>
@@ -210,168 +210,9 @@
       <label class="az-content-label tx-base mg-b-25">Son Hareketler</label>
       <div class="az-media-list-activity mg-b-20">
         <div *ngFor="let t of transactions" class="media">
-          <ng-container [ngSwitch]="t.TTId">
-            <!-- EKLE -->
-            <ng-container *ngSwitchCase="23">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="26">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="32">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="33">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="35">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="36">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="39">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="40">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="49">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="54">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="58">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="61">
-              <div class="media-icon bg-success"><i style="font-size:20px;"
-                  class="typcn icon-default typcn-plus-outline"></i></div>
-            </ng-container>
-            <!-- END EKLE END -->
-            <!-- ASKIYA ALMA -->
-            <ng-container *ngSwitchCase="1">
-              <div class="media-icon bg-purple"><i style="font-size:20px;"
-                  class="typcn typcn-arrow-forward-outline"></i>
-              </div>
-            </ng-container>
-            <!-- END ASKIYA ALMA END -->
-            <!-- ASKIDAN ALMA -->
-            <ng-container *ngSwitchCase="2">
-              <div class="media-icon bg-orange"><i style="font-size:20px;"
-                  class="typcn typcn-arrow-forward-outline"></i>
-              </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="4">
-              <div class="media-icon bg-orange"><i style="font-size:20px;"
-                  class="typcn typcn-arrow-forward-outline"></i>
-              </div>
-            </ng-container>
-            <!-- END ASKIDAN ALMA END -->
-            <!-- DEĞİŞİKLİK  -->
-            <ng-container *ngSwitchCase="6">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="9">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="10">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="11">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="12">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="13">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="14">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="15">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="16">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="17">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="18">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="19">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="20">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="21">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="24">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="25">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="28">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="43">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="44">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="45">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="46">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="47">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="48">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="50">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="53">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="55">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <ng-container *ngSwitchCase="57">
-              <div class="media-icon bg-info"><i style="font-size:20px;" class="typcn typcn-tick-outline"></i></div>
-            </ng-container>
-            <!-- END DEĞİŞİKLİK END -->
-            <!-- ÇIKIŞ -->
-            <ng-container *ngSwitchCase="3">
-              <div class="media-icon bg-danger"><i style="font-size:20px;" class="typcn typcn-times-outline"></i></div>
-            </ng-container>
-            <!-- END ÇIKIŞ END-->
-            <ng-container *ngSwitchDefault>
-              <div class="media-icon bg-success"><i style="font-size:20px;" class=""></i></div>
-            </ng-container>
-          </ng-container>
+          <div class="media-icon {{icon.backClass}}" *ngIf="transactionIcons(t.TTId); let icon">
+            <i [ngStyle]="{'font-size':icon.fontSize}" class="{{icon.fontIcon}}"></i>
+          </div>
           <div class="media-body">
             <h6>{{t.TTitle}}</h6>
             <span>{{t.TUser}}</span>
@@ -383,53 +224,7 @@
           Henüz Hareket Yapılmadı.
         </div>
       </div><!-- az-media-list-activity -->
-      <a href="" class="btn btn-outline-light btn-block">Tüm Hareketler</a>
-      <hr style="display: none" class="mg-y-25">
-      <label style="display: none" class="az-content-label tx-base mg-b-25">2 Recent Reviews</label>
-      <div style="display: none" class="az-media-list-reviews">
-        <div class="media">
-          <div class="az-img-user"><img src="https://via.placeholder.com/500x500" alt=""></div>
-          <div class="media-body">
-            <div class="d-flex justify-content-between mg-b-10">
-              <div>
-                <h6 class="mg-b-0">Socrates Itumay</h6>
-                <div class="az-star-group">
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <span>4.1</span>
-                </div><!-- star-group -->
-              </div>
-              <small>1 hour ago</small>
-            </div>
-            <p class="mg-b-0">Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed amet...<a href="">Read
-                more</a></p>
-          </div><!-- media-body -->
-        </div><!-- media -->
-        <div class="media">
-          <div class="az-img-user"><img src="https://via.placeholder.com/500x500" alt=""></div>
-          <div class="media-body">
-            <div class="d-flex justify-content-between mg-b-10">
-              <div>
-                <h6 class="mg-b-0">Reynante Labares</h6>
-                <div class="az-star-group">
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <div class="az-star-item"><i class="icon ion-md-star"></i></div>
-                  <span>4.5</span>
-                </div><!-- star-group -->
-              </div>
-              <small>2 days ago</small>
-            </div>
-            <p class="mg-b-0">Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed amet...<a href="">Read
-                more</a></p>
-          </div><!-- media-body -->
-        </div><!-- media -->
-      </div><!-- media-list -->
+      <a routerLink="/transactionlist" class="btn btn-outline-light btn-block">Tüm Hareketler</a>
     </div>
   </div><!-- az-content-body -->
 </div>

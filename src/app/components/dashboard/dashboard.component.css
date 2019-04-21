@@ -23,6 +23,21 @@
     margin-bottom: 20px;
 }
 
-.az-content-dashboard-ten  {
+.az-content-dashboard-ten {
     min-height: 0;
+}
+
+.fixed-asset-info:hover {
+    box-shadow: 0 5px 5px #cecece;
+    cursor: pointer;
+}
+
+.card-title-categories>span {
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor:pointer;
+}
+
+.card-title-categories>span.current {
+    font-weight: 800;
 }

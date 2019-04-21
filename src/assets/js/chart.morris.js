@@ -40,7 +40,8 @@ export const loadMorris = function (morris1, morris2) {
 
 };
 
-export const loadFlotLine = function (flotDimention, yValues,xValues) {
+export const loadFlotLine = function (flotDimention, yValues, xValues) {
+  $('#flotLine1').children().remove();
   $.plot('#flotLine1', [{
     data: flotDimention,
     color: '#f10075'
@@ -49,7 +50,7 @@ export const loadFlotLine = function (flotDimention, yValues,xValues) {
         shadowSize: 0,
         lines: {
           show: true,
-          lineWidth: 2,
+          lineWidth: 3,
           fill: true,
           fillColor: { colors: [{ opacity: 0 }, { opacity: 0.12 }] }
         }
@@ -59,7 +60,7 @@ export const loadFlotLine = function (flotDimention, yValues,xValues) {
       },
       yaxis: {
         min: 0,
-        max: 5318960,
+        max: (yValues.length > 0 ? yValues[yValues.length - 1][0] : 0),
         tickColor: '#ddd',
         ticks: yValues,
         font: {
@@ -68,7 +69,9 @@ export const loadFlotLine = function (flotDimention, yValues,xValues) {
         }
       },
       xaxis: {
-        mode: 'categories',
+        min: (xValues.length > 0 ? xValues[0][0] : 0),
+        max: (xValues.length > 0 ? xValues[xValues.length - 1][0] : 0),
+        //mode: 'categories',
         tickColor: '#eee',
         ticks: xValues,
         font: {
