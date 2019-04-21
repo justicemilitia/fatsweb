@@ -55,6 +55,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   fixedAssetBrand:string;
   fixedAssetModel:string;
   department:string;
+  fixedassetcard:string;
+  location:string;
 
   path:string;
 
@@ -841,8 +843,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       this.baseService.spinner.hide();
       Object.assign(this.fixedAssetInfo,result);
       
-      this.status=result.Status.Name == null ? " " : result.Status.Name;     
-       if(result.FixedAssetCard.FixedAssetCardCategory != null)
+      this.status=result.Status.Name == null ? " " : result.Status.Name;    
+
+      if(result.FixedAssetCard !=null)
+      this.fixedassetcard = result.FixedAssetCard.Name;
+      if(result.FixedAssetCard.FixedAssetCardCategory != null)
       this.category=result.FixedAssetCard.FixedAssetCardCategory.Name;
       if(result.FixedAssetCardModel != null){
       this.fixedAssetBrand=result.FixedAssetCardModel.FixedAssetCardBrand.Name;
@@ -863,10 +868,13 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
         this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
       }
+      
+      if(result.Picture !=null){
       this.path= IMAGE_URL + result.Picture.replace("ThumbImages/thumb_","");
       this.fixedAssetInfo.Picture = this.path;
-
-    $("#btnFixedAssetInfo").trigger("click");
+      }
+      
+      $("#btnFixedAssetInfo").trigger("click");
       
     },(error:HttpErrorResponse)=>{
          /* hide spinner */

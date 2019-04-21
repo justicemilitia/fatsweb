@@ -163,7 +163,7 @@
                               <label>Demirbaş Adı :</label>
                           </div>
                           <div class="col-md-6">
-                              <!-- <span>{{fixedAssetInfo.FixedAssetCard.Name}}</span>  -->
+                              <span>{{fixedAssetInfo.FixedAssetCard.Name}}</span> 
                           </div> 
                         </div>  
                         <div class="row">
@@ -179,7 +179,7 @@
                         <label>Lokasyon :</label>
                     </div>
                     <div class="col-md-6">
-                        <!-- <span>{{fixedAssetInfo.Location.Name}}</span>  -->
+                        <span>{{fixedAssetInfo.Location.Name}}</span> 
                     </div> 
                   </div>
                   <div class="row">
@@ -240,11 +240,13 @@
                 </div>
 
                 <div class="col-md-6">
-                        <div class="row justify-content-center" >  
-                            <div class="form-group well my-drop-zone">
-                          </div> 
-                            <img [src]="path" height="95" width="100">
-                          </div>  
+                  <div class="row justify-content-center" >                            
+                    <div *ngIf="!path" class="form-group well my-drop-zone">
+                    </div> 
+                    <div *ngIf="path" style="max-width: 100%; max-height: 100%; margin: 20px;">
+                      <img [src]="path" style="max-width: 100%; max-height: 100%">
+                    </div>
+                  </div>  
                 </div>
 
               </div>     
@@ -282,7 +284,7 @@
                               <label>Fatura Tarihi :</label>
                           </div>
                           <div class="col-md-6">
-                              <span>{{fixedAssetInfo.InvoiceDate}}</span> 
+                              <span>{{fixedAssetInfo.InvoiceDate ? fixedAssetInfo.InvoiceDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span> 
                           </div> 
                         </div>                         
                         <div class="row">
@@ -290,7 +292,7 @@
                                 <label>Makbuz Tarihi :</label>
                             </div>
                             <div class="col-md-6">
-                                <span>{{fixedAssetInfo.InvoiceDate}}</span> 
+                                <span>{{fixedAssetInfo.InvoiceDate ? fixedAssetInfo.InvoiceDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span> 
                             </div> 
                           </div> 
                       <div class="row">
@@ -307,7 +309,7 @@
                               <label>Aktifleştirme Tarihi :</label>
                           </div>
                           <div class="col-md-6">
-                              <span>{{fixedAssetInfo.ActivationDate}}</span> 
+                              <span>{{fixedAssetInfo.ActivationDate ? fixedAssetInfo.ActivationDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span> 
                           </div> 
                         </div>                   
                       <div class="row">
@@ -327,12 +329,12 @@
                               <label>Amortisman Hesaplanacak mı?:</label>
                           </div>
                           <div class="col-md-6">
-                              <span></span> 
+                              <span>{{fixedAssetInfo.WillDepreciationBeCalculated == true ? "Evet" : "Hayır"}}</span> 
                           </div> 
                         </div> 
                       <div class="row">
                         <div class="form-group col-md-6">
-                            <label>Amortisman Periyodu? :</label>
+                            <label>Amortisman Periyodu :</label>
                         </div>
                         <div class="col-md-6">
                             <span>{{fixedAssetInfo.DepreciationPeriod}}</span> 
@@ -340,10 +342,10 @@
                       </div> 
                       <div class="row">
                           <div class="form-group col-md-6">
-                              <label>Amortisman Yöntemi? :</label>
+                              <label>Amortisman Yöntemi :</label>
                           </div>
                           <div class="col-md-6">
-                              <span>{{fixedAssetInfo.DepreciationPeriod}}</span> 
+                              <span></span> 
                           </div> 
                         </div> 
                         <div class="row">
@@ -351,7 +353,7 @@
                                 <label>IFRS Hesaplanacak mı? :</label>
                             </div>
                             <div class="col-md-6">
-                                <span>{{fixedAssetInfo.DepreciationPeriod}}</span> 
+                                <span>{{fixedAssetInfo.WillIfrsbeCalculated == true ? "Evet" : "Hayır"}}</span> 
                             </div> 
                           </div> 
                           <div class="row">
@@ -359,7 +361,7 @@
                                   <label>IFRS Fiyatı :</label>
                               </div>
                               <div class="col-md-6">
-                                  <span>{{fixedAssetInfo.DepreciationPeriod}}</span> 
+                                  <span>{{fixedAssetInfo.Ifrsprice}}</span> 
                               </div> 
                             </div>                                    
                           <div class="row">
@@ -367,7 +369,7 @@
                                 <label>Garanti Başlangıç Tarihi :</label>
                             </div>
                             <div class="col-md-6">
-                                <span>{{fixedAssetInfo.GuaranteeStartDate}}</span> 
+                                <span>{{fixedAssetInfo.GuaranteeStartDate ? fixedAssetInfo.GuaranteeStartDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span> 
                             </div> 
                           </div> 
                           <div class="row">
@@ -375,18 +377,18 @@
                                 <label>Garanti Bitiş Tarihi :</label>
                             </div>
                             <div class="col-md-6">
-                                <span>{{fixedAssetInfo.GuaranteeEndDate}}</span> 
+                                <span>{{fixedAssetInfo.GuaranteeEndDate ? fixedAssetInfo.GuaranteeEndDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span> 
                             </div> 
                           </div> 
                 </div>
               </div>
             </fieldset>   
-            <div class="row jestify-content-center" style="margin-top: 10px">
-              <div class="col-md-6" style="margin-left: 10px;">
+            <div class="row justify-content-center" style="margin-top:10px">
+              <div class="col-md-6" style="margin-right: -20px; margin-left: 0px;">
                   <tree-grid-table [dataTable]="dataTablePropertyValue">
                     </tree-grid-table>
               </div>
-              <div class="col-md-6" style="margin-right: 10px; margin-right: -20px">
+              <div class="col-md-6">
                   <tree-grid-table [dataTable]="dataTableFixedAssetFile">
                     </tree-grid-table>
                 </div>
