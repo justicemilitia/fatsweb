@@ -27,7 +27,7 @@
                     <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
                       <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
                     </div>
-                    <div *ngIf="errorMessage!= ''">{{errorMessage}}</div>
+                    <!-- <div *ngIf="errorMessage!= ''">{{errorMessage}}</div> -->
                   </div>
               </div>
             </div>     
@@ -157,7 +157,7 @@
         </div>  
 
   </mat-step>
-  <mat-step label="Özellik Bilgileri" (click)="$event.stopPropagation()" [editable]="editable">
+  <mat-step label="Özellik Bilgileri" [editable]="editable">
   
       <div class="row justify-content-center">
           <div class="col-md-12 form-group">   

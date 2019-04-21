@@ -9,7 +9,7 @@ export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
 
-export const IMAGE_URL ="http://dev.fatsapi.com"
+export const IMAGE_URL ="http://dev.fatsapi.com/"
 
 //#region Departments
 export const GET_DEPARTMENT_LIST = "Department/GetDepartmentsList";
