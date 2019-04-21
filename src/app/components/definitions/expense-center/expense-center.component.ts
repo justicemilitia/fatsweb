@@ -182,6 +182,9 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
       (expCenters: ExpenseCenter[]) => {
         this.expCenters = expCenters;
         this.dataTable.TGT_loadData(this.expCenters);
+        if(expCenters.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

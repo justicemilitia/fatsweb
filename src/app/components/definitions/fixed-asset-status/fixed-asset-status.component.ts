@@ -99,6 +99,9 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
       (statuses: FixedAssetStatus[]) => {
         this.statuses = statuses;
         this.dataTable.TGT_loadData(this.statuses);
+        if(this.statuses.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

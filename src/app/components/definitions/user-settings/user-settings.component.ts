@@ -1,5 +1,5 @@
 import { Component, OnInit, NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import { Role } from "../../../models/Role";
@@ -54,6 +54,8 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
 
   isInsertOrUpdate: boolean = false;
 
+  isCheckedPassword: boolean = false;
+
   constructor(public baseService: BaseService) {
     super(baseService);
 
@@ -71,6 +73,36 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {}
 
+  async onSubmit(data: NgForm){
+      /* Ask for approve question if its true then update the location */
+      await this.baseService.popupService.ShowQuestionPopupForUpdate(
+        (response: boolean) => {
+          if (response == true) {
+               Object.assign(this.currentUser, data);
+            this.baseService.userService.UpdateUser(
+              this.currentUser,
+              (updateUser, message) => {
+  
+                /* Show pop up*/
+                this.baseService.popupService.ShowSuccessPopup(message);
+  
+                let newUser = new User();
+                Object.assign(newUser, this.currentUser);
+                this.currentUser = newUser;
+  
+              },
+              (error: HttpErrorResponse) => {
+                /* Close loader */
+                this.isWaitingInsertOrUpdate = false;
+  
+                /* Show error message */
+                this.baseService.popupService.ShowErrorPopup(error);
+              }
+            );
+          }
+        }
+      );
+  }
   async GetUserInfoById(item: number) {
     /* Clear Model */
     this.currentUser = new User();
@@ -80,6 +112,7 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
 
     /* load companies if not loaded */
     this.loadDropdownList();
+
 
     this.isInsertOrUpdate = true;
 
@@ -98,8 +131,7 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
           /* bind result to model */
           Object.assign(this.currentUser, result);
 
-          this.currentUserRoles.splice(0);
-
+          this.loadDepartmentByLocationIdDefault(result.LocationId);
           this.currentUser.UserRoles.forEach(e => {
             let role = this.roles.find(y => y.RoleId == e.RoleId);
             if (role) this.currentUserRoles.push(role);
@@ -167,21 +199,26 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onItemSelect(item: Role) {
-    if (this.currentUserRoles == null) this.currentUserRoles = [];
-    if (this.currentUserRoles.findIndex(x => x.RoleId == item.RoleId) == -1)
-      this.currentUserRoles.push(item);
-  }
+  loadDepartmentByLocationIdDefault(locationId: any) {
+    this.departments = [];
 
-  onSelectAll(items: Role[]) {
-    if (this.currentUserRoles == null) this.currentUserRoles = [];
+    if (locationId==0) {
+      this.currentUser.DepartmentId = null;
+      this.currentUser.Department = new Department();
+      return;
+    }
 
-    items.forEach(element => {
-      if (
-        this.currentUserRoles.findIndex(x => x.RoleId == element.RoleId) == -1
-      )
-        this.currentUserRoles.push(element);
-    });
+    if (locationId) {
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+        locationId,
+        (departments: Department[]) => {
+          this.departments = departments;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
   }
 
   isSystemUser(event) {
@@ -192,4 +229,34 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
     }
   }
 
+  async isCheckPassword(password: any){
+
+    let checkUser: User= new User();
+    checkUser.Password=password.value;
+    checkUser.UserId=this.baseService.authenticationService.getCurrentUserId();
+    await this.baseService.userService.CheckUserPassword(
+      checkUser,
+      (result: User) => {
+        /* then bind it to company model to update */
+        setTimeout(() => {
+          /* close loading */
+          this.baseService.spinner.hide();
+
+          /* bind result to model */
+          Object.assign(this.currentUser, result);
+
+          this.isCheckedPassword=true;
+
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        /* hide spinner */
+        this.baseService.spinner.hide();
+
+        /* show error message */
+        // this.baseService.popupService.ShowErrorPopup(error);
+        this.isCheckedPassword=false;
+      }
+    );
+  }
 }

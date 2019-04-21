@@ -391,6 +391,9 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         });
         /* Load data to table */
         this.dataTable.TGT_loadData(this.fixedAssetCardProperties);
+        if(fixedAssetCardProperties.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         /* if error show pop up */

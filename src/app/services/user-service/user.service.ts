@@ -18,7 +18,8 @@ import {
   GET_USER_BY_ID,
   GET_USERTITLE_LIST,
   GET_USER_LIST_BY_FIRM_ID,
-  GET_DEBITUSER_LIST
+  GET_DEBITUSER_LIST,
+  CHECK_USER_PASSWORD
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { User } from "../../models/User";
@@ -212,6 +213,26 @@ export class UserService {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             success(<User>response.ResultObject, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  CheckUserPassword(user: User, success, failed) {
+    this.httpClient
+      .post(SERVICE_URL + CHECK_USER_PASSWORD, user, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(response.ResultStatus, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
