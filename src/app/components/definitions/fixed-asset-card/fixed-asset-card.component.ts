@@ -269,6 +269,9 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
       (fixedAssetCards: FixedAssetCard[]) => {
         this.fixedAssetCards = fixedAssetCards;
         this.dataTable.TGT_loadData(this.fixedAssetCards);
+        if(fixedAssetCards.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         /* if error show pop up */

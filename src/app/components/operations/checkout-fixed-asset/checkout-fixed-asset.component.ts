@@ -94,6 +94,9 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
       (exitFixedAsset: FixedAsset[]) => {
         this.exitFixedAssetList = exitFixedAsset;
         this.dataTable.TGT_loadData(this.exitFixedAssetList);
+        if(this.exitFixedAssetList.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

@@ -65,6 +65,9 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
 
         /* then load them into table */
         this.dataTable.TGT_loadData(this.checkOutReasons);
+        if(this.checkOutReasons.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         /* Show error message */

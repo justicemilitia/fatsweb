@@ -169,6 +169,9 @@ export class SuspendedFixedAssetComponent extends BaseComponent
       (suspended: FixedAsset[]) => {
         this.suspendedList = suspended;
         this.dataTable.TGT_loadData(this.suspendedList);
+        if(this.suspendedList.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

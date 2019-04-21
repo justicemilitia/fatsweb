@@ -249,6 +249,9 @@ export class FixedAssetCardBrandComponent extends BaseComponent
       (facbs: FixedAssetCardBrand[]) => {
         this.fixedAssetCardBrands = facbs;
         this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
+        if(this.fixedAssetCardBrands.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
