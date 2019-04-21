@@ -1,17 +1,23 @@
-
-  .field_set{
-    border:1;
+.field_set {
+    border: 1;
     border-color: #d0cbcb;
     border-style: solid;
-  }
-  .fieldset_text{
-      color:#e67300;
-  }
+}
 
-  .flexProperty {
+.fieldset_text {
+    color: #e67300;
+}
+
+.flexProperty {
     flex: 1;
     flex-direction: row;
     display: flex;
     justify-content: flex-start;
     padding-bottom: 10px;
-  }
+}
+
+.property-add-value {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

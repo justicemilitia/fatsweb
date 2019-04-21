@@ -46,17 +46,18 @@ export class FixedAssetService {
     private httpclient: HttpClient,
     private authenticationService: AuthenticationService
   ) { }
-//page:number, perPage:number,
-  GetFixedAsset(success, failed) {
+  //page:number, perPage:number,
+  GetFixedAsset(_perInPage: number = 25, _currentPage: number = 1, _isSearchRequest: boolean = false, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + GET_FIXED_ASSET,
-        { Page: "1", PerPage: "100", sortOrder: "desc" },
+        { Page: _currentPage, PerPage: _perInPage, sortOrder: "desc", IsSearchRequest: _isSearchRequest },
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
         }
       ).subscribe(
-        result => {
+        (result: any) => {
+          
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let fixedAssets: FixedAsset[] = [];
@@ -65,7 +66,7 @@ export class FixedAssetService {
               Object.assign(fa, e);
               fixedAssets.push(fa);
             });
-            success(fixedAssets, response.LanguageKeyword);
+            success(fixedAssets, result.TotalPage, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -155,7 +156,7 @@ export class FixedAssetService {
       );
   }
 
-  ExitFixedAsset(transactionLog: TransactionLog, success, failed){
+  ExitFixedAsset(transactionLog: TransactionLog, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + EXIT_FIXEDASSET, transactionLog, {
@@ -178,30 +179,30 @@ export class FixedAssetService {
       );
   }
 
-  SuspendFixedAsset(fixedAsset: TransactionLog, success, failed){
+  SuspendFixedAsset(fixedAsset: TransactionLog, success, failed) {
     this.httpclient
-    .post(
-      SERVICE_URL + SUSPENSIONPROCESS, fixedAsset, {
-        headers: GET_HEADERS(this.authenticationService.getToken())
-      })
-    .subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) {
-          let updatedFixedAsset: FixedAsset = new FixedAsset();
-          Object.assign(updatedFixedAsset, response.ResultObject);
-          success(response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+      .post(
+        SERVICE_URL + SUSPENSIONPROCESS, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAsset: FixedAsset = new FixedAsset();
+            Object.assign(updatedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      },
-      error => {
-        failed(error);
-      }
-    );
+      );
   }
 
-  LostFixedAsset(transactionLog: TransactionLog, success, failed){
+  LostFixedAsset(transactionLog: TransactionLog, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + LOST_PROCESS, transactionLog, {
@@ -224,7 +225,7 @@ export class FixedAssetService {
       );
   }
 
-  BreakFixedAssetRelationship(fixedAsset: FixedAssetRelationship, success, failed){
+  BreakFixedAssetRelationship(fixedAsset: FixedAssetRelationship, success, failed) {
     this.httpclient
       .post(
         SERVICE_URL + BREAK_RELATIONSHIP, fixedAsset, {
@@ -442,7 +443,7 @@ export class FixedAssetService {
         }
       )
       .subscribe(
-        result => {
+        (result:any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let fixedAssets: FixedAsset[] = [];
@@ -452,7 +453,7 @@ export class FixedAssetService {
               fixedAssets.push(fa);
             });
 
-            callback(fixedAssets);
+            callback(fixedAssets,result.TotalPage);
 
 
             // Object.assign(fixedAssets, response.ResultObject);
@@ -492,33 +493,33 @@ export class FixedAssetService {
       );
   }
 
-  GetFixedAssetById(fixedAssetId:number, success,failed){
+  GetFixedAssetById(fixedAssetId: number, success, failed) {
     this.httpclient
-    .get(SERVICE_URL + GET_FIXEDASSET_BY_ID + "/" + fixedAssetId, {
-      headers: GET_HEADERS(this.authenticationService.getToken())
-    })
-    .subscribe(
-      result => {
-        let response: Response = <Response>result;
-        if (response.ResultStatus == true) { 
-          let fixedassets:FixedAsset=new FixedAsset();
-          Object.assign(fixedassets,response.ResultObject)
-          success(fixedassets, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
+      .get(SERVICE_URL + GET_FIXEDASSET_BY_ID + "/" + fixedAssetId, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let fixedassets: FixedAsset = new FixedAsset();
+            Object.assign(fixedassets, response.ResultObject)
+            success(fixedassets, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
         }
-      },
-      error => {
-        failed(error);
-      }
-    );
+      );
   }
 
-  GetImage(imageUrl:string,success,failed){
-    return this.httpclient.get( IMAGE_URL + imageUrl).subscribe(
-      result=>{
+  GetImage(imageUrl: string, success, failed) {
+    return this.httpclient.get(IMAGE_URL + imageUrl).subscribe(
+      result => {
         success(result);
-      },(error:HttpErrorResponse)=>{
+      }, (error: HttpErrorResponse) => {
         failed(error);
       }
     );

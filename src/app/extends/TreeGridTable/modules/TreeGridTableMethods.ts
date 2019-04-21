@@ -15,7 +15,7 @@ export class TreeGridTableMethods {
         return (item != null ? item : null);
     }
 
-    public static doSearch(obj: IData, filter: any,columns:IColumn[]): boolean {
+    public static doSearch(obj: IData, filter: any, columns: IColumn[]): boolean {
         let keys = Object.keys(filter);
         for (let ii = 0; ii < keys.length; ii++) {
             let key = keys[ii];
@@ -24,16 +24,16 @@ export class TreeGridTableMethods {
             if (key == "isChecked") {
                 return filter[key] == true ? obj[key] == filter[key] : true;
             }
-            
+
             /* Filter for the rest */
             let val = null;
 
             if (key.startsWith('|')) {
-                val = columns.find(x=>x.columnName[0] == key).formatter(obj);
-            }else {
-                val= this.getValue(obj, key.split(','));
+                val = columns.find(x => x.columnName[0] == key).formatter(obj);
+            } else {
+                val = this.getValue(obj, key.split(','));
             }
-            
+
             switch (typeof val) {
                 case "string":
                     if (!this.filterText(val, filter[key]))
@@ -49,7 +49,7 @@ export class TreeGridTableMethods {
                     break;
                 default:
                     if (!val) {
-                        if ( typeof filter[key] == "boolean" && filter[key] == false) {
+                        if (typeof filter[key] == "boolean" && filter[key] == false) {
                             return true;
                         }
                         return false;
@@ -75,17 +75,20 @@ export class TreeGridTableMethods {
 
     private static filterText(source: string, search: string): boolean {
 
-        if (!search || search == "%" || search == "%%")
+        if (!search)
             return true;
 
-        if (source === null)
-            return false;
+        //if (search == "%" || search == "%%")
+        //    return true;
 
-        source = source.trim();
-        search = search.trim();
+        //if (source === null)
+        //    return false;
 
-        if (!search || search == "%" || search == "%%")
-            return true;
+        //source = source.trim();
+        //search = search.trim();
+
+        //if (!search || search == "%" || search == "%%")
+        //    return true;
 
         if (source === null)
             return false;
@@ -93,19 +96,21 @@ export class TreeGridTableMethods {
         source = source.toLocaleLowerCase();
         search = search.toLocaleLowerCase();
 
-        if (search.startsWith("%") && search.endsWith("%")) {
-            return source.includes(search.substring(1, search.length - 1));
-        }
+        return source.includes(search.substring(1, search.length - 1));
+        
+        //if (search.startsWith("%") && search.endsWith("%")) {
+        //    return source.includes(search.substring(1, search.length - 1));
+        //}
 
-        if (search.startsWith("%")) {
-            return source.endsWith(search.substring(1, search.length));
-        }
+        //if (search.startsWith("%")) {
+        //    return source.endsWith(search.substring(1, search.length));
+        //}
 
-        if (search.endsWith("%")) {
-            return source.startsWith(search.substring(0, search.length - 1));
-        }
+        //if (search.endsWith("%")) {
+        //    return source.startsWith(search.substring(0, search.length - 1));
+        //}
 
-        return source == search;
+        //return source == search;
     }
 
     //#endregion
