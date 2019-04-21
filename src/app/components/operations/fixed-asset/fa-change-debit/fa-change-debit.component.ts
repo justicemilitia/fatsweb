@@ -40,6 +40,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
 
   AllUsersWithoutDebitUser: number[] = [];
 
+  IsCreateDebitForm:boolean=false;
+
   /* All Users Data Table */
   public dataTableDebit: TreeGridTable = new TreeGridTable(
     "allUsers",
@@ -273,5 +275,14 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     this.dataTableOldDebit.TGT_removeItemsByIds(selectedUsers.map(x => x.UserId));
     this.dataTableDebit.TGT_deselectAllItems();
 
+  }
+
+  isCreateDebitForm(event){
+    if(event.target.checked == true){
+      this.IsCreateDebitForm = true;
+    }
+    else {
+      this.IsCreateDebitForm = false;
+    }
   }
 }
