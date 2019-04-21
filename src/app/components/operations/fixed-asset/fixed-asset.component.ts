@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "src/app/services/base.service";
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse, HttpHeaders, HttpClient } from "@angular/common/http";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
@@ -9,6 +9,9 @@ import { FixedAssetOperations } from "../../../declarations/fixed-asset-operatio
 import * as $ from "jquery";
 import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
 import {IMAGE_URL} from "src/app/declarations/service-values";
+import { AuthenticationService } from 'src/app/services/authenticationService/authentication.service';
+import { ResponseContentType } from '@angular/http';
+
 
 @Component({
   selector: "app-fixed-asset",
@@ -403,7 +406,9 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   imageToShow: any;
   page:number;
 
-  constructor(protected baseService: BaseService) {
+  constructor(protected baseService: BaseService,   
+    private httpClient: HttpClient,
+    private authenticationService: AuthenticationService) {
     super(baseService);
     this.loadFixedAsset();
     this.loadFixedAssetProperties();
@@ -884,4 +889,12 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
     });
   }
-}
+
+  downloadDebitForm(){
+
+    
+
+    }
+
+  }
+

@@ -2,8 +2,8 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 // export const SERVICE_URL = "http://localhost:5000/api/";
-export const SERVICE_URL = "http://localhost:11889/api/";
-//export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+//export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
@@ -82,6 +82,7 @@ export const ADD_FIXEDASSETDEBIT = "FixedAsset/AddDebitPersonOnBarcode";
 export const UPDATE_FIXEDASSETDEBIT = "FixedAsset/ChangeDebitPersonOnBarcode";
 export const PRESS_DEBITFORM = "PdfCreator/DebitChangeForm";
 export const DELETE_FIXEDASSETDEBIT = "FixedAsset/DeleteDebitPersonOnBarcode";
+export const GET_FIXEDASSET_DEBIT_FORM="FixedAssetForms/GetFixedAssetDebitFormList";
 // export const PRESS_DELETEDEBITFORM = "PdfCreator/CreateDebitForm";
 //#endregion
 

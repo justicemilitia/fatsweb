@@ -21,7 +21,8 @@ import {
   BREAK_RELATIONSHIP,
   GET_DEBITUSER_BY_ID,
   GET_FIXEDASSET_BY_ID,
-  IMAGE_URL
+  IMAGE_URL,
+  GET_FIXEDASSET_DEBIT_FORM
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -521,5 +522,15 @@ export class FixedAssetService {
         failed(error);
       }
     );
+  }
+
+  GetFixedAssetDebitForms(fixedAssetId:FixedAsset,success,failed){
+    this.httpclient.post(SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, fixedAssetId,  {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result=>{
+      let response:Response=<Response>result
+      
+      success()
+    })
   }
 }
