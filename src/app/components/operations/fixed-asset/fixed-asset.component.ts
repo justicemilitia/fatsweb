@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnChanges, AfterViewInit, AfterContentChecked } from "@angular/core";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "src/app/services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -17,8 +17,25 @@ import { Page } from 'src/app/extends/TreeGridTable/models/Page';
   styleUrls: ["./fixed-asset.component.css"]
 })
 
-export class FixedAssetComponent extends BaseComponent implements OnInit {
+export class FixedAssetComponent extends BaseComponent implements OnInit, AfterViewInit {
 
+  searchDescription: string = '';
+
+  ngAfterViewInit(): void {
+    this.baseService.activeRoute.queryParams.subscribe(params => {
+      let search = params.search;
+      if (search) {
+        search = search.trimEnd();
+        if (search != this.searchDescription) {
+          this.searchDescription = search; // --> Name must match wanted parameter
+          this.loadFixedAssetForDescription(this.perInPage, this.currentPage);
+        }
+      } else if (this.searchDescription) {
+        this.loadFixedAsset(this.perInPage, this.currentPage);
+      } else
+        this.loadFixedAsset(this.perInPage, this.currentPage);
+    });
+  }
 
   isWaitingValidBarcode: boolean = false;
 
@@ -407,9 +424,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
   constructor(protected baseService: BaseService) {
     super(baseService);
-    this.loadFixedAsset(this.perInPage, this.currentPage);
     this.loadFixedAssetProperties();
-
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
@@ -529,8 +544,40 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     this.isTableRefreshing = false;
   }
 
+
+  loadFixedAssetForDescription(_perInPage: number = 1000, _currentPage: number = 1) {
+
+    this.dataTable.TGT_clearData();
+    this.dataTable.isLoading = true;
+
+    this.baseService.fixedAssetService.GetFixedAssetForDescription(_perInPage, _currentPage, this.searchDescription,
+      (fa: FixedAsset[], totalPage: number, message: string) => {
+
+        this.perInPage = _perInPage;
+        this.currentPage = _currentPage;
+        this.dataTable.perInPage = _perInPage;
+        this.fixedAssets = fa;
+        this.totalPage = totalPage ? totalPage : 1;
+
+        fa.forEach(e => {
+          e.FixedAssetPropertyDetails.forEach(p => {
+            if (p.FixedAssetCardPropertyId) {
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+            }
+          });
+        });
+        this.dataTable.TGT_loadData(this.fixedAssets);
+        this.TGT_calculatePages();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
   loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {
 
+    this.searchDescription = '';
     this.dataTable.TGT_clearData();
     this.dataTable.isLoading = true;
 
@@ -542,7 +589,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         this.dataTable.perInPage = _perInPage;
         this.fixedAssets = fa;
         this.totalPage = totalPage ? totalPage : 1;
-        
+
         fa.forEach(e => {
           e.FixedAssetPropertyDetails.forEach(p => {
             if (p.FixedAssetCardPropertyId) {

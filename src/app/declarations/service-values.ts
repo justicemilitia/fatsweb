@@ -9,7 +9,7 @@ export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
 
-export const IMAGE_URL ="http://dev.fatsapi.com/"
+export const IMAGE_URL = "http://dev.fatsapi.com/"
 
 //#region Departments
 export const GET_DEPARTMENT_LIST = "Department/GetDepartmentsList";
@@ -49,8 +49,8 @@ export const UPDATE_USER = "User/UpdateUser";
 export const GET_SYSTEM_USER_LIST = "User/GetSystemUserList";
 export const DELETE_USER = "User/RemoveByIdList";
 export const GET_USERTITLE_LIST = "UserTitle/GetTitleList";
-export const GET_USER_LIST_BY_FIRM_ID ="User/GetUsersByFirmId";
-export const GET_DEBITUSER_LIST ="FixedAssetUsers/GetFixedAssetUsersList";
+export const GET_USER_LIST_BY_FIRM_ID = "User/GetUsersByFirmId";
+export const GET_DEBITUSER_LIST = "FixedAssetUsers/GetFixedAssetUsersList";
 export const GET_DEBITUSER_BY_ID = "FixedAssetUsers/GetFixedAssetUserByFixedassetId";
 export const CHECK_USER_PASSWORD = "User/CheckUserIsValid";
 //#endregion
@@ -90,10 +90,10 @@ export const CHANGE_COLLECTIVEPARAMETER = "FixedAsset/CollectiveChangeProcess";
 //#endregion
 
 //#region FixedAssetCreate
-export const UNIQUE_BARCODE ="FixedAsset/BarcodeUniqueControl";
-export const GET_PROPERTYVALUE_LIST_BY_PROPERTYVALUE_ID="FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
-export const GET_VALID_BARCODE_LAST_NUMBER="FixedAsset/GetValidBarcodeLastNumber";
-export const ADD_FIXED_ASSET="FixedAsset/AddFixedAssetWithPieces";
+export const UNIQUE_BARCODE = "FixedAsset/BarcodeUniqueControl";
+export const GET_PROPERTYVALUE_LIST_BY_PROPERTYVALUE_ID = "FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
+export const GET_VALID_BARCODE_LAST_NUMBER = "FixedAsset/GetValidBarcodeLastNumber";
+export const ADD_FIXED_ASSET = "FixedAsset/AddFixedAssetWithPieces";
 //#endregion
 
 
@@ -116,7 +116,7 @@ export const UPDATE_FIXEDASSETLOSTSTATUS = "FixedAsset/UpdateFixedAssetIsLostSta
 //#endregion
 
 //#region LostFixedAsset
-export const LOST_PROCESS="FixedAsset/SetLostByArrayProcess";
+export const LOST_PROCESS = "FixedAsset/SetLostByArrayProcess";
 export const GET_CHECKOUT_FA_LIST = "";
 
 //#endregion
@@ -217,8 +217,9 @@ export const DELETE_EXPENSECENTER = "ExpenseCenter/RemoveByIdList";
 
 //#region FixedAsset
 export const GET_FIXED_ASSET = "FixedAsset/GetFixedAssetsList";
+export const GET_FIXED_ASSET_DESCRIPTION = "FixedAsset/SearchFixedAssetsList";
 export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
-export const  UPLOAD_IMAGE = "File/UploadImage";
+export const UPLOAD_IMAGE = "File/UploadImage";
 //#endregion
 
 //#region Roles
@@ -275,7 +276,7 @@ export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/G
 
 //#region TransactionList
 export const GET_TRANSACTION_LIST = "TransactionLog/TransactionLogsList";
-export const GET_TRANSACTION_BY_ID="TransactionLog/TransactionLogsListById";
+export const GET_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";
 //#endregion
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
