@@ -1,35 +1,3 @@
-/*export const MENU_DASHBOARD = "Dashboard";
-export const MENU_LOGIN = "Login";
-export const MENU_DEFINITIONS = "Menu_Definitions";
-export const MENU_OPERATIONS = "Menu_Operations";
-export const MENU_DEPRECIATIONS = "Menu_Depreciations";
-export const MENU_MAINTENANCE = "Menu_Maintenance";
-export const MENU_DEPARTMENTSDEFINITIONS = "Menu_DepartmentDefinitions";
-export const MENU_LOCATIONDEFINITIONS = "Menu_LocationDefinitions";
-export const MENU_USERDEFINITIONS = "Menu_UserDefinitions";
-export const MENU_FIXEDASSETDEFINITIONS = "Menu_FixedAssetDefinitions";
-export const MENU_FIXEDASSETCARDDEFINITIONS = "Menu_FixedAssetCardDefinitions";
-export const MENU_FIXEDASSETCARDCATEGORYDEFINITIONS = "Menu_FixedAssetCategoryDefinitions";
-export const MENU_COMPANYDEFINITONS = "Menu_CompanyDefinitions";
-export const MENU_CONSUMABLE = "Menu_Consumable";
-export const MENU_ROLEAUTHORIZATIONDEFINITIONS = "Menu_RoleAuthorizationDefinitions";
-export const MENU_ROLEDEFINITIONS = "Menu_RoleDefinitions";
-export const MENU_FIXEDASSETCARDPROPERTYDEFINITIONS = "Menu_FixedAssetCardProperty";
-export const MENU_EXPENSECENTERDEFINITIONS = "Menu_ExpenseCenterDefinitions";
-export const MENU_CHECKOUTREASONDEFINITIONS = "Menu_CheckOutReasonLists";
-export const MENU_MARKDEFINITIONS = "Menu_MarkDefinitions";
-export const MENU_MODELDEFINITIONS = "Menu_ModelDefinitions";
-export const MENU_AGREEMENTS = "Menu_Agreements";
-export const MENU_FIXEDASSETCARDBRANDDEFINITIONS = "Menu_FixedAssetCardBrandDefinitions";
-export const MENU_FIXEDASSETCARDMODELS = "Menu_FixedAssetCardModels";
-export const MENU_FIXEDASSET = "Menu_FixedAsset";
-export const MENU_STATUSLIST = "Menu_StatusList";
-export const MENU_FIXEDASSETOPERATIONS = "Menu_FixedAssetOperations";
-export const MENU_SUSPENSION = "Menu_SuspensionDefinitions";
-export const MENU_SUSPENDEDFIXEDASSET = "Menu_SuspendedFixedAsset";
-export const MENU_CHECKOUTFIXEDASSET = "Menu_Checkout_FixedAsset";
-export const MENU_LOSTFIXEDASSET = "Menu_Lost_FixedAsset";
-*/
 
 export const MENU_DASHBOARD = "Dashboard";
 export const MENU_LOGIN = "Login";

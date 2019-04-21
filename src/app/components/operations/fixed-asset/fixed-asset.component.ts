@@ -8,7 +8,8 @@ import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
 import * as $ from "jquery";
 import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
-import {IMAGE_URL} from "src/app/declarations/service-values";
+import { IMAGE_URL } from "src/app/declarations/service-values";
+import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 
 @Component({
   selector: "app-fixed-asset",
@@ -17,7 +18,7 @@ import {IMAGE_URL} from "src/app/declarations/service-values";
 })
 
 export class FixedAssetComponent extends BaseComponent implements OnInit {
-  
+
 
   isWaitingValidBarcode: boolean = false;
 
@@ -33,7 +34,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
   faPropertyDetails: FixedAssetPropertyDetails[] = [];
-  fixedAssetPropertyDetails:FixedAssetPropertyDetails[]=[];
+  fixedAssetPropertyDetails: FixedAssetPropertyDetails[] = [];
 
   fixedAsset: FixedAsset = new FixedAsset();
 
@@ -48,17 +49,21 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   selectedItems: FixedAsset[];
   users = [];
 
-  fixedAssetInfo=new FixedAsset();
+  fixedAssetInfo = new FixedAsset();
 
-  category:string;
-  status:string;
-  fixedAssetBrand:string;
-  fixedAssetModel:string;
-  department:string;
-  fixedassetcard:string;
-  location:string;
+  category: string;
+  status: string;
+  fixedAssetBrand: string;
+  fixedAssetModel: string;
+  department: string;
+  fixedassetcard: string;
+  location: string;
 
-  path:string;
+  path: string;
+  currentPage: number = 1;
+  perInPage: number = 25;
+  totalPage: number = 1;
+  pages: Page[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -81,7 +86,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Demirbaş Kategorisi",
-        columnName: ["FixedAssetCard","FixedAssetCardCategory","Name"],
+        columnName: ["FixedAssetCard", "FixedAssetCardCategory", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -97,7 +102,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Marka",
-        columnName: ["FixedAssetCardModel","FixedAssetCardBrand", "Name"],
+        columnName: ["FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -143,15 +148,15 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         placeholder: "",
         type: "text",
         formatter: (value) => {
-          if(value){
-            return value.FixedAssetUsers.length>0 ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
+          if (value) {
+            return value.FixedAssetUsers.length > 0 ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
           }
-          else{ 
+          else {
             return '';
           }
-          }
-        
-      },   
+        }
+
+      },
       {
         columnDisplayName: "Lokasyon Adı",
         columnName: ["Location", "Name"],
@@ -350,7 +355,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
-      }      
+      }
     ],
     {
       isDesc: false,
@@ -359,7 +364,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   );
 
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
-    "fixedassetpropertyvalue",[
+    "fixedassetpropertyvalue", [
       {
         columnDisplayName: "Özellik Adı",
         columnName: ["FixedAssetCardProperty", "Name"],
@@ -384,7 +389,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   )
 
   public dataTableFixedAssetFile: TreeGridTable = new TreeGridTable(
-    "fixedassetpropertyvalue",[
+    "fixedassetpropertyvalue", [
       {
         columnDisplayName: "Dosya Adı",
         columnName: [],
@@ -392,7 +397,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
-      }   
+      }
     ],
     {
       isDesc: false,
@@ -400,31 +405,114 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
     }
   )
 
-  imageToShow: any;
-  page:number;
-
   constructor(protected baseService: BaseService) {
     super(baseService);
-    this.loadFixedAsset();
+    this.loadFixedAsset(this.perInPage, this.currentPage);
     this.loadFixedAssetProperties();
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
-    this.dataTablePropertyValue.isFilterActive=false;
+    this.dataTablePropertyValue.isFilterActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTableFixedAssetFile.isPagingActive = false;
     this.dataTableFixedAssetFile.isColumnOffsetActive = false;
     this.dataTableFixedAssetFile.isTableEditable = true;
     this.dataTableFixedAssetFile.isMultipleSelectedActive = false;
     this.dataTableFixedAssetFile.isLoading = false;
-    this.dataTableFixedAssetFile.isFilterActive=false;
+    this.dataTableFixedAssetFile.isFilterActive = false;
+    this.dataTable.isPagingActive = false;
 
-    
   }
 
-  ngOnInit() {}
+  public TGT_calculatePages() {
+
+    let items: Page[] = [];
+    let totalPage = this.totalPage;
+
+    /* if user in a diffrent page we will render throw the first page */
+    if (this.currentPage > totalPage)
+      this.currentPage = 1;
+    else if (this.currentPage < 1)
+      this.currentPage = 1
+
+    /* We will always put first page in to pagination items */
+    items.push({
+      value: 1,
+      display: '1',
+      isDisabled: false,
+      isActive: this.currentPage == 1 ? true : false
+    });
+
+    /* if the total page is 1 return the items no more need calculation */
+    if (totalPage <= 1) {
+      this.pages = items;
+      return;
+    }
+
+    /* we will store the last inserted item */
+    let lastInsertedItem = this.currentPage - 3;
+
+    /* if current user far enough page we will show ... (you passed many page) */
+    if (lastInsertedItem > 2) {
+      items.push({
+        value: 0,
+        display: '...',
+        isDisabled: true,
+        isActive: false
+      });
+    }
+
+    /* We loop all pages to add pagination items */
+    for (let ii = this.currentPage - 3; ii < totalPage; ii++) {
+      lastInsertedItem = ii;
+
+      /* first pages ii may be minus so we should check ii is bigger 1 */
+      if (ii > 1) {
+        /* Insert pagination item */
+        items.push({
+          value: ii,
+          display: ii.toString(),
+          isDisabled: false,
+          isActive: this.currentPage == ii ? true : false
+        });
+      }
+
+      /* maximum item we will show is 7 */
+      if (items.length > 7) {
+        ii = totalPage;
+        break;
+      }
+    }
+
+    /* After calculation if we still far from totalpage we insert ... page item */
+    if (lastInsertedItem < totalPage - 1 && lastInsertedItem > 0) {
+      items.push({
+        value: 0,
+        display: '...',
+        isDisabled: true,
+        isActive: false
+      });
+    }
+
+    /* We always push the last page to the pagination items */
+    if (!items.find(x => x.value == totalPage)) {
+      items.push({
+        value: totalPage,
+        display: totalPage.toString(),
+        isDisabled: false,
+        isActive: this.currentPage == totalPage ? true : false
+      });
+    }
+
+    /* We set pages to new pagination items. */
+    this.pages = items;
+
+  }
+
+
+  ngOnInit() { }
 
   async refreshTable() {
     this.isTableRefreshing = true;
@@ -433,19 +521,28 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
     this.dataTable.TGT_clearData();
 
-    await this.loadFixedAsset();
+    this.perInPage = 25;
+    this.currentPage = 1;
+
+    await this.loadFixedAsset(this.perInPage, this.currentPage);
 
     this.isTableRefreshing = false;
   }
 
-  loadFixedAsset() {
+  loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {
 
-    // let page:number=this.dataTable.perInPage;
-    // let currentPage:number=this.dataTable.currentPage;
-    //page,currentPage,
-    this.baseService.fixedAssetService.GetFixedAsset(
-      (fa: FixedAsset[]) => {
+    this.dataTable.TGT_clearData();
+    this.dataTable.isLoading = true;
+
+    this.baseService.fixedAssetService.GetFixedAsset(_perInPage, _currentPage, false,
+      (fa: FixedAsset[], totalPage: number, message: string) => {
+
+        this.perInPage = _perInPage;
+        this.currentPage = _currentPage;
+        this.dataTable.perInPage = _perInPage;
         this.fixedAssets = fa;
+        this.totalPage = totalPage ? totalPage : 1;
+        
         fa.forEach(e => {
           e.FixedAssetPropertyDetails.forEach(p => {
             if (p.FixedAssetCardPropertyId) {
@@ -454,6 +551,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
           });
         });
         this.dataTable.TGT_loadData(this.fixedAssets);
+        this.TGT_calculatePages();
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -480,7 +578,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
       }
     );
   }
-
 
   public selectedIds() {
     let selectedItems = this.dataTable.TGT_getSelectedItems();
@@ -518,7 +615,9 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
     return fixedAssetName;
   }
+
   currentOperation: FixedAssetOperations = null;
+
   public doOperation(operationType: FixedAssetOperations) {
     this.currentOperation = operationType;
     switch (operationType) {
@@ -567,12 +666,12 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         break;
 
       case FixedAssetOperations.changeRelationship:
-      this.FixedAssetRelationshipOperation();
-      break;
+        this.FixedAssetRelationshipOperation();
+        break;
 
       case FixedAssetOperations.filter:
-      this.FilterOperation();
-      break;
+        this.FilterOperation();
+        break;
     }
   }
 
@@ -818,70 +917,69 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
 
   //#endregion
 
- //#region Change Collective Parameter
- FilterOperation() {
-   $("#showModal").trigger("click");
- }
- //#endregion
-
-  //#region Create Fixed Asset Operation
-  CreateFixedAssetOperation() {  
+  //#region Change Collective Parameter
+  FilterOperation() {
     $("#showModal").trigger("click");
   }
   //#endregion
 
+  //#region Create Fixed Asset Operation
+  CreateFixedAssetOperation() {
+    $("#showModal").trigger("click");
+  }
+  //#endregion
 
   onDoubleClickItem(item: FixedAsset) {
 
-    this.fixedAsset=new FixedAsset();
+    this.fixedAsset = new FixedAsset();
 
     this.baseService.spinner.show();
 
     this.baseService.fixedAssetService.GetFixedAssetById(item.FixedAssetId,
-      (result:FixedAsset)=>{
-      
-      this.baseService.spinner.hide();
-      Object.assign(this.fixedAssetInfo,result);
-      
-      this.status=result.Status.Name == null ? " " : result.Status.Name;    
+      (result: FixedAsset) => {
 
-      if(result.FixedAssetCard !=null)
-      this.fixedassetcard = result.FixedAssetCard.Name;
-      if(result.FixedAssetCard.FixedAssetCardCategory != null)
-      this.category=result.FixedAssetCard.FixedAssetCardCategory.Name;
-      if(result.FixedAssetCardModel != null){
-      this.fixedAssetBrand=result.FixedAssetCardModel.FixedAssetCardBrand.Name;
-      this.fixedAssetModel=result.FixedAssetCardModel.Name;
-      }
-      if(result.Department !=null)
-      this.department=result.Department.Name;
+        this.baseService.spinner.hide();
+        Object.assign(this.fixedAssetInfo, result);
 
-      if(result.FixedAssetPropertyDetails.length > 0){
-        this.fixedAssetInfo.FixedAssetPropertyDetails.forEach(e => {
-          let fixedAssetPropertyDetail:FixedAssetPropertyDetails=new FixedAssetPropertyDetails();
+        this.status = result.Status.Name == null ? " " : result.Status.Name;
+
+        if (result.FixedAssetCard != null)
+          this.fixedassetcard = result.FixedAssetCard.Name;
+        if (result.FixedAssetCard.FixedAssetCardCategory != null)
+          this.category = result.FixedAssetCard.FixedAssetCardCategory.Name;
+        if (result.FixedAssetCardModel != null) {
+          this.fixedAssetBrand = result.FixedAssetCardModel.FixedAssetCardBrand.Name;
+          this.fixedAssetModel = result.FixedAssetCardModel.Name;
+        }
+        if (result.Department != null)
+          this.department = result.Department.Name;
+
+        if (result.FixedAssetPropertyDetails.length > 0) {
+          this.fixedAssetInfo.FixedAssetPropertyDetails.forEach(e => {
+            let fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
             fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
-            fixedAssetPropertyDetail.Value=e.Value;  
-            fixedAssetPropertyDetail.FixedAssetCardProperty=e.FixedAssetCardProperty;
-            
-            this.fixedAssetPropertyDetails.push(fixedAssetPropertyDetail);
-        });
+            fixedAssetPropertyDetail.Value = e.Value;
+            fixedAssetPropertyDetail.FixedAssetCardProperty = e.FixedAssetCardProperty;
 
-        this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
-      }
-      
-      if(result.Picture !=null){
-      this.path= IMAGE_URL + result.Picture.replace("ThumbImages/thumb_","");
-      this.fixedAssetInfo.Picture = this.path;
-      }
-      
-      $("#btnFixedAssetInfo").trigger("click");
-      
-    },(error:HttpErrorResponse)=>{
-         /* hide spinner */
+            this.fixedAssetPropertyDetails.push(fixedAssetPropertyDetail);
+          });
+
+          this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
+        }
+
+        if (result.Picture != null) {
+          this.path = IMAGE_URL + result.Picture.replace("ThumbImages/thumb_", "");
+          this.fixedAssetInfo.Picture = this.path;
+        }
+
+        $("#btnFixedAssetInfo").trigger("click");
+
+      }, (error: HttpErrorResponse) => {
+        /* hide spinner */
         this.baseService.spinner.hide();
 
         /* show error message */
         this.baseService.popupService.ShowErrorPopup(error);
-    });
+      });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, Input } from "@angular/core";
+import { Component, OnInit, NgModule, Input, OnDestroy, AfterViewInit, AfterViewChecked } from "@angular/core";
 import { BaseComponent } from "../../../base/base.component";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
@@ -33,7 +33,9 @@ import { convertNgbDateToDateString } from '../../../../declarations/extends';
   providers: [FaFilterComponent]
 })
 export class FaFilterComponent extends BaseComponent implements OnInit {
+
   @Input() filterDataTable: TreeGridTable;
+  @Input() fixedAssetComponent: FixedAssetComponent;
 
   departments: Department[] = [];
   companies: Company[] = [];
@@ -53,8 +55,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   propertyValue: string;
   fixedassetproperty: FixedAssetCardProperty[] = [];
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
-  fixedAssetFilterList: FixedAsset[]=[];
-  
+  fixedAssetFilterList: FixedAsset[] = [];
+
 
   //Dropdown Selected Items
   selectedFixedAssetCards: FixedAssetCard[] = [];
@@ -112,6 +114,38 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
+  }
+
+  resetFilter() {
+
+    this.baseService.popupService.ShowQuestionPopup('Filtreyi temizlemek istediğinize emin misiniz?',
+      (response) => {
+
+        if (response == false)
+          return;
+
+        this.dataTablePropertyValue.TGT_clearData();
+
+        this.fixedAsset = new FixedAssetFilter();
+        this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+        this.isListSelected = false;
+        this.propertyValue = null;
+
+        //Dropdown Selected Items
+        this.selectedFixedAssetCards = [];
+        this.selectedFixedAssetCardCategories = [];
+        this.selectedDepartments = [];
+        this.selectedBrands = [];
+        this.selectedStatus = [];
+        this.selectedLocations = [];
+        this.selectedModels = [];
+        this.selectedUsers = [];
+        this.fixedAssetComponent.loadFixedAsset();
+
+
+      })
+
   }
 
   ngOnInit() {
@@ -259,7 +293,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
         (brands: FixedAssetCardBrand[]) => {
           this.brands = brands;
         },
-        (error: HttpErrorResponse) => {}
+        (error: HttpErrorResponse) => { }
       );
     }
 
@@ -268,7 +302,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
       (models: FixedAssetCardModel[]) => {
         this.models = models;
       },
-      (error: HttpErrorResponse) => {}
+      (error: HttpErrorResponse) => { }
     );
 
     //Property
@@ -333,47 +367,51 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    this.fixedAsset.Barcodes= [];
+    this.fixedAsset.Barcodes = [];
     let propertyDetail = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
     );
 
 
-    this.fixedAsset.IsSearchRequest=true;
-    this.fixedAsset.Page= 1;
-    this.fixedAsset.PerPage= 100;
+    this.fixedAsset.IsSearchRequest = true;
+    this.fixedAsset.Page = 1;
+    this.fixedAsset.PerPage = 1000;
 
-    if(data.value.Barcode)
-    this.fixedAsset.Barcodes.push(data.value.Barcode);
-    // this.fixedAsset.Barcodes = data.value.Barcode;
-    this.fixedAsset.FixedAssetCardName = this.selectedFixedAssetCards == null ? null : this.selectedFixedAssetCards.map(x=>x.FixedAssetCardId);
-    this.fixedAsset.FixedAssetCardCategoryName = this.selectedFixedAssetCardCategories == null ? null : this.selectedFixedAssetCardCategories.map(x=>x.FixedAssetCardCategoryId);
-    this.fixedAsset.Departments = this.selectedDepartments == null ? null : this.selectedDepartments.map(x=>x.DepartmentId);
-    this.fixedAsset.Brands = this.selectedBrands == null ? null : this.selectedBrands.map(x=>x.FixedAssetCardBrandId);
-    this.fixedAsset.Statuses = this.selectedStatus == null ? null :this.selectedStatus.map(x=>x.FixedAssetStatusId);
-    this.fixedAsset.Locations = this.selectedLocations == null ? null : this.selectedLocations.map(x=>x.LocationId);
-    this.fixedAsset.Models = this.selectedModels == null ? null : this.selectedModels.map(x=>x.FixedAssetCardModelId);
-    this.fixedAsset.Users = this.selectedUsers == null ?null : this.selectedUsers.map(x=>x.UserId);
-    
-    this.fixedAsset.StartDate = this.fixedAsset.StartDate == null ? null : convertNgbDateToDateString(data.value.startDate);
-    this.fixedAsset.EndDate = this.fixedAsset.EndDate == null ? null : convertNgbDateToDateString(data.value.endDate);
-    this.fixedAsset.IsGuaranteed = data.value.IsGuaranteed;
-    this.fixedAsset.IsCalculatedDepreciation = data.value.IsCalculatedDepreciation;
-    this.fixedAsset.IsCalculatedIFRSDepreciation = data.value.IsCalculatedIFRSDepreciation;
-
-    this.fixedAsset.FixedAssetPropertyArray = propertyDetail;
+    if (data.value.Barcode)
+      this.fixedAsset.Barcodes.push(data.value.Barcode);
 
     let cloneItem = new FixedAssetFilter();
     Object.assign(cloneItem, this.fixedAsset);
 
+    // this.fixedAsset.Barcodes = data.value.Barcode;
+    cloneItem.FixedAssetCardName = this.selectedFixedAssetCards == null ? null : this.selectedFixedAssetCards.map(x => x.FixedAssetCardId);
+    cloneItem.FixedAssetCardCategoryName = this.selectedFixedAssetCardCategories == null ? null : this.selectedFixedAssetCardCategories.map(x => x.FixedAssetCardCategoryId);
+    cloneItem.Departments = this.selectedDepartments == null ? null : this.selectedDepartments.map(x => x.DepartmentId);
+    cloneItem.Brands = this.selectedBrands == null ? null : this.selectedBrands.map(x => x.FixedAssetCardBrandId);
+    cloneItem.Statuses = this.selectedStatus == null ? null : this.selectedStatus.map(x => x.FixedAssetStatusId);
+    cloneItem.Locations = this.selectedLocations == null ? null : this.selectedLocations.map(x => x.LocationId);
+    cloneItem.Models = this.selectedModels == null ? null : this.selectedModels.map(x => x.FixedAssetCardModelId);
+    cloneItem.Users = this.selectedUsers == null ? null : this.selectedUsers.map(x => x.UserId);
+    cloneItem.StartDate = this.fixedAsset.StartDate == null ? null : convertNgbDateToDateString(data.value.startDate);
+    cloneItem.EndDate = this.fixedAsset.EndDate == null ? null : convertNgbDateToDateString(data.value.endDate);
+    cloneItem.IsGuaranteed = data.value.IsGuaranteed;
+    cloneItem.IsCalculatedDepreciation = data.value.IsCalculatedDepreciation;
+    cloneItem.IsCalculatedIFRSDepreciation = data.value.IsCalculatedIFRSDepreciation;
+
+    cloneItem.FixedAssetPropertyArray = propertyDetail;
+
     await this.baseService.fixedAssetService.FilterFixedAsset(
       cloneItem,
-      (fixedAssets: FixedAsset[]) => {
+      (fixedAssets: FixedAsset[],totalPage) => {
         /* Show success pop up */
         // this.baseService.popupService.ShowSuccessPopup(message);
 
-        this.fixedAssetFilterList=fixedAssets;
+        this.fixedAssetFilterList = fixedAssets;
         this.filterDataTable.TGT_loadData(this.fixedAssetFilterList);
+        this.fixedAssetComponent.currentPage = 1;
+        this.fixedAssetComponent.perInPage = 1000;
+        this.fixedAssetComponent.totalPage = totalPage;
+        this.fixedAssetComponent.TGT_calculatePages();
         this.loadFixedAssetPropertyList();
         $("#CloseModal").trigger("click");
       },
@@ -386,8 +424,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   }
 
   loadFixedAssetPropertyList() {
-    this.baseService.fixedAssetService.GetFixedAsset(
-      (fa: FixedAsset[]) => {
+    this.baseService.fixedAssetService.GetFixedAsset(1000, 1, true,
+      (fa: FixedAsset[], totalPage: number) => {
         // this.fixedAssetFilterList = fa;
         this.fixedAssetFilterList.forEach(e => {
           e.FixedAssetPropertyDetails.forEach(p => {
@@ -397,6 +435,10 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
           });
         });
         this.filterDataTable.TGT_loadData(this.fixedAssetFilterList);
+        this.fixedAssetComponent.currentPage = 1;
+        this.fixedAssetComponent.perInPage = 1000;
+        this.fixedAssetComponent.totalPage = totalPage;
+        this.fixedAssetComponent.TGT_calculatePages();
         this.loadFixedAssetProperties();
       },
       (error: HttpErrorResponse) => {

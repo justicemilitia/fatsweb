@@ -10,7 +10,7 @@ import { BaseComponent } from './components/base/base.component';
 export class AppComponent extends BaseComponent implements DoCheck {
 
   ngDoCheck(): void {
-    if (!this.isLogged() && !this.baseService.authenticationService.getToken()) {
+    if (!this.isLogged() && this.baseService.authenticationService.getToken()) {
       this.baseService.authenticationService.logOut();
     }
   }
