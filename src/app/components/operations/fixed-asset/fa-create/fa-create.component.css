@@ -9,6 +9,10 @@
   background: #e67300;
   color: white;
   border-radius: 0px;
+  background-color: #e67300; color: white; min-height: 29px;
+            min-width: 30px;
+            padding: 0 16px;
+            font-weight: 400; line-height: 29px
 }
 
 .flexProperty {
@@ -102,12 +106,15 @@ input[type=number]::-webkit-outer-spin-button {
   -ms-user-select: none;
   user-select: none;
   cursor: pointer;
-  min-height: 29px;
+  min-height: 29px !important;
   min-width: 30px;
   padding: 0 16px;
   font-weight: 400;
   border-radius: 4px;
   overflow: visible;
+  line-height: 29px;
+  margin-top: 5px;
+  margin-bottom: -5px;
 }
 
 .mat-raised-button:not([class*=mat-elevation-z]) {

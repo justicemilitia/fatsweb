@@ -761,7 +761,7 @@ export class FaCreateComponent extends BaseComponent
     let barcodes = this.fixedAssets.map(x => x.Barcode);
     this.insertedFixedAsset.BarcodeIds = <[]>barcodes;
     this.fileBarcode = barcodes;
-
+      this.baseService.spinner.show();
     this.baseService.fixedAssetCreateService.AddFixedAsset(
       this.insertedFixedAsset,
       (barcodes: [], status, message) => {
@@ -770,6 +770,7 @@ export class FaCreateComponent extends BaseComponent
           this.dataTable.isTableEditable = false;
           this.visibleInsertButton = true;
           this.dataTable.TGT_clearData();
+          this.baseService.spinner.hide();
           this.baseService.popupService.ShowSuccessPopup(message);
           this.faComponent.loadFixedAsset();
         } else {
@@ -778,6 +779,7 @@ export class FaCreateComponent extends BaseComponent
           this.doItemsHidden(barcodes);
           this.editable = false;
           this.visibleInsertButton = true;
+          this.baseService.spinner.hide();
           this.baseService.popupService.ShowErrorPopup(message);
         }
       },

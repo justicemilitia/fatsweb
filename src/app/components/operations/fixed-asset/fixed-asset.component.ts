@@ -85,6 +85,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   debitUser:string[] = [];
 
   path: string;
+  imagePath:string;
   currentPage: number = 1;
   perInPage: number = 25;
   totalPage: number = 1;
@@ -368,6 +369,14 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       {
         columnDisplayName: "Departman Açıklama",
         columnName: ["Department", "Description"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Demirbaş Açıklaması",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -1013,6 +1022,9 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
           this.department = result.Department.Name;
 
         if (result.FixedAssetPropertyDetails.length > 0) {
+
+          this.dataTablePropertyValue.TGT_clearData();
+
           this.fixedAssetInfo.FixedAssetPropertyDetails.forEach(e => {
             let fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
             fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
@@ -1033,6 +1045,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
         if (result.Picture != null) {
           this.path = IMAGE_URL + result.Picture.replace("ThumbImages/thumb_", "");
+          this.imagePath=this.path;
           this.fixedAssetInfo.Picture = this.path;
         }
 
@@ -1085,6 +1098,12 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
        
       },
       ()=>{})
+
+    }
+
+    resetForm() {
+  
+      this.dataTablePropertyValue.TGT_clearData();
 
     }
   }

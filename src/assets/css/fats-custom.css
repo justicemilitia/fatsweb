@@ -105,6 +105,10 @@ body {
     font-weight: 600;
 }
 
+.mat-horizontal-content-container {
+    overflow: visible !important;
+}
+
 .form-group>input {
     height: 27px;
 }
