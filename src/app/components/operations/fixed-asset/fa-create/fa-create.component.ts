@@ -787,8 +787,12 @@ export class FaCreateComponent extends BaseComponent
     this.isResetForm = true;
 
     this.isNewBarcode=true;
+
+    this.picture = null;
     
     this.dataTable.TGT_clearData();
+
+    this.dataTablePropertyValue.TGT_clearData();
 
     this.dataTableFile.TGT_clearData();
   }
