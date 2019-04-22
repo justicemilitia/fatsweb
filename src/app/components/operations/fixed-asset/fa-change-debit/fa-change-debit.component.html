@@ -7,6 +7,8 @@
 <form name="form" #data="ngForm" (ngSubmit)="ChangeDebit()">
   <div class="modal-body">
 
+          <input type="hidden" name="btnPressDebitForm" (click)="PressDebitForm()"/>
+    
     <!-- BARKOD -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">

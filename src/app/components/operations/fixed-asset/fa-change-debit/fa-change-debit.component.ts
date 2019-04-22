@@ -15,6 +15,8 @@ import { User } from "../../../../models/User";
 import { FixedAssetUser } from "../../../../models/FixedAssetUser";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAssetComponent } from "../fixed-asset.component";
+import { Router } from '@angular/router';
+import { DOCUMENT_URL } from '../../../../declarations/service-values';
 
 @Component({
   selector: "app-fa-change-debit",
@@ -38,6 +40,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
   selectedFixedAssetId: number;
   fixedAssetUser:FixedAssetUser=new FixedAssetUser();
   fixedAssetUsers: FixedAssetUser[] = [];
+  private router: Router;  
 
   AllUsersWithoutDebitUser: number[] = [];
 
@@ -158,12 +161,15 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
 
           this.baseService.fixedAssetService.ChangeDebit(
             fixedAssetUser,
-            (insertedItem: FixedAssetUser, message) => {
+            (formList: any[]) => {
 
               this.baseService.spinner.hide();
               /* Show success pop up */
-              this.baseService.popupService.ShowSuccessPopup(message);
+              //this.baseService.popupService.ShowSuccessPopup(message);
 
+              for(let i=0;i<formList.length;i++){
+                this.PressDebitForm(formList[i].FixedAssetFormCode);
+              }
               /* Set inserted Item id to model */
               // this.faBarcode.Barcode = cloneItem.Barcode;
               insertedUserIds.forEach(e => {
@@ -293,5 +299,12 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     else {
       this.IsCreateDebitForm = false;
     }
+  }
+
+  PressDebitForm(formName: string){
+    let url:string;
+    url=DOCUMENT_URL + formName + ".pdf";
+    // this.router.navigate([url]); 
+    window.open(url,"_blank");    
   }
 }
