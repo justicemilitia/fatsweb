@@ -116,7 +116,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     this.dataTablePropertyValue.isDeleteable = true;
   }
 
-  resetFilter() {
+  async resetFilter() {
 
     this.baseService.popupService.ShowQuestionPopup('Filtreyi temizlemek istediğinize emin misiniz?',
       (response) => {
@@ -224,7 +224,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     };
   }
 
-  loadDropdownList() {
+  async loadDropdownList() {
     //Department
     this.baseService.departmentService.GetDepartments(
       (departments: Department[]) => {
@@ -316,11 +316,11 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     );
   }
 
-  getPropertyValue(event: any) {
+  async getPropertyValue(event: any) {
     this.propertyValue = event.target.value;
   }
 
-  loadValuesByPropertyId(event) {
+  async loadValuesByPropertyId(event) {
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
     );
@@ -423,7 +423,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadFixedAssetPropertyList() {
+  async loadFixedAssetPropertyList() {
     this.baseService.fixedAssetService.GetFixedAsset(1000, 1, true,
       (fa: FixedAsset[], totalPage: number) => {
         // this.fixedAssetFilterList = fa;
@@ -448,7 +448,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   }
 
 
-  loadFixedAssetProperties() {
+  async loadFixedAssetProperties() {
     this.baseService.fixedAssetService.GetFixedAssetProperties(
       (faProperties: FixedAssetCardProperty[]) => {
         this.fixedassetproperty = faProperties;

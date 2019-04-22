@@ -27,7 +27,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
   implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["Ids"]) {
-    this.loadRelationalFixedAsset();
+      this.loadRelationalFixedAsset();
     }
   }
 
@@ -366,13 +366,23 @@ export class RelationshipFixedAssetComponent extends BaseComponent
     this.dataTableRelationship.isConfigOpen = false;
   }
 
-  ngOnInit(){}
+  ngOnInit() { }
 
   async loadFixedAssetRelationship() {
     /* Load all fixed asset cards to datatable */
     await this.baseService.fixedAssetService.GetFixedAssetRelationship(
       (far: FixedAssetRelationship[]) => {
         this.fixedAssets = far;
+        far.forEach((element: FixedAssetRelationship) => {
+          let e = element.InverseFixedAssetParent;
+          if (e && e.length != 0) {
+            e.forEach((p, i) => {
+              let f = new FixedAssetRelationship();
+              Object.assign(f, p);
+              this.fixedAssets.push(f);
+            })
+          }
+        });
         this.dataTable.TGT_loadData(this.fixedAssets);
       },
       (error: HttpErrorResponse) => {
@@ -417,7 +427,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
   }
 
   loadRelationalFixedAsset() {
-    this.parentIds=[];
+    this.parentIds = [];
     let selectedItems = <FixedAssetRelationship[]>(
       this.dataTable.TGT_getSelectedItems()
     );
@@ -434,26 +444,26 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       );
       return;
     } else if (this.parentIds.length == 0) {
-        // this.baseService.popupService.ShowAlertPopup(
-        //   "Seçilen demirbaşların ilişkisi bulunmadığı için işlem gerçekleştirilemedi!"
-        // );
-        // this.baseService.popupService.ShowQuestionPopupForRelationalFixedAsset();
-        $("#btnShowRelationshipModal").trigger("click");
+      // this.baseService.popupService.ShowAlertPopup(
+      //   "Seçilen demirbaşların ilişkisi bulunmadığı için işlem gerçekleştirilemedi!"
+      // );
+      // this.baseService.popupService.ShowQuestionPopupForRelationalFixedAsset();
+      $("#btnShowRelationshipModal").trigger("click");
       return;
     }
 
     else {
-      let listedItem: FixedAssetRelationship[]=[];
+      let listedItem: FixedAssetRelationship[] = [];
 
-      selectedItems.forEach(e=>{
+      selectedItems.forEach(e => {
         let item = new FixedAssetRelationship();
-        e.FixedAssetParentId=null;
-        Object.assign(item,e);
+        e.FixedAssetParentId = null;
+        Object.assign(item, e);
         listedItem.push(item);
       });
-      
+
       this.dataTableRelationship.TGT_loadData(listedItem);
-      if(listedItem.length==0){
+      if (listedItem.length == 0) {
         this.baseService.popupService.ShowWarningPopup("Record_not_found");
       }
       $("#btnOpenRelationship").trigger("click");

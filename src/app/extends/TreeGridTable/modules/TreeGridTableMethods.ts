@@ -96,7 +96,7 @@ export class TreeGridTableMethods {
         source = source.toLocaleLowerCase();
         search = search.toLocaleLowerCase();
 
-        return source.includes(search.substring(1, search.length - 1));
+        return source.includes(search.substring(0, search.length));
         
         //if (search.startsWith("%") && search.endsWith("%")) {
         //    return source.includes(search.substring(1, search.length - 1));

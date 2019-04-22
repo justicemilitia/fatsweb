@@ -44,10 +44,9 @@ import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
 export class FixedAssetService {
 
 
-  constructor(
-    private httpclient: HttpClient,
-    private authenticationService: AuthenticationService
+  constructor(private httpclient: HttpClient, private authenticationService: AuthenticationService
   ) { }
+
   //page:number, perPage:number,
   GetFixedAsset(_perInPage: number = 25, _currentPage: number = 1, _isSearchRequest: boolean = false, success, failed) {
     this.httpclient
@@ -114,7 +113,7 @@ export class FixedAssetService {
     this.httpclient
       .post(
         SERVICE_URL + GET_FIXED_ASSET,
-        { Page: "1", PerPage: "100", sortOrder: "asc", filter: {} },
+        { Page: "1", PerPage: "100", sortOrder: "asc", IsRelationRequest: true },
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
         }
@@ -558,17 +557,17 @@ export class FixedAssetService {
     );
   }
 
-  GetFixedAssetDebitForms(fixedAssetId:FixedAsset,success,failed){
-    this.httpclient.post(SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, fixedAssetId,  {
+  GetFixedAssetDebitForms(fixedAssetId: FixedAsset, success, failed) {
+    this.httpclient.post(SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, fixedAssetId, {
       headers: GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(
-      result=>{
-      let response:Response=<Response>result
-      let forms:FixedAssetForm[]=[];
-      Object.assign(forms,response.ResultObject);
-      success(forms);
-    },(error:HttpErrorResponse)=>{
-      failed(error);
-    })
+      result => {
+        let response: Response = <Response>result
+        let forms: FixedAssetForm[] = [];
+        Object.assign(forms, response.ResultObject);
+        success(forms);
+      }, (error: HttpErrorResponse) => {
+        failed(error);
+      })
   }
 }
