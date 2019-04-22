@@ -7,13 +7,13 @@ export const loadPieChart = function (piedata) {
     series: {
       pie: {
         show: true,
-        radius: 1,
+        radius: 3/4,
         innerRadius: 0.5,
         label: {
           show: true,
-          radius: 1,
+          radius: 2/4,
           formatter: labelFormatter,
-          threshold: 0
+          threshold: 0.1
         }
       }
     },
@@ -28,6 +28,7 @@ export const loadPieChart = function (piedata) {
 }
 
 function labelFormatter(label, series) {
-  return '<div class="flotpie-text">' + label + '<br/>' + Math.round(series.percent) + '</div>';
+  console.log(series);
+  return '<div class="flotpie-text">' + label + '<br/>' + Math.round(series.data.length > 0 ? series.data[0][1] : 0) + '</div>';
 }
 

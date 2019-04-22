@@ -171,7 +171,7 @@ function loadData() {
       });
 
 
-    if ($('#flotChart5').length == 0)
+    /*if ($('#flotChart5').length == 0)
       return;
 
 
@@ -200,7 +200,7 @@ function loadData() {
         xaxis: { show: false }
       });
 
-
+*/
     if ($('#flotChart6').length == 0)
       return;
 

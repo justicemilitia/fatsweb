@@ -44,10 +44,9 @@ import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
 export class FixedAssetService {
 
 
-  constructor(
-    private httpclient: HttpClient,
-    private authenticationService: AuthenticationService
+  constructor(private httpclient: HttpClient, private authenticationService: AuthenticationService
   ) { }
+
   //page:number, perPage:number,
   GetFixedAsset(_perInPage: number = 25, _currentPage: number = 1, _isSearchRequest: boolean = false, success, failed) {
     this.httpclient
