@@ -36,9 +36,12 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
   users: User[] = [];
   selectedUser: User[] = [];
   selectedFixedAssetId: number;
+  fixedAssetUser:FixedAssetUser=new FixedAssetUser();
   fixedAssetUsers: FixedAssetUser[] = [];
 
   AllUsersWithoutDebitUser: number[] = [];
+
+  IsCreateDebitForm:boolean=false;
 
   /* All Users Data Table */
   public dataTableDebit: TreeGridTable = new TreeGridTable(
@@ -145,14 +148,19 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
             insertedUserIds.push(e.getId());
           });
 
+          this.baseService.spinner.show();
+
           let fixedAssetUser: FixedAssetUser = new FixedAssetUser();
 
           fixedAssetUser.UserIds = insertedUserIds;
           fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
+          //fixedAssetUser.IsCreateDebitForm = this.IsCreateDebitForm;
 
           this.baseService.fixedAssetService.ChangeDebit(
             fixedAssetUser,
             (insertedItem: FixedAssetUser, message) => {
+
+              this.baseService.spinner.hide();
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
 
@@ -174,6 +182,9 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
               });
             },
             (error: HttpErrorResponse) => {
+              
+              this.baseService.spinner.hide();
+
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
             }
@@ -273,5 +284,14 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     this.dataTableOldDebit.TGT_removeItemsByIds(selectedUsers.map(x => x.UserId));
     this.dataTableDebit.TGT_deselectAllItems();
 
+  }
+
+  isCreateDebitForm(event){
+    if(event.target.checked == true){
+      this.IsCreateDebitForm = true;
+    }
+    else {
+      this.IsCreateDebitForm = false;
+    }
   }
 }

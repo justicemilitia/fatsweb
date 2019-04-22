@@ -1,5 +1,8 @@
 export const loadMorris = function (morris1, morris2) {
 
+  if ($('#morrisDonut1').length == 0)
+    return;
+
   if (morris1) {
 
     $('#morrisDonut1').children().remove();
@@ -41,6 +44,10 @@ export const loadMorris = function (morris1, morris2) {
 };
 
 export const loadFlotLine = function (flotDimention, yValues, xValues) {
+
+  if ($('#flotLine1').length == 0)
+    return;
+
   $('#flotLine1').children().remove();
   $.plot('#flotLine1', [{
     data: flotDimention,
@@ -56,7 +63,7 @@ export const loadFlotLine = function (flotDimention, yValues, xValues) {
         }
       },
       grid: {
-        borderWidth: 0
+        borderWidth: 0,
       },
       yaxis: {
         min: 0,
@@ -66,7 +73,7 @@ export const loadFlotLine = function (flotDimention, yValues, xValues) {
         font: {
           color: '#444',
           size: 10
-        }
+        },
       },
       xaxis: {
         min: (xValues.length > 0 ? xValues[0][0] : 0),
@@ -77,7 +84,7 @@ export const loadFlotLine = function (flotDimention, yValues, xValues) {
         font: {
           color: '#999',
           size: 9
-        }
+        },
       }
     });
 }

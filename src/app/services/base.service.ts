@@ -34,6 +34,7 @@ import { AlertInfoService } from '../extends/alert-infos/alert-infos-service/ale
 import { FirmService } from './firm-service/firm.service';
 import { TransactionService } from './transaction-service/transaction.service';
 import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asset-create.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: "root"
@@ -60,21 +61,22 @@ export class BaseService {
     public currencyService: CurrencyService,
     public fixedAssetCardBrandService: FixedAssetCardBrandService,
     public fixedAssetCardModelService: FixedAssetCardModelService,
-    public fixedAssetCreateService:FixedAssetCreateService,
-    public fixedAssetStatusService:StatusService,
+    public fixedAssetCreateService: FixedAssetCreateService,
+    public fixedAssetStatusService: StatusService,
     public roleService: RoleService,
-    public roleUserService:RoleUserService,
-    public fixedAssetService:FixedAssetService,
+    public roleUserService: RoleUserService,
+    public fixedAssetService: FixedAssetService,
     public roleAuthorizationService: RoleAuthorizationService,
-    public lostFixedAssetService:LostFixedAssetService,
-    public suspendedService:SuspendedFixedAssetService,
-    public depreciationService:DepreciationService,
-    public fileUploadService:FileUploadService,    
+    public lostFixedAssetService: LostFixedAssetService,
+    public suspendedService: SuspendedFixedAssetService,
+    public depreciationService: DepreciationService,
+    public fileUploadService: FileUploadService,
     public spinner: NgxSpinnerService,
     public router: Router,
-    public dashboardService:DashboardService,
-    public firmService:FirmService,
-    public transactionService:TransactionService,
-    public alertInfoService:AlertInfoService) {}
+    public dashboardService: DashboardService,
+    public firmService: FirmService,
+    public transactionService: TransactionService,
+    public alertInfoService: AlertInfoService,
+    public activeRoute: ActivatedRoute) { }
 
 }

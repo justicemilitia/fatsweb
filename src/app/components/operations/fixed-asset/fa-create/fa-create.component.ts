@@ -39,6 +39,7 @@ import { NgForm, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { convertNgbDateToDateString } from "src/app/declarations/extends";
 import { MatStepper } from "@angular/material";
 import { FixedAssetComponent } from "../fixed-asset.component";
+import { Agreement } from 'src/app/models/Agreement';
 
 const URL = "";
 
@@ -47,13 +48,16 @@ const URL = "";
   templateUrl: "./fa-create.component.html",
   styleUrls: ["./fa-create.component.css"]
 })
+
 @Directive({ selector: "[ng2FileSelect]" })
 @Directive({ selector: "[ng2FileDrop]" })
+
 @NgModule({
   imports: [ReactiveFormsModule],
   declarations: [FaCreateComponent],
   providers: [FaCreateComponent]
 })
+
 export class FaCreateComponent extends BaseComponent
   implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
@@ -95,6 +99,7 @@ export class FaCreateComponent extends BaseComponent
   propertydetail: FixedAssetPropertyDetails[] = [];
   fixedAssetFiles: FixedAssetFile[] = [];
   fixedAssetFilesDataTable: FixedAssetFile[] = [];
+  agreements:Agreement[]=[];
 
   fixedAsset: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
@@ -223,7 +228,7 @@ export class FaCreateComponent extends BaseComponent
 
   constructor(
     protected baseService: BaseService,
-    public HttpClient: HttpClient // private _formBuilder: FormBuilder
+    public HttpClient: HttpClient
   ) {
     super(baseService);
     this.loadDropdown();
@@ -344,6 +349,12 @@ export class FaCreateComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+
+    this.baseService.agreementService.GetAgreement(
+      (agreements:Agreement[])=>{
+        this.agreements=agreements
+      },
+      (error: HttpErrorResponse)=>{})
 
     if (this.fixedassetcategories && this.fixedassetcategories.length == 0) {
       this.fixedassetcards = [];
@@ -487,6 +498,7 @@ export class FaCreateComponent extends BaseComponent
       result => {
         this.BarcodeIsUnique = false;
         this.errorMessage = "";
+        this.barcode = Number(barcode);
       },
       (error: HttpErrorResponse) => {
         this.BarcodeIsUnique = true;
@@ -585,7 +597,7 @@ export class FaCreateComponent extends BaseComponent
       this.fixedAsset.Quantity = 1;
     this.quantity = this.fixedAsset.Quantity;
 
-    if (this.disabledBarcode == false) this.barcode = data.value.Barcode;
+    this.barcode = data.value.Barcode;
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
@@ -759,7 +771,7 @@ export class FaCreateComponent extends BaseComponent
           this.visibleInsertButton = true;
           this.dataTable.TGT_clearData();
           this.baseService.popupService.ShowSuccessPopup(message);
-          //this.faComponent.loadFixedAsset();
+          this.faComponent.loadFixedAsset();
         } else {
           this.validBarcode = true;
           this.doAllVisible();
@@ -780,6 +792,8 @@ export class FaCreateComponent extends BaseComponent
 
     this.fixedAsset = new FixedAsset();
 
+    this.barcode=null;
+
     this.stepper.reset();
 
     data.resetForm(this.fixedAsset);
@@ -787,8 +801,12 @@ export class FaCreateComponent extends BaseComponent
     this.isResetForm = true;
 
     this.isNewBarcode=true;
+
+    this.imgURL = null;
     
     this.dataTable.TGT_clearData();
+
+    this.dataTablePropertyValue.TGT_clearData();
 
     this.dataTableFile.TGT_clearData();
   }

@@ -25,7 +25,7 @@ export class PopupService {
   ShowWarningPopup(message: string) {
     this.alertSerivce.pushWarning(this.languageService.getValue(message), "Uyarı!");
   }
-  
+
   ShowSuccessPopup(message: string) {
     /*swal({
       title: "İşlem Başarılı",
@@ -40,10 +40,10 @@ export class PopupService {
     this.errorService.errorManager(error);
   }
 
-  ShowDeletePopup(error: HttpErrorResponse, barcodes:string[]) {
+  ShowDeletePopup(error: HttpErrorResponse, barcodes: string[]) {
     swal({
       title: barcodes + (barcodes.length > 1 ? " kodları sistemde kullanıldığı için silinemez!" : " kodu sistemde kullanıldığı için silinemez!"),
-      text: " ",      
+      text: " ",
       icon: "warning"
     });
     this.errorService.errorManager(error);
@@ -77,6 +77,23 @@ export class PopupService {
       text: "Bu işlem geri alınamaz.",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
+  ShowQuestionPopup(message, callBack) {
+    swal({
+      title: message,
+      text: "Bu işlem geri alınamaz.",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Onayla'],
       dangerMode: true,
     })
       .then((willDelete) => {
@@ -258,7 +275,7 @@ export class PopupService {
       });
   }
 
-  ShowQuestionPopupForBreakRelationship(callBack){
+  ShowQuestionPopupForBreakRelationship(callBack) {
     swal({
       title: "Uyarı!",
       text: "Seçimi yapılan demirbaşların ilişkisi koparılacaktır. İşlemi onaylıyor musunuz?",
@@ -275,7 +292,7 @@ export class PopupService {
       });
   }
 
-  
+
   ShowQuestionPopupForRelationalFixedAsset() {
     swal(
       "Uyarı!",

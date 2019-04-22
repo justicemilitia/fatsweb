@@ -94,3 +94,26 @@ input[type=number]::-webkit-outer-spin-button {
   pointer-events: none !important;
 }
 
+.mat-raised-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  min-height: 29px;
+  min-width: 30px;
+  padding: 0 16px;
+  font-weight: 400;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+.mat-raised-button:not([class*=mat-elevation-z]) {
+  box-shadow: 0 0px 0px 0px rgba(0,0,0,0), 0 0px 0px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+  background-color: #e67300;
+  color: #fff;
+}

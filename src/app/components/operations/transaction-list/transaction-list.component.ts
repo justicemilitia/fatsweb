@@ -64,7 +64,11 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.TransactionDate ? value.TransactionDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
+
       },
       {
         columnDisplayName: "Açıklama",
@@ -194,6 +198,8 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
     this.dataTable.isLoading = true;
 
     this.dataTable.TGT_clearData();
+
+    await this.LoadTransactionList();
 
     this.isTableRefreshing = false;
 

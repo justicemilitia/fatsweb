@@ -74,6 +74,7 @@ export class AuthenticationService {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.ROLE_KEY);
     localStorage.removeItem(this.FIRM_KEY);
+    this.router.navigateByUrl('/login');
   }
 
   isLoggedIn() {
@@ -192,17 +193,17 @@ export class AuthenticationService {
     }
   }
 
-  sendRecoveryCode(email:string,success,failed) {
+  sendRecoveryCode(email: string, success, failed) {
     this.httpClient.post(SERVICE_URL + FORGET_PASSWORD, {
-      UserMail:email
+      UserMail: email
     }).subscribe((response) => {
-      let result:Response = <Response>response;
+      let result: Response = <Response>response;
       if (result.ResultStatus == true) {
         success(result.LanguageKeyword);
-      }else {
+      } else {
         failed(getAnErrorResponse(result.LanguageKeyword));
       }
-    },(error) => {
+    }, (error) => {
       failed(error);
     })
   }
