@@ -9,8 +9,9 @@
     </div>
     <!-- az-header-left -->
     <div class="az-header-center">
-      <input type="search" class="form-control" placeholder="Demirbaş açıklaması ara..." />
-      <button class="btn"><i class="fas fa-search"></i></button>
+      <input type="search" (keyup)="onDescriptionKeyUp($event)" [(ngModel)]="searchDescription" class="form-control"
+        placeholder="Demirbaş açıklaması ara..." />
+      <button (click)="onClickSearch()" class="btn"><i class="fas fa-search"></i></button>
     </div>
     <div class="az-header-center">
 

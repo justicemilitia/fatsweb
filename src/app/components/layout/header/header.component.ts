@@ -14,6 +14,8 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
 
   drawnContentForApplicationInfo: string = "";
 
+  searchDescription = '';
+
   ngAfterViewInit(): void {
     $(".az-navbar-two").trigger("click");
     this.loadFirms();
@@ -40,7 +42,7 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
 
     setTimeout(() => {
       this.drawnContentForApplicationInfo = this.drawInfo();
-    },500);
+    }, 500);
 
   }
 
@@ -79,6 +81,26 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
 
   loadFirms() {
     this.baseService.authenticationService.getUserFirmListWithoutParams();
+  }
+
+  // Execute a function when the user releases a key on the keyboard
+  onDescriptionKeyUp(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      this.baseService.router.navigate(['/fixedasset'], {
+        queryParams: {
+          search: this.searchDescription
+        }
+      });
+    }
+  };
+
+  onClickSearch() {
+    this.baseService.router.navigate(['/fixedasset'], {
+      queryParams: {
+        search: this.searchDescription
+      }
+    });
   }
 
   constructor(public baseService: BaseService) {

@@ -22,6 +22,7 @@ import {
   GET_DEBITUSER_BY_ID,
   GET_FIXEDASSET_BY_ID,
   IMAGE_URL,
+  GET_FIXED_ASSET_DESCRIPTION,
   GET_FIXEDASSET_DEBIT_FORM
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
@@ -58,7 +59,7 @@ export class FixedAssetService {
         }
       ).subscribe(
         (result: any) => {
-          
+
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let fixedAssets: FixedAsset[] = [];
@@ -77,6 +78,37 @@ export class FixedAssetService {
         }
       );
   }
+
+  GetFixedAssetForDescription(_perInPage, _currentPage, _description: string, success, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + GET_FIXED_ASSET_DESCRIPTION,
+        { Page: _currentPage, PerPage: _perInPage, Keyword: _description },
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      ).subscribe(
+        (result: any) => {
+
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let fixedAssets: FixedAsset[] = [];
+            (<FixedAsset[]>response.ResultObject).forEach(e => {
+              let fa: FixedAsset = new FixedAsset();
+              Object.assign(fa, e);
+              fixedAssets.push(fa);
+            });
+            success(fixedAssets, result.TotalPage, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
 
   GetFixedAssetRelationship(success, failed) {
     this.httpclient
@@ -444,7 +476,7 @@ export class FixedAssetService {
         }
       )
       .subscribe(
-        (result:any) => {
+        (result: any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let fixedAssets: FixedAsset[] = [];
@@ -454,7 +486,7 @@ export class FixedAssetService {
               fixedAssets.push(fa);
             });
 
-            callback(fixedAssets,result.TotalPage);
+            callback(fixedAssets, result.TotalPage);
 
 
             // Object.assign(fixedAssets, response.ResultObject);

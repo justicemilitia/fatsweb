@@ -163,7 +163,7 @@
             <div class="card-body">
               <div class="card-body-top">
                 <div *ngIf="totalPrices && totalPrices.length > 0">
-                  <h6>{{totalPrices[totalPrices.length-1].TotalOfItems + ' TL'}}</h6>
+                  <h6>{{totalPrices[totalPrices.length-1].TotalOfItems.toLocaleString() + ' TL'}}</h6>
                   <label>Toplam Değer</label>
                 </div>
                 <!--<div>
