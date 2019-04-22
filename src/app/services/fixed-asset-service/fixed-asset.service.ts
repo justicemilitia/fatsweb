@@ -409,7 +409,7 @@ export class FixedAssetService {
           if (response.ResultStatus == true) {
             let updatedFixedAsset: FixedAssetUser = new FixedAssetUser();
             Object.assign(updatedFixedAsset, response.ResultObject);
-            success(response.LanguageKeyword);
+            success(response.ResultObject);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
