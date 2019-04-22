@@ -275,7 +275,7 @@
             <div class="row justify-content-center">
                 <div class="form-group col-md-3">
                     <label></label> 
-                    <label class="ckbox" style="margin-top: 15px">
+                    <label class="ckbox" style="margin-top: 17px">
                         <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" name="IsActive" #IsActive="ngModel"
                        /><span>Demirbaş Aktif mi ?</span>
                     </label>                    
@@ -328,15 +328,16 @@
 
             <div class="row justify-content-center">
                 <div class="form-group col-md-3">
-                    <label>Sigorta Şirketi</label> 
-                  <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control select2-no-search">
-                      <option value="-1" >Sigorta Şirketi</option>
-                      <option *ngFor="let company of companies" value = "{{company.CompanyId}}">{{company.Name}}</option>
+                    <label>Sözleşmeler</label> 
+                    <!-- [(ngModel)]="fixedAsset.CompanyId" name="CompanyId"  -->
+                  <select class="form-control select2-no-search">
+                      <option value="-1" >Sözleşme Seçiniz</option>
+                      <option *ngFor="let agreement of agreements" value = "{{agreement.AgreementId}}">{{agreement.Name}}</option>
                   </select>  
                 </div>
                 <div class="form-group col-md-3">
                     <label></label> 
-                <label class="ckbox" style="margin-top: 15px">
+                <label class="ckbox" style="margin-top: 17px">
                     <input type="checkbox" [(ngModel)]="fixedAsset.HasInflationIndexation" name="HasInflationIndexation"               
                     name="HasInflationIndexation" /><span>Enflasyon Hesaplanacak mı ?</span>
                   </label>
@@ -366,7 +367,7 @@
               <legend>Amortisman Bilgileri</legend>
             <div class="row justify-content-center">
                 <div class="form-group col-md-3">                    
-                        <label class="ckbox" style="margin-top: 15px">
+                        <label class="ckbox" style="margin-top: 17px">
                           <input [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" name="WillDepreciationBeCalculated"  [checked]="fixedAsset.WillDepreciationBeCalculated"
                           (change)="fixedAsset.WillDepreciationBeCalculated = !fixedAsset.WillDepreciationBeCalculated" type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
                         </label>                 
@@ -376,7 +377,7 @@
                     <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
                 </div>
                 <div class="form-group col-md-3">                  
-                        <label class="ckbox" style="margin-top: 15px">
+                        <label class="ckbox" style="margin-top: 17px">
                           <input [(ngModel)]="fixedAsset.WillIfrsbeCalculated" name="WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
                           (change)="fixedAsset.WillIfrsbeCalculated = !fixedAsset.WillIfrsbeCalculated" type="checkbox"/>
                           <span>IFRS Hesaplanacak mı ?</span>

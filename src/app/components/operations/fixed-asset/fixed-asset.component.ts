@@ -979,14 +979,9 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         }
 
         if(result.FixedAssetUsers != null){
-        
-        // this.fixedAssetInfo.FixedAssetUsers.forEach(e=>{
-        //   for(let i=0; i<this.fixedAssetInfo.FixedAssetUsers.length; i++){
-        //     let username:string = e.User[i].FirstName + "" + e.User[i].LastName;
-        //     this.debitUser.push(username);
-        //   }
-        // });
-
+          this.fixedAssetInfo.FixedAssetUsers.forEach(e=>{
+                this.user = e.User.FirstName + " " + e.User.LastName;
+          });
         }
 
         if (result.Picture != null) {

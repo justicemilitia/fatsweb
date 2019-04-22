@@ -148,6 +148,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
             insertedUserIds.push(e.getId());
           });
 
+          this.baseService.spinner.show();
+
           let fixedAssetUser: FixedAssetUser = new FixedAssetUser();
 
           fixedAssetUser.UserIds = insertedUserIds;
@@ -157,6 +159,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
           this.baseService.fixedAssetService.ChangeDebit(
             fixedAssetUser,
             (insertedItem: FixedAssetUser, message) => {
+
+              this.baseService.spinner.hide();
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
 
@@ -178,6 +182,9 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
               });
             },
             (error: HttpErrorResponse) => {
+              
+              this.baseService.spinner.hide();
+
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
             }
