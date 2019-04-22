@@ -213,7 +213,7 @@ export class UserService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            success(<User>response.ResultObject, response.LanguageKeyword);
+            success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
