@@ -20,7 +20,7 @@
 
                 <div class="form-group col-md-8">
                     <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
-                    value="{{barcode}}" name="Barcode" type="text" trim="blur" 
+                    value="{{barcode}}" name="Barcode" type="number" trim="blur" 
                     class="form-control"
                     [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" style="margin-top: 19px; margin-left: -20px; width: 150px;" required/>
                     <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>
@@ -35,7 +35,7 @@
               <!--QUANTITY-->
             <div class="form-group col-md-3">          
                   <label>Adet</label>
-                    <input type="text" [(ngModel)]="fixedAsset.Quantity" name="Quantity" placeholder="1" min="1" max="100" class="form-control"/>    
+                    <input type="number" [(ngModel)]="fixedAsset.Quantity" name="Quantity" placeholder="1" min="1" max="100" class="form-control"/>    
             </div>    
             
             <!--SERIAL NUMBER-->
@@ -116,7 +116,7 @@
 
               <!--DEPARTMENT-->
             <div class="form-group col-md-3">
-                <label class="required-span">Departman</label>
+                <label >Departman</label>
                 <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2-no-search" style="width:100%;" #DepartmentId="ngModel">
                     <option [ngValue]="null" >Departman Seçiniz</option>
                     <option *ngFor="let department of departments" value="{{department.DepartmentId}}">{{department.Name}}</option>
@@ -230,14 +230,13 @@
     </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
           <div class="grp-btn-action-left">
-            <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
-            padding-top: 5px;
-            padding-bottom: 5px;">Geri</button>
+            <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white; min-height: 29px;
+            min-width: 30px;
+            padding: 0 16px;
+            font-weight: 400;">Geri</button>
           </div>
           <div class="grp-btn-action">
-            <button mat-button matStepperNext type="button" class="btn btn-orange" style="border-radius:0px; background-color: #e67300; color: white; min-height: 15px;
-            padding-top: 5px;
-            padding-bottom: 5px;">İleri</button>
+            <button mat-raised-button  class="btn btn-orange" (click)="next()" style="border-radius:0px; background-color: #e67300; color: white; ">İleri</button>
           </div>
         </div>
   </mat-step>
@@ -276,7 +275,7 @@
             <div class="row justify-content-center">
                 <div class="form-group col-md-3">
                     <label></label> 
-                    <label class="ckbox" style="margin-top: 15px">
+                    <label class="ckbox" style="margin-top: 17px">
                         <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" name="IsActive" #IsActive="ngModel"
                        /><span>Demirbaş Aktif mi ?</span>
                     </label>                    
@@ -329,15 +328,16 @@
 
             <div class="row justify-content-center">
                 <div class="form-group col-md-3">
-                    <label>Sigorta Şirketi</label> 
-                  <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control select2-no-search">
-                      <option value="-1" >Sigorta Şirketi</option>
-                      <option *ngFor="let company of companies" value = "{{company.CompanyId}}">{{company.Name}}</option>
+                    <label>Sözleşmeler</label> 
+                    <!-- [(ngModel)]="fixedAsset.CompanyId" name="CompanyId"  -->
+                  <select class="form-control select2-no-search">
+                      <option value="-1" >Sözleşme Seçiniz</option>
+                      <option *ngFor="let agreement of agreements" value = "{{agreement.AgreementId}}">{{agreement.Name}}</option>
                   </select>  
                 </div>
                 <div class="form-group col-md-3">
                     <label></label> 
-                <label class="ckbox" style="margin-top: 15px">
+                <label class="ckbox" style="margin-top: 17px">
                     <input type="checkbox" [(ngModel)]="fixedAsset.HasInflationIndexation" name="HasInflationIndexation"               
                     name="HasInflationIndexation" /><span>Enflasyon Hesaplanacak mı ?</span>
                   </label>
@@ -367,7 +367,7 @@
               <legend>Amortisman Bilgileri</legend>
             <div class="row justify-content-center">
                 <div class="form-group col-md-3">                    
-                        <label class="ckbox" style="margin-top: 15px">
+                        <label class="ckbox" style="margin-top: 17px">
                           <input [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" name="WillDepreciationBeCalculated"  [checked]="fixedAsset.WillDepreciationBeCalculated"
                           (change)="fixedAsset.WillDepreciationBeCalculated = !fixedAsset.WillDepreciationBeCalculated" type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
                         </label>                 
@@ -377,7 +377,7 @@
                     <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
                 </div>
                 <div class="form-group col-md-3">                  
-                        <label class="ckbox" style="margin-top: 15px">
+                        <label class="ckbox" style="margin-top: 17px">
                           <input [(ngModel)]="fixedAsset.WillIfrsbeCalculated" name="WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
                           (change)="fixedAsset.WillIfrsbeCalculated = !fixedAsset.WillIfrsbeCalculated" type="checkbox"/>
                           <span>IFRS Hesaplanacak mı ?</span>
@@ -410,9 +410,12 @@
               </div>
           </div>   
        </fieldset>  
-          <div class="row" style="margin-right: 0px; margin-left: 0px;">
+          <div class="row" style="margin-right: 0px; margin-left: 0px; margin-top:10px">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white">Geri</button>
+              <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;  min-height: 29px;
+              min-width: 30px;
+              padding: 0 16px;
+              font-weight: 400;">Geri</button>
             </div>
             <div class="grp-btn-action">
               <button mat-raised-button type="submit" (click)="nextDataTable()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
@@ -426,21 +429,26 @@
     </div>
       <div class="row" style="margin-right: 0px; margin-left: 0px;">
         <div class="grp-btn-action-left">
-          <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; margin-right:10px; color: white">Geri</button>
+          <button mat-button matStepperPrevious type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; margin-right:10px; color: white; min-height: 29px;
+          min-width: 30px;
+          padding: 0 16px;
+          font-weight: 400;">Geri</button>
           <button *ngIf="validBarcode" (click)="toggleValidBarcodes()" type="button" class="btn btn-az-primary" style="border-radius:0px; background-color: #e67300; color: white">İncele</button>
           <div *ngIf="validBarcode" style="color:red">Eklemek istediğiniz barkod sistemde bulunmaktadır.</div>
         </div>
         <div class="grp-btn-action">
           <div *ngIf="visibleInsertButton;then insertFile else insertFixedAsset"></div>
          <ng-template #insertFixedAsset>
-          <button  class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
-          padding-top: 5px;
-          padding-bottom: 5px;">Kaydet</button>
+          <button  class="btn btn-az-primary" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white; min-height: 29px;
+          min-width: 30px;
+          padding: 0 16px;
+          font-weight: 400;">Kaydet</button>
         </ng-template>
         <ng-template #insertFile>
-          <button mat-button matStepperNext  class="btn btn-az-primary" type="button" style="border-radius:0px; background-color: #e67300; color: white;min-height: 15px;
-          padding-top: 5px;
-          padding-bottom: 5px;">İleri</button>
+          <button mat-button matStepperNext  class="btn btn-az-primary" type="button" style="border-radius:0px; background-color: #e67300; color: white; min-height: 29px;
+          min-width: 30px;
+          padding: 0 16px;
+          font-weight: 400;">İleri</button>
         </ng-template>
         </div>
     </div>
@@ -476,7 +484,7 @@
       </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="grp-btn-action">
-              <button class="btn btn-az-primary" (click)="insertFiles()" id="btnAddAgreement">
+              <button class="btn btn-az-primary" (click)="insertFiles()" id="btnAddAgreement" style="min-height: 29px;">
                Dosya Ekle
               </button>
           </div>
