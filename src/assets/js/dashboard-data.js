@@ -52,6 +52,9 @@ function loadData() {
 
     /******************* DASHBOARD CHARTS **************************/
 
+    if ($('#flotChart1').length == 0)
+      return;
+
     $.plot('#flotChart1', [{
       data: dashData5,
       color: '#560bd0'
@@ -76,6 +79,11 @@ function loadData() {
         },
         xaxis: { show: false }
       });
+
+
+    if ($('#flotChart2').length == 0)
+      return;
+
 
     $.plot('#flotChart2', [{
       data: dashData6,
@@ -102,6 +110,11 @@ function loadData() {
         xaxis: { show: false }
       });
 
+
+    if ($('#flotChart3').length == 0)
+      return;
+
+
     $.plot('#flotChart3', [{
       data: dashData7,
       color: '#00cccc'
@@ -126,6 +139,11 @@ function loadData() {
         },
         xaxis: { show: false }
       });
+
+
+    if ($('#flotChart4').length == 0)
+      return;
+
 
     $.plot('#flotChart4', [{
       data: dashData5,
@@ -152,6 +170,11 @@ function loadData() {
         xaxis: { show: false }
       });
 
+
+    /*if ($('#flotChart5').length == 0)
+      return;
+
+
     $.plot('#flotChart5', [{
       data: dashData6,
       color: '#3bb001'
@@ -177,6 +200,11 @@ function loadData() {
         xaxis: { show: false }
       });
 
+*/
+    if ($('#flotChart6').length == 0)
+      return;
+
+
     $.plot('#flotChart6', [{
       data: dashData7,
       color: '#fd7e14'
@@ -201,6 +229,11 @@ function loadData() {
         },
         xaxis: { show: false }
       });
+
+
+    if ($('#flotChart7').length == 0)
+      return;
+
 
     $.plot('#flotChart7', [{
       data: dashData4,
@@ -235,6 +268,11 @@ function loadData() {
         }
       });
 
+
+    if ($('#flotChart8').length == 0)
+      return;
+
+
     $.plot('#flotChart8', [{
       data: dashData4,
       color: '#3381d6'
@@ -265,6 +303,11 @@ function loadData() {
           tickColor: 'rgba(255,255,255,0)'
         }
       });
+
+
+    if ($('#flotChart9').length == 0)
+      return;
+
 
     $.plot('#flotChart9', [{
       data: dashData3,

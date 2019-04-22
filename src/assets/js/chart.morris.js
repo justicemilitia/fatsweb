@@ -1,4 +1,4 @@
-export const loadMorris = function (morris1, morris2) {
+export const loadMorris = function (morris1, morris2, morris3) {
 
   if ($('#morrisDonut1').length == 0)
     return;
@@ -28,14 +28,14 @@ export const loadMorris = function (morris1, morris2) {
 
   }
 
-  if (morris2) {
+  if (morris3) {
 
     $('#morrisDonut3').children().remove();
 
     new Morris.Donut({
       element: 'morrisDonut3',
-      data: morris2,
-      colors: morris2.map(x => x.color),
+      data: morris3,
+      colors: morris3.map(x => x.color),
       resize: true,
     });
 

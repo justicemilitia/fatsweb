@@ -527,7 +527,7 @@ export class TreeGridTable {
     TGT_insertData(item: IData): void {
         if (!this.originalSource)
             this.originalSource = [];
-            
+
         this.originalSource.push(item);
         this.TGT_loadData(this.originalSource);
     }
@@ -661,6 +661,7 @@ export class TreeGridTable {
             this.TGT_clearData();
             return;
         }
+
         /* (Clone) Original source help us to visible,extend all items with easy way */
         this.originalSource = _datasource.slice(0);
 

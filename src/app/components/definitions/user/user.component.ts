@@ -446,7 +446,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     // }
 
     // Lokasyonların listelenmesi
-
+    this.loadLocationList();
 
     /* Reload users again */
     if (this.users.length == 0) {
@@ -478,7 +478,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   loadLocationList(){
 
-    if(this.locations && this.locations.length == 0)
+    if(!this.locations || this.locations.length == 0)
     {
       this.departments = [];
 

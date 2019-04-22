@@ -84,7 +84,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
       ColorizeMorrisses(ms, false)
 
-      loadMorris(ms, null);
+      loadMorris(ms, null, null);
 
     }, (result) => {
       // Error
@@ -92,7 +92,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
   }
 
-  async loadFixedAssetsByCategory() {
+  async loadFixedAssetsByDepartment() {
 
     this.baseService.dashboardService.GetFixedAssetCountByDepartment((result: []) => {
 
@@ -107,7 +107,31 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
       ColorizeMorrisses(ms, true)
 
-      loadMorris(null, ms);
+      loadMorris(null, ms, null);
+
+    }, (result) => {
+      // Error
+    });
+
+  }
+
+
+  async loadFixedAssetsByCategory() {
+
+    this.baseService.dashboardService.GetFixedAssetCountByCategory((result: []) => {
+
+      let ms: Morris[] = [];
+
+      result.forEach((e: any) => {
+        let m: Morris = new Morris();
+        m.label = e.Name;
+        m.value = e.TotalCount;
+        ms.push(m);
+      });
+
+      ColorizeMorrisses(ms, true)
+
+      loadMorris(null, null, ms);
 
     }, (result) => {
       // Error
@@ -138,11 +162,13 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   }
 
   loadAll() {
+
     this.loadValues();
     this.loadTransactions();
     this.loadPersonals();
     this.loadCounts(null, null, this.countEnums.Month);
     this.loadFixedAssetsByLocation();
+    this.loadFixedAssetsByDepartment();
     this.loadFixedAssetsByCategory();
     this.loadFixedAssetsStatusCount();
     this.loadFixedAssetPriceLine(null, this.totalPricesActiveGroup);

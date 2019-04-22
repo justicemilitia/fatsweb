@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from "@angular/core";
+import { Component, OnInit, NgModule, Input } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
@@ -29,7 +29,7 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
   isTableExporting: boolean = false;
 
   /* Store the current edit user */
-  currentUser: User  = new User();
+  currentUser: User = new User();
 
   /* Store all the table users */
   users: User[] = [];
@@ -49,12 +49,14 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
   currentUserRoles: Role[] = [];
 
   dropdownSettings = {};
-  
+
   checkedSystemUser: boolean = false;
 
   isInsertOrUpdate: boolean = false;
 
   isCheckedPassword: boolean = false;
+
+  @Input() OldPassword : string;
 
   constructor(public baseService: BaseService) {
     super(baseService);
@@ -68,40 +70,51 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
       itemsShowLimit: 2,
       allowSearchFilter: true
     };
-    this.GetUserInfoById(this.baseService.authenticationService.getCurrentUserId());
+    this.GetUserInfoById(
+      this.baseService.authenticationService.getCurrentUserId()
+    );
   }
 
   ngOnInit() {}
 
-  async onSubmit(data: NgForm){
-      /* Ask for approve question if its true then update the location */
-      await this.baseService.popupService.ShowQuestionPopupForUpdate(
-        (response: boolean) => {
-          if (response == true) {
-               Object.assign(this.currentUser, data);
-            this.baseService.userService.UpdateUser(
-              this.currentUser,
-              (updateUser, message) => {
-  
-                /* Show pop up*/
-                this.baseService.popupService.ShowSuccessPopup(message);
-  
-                let newUser = new User();
-                Object.assign(newUser, this.currentUser);
-                this.currentUser = newUser;
-  
-              },
-              (error: HttpErrorResponse) => {
-                /* Close loader */
-                this.isWaitingInsertOrUpdate = false;
-  
-                /* Show error message */
-                this.baseService.popupService.ShowErrorPopup(error);
-              }
-            );
-          }
+  async onSubmit(data: NgForm) {
+    /* Ask for approve question if its true then update the location */
+    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          let cloneItem: User = new User();
+          Object.assign(cloneItem, this.currentUser);
+
+          cloneItem.Description = data.value.Description;
+          cloneItem.FirstName = data.value.FirstName;
+          cloneItem.LastName = data.value.LastName;
+          cloneItem.Password = data.value.Password;
+          cloneItem.PhoneNumber = data.value.PhoneNumber;
+          cloneItem.UserMail = data.value.UserMail;
+
+          this.baseService.userService.UpdateUser(
+            cloneItem,
+            (updateUser, message) => {
+              /* Show pop up*/
+              this.baseService.popupService.ShowSuccessPopup(message);
+
+              let newUser = new User();
+              Object.assign(newUser, this.currentUser);
+              this.currentUser = newUser;
+              this.isCheckedPassword = false;
+              this.OldPassword= "";
+            },
+            (error: HttpErrorResponse) => {
+              /* Close loader */
+              this.isWaitingInsertOrUpdate = false;
+
+              /* Show error message */
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
         }
-      );
+      }
+    );
   }
   async GetUserInfoById(item: number) {
     /* Clear Model */
@@ -112,7 +125,6 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
 
     /* load companies if not loaded */
     this.loadDropdownList();
-
 
     this.isInsertOrUpdate = true;
 
@@ -149,7 +161,6 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
   }
 
   async loadDropdownList() {
-
     // Lokasyonların listelenmesi
     if (this.locations.length == 0) {
       this.baseService.locationService.GetLocations(
@@ -202,7 +213,7 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
   loadDepartmentByLocationIdDefault(locationId: any) {
     this.departments = [];
 
-    if (locationId==0) {
+    if (locationId == 0) {
       this.currentUser.DepartmentId = null;
       this.currentUser.Department = new Department();
       return;
@@ -229,11 +240,10 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
     }
   }
 
-  async isCheckPassword(password: any){
-
-    let checkUser: User= new User();
-    checkUser.Password=password.value;
-    checkUser.UserId=this.baseService.authenticationService.getCurrentUserId();
+  async isCheckPassword(password: any) {
+    let checkUser: User = new User();
+    checkUser.Password = password.value;
+    checkUser.UserId = this.baseService.authenticationService.getCurrentUserId();
     await this.baseService.userService.CheckUserPassword(
       checkUser,
       (result: User) => {
@@ -245,8 +255,7 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
           /* bind result to model */
           Object.assign(this.currentUser, result);
 
-          this.isCheckedPassword=true;
-
+          this.isCheckedPassword = true;
         }, 1000);
       },
       (error: HttpErrorResponse) => {
@@ -255,7 +264,7 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
 
         /* show error message */
         // this.baseService.popupService.ShowErrorPopup(error);
-        this.isCheckedPassword=false;
+        this.isCheckedPassword = false;
       }
     );
   }

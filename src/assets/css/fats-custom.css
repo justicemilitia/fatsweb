@@ -301,6 +301,10 @@ body {
     border-bottom-color: #e67300;
 }
 
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: #e67300 !important;
+}
+
 .popover-info-title {
     font-weight: 500;
     color: #212229;

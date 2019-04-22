@@ -35,6 +35,7 @@ export class User implements IData {
     UserCode: string;
     LocationId: number;
     IsSystemUser: boolean;
+    Description: string;
     /**
      * To Update Roles
      */
