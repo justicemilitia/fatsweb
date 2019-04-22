@@ -113,7 +113,7 @@ export class FixedAssetService {
     this.httpclient
       .post(
         SERVICE_URL + GET_FIXED_ASSET,
-        { Page: "1", PerPage: "100", sortOrder: "asc", filter: {} },
+        { Page: "1", PerPage: "100", sortOrder: "asc", IsRelationRequest: true },
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
         }
@@ -557,12 +557,12 @@ export class FixedAssetService {
     );
   }
 
-  GetFixedAssetDebitForms(fixedAssetId:FixedAsset,success,failed){
-    this.httpclient.post(SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, fixedAssetId,  {
+  GetFixedAssetDebitForms(fixedAssetId: FixedAsset, success, failed) {
+    this.httpclient.post(SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, fixedAssetId, {
       headers: GET_HEADERS(this.authenticationService.getToken())
-    }).subscribe(result=>{
-      let response:Response=<Response>result
-      
+    }).subscribe(result => {
+      let response: Response = <Response>result
+
       success()
     })
   }
