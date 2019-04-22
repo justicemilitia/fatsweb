@@ -26,13 +26,7 @@ import { FixedAssetComponent } from "../fixed-asset.component";
 })
 export class FaChangeDepartmentComponent extends BaseComponent
   implements OnInit, OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes["faBarcode"].currentValue != changes["faBarcode"].previousValue
-    ) {
-      this.loadDropdownList();
-    }
-  }
+
   @Input() faBarcode: FixedAsset = new FixedAsset();
   @Input() faComponent: FixedAssetComponent;
 
@@ -49,7 +43,15 @@ export class FaChangeDepartmentComponent extends BaseComponent
     this.loadDropdownList();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes["faBarcode"].currentValue != changes["faBarcode"].previousValue
+    ) {
+      this.loadDropdownList();
+    }
+  }
 
   async ChangeDepartment(data: NgForm) {
     /* Is Form Valid */

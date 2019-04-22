@@ -1,5 +1,7 @@
 export const loadPieChart = function (piedata) {
 
+  if ($('#flotPie2').length == 0)
+    return;
 
   $.plot('#flotPie2', piedata, {
     series: {

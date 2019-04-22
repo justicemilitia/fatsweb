@@ -8,7 +8,7 @@ import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
 import * as $ from "jquery";
 import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
-import {IMAGE_URL} from "src/app/declarations/service-values";
+import { IMAGE_URL } from "src/app/declarations/service-values";
 import { AuthenticationService } from 'src/app/services/authenticationService/authentication.service';
 import { ResponseContentType } from '@angular/http';
 
@@ -426,7 +426,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   )
 
   imageToShow: any;
-  page:number;
+  page: number;
 
   constructor(protected baseService: BaseService) {
     super(baseService);
@@ -447,7 +447,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   }
 
-  public TGT_calculatePages() {
+  async  TGT_calculatePages() {
 
     let items: Page[] = [];
     let totalPage = this.totalPage;
@@ -551,7 +551,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   }
 
 
-  loadFixedAssetForDescription(_perInPage: number = 1000, _currentPage: number = 1) {
+  async loadFixedAssetForDescription(_perInPage: number = 1000, _currentPage: number = 1) {
 
     this.dataTable.TGT_clearData();
     this.dataTable.isLoading = true;
@@ -581,7 +581,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     );
   }
 
-  loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {
+  async loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {
 
     this.searchDescription = '';
     this.dataTable.TGT_clearData();
@@ -612,7 +612,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     );
   }
 
-  loadFixedAssetProperties() {
+  async loadFixedAssetProperties() {
     this.baseService.fixedAssetService.GetFixedAssetProperties(
       (faProperties: FixedAssetCardProperty[]) => {
         this.faProperties = faProperties;
@@ -737,6 +737,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Birden fazla demirbaş seçtiniz.!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -744,6 +745,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -762,6 +764,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Birden fazla demirbaş seçtiniz.!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -769,6 +772,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -787,6 +791,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Birden fazla demirbaş seçtiniz.!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -794,6 +799,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -812,6 +818,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Birden fazla demirbaş seçtiniz.!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -819,6 +826,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -837,6 +845,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Birden fazla demirbaş seçtiniz.!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -844,6 +853,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -862,6 +872,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Birden fazla demirbaş seçtiniz.!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -869,6 +880,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -887,6 +899,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -905,6 +918,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -923,6 +937,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -941,6 +956,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -960,6 +976,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir demirbaş seçiniz!"
       );
+      this.currentOperation = null;
       return;
     }
 
@@ -1036,11 +1053,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       });
   }
 
-  downloadDebitForm(){
+  downloadDebitForm() {
 
-    
 
-    }
 
   }
+
+}
 
