@@ -35,6 +35,7 @@ import { FixedAssetUser } from '../../models/FixedAssetUser';
 import { FixedAssetRelationship } from '../../models/FixedAssetRelationship';
 import { FixedAssetFilter } from '../../models/FixedAssetFilter';
 import { User } from 'src/app/models/LoginUser';
+import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
 
 @Injectable({
   providedIn: "root"
@@ -528,10 +529,14 @@ export class FixedAssetService {
   GetFixedAssetDebitForms(fixedAssetId:FixedAsset,success,failed){
     this.httpclient.post(SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, fixedAssetId,  {
       headers: GET_HEADERS(this.authenticationService.getToken())
-    }).subscribe(result=>{
+    }).subscribe(
+      result=>{
       let response:Response=<Response>result
-      
-      success()
+      let forms:FixedAssetForm[]=[];
+      Object.assign(forms,response.ResultObject);
+      success(forms);
+    },(error:HttpErrorResponse)=>{
+      failed(error);
     })
   }
 }

@@ -8,11 +8,14 @@ import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
 import { FixedAssetOperations } from "../../../declarations/fixed-asset-operations";
 import * as $ from "jquery";
 import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
-import {IMAGE_URL} from "src/app/declarations/service-values";
+import {IMAGE_URL, GET_FIXEDASSET_BY_ID, DOCUMENT_URL} from "src/app/declarations/service-values";
 import { AuthenticationService } from 'src/app/services/authenticationService/authentication.service';
 import { ResponseContentType } from '@angular/http';
 
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
+import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
+
+
 
 @Component({
   selector: "app-fixed-asset",
@@ -61,6 +64,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   department: string;
   fixedassetcard: string;
   location: string;
+  user:string;
+  debitUser:string[] = [];
 
   path: string;
   currentPage: number = 1;
@@ -351,14 +356,14 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
         placeholder: "",
         type: "text"
       },
-      {
-        columnDisplayName: "Masraf Yeri",
-        columnName: ["ExpenseCenter", "Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
+      // {
+      //   columnDisplayName: "Masraf Yeri",
+      //   columnName: ["ExpenseCenter", "Name"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // }
     ],
     {
       isDesc: false,
@@ -973,6 +978,17 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
           this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
         }
 
+        if(result.FixedAssetUsers != null){
+        
+        // this.fixedAssetInfo.FixedAssetUsers.forEach(e=>{
+        //   for(let i=0; i<this.fixedAssetInfo.FixedAssetUsers.length; i++){
+        //     let username:string = e.User[i].FirstName + "" + e.User[i].LastName;
+        //     this.debitUser.push(username);
+        //   }
+        // });
+
+        }
+
         if (result.Picture != null) {
           this.path = IMAGE_URL + result.Picture.replace("ThumbImages/thumb_", "");
           this.fixedAssetInfo.Picture = this.path;
@@ -990,10 +1006,47 @@ export class FixedAssetComponent extends BaseComponent implements OnInit {
   }
 
   downloadDebitForm(){
+    let fixedAssetId:FixedAsset=new FixedAsset();
 
-    
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
 
+    if (selectedItems.length > 1) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen bir demirbaş seçiniz"
+      );
+
+      return;
     }
 
+    let itemIds: number[] = selectedItems.map(x => x.getId());
+    fixedAssetId.FixedAssetId=itemIds[0];
+    this.baseService.fixedAssetService.GetFixedAssetDebitForms(fixedAssetId,
+      (result)=>{
+
+      let formName:string[]=[];
+              Object.assign(formName,result);
+              let dataURL:string
+              const link = document.createElement('a');             
+                for(let i=0; i<formName.length;i++){
+                  dataURL= DOCUMENT_URL + formName[i] +".pdf";
+                  //link.href = dataURL;
+                  link.setAttribute('href', DOCUMENT_URL + formName[i] +".pdf");
+                  link.download = dataURL;
+                }
+                link.click();
+                  
+        setTimeout(() => {
+    
+          window.URL.revokeObjectURL(dataURL);
+          }, 100);
+
+       
+      },
+      ()=>{})
+
+    }
   }
+   
+
+
 

@@ -250,7 +250,7 @@ export class FaCreateComponent extends BaseComponent
   next() {
     
     if(this.barcode)
-    this.fixedAsset.Barcode = this.barcode.toString();
+    this.fixedAsset.Barcode = this.fixedAsset.Barcode;
 
     if (
       this.fixedAsset.FixedAssetCardId != null &&
@@ -585,7 +585,7 @@ export class FaCreateComponent extends BaseComponent
       this.fixedAsset.Quantity = 1;
     this.quantity = this.fixedAsset.Quantity;
 
-    if (this.disabledBarcode == false) this.barcode = data.value.Barcode;
+    this.barcode = data.value.Barcode;
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
@@ -759,7 +759,7 @@ export class FaCreateComponent extends BaseComponent
           this.visibleInsertButton = true;
           this.dataTable.TGT_clearData();
           this.baseService.popupService.ShowSuccessPopup(message);
-          //this.faComponent.loadFixedAsset();
+          this.faComponent.loadFixedAsset();
         } else {
           this.validBarcode = true;
           this.doAllVisible();
