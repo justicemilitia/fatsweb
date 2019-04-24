@@ -33,8 +33,29 @@
 
           </div>
         </div>
-        <div class="sales-overview">
+        <div class="sales-overview" style="flex-direction:column">
           <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)"  [dataTable]="dataTable"></tree-grid-table>
+                    <!-- Pagination Side -->
+                    <div class="table-pagination">
+                        <!-- Per In Page Select area -->
+                        <select class="table-pagination-select" (change)="loadTransactionList(perInPage,1)" [(ngModel)]="perInPage">
+                          <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
+                          <option value="1000">Hepsi</option>
+                        </select>
+                        <!-- END Per In Page Select area END -->
+                        <!-- Paginations -->
+                        <nav class="pagination-nav">
+                          <ul class="pagination">
+                            <ng-container *ngFor="let page of pages">
+                              <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                  (click)="loadTransactionList(perInPage,page.value)" class="page-link">{{page.display}}</button>
+                              </li>
+                            </ng-container>
+                          </ul>
+                        </nav>
+                        <!-- END Paginations END -->
+                      </div>
+                      <!-- END Pagination Side END -->
         </div>
       </div>
     </div>
@@ -105,8 +126,8 @@
               <div class="col-md-6">
                   <fieldset  class="field_set" [hidden]="hideToFixedAsset == true || hideFromFixedAsset == true">
                       <legend>Eski</legend>
-
-                  <div class="row" *ngIf="transaction.ExistingBarcode">
+                      <!-- *ngIf="transaction.ExistingBarcode" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Barkod :</label>
                       </div>
@@ -114,7 +135,8 @@
                           <span>{{transaction.ExistingBarcode}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.FromFixedAssetCardCategoryName">
+                  <!-- *ngIf="transaction.FromFixedAssetCardCategoryName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Demirbaş Kategorisi :</label>
                       </div>
@@ -122,7 +144,8 @@
                           <span>{{transaction.FromFixedAssetCardCategoryName}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.FromFixedAssetCardName">
+                  <!-- *ngIf="transaction.FromFixedAssetCardName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Demirbaş Kartı :</label>
                       </div>
@@ -130,7 +153,8 @@
                           <span>{{transaction.FromFixedAssetCardName}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.FromLocationName">
+                  <!-- *ngIf="transaction.FromLocationName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Lokasyon :</label>
                       </div>
@@ -138,7 +162,8 @@
                           <span>{{transaction.FromLocationName}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.FromDepartmentName">
+                  <!-- *ngIf="transaction.FromDepartmentName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Departman :</label>
                       </div>
@@ -156,13 +181,14 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromInsuranceCompanyName">
                       <div class="form-group col-md-6">
-                          <label>Sigorta Şirket :</label>
+                          <label>Sigorta Şirketi :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromInsuranceCompanyName}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.FromUserName">
+                  <!-- *ngIf="transaction.FromUserName" -->
+                  <div class="row">
                       <div class="form-group col-md-6">
                           <label>Zimmetli Kullanıcı :</label>
                       </div>
@@ -178,7 +204,8 @@
                           <span>{{transaction.FromSerialNumber}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.FromStatusName">
+                  <!-- *ngIf="transaction.FromStatusName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Demirbaş Statüsü :</label>
                       </div>
@@ -272,8 +299,8 @@
               <div class="col-md-6">
                   <fieldset  class="field_set" [hidden]="hideToFixedAsset == true || hideFromFixedAsset == true">
                       <legend>Güncel</legend>
-            
-                  <div class="row" *ngIf="transaction.ToFixedAssetCardCategoryName">
+                      <!-- *ngIf="transaction.ToFixedAssetCardCategoryName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Demirbaş Kategorisi :</label>
                       </div>
@@ -281,8 +308,8 @@
                           <span>{{transaction.ToFixedAssetCardCategoryName}}</span> 
                       </div> 
                   </div>
-
-                  <div class="row" *ngIf="transaction.NewBarcode">
+                  <!-- *ngIf="transaction.NewBarcode" -->
+                  <div class="row">
                       <div class="form-group col-md-6">
                           <label>Barkod :</label>
                       </div>
@@ -290,8 +317,8 @@
                           <span>{{transaction.NewBarcode}}</span> 
                       </div> 
                   </div>
-
-                  <div class="row" *ngIf="transaction.ToFixedAssetCardName">
+                  <!-- *ngIf="transaction.ToFixedAssetCardName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Demirbaş Kartı :</label>
                       </div>
@@ -300,7 +327,8 @@
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToLocationName">
+                  <!-- *ngIf="transaction.ToLocationName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Lokasyon :</label>
                       </div>
@@ -309,7 +337,8 @@
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToDepartmentName">
+                  <!-- *ngIf="transaction.ToDepartmentName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Departman :</label>
                       </div>
@@ -336,7 +365,8 @@
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToUserName">
+                  <!-- *ngIf="transaction.ToUserName" -->
+                  <div class="row" >
                       <div class="form-group col-md-6">
                           <label>Zimmetli Kullanıcı :</label>
                       </div>
@@ -354,7 +384,8 @@
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToStatusName">
+                  <!-- *ngIf="transaction.ToStatusName" -->
+                  <div class="row">
                       <div class="form-group col-md-6">
                           <label>Demirbaş Statüsü :</label>
                       </div>

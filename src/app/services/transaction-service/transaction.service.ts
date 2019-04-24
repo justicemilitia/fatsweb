@@ -21,15 +21,14 @@ export class TransactionService {
   ) {}
 
   
-  GetTransactionLogList(transaction:TransactionLog, success, failed) {
-    transaction.Page=1;
-    transaction.PerPage=100;
+  GetTransactionLogList(_perInPage: number = 25, _currentPage: number = 1, success, failed) {
+
     this.httpClient
-      .post(SERVICE_URL + GET_TRANSACTION_LIST, transaction, {
-        headers: GET_HEADERS(this.aService.getToken())
+      .post(SERVICE_URL + GET_TRANSACTION_LIST, { Page:_currentPage, PerPage: _perInPage },
+       { headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(
-        result=>{
+        (result:any)=>{
           let response:Response = <Response>result;
           if(response.ResultStatus==true){
             let transactionList:TransactionLog[]=[];
@@ -38,7 +37,7 @@ export class TransactionService {
               Object.assign(transaction,e);
               transactionList.push(transaction);
             });
-            success(transactionList,response.LanguageKeyword);
+            success(transactionList, result.TotalPage,response.LanguageKeyword);
           }
           else{
             failed(getAnErrorResponse(response.LanguageKeyword));

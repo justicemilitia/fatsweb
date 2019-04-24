@@ -6,6 +6,7 @@ import { TransactionLog } from "src/app/models/TransactionLog";
 import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { TransactionTypes } from 'src/app/declarations/transaction-types';
+import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 
 @Component({
   selector: "app-transaction-list",
@@ -30,6 +31,11 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
     hideToFixedAsset:boolean = false;
 
     hideCheckOutReason:boolean = false;
+
+    currentPage: number = 1;
+    perInPage: number = 25;
+    totalPage: number = 1;
+    pages: Page[] = [];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "transactionloglist",
@@ -87,17 +93,114 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
 
   constructor(protected baseService: BaseService) {
     super(baseService);
-    this.LoadTransactionList();
+    this.loadTransactionList();
+    this.dataTable.isPagingActive = false;
+  }
+
+  async  TGT_calculatePages() {
+
+    let items: Page[] = [];
+    let totalPage = this.totalPage;
+
+    /* if user in a diffrent page we will render throw the first page */
+    if (this.currentPage > totalPage)
+      this.currentPage = 1;
+    else if (this.currentPage < 1)
+      this.currentPage = 1
+
+    /* We will always put first page in to pagination items */
+    items.push({
+      value: 1,
+      display: '1',
+      isDisabled: false,
+      isActive: this.currentPage == 1 ? true : false
+    });
+
+    /* if the total page is 1 return the items no more need calculation */
+    if (totalPage <= 1) {
+      this.pages = items;
+      return;
+    }
+
+    /* we will store the last inserted item */
+    let lastInsertedItem = this.currentPage - 3;
+
+    /* if current user far enough page we will show ... (you passed many page) */
+    if (lastInsertedItem > 2) {
+      items.push({
+        value: 0,
+        display: '...',
+        isDisabled: true,
+        isActive: false
+      });
+    }
+
+    /* We loop all pages to add pagination items */
+    for (let ii = this.currentPage - 3; ii < totalPage; ii++) {
+      lastInsertedItem = ii;
+
+      /* first pages ii may be minus so we should check ii is bigger 1 */
+      if (ii > 1) {
+        /* Insert pagination item */
+        items.push({
+          value: ii,
+          display: ii.toString(),
+          isDisabled: false,
+          isActive: this.currentPage == ii ? true : false
+        });
+      }
+
+      /* maximum item we will show is 7 */
+      if (items.length > 7) {
+        ii = totalPage;
+        break;
+      }
+    }
+
+    /* After calculation if we still far from totalpage we insert ... page item */
+    if (lastInsertedItem < totalPage - 1 && lastInsertedItem > 0) {
+      items.push({
+        value: 0,
+        display: '...',
+        isDisabled: true,
+        isActive: false
+      });
+    }
+
+    /* We always push the last page to the pagination items */
+    if (!items.find(x => x.value == totalPage)) {
+      items.push({
+        value: totalPage,
+        display: totalPage.toString(),
+        isDisabled: false,
+        isActive: this.currentPage == totalPage ? true : false
+      });
+    }
+
+    /* We set pages to new pagination items. */
+    this.pages = items;
+
   }
 
   ngOnInit() {}
 
-  LoadTransactionList() {
-    this.baseService.transactionService.GetTransactionLogList(
-      this.transaction,
-      (transactions:TransactionLog[]) => {
+  async loadTransactionList(_perInPage: number = 25, _currentPage: number = 1) {
+
+      this.dataTable.TGT_clearData();
+      this.dataTable.isLoading = true;
+
+      this.baseService.transactionService.GetTransactionLogList(_perInPage, _currentPage,     
+      (transactions:TransactionLog[], totalPage:number, message:string) => {
+
+        this.perInPage = _perInPage;
+        this.currentPage = _currentPage;
+        this.dataTable.perInPage = _perInPage;
+        this.totalPage = totalPage ? totalPage : 1;
         this.transactions=transactions;
+
         this.dataTable.TGT_loadData(this.transactions);
+        this.TGT_calculatePages();
+
         if(this.transactions.length==0){
           this.baseService.popupService.ShowWarningPopup("Record_not_found");
         }
@@ -199,9 +302,11 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
 
     this.dataTable.TGT_clearData();
 
-    await this.LoadTransactionList();
+    this.perInPage = 25;
+    this.currentPage = 1;
+
+    await this.loadTransactionList(this.perInPage, this.currentPage);
 
     this.isTableRefreshing = false;
-
   }
 }
