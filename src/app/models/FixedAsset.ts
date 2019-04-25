@@ -95,6 +95,7 @@ export class FixedAsset implements IData {
   IsCalculatedDepreciation:boolean;
   IsCalculatedIFRSDepreciation: boolean;
   IsGuaranteed: boolean;
+  Description:string;
 
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();
