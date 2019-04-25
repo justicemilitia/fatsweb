@@ -164,6 +164,8 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
             });
         }
       });
+
+      this.isWaitingInsertOrUpdate = false;
     }
   }
 

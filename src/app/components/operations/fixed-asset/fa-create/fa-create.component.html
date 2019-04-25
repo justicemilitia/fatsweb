@@ -109,6 +109,9 @@
                     <option value="">Lokasyon Seçiniz</option>
                     <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
                 </select>      
+                <div class="custom-dropdown">
+                    <tree-grid-table [dataTable]="dataTableLocation"></tree-grid-table>
+                  </div>
                 <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
                     <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
                 </div>  

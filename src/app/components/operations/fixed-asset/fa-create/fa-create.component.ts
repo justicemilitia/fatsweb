@@ -208,6 +208,25 @@ export class FaCreateComponent extends BaseComponent
     }
   );
 
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "fixedassetcardpropertyvalue",
+    [
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
     [
@@ -248,6 +267,12 @@ export class FaCreateComponent extends BaseComponent
     this.dataTableFile.isDeleteable = true;
     this.dataTableFile.isMultipleSelectedActive = false;
     this.dataTableFile.isLoading = false;
+    this.dataTableLocation.isPagingActive=false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isMultipleSelectedActive = false;
+    this.dataTableLocation.isLoading = false;
+
   }
 
   ngOnInit() {}
@@ -290,6 +315,7 @@ export class FaCreateComponent extends BaseComponent
     this.baseService.locationService.GetLocations(
       (locations: Location[]) => {
         this.locations = locations;
+        this.dataTableLocation.TGT_loadData(this.locations);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -539,9 +565,8 @@ export class FaCreateComponent extends BaseComponent
   }
 
   insertPropertyValueToArray(propertyId: any) {
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
+
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
     if (this.isSelectedProperty == true) {
       let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value));

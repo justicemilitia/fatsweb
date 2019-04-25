@@ -27,7 +27,7 @@
 
         </div>
         <div class="sales-overview">
-          <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
         </div>
       </div>
     </div>

@@ -72,9 +72,8 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.TransactionDate ? value.TransactionDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.TransactionDate ? value.TransactionDate.replace("T"," ").substring(0,16): "";
         }
-
       },
       {
         columnDisplayName: "Açıklama",

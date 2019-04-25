@@ -86,6 +86,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   path: string;
   imagePath:string;
+  
   currentPage: number = 1;
   perInPage: number = 25;
   totalPage: number = 1;
@@ -423,7 +424,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   )
 
   public dataTableFixedAssetFile: TreeGridTable = new TreeGridTable(
-    "fixedassetpropertyvalue", [
+    "fixedassetfile", [
       {
         columnDisplayName: "Dosya Adı",
         columnName: [],
@@ -1015,14 +1016,19 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   onDoubleClickItem(item: FixedAsset) {
 
+    this.dataTablePropertyValue.TGT_clearData();
+
+    this.fixedAssetPropertyDetails = [];
+
     this.fixedAsset = new FixedAsset();
 
     this.baseService.spinner.show();
 
     this.baseService.fixedAssetService.GetFixedAssetById(item.FixedAssetId,
       (result: FixedAsset) => {
-
-        this.baseService.spinner.hide();
+        
+        $("#btnFixedAssetInfo").trigger("click");
+        
         Object.assign(this.fixedAssetInfo, result);
 
         this.status = result.Status.Name == null ? " " : result.Status.Name;
@@ -1039,19 +1045,18 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
           this.department = result.Department.Name;
 
         if (result.FixedAssetPropertyDetails.length > 0) {
+            this.fixedAssetInfo.FixedAssetPropertyDetails.forEach(e => {
 
-          this.dataTablePropertyValue.TGT_clearData();
-
-          this.fixedAssetInfo.FixedAssetPropertyDetails.forEach(e => {
             let fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
-            fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+
             fixedAssetPropertyDetail.Value = e.Value;
             fixedAssetPropertyDetail.FixedAssetCardProperty = e.FixedAssetCardProperty;
+            fixedAssetPropertyDetail.FixedAssetPropertyDetailId=e.FixedAssetPropertyDetailId;
 
             this.fixedAssetPropertyDetails.push(fixedAssetPropertyDetail);
           });
 
-          this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
+            this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
         }
 
         if (result.FixedAssetUsers != null) {
@@ -1066,9 +1071,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
           this.fixedAssetInfo.Picture = this.path;
         }
 
-        $("#btnFixedAssetInfo").trigger("click");
+        this.baseService.spinner.hide();
 
-      }, (error: HttpErrorResponse) => {
+      }, 
+      (error: HttpErrorResponse) => {
         /* hide spinner */
         this.baseService.spinner.hide();
 
@@ -1117,6 +1123,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     resetForm() {
   
+      this.fixedAssetInfo.FixedAssetPropertyDetails = [];
+
       this.dataTablePropertyValue.TGT_clearData();
 
     }
