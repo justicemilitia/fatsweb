@@ -1,3 +1,5 @@
+import { TreeGridDragDirective } from '../../directives/tree-grid-drag.directive';
+
 export interface IColumn {
     isActive: boolean;
     columnName: string[];
@@ -7,4 +9,5 @@ export interface IColumn {
     classes?: string[];
     formatter?: any;
     isEditable?: boolean;
+    directive?: TreeGridDragDirective;
 }

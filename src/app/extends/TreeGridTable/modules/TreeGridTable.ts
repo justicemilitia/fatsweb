@@ -7,6 +7,17 @@ export class TreeGridTable {
 
     //#region Variables
 
+    public isDragAndDropActive: boolean = true;
+
+    /**
+     * In drag and drop column store the holds drag column.
+     */
+    public currentHoldColumn: IColumn = null;
+
+    /**
+     * In drag and drop column store the drop column.
+     */
+    public lastPassedColumn: IColumn = null;
 
     /**
      * If the row will be deleteable set true.
@@ -424,12 +435,6 @@ export class TreeGridTable {
         if (item) {
             item[column.columnName[column.columnName.length - 1]] = value;
         }
-
-    }
-
-    public TGT_getItemParentIds(data: IData): boolean {
-        return true;
-        //this.
 
     }
 
@@ -914,6 +919,32 @@ export class TreeGridTable {
 
         /* then we remove at the top of the current column then add with new order */
         this.dataColumns.splice(upIndex, 1, column, upItem);
+
+        /* Then rebind active columns to update them */
+        this.TGT_bindActiveColumns();
+
+    }
+
+    /**
+     * Swap two columns
+     * @param column Source column
+     * @param oColumn Destination column 
+     */
+    public TGT_swapColumns(column: IColumn, oColumn: IColumn) {
+
+        if (!column || !oColumn)
+            return;
+
+        /* We find the column index in columns list */
+        let sourceIndex = this.dataColumns.findIndex(x => x.columnName == column.columnName);
+        let destinationIndex = this.dataColumns.findIndex(x => x.columnName == oColumn.columnName);
+
+        if (sourceIndex == -1 || destinationIndex == -1)
+            return;
+
+        let tempSource = this.dataColumns[sourceIndex];
+        this.dataColumns[sourceIndex] = this.dataColumns[destinationIndex];
+        this.dataColumns[destinationIndex] = tempSource;
 
         /* Then rebind active columns to update them */
         this.TGT_bindActiveColumns();

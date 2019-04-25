@@ -1,4 +1,5 @@
 import { IColumn } from './interfaces/IColumn';
+import { TreeGridDragDirective } from '../directives/tree-grid-drag.directive';
 
 export class Column implements IColumn {
 
@@ -10,6 +11,7 @@ export class Column implements IColumn {
     classes?: string[];
     formatter?: any;
     isEditable: boolean;
+    directive?: TreeGridDragDirective;
 
     constructor() {
         this.classes = [];
