@@ -66,6 +66,7 @@ import { InputTrimModule } from 'ng2-trim-directive';
 import {NgxMaskModule} from 'ngx-mask';
 import { TransactionListComponent } from './components/operations/transaction-list/transaction-list.component';
 import { UserSettingsComponent } from './components/definitions/user-settings/user-settings.component';
+import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-grid-drag.directive';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { UserSettingsComponent } from './components/definitions/user-settings/us
     CheckoutFixedAssetComponent,
     AlertInfosComponent,
     TransactionListComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    TreeGridDragDirective
   ],
   imports: [
     BrowserModule,
