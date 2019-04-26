@@ -12,7 +12,7 @@
     margin: 0;
     flex: 1;
     font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
-    height: 50vh;
+    max-height: 50vh;
     overflow: auto;
     display: block;
 }
