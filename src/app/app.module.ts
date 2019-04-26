@@ -67,6 +67,7 @@ import {NgxMaskModule} from 'ngx-mask';
 import { TransactionListComponent } from './components/operations/transaction-list/transaction-list.component';
 import { UserSettingsComponent } from './components/definitions/user-settings/user-settings.component';
 import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-grid-drag.directive';
+import { FaEditFileComponent } from './components/operations/fixed-asset/fa-edit-file/fa-edit-file.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-g
     AlertInfosComponent,
     TransactionListComponent,
     UserSettingsComponent,
-    TreeGridDragDirective
+    TreeGridDragDirective,
+    FaEditFileComponent
   ],
   imports: [
     BrowserModule,

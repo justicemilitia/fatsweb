@@ -748,6 +748,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       case FixedAssetOperations.filter:
         this.FilterOperation();
         break;
+        
+      case FixedAssetOperations.editFile:
+        this.EditFile();
+        break;
     }
   }
 
@@ -1018,6 +1022,12 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   //#region Create Fixed Asset Operation
   CreateFixedAssetOperation() {
+    $("#showModal").trigger("click");
+  }
+  //#endregion
+
+  //#region Edit Fixed Asset File
+  EditFile(){
     $("#showModal").trigger("click");
   }
   //#endregion
