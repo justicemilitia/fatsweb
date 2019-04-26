@@ -35,6 +35,7 @@ import { FirmService } from './firm-service/firm.service';
 import { TransactionService } from './transaction-service/transaction.service';
 import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asset-create.service';
 import { ActivatedRoute } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: "root"

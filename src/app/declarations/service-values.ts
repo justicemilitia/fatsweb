@@ -10,6 +10,7 @@ export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
 
 export const IMAGE_URL = "http://dev.fatsapi.com/"
+export const CRYPTO_KEY = "xOPecpi5elDQenHT";
 
 //#region Departments
 export const GET_DEPARTMENT_LIST = "Department/GetDepartmentsList";
