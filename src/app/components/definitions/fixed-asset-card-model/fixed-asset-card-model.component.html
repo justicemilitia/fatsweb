@@ -21,16 +21,17 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" (click)="deleteFixedAssetCardModel()" class="btn btn-danger btn-delete-custom">
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteFixedAssetCardModel()"
+              class="btn btn-danger btn-delete-custom">
               {{dataTableModel.TGT_getSelectedItems().length > 0 ? dataTableModel.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
 
-            <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddFixedAssetCardModel"
-              data-toggle="modal" data-target="#modalFixedAssetCardModel">Model Ekle
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" (click)="resetForm(data,true)"
+              id="btnAddFixedAssetCardModel" data-toggle="modal" data-target="#modalFixedAssetCardModel">Model Ekle
             </button>
 
-            <button style="display:none" (click)="resetForm(data,false)" id="btnEditFixedAssetCardModel"
-              data-toggle="modal" data-target="#modalFixedAssetCardModel">Model Düzenle
+            <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
+              id="btnEditFixedAssetCardModel" data-toggle="modal" data-target="#modalFixedAssetCardModel">Model Düzenle
             </button>
 
           </div>

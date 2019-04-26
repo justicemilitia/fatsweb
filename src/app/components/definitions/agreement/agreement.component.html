@@ -22,18 +22,22 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" (click)="deleteAgreements()" class="btn btn-danger btn-delete-custom">
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteAgreements()"
+              class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length: ""}}
               <i class="fas fa-trash"></i>
             </button>
+
             <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddAgreement" data-toggle="modal"
-              data-target="#modalAgreement">
+              data-target="#modalAgreement" *ngIf="IsAuthForInsert==true">
               Sözleşme Ekle
             </button>
-            <button style="display:none" (click)="resetForm(data,false)" id="btnEditAgreement" data-toggle="modal"
-              data-target="#modalAgreement">
+
+            <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
+              id="btnEditAgreement" data-toggle="modal" data-target="#modalAgreement">
               Sözleşmeyi Düzenle
             </button>
+
           </div>
         </div>
         <p class="mg-b-20"></p>
@@ -74,8 +78,8 @@
             <!-- SÖZLEŞME ADI -->
             <div class="form-group col-md-6">
               <label class="required-span">Sözleşme Adı</label>
-              <input [(ngModel)]="agreement.Name" name="Name" type="text" trim="blur" class="form-control" #Name="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
+              <input [(ngModel)]="agreement.Name" name="Name" type="text" trim="blur" class="form-control"
+                #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
@@ -87,9 +91,9 @@
             <!-- SÖZLEŞME KODU -->
             <div class="form-group col-md-6">
               <label class="required-span">Sözleşme Kodu</label>
-              <input [(ngModel)]="agreement.AgreementCode" #AgreementCode="ngModel" name="AgreementCode" type="text" trim="blur"
-                class="form-control" [ngClass]="{ 'is-invalid': data.submitted && AgreementCode.invalid }" required
-                maxlength="50" />
+              <input [(ngModel)]="agreement.AgreementCode" #AgreementCode="ngModel" name="AgreementCode" type="text"
+                trim="blur" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && AgreementCode.invalid }"
+                required maxlength="50" />
               <div *ngIf="data.submitted && AgreementCode.invalid" class="invalid-feedback">
                 <div *ngIf="AgreementCode.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="AgreementCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
@@ -145,8 +149,9 @@
                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                   </div>
                 </div>
-                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate" [minDate]="agreement.StartDate"
-                  [(ngModel)]="agreement.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel"
+                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                  [minDate]="agreement.StartDate" [(ngModel)]="agreement.EndDate" ngbDatepicker #endDate="ngbDatepicker"
+                  #endDateModel="ngModel"
                   [class.is-invalid]="data.submitted && (!agreement.EndDate || endDateModel.status == 'INVALID' )"
                   required />
                 <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
@@ -174,7 +179,8 @@
             <div class="form-group col-md-6">
               <label>Dosya</label>
               <div class="file-area">
-                <input #agreementFile name="AgreementFile" (change)="changeFile($event)" id="AgreementFile" type="file" class="form-control-file" style="display:none">
+                <input #agreementFile name="AgreementFile" (change)="changeFile($event)" id="AgreementFile" type="file"
+                  class="form-control-file" style="display:none">
                 <label for="AgreementFile" class="custom-file">
                   <label class="custom-file-text" for="AgreementFile">
                     {{agreementFiles.length > 0 ? agreementFiles[0].name : agreement.AgreementFile ? agreement.AgreementFile : 'Dosya Seçiniz'}}
@@ -217,7 +223,8 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateAgreement" *ngIf="isWaitingInsertOrUpdate == false" type="submit" class="btn btn-az-primary">
+          <button id="btnInsertOrUpdateAgreement" *ngIf="isWaitingInsertOrUpdate == false" type="submit"
+            class="btn btn-az-primary">
             {{agreement.AgreementId ? 'Sözleşmeyi Güncelle' : 'Sözleşme Ekle'}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

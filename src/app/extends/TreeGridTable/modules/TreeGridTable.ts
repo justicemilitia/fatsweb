@@ -2,6 +2,7 @@ import { IData } from '../models/interfaces/IData';
 import { IColumn } from '../models/interfaces/IColumn';
 import { Page } from '../models/Page';
 import { TreeGridTableMethods } from './TreeGridTableMethods';
+import { encryptUsingAES256, decryptUsingAES256 } from 'src/app/declarations/crypto';
 
 export class TreeGridTable {
 
@@ -10,7 +11,7 @@ export class TreeGridTable {
     /**
      * Set true if header visible
      */
-    public isHeaderVisible:boolean=true;
+    public isHeaderVisible: boolean = true;
 
     /**
      * Is drag and drop active.
@@ -298,7 +299,7 @@ export class TreeGridTable {
 
                         /* if column exists then we check its values like classes, types but we dont need to check the column name and isactive  */
                         Object.keys(e).forEach(x => {
-                            if (x != "isActive" && x != "columnName" && JSON.stringify(e[x]) != JSON.stringify(oriItem[x])) {
+                            if (x != "isActive" && x != "directive" && x != "columnName" && JSON.stringify(e[x]) != JSON.stringify(oriItem[x])) {
                                 isConfigWillReset = true;
                             }
                         });
@@ -342,13 +343,29 @@ export class TreeGridTable {
     public TGT_saveConfig() {
 
         /* The Data we will store */
+        let columns = [];
+
+        this.dataColumns.forEach(x => columns.push({
+
+            isActive: x.isActive,
+            columnName: x.columnName,
+            columnDisplayName: x.columnDisplayName,
+            type: x.type,
+            placeholder: x.placeholder,
+            classes: x.classes,
+            formatter: x.formatter,
+            isEditable: x.isEditable
+
+        }));
+
         let config = {
-            columns: this.dataColumns,
+            columns: columns,
             perInPage: this._perInPage
         };
 
         /* Store the local storage */
-        localStorage.setItem(this.tablename_prefix + this.tablename, JSON.stringify(config));
+        let encrypted = encryptUsingAES256(JSON.stringify(config));
+        localStorage.setItem(this.tablename_prefix + this.tablename, encrypted);
 
         /* Say user it is saved */
         this.isSaved = true;
@@ -365,7 +382,8 @@ export class TreeGridTable {
         if (item) {
 
             /* if you get any error means you have parsing error just remove previous config */
-            let prevConfig = JSON.parse(item);
+            let decoded = decryptUsingAES256(item);
+            let prevConfig = JSON.parse(JSON.parse(decoded));
 
             /* if parsing wasnt expected model just remove old config and return  */
             if (!prevConfig || !prevConfig.columns || !prevConfig.perInPage) {
@@ -373,8 +391,11 @@ export class TreeGridTable {
                 return;
             }
 
+            let columns: [] = [];
+            Object.assign(columns, prevConfig.columns);
+
             /* load previous config */
-            this.dataColumns = prevConfig.columns;
+            this.dataColumns = columns;
             this.perInPage = prevConfig.perInPage;
 
         }

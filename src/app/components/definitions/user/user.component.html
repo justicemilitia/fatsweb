@@ -20,18 +20,18 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" (click)="deleteUsers()" class="btn btn-danger btn-delete-custom">
+            <button type="button" (click)="deleteUsers()" *ngIf="IsAuthForDelete==true" class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
               <i class="fas fa-trash"></i>
             </button>
 
-            <button class="btn btn-az-primary" id="btnAddUser" data-toggle="modal" data-target="#modalUser"
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddUser" data-toggle="modal" data-target="#modalUser"
               (click)="resetForm(data,true)">
               <i class="fa fa-plus-circle fa-plus-circle-add"></i>
               Kişi Ekle
             </button>
 
-            <button style="display:none" id="btnEditUser" data-toggle="modal" data-target="#modalUser"
+            <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditUser" data-toggle="modal" data-target="#modalUser"
               (click)="resetForm(data,false)">Kişiyi Düzenle
             </button>
           </div>

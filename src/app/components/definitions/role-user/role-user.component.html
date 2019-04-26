@@ -17,18 +17,21 @@
             <button type="button" routerLink="/role" class="btn btn-danger btn-back-custom">
               <i class="fas fa-arrow-left"></i></button>
 
-            <button type="button" (click)="deleteRoleUser()" class="btn btn-danger btn-delete-custom">
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteRoleUser()"
+              class="btn btn-danger btn-delete-custom">
               {{dataTableUserRole.TGT_getSelectedItems().length > 0 ? dataTableUserRole.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
 
-            <button id="refreshUserRole" type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
-              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i></button>
+            <button id="refreshUserRole" type="button" (click)="refreshTable()"
+              class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i></button>
 
-            <button id="btnAddUserRole" class="btn btn-az-primary" data-toggle="modal"
+            <button id="btnAddUserRole" *ngIf="IsAuthForInsert==true" class="btn btn-az-primary" data-toggle="modal"
               data-target="#modalUserRoleDefinition" (click)="resetForm(data,true)">Role Kullanıcı Ata</button>
 
-            <button style="display:none" id="btnEditUserRole" data-toggle="modal" data-target="#modalUserRoleDefinition"
-              (click)="resetForm(data,false)">Role Kullanıcı Ata
+            <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditUserRole" data-toggle="modal"
+              data-target="#modalUserRoleDefinition" (click)="resetForm(data,false)">Role Kullanıcı Ata Düzenle
             </button>
 
           </div>
@@ -63,10 +66,10 @@
               <label class="required-span">Kullanıcı</label>
               <div *ngIf="visible;then insertUserRole else updateUserRole"></div>
               <ng-template #insertUserRole>
-                <ng-multiselect-dropdown [placeholder]="'Seçiniz'"  [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required
-                 [data]="systemUsers" [(ngModel)]="userRole.UserId"
-                  name="UserId" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
-                  (onSelectAll)="onSelectAll($event)">
+                <ng-multiselect-dropdown [placeholder]="'Seçiniz'"
+                  [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required [data]="systemUsers"
+                  [(ngModel)]="userRole.UserId" name="UserId" [settings]="dropdownSettings"
+                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                 </ng-multiselect-dropdown>
                 <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
                   <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
@@ -84,8 +87,9 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
               <label class="required-span">Rol</label>
-              <select [(ngModel)]="userRole.RoleId" name="RoleId" #RoleId="ngModel" class="form-control select2-no-search" required
-              [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" >
+              <select [(ngModel)]="userRole.RoleId" name="RoleId" #RoleId="ngModel"
+                class="form-control select2-no-search" required
+                [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }">
                 <option value="-1">Seçiniz</option>
                 <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
               </select>
@@ -94,7 +98,7 @@
               </div>
             </div>
           </div>
-          
+
         </div>
         <div class="modal-footer">
           <button id="btnAddRole" type="submit" class="btn btn-az-primary" data-toggle="modal"

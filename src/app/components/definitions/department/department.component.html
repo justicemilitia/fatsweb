@@ -3,40 +3,44 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-          <span>TANIMLAMALAR</span>
-          <span>DEPARTMANLAR</span>
+        <span>TANIMLAMALAR</span>
+        <span>DEPARTMANLAR</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
-          <div class="card-header">
-            <h2 class="az-content-title">Departmanlar</h2>
-            <div class="grp-btn-action">
-              <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
-                <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
-              </button>
-                
-              <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
-                <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
-              </button>
+        <div class="card-header">
+          <h2 class="az-content-title">Departmanlar</h2>
+          <div class="grp-btn-action">
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
+            </button>
 
-              <button type="button" (click)="deleteDepartments()" class="btn btn-danger btn-delete-custom">
-                {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
-                <i class="fas fa-trash"></i>
-              </button>
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
 
-              <button class="btn btn-az-primary" id="btnAddDepartment" data-toggle="modal"
-                data-target="#modalDepartment" (click)="resetForm(data,true)">
-                <i class="fa fa-plus-circle fa-plus-circle-add"></i>
-                Departman Ekle
-              </button>
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteDepartments()"
+              class="btn btn-danger btn-delete-custom">
+              {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
+              <i class="fas fa-trash"></i>
+            </button>
 
-              <button style="display:none" (click)="resetForm(data,false)" id="btnEditDepartment" data-toggle="modal"
-                data-target="#modalDepartment">Departman Düzenle
-              </button>
-              
-            </div>
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddDepartment" data-toggle="modal"
+              data-target="#modalDepartment" (click)="resetForm(data,true)">
+              <i class="fa fa-plus-circle fa-plus-circle-add"></i>
+              Departman Ekle
+            </button>
+
+            <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
+              id="btnEditDepartment" data-toggle="modal" data-target="#modalDepartment">Departman Düzenle
+            </button>
+
+          </div>
         </div>
         <div class="sales-overview">
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          </tree-grid-table>
         </div>
       </div>
     </div>
@@ -60,22 +64,22 @@
           <div class="row justify-content-center">
             <div class="col-md-6 form-group">
               <label class="required-span">Ad</label>
-              <input [(ngModel)]="department.Name" name="Name" type="text" trim="blur" class="form-control" #Name="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
+              <input [(ngModel)]="department.Name" name="Name" type="text" trim="blur" class="form-control"
+                #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>   
+                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
 
             <div class="col-md-6 form-group">
               <label class="required-span">Departman Kodu</label>
-              <input [(ngModel)]="department.DepartmentCode" name="DepartmentCode" type="text" trim="blur" class="form-control"
-                #DepartmentCode="ngModel" required maxlength="50"
+              <input [(ngModel)]="department.DepartmentCode" name="DepartmentCode" type="text" trim="blur"
+                class="form-control" #DepartmentCode="ngModel" required maxlength="50"
                 [ngClass]="{ 'is-invalid': data.submitted && DepartmentCode.invalid }" />
               <div *ngIf="data.submitted && DepartmentCode.invalid" class="invalid-feedback">
                 <div *ngIf="DepartmentCode.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="DepartmentCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>                
+                <div *ngIf="DepartmentCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
@@ -84,31 +88,31 @@
 
             <!-- BAĞLI OLDUĞU LOKASYON  -->
             <div class="col-md-6 form-group">
-                <label class="required-span">Bağlı Olduğu Lokasyon</label>
-                <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control"  (change)="loadDepartmentByLocationId($event)"
-                  (click)="loadDropdownList()" #LocationId="ngModel"
-                  [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
-                  <option value="">Yok</option>
-                  <option *ngFor="let location of locations" value= "{{location.LocationId}}">
-                    {{location.Name}}
-                  </option>
-                </select>
-                <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
-                  <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
-                </div>
+              <label class="required-span">Bağlı Olduğu Lokasyon</label>
+              <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control"
+                (change)="loadDepartmentByLocationId($event)" (click)="loadDropdownList()" #LocationId="ngModel"
+                [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
+                <option value="">Yok</option>
+                <option *ngFor="let location of locations" value="{{location.LocationId}}">
+                  {{location.Name}}
+                </option>
+              </select>
+              <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
+                <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
               </div>
+            </div>
 
-              <!-- BAĞLI OLDUĞU DEPARTMAN  -->
-              <div class="col-md-6 form-group">
-                <label>Bağlı Olduğu Departman</label>
-                <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none"
-                  class="form-control" type="text">
-                  <option [ngValue]="null">Yok</option>
-                  <option *ngFor="let department of ddlDepartments" value={{department.DepartmentId}}>
-                    {{department.Name}}
-                  </option>
-                </select>
-              </div>
+            <!-- BAĞLI OLDUĞU DEPARTMAN  -->
+            <div class="col-md-6 form-group">
+              <label>Bağlı Olduğu Departman</label>
+              <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none"
+                class="form-control" type="text">
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let department of ddlDepartments" value={{department.DepartmentId}}>
+                  {{department.Name}}
+                </option>
+              </select>
+            </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
