@@ -64,6 +64,9 @@
 
 
             <div class="grp-btn-action">
+                <button class="btn btn-success btn-excel-custom"  style="margin-right:10px" data-toggle="tooltip"
+                data-placement="bottom" title="Dosya Ekle - Çıkar"><i class="fas fa-file-download"></i></button>
+
               <button class="btn btn-success btn-excel-custom" (click)="downloadDebitForm()" style="margin-right:10px" data-toggle="tooltip"
                 data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>
 
@@ -72,9 +75,7 @@
                   [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                   [class.btn-refresh-loader]="isTableExporting == true"></i>
               </button>
-
-
-
+              
               <button type="button" id="btnRefresh" (click)="refreshTable()" style="margin-right:10px"
                 data-toggle="tooltip" data-placement="bottom" title="Form" class="btn btn-success btn-refresh-custom">
                 <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
@@ -170,7 +171,7 @@
     <div class="modal-content modal-content-demo table-scroll">
       <div class="modal-header">
         <h6 class="modal-title">Demirbaş bilgileri</h6>
-        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button id="CloseModal" type="button" class="close" (click)="resetForm()" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -271,10 +272,11 @@
 
             <div class="col-md-6">
               <div class="row justify-content-center">
-                <div *ngIf="!path" class="form-group well my-drop-zone">
+                <div *ngIf="!imagePath" class="form-group well my-drop-zone">
                 </div>
-                <div *ngIf="path" style="max-width: 100%; max-height: 100%; margin: 20px;">
-                  <img [src]="path" style="max-width: 100%; max-height: 100%">
+                <div *ngIf="imagePath" style="    width: 100%; height: 100%;; margin: 20px;">
+                  <img [src]="imagePath" style="    width: 100%;
+                  height: 100%;">
                 </div>
               </div>
             </div>
@@ -414,7 +416,7 @@
           </div>
         </fieldset>
         <div class="row justify-content-center" style="margin-top:10px">
-          <div class="col-md-6" style="margin-right: -20px; margin-left: 0px;">
+          <div class=" property-values-table col-md-6" style="margin-right: -20px; margin-left: 0px; overflow-y: scroll; height: 80px; padding-top:0px;" >
             <tree-grid-table [dataTable]="dataTablePropertyValue">
             </tree-grid-table>
           </div>

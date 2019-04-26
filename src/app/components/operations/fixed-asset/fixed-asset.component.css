@@ -52,3 +52,9 @@
     border-color: #cc6703;
     max-height: 35px;
 }
+
+.property-add-value {
+    width: 30px;
+    padding-left: 12px;
+    align-self: center;
+  }

@@ -122,7 +122,9 @@ export class FixedAssetCardService {
     }).subscribe(
       result => {
         let response: Response = <Response>result;
+        
         if ((<[]>response.ResultObject).length == 0) {
+ 
           success(response.ResultObject, response.LanguageKeyword);
         } else {
           failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
@@ -139,9 +141,15 @@ export class FixedAssetCardService {
       result=>{
         let response:Response=<Response>result;
         if(response.ResultStatus == true){
-          success(<FixedAssetCard[]>response.ResultObject,response.LanguageKeyword);
+            let fixedAssetCards:FixedAssetCard[]=[];
+            (<FixedAssetCard[]>response.ResultObject).forEach(e=>{
+              let faCard:FixedAssetCard=new FixedAssetCard();
+              Object.assign(faCard,e);
+              fixedAssetCards.push(faCard);
+            })
+            success(fixedAssetCards, response.LanguageKeyword);
         }
-        else{
+        else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },(error:HttpErrorResponse)=>{

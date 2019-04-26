@@ -19,6 +19,11 @@ export class TreeGridTableComponent implements OnInit,DoCheck {
    */
   @Output('onDoubleClickItem') dblClickItem: EventEmitter<any> = new EventEmitter();
 
+  /**
+   * Trigger on click item
+   */
+  @Output('onClickItem') onClickItem: EventEmitter<any> = new EventEmitter();
+
   constructor() {
   }
 
@@ -42,6 +47,10 @@ export class TreeGridTableComponent implements OnInit,DoCheck {
 
   onDoubleClickItem(item: IData) {
     this.dblClickItem.emit(item);
+  }
+
+  onClickedItem(item: IData) {
+    this.onClickItem.emit(item);
   }
 
 }

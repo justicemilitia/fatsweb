@@ -19,6 +19,13 @@
     margin-right: 0px;
 }
 
+.table-column-header {
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
 .table-info {
     height: 40px;
     display: flex;

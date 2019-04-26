@@ -56,7 +56,7 @@
   <div class="tree-table-responsive">
     <table class="tree-table">
       <!-- Table Header Area -->
-      <thead class="tree-table-header">
+      <thead class="tree-table-header" *ngIf="dataTable.isHeaderVisible==true">
         <!-- Header Select All -->
         <th class="tree-table-body-tr-th-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
           <input type="checkbox" [(ngModel)]="dataTable.selectAllState">
@@ -64,7 +64,8 @@
         <!-- END Header Select All END-->
         <!-- Header columns -->
         <ng-container *ngFor="let column of dataTable.activeColumns">
-          <th *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column)">
+          <th appTreeGridDrag [column]="column" [dataTable]="dataTable" class="table-column-header"
+            *ngIf="column.isActive == true" (click)="dataTable.TGT_doOrder(column)">
             {{column.columnDisplayName}}
             <span class="{{dataTable.TGT_getOrderSign(column)}}"></span>
           </th>
@@ -90,15 +91,15 @@
               <ng-container [ngSwitch]="column.type">
                 <ng-container *ngSwitchCase="'checkbox'">
                   <label class="checkbox-container">
-                    <input type="{{column.type}}" placeholder="{{column.placeholder ? column.placeholder : 'Ara'}}" class="form-control"
-                      [checked]="dataTable.dataFilters[column.columnName]"
+                    <input type="{{column.type}}" placeholder="{{column.placeholder ? column.placeholder : 'Ara'}}"
+                      class="form-control" [checked]="dataTable.dataFilters[column.columnName]"
                       (change)="dataTable.dataFilters[column.columnName] = !dataTable.dataFilters[column.columnName]">
                     <span class="checkmark"></span>
                   </label>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
-                  <input type="text" placeholder="{{column.placeholder ? column.placeholder : 'Ara'}}" class="form-control"
-                    [(ngModel)]="dataTable.dataFilters[column.columnName]">
+                  <input type="text" placeholder="{{column.placeholder ? column.placeholder : 'Ara'}}"
+                    class="form-control" [(ngModel)]="dataTable.dataFilters[column.columnName]">
                 </ng-container>
               </ng-container>
             </td>
@@ -111,7 +112,7 @@
         <!-- END First Row is Filter END -->
         <!-- Data Rows -->
         <ng-container *ngFor="let data of dataTable.dataSource | toPage:dataTable.currentPage:dataTable.perInPage">
-          <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)">
+          <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)" (click)="onClickedItem(data)">
             <!-- First Column is multiple select option -->
             <td class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
               <input type="checkbox" class="table-checkbox" [(ngModel)]="data.isChecked">
@@ -174,11 +175,10 @@
               <td *ngIf="i!=0" class="tree-table-body-tr-td tree-table-input-text">
                 <!-- Fill The Rest of Columns -->
                 <ng-container [ngSwitch]="column.type">
-                <!-- if the type is color then render this-->
-                <ng-container *ngSwitchCase="'color'">
-                    <div class="table-color-item"
-                    [ngStyle]="{'background': dataTable.TGT_getDataValue(data,column) }">
-                        <span class="table-color-item-text">{{dataTable.TGT_getDataValue(data,column)}}</span>
+                  <!-- if the type is color then render this-->
+                  <ng-container *ngSwitchCase="'color'">
+                    <div class="table-color-item" [ngStyle]="{'background': dataTable.TGT_getDataValue(data,column) }">
+                      <span class="table-color-item-text">{{dataTable.TGT_getDataValue(data,column)}}</span>
                     </div>
                   </ng-container>
                   <!-- END if the type is color then render this END -->
@@ -219,10 +219,10 @@
             </ng-container>
             <!-- END Fill The Rows Rest of columns END -->
             <!-- Delete Item Button -->
-              <td class="table-remove-item-column" *ngIf="dataTable.isDeleteable == true">
-                <span (click)="dataTable.TGT_removeItem(data)" class='typcn icon-default typcn-minus'>
-                  </span>
-              </td>
+            <td class="table-remove-item-column" *ngIf="dataTable.isDeleteable == true">
+              <span (click)="dataTable.TGT_removeItem(data)" class='typcn icon-default typcn-minus'>
+              </span>
+            </td>
             <!-- END Delete Item Button END-->
           </tr>
         </ng-container>
@@ -242,12 +242,12 @@
           </tr>
         </ng-template>
         <ng-template [ngIf]="errorMessage !== '' && errorMessage != null">
-            <tr>
-              <td colspan="999" class="table-no-content">
-                <div class="table-error-message">{{errorMessage}}</div>
-              </td>
-            </tr>
-          </ng-template>
+          <tr>
+            <td colspan="999" class="table-no-content">
+              <div class="table-error-message">{{errorMessage}}</div>
+            </td>
+          </tr>
+        </ng-template>
         <!-- END Loading Side END -->
         <!-- END Data Rows END -->
       </tbody>

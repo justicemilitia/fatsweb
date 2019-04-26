@@ -72,6 +72,7 @@ import { TransactionListComponent } from "./components/operations/transaction-li
 import { UserSettingsComponent } from "./components/definitions/user-settings/user-settings.component";
 import { DepreciationComponent } from "./components/depreciation/depreciation/depreciation.component";
 import { MatTabsModule } from "@angular/material/tabs";
+import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-grid-drag.directive';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { MatTabsModule } from "@angular/material/tabs";
     AlertInfosComponent,
     TransactionListComponent,
     UserSettingsComponent,
-    DepreciationComponent
+    DepreciationComponent,
+    TreeGridDragDirective
   ],
   imports: [
     BrowserModule,

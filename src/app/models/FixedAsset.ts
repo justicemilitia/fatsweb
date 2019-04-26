@@ -97,6 +97,7 @@ export class FixedAsset implements IData {
   IsGuaranteed: boolean;
   DepreciationBeginDate: string;
   DepreciationEndDate: string;
+  Description:string;
 
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();
