@@ -95,6 +95,8 @@ export class FixedAsset implements IData {
   IsCalculatedDepreciation:boolean;
   IsCalculatedIFRSDepreciation: boolean;
   IsGuaranteed: boolean;
+  DepreciationBeginDate: string;
+  DepreciationEndDate: string;
   Description:string;
 
   constructor() {

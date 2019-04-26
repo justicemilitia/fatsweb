@@ -2,13 +2,17 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
-import { FormsModule, ReactiveFormsModule,NgControl } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule, NgControl } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { routes } from "./app-routing.module";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
-import{MatStepperModule,MatIconModule,MatButtonModule} from "@angular/material";
+import {
+  MatStepperModule,
+  MatIconModule,
+  MatButtonModule
+} from "@angular/material";
 
 import { LoginComponent } from "./components/login/login.component";
 import { HeaderComponent } from "./components/layout/header/header.component";
@@ -59,13 +63,15 @@ import { FaChangeCollectiveParameterComponent } from "./components/operations/fi
 import { FaRelationshipComponent } from "./components/operations/fixed-asset/fa-relationship/fa-relationship.component";
 import { FaFilterComponent } from "./components/operations/fixed-asset/fa-filter/fa-filter.component";
 import { RelationshipFixedAssetComponent } from "./components/operations/relationship-fixed-asset/relationship-fixed-asset.component";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FileUploadModule  } from 'ng2-file-upload';
-import { AlertInfosComponent } from './extends/alert-infos/alert-infos/alert-infos.component';
-import { InputTrimModule } from 'ng2-trim-directive';
-import {NgxMaskModule} from 'ngx-mask';
-import { TransactionListComponent } from './components/operations/transaction-list/transaction-list.component';
-import { UserSettingsComponent } from './components/definitions/user-settings/user-settings.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FileUploadModule } from "ng2-file-upload";
+import { AlertInfosComponent } from "./extends/alert-infos/alert-infos/alert-infos.component";
+import { InputTrimModule } from "ng2-trim-directive";
+import { NgxMaskModule } from "ngx-mask";
+import { TransactionListComponent } from "./components/operations/transaction-list/transaction-list.component";
+import { UserSettingsComponent } from "./components/definitions/user-settings/user-settings.component";
+import { DepreciationComponent } from "./components/depreciation/depreciation/depreciation.component";
+import { MatTabsModule } from "@angular/material/tabs";
 import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-grid-drag.directive';
 
 @NgModule({
@@ -121,6 +127,7 @@ import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-g
     AlertInfosComponent,
     TransactionListComponent,
     UserSettingsComponent,
+    DepreciationComponent,
     TreeGridDragDirective
   ],
   imports: [
@@ -143,8 +150,7 @@ import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-g
     ReactiveFormsModule,
     InputTrimModule,
     NgxMaskModule.forRoot(),
-  
-    
+    MatTabsModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

@@ -1,0 +1,28 @@
+.flexProperty {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.flexProperty > div {
+    padding:5px;
+}
+.mat-tab-nav-bar.mat-primary .mat-ink-bar{
+  background-color:#e67300;
+}
+
+.field_set {
+  border: 1;
+  border-color: #d0cbcb;
+  border-style: solid;
+}
+
+.fieldset_text {
+  color: #e67300;
+}
+
+.modal-dialog {
+  max-width: 900px;
+  margin: 1.75rem auto;
+}

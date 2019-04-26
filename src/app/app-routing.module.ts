@@ -29,6 +29,7 @@ import { FixedAssetRelationship } from './models/FixedAssetRelationship';
 import { RelationshipFixedAssetComponent } from './components/operations/relationship-fixed-asset/relationship-fixed-asset.component';
 import { TransactionListComponent } from './components/operations/transaction-list/transaction-list.component';
 import { UserSettingsComponent } from './components/definitions/user-settings/user-settings.component';
+import { DepreciationComponent } from './components/depreciation/depreciation/depreciation.component';
 
 export const routes: Routes = [
   {
@@ -190,6 +191,12 @@ export const routes: Routes = [
     path: "usersettings",
     component: UserSettingsComponent
     // data: { pageKeyword: pages.MENU_TRANSACTIONLIST }
+    // //canActivate: [AuthGuard]
+  },
+  {
+    path: "depreciation",
+    component: DepreciationComponent,
+    data: { pageKeyword: pages.MENU_DEPRECIATIONS }
     // //canActivate: [AuthGuard]
   }
 
