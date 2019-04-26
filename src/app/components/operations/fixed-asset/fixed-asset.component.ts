@@ -160,6 +160,14 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
+        columnDisplayName: "Statü Rengi",
+        columnName: ["Status","Color"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "color",   
+      },
+      {
         columnDisplayName: "Fiyat",
         columnName: ["Price"],
         isActive: true,

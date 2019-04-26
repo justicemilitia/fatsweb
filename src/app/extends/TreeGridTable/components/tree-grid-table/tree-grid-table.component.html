@@ -56,7 +56,7 @@
   <div class="tree-table-responsive">
     <table class="tree-table">
       <!-- Table Header Area -->
-      <thead class="tree-table-header">
+      <thead class="tree-table-header" *ngIf="dataTable.isHeaderVisible==true">
         <!-- Header Select All -->
         <th class="tree-table-body-tr-th-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
           <input type="checkbox" [(ngModel)]="dataTable.selectAllState">
@@ -112,7 +112,7 @@
         <!-- END First Row is Filter END -->
         <!-- Data Rows -->
         <ng-container *ngFor="let data of dataTable.dataSource | toPage:dataTable.currentPage:dataTable.perInPage">
-          <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)">
+          <tr class="tree-table-body-tr" (dblclick)="onDoubleClickItem(data)" (click)="onClickedItem(data)">
             <!-- First Column is multiple select option -->
             <td class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
               <input type="checkbox" class="table-checkbox" [(ngModel)]="data.isChecked">

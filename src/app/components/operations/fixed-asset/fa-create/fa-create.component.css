@@ -133,5 +133,30 @@ input[type=number]::-webkit-outer-spin-button {
   height: 200px;
   z-index: 1000;
   top: 46px;
-  display: none;
+  display: block;
+  max-height: 200px;
+  overflow-y: auto;
+  
+}
+
+.dropdown-button {
+  background: white; 
+  border: 1px solid #ced4da;
+  flex:1;
+  height: 27px;
+}
+
+.dropdown-button.is-valid {
+  height: 27px;
+  border: 1px solid red;
+  border-right: 0;
+}
+
+.span-dropdown{
+  width: 30px;
+  border: 1px solid #ced4da;
+  margin-left: 5px;
+  text-align: center;
+  font-size: 13px;
+  padding-top: 3px;
 }

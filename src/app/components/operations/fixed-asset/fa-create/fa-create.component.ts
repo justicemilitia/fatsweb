@@ -71,6 +71,7 @@ export class FaCreateComponent extends BaseComponent
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
+  isLocationDropdownOpen:boolean=false;
 
   isFinished: boolean = false;
   isWaitingValidBarcode: boolean = false;
@@ -272,10 +273,29 @@ export class FaCreateComponent extends BaseComponent
     this.dataTableLocation.isDeleteable = false;
     this.dataTableLocation.isMultipleSelectedActive = false;
     this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isHeaderVisible=false;
+    $(document).on("click",(e)=>{
+      if ($(e.target).closest(".custom-dropdown").length == 0 &&
+      $(e.target).closest("#btnLocation").length == 0 ) {
+        console.log('closed');
+        this.isLocationDropdownOpen = false;
+      }
+    });
 
   }
 
   ngOnInit() {}
+
+  toggleLocation(){
+    this.isLocationDropdownOpen=!this.isLocationDropdownOpen;
+  }
+
+
+
+  selectedLocation:Location;
+  onClickLocation(item) {
+    this.selectedLocation = item;
+  }
 
   next() {
     
