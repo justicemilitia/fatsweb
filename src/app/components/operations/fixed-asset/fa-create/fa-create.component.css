@@ -146,10 +146,9 @@ input[type=number]::-webkit-outer-spin-button {
   height: 27px;
 }
 
-.dropdown-button.is-valid {
+.dropdown-button-valid {
   height: 27px;
   border: 1px solid red;
-  border-right: 0;
 }
 
 .span-dropdown{
@@ -160,3 +159,4 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 13px;
   padding-top: 3px;
 }
+

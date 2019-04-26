@@ -39,7 +39,7 @@ import { NgForm, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { convertNgbDateToDateString } from "src/app/declarations/extends";
 import { MatStepper } from "@angular/material";
 import { FixedAssetComponent } from "../fixed-asset.component";
-import { Agreement } from 'src/app/models/Agreement';
+import { Agreement } from "src/app/models/Agreement";
 
 const URL = "";
 
@@ -48,20 +48,16 @@ const URL = "";
   templateUrl: "./fa-create.component.html",
   styleUrls: ["./fa-create.component.css"]
 })
-
 @Directive({ selector: "[ng2FileSelect]" })
 @Directive({ selector: "[ng2FileDrop]" })
-
 @NgModule({
   imports: [ReactiveFormsModule],
   declarations: [FaCreateComponent],
   providers: [FaCreateComponent]
 })
-
 export class FaCreateComponent extends BaseComponent
   implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
-
     if (changes["isNewBarcode"]) {
       this.getValidBarcode();
       this.isNewBarcode = false;
@@ -71,7 +67,10 @@ export class FaCreateComponent extends BaseComponent
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
-  isLocationDropdownOpen:boolean=false;
+  isLocationDropdownOpen: boolean = false;
+  isDepartmentDropdownOpen:boolean = false;
+  isFaCardDropdownOpen:boolean = false;
+  isFaCardCategoryDropdownOpen: boolean = false;
 
   isFinished: boolean = false;
   isWaitingValidBarcode: boolean = false;
@@ -100,7 +99,7 @@ export class FaCreateComponent extends BaseComponent
   propertydetail: FixedAssetPropertyDetails[] = [];
   fixedAssetFiles: FixedAssetFile[] = [];
   fixedAssetFilesDataTable: FixedAssetFile[] = [];
-  agreements:Agreement[]=[];
+  agreements: Agreement[] = [];
 
   fixedAsset: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
@@ -209,25 +208,6 @@ export class FaCreateComponent extends BaseComponent
     }
   );
 
-  public dataTableLocation: TreeGridTable = new TreeGridTable(
-    "fixedassetcardpropertyvalue",
-    [
-      {
-        columnDisplayName: "Lokasyon",
-        columnName: ["Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-
-    ],
-    {
-      isDesc: false,
-      column: ["Name"]
-    }
-  );
-
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
     [
@@ -246,6 +226,78 @@ export class FaCreateComponent extends BaseComponent
     }
   );
 
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "location",
+    [
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableDepartment: TreeGridTable = new TreeGridTable(
+    "department",
+    [
+      {
+        columnDisplayName: "Departman",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+  
+  public dataTableFixedAssetCategory: TreeGridTable = new TreeGridTable(
+    "fixedassetcategory",
+    [
+      {
+        columnDisplayName: "Demirbaş Kategorisi",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableFixedAssetCard: TreeGridTable = new TreeGridTable(
+    "fixedassetcard",
+    [
+      {
+        columnDisplayName: "Demirbaş Kartı",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
   constructor(
     protected baseService: BaseService,
     public HttpClient: HttpClient
@@ -253,59 +305,137 @@ export class FaCreateComponent extends BaseComponent
     super(baseService);
     this.loadDropdown();
     this.getValidBarcode();
+
+    //#region DataTable Properties
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
+
     this.dataTable.isPagingActive = false;
     this.dataTable.isColumnOffsetActive = false;
     this.dataTable.isDeleteable = true;
     this.dataTable.isTableEditable = true;
+
     this.dataTableFile.isPagingActive = false;
     this.dataTableFile.isColumnOffsetActive = false;
     this.dataTableFile.isDeleteable = true;
     this.dataTableFile.isMultipleSelectedActive = false;
     this.dataTableFile.isLoading = false;
-    this.dataTableLocation.isPagingActive=false;
+
+    this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
     this.dataTableLocation.isDeleteable = false;
     this.dataTableLocation.isMultipleSelectedActive = false;
     this.dataTableLocation.isLoading = false;
-    this.dataTableLocation.isHeaderVisible=false;
-    $(document).on("click",(e)=>{
-      if ($(e.target).closest(".custom-dropdown").length == 0 &&
-      $(e.target).closest("#btnLocation").length == 0 ) {
-        console.log('closed');
+    this.dataTableLocation.isHeaderVisible = false;
+
+    this.dataTableDepartment.isPagingActive = false;
+    this.dataTableDepartment.isColumnOffsetActive = false;
+    this.dataTableDepartment.isDeleteable = false;
+    this.dataTableDepartment.isMultipleSelectedActive = false;
+    this.dataTableDepartment.isLoading = false;
+    this.dataTableDepartment.isHeaderVisible = false;
+
+    this.dataTableFixedAssetCategory.isPagingActive = false;
+    this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
+    this.dataTableFixedAssetCategory.isDeleteable = false;
+    this.dataTableFixedAssetCategory.isMultipleSelectedActive = false;
+    this.dataTableFixedAssetCategory.isLoading = false;
+    this.dataTableFixedAssetCategory.isHeaderVisible = false;
+
+    this.dataTableFixedAssetCard.isPagingActive = false;
+    this.dataTableFixedAssetCard.isColumnOffsetActive = false;
+    this.dataTableFixedAssetCard.isDeleteable = false;
+    this.dataTableFixedAssetCard.isMultipleSelectedActive = false;
+    this.dataTableFixedAssetCard.isLoading = false;
+    this.dataTableFixedAssetCard.isHeaderVisible = false;
+    //#endregion    
+
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnDepartment").length == 0 
+        && $(e.target).closest("#btnFaCategory").length == 0  && $(e.target).closest("#btnFaCard").length == 0
+      ) {
         this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen=false;
+        this.isFaCardDropdownOpen=false;
       }
     });
-
   }
 
   ngOnInit() {}
 
-  toggleLocation(){
-    this.isLocationDropdownOpen=!this.isLocationDropdownOpen;
+  toggleDropdown(key:string) {
+
+
+    switch (key) {
+      case "location":
+    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+    this.isDepartmentDropdownOpen=false;
+    this.isFaCardDropdownOpen=false;
+    this.isFaCardCategoryDropdownOpen = false;
+    break;
+
+    case "department":
+    this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
+    this.isFaCardDropdownOpen=false;
+    this.isFaCardCategoryDropdownOpen = false;
+    this.isLocationDropdownOpen = false;
+    this.loadDepartmentByLocationId();
+
+    break;
+    
+    case "card":
+    this.isFaCardDropdownOpen=!this.isFaCardDropdownOpen;
+    this.isLocationDropdownOpen = false;
+    this.isDepartmentDropdownOpen=false;
+    this.isFaCardCategoryDropdownOpen = false;
+    this.loadFaCardByCategoryId();
+
+    break;
+
+    case "category":
+    this.isFaCardCategoryDropdownOpen = !this.isFaCardCategoryDropdownOpen;
+    this.isLocationDropdownOpen = false;
+    this.isDepartmentDropdownOpen=false;
+    this.isFaCardDropdownOpen=false;
+    break;
+    }
   }
 
-
-
-  selectedLocation:Location;
+  selectedLocation: Location;
   onClickLocation(item) {
     this.selectedLocation = item;
   }
 
+  selectedDepartment: Department;
+  onClickDepartment(item) {
+    this.selectedDepartment = item;
+  }
+
+  selectedCategory:FixedAssetCardCategory;
+
+  onClickFaCategory(item){
+    this.selectedCategory=item;
+  }
+
+  selectedCard:FixedAssetCard;
+  onClickFaCard(item){
+    this.selectedCard=item;
+  }
+
   next() {
-    
-    if(this.barcode)
-    this.fixedAsset.Barcode = this.barcode.toString();
+    if (this.barcode) this.fixedAsset.Barcode = this.barcode.toString();
 
     if (
-      this.fixedAsset.FixedAssetCardId != null &&
-      this.fixedAsset.FixedAssetCardCategoryId != null &&
-      this.fixedAsset.LocationId != null &&
+      this.selectedCard != null &&
+      this.selectedCategory != null &&
+      this.selectedLocation != null &&
       this.fixedAsset.StatusId != null &&
       this.fixedAsset.Barcode != null
     ) {
@@ -397,10 +527,11 @@ export class FaCreateComponent extends BaseComponent
     );
 
     this.baseService.agreementService.GetAgreement(
-      (agreements:Agreement[])=>{
-        this.agreements=agreements
+      (agreements: Agreement[]) => {
+        this.agreements = agreements;
       },
-      (error: HttpErrorResponse)=>{})
+      (error: HttpErrorResponse) => {}
+    );
 
     if (this.fixedassetcategories && this.fixedassetcategories.length == 0) {
       this.fixedassetcards = [];
@@ -408,6 +539,7 @@ export class FaCreateComponent extends BaseComponent
       this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
         (categories: FixedAssetCardCategory[]) => {
           this.fixedassetcategories = categories;
+          this.dataTableFixedAssetCategory.TGT_loadData(this.fixedassetcategories);
         },
         (error: HttpErrorResponse) => {
           this.baseService.popupService.ShowErrorPopup(error);
@@ -458,26 +590,27 @@ export class FaCreateComponent extends BaseComponent
     }
   }
 
-  loadFaCardByCategoryId(event: any) {
+  loadFaCardByCategoryId() {
     this.fixedassetcards = [];
+    
+    // if (!event.target.value || event.target.value == "") {
+    //   this.fixedAsset.FixedAssetCardId = null;
+    //   this.fixedAsset.FixedAssetCard = new FixedAssetCard();
+    //   return;
+    // }
 
-    if (!event.target.value || event.target.value == "") {
-      this.fixedAsset.FixedAssetCardId = null;
-      this.fixedAsset.FixedAssetCard = new FixedAssetCard();
-      return;
-    }
-
-    if (event.target.value) {
+    //if (event.target.value) {
       this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
-        <number>event.target.value,
+        this.selectedCategory.FixedAssetCardCategoryId,
         (fixedAssetCards: FixedAssetCard[]) => {
           this.fixedassetcards = fixedAssetCards;
+          this.dataTableFixedAssetCard.TGT_loadData(this.fixedassetcards);
         },
         (error: HttpErrorResponse) => {
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
-    }
+   //}
   }
 
   loadFixedAssetProperties() {
@@ -494,7 +627,9 @@ export class FaCreateComponent extends BaseComponent
   loadValuesByPropertyId(event) {
     this.isSelectedProperty = true;
     this.visible = false;
-    let fixedAssetProperty = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(event.target.value));
+    let fixedAssetProperty = this.fixedassetproperty.find(
+      x => x.FixedAssetCardPropertyId == Number(event.target.value)
+    );
 
     if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
       this.isListSelected = true;
@@ -512,25 +647,30 @@ export class FaCreateComponent extends BaseComponent
     }
   }
 
-  loadDepartmentByLocationId(event: any) {
+  loadDepartmentByLocationId() {
     this.departments = [];
+    
+    this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
 
-    if (!event.target.value || event.target.value == "") {
-      this.fixedAsset.DepartmentId = null;
-      this.fixedAsset.Department = new Department();
-      return;
-    }
+    // if (!event.target.value || event.target.value == "") {
+    //   this.fixedAsset.DepartmentId = null;
+    //   this.fixedAsset.Department = new Department();
+    //   return;
+    // }
 
-    if (event.target.value) {
+    // if (event.target.value) {
+      if( this.selectedLocation != null){
       this.baseService.departmentService.GetDepartmentsByLocationId(
-        <number>event.target.value,
+
+        this.selectedLocation.LocationId,
         (departments: Department[]) => {
           this.departments = departments;
+          this.dataTableDepartment.TGT_loadData(this.departments);
         },
-        (error: HttpErrorResponse) => {
-        }
+        (error: HttpErrorResponse) => {}
       );
     }
+    //}
   }
 
   //#endregion
@@ -585,13 +725,17 @@ export class FaCreateComponent extends BaseComponent
   }
 
   insertPropertyValueToArray(propertyId: any) {
-
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
 
     if (this.isSelectedProperty == true) {
-      let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value));
+      let fixedasset = this.fixedassetproperty.find(
+        x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+      );
 
-      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+        (this.faPropertyDetails.length + 1) * -1;
 
       this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
 
@@ -605,8 +749,7 @@ export class FaCreateComponent extends BaseComponent
       propertyId = null;
       this.visible = false;
       this.isSelectedProperty = false;
-    } 
-    else {
+    } else {
       this.visible = true;
     }
   }
@@ -649,6 +792,7 @@ export class FaCreateComponent extends BaseComponent
     let department = this.departments.find(
       x => x.DepartmentId == Number(data.value.DepartmentId)
     );
+
     let fixedassetcard = this.fixedassetcards.find(
       x => x.FixedAssetCardId == Number(data.value.FixedAssetCardId)
     );
@@ -678,7 +822,7 @@ export class FaCreateComponent extends BaseComponent
     this.fixedAsset.InvoiceDate = data.value.invoiceDate;
     this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
     this.fixedAsset.ReceiptDate = data.value.receiptDate;
-    this.fixedAsset.Picture=this.picture;
+    this.fixedAsset.Picture = this.picture;
 
     if (this.isFinished == true) {
       for (let i = 0; i < this.quantity; i++) {
@@ -806,7 +950,7 @@ export class FaCreateComponent extends BaseComponent
     let barcodes = this.fixedAssets.map(x => x.Barcode);
     this.insertedFixedAsset.BarcodeIds = <[]>barcodes;
     this.fileBarcode = barcodes;
-      this.baseService.spinner.show();
+    this.baseService.spinner.show();
     this.baseService.fixedAssetCreateService.AddFixedAsset(
       this.insertedFixedAsset,
       (barcodes: [], status, message) => {
@@ -839,7 +983,7 @@ export class FaCreateComponent extends BaseComponent
 
     this.fixedAsset = new FixedAsset();
 
-    this.barcode=null;
+    this.barcode = null;
 
     this.stepper.reset();
 
@@ -847,10 +991,10 @@ export class FaCreateComponent extends BaseComponent
 
     this.isResetForm = true;
 
-    this.isNewBarcode=true;
+    this.isNewBarcode = true;
 
     this.imgURL = null;
-    
+
     this.dataTable.TGT_clearData();
 
     this.dataTablePropertyValue.TGT_clearData();
