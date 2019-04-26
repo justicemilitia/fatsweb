@@ -71,6 +71,7 @@ export class FaCreateComponent extends BaseComponent
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
+  isLocationDropdownOpen:boolean=false;
 
   isFinished: boolean = false;
   isWaitingValidBarcode: boolean = false;
@@ -208,6 +209,25 @@ export class FaCreateComponent extends BaseComponent
     }
   );
 
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "fixedassetcardpropertyvalue",
+    [
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
     [
@@ -248,9 +268,34 @@ export class FaCreateComponent extends BaseComponent
     this.dataTableFile.isDeleteable = true;
     this.dataTableFile.isMultipleSelectedActive = false;
     this.dataTableFile.isLoading = false;
+    this.dataTableLocation.isPagingActive=false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isMultipleSelectedActive = false;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isHeaderVisible=false;
+    $(document).on("click",(e)=>{
+      if ($(e.target).closest(".custom-dropdown").length == 0 &&
+      $(e.target).closest("#btnLocation").length == 0 ) {
+        console.log('closed');
+        this.isLocationDropdownOpen = false;
+      }
+    });
+
   }
 
   ngOnInit() {}
+
+  toggleLocation(){
+    this.isLocationDropdownOpen=!this.isLocationDropdownOpen;
+  }
+
+
+
+  selectedLocation:Location;
+  onClickLocation(item) {
+    this.selectedLocation = item;
+  }
 
   next() {
     
@@ -290,6 +335,7 @@ export class FaCreateComponent extends BaseComponent
     this.baseService.locationService.GetLocations(
       (locations: Location[]) => {
         this.locations = locations;
+        this.dataTableLocation.TGT_loadData(this.locations);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -539,9 +585,8 @@ export class FaCreateComponent extends BaseComponent
   }
 
   insertPropertyValueToArray(propertyId: any) {
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
+
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
     if (this.isSelectedProperty == true) {
       let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value));

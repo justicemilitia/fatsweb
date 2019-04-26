@@ -7,6 +7,14 @@ export class TreeGridTable {
 
     //#region Variables
 
+    /**
+     * Set true if header visible
+     */
+    public isHeaderVisible:boolean=true;
+
+    /**
+     * Is drag and drop active.
+     */
     public isDragAndDropActive: boolean = true;
 
     /**
