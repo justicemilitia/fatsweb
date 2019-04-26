@@ -17,7 +17,8 @@
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
 
-            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="refreshTable()"
+              class="btn btn-success btn-refresh-custom">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
@@ -26,14 +27,16 @@
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
 
-            <button class="btn btn-az-primary" id="btnAddFixedAssetCardCategory" data-toggle="modal"
-              data-target="#modalFixedAssetCardCategory" (click)="resetForm(data,true)">Kategori Ekle
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddFixedAssetCardCategory"
+              data-toggle="modal" data-target="#modalFixedAssetCardCategory" (click)="resetForm(data,true)">Kategori
+              Ekle
             </button>
 
-            <button style="display:none" id="btnEditFixedAssetCardCategory" data-toggle="modal"
-              data-target="#modalFixedAssetCardCategory" (click)="resetForm(data,false)">Kategori Düzenle
+            <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditFixedAssetCardCategory"
+              data-toggle="modal" data-target="#modalFixedAssetCardCategory" (click)="resetForm(data,false)">Kategori
+              Düzenle
             </button>
-            
+
           </div>
         </div>
         <div class="sales-overview">
@@ -52,7 +55,7 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title">
-            {{
+          {{
               fixedAssetCardCategory.FixedAssetCardCategoryId ?  'Demirbaş Kategorisi Güncelle' : 'Demirbaş Kategorisi Ekle'
             }}
         </h6>

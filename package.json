@@ -27,7 +27,7 @@
     "angular-jwt": "^0.1.10",
     "angular-wizard-form": "^0.4.1",
     "bootstrap": "^4.2.1",
-    "core-js": "^2.5.4",
+    "core-js": "^2.5.7",
     "datatables.net": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
     "jquery": "^3.3.1",
@@ -44,13 +44,15 @@
     "sweetalert": "^2.1.2",
     "tslib": "^1.9.0",
     "xlsx": "^0.14.1",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "crypto-js": "^3.1.9-1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.12.3",
     "@angular/cli": "^7.3.3",
     "@angular/compiler-cli": "^7.2.9",
     "@angular/language-service": "~7.2.0",
+    "@types/crypto-js": "^3.1.43",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/jquery": "^3.3.29",

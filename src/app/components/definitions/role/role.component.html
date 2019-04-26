@@ -1,44 +1,52 @@
 <div class="az-content az-content-dashboard-four">
-    <div class="media media-dashboard">
-      <div class="media-body">
+  <div class="media media-dashboard">
+    <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-          <span>TANIMLAMALAR</span>
-          <span>ROl TANIMLAMA</span>
+        <span>TANIMLAMALAR</span>
+        <span>ROl TANIMLAMA</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
-      <div class="card-header">
-        <h2 class="az-content-title" style="margin-left:0">Rol Tanımlama</h2>  
-          <div class="grp-btn-action">        
-            
+        <div class="card-header">
+          <h2 class="az-content-title" style="margin-left:0">Rol Tanımlama</h2>
+          <div class="grp-btn-action">
+
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
-              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
-            </button>
-                    
-            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
-              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
 
-            <button type="button" (click)="deleteRoles()" style="margin-right:10px" class="btn btn-danger btn-delete-custom">
-            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
-            <i class="fas fa-trash"></i></button>
-            
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
+
+            <button type="button" (click)="deleteRoles()" *ngIf="IsAuthForDelete==true" style="margin-right:10px"
+              class="btn btn-danger btn-delete-custom">
+              {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+              <i class="fas fa-trash"></i></button>
+
             <button class="btn btn-az-primary" style="margin-right:10px" (click)="redirectTo('/roleuser')">
               <i class="fa fa-list" style="margin-right:10px;"></i> Rol Kullanıcı Listesi
             </button>
 
-            <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"><i class="fa fa-plus-circle fa-plus-circle-add"></i> Rol Ekle
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" (click)="resetForm(data,true)"
+              id="btnAddRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"><i
+                class="fa fa-plus-circle fa-plus-circle-add"></i> Rol Ekle
             </button>
-            <button style="display:none" id="btnEditRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"> Rol Düzenle
+            <button style="display:none" id="btnEditRoleAuth" *ngIf="IsAuthForEdit==true" data-toggle="modal"
+              data-target="#modalRoleDefinition">
+              Rol Düzenle
             </button>
           </div>
-      </div>      
-      <div class="sales-overview">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+        </div>
+        <div class="sales-overview">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          </tree-grid-table>
+        </div>
       </div>
     </div>
-  </div>
     <!-- az-content-body -->
   </div>
 </div>
@@ -52,34 +60,35 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm"  (ngSubmit)="OnSubmitRole(data) && data.form.valid" novalidate>
-      <div class="modal-body">
+      <form name="form" #data="ngForm" (ngSubmit)="OnSubmitRole(data) && data.form.valid" novalidate>
+        <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Rol</label>
-              <input  [(ngModel)]="role.Name" name="Name" #Name="ngModel" type="text" trim="blur" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" 
-              required maxlength="50"/>              
+              <input [(ngModel)]="role.Name" name="Name" #Name="ngModel" type="text" trim="blur" class="form-control"
+                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
-            </div>      
-        </div>
-        <div class="row justify-content-center">
+            </div>
+          </div>
+          <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label>Açıklama</label>
-              <textarea  [(ngModel)]="role.Description" name="Description" rows="3" type="text" style="resize:none"  class="form-control">
+              <textarea [(ngModel)]="role.Description" name="Description" rows="3" type="text" style="resize:none"
+                class="form-control">
               </textarea>
             </div>
+          </div>
         </div>
-    </div>
-      <div class="modal-footer">
-          <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-az-primary" 
-          data-toggle="modal" *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalAddRole">
-            {{role.RoleId ? 'Rolü Güncelle' : 'Rol Ekle'}}</button>   
+        <div class="modal-footer">
+          <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-az-primary" data-toggle="modal"
+            *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalAddRole">
+            {{role.RoleId ? 'Rolü Güncelle' : 'Rol Ekle'}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
-    </form>
+      </form>
       <!-- modal-body -->
     </div>
   </div>

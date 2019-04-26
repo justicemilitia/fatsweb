@@ -1,42 +1,46 @@
 <div class="az-content az-content-dashboard-four">
-    <div class="media media-dashboard">
-      <div class="media-body">
-        <!-- Bread Crumb -->
-          <div class="az-content-breadcrumb">
-            <span>TANIMLAMALAR</span>
-            <span>DEMİRBAŞ STATÜ TANIMLAMA</span>
-        </div>
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+      <div class="az-content-breadcrumb">
+        <span>TANIMLAMALAR</span>
+        <span>DEMİRBAŞ STATÜ TANIMLAMA</span>
+      </div>
       <div class="card card-dashboard-twelve mg-b-20">
-          <div class="card-header">
-        <h2 class="az-content-title" style="margin-left:0">Demirbaş Statü Tanımlama</h2>
-        <div class="grp-btn-action">
-            
-          <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
-                <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
-            </button>
-                        
-            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
-              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+        <div class="card-header">
+          <h2 class="az-content-title" style="margin-left:0">Demirbaş Statü Tanımlama</h2>
+          <div class="grp-btn-action">
+
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
 
-            <button type="button" (click)="deleteStatus()" class="btn btn-danger btn-delete-custom">
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
+
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteStatus()"
+              class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i>
             </button>
-            
-            <button class="btn btn-az-primary" id="btnAddStatus"
-              data-toggle="modal" data-target="#modalStatus">
+
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddStatus" data-toggle="modal"
+              data-target="#modalStatus">
               Demirbaş Statüsü Ekle
             </button>
-            
-            <button style="display:none" id="btnEditStatus"
-              data-toggle="modal" data-target="#modalStatus">Statü Düzenle
+
+            <button style="display:none" id="btnEditStatus" *ngIf="IsAuthForEdit==true" data-toggle="modal"
+              data-target="#modalStatus">Statü Düzenle
             </button>
 
           </div>
-          </div>
+        </div>
         <div class="sales-overview">
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event, item)" [dataTable]="dataTable"></tree-grid-table>       
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event, item)" [dataTable]="dataTable">
+          </tree-grid-table>
         </div>
       </div>
     </div>
@@ -54,26 +58,26 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm"  (ngSubmit)="onSubmit(data)">
-      <div class="modal-body">
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
+        <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
               <label class="required-span">Statü Kodu</label>
-              <input  [(ngModel)]="status.FixedAssetStatuCode"  
-              [ngClass]="{ 'is-invalid': data.submitted && FixedAssetStatuCode.invalid }"
-                name="FixedAssetStatuCode" #FixedAssetStatuCode="ngModel" type="text" class="form-control" required maxlength="50"/>              
-                <div *ngIf="data.submitted && FixedAssetStatuCode.invalid" class="invalid-feedback">
-                  <div *ngIf="FixedAssetStatuCode.errors.required">Bu alan zorunludur.</div>
-                  <div *ngIf="FixedAssetStatuCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-                </div>
-            </div>      
+              <input [(ngModel)]="status.FixedAssetStatuCode"
+                [ngClass]="{ 'is-invalid': data.submitted && FixedAssetStatuCode.invalid }" name="FixedAssetStatuCode"
+                #FixedAssetStatuCode="ngModel" type="text" class="form-control" required maxlength="50" />
+              <div *ngIf="data.submitted && FixedAssetStatuCode.invalid" class="invalid-feedback">
+                <div *ngIf="FixedAssetStatuCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="FixedAssetStatuCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+              </div>
+            </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
               <label class="required-span">Statü Adı</label>
               <input [(ngModel)]="status.Name" #Name="ngModel" name="Name"
-              [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" 
-              type="text" required maxlength="50" class="form-control"/>              
+                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" type="text" required maxlength="50"
+                class="form-control" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
@@ -82,27 +86,31 @@
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Renk</label>                             
-              <input [(ngModel)]="selectedColor" name="selectedColor" type="text" class="form-control color-custom-input" [(colorPicker)]="selectedColor"                      
-              (colorPickerChange)="selectedColor=$event" [style.background]="selectedColor" #formSelectedColor="ngModel"
-              (colorPickerOpen)="onEventLog('colorPickerOpen', $event)" (colorPickerClose)="onEventLog('colorPickerClose', $event)"
-              (cpInputChange)="onEventLog('cpInputChange', $event)" (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)" 
-              (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)" required
-              [ngClass]="{ 'is-invalid': data.submitted && formSelectedColor.invalid }"/>
+              <label class="required-span">Renk</label>
+              <input [(ngModel)]="selectedColor" name="selectedColor" type="text"
+                class="form-control color-custom-input" [(colorPicker)]="selectedColor"
+                (colorPickerChange)="selectedColor=$event" [style.background]="selectedColor"
+                #formSelectedColor="ngModel" (colorPickerOpen)="onEventLog('colorPickerOpen', $event)"
+                (colorPickerClose)="onEventLog('colorPickerClose', $event)"
+                (cpInputChange)="onEventLog('cpInputChange', $event)"
+                (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)"
+                (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)" required
+                [ngClass]="{ 'is-invalid': data.submitted && formSelectedColor.invalid }" />
               <div *ngIf="data.submitted && formSelectedColor.invalid" class="invalid-feedback">
                 <div *ngIf="formSelectedColor.errors.required">Bu alan zorunludur.</div>
-              </div>               
+              </div>
             </div>
           </div>
-      </div>
-      <div class="modal-footer">
-          <button id="btnInsertOrUpdateStatus" type="submit" class="btn btn-az-primary" data-toggle="modal" data-target="#modalAddStatus">
+        </div>
+        <div class="modal-footer">
+          <button id="btnInsertOrUpdateStatus" type="submit" class="btn btn-az-primary" data-toggle="modal"
+            data-target="#modalAddStatus">
             {{status.FixedAssetStatusId ? 'Demirbaş Statüsünü Güncelle' : 'Demirbaş Statüsü Ekle'}}
-          </button>   
-      </div>
-    </form>
+          </button>
+        </div>
+      </form>
       <!-- modal-body -->
     </div>
   </div>
   <!-- modal-dialog -->
-</div>  
+</div>

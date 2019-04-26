@@ -2,158 +2,161 @@
   <div class="media media-dashboard">
     <div class="media-body">
       <!-- Bread Crumb -->
-        <div class="az-content-breadcrumb">
-            <span>TANIMLAMALAR</span>
-            <span>DEMİRBAŞ ÖZELLİKLERİ</span>
-        </div>
+      <div class="az-content-breadcrumb">
+        <span>TANIMLAMALAR</span>
+        <span>DEMİRBAŞ ÖZELLİKLERİ</span>
+      </div>
       <!-- END Bread Crumb END -->
-        <div class="card card-dashboard-twelve mg-b-20">
+      <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
 
           <h2 class="az-content-title">Demirbaş Özellikleri</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
-                <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
-    
+
             <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
-                <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" (click)="deleteFixedAssetCardProperties()" class="btn btn-danger btn-delete-custom">
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteFixedAssetCardProperties()"
+              class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
 
-            <button class="btn btn-az-primary" id="btnAddFixedAssetCardProperty" data-toggle="modal"
-              data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,true)">Özellik Ekle
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddFixedAssetCardProperty"
+              data-toggle="modal" data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,true)">Özellik Ekle
             </button>
 
-            <button style="display:none" id="btnEditFixedAssetCardProperty" data-toggle="modal"
-              data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,false)">Özellik Düzenle
+            <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditFixedAssetCardProperty"
+              data-toggle="modal" data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,false)">Özellik
+              Düzenle
             </button>
-          
+
           </div>
         </div>
         <div class="sales-overview">
-            <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          </tree-grid-table>
         </div>
       </div>
     </div>
-      <!-- az-content-body -->
-    </div>
+    <!-- az-content-body -->
   </div>
-  
-  <!-- LARGE MODAL -->
-  <div id="modalFixedAssetCardProperty" class="modal" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content modal-content-demo">
-        <div class="modal-header">
-          <h6 class="modal-title">Demirbaş özellik bilgilerini giriniz.</h6>
-          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
-          <div class="modal-body">
-            <!-- ÖZELLİK KODU -->
-            <div class="row justify-content-center">
-              <div class="form-group col-md-12">
-                <label class="required-span">Özellik Kodu</label>
-                <input [(ngModel)]="fixedAssetCardProperty.FixedAssetCardPropertyCode" name="FixedAssetCardPropertyCode"
-                  type="text" trim="blur" class="form-control"
-                  [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardPropertyCode.invalid }"
-                  #FixedAssetCardPropertyCode="ngModel" required />
-                <div *ngIf="data.submitted && FixedAssetCardPropertyCode.invalid" class="invalid-feedback">
-                  <div *ngIf="FixedAssetCardPropertyCode.errors.required">Bu alan zorunludur.</div>
-                </div>
-              </div>
-            </div>
+</div>
 
-            <!-- ÖZELLİK ADI -->
-            <div class="row justify-content-center">
-              <div class="form-group col-md-12">
-                <label class="required-span">Özellik Adı</label>
-                <input [(ngModel)]="fixedAssetCardProperty.Name" name="Name" type="text" trim="blur" class="form-control"
-                  #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
-                <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
-                </div>
+<!-- LARGE MODAL -->
+<div id="modalFixedAssetCardProperty" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Demirbaş özellik bilgilerini giriniz.</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
+        <div class="modal-body">
+          <!-- ÖZELLİK KODU -->
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+              <label class="required-span">Özellik Kodu</label>
+              <input [(ngModel)]="fixedAssetCardProperty.FixedAssetCardPropertyCode" name="FixedAssetCardPropertyCode"
+                type="text" trim="blur" class="form-control"
+                [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardPropertyCode.invalid }"
+                #FixedAssetCardPropertyCode="ngModel" required />
+              <div *ngIf="data.submitted && FixedAssetCardPropertyCode.invalid" class="invalid-feedback">
+                <div *ngIf="FixedAssetCardPropertyCode.errors.required">Bu alan zorunludur.</div>
               </div>
             </div>
-            
-            <!-- ÖZELLİK TİPİ -->
-            <div class="row justify-content-center">
-              <div class="form-group col-md-12">
-              <label class="required-span">Özellik Tipi</label>                
-                <div class="flexProperty">                                                 
-                 <div style="flex:1;">              
-                  <select [(ngModel)]="fixedAssetCardProperty.FixedAssetTypeId"
-                    name="FixedAssetTypeId" class="form-control txt-width" 
-                    #FixedAssetTypeId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetTypeId.invalid }" required 
+          </div>
+
+          <!-- ÖZELLİK ADI -->
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+              <label class="required-span">Özellik Adı</label>
+              <input [(ngModel)]="fixedAssetCardProperty.Name" name="Name" type="text" trim="blur" class="form-control"
+                #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+              <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
+                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ÖZELLİK TİPİ -->
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+              <label class="required-span">Özellik Tipi</label>
+              <div class="flexProperty">
+                <div style="flex:1;">
+                  <select [(ngModel)]="fixedAssetCardProperty.FixedAssetTypeId" name="FixedAssetTypeId"
+                    class="form-control txt-width" #FixedAssetTypeId="ngModel"
+                    [ngClass]="{ 'is-invalid': data.submitted && FixedAssetTypeId.invalid }" required
                     (change)="changeValue($event, fixedAssetCardProperty)">
                     <option [ngValue]="null">Yok</option>
-                    <option *ngFor="let fixedAssetType of fixedAssetTypes"
-                    value={{fixedAssetType.Id}}>
-                    {{fixedAssetType.Name}}
+                    <option *ngFor="let fixedAssetType of fixedAssetTypes" value={{fixedAssetType.Id}}>
+                      {{fixedAssetType.Name}}
                     </option>
                   </select>
                   <div *ngIf="data.submitted && FixedAssetTypeId.invalid" class="invalid-feedback">
-                      <div *ngIf="FixedAssetTypeId.errors.required">Bu alan zorunludur.</div>
-                    </div>
-                 </div>
-                 
-                  <div style="width:135px; padding-left:15px; padding-top: 5px; margin-right:0px;">
-                    <label class="ckbox">
-                      <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique"
-                        name="IsUnique" /><span>Tekil mi?</span>
-                    </label>
+                    <div *ngIf="FixedAssetTypeId.errors.required">Bu alan zorunludur.</div>
                   </div>
+                </div>
+
+                <div style="width:135px; padding-left:15px; padding-top: 5px; margin-right:0px;">
+                  <label class="ckbox">
+                    <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique" name="IsUnique" /><span>Tekil
+                      mi?</span>
+                  </label>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- ÖZELLİK DEĞERİ -->
-            <div class="row justify-content-center">
+          <!-- ÖZELLİK DEĞERİ -->
+          <div class="row justify-content-center">
             <div class="col-md-12 form-group" *ngIf="isListSelected == true">
-                <label class="required-span">Değeri</label>
-              <div class="flexProperty">                    
+              <label class="required-span">Değeri</label>
+              <div class="flexProperty">
                 <div style="flex:1;">
-                  <input #Value name="Value" class="form-control" type="text"
-                  style="font-size: 13px;height: 27px;" id="value"
-                  [ngClass]="{ 'is-invalid': data.submitted && Value.invalid }" required>
+                  <input #Value name="Value" class="form-control" type="text" style="font-size: 13px;height: 27px;"
+                    id="value" [ngClass]="{ 'is-invalid': data.submitted && Value.invalid }" required>
                   <div *ngIf="data.submitted && Value.invalid" class="invalid-feedback">
                     <div *ngIf="Value.errors.required">Bu alan zorunludur.</div>
                   </div>
                 </div>
-                <div class="property-add-value">                    
-                  <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(Value)"></span>
-                </div>    
-              </div>                  
-          </div>
+                <div class="property-add-value">
+                  <span class="tree-table-sign typcn icon-default typcn-plus"
+                    (click)="insertPropertyValueToArray(Value)"></span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- ÖZELLİK DEĞERLERİ TABLOSU -->
           <!-- <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table> -->
           <div class="property-values-table">
-            <tree-grid-table class="table-scroll" *ngIf="isListSelected == true" [dataTable]="dataTablePropertyValue"></tree-grid-table>
+            <tree-grid-table class="table-scroll" *ngIf="isListSelected == true" [dataTable]="dataTablePropertyValue">
+            </tree-grid-table>
           </div>
-        
+
         </div>
 
-          <!-- modal-body -->
-          <div class="modal-footer">
-            <button class="btn btn-az-primary" id="btnInsertOrUpdateFixedAssetCardProperty" type="submit" data-toggle="modal"
-              data-target="#modalInsertFixedAssetProperty" *ngIf="isWaitingInsertOrUpdate == false">
-              {{fixedAssetCardProperty.FixedAssetCardPropertyId ?  'Demirbaş Özelliği Güncelle' : 'Demirbaş Özelliği Ekle'}}
-            </button>
-            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-          </div>
-        </form>
-      </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button class="btn btn-az-primary" id="btnInsertOrUpdateFixedAssetCardProperty" type="submit"
+            data-toggle="modal" data-target="#modalInsertFixedAssetProperty" *ngIf="isWaitingInsertOrUpdate == false">
+            {{fixedAssetCardProperty.FixedAssetCardPropertyId ?  'Demirbaş Özelliği Güncelle' : 'Demirbaş Özelliği Ekle'}}
+          </button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
     </div>
-    <!-- modal-dialog -->
   </div>
-  <!-- modal -->
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->

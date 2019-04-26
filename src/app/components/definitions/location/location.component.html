@@ -21,18 +21,19 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" (click)="deleteLocations()" class="btn btn-danger btn-delete-custom">
+            <button type="button" (click)="deleteLocations()" *ngIf="IsAuthForDelete==true"
+              class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
 
-            <button class="btn btn-az-primary" id="btnAddLocation" data-toggle="modal" data-target="#modalLocation"
-              (click)="resetForm(data,true)">
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddLocation" data-toggle="modal"
+              data-target="#modalLocation" (click)="resetForm(data,true)">
               <i class="fa fa-plus-circle fa-plus-circle-add"></i>
               Lokasyon Ekle
             </button>
 
-            <button style="display:none" (click)="resetForm(data,false)" id="btnEditLocation" data-toggle="modal"
-              data-target="#modalLocation">Lokasyon Düzenle
+            <button style="display:none" (click)="resetForm(data,false)" *ngIf="IsAuthForEdit==true"
+              id="btnEditLocation" data-toggle="modal" data-target="#modalLocation">Lokasyon Düzenle
             </button>
           </div>
         </div>
@@ -62,8 +63,8 @@
             <div class="form-group col-md-6">
               <label class="required-span">Lokasyon Kodu</label>
               <input [(ngModel)]="location.LocationCode" #LocationCode="ngModel" maxlength="50" name="LocationCode"
-                type="text" trim="blur" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }"
-                required />
+                type="text" trim="blur" class="form-control"
+                [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }" required />
               <div *ngIf="data.submitted && LocationCode.invalid" class="invalid-feedback">
                 <div *ngIf="LocationCode.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="LocationCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
@@ -71,8 +72,9 @@
             </div>
             <div class="form-group col-md-6">
               <label class="required-span">Lokasyon Barkodu</label>
-              <input [(ngModel)]="location.Barcode" name="Barcode" type="text" trim="blur" class="form-control" #Barcode="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" required maxlength="50" />
+              <input [(ngModel)]="location.Barcode" name="Barcode" type="text" trim="blur" class="form-control"
+                #Barcode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" required
+                maxlength="50" />
               <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
                 <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="Barcode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
@@ -83,8 +85,8 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Lokasyon Adı</label>
-              <input [(ngModel)]="location.Name" name="Name" type="text" trim="blur" class="form-control" #Name="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
+              <input [(ngModel)]="location.Name" name="Name" type="text" trim="blur" class="form-control"
+                #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
