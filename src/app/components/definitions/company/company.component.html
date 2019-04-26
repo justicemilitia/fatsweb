@@ -2,41 +2,45 @@
   <div class="media media-dashboard">
     <div class="media-body">
       <!-- Bread Crumb -->
-        <div class="az-content-breadcrumb">
-            <span>TANIMLAMALAR</span>
-            <span>ŞİRKETLER</span>
-        </div>
+      <div class="az-content-breadcrumb">
+        <span>TANIMLAMALAR</span>
+        <span>ŞİRKETLER</span>
+      </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-        <h2 class="az-content-title">Şirketler</h2>
-        <div class="grp-btn-action">
+          <h2 class="az-content-title">Şirketler</h2>
+          <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
-              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
-          
+
             <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
-            <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
-          
-          <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteCompanies()" class="btn btn-danger btn-delete-custom">
-            {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
-            <i class="fas fa-trash"></i></button>
-          
-          <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddCompany"
-            data-toggle="modal" data-target="#modalCompany">
-            <i class="fa fa-plus-circle fa-plus-circle-add"></i>
-            Şirket Ekle</button>
-          
-          <button style="display:none" (click)="resetForm(data,false)" id="btnEditCompany" data-toggle="modal"
-            data-target="#modalCompany">Şirket Düzenle
-          </button>
+
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="deleteCompanies()"
+              class="btn btn-danger btn-delete-custom">
+              {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+              <i class="fas fa-trash"></i></button>
+
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" (click)="resetForm(data,true)"
+              id="btnAddCompany" data-toggle="modal" data-target="#modalCompany">
+              <i class="fa fa-plus-circle fa-plus-circle-add"></i>
+              Şirket Ekle</button>
+
+            <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)" id="btnEditCompany"
+              data-toggle="modal" data-target="#modalCompany">Şirket Düzenle
+            </button>
 
           </div>
         </div>
         <div class="sales-overview">
-        <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          </tree-grid-table>
         </div>
       </div>
     </div>
@@ -58,17 +62,18 @@
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
         <div class="modal-body">
           <div class="row justify-content-center">
-              <div class="form-group col-md-6">
-                <label class="required-span">Şirket Kodu</label>
-                <input [(ngModel)]="company.CompanyCode" name="CompanyCode" type="text" trim="blur" class="form-control" #CompanyCode="ngModel"
-                  [ngClass]="{ 'is-invalid': data.submitted && CompanyCode.invalid }" maxlength="50" required />
-                <div *ngIf="data.submitted && CompanyCode.invalid" class="invalid-feedback">
-                  <div *ngIf="CompanyCode.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="CompanyCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-                </div>
-              </div>
             <div class="form-group col-md-6">
-                <label class="required-span">Şirket Adı</label>
+              <label class="required-span">Şirket Kodu</label>
+              <input [(ngModel)]="company.CompanyCode" name="CompanyCode" type="text" trim="blur" class="form-control"
+                #CompanyCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CompanyCode.invalid }"
+                maxlength="50" required />
+              <div *ngIf="data.submitted && CompanyCode.invalid" class="invalid-feedback">
+                <div *ngIf="CompanyCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="CompanyCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="required-span">Şirket Adı</label>
               <input [(ngModel)]="company.Name" name="Name" type="text" trim="blur" class="form-control" #Name="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="100" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
@@ -80,8 +85,8 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
               <label>E-posta</label>
-              <input [(ngModel)]="company.Email" maxlength="50" name="Email" type="email" #Email="ngModel" trim="blur" class="form-control" email
-                [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" />
+              <input [(ngModel)]="company.Email" maxlength="50" name="Email" type="email" #Email="ngModel" trim="blur"
+                class="form-control" email [ngClass]="{ 'is-invalid': data.submitted && Email.invalid }" />
               <div *ngIf="data.submitted && Email.invalid" class="invalid-feedback">
                 <div *ngIf="Email.errors.email">Lütfen Geçerli Eposta Giriniz.</div>
                 <div *ngIf="Email.errors.maxlength">Maksimum 50 karakter giriniz.</div>
@@ -89,23 +94,25 @@
             </div>
           </div>
           <div class="row justify-content-center">
-              <div class="form-group col-md-6">
-                  <label>Vergi Dairesi</label>
-                <input [(ngModel)]="company.TaxOffice" #TaxOffice="ngModel" maxlength="50" name="TaxOffice" type="text" trim="blur" class="form-control" />
-                <div *ngIf="data.submitted && TaxOffice.invalid" class="invalid-feedback">
-                  <div *ngIf="TaxOffice.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-                </div>
-              </div>
             <div class="form-group col-md-6">
-                <label>Vergi Numarası</label>
-                <input [(ngModel)]="company.TaxNumber" #TaxNumber="ngModel" name="TaxNumber" maxlength="10" type="text" class="form-control" />
-                <div *ngIf="data.submitted && TaxNumber.invalid" class="invalid-feedback">
-                  <div *ngIf="TaxNumber.errors.maxlength">Maksimum 10 karakter giriniz.</div>
-                </div>
+              <label>Vergi Dairesi</label>
+              <input [(ngModel)]="company.TaxOffice" #TaxOffice="ngModel" maxlength="50" name="TaxOffice" type="text"
+                trim="blur" class="form-control" />
+              <div *ngIf="data.submitted && TaxOffice.invalid" class="invalid-feedback">
+                <div *ngIf="TaxOffice.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Vergi Numarası</label>
+              <input [(ngModel)]="company.TaxNumber" #TaxNumber="ngModel" name="TaxNumber" maxlength="10" type="text"
+                class="form-control" />
+              <div *ngIf="data.submitted && TaxNumber.invalid" class="invalid-feedback">
+                <div *ngIf="TaxNumber.errors.maxlength">Maksimum 10 karakter giriniz.</div>
+              </div>
             </div>
           </div>
           <div class="row justify-content-center">
-              <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
               <label>Ülke</label>
               <select [(ngModel)]="company.City.CountryId" [attr.disabled]="countries.length > 0 ? null :'disabled'"
                 (click)="loadCountryList()" (change)="loadCityByCountryId($event)" name="CountryId"
@@ -113,64 +120,65 @@
                 <option [ngValue]="null">Yok</option>
                 <option *ngFor="let country of countries" value="{{country.CountryId}}">{{country.Name}}</option>
               </select>
-              </div>
-              <div class="form-group col-md-6">
-                <label>Şehir</label>
-                <select [(ngModel)]="company.CityId" [attr.disabled]="cities.length > 0 ? null :'disabled'" name="CityId"
-                  class="form-control select2-no-search">
-                  <option [ngValue]="null">Yok</option>
-                  <option *ngFor="let city of cities" value="{{city.CityId}}">{{city.Name}}</option>
-                </select>
-              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Şehir</label>
+              <select [(ngModel)]="company.CityId" [attr.disabled]="cities.length > 0 ? null :'disabled'" name="CityId"
+                class="form-control select2-no-search">
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let city of cities" value="{{city.CityId}}">{{city.Name}}</option>
+              </select>
+            </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <div class="row justify-content-center">
-                  <div class="form-group col-md-12">
+                <div class="form-group col-md-12">
                   <label class="required-span">Telefon</label>
-                  <input type="number"  autocomplete="off" name="Phone" [(ngModel)]="company.Phone"  class="form-control"
-                   #Phone="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" required />
+                  <input type="number" autocomplete="off" name="Phone" [(ngModel)]="company.Phone" class="form-control"
+                    #Phone="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" required />
                   <div *ngIf="data.submitted && Phone.invalid" class="invalid-feedback">
                     <div *ngIf="Phone.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="Phone.errors.maxlength">Maksimum 11 karakter giriniz.</div>
+                    <div *ngIf="Phone.errors.maxlength">Maksimum 11 karakter giriniz.</div>
                   </div>
                 </div>
               </div>
               <div class="row justify-content-center">
-                  <div class="form-group col-md-12">
-                    <label>Faks</label>
-                    <input maxlength="50" [(ngModel)]="company.SecondPhone" #SecondPhone="ngModel" name="SecondPhone" type="text" class="form-control" />
-                    <div *ngIf="data.submitted && SecondPhone.invalid" class="invalid-feedback">
-                      <div *ngIf="SecondPhone.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="form-group col-md-6">
-                <label class="required-span">Adres</label>
-                <textarea type="text" [(ngModel)]="company.Address" name="Address" #Address="ngModel" style="resize:none;height: 80px;"
-                  rows="3" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && Address.invalid }"
-                  required></textarea>
-                <div *ngIf="data.submitted && Address.invalid" class="invalid-feedback">
-                  <div *ngIf="Address.errors.required">Bu alan zorunludur.</div>
+                <div class="form-group col-md-12">
+                  <label>Faks</label>
+                  <input maxlength="50" [(ngModel)]="company.SecondPhone" #SecondPhone="ngModel" name="SecondPhone"
+                    type="text" class="form-control" />
+                  <div *ngIf="data.submitted && SecondPhone.invalid" class="invalid-feedback">
+                    <div *ngIf="SecondPhone.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                  </div>
                 </div>
               </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="required-span">Adres</label>
+              <textarea type="text" [(ngModel)]="company.Address" name="Address" #Address="ngModel"
+                style="resize:none;height: 80px;" rows="3" class="form-control"
+                [ngClass]="{ 'is-invalid': data.submitted && Address.invalid }" required></textarea>
+              <div *ngIf="data.submitted && Address.invalid" class="invalid-feedback">
+                <div *ngIf="Address.errors.required">Bu alan zorunludur.</div>
+              </div>
+            </div>
           </div>
           <div class="row justify-content-center">
-              <div class="form-group col-md-12">
-                  <label>Açıklama</label>
-                  <input [(ngModel)]="company.Description" name="Description" #Description="ngModel"
-                    class="form-control" type="text"/>
-                    <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
-                      <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
-                    </div>
-                </div>
+            <div class="form-group col-md-12">
+              <label>Açıklama</label>
+              <input [(ngModel)]="company.Description" name="Description" #Description="ngModel" class="form-control"
+                type="text" />
+              <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+              </div>
+            </div>
           </div>
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-az-primary"
-            data-toggle="modal" *ngIf="isWaitingInsertOrUpdate == false"
+          <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-az-primary" data-toggle="modal"
+            *ngIf="isWaitingInsertOrUpdate == false"
             data-target="#modalInsertCompany">{{company.CompanyId ? 'Şirketi Güncelle' : 'Şirket Ekle'}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>

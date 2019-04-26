@@ -5,24 +5,28 @@
     background-color: transparent;
     border: 1px solid #dee2e6;
     border-right: none;
-    border-left:none;
+    border-left: none;
     border-collapse: collapse;
     border-spacing: 0;
-    padding:0;
-    margin:0;
-    flex:1;
-    font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+    height: 50vh;
+    overflow: auto;
+    display: block;
 }
+
 .table-row {
     margin-bottom: 15px;
-    margin-left:0px;
+    margin-left: 0px;
     margin-right: 0px;
 }
 
 .table-column-header {
-    -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;      
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
@@ -31,9 +35,9 @@
     display: flex;
     align-items: center;
     padding-top: 0;
-    color:#333333;
+    color: #333333;
     clear: both;
-    float:left;
+    float: left;
     font-size: 13px;
     background-color: #fff0 !important;
     margin-left: 22px;
@@ -41,7 +45,7 @@
 
 .table-pagination-select {
     height: 35px;
-    float:right;
+    float: right;
     margin-left: 20px;
     border-radius: 3px;
     border: 1px solid #bfc3c7;
@@ -61,11 +65,11 @@ select option:hover {
 }
 
 .pagination-nav {
-    float:left;
+    float: left;
 }
 
 .table-pagination {
-    padding-top:0;
+    padding-top: 0;
     color: #333333;
     float: right;
     text-align: center;
@@ -104,7 +108,7 @@ select option:hover {
 
 .tree-table-responsive {
     overflow-x: auto;
-    flex:1;
+    flex: 1;
     border-right: 1px solid #dee2e6;
     border-left: 1px solid #dee2e6;
     height: 100%;
@@ -114,21 +118,23 @@ select option:hover {
 .tree-table>thead>th {
     max-width: 300px;
     white-space: nowrap;
-    padding:0.5rem;
+    padding: 0.5rem;
     padding-right: 20px;
-    color:#494c57;
+    color: #494c57;
     font-size: 0.8125rem;
     font-weight: 700;
     border-right: none;
     border-bottom-width: 2px;
     height: 32px;
     cursor: pointer;
-    position: relative;
+    position: sticky;
+    top: 0;
+    background: white;
 }
 
-.tree-table>thead>th:first-child  {
+.tree-table>thead>th:first-child {
     padding-right: 0;
-    padding-left:10px;
+    padding-left: 10px;
 }
 
 .tree-table>thead>th span {
@@ -166,10 +172,10 @@ select option:hover {
 
 .tree-table>tbody>tr>td {
     border: 1px solid #dee2e6;
-    border-left:0;
+    border-left: 0;
     border-right: 0;
     font-size: 0.8125rem;
-    padding:5px;   
+    padding: 5px;
 }
 
 .tree-table-body-tr-td-empty {
@@ -181,24 +187,26 @@ select option:hover {
 .tree-table-body-tr-th-empty {
     padding: 0;
     width: 30px;
-    padding-left:9px;
+    padding-left: 9px;
 }
 
-.tree-table-body-filter-tr > td {
-    padding:0 !important;
-    padding-left:10px;
+.tree-table-body-filter-tr>td {
+    padding: 0 !important;
+    padding-left: 10px;
     background: white;
+    position: sticky;
+    top: 35px;
 }
 
-.tree-table-body-filter-tr > td > input {
+.tree-table-body-filter-tr>td>input {
     border: none;
     height: 23px;
     min-height: 23px;
     margin-top: 5px;
-    padding-left:5px;
+    padding-left: 5px;
 }
 
-.tree-table-body-filter-tr > td > input::placeholder {
+.tree-table-body-filter-tr>td>input::placeholder {
     font-style: italic;
     font-size: 12px;
 }
@@ -208,20 +216,22 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
 }
 
 .tree-table-sign {
-    color:#e67300;
+    color: #e67300;
     width: 24px;
 }
-.tree-table-sign > span {
-    margin-left:3px;
+
+.tree-table-sign>span {
+    margin-left: 3px;
 }
 
 .typcn-custom-active {
-    color:#97e002 !important;
+    color: #97e002 !important;
 }
 
 .table-column-helper {
     display: inline;
 }
+
 .table-column-helper-sub {
     max-width: 300px;
     background: white;
@@ -254,7 +264,7 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    margin-top:5px
+    margin-top: 5px
 }
 
 .table-column-helper-button-save {
@@ -268,13 +278,13 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     min-width: 76px;
 }
 
-.table-column-helper-header > :nth-child(1) {
-    float:left;
+.table-column-helper-header> :nth-child(1) {
+    float: left;
 }
 
-.table-column-helper-header > :nth-child(2) {
-    float:right;
-    color:#656871;
+.table-column-helper-header> :nth-child(2) {
+    float: right;
+    color: #656871;
     font-size: 16px;
     cursor: pointer;
 }
@@ -290,14 +300,14 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     height: 20px;
 }
 
-.table-column-helper-info > .info-success {
+.table-column-helper-info>.info-success {
     font-size: 12px;
     font-style: italic;
     font-weight: bold;
     color: #24c324;
 }
 
-.table-column-helper-item > ul {
+.table-column-helper-item>ul {
     padding: 0;
     list-style: none;
     display: flex;
@@ -305,12 +315,12 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     justify-content: space-between;
     padding-left: 0px;
     padding-right: 0px;
-    margin:0;
-    color:#393b42;
+    margin: 0;
+    color: #393b42;
     font-size: 14px;
 }
 
-.table-column-helper-item > ul {
+.table-column-helper-item>ul {
     padding: 0;
     list-style: none;
     display: flex;
@@ -318,18 +328,18 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     justify-content: space-between;
     padding-left: 5px;
     padding-right: 5px;
-    margin:0;
+    margin: 0;
 }
 
 .table-column-helper-items {
     list-style: none;
     width: 100%;
     padding: 0;
-    margin-bottom:0px !important;
+    margin-bottom: 0px !important;
 }
 
-.table-column-helper-item { 
-    margin-bottom:3px !important;
+.table-column-helper-item {
+    margin-bottom: 3px !important;
 }
 
 .table-column-item-offset {
@@ -349,32 +359,43 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
 
 .loader {
     display: inline-block;
-    margin:5px;
+    margin: 5px;
     border: 4px solid #f3f3f3;
     border-radius: 50%;
     border-top: 4px solid #e67300;
     width: 30px;
     height: 30px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
+    -webkit-animation: spin 2s linear infinite;
+    /* Safari */
     animation: spin 2s linear infinite;
-  }
-  
-  /* Safari */
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .page-link {
     color: #717171;
     height: 35px;
     font-size: 13px;
-    border:1px solid #dee2e6;
+    border: 1px solid #dee2e6;
 }
 
 .page-link:focus {
@@ -404,51 +425,51 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-  
-  /* Hide the browser's default checkbox */
-  .checkbox-container input {
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
+}
+
+/* Create a custom checkbox */
+.checkmark {
     position: absolute;
     top: -6px;
     left: calc(50% - 12px);
     height: 25px;
     width: 25px;
     background-color: #eee;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .checkbox-container:hover input ~ .checkmark {
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input~.checkmark {
     background-color: #ccc;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .checkbox-container input:checked ~ .checkmark {
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked~.checkmark {
     background-color: #e67300;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .checkbox-container input:checked ~ .checkmark:after {
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked~.checkmark:after {
     display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .checkbox-container .checkmark:after {
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
     left: 8px;
     top: 5px;
     width: 8px;
@@ -458,7 +479,7 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
+}
 
 /* END CUSTOM CHECKBOX END */
 
@@ -469,11 +490,11 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
 
 
 .table-info-without-margin {
-    margin-left:0;
+    margin-left: 0;
 }
 
 .table-error-message {
-    color:rgb(212, 2, 2);
+    color: rgb(212, 2, 2);
     text-align: center;
     font-style: italic;
     font-size: 13px;
@@ -484,8 +505,8 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     width: 20px;
 }
 
-.table-remove-item-column > span {
-    color:red;
+.table-remove-item-column>span {
+    color: red;
 }
 
 .table-color-item {
@@ -501,5 +522,5 @@ tr.tree-table-body-filter-tr:first-child td:first-child {
     color: #fff;
     font-weight: bold;
     letter-spacing: 1px;
-    text-shadow: 1px 1px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 2px 2px 5px rgba(0,0,0,0.65);
+    text-shadow: 1px 1px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 2px 2px 5px rgba(0, 0, 0, 0.65);
 }

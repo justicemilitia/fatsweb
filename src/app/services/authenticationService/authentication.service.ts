@@ -17,6 +17,7 @@ import { UserFirm } from "src/app/models/UserFirm";
 import { Firm } from 'src/app/models/Firm';
 import { Response } from 'src/app/models/Response';
 import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { encryptUsingAES256, decryptUsingAES256 } from 'src/app/declarations/crypto';
 
 @Injectable({
   providedIn: "root"
@@ -66,8 +67,8 @@ export class AuthenticationService {
 
   saveSession(token: any, roles: RoleAuthorization[], firm: Firm) {
     localStorage.setItem(this.TOKEN_KEY, token);
-    localStorage.setItem(this.ROLE_KEY, JSON.stringify(roles));
-    localStorage.setItem(this.FIRM_KEY, JSON.stringify(firm));
+    localStorage.setItem(this.ROLE_KEY, encryptUsingAES256(JSON.stringify(roles)));
+    localStorage.setItem(this.FIRM_KEY, encryptUsingAES256(JSON.stringify(firm)));
   }
 
   logOut() {
@@ -105,11 +106,19 @@ export class AuthenticationService {
   }
 
   getRoleMenus(): RoleAuthorization[] {
-    return <RoleAuthorization[]>JSON.parse(localStorage.getItem(this.ROLE_KEY));
+    let roles = localStorage.getItem(this.ROLE_KEY);
+    if (roles)
+      return <RoleAuthorization[]>JSON.parse(JSON.parse(decryptUsingAES256(roles)));
+    else
+      return [];
   }
 
   getCurrentFirm(): Firm {
-    return <Firm>JSON.parse(localStorage.getItem(this.FIRM_KEY));
+    let firm = localStorage.getItem(this.FIRM_KEY);
+    if (firm)
+      return <Firm>JSON.parse(decryptUsingAES256(firm));
+    else
+      return null;
   }
 
   getCurrentUserId() {
