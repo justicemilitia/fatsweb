@@ -251,64 +251,64 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
     this.isTableRefreshing = false;
   }
 
-  onDoubleClickItem(item: FixedAsset) {
+  // onDoubleClickItem(item: FixedAsset) {
 
-    // this.fixedAsset = new FixedAsset();
+  //   // this.fixedAsset = new FixedAsset();
 
-    // this.baseService.spinner.show();
+  //   // this.baseService.spinner.show();
 
-    // this.baseService.fixedAssetService.GetFixedAssetById(item.FixedAssetId,
-    //   (result: FixedAsset) => {
+  //   // this.baseService.fixedAssetService.GetFixedAssetById(item.FixedAssetId,
+  //   //   (result: FixedAsset) => {
 
-    //     this.baseService.spinner.hide();
-    //     Object.assign(this.fixedAssetInfo, result);
+  //   //     this.baseService.spinner.hide();
+  //   //     Object.assign(this.fixedAssetInfo, result);
 
-    //     this.status = result.Status.Name == null ? " " : result.Status.Name;
+  //   //     this.status = result.Status.Name == null ? " " : result.Status.Name;
 
-    //     if (result.FixedAssetCard != null)
-    //       this.fixedassetcard = result.FixedAssetCard.Name;
-    //     if (result.FixedAssetCard.FixedAssetCardCategory != null)
-    //       this.category = result.FixedAssetCard.FixedAssetCardCategory.Name;
-    //     if (result.FixedAssetCardModel != null) {
-    //       this.fixedAssetBrand = result.FixedAssetCardModel.FixedAssetCardBrand.Name;
-    //       this.fixedAssetModel = result.FixedAssetCardModel.Name;
-    //     }
-    //     if (result.Department != null)
-    //       this.department = result.Department.Name;
+  //   //     if (result.FixedAssetCard != null)
+  //   //       this.fixedassetcard = result.FixedAssetCard.Name;
+  //   //     if (result.FixedAssetCard.FixedAssetCardCategory != null)
+  //   //       this.category = result.FixedAssetCard.FixedAssetCardCategory.Name;
+  //   //     if (result.FixedAssetCardModel != null) {
+  //   //       this.fixedAssetBrand = result.FixedAssetCardModel.FixedAssetCardBrand.Name;
+  //   //       this.fixedAssetModel = result.FixedAssetCardModel.Name;
+  //   //     }
+  //   //     if (result.Department != null)
+  //   //       this.department = result.Department.Name;
 
-    //     if (result.FixedAssetPropertyDetails.length > 0) {
-    //       this.fixedAssetInfo.FixedAssetPropertyDetails.forEach(e => {
-    //         let fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
-    //         fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
-    //         fixedAssetPropertyDetail.Value = e.Value;
-    //         fixedAssetPropertyDetail.FixedAssetCardProperty = e.FixedAssetCardProperty;
+  //   //     if (result.FixedAssetPropertyDetails.length > 0) {
+  //   //       this.fixedAssetInfo.FixedAssetPropertyDetails.forEach(e => {
+  //   //         let fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
+  //   //         fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+  //   //         fixedAssetPropertyDetail.Value = e.Value;
+  //   //         fixedAssetPropertyDetail.FixedAssetCardProperty = e.FixedAssetCardProperty;
 
-    //         this.fixedAssetPropertyDetails.push(fixedAssetPropertyDetail);
-    //       });
+  //   //         this.fixedAssetPropertyDetails.push(fixedAssetPropertyDetail);
+  //   //       });
 
-    //       this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
-    //     }
+  //   //       this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
+  //   //     }
 
-    //     if (result.FixedAssetUsers != null) {
-    //       this.fixedAssetInfo.FixedAssetUsers.forEach(e => {
-    //         this.user = e.User.FirstName + " " + e.User.LastName;
-    //       });
-    //     }
+  //   //     if (result.FixedAssetUsers != null) {
+  //   //       this.fixedAssetInfo.FixedAssetUsers.forEach(e => {
+  //   //         this.user = e.User.FirstName + " " + e.User.LastName;
+  //   //       });
+  //   //     }
 
-    //     if (result.Picture != null) {
-    //       this.path = IMAGE_URL + result.Picture.replace("ThumbImages/thumb_", "");
-    //       this.fixedAssetInfo.Picture = this.path;
-    //     }
+  //   //     if (result.Picture != null) {
+  //   //       this.path = IMAGE_URL + result.Picture.replace("ThumbImages/thumb_", "");
+  //   //       this.fixedAssetInfo.Picture = this.path;
+  //   //     }
 
-    //     $("#btnFixedAssetInfo").trigger("click");
+  //   //     $("#btnFixedAssetInfo").trigger("click");
 
-    //   }, (error: HttpErrorResponse) => {
-    //     /* hide spinner */
-    //     this.baseService.spinner.hide();
+  //   //   }, (error: HttpErrorResponse) => {
+  //   //     /* hide spinner */
+  //   //     this.baseService.spinner.hide();
 
-    //     /* show error message */
-    //     this.baseService.popupService.ShowErrorPopup(error);
-    //   });
-  }
+  //   //     /* show error message */
+  //   //     this.baseService.popupService.ShowErrorPopup(error);
+  //   //   });
+  // }
 
 }

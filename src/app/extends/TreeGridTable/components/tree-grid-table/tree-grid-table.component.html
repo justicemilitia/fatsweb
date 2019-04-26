@@ -54,7 +54,7 @@
   <!-- END Config Button END-->
   <!-- Data Table Area -->
   <div class="tree-table-responsive">
-    <table class="tree-table">
+    <table class="tree-table" [ngStyle]="{'max-height': dataTable.isHeaderVisible == true ? '50vh' : 'auto'}">
       <!-- Table Header Area -->
       <thead class="tree-table-header" *ngIf="dataTable.isHeaderVisible == true">
         <!-- Header Select All -->
@@ -81,13 +81,13 @@
         <!-- First Row is Filter -->
         <tr class="tree-table-body-filter-tr" *ngIf="dataTable.isFilterActive == true">
           <!-- Selection checkbox filter -->
-          <td class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
+          <td [ngStyle]="{'top':  dataTable.isHeaderVisible == true? '35px' : '0px'}" class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
             <input type="checkbox" class="table-checkbox" [(ngModel)]="dataTable.dataFilters['isChecked']">
           </td>
           <!-- END Selection checkbox filter END -->
           <!-- Filter Columns -->
           <ng-container *ngFor="let column of dataTable.activeColumns">
-            <td>
+            <td [ngStyle]="{'top':  dataTable.isHeaderVisible == true? '35px' : '0px'}" >
               <ng-container [ngSwitch]="column.type">
                 <ng-container *ngSwitchCase="'checkbox'">
                   <label class="checkbox-container">
@@ -106,7 +106,7 @@
           </ng-container>
           <!-- END Filter Columns END -->
           <!-- Remove Item Button -->
-          <td *ngIf="dataTable.isDeleteable == true"></td>
+          <td [ngStyle]="{'top':  dataTable.isHeaderVisible == true? '35px' : '0px'}" *ngIf="dataTable.isDeleteable == true"></td>
           <!-- END Remove Item Button END-->
         </tr>
         <!-- END First Row is Filter END -->

@@ -33,8 +33,7 @@ export class FaEditFileComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
-      },
-
+      }
     ],
     {
       isDesc: false,
@@ -42,10 +41,18 @@ export class FaEditFileComponent extends BaseComponent implements OnInit {
     }
   );
   constructor(baseService: BaseService) {
+
     super(baseService);
+    this.dataTableFile.isPagingActive = false;
+    this.dataTableFile.isColumnOffsetActive = false;
+    this.dataTableFile.isDeleteable = true;
+    this.dataTableFile.isMultipleSelectedActive = false;
+    this.dataTableFile.isLoading = false;
+
   }
 
   ngOnInit() {
+    
   }
 
 }
