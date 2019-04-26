@@ -71,7 +71,13 @@ export class DepartmentService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            success(response.ResultObject, response.LanguageKeyword);
+              let departments: Department[] = [];
+              (<Department[]>response.ResultObject).forEach(e => {
+                let dep: Department = new Department();
+                Object.assign(dep, e);
+                departments.push(dep);
+              });
+              success(departments, response.LanguageKeyword);        
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
