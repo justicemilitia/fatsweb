@@ -18,6 +18,7 @@ export class User implements IData {
     }
     UserTitleId: number;
     isExtended: boolean;
+    RegistrationNumber:string;
     UserId: number;
     UserMail: string;
     FirstName: string;

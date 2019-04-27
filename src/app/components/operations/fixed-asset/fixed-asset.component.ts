@@ -1027,7 +1027,21 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   //#endregion
 
   //#region Edit Fixed Asset File
+  editFile_selectedBarcodes: FixedAsset[];
   EditFile(){
+
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz!"
+      );
+      this.currentOperation = null;
+      return;
+    }
+    
+    this.editFile_selectedBarcodes=selectedItems;
+
     $("#showModal").trigger("click");
   }
   //#endregion

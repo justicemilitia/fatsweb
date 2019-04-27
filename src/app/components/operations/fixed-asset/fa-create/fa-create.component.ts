@@ -129,6 +129,9 @@ export class FaCreateComponent extends BaseComponent
   fileBarcode: any;
   insertedFixedAsset = new FixedAsset();
 
+//#region DataTables
+
+
   /*Fixed Asset List */
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -297,13 +300,14 @@ export class FaCreateComponent extends BaseComponent
       column: ["Name"]
     }
   );
-
-  constructor(
-    protected baseService: BaseService,
-    public HttpClient: HttpClient
-  ) {
+//#endregion
+  
+constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
+    
     super(baseService);
+
     this.loadDropdown();
+
     this.getValidBarcode();
 
     //#region DataTable Properties
@@ -371,7 +375,6 @@ export class FaCreateComponent extends BaseComponent
   ngOnInit() {}
 
   toggleDropdown(key:string) {
-
 
     switch (key) {
       case "location":
@@ -650,8 +653,6 @@ export class FaCreateComponent extends BaseComponent
   loadDepartmentByLocationId() {
     this.departments = [];
     
-    this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
-
     // if (!event.target.value || event.target.value == "") {
     //   this.fixedAsset.DepartmentId = null;
     //   this.fixedAsset.Department = new Department();
@@ -789,21 +790,13 @@ export class FaCreateComponent extends BaseComponent
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
-    let department = this.departments.find(
-      x => x.DepartmentId == Number(data.value.DepartmentId)
-    );
 
-    let fixedassetcard = this.fixedassetcards.find(
-      x => x.FixedAssetCardId == Number(data.value.FixedAssetCardId)
-    );
-    let fixedassetcategory = this.fixedassetcategories.find(
-      x =>
-        x.FixedAssetCardCategoryId ==
-        Number(data.value.FixedAssetCardCategoryId)
-    );
-    let location = this.locations.find(
-      x => x.LocationId == Number(data.value.LocationId)
-    );
+    // let fixedassetcard = this.fixedassetcards.find(
+    //   x => x.FixedAssetCardId == Number(this.selectedCard.FixedAssetCardId));
+    // let fixedassetcategory = this.fixedassetcategories.find(x => x.FixedAssetCardCategoryId == Number(this.selectedCategory.FixedAssetCardCategoryId));
+
+    // let location = this.locations.find(x => x.LocationId == Number(this.selectedLocation.LocationId));
+    
     let expensecenter = this.expensecenters.find(
       x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId)
     );
@@ -812,10 +805,10 @@ export class FaCreateComponent extends BaseComponent
     this.fixedAsset.ActivationDate = data.value.activationDate;
     this.fixedAsset.ExpenseCenter = expensecenter;
     this.fixedAsset.SerialNumber = data.value.SerialNumber;
-    this.fixedAsset.FixedAssetCardCategory = fixedassetcategory;
-    this.fixedAsset.Location = location;
-    this.fixedAsset.Department = department;
-    this.fixedAsset.FixedAssetCard = fixedassetcard;
+    this.fixedAsset.FixedAssetCardCategory = this.selectedCategory;
+    this.fixedAsset.Location = this.selectedLocation;
+    this.fixedAsset.Department = this.selectedDepartment;
+    this.fixedAsset.FixedAssetCard = this.selectedCard;
     this.fixedAsset.Price = data.value.Price;
     this.fixedAsset.GuaranteeStartDate = data.value.guaranteeStartDate;
     this.fixedAsset.GuaranteeEndDate = data.value.guaranteeEndDate;
@@ -873,37 +866,18 @@ export class FaCreateComponent extends BaseComponent
 
     this.insertedFixedAsset = this.fixedAssets[0];
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
+    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
     this.insertedFixedAsset.FixedAssetPropertyDetails = propertyDetail;
-    this.insertedFixedAsset.CurrencyId =
-      this.fixedAsset.CurrencyId == null
-        ? null
-        : Number(this.fixedAsset.CurrencyId);
-    this.insertedFixedAsset.DepartmentId =
-      this.fixedAsset.DepartmentId == null
-        ? null
-        : Number(this.fixedAsset.DepartmentId);
-    this.insertedFixedAsset.LocationId = Number(this.fixedAsset.LocationId);
-    this.insertedFixedAsset.FixedAssetCardId = Number(
-      this.fixedAsset.FixedAssetCardId
-    );
-    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(
-      this.fixedAsset.FixedAssetCardCategoryId
-    );
-    this.insertedFixedAsset.CompanyId =
-      this.fixedAsset.CompanyId == null
-        ? null
-        : Number(this.fixedAsset.CompanyId);
-    this.insertedFixedAsset.DepreciationCalculationTypeID =
-      this.fixedAsset.DepreciationCalculationTypeID == null
-        ? null
+    this.insertedFixedAsset.CurrencyId = this.fixedAsset.CurrencyId == null ? null : Number(this.fixedAsset.CurrencyId);
+    this.insertedFixedAsset.DepartmentId = this.fixedAsset.Department == null ? null : Number(this.fixedAsset.Department.DepartmentId);
+    this.insertedFixedAsset.LocationId = Number(this.fixedAsset.Location.LocationId);
+    this.insertedFixedAsset.FixedAssetCardId = Number(this.fixedAsset.FixedAssetCard.FixedAssetCardId);
+    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(this.fixedAsset.FixedAssetCardCategory.FixedAssetCardCategoryId);
+    this.insertedFixedAsset.CompanyId = this.fixedAsset.CompanyId == null ? null : Number(this.fixedAsset.CompanyId);
+    this.insertedFixedAsset.DepreciationCalculationTypeID = this.fixedAsset.DepreciationCalculationTypeID == null ? null
         : Number(this.fixedAsset.DepreciationCalculationTypeID);
-    this.insertedFixedAsset.ExpenseCenterId =
-      this.fixedAsset.ExpenseCenterId == null
-        ? null
+    this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null
         : Number(this.fixedAsset.ExpenseCenterId);
     this.insertedFixedAsset.StatusId =
       this.fixedAsset.StatusId == null
@@ -951,9 +925,11 @@ export class FaCreateComponent extends BaseComponent
     this.insertedFixedAsset.BarcodeIds = <[]>barcodes;
     this.fileBarcode = barcodes;
     this.baseService.spinner.show();
+
     this.baseService.fixedAssetCreateService.AddFixedAsset(
       this.insertedFixedAsset,
       (barcodes: [], status, message) => {
+        
         if (status == true) {
           this.editable = false;
           this.dataTable.isTableEditable = false;
@@ -985,6 +961,14 @@ export class FaCreateComponent extends BaseComponent
 
     this.barcode = null;
 
+    this.selectedCard=null;
+
+    this.selectedCategory=null;
+
+    this.selectedDepartment=null;
+
+    this.selectedLocation=null;
+    
     this.stepper.reset();
 
     data.resetForm(this.fixedAsset);

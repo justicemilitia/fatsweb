@@ -13,7 +13,19 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTab
   templateUrl: './fa-edit-file.component.html',
   styleUrls: ['./fa-edit-file.component.css']
 })
+
+@NgModule({
+  imports: [],
+  declarations: [FaEditFileComponent],
+  providers: [FaEditFileComponent]
+})
 export class FaEditFileComponent extends BaseComponent implements OnInit {
+
+  @Input() faBarcode: FixedAsset = new FixedAsset();  
+  @Input() faDataTable: TreeGridTable; 
+  @Input() faComponent: FixedAssetComponent;
+
+  fixedAsset:FixedAsset=new FixedAsset();
 
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
@@ -28,7 +40,7 @@ export class FaEditFileComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Dosya adı",
-        columnName: ["FileName"],
+        columnName: ["FixedAssetFiles","FileName"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -37,7 +49,7 @@ export class FaEditFileComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["FileName"]
+      column: ["Barcode"]
     }
   );
   constructor(baseService: BaseService) {
@@ -48,11 +60,17 @@ export class FaEditFileComponent extends BaseComponent implements OnInit {
     this.dataTableFile.isDeleteable = true;
     this.dataTableFile.isMultipleSelectedActive = false;
     this.dataTableFile.isLoading = false;
-
+    this.loadFixedAssetFile();
   }
 
   ngOnInit() {
-    
+
+  }
+
+  loadFixedAssetFile(){
+   
+   let fa:FixedAsset[] = (<FixedAsset[]>this.faDataTable.TGT_getSelectedItems());
+  //  console.log(fa);
   }
 
 }
