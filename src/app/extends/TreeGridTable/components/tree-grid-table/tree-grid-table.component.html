@@ -81,13 +81,13 @@
         <!-- First Row is Filter -->
         <tr class="tree-table-body-filter-tr" *ngIf="dataTable.isFilterActive == true">
           <!-- Selection checkbox filter -->
-          <td [ngStyle]="{'top':  dataTable.isHeaderVisible == true? '35px' : '0px'}" class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
+          <td [ngStyle]="{'top':  dataTable.isHeaderVisible == true? '34px' : '-1px'}" class="tree-table-body-tr-td-empty" *ngIf="dataTable.isMultipleSelectedActive == true">
             <input type="checkbox" class="table-checkbox" [(ngModel)]="dataTable.dataFilters['isChecked']">
           </td>
           <!-- END Selection checkbox filter END -->
           <!-- Filter Columns -->
           <ng-container *ngFor="let column of dataTable.activeColumns">
-            <td [ngStyle]="{'top':  dataTable.isHeaderVisible == true? '35px' : '0px'}" >
+            <td [ngStyle]="{'top':  dataTable.isHeaderVisible == true? '34px' : '-1px'}" >
               <ng-container [ngSwitch]="column.type">
                 <ng-container *ngSwitchCase="'checkbox'">
                   <label class="checkbox-container">
