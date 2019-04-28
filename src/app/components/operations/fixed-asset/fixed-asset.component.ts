@@ -391,6 +391,22 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         placeholder: "",
         type: "text"
       },
+      {
+        columnDisplayName: "Dosya Adı",
+        columnName: ["FixedAssetFiles","FileName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.FixedAssetFiles.length > 0 ? value.FixedAssetFiles[0].FileName : '';
+          }
+          else {
+            return '';
+          }
+        }
+      },
       // {
       //   columnDisplayName: "Masraf Yeri",
       //   columnName: ["ExpenseCenter", "Name"],
@@ -1014,7 +1030,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   //#endregion
 
-  //#region Change Collective Parameter
+  //#region Change Filter Parameter
   FilterOperation() {
     $("#showModal").trigger("click");
   }

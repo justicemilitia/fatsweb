@@ -105,9 +105,8 @@ select option:hover {
 }
 
 .tree-table-responsive {
-    overflow-x: scroll;
+    overflow: scroll;
     flex: 1;
-    overflow-y: scroll;
     border-right: 1px solid #dee2e6;
     border-left: 1px solid #dee2e6;
     height: 100%;

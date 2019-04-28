@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, Input } from "@angular/core";
+import { Component, OnInit, NgModule, Input, SimpleChanges, OnChanges } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { BaseComponent } from "../../../base/base.component";
 import { BaseService } from "../../../../services/base.service";
@@ -7,6 +7,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { InputTrimDirective } from 'ng2-trim-directive';
 import { FixedAssetComponent } from '../fixed-asset.component';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { FixedAssetFile } from 'src/app/models/FixedAssetFile';
 
 @Component({
   selector: 'app-fa-edit-file',
@@ -19,13 +20,20 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTab
   declarations: [FaEditFileComponent],
   providers: [FaEditFileComponent]
 })
-export class FaEditFileComponent extends BaseComponent implements OnInit {
+export class FaEditFileComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Input() faBarcode: FixedAsset = new FixedAsset();  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["faBarcode"]) {
+      this.loadFixedAssetFile();
+    }
+  }
+
+  @Input() faBarcode: FixedAsset[] = [];
   @Input() faDataTable: TreeGridTable; 
   @Input() faComponent: FixedAssetComponent;
 
-  fixedAsset:FixedAsset=new FixedAsset();
+  fixedAsset:FixedAsset = new FixedAsset();
+  fixedAssetFiles: FixedAssetFile[] = [];
 
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
@@ -40,7 +48,7 @@ export class FaEditFileComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Dosya adı",
-        columnName: ["FixedAssetFiles","FileName"],
+        columnName: ["FileName"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -52,15 +60,13 @@ export class FaEditFileComponent extends BaseComponent implements OnInit {
       column: ["Barcode"]
     }
   );
+
   constructor(baseService: BaseService) {
 
     super(baseService);
     this.dataTableFile.isPagingActive = false;
     this.dataTableFile.isColumnOffsetActive = false;
-    this.dataTableFile.isDeleteable = true;
-    this.dataTableFile.isMultipleSelectedActive = false;
     this.dataTableFile.isLoading = false;
-    this.loadFixedAssetFile();
   }
 
   ngOnInit() {
@@ -68,9 +74,42 @@ export class FaEditFileComponent extends BaseComponent implements OnInit {
   }
 
   loadFixedAssetFile(){
-   
-   let fa:FixedAsset[] = (<FixedAsset[]>this.faDataTable.TGT_getSelectedItems());
-  //  console.log(fa);
+
+    let fixedAssetFile:FixedAssetFile[]=[];
+    // this.faBarcode.map(x=>x.FixedAssetId);
+
+    this.faBarcode.forEach(e=>{
+      e.FixedAssetFiles.forEach(x=>{
+      let file:FixedAssetFile=new FixedAssetFile();
+        file.Barcode=e.Barcode;
+        file.FixedAssetFileId=x.FixedAssetFileId;
+        file.FileName=x.FileName;
+        fixedAssetFile.push(file);
+      });
+    });
+    this.dataTableFile.TGT_loadData(fixedAssetFile);
   }
 
+  insertFiles(){
+    this.baseService.spinner.show();
+
+    this.baseService.fileUploadService.FileUpload(
+      this.faBarcode,
+      this.fixedAssetFiles,
+      (file: string[], message) => {
+        this.baseService.spinner.hide();
+
+        this.baseService.popupService.ShowSuccessPopup(
+          "Dosya Yükleme Başarılı!"
+        );
+
+        this.dataTableFile.TGT_clearData();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.spinner.hide();
+
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
 }

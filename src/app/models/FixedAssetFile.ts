@@ -16,6 +16,7 @@ export class FixedAssetFile implements IData{
     isChecked: boolean;
     isVisible: boolean;
     
+    Barcode:string;
     FixedAssetFileId:number;
     FixedAssetId:number; 
     FilePath:string;

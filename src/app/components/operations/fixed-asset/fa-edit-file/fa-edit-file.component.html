@@ -26,20 +26,24 @@
                   </div>
               </div>
                 <div class="row justify-content-center">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-12">
                       <h3></h3>     
                       <div class="property-values-table">        
                         <tree-grid-table [dataTable]="dataTableFile"></tree-grid-table>
                       </div>
                   </div>
                 </div>
+              </div>        
+              <div class="row">      
+              <div class="grp-btn-action" style="margin: 15px;">
+                <button class="btn btn-orange" (click)="deleteFiles()" id="btnDeleteFile" style="background-color: #c82333;
+                border-color: #bd2130;margin-right:10px">
+                 Dosya Sil
+                </button>
+                <button class="btn btn-orange" (click)="insertFiles()" id="btnAddFile">
+                  Dosya Ekle
+                 </button>
               </div>
-                <div class="row" style="margin-right: 0px; margin-left: 0px;">
-                    <div class="grp-btn-action">
-                      <button class="btn btn-orange" (click)="insertFiles()" id="btnAddAgreement">
-                       Dosya Ekle
-                      </button>
-                  </div>
-                </div>
+            </div>
       </div>
   </form>

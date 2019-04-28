@@ -76,6 +76,7 @@ export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetsById";
 export const SUSPENSIONPROCESS = "FixedAsset/SuspensionProcess";
 export const CHANGE_RELATIONSHIP = "FixedAsset/SetFixedAssetRelationship";
 export const BREAK_RELATIONSHIP = "FixedAsset/BreakFixedAssetRelationship";
+export const FIXEDASSET_PROPERTY_UNIQUE_CHECK = "FixedAsset/GetFixedAssetDetailUniqueCheck";
 //#endregion
 
 //#region FixedAssetDebit

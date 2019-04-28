@@ -17,6 +17,9 @@
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
 
+            <button id="btnFixedAssetInfo" class="btn btn-az-primary btn-create-assets" data-toggle="modal"
+                style="display:none" data-target="#modalFixedAssetInfo" title="Demirbaş Girişi"></button>
+
             <button type="button" (click)="refreshTable()" style="margin-right:0"
               class="btn btn-success btn-refresh-custom">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
@@ -35,3 +38,272 @@
   </div>
 </div>
 <!-- az-content -->
+
+<div id="modalFixedAssetInfo" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 915px;">
+    <div class="modal-content modal-content-demo table-scroll">
+      <div class="modal-header">
+        <h6 class="modal-title">Demirbaş bilgileri</h6>
+        <button id="CloseModal" type="button" class="close" (click)="resetForm()" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <fieldset class="field_set" style="padding-left: 10px; margin-right: 10px; margin-left: 10px;">
+          <legend>Genel Bilgiler</legend>
+
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Barkod :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.Barcode}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Demirbaş Adı :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.FixedAssetCard.Name}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Demirbaş Kategorisi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{category == null ? " " : category}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Lokasyon :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.Location.Name}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Departman :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{department}}</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Demirbaş Statüsü :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{status}}</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Seri Numarası :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.SerialNumber}}</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Personel :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{user}}</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Marka :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetBrand == null ? " " : fixedAssetBrand}}</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Model :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetModel == null ? " " : fixedAssetModel}}</span>
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="col-md-6">
+              <div class="row justify-content-center">
+                <div *ngIf="!imagePath" class="form-group well my-drop-zone">
+                </div>
+                <div *ngIf="imagePath" style="    width: 100%; height: 100%;; margin: 20px;">
+                  <img [src]="imagePath" style="    width: 100%;
+                  height: 100%;">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </fieldset>
+        <fieldset class="field_set" style="margin-top: 10px;padding-left: 10px;margin-right: 10px; margin-left: 10px;">
+          <legend>Finansal Bilgiler</legend>
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Fiyat :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.Price}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Masraf Merkezi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Fatura No :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.InvoiceNo}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Fatura Tarihi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.InvoiceDate ? fixedAssetInfo.InvoiceDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Makbuz Tarihi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.InvoiceDate ? fixedAssetInfo.InvoiceDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Demirbaş Aktif mi ? :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.IsActive == true ? "Aktif" : "Pasif"}}</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Aktifleştirme Tarihi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.ActivationDate ? fixedAssetInfo.ActivationDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Sigorta Şirketi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span></span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Amortisman Hesaplanacak mı?:</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.WillDepreciationBeCalculated == true ? "Evet" : "Hayır"}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Amortisman Periyodu :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.DepreciationPeriod}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Amortisman Yöntemi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>IFRS Hesaplanacak mı? :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.WillIfrsbeCalculated == true ? "Evet" : "Hayır"}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>IFRS Fiyatı :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.Ifrsprice}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Garanti Başlangıç Tarihi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.GuaranteeStartDate ? fixedAssetInfo.GuaranteeStartDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Garanti Bitiş Tarihi :</label>
+                </div>
+                <div class="col-md-6">
+                  <span>{{fixedAssetInfo.GuaranteeEndDate ? fixedAssetInfo.GuaranteeEndDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="row justify-content-center" style="margin-top:10px">
+          <div class=" property-values-table col-md-6" style="margin-right: -20px; margin-left: 0px; overflow-y: scroll; height: 80px; padding-top:0px;" >
+            <tree-grid-table [dataTable]="dataTablePropertyValue">
+            </tree-grid-table>
+          </div>
+          <div class="col-md-6">
+            <tree-grid-table [dataTable]="dataTableFixedAssetFile">
+            </tree-grid-table>
+          </div>
+        </div>
+      </div>
+      <!-- modal-body -->
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>

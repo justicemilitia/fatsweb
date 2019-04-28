@@ -53,8 +53,8 @@
     class="typcn icon-default typcn-spanner-outline table-config-arrow"></span>
   <!-- END Config Button END-->
   <!-- Data Table Area -->
-  <div class="tree-table-responsive">
-    <table class="tree-table" [ngStyle]="{'max-height': dataTable.isScrollActive == true ? '50vh' : 'auto'}"
+  <div class="tree-table-responsive" [ngStyle]="{'overflow': dataTable.isScrollActive == true ? 'auto' : 'hidden'}">
+    <table class="tree-table" [ngStyle]="{'max-height': dataTable.isScrollActive == true ? '50vh' : 'inherit'}"
     [ngStyle]="{'overflow': dataTable.isScrollActive == true ? 'auto' : 'hidden'}" >
       <!-- Table Header Area -->
       <thead class="tree-table-header" *ngIf="dataTable.isHeaderVisible == true">
