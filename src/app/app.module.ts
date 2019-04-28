@@ -73,6 +73,7 @@ import { UserSettingsComponent } from "./components/definitions/user-settings/us
 import { DepreciationComponent } from "./components/depreciation/depreciation/depreciation.component";
 import { MatTabsModule } from "@angular/material/tabs";
 import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-grid-drag.directive';
+import { FaEditFileComponent } from './components/operations/fixed-asset/fa-edit-file/fa-edit-file.component';
 
 @NgModule({
   declarations: [
@@ -127,8 +128,9 @@ import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-g
     AlertInfosComponent,
     TransactionListComponent,
     UserSettingsComponent,
+    TreeGridDragDirective,
+    FaEditFileComponent,
     DepreciationComponent,
-    TreeGridDragDirective
   ],
   imports: [
     BrowserModule,

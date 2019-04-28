@@ -3,18 +3,16 @@
     max-width: 100%;
     margin-bottom: 1rem;
     background-color: transparent;
-    border: 1px solid #dee2e6;
     border-right: none;
     border-left: none;
     border-collapse: collapse;
-    border-spacing: 0;
+    border-spacing: inherit;
     padding: 0;
     margin: 0;
     flex: 1;
     font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
-    max-height: 50vh;
     overflow: auto;
-    display: block;
+    display: table;
 }
 
 .table-row {
@@ -107,11 +105,12 @@ select option:hover {
 }
 
 .tree-table-responsive {
-    overflow-x: auto;
+    overflow: scroll;
     flex: 1;
     border-right: 1px solid #dee2e6;
     border-left: 1px solid #dee2e6;
     height: 100%;
+    max-height: 50vh;
     width: 100%;
 }
 
@@ -128,8 +127,35 @@ select option:hover {
     height: 32px;
     cursor: pointer;
     position: sticky;
-    top: 0;
+    top: -1px;
     background: white;
+}
+
+.tree-table-body-filter-tr > td:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-top: 1px solid #dee2e6;
+}
+
+.tree-table-body-filter-tr > td:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.tree-table-header > th:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 100%;
+    border-top: 1px solid #dee2e6;
 }
 
 .tree-table>thead>th:first-child {
@@ -142,10 +168,6 @@ select option:hover {
     right: 8px;
     background: none;
     color: #8c8c8c;
-}
-
-.tree-table>thead>tr {
-    border-bottom: 1px solid #dee2e6;
 }
 
 .tree-table>tbody>tr:hover {
@@ -165,17 +187,15 @@ select option:hover {
     white-space: nowrap !important;
 }
 
-.tree-table>tbody>th {
-    width: 1px;
-    white-space: nowrap !important;
-}
-
 .tree-table>tbody>tr>td {
-    border: 1px solid #dee2e6;
     border-left: 0;
     border-right: 0;
     font-size: 0.8125rem;
     padding: 5px;
+    z-index: -1;
+    border: 1px solid #dee2e6;
+    border-right: 0;
+    border-left: 0;
 }
 
 .tree-table-body-tr-td-empty {
@@ -195,7 +215,9 @@ select option:hover {
     padding-left: 10px;
     background: white;
     position: sticky;
-    top: 35px;
+    top: 34px;
+    z-index: 0 !important;
+    border:none !important;
 }
 
 .tree-table-body-filter-tr>td>input {

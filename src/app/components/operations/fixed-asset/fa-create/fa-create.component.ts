@@ -71,6 +71,8 @@ export class FaCreateComponent extends BaseComponent
   isDepartmentDropdownOpen:boolean = false;
   isFaCardDropdownOpen:boolean = false;
   isFaCardCategoryDropdownOpen: boolean = false;
+  isUniqueProperty:boolean=false;
+
 
   isFinished: boolean = false;
   isWaitingValidBarcode: boolean = false;
@@ -128,6 +130,9 @@ export class FaCreateComponent extends BaseComponent
   imageFile: any;
   fileBarcode: any;
   insertedFixedAsset = new FixedAsset();
+
+//#region DataTables
+
 
   /*Fixed Asset List */
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -297,13 +302,14 @@ export class FaCreateComponent extends BaseComponent
       column: ["Name"]
     }
   );
-
-  constructor(
-    protected baseService: BaseService,
-    public HttpClient: HttpClient
-  ) {
+//#endregion
+  
+constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
+    
     super(baseService);
+
     this.loadDropdown();
+
     this.getValidBarcode();
 
     //#region DataTable Properties
@@ -331,6 +337,7 @@ export class FaCreateComponent extends BaseComponent
     this.dataTableLocation.isMultipleSelectedActive = false;
     this.dataTableLocation.isLoading = false;
     this.dataTableLocation.isHeaderVisible = false;
+    this.dataTableLocation.isScrollActive = false;
 
     this.dataTableDepartment.isPagingActive = false;
     this.dataTableDepartment.isColumnOffsetActive = false;
@@ -338,6 +345,7 @@ export class FaCreateComponent extends BaseComponent
     this.dataTableDepartment.isMultipleSelectedActive = false;
     this.dataTableDepartment.isLoading = false;
     this.dataTableDepartment.isHeaderVisible = false;
+    this.dataTableDepartment.isScrollActive = false;
 
     this.dataTableFixedAssetCategory.isPagingActive = false;
     this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
@@ -345,6 +353,7 @@ export class FaCreateComponent extends BaseComponent
     this.dataTableFixedAssetCategory.isMultipleSelectedActive = false;
     this.dataTableFixedAssetCategory.isLoading = false;
     this.dataTableFixedAssetCategory.isHeaderVisible = false;
+    this.dataTableFixedAssetCategory.isScrollActive=false;
 
     this.dataTableFixedAssetCard.isPagingActive = false;
     this.dataTableFixedAssetCard.isColumnOffsetActive = false;
@@ -352,6 +361,7 @@ export class FaCreateComponent extends BaseComponent
     this.dataTableFixedAssetCard.isMultipleSelectedActive = false;
     this.dataTableFixedAssetCard.isLoading = false;
     this.dataTableFixedAssetCard.isHeaderVisible = false;
+    this.dataTableFixedAssetCard.isScrollActive = false;
     //#endregion    
 
     $(document).on("click", e => {
@@ -371,7 +381,6 @@ export class FaCreateComponent extends BaseComponent
   ngOnInit() {}
 
   toggleDropdown(key:string) {
-
 
     switch (key) {
       case "location":
@@ -452,7 +461,7 @@ export class FaCreateComponent extends BaseComponent
 
   //#region Load Dropdown
 
-  loadDropdown() {
+ async loadDropdown() {
     this.baseService.companyService.GetCompanies(
       (companies: Company[]) => {
         this.companies = companies;
@@ -568,7 +577,7 @@ export class FaCreateComponent extends BaseComponent
     );
   }
 
-  loadModelByBrandId(event: any) {
+  async loadModelByBrandId(event: any) {
     this.models = [];
 
     if (!event.target.value || event.target.value == "") {
@@ -590,7 +599,7 @@ export class FaCreateComponent extends BaseComponent
     }
   }
 
-  loadFaCardByCategoryId() {
+ async loadFaCardByCategoryId() {
     this.fixedassetcards = [];
     
     // if (!event.target.value || event.target.value == "") {
@@ -613,7 +622,7 @@ export class FaCreateComponent extends BaseComponent
    //}
   }
 
-  loadFixedAssetProperties() {
+ async loadFixedAssetProperties() {
     this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
       (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
         this.fixedassetproperty = fixedAssetCardProperties;
@@ -624,7 +633,7 @@ export class FaCreateComponent extends BaseComponent
     );
   }
 
-  loadValuesByPropertyId(event) {
+  async loadValuesByPropertyId(event) {
     this.isSelectedProperty = true;
     this.visible = false;
     let fixedAssetProperty = this.fixedassetproperty.find(
@@ -647,10 +656,8 @@ export class FaCreateComponent extends BaseComponent
     }
   }
 
-  loadDepartmentByLocationId() {
+  async loadDepartmentByLocationId() {
     this.departments = [];
-    
-    this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
 
     // if (!event.target.value || event.target.value == "") {
     //   this.fixedAsset.DepartmentId = null;
@@ -725,36 +732,52 @@ export class FaCreateComponent extends BaseComponent
   }
 
   insertPropertyValueToArray(propertyId: any) {
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
-    if (this.isSelectedProperty == true) {
-      let fixedasset = this.fixedassetproperty.find(
-        x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-      );
+    let propId = Number(propertyId.value);
+    this.isUniqueFixedAssetProperty(propId);
 
-      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-        (this.faPropertyDetails.length + 1) * -1;
+    if(this.isUniqueProperty != true){
 
-      this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+      if (this.isSelectedProperty == true) {
+        let fixedasset = this.fixedassetproperty.find(
+          x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+        );
 
-      if (this.isListSelected == true)
-        this.fixedAssetPropertyDetail.Value = this.propertyValue;
-      this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+        this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+          (this.faPropertyDetails.length + 1) * -1;
 
-      this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+        this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
 
-      this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-      propertyId = null;
-      this.visible = false;
-      this.isSelectedProperty = false;
-    } else {
-      this.visible = true;
+        if (this.isListSelected == true)
+          this.fixedAssetPropertyDetail.Value = this.propertyValue;
+        this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+
+        this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+
+        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+        propertyId = null;
+        this.visible = false;
+        this.isSelectedProperty = false;
+      } else {
+        this.visible = true;
+      }
     }
   }
 
-  addImageFile(imageFile) {
+  isUniqueFixedAssetProperty(propertyId:number){
+
+    this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(propertyId,
+      (result)=>{
+        this.isUniqueProperty=true;
+
+      },(error:HttpErrorResponse)=>{
+        this.isUniqueProperty=false;
+        this.baseService.popupService.ShowErrorPopup(error);
+      })
+  }
+
+ async addImageFile(imageFile) {
     this.baseService.fileUploadService.ImageUpload(
       imageFile,
       result => {
@@ -774,6 +797,8 @@ export class FaCreateComponent extends BaseComponent
     this.imgURL = null;
   }
 
+
+
   addToFixedAssetList(data: NgForm) {
     if (data.invalid) {
       return false;
@@ -789,21 +814,6 @@ export class FaCreateComponent extends BaseComponent
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
-    let department = this.departments.find(
-      x => x.DepartmentId == Number(data.value.DepartmentId)
-    );
-
-    let fixedassetcard = this.fixedassetcards.find(
-      x => x.FixedAssetCardId == Number(data.value.FixedAssetCardId)
-    );
-    let fixedassetcategory = this.fixedassetcategories.find(
-      x =>
-        x.FixedAssetCardCategoryId ==
-        Number(data.value.FixedAssetCardCategoryId)
-    );
-    let location = this.locations.find(
-      x => x.LocationId == Number(data.value.LocationId)
-    );
     let expensecenter = this.expensecenters.find(
       x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId)
     );
@@ -812,10 +822,10 @@ export class FaCreateComponent extends BaseComponent
     this.fixedAsset.ActivationDate = data.value.activationDate;
     this.fixedAsset.ExpenseCenter = expensecenter;
     this.fixedAsset.SerialNumber = data.value.SerialNumber;
-    this.fixedAsset.FixedAssetCardCategory = fixedassetcategory;
-    this.fixedAsset.Location = location;
-    this.fixedAsset.Department = department;
-    this.fixedAsset.FixedAssetCard = fixedassetcard;
+    this.fixedAsset.FixedAssetCardCategory = this.selectedCategory;
+    this.fixedAsset.Location = this.selectedLocation;
+    this.fixedAsset.Department = this.selectedDepartment;
+    this.fixedAsset.FixedAssetCard = this.selectedCard;
     this.fixedAsset.Price = data.value.Price;
     this.fixedAsset.GuaranteeStartDate = data.value.guaranteeStartDate;
     this.fixedAsset.GuaranteeEndDate = data.value.guaranteeEndDate;
@@ -873,37 +883,18 @@ export class FaCreateComponent extends BaseComponent
 
     this.insertedFixedAsset = this.fixedAssets[0];
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
+    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
     this.insertedFixedAsset.FixedAssetPropertyDetails = propertyDetail;
-    this.insertedFixedAsset.CurrencyId =
-      this.fixedAsset.CurrencyId == null
-        ? null
-        : Number(this.fixedAsset.CurrencyId);
-    this.insertedFixedAsset.DepartmentId =
-      this.fixedAsset.DepartmentId == null
-        ? null
-        : Number(this.fixedAsset.DepartmentId);
-    this.insertedFixedAsset.LocationId = Number(this.fixedAsset.LocationId);
-    this.insertedFixedAsset.FixedAssetCardId = Number(
-      this.fixedAsset.FixedAssetCardId
-    );
-    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(
-      this.fixedAsset.FixedAssetCardCategoryId
-    );
-    this.insertedFixedAsset.CompanyId =
-      this.fixedAsset.CompanyId == null
-        ? null
-        : Number(this.fixedAsset.CompanyId);
-    this.insertedFixedAsset.DepreciationCalculationTypeID =
-      this.fixedAsset.DepreciationCalculationTypeID == null
-        ? null
+    this.insertedFixedAsset.CurrencyId = this.fixedAsset.CurrencyId == null ? null : Number(this.fixedAsset.CurrencyId);
+    this.insertedFixedAsset.DepartmentId = this.fixedAsset.Department == null ? null : Number(this.fixedAsset.Department.DepartmentId);
+    this.insertedFixedAsset.LocationId = Number(this.fixedAsset.Location.LocationId);
+    this.insertedFixedAsset.FixedAssetCardId = Number(this.fixedAsset.FixedAssetCard.FixedAssetCardId);
+    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(this.fixedAsset.FixedAssetCardCategory.FixedAssetCardCategoryId);
+    this.insertedFixedAsset.CompanyId = this.fixedAsset.CompanyId == null ? null : Number(this.fixedAsset.CompanyId);
+    this.insertedFixedAsset.DepreciationCalculationTypeID = this.fixedAsset.DepreciationCalculationTypeID == null ? null
         : Number(this.fixedAsset.DepreciationCalculationTypeID);
-    this.insertedFixedAsset.ExpenseCenterId =
-      this.fixedAsset.ExpenseCenterId == null
-        ? null
+    this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null
         : Number(this.fixedAsset.ExpenseCenterId);
     this.insertedFixedAsset.StatusId =
       this.fixedAsset.StatusId == null
@@ -951,9 +942,11 @@ export class FaCreateComponent extends BaseComponent
     this.insertedFixedAsset.BarcodeIds = <[]>barcodes;
     this.fileBarcode = barcodes;
     this.baseService.spinner.show();
+
     this.baseService.fixedAssetCreateService.AddFixedAsset(
       this.insertedFixedAsset,
       (barcodes: [], status, message) => {
+        
         if (status == true) {
           this.editable = false;
           this.dataTable.isTableEditable = false;
@@ -985,6 +978,14 @@ export class FaCreateComponent extends BaseComponent
 
     this.barcode = null;
 
+    this.selectedCard=null;
+
+    this.selectedCategory=null;
+
+    this.selectedDepartment=null;
+
+    this.selectedLocation=null;
+    
     this.stepper.reset();
 
     data.resetForm(this.fixedAsset);

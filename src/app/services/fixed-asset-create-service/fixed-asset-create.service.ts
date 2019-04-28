@@ -1,11 +1,16 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders
+} from "@angular/common/http";
 import {
   GET_HEADERS,
   SERVICE_URL,
   UNIQUE_BARCODE,
   GET_VALID_BARCODE_LAST_NUMBER,
-  ADD_FIXED_ASSET
+  ADD_FIXED_ASSET,
+  FIXEDASSET_PROPERTY_UNIQUE_CHECK
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -19,7 +24,6 @@ import { FixedAsset } from "src/app/models/FixedAsset";
   providedIn: "root"
 })
 export class FixedAssetCreateService {
-  
   constructor(
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService
@@ -67,33 +71,55 @@ export class FixedAssetCreateService {
       );
   }
 
-  AddFixedAsset(fixedAsset:FixedAsset, success, failed) {
-
+  AddFixedAsset(fixedAsset: FixedAsset, success, failed) {
     this.httpClient
-      .post(SERVICE_URL + ADD_FIXED_ASSET, fixedAsset,{
+      .post(SERVICE_URL + ADD_FIXED_ASSET, fixedAsset, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
-      .subscribe(result=>{
-        let response:Response=<Response>result;
-        if(response.ResultStatus==true){
-          let insertedFixedAsset: FixedAsset = new FixedAsset();
-          Object.assign(insertedFixedAsset, response.ResultObject);
-          success(insertedFixedAsset, response.ResultStatus ,response.LanguageKeyword);
-        } else {          
-          let existBarcode: []=[];
-          Object.assign(existBarcode, response.ResultObject);
-          success(existBarcode, response.ResultStatus, response.LanguageKeyword);
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedFixedAsset: FixedAsset = new FixedAsset();
+            Object.assign(insertedFixedAsset, response.ResultObject);
+            success(
+              insertedFixedAsset,
+              response.ResultStatus,
+              response.LanguageKeyword
+            );
+          } else {
+            let existBarcode: [] = [];
+            Object.assign(existBarcode, response.ResultObject);
+            success(
+              existBarcode,
+              response.ResultStatus,
+              response.LanguageKeyword
+            );
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
         }
-      },(error:HttpErrorResponse)=>{
+      );
+  }
+
+  CheckFixedAssetPropertyUnique(propertyId: number,success,failed) {
+    this.httpClient
+      .get(SERVICE_URL + FIXEDASSET_PROPERTY_UNIQUE_CHECK + "/" + propertyId, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(result => {
+        let response:Response=<Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject,response.LanguageKeyword);
+        }
+      },
+      (error:HttpErrorResponse)=>{
         failed(error);
       });
   }
 
-  FixedAssetImage(){
-    
-  }
+  FixedAssetImage() {}
 
-  AddFixedAssetFile(){
-    
-  }
+  AddFixedAssetFile() {}
 }

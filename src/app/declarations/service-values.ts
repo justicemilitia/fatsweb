@@ -2,8 +2,8 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 //export const SERVICE_URL = "http://localhost:5000/api/";
-//export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
+//export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
@@ -76,6 +76,7 @@ export const GET_FIXEDASSET_BY_ID = "FixedAsset/GetFixedAssetsById";
 export const SUSPENSIONPROCESS = "FixedAsset/SuspensionProcess";
 export const CHANGE_RELATIONSHIP = "FixedAsset/SetFixedAssetRelationship";
 export const BREAK_RELATIONSHIP = "FixedAsset/BreakFixedAssetRelationship";
+export const FIXEDASSET_PROPERTY_UNIQUE_CHECK = "FixedAsset/GetFixedAssetDetailUniqueCheck";
 //#endregion
 
 //#region FixedAssetDebit

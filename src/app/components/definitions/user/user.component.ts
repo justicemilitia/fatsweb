@@ -94,6 +94,14 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
+        columnDisplayName: "Sicil No",
+        columnName: ["RegistrationNumber"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
         columnDisplayName: "Departman",
         columnName: ["Department", "Name"],
         isActive: true,

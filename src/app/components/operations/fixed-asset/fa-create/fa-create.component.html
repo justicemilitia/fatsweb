@@ -139,7 +139,7 @@
                     <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
                 </select>       -->
                 <div style="display:flex;">
-                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Lokasyon Seçiniz' }}</button>
+                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
                   <span class="span-dropdown"  (click)="selectedLocation = null" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedLocation" style="color:red">
@@ -161,7 +161,7 @@
                 <label style="margin-bottom: 0;
                 font-weight: 700;">Departman</label>
                      <div style="display:flex;">
-                        <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : 'Department Seçiniz' }}</button>
+                        <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
                           <span class="span-dropdown"  (click)="selectedDepartment = null" class="typcn icon-default typcn-times span-dropdown"></span>
                         </div>
                 </div>
@@ -243,6 +243,7 @@
                               <div *ngIf="visible == true" style="color:red">
                               <div>Özellik değeri giriniz.</div>
                             </div>
+                            <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div>
                               </div>     
                               <div class="property-add-value">                    
                                   <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
