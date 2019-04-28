@@ -303,7 +303,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async deleteUsers() {
+ deleteUsers() {
     /* Get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
@@ -316,7 +316,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+     this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 

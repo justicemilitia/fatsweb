@@ -6,6 +6,7 @@ import { FixedAsset } from 'src/app/models/FixedAsset';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
 import { IMAGE_URL, GET_FIXEDASSET_BY_ID, DOCUMENT_URL } from "src/app/declarations/service-values";
+import { FixedAssetFile } from 'src/app/models/FixedAssetFile';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
   faPropertyDetails: FixedAssetPropertyDetails[] = [];
   
   fixedAssetPropertyDetails: FixedAssetPropertyDetails[] = [];
+
+  fixedAssetFiles:FixedAssetFile[]=[];
 
   category: string;
   status: string;
@@ -148,9 +151,27 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
   )
 
   constructor(protected baseService: BaseService) {
+
     super(baseService);
     this.loadExitList();
+
     this.dataTable.isMultipleSelectedActive = false;
+
+    this.dataTablePropertyValue.isPagingActive = false;
+    this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isTableEditable = true;
+    this.dataTablePropertyValue.isMultipleSelectedActive = false;
+    this.dataTablePropertyValue.isFilterActive = false;
+    this.dataTablePropertyValue.isLoading = false;
+    this.dataTablePropertyValue.isScrollActive=false;
+
+    this.dataTableFixedAssetFile.isPagingActive = false;
+    this.dataTableFixedAssetFile.isColumnOffsetActive = false;
+    this.dataTableFixedAssetFile.isTableEditable = true;
+    this.dataTableFixedAssetFile.isMultipleSelectedActive = false;
+    this.dataTableFixedAssetFile.isLoading = false;
+    this.dataTableFixedAssetFile.isFilterActive = false;
+    this.dataTableFixedAssetFile.isScrollActive=false;
   }
 
   ngOnInit() {
@@ -215,6 +236,17 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
             this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
         }
 
+        if(result.FixedAssetFiles.length > 0){
+          this.fixedAssetInfo.FixedAssetFiles.forEach(e=>{
+            let faFiles:FixedAssetFile = new FixedAssetFile();
+            faFiles.FileName=e.FileName;
+            faFiles.FixedAssetFileId=e.FixedAssetFileId; 
+
+            this.fixedAssetFiles.push(faFiles);
+          });
+          this.dataTableFixedAssetFile.TGT_loadData(this.fixedAssetFiles);
+        }
+
         if (result.FixedAssetUsers != null) {
           this.fixedAssetInfo.FixedAssetUsers.forEach(e => {
             this.user = e.User.FirstName + " " + e.User.LastName;
@@ -251,4 +283,11 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
     this.isTableRefreshing = false;
   }
 
+  resetForm() {
+  
+    this.fixedAssetInfo.FixedAssetPropertyDetails = [];
+
+    this.dataTablePropertyValue.TGT_clearData();
+
+  }
 }

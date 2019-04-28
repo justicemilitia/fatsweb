@@ -43,7 +43,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 915px;">
     <div class="modal-content modal-content-demo table-scroll">
       <div class="modal-header">
-        <h6 class="modal-title">Demirbaş bilgileri</h6>
+        <h6 class="modal-title" style="margin-top: 7px;
+        margin-bottom: 7px;">Demirbaş bilgileri</h6>
         <button id="CloseModal" type="button" class="close" (click)="resetForm()" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -288,12 +289,12 @@
             </div>
           </div>
         </fieldset>
-        <div class="row justify-content-center" style="margin-top:10px">
-          <div class=" property-values-table col-md-6" style="margin-right: -20px; margin-left: 0px; overflow-y: scroll; height: 80px; padding-top:0px;" >
+        <div class="row justify-content-center" style="margin-top: 10px;padding-left: 10px; padding-right: 10px;">
+          <div class="property-add-value col-md-6">
             <tree-grid-table [dataTable]="dataTablePropertyValue">
             </tree-grid-table>
           </div>
-          <div class="col-md-6">
+          <div class="property-add-value col-md-6">
             <tree-grid-table [dataTable]="dataTableFixedAssetFile">
             </tree-grid-table>
           </div>

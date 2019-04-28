@@ -734,10 +734,10 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
   insertPropertyValueToArray(propertyId: any) {
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
-    let propId = Number(propertyId.value);
-    this.isUniqueFixedAssetProperty(propId);
+    //let propId = Number(propertyId.value);
+    //this.isUniqueFixedAssetProperty(propId);
 
-    if(this.isUniqueProperty != true){
+    //if(this.isUniqueProperty != true){
 
       if (this.isSelectedProperty == true) {
         let fixedasset = this.fixedassetproperty.find(
@@ -762,7 +762,7 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
       } else {
         this.visible = true;
       }
-    }
+    //}
   }
 
   isUniqueFixedAssetProperty(propertyId:number){

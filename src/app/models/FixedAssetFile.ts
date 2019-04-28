@@ -21,5 +21,6 @@ export class FixedAssetFile implements IData{
     FixedAssetId:number; 
     FilePath:string;
     FileName:string;
+    FixedAssetFileIds:number[];
     FixedAssets:FixedAsset;
 }

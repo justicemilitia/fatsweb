@@ -14,6 +14,7 @@ import { ResponseContentType } from '@angular/http';
 
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
+import { FixedAssetFile } from 'src/app/models/FixedAssetFile';
 
 
 
@@ -58,6 +59,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
   faPropertyDetails: FixedAssetPropertyDetails[] = [];
   fixedAssetPropertyDetails: FixedAssetPropertyDetails[] = [];
+  fixedAssetFiles:FixedAssetFile[]=[];
 
   fixedAsset: FixedAsset = new FixedAsset();
 
@@ -451,7 +453,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     "fixedassetfile", [
       {
         columnDisplayName: "Dosya Adı",
-        columnName: [],
+        columnName: ["FileName"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -460,7 +462,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     ],
     {
       isDesc: false,
-      column: []
+      column: ["FileName"]
     }
   )
 
@@ -468,20 +470,25 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   page: number;
 
   constructor(protected baseService: BaseService) {
+
     super(baseService);
     this.loadFixedAssetProperties();
+
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isFilterActive = false;
     this.dataTablePropertyValue.isLoading = false;
+    this.dataTablePropertyValue.isScrollActive = false;
+
     this.dataTableFixedAssetFile.isPagingActive = false;
     this.dataTableFixedAssetFile.isColumnOffsetActive = false;
     this.dataTableFixedAssetFile.isTableEditable = true;
     this.dataTableFixedAssetFile.isMultipleSelectedActive = false;
     this.dataTableFixedAssetFile.isLoading = false;
     this.dataTableFixedAssetFile.isFilterActive = false;
+    this.dataTableFixedAssetFile.isScrollActive = false;
     this.dataTable.isPagingActive = false;
 
   }
@@ -1107,6 +1114,17 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
             this.dataTablePropertyValue.TGT_loadData(this.fixedAssetPropertyDetails);
         }
 
+        if(result.FixedAssetFiles.length > 0){
+          this.fixedAssetInfo.FixedAssetFiles.forEach(e=>{
+            let faFiles:FixedAssetFile = new FixedAssetFile();
+            faFiles.FileName=e.FileName;
+            faFiles.FixedAssetFileId=e.FixedAssetFileId; 
+
+            this.fixedAssetFiles.push(faFiles);
+          });
+          this.dataTableFixedAssetFile.TGT_loadData(this.fixedAssetFiles);
+        }
+
         if (result.FixedAssetUsers != null) {
           this.fixedAssetInfo.FixedAssetUsers.forEach(e => {
             this.user = e.User.FirstName + " " + e.User.LastName;
@@ -1173,8 +1191,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   
       this.fixedAssetInfo.FixedAssetPropertyDetails = [];
 
+      this.fixedAssetInfo.FixedAssetFiles=[];
+
       this.dataTablePropertyValue.TGT_clearData();
 
+      this.dataTableFixedAssetFile.TGT_clearData();
     }
  
   }
