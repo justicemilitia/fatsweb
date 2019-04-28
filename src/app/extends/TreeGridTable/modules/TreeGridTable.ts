@@ -8,6 +8,8 @@ export class TreeGridTable {
 
     //#region Variables
 
+    public isScrollActive:boolean = true;
+
     /**
      * Set true if header visible
      */
