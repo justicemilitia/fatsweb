@@ -63,7 +63,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
             this.faDataTable.TGT_getSelectedItems()
           )).map(x => x.FixedAssetId);
 
-            this.baseService.fixedAssetService.ExitFixedAsset(
+          this.baseService.fixedAssetService.ExitFixedAsset(
             this.transactionLog,
             (insertedItem: TransactionLog, message) => {
               /* Show success pop up */
@@ -82,6 +82,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
+          this.resetForm(data, true);
         }
       }
     );
@@ -117,5 +118,13 @@ export class FaExitComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  resetForm(data: NgForm, isNewItem: boolean) {
+    if (isNewItem == true) {
+      this.transactionLog = new TransactionLog();
+    }
+    data.reset();
+    data.resetForm(this.transactionLog);
   }
 }

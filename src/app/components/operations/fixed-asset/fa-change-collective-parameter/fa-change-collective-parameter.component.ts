@@ -1,69 +1,73 @@
-import { Component, OnInit, Input, NgModule, AfterViewInit } from '@angular/core';
-import { BaseComponent } from '../../../base/base.component';
-import * as $ from 'jquery';
-import { Department } from '../../../../models/Department';
-import { Company } from '../../../../models/Company';
-import { FixedAssetStatus } from '../../../../models/FixedAssetStatus';
-import { FixedAssetCardBrand } from '../../../../models/FixedAssetCardBrand';
-import { FixedAssetCardModel } from 'src/app/models/FixedAssetCardModel';
-import { User } from '../../../../models/LoginUser';
-import { ExpenseCenter } from '../../../../models/ExpenseCenter';
-import { BaseService } from '../../../../services/base.service';
-import { Firm } from '../../../../models/Firm';
-import { HttpErrorResponse } from '@angular/common/http';
-import { FixedAsset } from '../../../../models/FixedAsset';
-import { ReactiveFormsModule, NgForm } from '@angular/forms';
-import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGridTable';
-import { FirmService } from '../../../../services/firm-service/firm.service';
-import { convertNgbDateToDateString } from '../../../../declarations/extends';
-import { FixedAssetComponent } from '../fixed-asset.component';
-import { FixedAssetCardPropertyValue } from 'src/app/models/FixedAssetCardPropertyValue';
-import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
-import { FixedAssetCardCategory } from 'src/app/models/FixedAssetCardCategory';
-import { FixedAssetCard } from 'src/app/models/FixedAssetCard';
-import { Currency } from 'src/app/models/Currency';
-import { FixedAssetCardProperty } from 'src/app/models/FixedAssetCardProperty';
-import { PropertyValueTypes } from 'src/app/declarations/property-value-types.enum';
+import {
+  Component,
+  OnInit,
+  Input,
+  NgModule,
+  AfterViewInit
+} from "@angular/core";
+import { BaseComponent } from "../../../base/base.component";
+import * as $ from "jquery";
+import { Department } from "../../../../models/Department";
+import { Company } from "../../../../models/Company";
+import { FixedAssetStatus } from "../../../../models/FixedAssetStatus";
+import { FixedAssetCardBrand } from "../../../../models/FixedAssetCardBrand";
+import { FixedAssetCardModel } from "src/app/models/FixedAssetCardModel";
+import { User } from "../../../../models/LoginUser";
+import { ExpenseCenter } from "../../../../models/ExpenseCenter";
+import { BaseService } from "../../../../services/base.service";
+import { Firm } from "../../../../models/Firm";
+import { HttpErrorResponse } from "@angular/common/http";
+import { FixedAsset } from "../../../../models/FixedAsset";
+import { ReactiveFormsModule, NgForm } from "@angular/forms";
+import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
+import { FirmService } from "../../../../services/firm-service/firm.service";
+import { convertNgbDateToDateString } from "../../../../declarations/extends";
+import { FixedAssetComponent } from "../fixed-asset.component";
+import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
+import { FixedAssetPropertyDetails } from "src/app/models/FixedAssetPropertyDetails";
+import { FixedAssetCardCategory } from "src/app/models/FixedAssetCardCategory";
+import { FixedAssetCard } from "src/app/models/FixedAssetCard";
+import { Currency } from "src/app/models/Currency";
+import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
+import { PropertyValueTypes } from "src/app/declarations/property-value-types.enum";
 
 @Component({
-  selector: 'app-fa-change-collective-parameter',
-  templateUrl: './fa-change-collective-parameter.component.html',
-  styleUrls: ['./fa-change-collective-parameter.component.css']
+  selector: "app-fa-change-collective-parameter",
+  templateUrl: "./fa-change-collective-parameter.component.html",
+  styleUrls: ["./fa-change-collective-parameter.component.css"]
 })
 @NgModule({
   imports: [ReactiveFormsModule],
   declarations: [FaChangeCollectiveParameterComponent],
   providers: [FaChangeCollectiveParameterComponent]
 })
-export class FaChangeCollectiveParameterComponent extends BaseComponent implements OnInit {
-
-
-  @Input() faBarcode: FixedAsset = new FixedAsset();  
-  @Input() faDataTable: TreeGridTable; 
+export class FaChangeCollectiveParameterComponent extends BaseComponent
+  implements OnInit {
+  @Input() faBarcode: FixedAsset = new FixedAsset();
+  @Input() faDataTable: TreeGridTable;
   @Input() faComponent: FixedAssetComponent;
 
   firmId: number;
   propertyValue: string;
   isListSelected: boolean = false;
-  selectFixedAssetCard:boolean=false;
-  selectedFirm:boolean=false;
-  selectedDepartment:boolean=false;
-    
-  
+  selectFixedAssetCard: boolean = false;
+  selectedFirm: boolean = false;
+  selectedDepartment: boolean = false;
+
   imgURL: any;
   imageFile: any;
   fileBarcode: any;
-  picture:any;
+  picture: any;
 
-  firms: Firm[] = []; 
-  companies: Company[] = [];   
+  firms: Firm[] = [];
+  companies: Company[] = [];
   departments: Department[] = [];
   locations: Location[] = [];
   currencies: Currency[] = [];
   brands: FixedAssetCardBrand[] = [];
   models: FixedAssetCardModel[] = [];
   expensecenters: ExpenseCenter[] = [];
-  statuses: FixedAssetStatus[] = [];  
+  statuses: FixedAssetStatus[] = [];
   fixedassetproperty: FixedAssetCardProperty[] = [];
   fixedassetcategories: FixedAssetCardCategory[] = [];
   faPropertyDetails: FixedAssetPropertyDetails[] = [];
@@ -74,54 +78,50 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
 
-  
-    /* Fixed Asset Card Property Value Data Table */
-    public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
-      "fixedassetcardpropertyvalue",
-      [
-        {
-          columnDisplayName: "Özellik Adı",
-          columnName: ["FixedAssetCardProperty", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Özellik Değeri",
-          columnName: ["Value"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        }
-      ],
+  /* Fixed Asset Card Property Value Data Table */
+  public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
+    "fixedassetcardpropertyvalue",
+    [
       {
-        isDesc: false,
-        column: ["Value"]
+        columnDisplayName: "Özellik Adı",
+        columnName: ["FixedAssetCardProperty", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
       }
-    );
+    ],
+    {
+      isDesc: false,
+      column: ["Value"]
+    }
+  );
 
   constructor(protected baseService: BaseService) {
-    super(baseService);  
-    this.loadDropdownList(); 
+    super(baseService);
+    this.loadDropdownList();
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
     this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isDeleteable = true;
-    this.dataTablePropertyValue.isFilterActive=false;
-    this.fixedAsset.IsActive=null;
-   }
-
-  ngOnInit() {
-    
+    this.dataTablePropertyValue.isFilterActive = false;
+    this.fixedAsset.IsActive = null;
   }
+
+  ngOnInit() {}
 
   //#region Load Dropdowns
   loadDropdownList() {
-
     // FirmList
     this.baseService.userService.GetFirms(
       (firms: Firm[]) => {
@@ -132,8 +132,8 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       }
     );
 
-     // CompanyList
-     this.baseService.companyService.GetCompanies(
+    // CompanyList
+    this.baseService.companyService.GetCompanies(
       (companies: Company[]) => {
         this.companies = companies;
       },
@@ -152,15 +152,15 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       }
     );
 
-      // ExpenseCenterList
-      this.baseService.expenseCenterService.GetExpenseCenters(
-        (expCenters: ExpenseCenter[]) => {
-          this.expensecenters = expCenters;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
+    // ExpenseCenterList
+    this.baseService.expenseCenterService.GetExpenseCenters(
+      (expCenters: ExpenseCenter[]) => {
+        this.expensecenters = expCenters;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
 
     // StatusList
     this.baseService.fixedAssetStatusService.GetStatus(
@@ -215,10 +215,9 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
     );
   }
 
-  loadDepartmentByLocationId(event: any){
-
+  loadDepartmentByLocationId(event: any) {
     this.departments = [];
-    this.selectedFirm=false;
+    this.selectedFirm = false;
 
     if (!event.target.value || event.target.value == "") {
       this.fixedAsset.DepartmentId = null;
@@ -230,15 +229,14 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       this.baseService.departmentService.GetDepartmentsByLocationId(
         <number>event.target.value,
         (departments: Department[]) => {
-          this.departments = departments;      
+          this.departments = departments;
         },
         (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);        
+          this.baseService.popupService.ShowErrorPopup(error);
         }
       );
     }
   }
-
 
   loadModelByBrandId(event: any) {
     this.models = [];
@@ -263,7 +261,6 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
   }
 
   loadFaCardByCategoryId(event: any) {
-
     this.fixedassetcards = [];
     this.selectFixedAssetCard = true;
 
@@ -308,7 +305,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       }
     );
   }
-  
+
   loadValuesByPropertyId(event) {
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
@@ -330,13 +327,13 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent implemen
       this.isListSelected = false;
     }
   }
-//#endregion
-  
-getFirmId(event) {
+  //#endregion
+
+  getFirmId(event) {
     if (event.target.value) {
       this.firmId = Number(event.target.value);
       this.loadDropdownListByFirmId();
-      this.selectedFirm=true;
+      this.selectedFirm = true;
     }
   }
 
@@ -349,8 +346,11 @@ getFirmId(event) {
       this.dataTablePropertyValue.TGT_copySource()
     );
 
-    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
-    let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value));
+    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+      (this.faPropertyDetails.length + 1) * -1;
+    let fixedasset = this.fixedassetproperty.find(
+      x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+    );
     this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
     if (this.isListSelected == true) {
       this.fixedAssetPropertyDetail.Value = this.propertyValue;
@@ -362,46 +362,92 @@ getFirmId(event) {
     propertyId = null;
   }
 
- ChangeCollectiveParameter(data: NgForm){
-   
+  ChangeCollectiveParameter(data: NgForm) {
     console.log(this.fixedAsset);
 
-    let fixedAssetIds: number[]=[];
+    let fixedAssetIds: number[] = [];
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.faDataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+    this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
+      this.faDataTable.TGT_getSelectedItems()
+    )).map(x => x.FixedAssetId);
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
+    let propertyDetail = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
 
-    this.fixedAsset.FirmId =this.fixedAsset.FirmId == null ? null : Number(data.value.FirmId);
-    this.fixedAsset.InsuranceCompanyId = this.fixedAsset.InsuranceCompanyId == null ? null : Number(data.value.InsuranceCompanyId);
-    
-    this.fixedAsset. DepartmentId= this.fixedAsset.DepartmentId == null ? null : Number(data.value.DepartmentId);
-  
-    this.fixedAsset.LocationId=this.fixedAsset.LocationId == null ? null : Number(data.value.LocationId);
-    this.fixedAsset.FixedAssetCardBrandId=this.fixedAsset.FixedAssetCardBrandId == null ? null :  Number(data.value.FixedAssetCardBrandId);
-    this.fixedAsset.FixedAssetCardModelId=this.fixedAsset.FixedAssetCardModelId==null ? null :Number(data.value.FixedAssetCardModelId);
-    this.fixedAsset.CompanyId=this.fixedAsset.CompanyId == null ? null : Number(data.value.CompanyId);
-    this.fixedAsset.ExpenseCenterId= this.fixedAsset.ExpenseCenterId == null ? null : Number(data.value.ExpenseCenterId);
-    this.fixedAsset.InvoiceDate=this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(data.value.InvoiceDate);
-    this.fixedAsset.InvoiceNo=data.value.InvoiceNo;
-    this.fixedAsset.GuaranteeStartDate=this.fixedAsset.GuaranteeStartDate==null ? null :convertNgbDateToDateString(data.value.guaranteeStartDate);
-    this.fixedAsset.GuaranteeEndDate=this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(data.value.guaranteeEndDate);
-    this.fixedAsset.StatusId= this.fixedAsset.StatusId ==null ? null : Number(data.value.StatusId);
-    this.fixedAsset.FixedAssetCardCategoryId= this.fixedAsset.FixedAssetCardCategoryId == null ? null : Number(data.value.FixedAssetCardCategoryId);
-    this.fixedAsset.FixedAssetCardId=this.fixedAsset.FixedAssetCardId == null ? null : Number(data.value.FixedAssetCardId);
-    this.fixedAsset.SerialNumber=this.fixedAsset.SerialNumber == null ? null : data.value.SerialNumber;
-    this.fixedAsset.IsActive=this.fixedAsset.IsActive == null ? null :Boolean(data.value.IsActive);
-    this.fixedAsset.ActivationDate=this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(data.value.activationDate);
-    this.fixedAsset.Price=data.value.Price;
-    this.fixedAsset.CurrencyId=this.fixedAsset.CurrencyId == null ? null : Number(data.value.CurrencyId);
-    this.fixedAsset.ReceiptDate=this.fixedAsset.ReceiptDate == null ? null : convertNgbDateToDateString(data.value.receiptDate);
-    this.fixedAsset.Picture=data.value.Picture;
-    this.fixedAsset.FixedAssetPropertyDetails=propertyDetail;
-    this.fixedAsset.Picture=this.picture;
+    this.fixedAsset.FirmId =
+      this.fixedAsset.FirmId == null ? null : Number(data.value.FirmId);
+    this.fixedAsset.InsuranceCompanyId =
+      this.fixedAsset.InsuranceCompanyId == null
+        ? null
+        : Number(data.value.InsuranceCompanyId);
 
-    let cloneItem=new FixedAsset();
+    this.fixedAsset.DepartmentId =
+      this.fixedAsset.DepartmentId == null
+        ? null
+        : Number(data.value.DepartmentId);
+
+    this.fixedAsset.LocationId =
+      this.fixedAsset.LocationId == null ? null : Number(data.value.LocationId);
+    this.fixedAsset.FixedAssetCardBrandId =
+      this.fixedAsset.FixedAssetCardBrandId == null
+        ? null
+        : Number(data.value.FixedAssetCardBrandId);
+    this.fixedAsset.FixedAssetCardModelId =
+      this.fixedAsset.FixedAssetCardModelId == null
+        ? null
+        : Number(data.value.FixedAssetCardModelId);
+    this.fixedAsset.CompanyId =
+      this.fixedAsset.CompanyId == null ? null : Number(data.value.CompanyId);
+    this.fixedAsset.ExpenseCenterId =
+      this.fixedAsset.ExpenseCenterId == null
+        ? null
+        : Number(data.value.ExpenseCenterId);
+    this.fixedAsset.InvoiceDate =
+      this.fixedAsset.InvoiceDate == null
+        ? null
+        : convertNgbDateToDateString(data.value.InvoiceDate);
+    this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
+    this.fixedAsset.GuaranteeStartDate =
+      this.fixedAsset.GuaranteeStartDate == null
+        ? null
+        : convertNgbDateToDateString(data.value.guaranteeStartDate);
+    this.fixedAsset.GuaranteeEndDate =
+      this.fixedAsset.GuaranteeEndDate == null
+        ? null
+        : convertNgbDateToDateString(data.value.guaranteeEndDate);
+    this.fixedAsset.StatusId =
+      this.fixedAsset.StatusId == null ? null : Number(data.value.StatusId);
+    this.fixedAsset.FixedAssetCardCategoryId =
+      this.fixedAsset.FixedAssetCardCategoryId == null
+        ? null
+        : Number(data.value.FixedAssetCardCategoryId);
+    this.fixedAsset.FixedAssetCardId =
+      this.fixedAsset.FixedAssetCardId == null
+        ? null
+        : Number(data.value.FixedAssetCardId);
+    this.fixedAsset.SerialNumber =
+      this.fixedAsset.SerialNumber == null ? null : data.value.SerialNumber;
+    this.fixedAsset.IsActive =
+      this.fixedAsset.IsActive == null ? null : Boolean(data.value.IsActive);
+    this.fixedAsset.ActivationDate =
+      this.fixedAsset.ActivationDate == null
+        ? null
+        : convertNgbDateToDateString(data.value.activationDate);
+    this.fixedAsset.Price = data.value.Price;
+    this.fixedAsset.CurrencyId =
+      this.fixedAsset.CurrencyId == null ? null : Number(data.value.CurrencyId);
+    this.fixedAsset.ReceiptDate =
+      this.fixedAsset.ReceiptDate == null
+        ? null
+        : convertNgbDateToDateString(data.value.receiptDate);
+    this.fixedAsset.Picture = data.value.Picture;
+    this.fixedAsset.FixedAssetPropertyDetails = propertyDetail;
+    this.fixedAsset.Picture = this.picture;
+
+    let cloneItem = new FixedAsset();
     Object.assign(cloneItem, this.fixedAsset);
 
     this.baseService.fixedAssetService.ChangeCollectiveParameter(
@@ -417,57 +463,52 @@ getFirmId(event) {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-    
-    data.resetForm(this.fixedAsset);
+
+    this.resetForm(data, true);
   }
 
-  selectedFixedAssetCard(event){
-
-    this.selectFixedAssetCard=false;
+  selectedFixedAssetCard(event) {
+    this.selectFixedAssetCard = false;
   }
 
-  selectDepartment(event){
-
+  selectDepartment(event) {
     this.selectedDepartment = true;
     if (!event.target.value || event.target.value == "") {
-
       return;
     }
   }
 
-  isActivate(item:boolean){
-    if(item==true)
-        this.fixedAsset.IsActive=true;
-    if(item==false)
-        this.fixedAsset.IsActive=false;
+  isActivate(item: boolean) {
+    if (item == true) this.fixedAsset.IsActive = true;
+    if (item == false) this.fixedAsset.IsActive = false;
   }
 
   addImageFile(imageFile) {
-
     this.baseService.fileUploadService.ImageUpload(
       imageFile,
-      (result) => {      
-       this.picture=result; 
+      result => {
+        this.picture = result;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
-    ); 
+    );
 
-    var reader = new FileReader();    
+    var reader = new FileReader();
     reader.readAsDataURL(imageFile[0]);
     reader.onload = _event => (this.imgURL = reader.result.toString());
   }
 
-  clearFiles(){
+  clearFiles() {
     this.imgURL = null;
   }
 
-  resetForm(data: NgForm) {
-
-    this.fixedAsset = new FixedAsset();
+  resetForm(data: NgForm, isNewItem: boolean) {
+    if (isNewItem == true) {
+      this.fixedAsset = new FixedAsset();
+      this.dataTablePropertyValue.TGT_clearData();
+      this.imgURL = null;
+    }
     data.resetForm(this.fixedAsset);
-    this.dataTablePropertyValue.TGT_clearData();
-    this.imgURL = null;
   }
 }
