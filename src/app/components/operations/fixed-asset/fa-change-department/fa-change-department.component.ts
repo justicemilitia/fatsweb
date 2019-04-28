@@ -79,7 +79,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
               /* Set inserted Item id to model */
               this.faBarcode.DepartmentId = cloneItem.DepartmentId;
               this.faBarcode.Department = cloneItem.Department;
-              data.resetForm();
+              this.resetForm(data, true);
               this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
@@ -93,9 +93,13 @@ export class FaChangeDepartmentComponent extends BaseComponent
     );
   }
 
-  resetForm(data: NgForm) {
-    data.resetForm();
-    this.newDepartmentId = null;
+  resetForm(data: NgForm, isNewItem: boolean) {
+    if (isNewItem == true) {
+      this.faBarcode = new FixedAsset();
+    }
+    data.reset();
+    data.resetForm(this.faBarcode);    
+    // this.newDepartmentId = null;
   }
 
   // async loadDropdownList() {

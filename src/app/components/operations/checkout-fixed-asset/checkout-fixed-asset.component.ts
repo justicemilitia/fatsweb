@@ -251,7 +251,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
     this.isTableRefreshing = false;
   }
 
-  onDoubleClickItem(item: FixedAsset) {
+  // onDoubleClickItem(item: FixedAsset) {
 
     // this.fixedAsset = new FixedAsset();
 
@@ -309,6 +309,6 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
     //     /* show error message */
     //     this.baseService.popupService.ShowErrorPopup(error);
     //   });
-  }
+  // }
 
 }

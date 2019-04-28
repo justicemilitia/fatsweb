@@ -92,7 +92,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: "Masraf Yeri",
-        columnName: ["ExpenseCenter", "ExpenseCenterName"],
+        columnName: ["ExpenseCenter", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -109,7 +109,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit {
       {
         //  NESNE DÖNÜLECEK
         columnDisplayName: "Amortisman Yöntemi",
-        columnName: ["DepreciationCalculationType", "Name"],
+        columnName: ["DepreciationCalculationType", "DepreciationCalculationTypeDescription"],
         isActive: true,
         classes: [],
         placeholder: "",

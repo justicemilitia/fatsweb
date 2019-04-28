@@ -112,6 +112,8 @@ export class FaLostComponent extends BaseComponent
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
+          this.faBarcode=[];
+        this.loadLostFixedAsset();
   }
 
   loadLostFixedAsset() {
