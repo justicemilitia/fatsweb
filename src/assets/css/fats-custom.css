@@ -149,7 +149,7 @@ body {
 }
 
 .modal-footer {
-    padding: .4rem !important;
+    padding: 1rem !important;
     justify-content: center !important;
     border-top: none;
 }
@@ -161,7 +161,7 @@ body {
 }
 
 .modal-header {
-    padding: .4rem !important;
+    padding: 15px !important;
 }
 
 .modal-content .close {
@@ -601,7 +601,7 @@ label.custom-file:hover {
 }
 
 .modal-body {
-    padding: 15px;
+    padding: 20px;
     padding-bottom: 0px;
 }
 
