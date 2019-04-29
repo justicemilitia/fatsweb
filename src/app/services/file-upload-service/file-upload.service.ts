@@ -13,9 +13,11 @@ import {
   SERVICE_URL,
   FILE_UPLOAD,
   GET_HEADERS,
-  UPLOAD_IMAGE
+  UPLOAD_IMAGE,
+  DELETE_FIXEDASSET_FILE
 } from "../../declarations/service-values";
 import { getAnErrorResponse } from "../../declarations/extends";
+import { FixedAssetFile } from "src/app/models/FixedAssetFile";
 
 @Injectable({
   providedIn: "root"
@@ -26,17 +28,19 @@ export class FileUploadService {
     private authenticationService: AuthenticationService
   ) {}
 
-  FileUpload(barcodes:any,files: any, success, failed) {
-
-    let formData=new FormData();
-    formData.append("BarcodeIds",barcodes);
-    if (files && files.length > 0) 
-    for(let i=0; i < files.length;i++){
-    formData.append(files[i].FileName, files[i]);
-    }
-    let headers:HttpHeaders=new HttpHeaders();
-    headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
-    headers = headers.append('Accept', 'application/json');
+  FileUpload(barcodes: any, files: any, success, failed) {
+    let formData = new FormData();
+    formData.append("BarcodeIds", barcodes);
+    if (files && files.length > 0)
+      for (let i = 0; i < files.length; i++) {
+        formData.append(files[i].FileName, files[i]);
+      }
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append(
+      "Authorization",
+      "Bearer " + this.authenticationService.getToken()
+    );
+    headers = headers.append("Accept", "application/json");
 
     this.httpClient
       .post(SERVICE_URL + FILE_UPLOAD, formData, {
@@ -59,35 +63,53 @@ export class FileUploadService {
       );
   }
 
-  ImageUpload(files:any,success,failed){
-
+  DeleteFiles(fixedAssetFileIds: number[], success, failed) {
+    this.httpClient
+      .post(SERVICE_URL + DELETE_FIXEDASSET_FILE, { "FixedAssetFileIds": fixedAssetFileIds }, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(result=>{
+       let response:Response=<Response>result;
+       if(response.ResultStatus==true){
+         success(response.ResultObject,response.LanguageKeyword);
+       }
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      });
+  }
+  ImageUpload(files: any, success, failed) {
     let formData = new FormData();
-    
+
     if (files && files.length > 0) formData.append(files[0].name, files[0]);
 
-    let headers: HttpHeaders=new HttpHeaders();
-    headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
-    headers = headers.append('Accept', 'application/json');
-
-    this.httpClient.post(SERVICE_URL + UPLOAD_IMAGE, formData,{
-      headers:headers
-    }).subscribe(
-      result => {
-        let response: Response = <Response>result;
-        
-        if (response.ResultStatus == true) {       
-          //let file = {};
-          let filePath = response.ResultObject;
-
-          //Object.assign(file,response.ResultObject);
-          success(filePath, response.LanguageKeyword);
-        } else {
-          failed(getAnErrorResponse(response.LanguageKeyword));
-        }
-      },
-      error => {
-        failed(error);
-      }
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append(
+      "Authorization",
+      "Bearer " + this.authenticationService.getToken()
     );
+    headers = headers.append("Accept", "application/json");
+
+    this.httpClient
+      .post(SERVICE_URL + UPLOAD_IMAGE, formData, {
+        headers: headers
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+
+          if (response.ResultStatus == true) {
+            //let file = {};
+            let filePath = response.ResultObject;
+
+            //Object.assign(file,response.ResultObject);
+            success(filePath, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
   }
 }

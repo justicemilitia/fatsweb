@@ -223,6 +223,7 @@ export const GET_FIXED_ASSET = "FixedAsset/GetFixedAssetsList";
 export const GET_FIXED_ASSET_DESCRIPTION = "FixedAsset/SearchFixedAssetsList";
 export const INSERT_FIXEDASSET = "FixedAsset/AddFixedAsset";
 export const UPLOAD_IMAGE = "File/UploadImage";
+export const DELETE_FIXEDASSET_FILE = "File/DeleteFixedAssetFiles";
 //#endregion
 
 //#region Roles
