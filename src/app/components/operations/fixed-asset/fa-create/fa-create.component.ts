@@ -756,6 +756,7 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
         this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
 
         this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+        this.fixedAssetCardPropertyValue=new FixedAssetCardPropertyValue();
         propertyId = null;
         this.visible = false;
         this.isSelectedProperty = false;
@@ -976,6 +977,8 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
 
     this.fixedAsset = new FixedAsset();
 
+    this.fixedAssetCardPropertyValue=new FixedAssetCardPropertyValue();
+
     this.barcode = null;
 
     this.selectedCard=null;
@@ -1031,6 +1034,12 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
   }
 
   insertFiles() {
+
+    if(this.fixedAssetFiles.length==0){
+      this.baseService.popupService.ShowWarningPopup("Dosya Seçiniz!");
+      return;
+    }
+
     this.baseService.spinner.show();
 
     this.baseService.fileUploadService.FileUpload(
