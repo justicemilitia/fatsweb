@@ -161,14 +161,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         placeholder: "",
         type: "text"
       },
-      {
-        columnDisplayName: "Statü Rengi",
-        columnName: ["Status","Color"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "color",   
-      },
+  
       {
         columnDisplayName: "Fiyat",
         columnName: ["Price"],
@@ -194,6 +187,17 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
 
       },
+      // {
+      //   columnDisplayName: "Demirbaş Giriş Tarihi",
+      //   columnName: ["CreationDate"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text",
+      //   formatter: value => {
+      //     return value.CreationDate ? value.CreationDate.substring(0, 10).split("-").reverse().join("-") : "";
+      //   }
+      // },
       {
         columnDisplayName: "Lokasyon Adı",
         columnName: ["Location", "Name"],
@@ -241,6 +245,14 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         classes: [],
         placeholder: "",
         type: "text"
+      },
+      {
+        columnDisplayName: "Statü Rengi",
+        columnName: ["Status","Color"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "color",   
       },
       {
         columnDisplayName: "Makbuz Tarihi",
