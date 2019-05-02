@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
 import { BaseService } from "../../../services/base.service";
 import { BaseComponent } from "../../base/base.component";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
@@ -6,13 +6,20 @@ import { Page } from "../../../extends/TreeGridTable/models/Page";
 import { FixedAsset } from "../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
+import { Currency } from "../../../models/Currency";
+import { Depreciation } from "../../../models/Depreciation";
 
 @Component({
   selector: "app-depreciation",
   templateUrl: "./depreciation.component.html",
   styleUrls: ["./depreciation.component.css"]
 })
-export class DepreciationComponent extends BaseComponent implements OnInit {
+export class DepreciationComponent extends BaseComponent implements OnInit, OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["fixedAssetBarcodes"]) {
+      // this.loadLostFixedAsset();
+    }
+  }
   searchDescription: string = "";
   fixedAssets: FixedAsset[] = [];
   fixedAsset: FixedAsset = new FixedAsset();
@@ -22,6 +29,12 @@ export class DepreciationComponent extends BaseComponent implements OnInit {
   perInPage: number = 25;
   totalPage: number = 1;
   pages: Page[] = [];
+  fixedAssetIds: number[] = [];
+  currencies: Currency[] = [];
+  depreciationTypes: Depreciation[] = [];
+  fixedAssetBarcodes: string;
+  depreciationBeCalculated: boolean = false;
+  ifrsDepreciationBeCalculated: boolean = false;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "depreciation",
@@ -109,7 +122,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit {
       {
         //  NESNE DÖNÜLECEK
         columnDisplayName: "Amortisman Yöntemi",
-        columnName: ["DepreciationCalculationType", "DepreciationCalculationTypeDescription"],
+        columnName: [
+          "DepreciationCalculationType",
+          "DepreciationCalculationTypeDescription"
+        ],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -173,6 +189,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit {
   constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadFixedAsset();
+    this.loadCurrencies();
+    this.loadDepreciationCalculationTypes();
+
+    this.dataTable.isPagingActive = false;
   }
 
   async TGT_calculatePages() {
@@ -290,20 +310,179 @@ export class DepreciationComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadDropdownList() {
-
-  }
+  loadDropdownList() {}
 
   onSubmit(data: NgForm) {
     if (data.form.invalid == true) return;
+  }
 
-    if (data.value.Price) {
+  onSubmitDepreciation(dataDepreciation: NgForm) {
+    this.updateAllDepreciation(dataDepreciation);
+  }
+
+  async depreciationInfo() {
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
       return;
+    } else if (!selectedItems || selectedItems.length == 1) {
+      this.baseService.fixedAssetService.GetFixedAssetById(
+        selectedItems[0].getId(),
+        (result: FixedAsset) => {
+          Object.assign(this.fixedAsset, result);
+          this.depreciationBeCalculated = result.WillDepreciationBeCalculated;
+          this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated;
+          $("#showModal").click();
+        },
+        (error: HttpErrorResponse) => {
+          /* hide spinner */
+          this.baseService.spinner.hide();
+
+          /* show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    } else {
+      this.selectedBarcodes();
+      $("#showModal").click();
     }
-    /* if agreement id exists means update it otherwise insert it */
-    // if (this.agreement.AgreementId == null) {
-    //   this.addAgreements(data);
-    // } else {
-    //   this.updateAgreement(data);
+  }
+
+  async updateAllDepreciation(dataDepreciation: NgForm) {
+    /* Convert object to new object */
+    let willUpdateItem = new FixedAsset();
+
+    Object.assign(willUpdateItem, this.fixedAsset);
+
+    this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
+      this.dataTable.TGT_getSelectedItems()
+    )).map(x => x.FixedAssetId);
+
+    /* Ask for approve question if its true then update the fixed asset */
+    this.baseService.popupService.ShowQuestionPopupForUpdate(
+      (response: boolean) => {
+        if (response == true) {
+          // this.isWaitingInsertOrUpdate = true;
+
+          /* Update fixed asset values with valid values */
+          willUpdateItem.FixedAssetIds = this.fixedAsset.FixedAssetIds;
+          willUpdateItem.Price = dataDepreciation.value.Price
+            ? Number(dataDepreciation.value.Price)
+            : 0;
+          willUpdateItem.Ifrsprice = dataDepreciation.value.Ifrsprice
+            ? Number(dataDepreciation.value.Ifrsprice)
+            : 0;
+          willUpdateItem.CurrencyId = dataDepreciation.value.CurrencyId
+            ? Number(dataDepreciation.value.CurrencyId)
+            : null;
+          willUpdateItem.IFRSCurrecyId = dataDepreciation.value.IFRSCurrecyId
+            ? Number(dataDepreciation.value.IFRSCurrecyId)
+            : null;
+          willUpdateItem.DepreciationPeriod = dataDepreciation.value
+            .DepreciationPeriod
+            ? Number(dataDepreciation.value.DepreciationPeriod)
+            : null;
+          willUpdateItem.Ifrsperiod = dataDepreciation.value.Ifrsperiod
+            ? Number(dataDepreciation.value.Ifrsperiod)
+            : null;
+          willUpdateItem.WillDepreciationBeCalculated = dataDepreciation.value
+            .WillDepreciationBeCalculated
+            ? true
+            : false;
+          willUpdateItem.WillIfrsbeCalculated = dataDepreciation.value
+            .WillIfrsbeCalculated
+            ? true
+            : false;
+          willUpdateItem.HasInflationIndexation = dataDepreciation.value
+            .HasInflationIndexation
+            ? true
+            : false;
+
+          this.baseService.fixedAssetService.UpdateDepreciation(
+            willUpdateItem,
+            (_fixedAsset, message) => {
+              // this.isWaitingInsertOrUpdate = false;
+
+              /* Show pop up then update data in datatable */
+              this.baseService.popupService.ShowSuccessPopup(message);
+
+              this.dataTable.TGT_updateData(willUpdateItem);
+
+              this.resetForm(dataDepreciation, true);
+              this.loadFixedAsset();
+
+              /* Get original source from table */
+              this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
+            },
+            (error: HttpErrorResponse) => {
+              // this.isWaitingInsertOrUpdate = false;
+              /* Show error message */
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+          );
+        }
+      }
+    );
+  }
+
+  loadCurrencies() {
+    this.baseService.currencyService.GetCurrencies(
+      currencies => {
+        this.currencies = currencies;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  loadDepreciationCalculationTypes() {
+    this.baseService.fixedAssetService.GetDepreciationCalculationTypes(
+      depreciationTypes => {
+        this.depreciationTypes = depreciationTypes;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  public selectedBarcodes() {
+    let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
+    this.fixedAssetBarcodes = "";
+    selectedItems.forEach((e, i) => {
+      this.fixedAssetBarcodes +=
+        e.Barcode + (i == selectedItems.length - 1 ? "" : ", ");
+    });
+
+    return this.fixedAssetBarcodes;
+  }
+
+  willIfrsDepreciationBeCalculated(event) {
+    if (event.target.checked == true) {
+      this.ifrsDepreciationBeCalculated = true;
+    } else {
+      this.ifrsDepreciationBeCalculated = false;
+    }
+  }
+
+  willDepreciationBeCalculated(event) {
+    if (event.target.checked == true) {
+      this.depreciationBeCalculated = true;
+    } else {
+      this.depreciationBeCalculated = false;
+    }
+  }
+
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.fixedAsset);
+
+    if (isNewItem == true) {
+      this.selectedBarcodes = null;
+      this.fixedAsset = new FixedAsset();
+    }
   }
 }
