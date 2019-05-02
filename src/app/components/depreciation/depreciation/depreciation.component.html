@@ -267,7 +267,7 @@
           <div class="row">
               <div class="col-md-12" style="margin-top:10px;">
                   <label class="ckbox">
-                      <input type="checkbox" [checked]="fixedAsset.HasInflationIndexation"
+                      <input type="checkbox" [(ngModel)]="fixedAsset.HasInflationIndexation" [checked]="fixedAsset.HasInflationIndexation"
                         (change)="fixedAsset.HasInflationIndexation = !fixedAsset.HasInflationIndexation"
                         name="HasInflationIndexation" /><span>Enflasyon hesaplaması yapılacak mı?</span>
                     </label>
