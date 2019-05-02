@@ -8,6 +8,14 @@ export class TreeGridTable {
 
     //#region Variables
 
+    /**
+     * Max height of table if scroll is active. 
+     */
+    public maxHeightOfTable:string = '70vh';
+
+    /**
+     * Scroll active means remove maxheight and make no limit table.
+     */
     public isScrollActive:boolean = true;
 
     /**
