@@ -45,4 +45,8 @@ export class DepreciationService {
         }
       );
   }
+
+  CalculateAllDepreciation(){
+    
+  }
 }
