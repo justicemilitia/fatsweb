@@ -116,7 +116,31 @@
                     <ng-template mat-tab-label>
                       Amortisman Bilgileri
                     </ng-template>
-                    <h1>Lelele</h1>
+                    <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                        <tree-grid-table [dataTable]="dataTableDepreciationDetail">
+                        </tree-grid-table>
+                        <!-- Pagination Side -->
+                        <div class="table-pagination">
+                          <!-- Per In Page Select area -->
+                          <select class="table-pagination-select" (change)="loadFixedAsset(perInPage,1)" [(ngModel)]="perInPage">
+                            <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
+                            <option value="1000">Hepsi</option>
+                          </select>
+                          <!-- END Per In Page Select area END -->
+                          <!-- Paginations -->
+                          <nav class="pagination-nav">
+                            <ul class="pagination">
+                              <ng-container *ngFor="let page of pages">
+                                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                    (click)="loadFixedAsset(perInPage,page.value)" class="page-link">{{page.display}}</button>
+                                </li>
+                              </ng-container>
+                            </ul>
+                          </nav>
+                          <!-- END Paginations END -->
+                        </div>
+                        <!-- END Pagination Side END -->
+                      </div> 
                   </mat-tab>
 
                   <mat-tab>

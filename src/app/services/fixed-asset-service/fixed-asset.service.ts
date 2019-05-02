@@ -191,28 +191,6 @@ export class FixedAssetService {
       );
   }
 
-  GetDepreciationCalculationTypes(success, failed) {
-    this.httpclient
-      .get(SERVICE_URL + GET_DEPRECIATIONTYPE_LIST, { headers: GET_HEADERS(this.authenticationService.getToken()) })
-      .subscribe(
-        result => {
-          let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
-            let depreciations: Depreciation[] = [];
-            (<Depreciation[]>response.ResultObject).forEach(e => {
-              let depreciation: Depreciation = new Depreciation();
-              Object.assign(depreciation, e);
-              depreciations.push(depreciation);
-            });
-            success(depreciations, response.LanguageKeyword);
-          } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
-        }, (error: HttpErrorResponse) => {
-          failed(error);
-        });
-   }
-
   ExitFixedAsset(transactionLog: TransactionLog, success, failed) {
     this.httpclient
       .post(

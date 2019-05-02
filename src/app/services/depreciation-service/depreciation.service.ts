@@ -4,7 +4,8 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
   GET_HEADERS,
   SERVICE_URL,
-  GET_DEPRECIATION_CALCULATION_TYPE
+  GET_DEPRECIATION_CALCULATION_TYPE,
+  GET_DEPRECIATIONTYPE_LIST
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -44,6 +45,4 @@ export class DepreciationService {
         }
       );
   }
-
-  
 }

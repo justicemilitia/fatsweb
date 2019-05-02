@@ -278,7 +278,41 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   ngOnInit() {}
 
+  //Demirbaş Listesi
   async loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {
+    this.searchDescription = "";
+    this.dataTable.TGT_clearData();
+    this.dataTable.isLoading = true;
+
+    this.baseService.fixedAssetService.GetFixedAsset(
+      _perInPage,
+      _currentPage,
+      false,
+      (fa: FixedAsset[], totalPage: number, message: string) => {
+        this.perInPage = _perInPage;
+        this.currentPage = _currentPage;
+        this.dataTable.perInPage = _perInPage;
+        this.fixedAssets = fa;
+        this.totalPage = totalPage ? totalPage : 1;
+
+        fa.forEach(e => {
+          e.FixedAssetPropertyDetails.forEach(p => {
+            if (p.FixedAssetCardPropertyId) {
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+            }
+          });
+        });
+        this.dataTable.TGT_loadData(this.fixedAssets);
+        this.TGT_calculatePages();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  //Amortisman Detayları 
+  async loadFixedassetDepreciations(_perInPage: number = 25, _currentPage: number = 1) {
     this.searchDescription = "";
     this.dataTable.TGT_clearData();
     this.dataTable.isLoading = true;
@@ -440,7 +474,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   }
 
   loadDepreciationCalculationTypes() {
-    this.baseService.fixedAssetService.GetDepreciationCalculationTypes(
+    this.baseService.depreciationService.GetDepreciationCalculationTypes(
       depreciationTypes => {
         this.depreciationTypes = depreciationTypes;
       },
