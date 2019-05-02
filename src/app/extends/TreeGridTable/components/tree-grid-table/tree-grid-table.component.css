@@ -129,6 +129,7 @@ select option:hover {
     position: sticky;
     top: -1px;
     background: white;
+    z-index:1;
 }
 
 .tree-table-body-filter-tr > td:before {
@@ -192,7 +193,6 @@ select option:hover {
     border-right: 0;
     font-size: 0.8125rem;
     padding: 5px;
-    z-index: -1;
     border: 1px solid #dee2e6;
     border-right: 0;
     border-left: 0;
@@ -216,7 +216,7 @@ select option:hover {
     background: white;
     position: sticky;
     top: 34px;
-    z-index: 0 !important;
+    z-index: 1;
     border:none !important;
 }
 

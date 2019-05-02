@@ -43,7 +43,7 @@
     <div class="row justify-content-center" style="width:600px;">
 
         <!-- KULLANICI LİSTESİ -->
-        <div class="col-md-5 form-group" style="overflow-y: scroll; height: 300px; padding-top:0px;">
+        <div class="col-md-5 form-group" >
             <tree-grid-table class="table-scroll" style="margin-left:20px;" [dataTable]="dataTableDebit"></tree-grid-table>
         </div>
 
@@ -59,7 +59,7 @@
 
 
         <!-- ZİMMETLİ PERSONEL -->
-        <div class="col-md-5 form-group" style="overflow-y: scroll; height: 300px; padding-top:0px;">
+        <div class="col-md-5 form-group" style="margin-left: 12px;">
             <tree-grid-table class="table-scroll" style="margin-right:20px;" [dataTable]="dataTableOldDebit"></tree-grid-table>
         </div>
 
@@ -79,7 +79,7 @@
   </div>
 
   <!-- modal-body -->
-  <div class="modal-footer">
+  <div class="modal-footer" style="margin-top: -40px;">
     <button class="btn btn-orange" id="btnChangeDebit" type="submit" data-toggle="modal"
       data-target="#modalChangeDebit">
       Zimmeti Değiştir

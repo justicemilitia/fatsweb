@@ -116,7 +116,7 @@ export class AuthenticationService {
   getCurrentFirm(): Firm {
     let firm = localStorage.getItem(this.FIRM_KEY);
     if (firm)
-      return <Firm>JSON.parse(decryptUsingAES256(firm));
+      return <Firm>JSON.parse(JSON.parse(decryptUsingAES256(firm)));
     else
       return null;
   }
