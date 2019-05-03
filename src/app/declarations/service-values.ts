@@ -78,6 +78,11 @@ export const SUSPENSIONPROCESS = "FixedAsset/SuspensionProcess";
 export const CHANGE_RELATIONSHIP = "FixedAsset/SetFixedAssetRelationship";
 export const BREAK_RELATIONSHIP = "FixedAsset/BreakFixedAssetRelationship";
 export const FIXEDASSET_PROPERTY_UNIQUE_CHECK = "FixedAsset/GetFixedAssetDetailUniqueCheck";
+export const UPDATE_DEPRECIATION = "Depreciation/UpdateDepreciation";
+//#endregion
+
+//#region FixedAssets
+export const GET_DEPRECIATIONTYPE_LIST = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
 //#endregion
 
 //#region FixedAssetDebit

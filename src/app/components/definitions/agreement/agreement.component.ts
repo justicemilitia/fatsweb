@@ -260,14 +260,14 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     this.isWaitingInsertOrUpdate = true;
     
     this.baseService.agreementService.InsertAgreement(willInsertItem, this.agreementFiles,
-      (insretedItem: Agreement, message) => {
+      (insertedItem: Agreement, message) => {
 
         this.isWaitingInsertOrUpdate = false;
 
         /* Show pop up, get inserted agreement then set it agreement id, then load data. */
         this.baseService.popupService.ShowSuccessPopup(message);
 
-        willInsertItem.AgreementId = insretedItem.AgreementId;
+        willInsertItem.AgreementId = insertedItem.AgreementId;
 
         this.agreements.push(willInsertItem);
 

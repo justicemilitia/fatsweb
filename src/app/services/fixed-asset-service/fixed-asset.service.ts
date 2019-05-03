@@ -23,7 +23,9 @@ import {
   GET_FIXEDASSET_BY_ID,
   IMAGE_URL,
   GET_FIXED_ASSET_DESCRIPTION,
-  GET_FIXEDASSET_DEBIT_FORM
+  GET_FIXEDASSET_DEBIT_FORM,
+  UPDATE_DEPRECIATION,
+  GET_DEPRECIATIONTYPE_LIST
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -37,6 +39,7 @@ import { FixedAssetRelationship } from '../../models/FixedAssetRelationship';
 import { FixedAssetFilter } from '../../models/FixedAssetFilter';
 import { User } from 'src/app/models/LoginUser';
 import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
+import { Depreciation } from '../../models/Depreciation';
 
 @Injectable({
   providedIn: "root"
@@ -352,6 +355,29 @@ export class FixedAssetService {
     this.httpclient
       .post(
         SERVICE_URL + UPDATE_FIXEDASSETFIRM, fixedAsset, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let updatedFixedAsset: FixedAsset = new FixedAsset();
+            Object.assign(updatedFixedAsset, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  UpdateDepreciation(fixedAsset: FixedAsset, success, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + UPDATE_DEPRECIATION, fixedAsset, {
           headers: GET_HEADERS(this.authenticationService.getToken())
         })
       .subscribe(
