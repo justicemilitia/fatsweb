@@ -68,7 +68,7 @@ export class TreeGridDragDirective implements OnChanges {
         let element = $(this.ef.nativeElement);
         element.css('background-color', 'rgb(224, 224, 224)');
         element.css('box-shadow', '1px 1px 3px 1px #b1b1b1');
-        element.css('z-index', '1');
+        element.css('z-index', '2');
       }
 
     }, 100)
