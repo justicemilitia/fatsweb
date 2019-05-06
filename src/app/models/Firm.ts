@@ -1,4 +1,21 @@
-export class Firm {
+import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+
+export class Firm implements IData{
+    getParentId(): number {
+        return null;
+    }
+    getChildren(): IData[] {
+        return [];
+    }
+    getId(): number {
+        return this.FirmId;
+    }
+
+    childIndex: number;
+    isExtended: boolean;
+    isChecked: boolean;
+    isVisible: boolean;
+    
     FirmId: number;
     ParentFirmId: number;
     Name: string;

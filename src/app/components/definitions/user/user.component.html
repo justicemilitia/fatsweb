@@ -55,12 +55,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-          <!-- <mat-horizontal-stepper  [@.disabled]="true" linear #stepper> -->
+      
       <form #data="ngForm" (ngSubmit)="onSubmit(data) && !data.form.invalid" class="form-register">
-          <!-- <mat-horizontal-stepper  [@.disabled]="true" linear #stepper> -->
-              <!-- <mat-step label="Kullanıcı Bilgileri"  [editable]="editable"> -->
+        <mat-horizontal-stepper  [@.disabled]="true" linear #stepper>
+        <mat-step label="Kullanıcı Bilgileri" >
         <div class="modal-body">
-
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Kullanıcı Kodu</label>
@@ -132,7 +131,6 @@
           </div>
           <!-- form-group -->
           <div class="row justify-content-center">
-
             <div class="form-group col-md-6">
               <label class="required-span">Ünvan</label>
               <select #UserTitleId="ngModel" [(ngModel)]="currentUser.UserTitleId" name="UserTitleId" required
@@ -166,17 +164,17 @@
                 [(ngModel)]="currentUser.PhoneNumber" />
             </div>      
 
-          <div class="form-group col-md-6">
-              <label class="required-span">E-posta</label>
-              <input type="email" name="UserMail" autocomplete="off" #UserMail="ngModel" required maxlength="50"
-                class="form-control" [(ngModel)]="currentUser.UserMail"
-                [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" email />
-              <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
-                <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="UserMail.errors.email">Lütfen Geçerli Email Giriniz.</div>
-                <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+            <div class="form-group col-md-6">
+                <label class="required-span">E-posta</label>
+                <input type="email" name="UserMail" autocomplete="off" #UserMail="ngModel" required maxlength="50"
+                  class="form-control" [(ngModel)]="currentUser.UserMail"
+                  [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" email />
+                <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
+                  <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="UserMail.errors.email">Lütfen Geçerli Email Giriniz.</div>
+                  <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                </div>
               </div>
-            </div>
           </div>
 
           <div class="row justify-content-center">
@@ -197,18 +195,8 @@
                      /><span>Sistem kullanıcısı mı ?</span>
                   </label>  
               </div>
-                    <div class="form-group col-md-6">
-              <label class="required-span">Rol</label>
-              <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="'Seçiniz'"
-                [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
-                (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUser==true ? true : undefined" required>
-              </ng-multiselect-dropdown>
-              <div style="display:block"
-                *ngIf="data.submitted && (!currentUserRoles || currentUserRoles.length == 0) && checkedSystemUser==true"
-                class="invalid-feedback">
-                <div>Bu alan zorunludur.</div>
-              </div>
-            </div>
+              <div class="form-group col-md-6"></div>
+            
             </div>
             <!-- <ng-template [ngIf]="isInsertOrUpdate==false"> -->
                 <div class="row justify-content-center" *ngIf="checkedSystemUser==true">
@@ -238,24 +226,109 @@
                       </div>
                     </div>
               </div>
-
-            
-
         </div>     
-        <div class="modal-footer">
-          <button class="btn btn-az-primary" id="btnCreateUser" type="submit" data-toggle="modal"
-            data-target="#modalInsertUser"
-            *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+        <div class="modal-footer">  
+          <ng-template [ngIf]="visibleInsertButton == true">
+          <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+          </ng-template>
+          <ng-template [ngIf]="visibleInsertButton == false">
+           <div class="grp-btn-action">
+           <button mat-raised-button type="button" class="btn btn-az-primary" (click)="next()" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">İleri</button>
+           </div>   
+          </ng-template>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-        </div>
-        <!-- <button mat-button matStepperPrevious type="button"  class="btn btn-orange" >Geri</button>
-        <button mat-raised-button  class="btn btn-orange" (click)="next()" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
-        margin-bottom: 0px;">İleri</button> -->
-        <!-- </mat-step> -->
-        <!-- <mat-step label="Rol ve Yetkiler"  [editable]="editable"> -->
+        </div>     
+        </mat-step>
 
-        <!-- </mat-step> -->
-      <!-- </mat-horizontal-stepper> -->
+        <mat-step label="Rol ve Yetkiler" >
+            <div class="row justify-content-center">
+              <div class="form-group col-md-6">
+                  <label class="required-span">Rol</label>
+                  <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="'Seçiniz'"
+                    [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUser==true ? true : undefined" required>
+                  </ng-multiselect-dropdown>
+                  <div style="display:block"
+                    *ngIf="data.submitted && (!currentUserRoles || currentUserRoles.length == 0) && checkedSystemUser==true"
+                    class="invalid-feedback">
+                    <div>Bu alan zorunludur.</div>
+                  </div>
+              </div>
+              <div class="form-group col-md-6">
+                  <div>
+                      <label class="required-span" style="margin-bottom: 0;
+                        font-weight: 700;" >Personel</label>        
+                      <div style="display:flex;">
+                      <button id="btnUser" (click)="toggleDropdown('user') " class="dropdown-button" type="button"></button>
+                        <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
+                      </div>                     
+                  </div>
+                  <div class="custom-dropdown" *ngIf="isUserDropdownOpen==true">
+                          <tree-grid-table [dataTable]="dataTableUser"></tree-grid-table>
+                  </div>
+              </div>           
+            </div>
+            <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                    <div>
+                        <label class="required-span" style="margin-bottom: 0;
+                          font-weight: 700;" >Demirbaş Kategorisi</label>        
+                        <div style="display:flex;">
+                        <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button" ></button>
+                          <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
+                        </div>                       
+                    </div>
+                    <div class="custom-dropdown" *ngIf="isFaCardCategoryDropdownOpen==true">
+                      <tree-grid-table [dataTable]="dataTableFixedAssetCategory"></tree-grid-table>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <div>
+                      <label class="required-span" style="margin-bottom: 0;
+                      font-weight: 700;" >Lokasyon</label>                
+                      <div style="display:flex;">
+                      <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  ></button>
+                        <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
+                      </div>                     
+                    </div>
+                  </div>
+                <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                    <tree-grid-table  [dataTable]="dataTableLocation"></tree-grid-table>
+                </div>               
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                    <div>
+                        <label class="required-span" style="margin-bottom: 0;
+                          font-weight: 700;" >Firma</label>        
+                        <div style="display:flex;">
+                        <button id="btnFirm" (click)="toggleDropdown('firm') " class="dropdown-button" type="button" ></button>
+                          <!-- <span class="span-dropdown"   class="typcn icon-default typcn-times span-dropdown"></span> -->
+                        </div>                       
+                    </div>
+                    <div class="custom-dropdown" *ngIf="isFirmDropdownOpen==true">
+                      <tree-grid-table [dataTable]="dataTableFirm"></tree-grid-table>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                
+                </div>
+            </div>  
+            <div class="row" style="margin-right: 0px; margin-left: 0px; margin-top:10px">            
+            <div class="grp-btn-action-left">
+              <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;  min-height: 29px;
+              min-width: 30px;
+              padding: 0 16px;
+              font-weight: 400;" >Geri</button>
+            </div>
+            <div class="grp-btn-action">
+                <button class="btn btn-az-primary" id="btnCreateUser" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
+                margin-bottom: 0px;" type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+            </div>
+            </div>
+        </mat-step>
+      </mat-horizontal-stepper>
       </form>
     </div>
   </div>
