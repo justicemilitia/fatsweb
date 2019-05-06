@@ -3,7 +3,7 @@ export const loadMorris = function (morris1, morris2, morris3) {
   if ($('#morrisDonut1').length == 0)
     return;
 
-  if (morris1) {
+  if (morris1 && morris1.length > 0) {
 
     $('#morrisDonut1').children().remove();
 
@@ -15,7 +15,7 @@ export const loadMorris = function (morris1, morris2, morris3) {
     });
 
   }
-  if (morris2) {
+  if (morris2 && morris2.length > 0) {
 
     $('#morrisDonut2').children().remove();
 
@@ -28,7 +28,7 @@ export const loadMorris = function (morris1, morris2, morris3) {
 
   }
 
-  if (morris3) {
+  if (morris3 && morris3.length > 0) {
 
     $('#morrisDonut3').children().remove();
 

@@ -14,78 +14,72 @@
 
               <!-- <div class="flexProperty">             -->
                 <div class="flexProperty">
-                    
+                    <div class="flexProperty" style="justify-content: flex-start">
 
-                    <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" style="display: flex; flex: 1;" novalidate>
-                      <div class="flexProperty" style="justify-content: flex-start">
-                        <!-- <div>                    
-                            <input name="CalculationBeginDate" type="text" trim="blur" class="form-control" style="width: 200px;"/>
-                        </div>
-                        
-                        <div>                    
-                            <input name="CalculationEndDate" type="text" trim="blur" class="form-control" style="width: 200px;"/>                    
-                        </div> -->
-                        <div>
-                            <label>Hesaplamanın Başlayacağı Yıl: </label>             
-                          </div>
-
-                        <!-- BAŞLANGIÇ TARİHİ -->
-                        <div>
-                          <div class="input-group">
-                            <div class="input-group-append"
-                              [class.is-invalid]="data.submitted && (!fixedAsset.DepreciationStartDate || depreciationStartDateModel.status == 'INVALID' )">
-                              <div (click)="depreciationStartDate.toggle()" class="input-group-text">
-                                <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                              </div>
-                            </div>
-                            <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationStartDate"
-                              [(ngModel)]="fixedAsset.DepreciationStartDate" ngbDatepicker #depreciationStartDate="ngbDatepicker" #depreciationStartDateModel="ngModel"
-                              [class.is-invalid]="data.submitted && (!fixedAsset.DepreciationStartDate || depreciationStartDateModel.status == 'INVALID' )">
-                            <div *ngIf="data.submitted && depreciationStartDateModel.invalid" class="invalid-feedback">
-                              <div *ngIf="!depreciationStartDateModel.errors.required && depreciationStartDateModel.status == 'INVALID'">
-                                Lütfen Geçerli Format Giriniz.
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- BİTİŞ TARİHİ -->
-                        <div>
-                          <div class="input-group">
-                            <div class="input-group-append"
-                              [class.is-invalid]="data.submitted && (!fixedAsset.EndDate || depreciationEndDateModel.status == 'INVALID' )">
-                              <div (click)="endDate.toggle()" class="input-group-text">
-                                <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                              </div>
-                            </div>
-                            <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate" [minDate]="fixedAsset.DepreciationStartDate"
-                              [(ngModel)]="fixedAsset.EndDate" ngbDatepicker #endDate="ngbDatepicker" #depreciationEndDateModel="ngModel"
-                              [class.is-invalid]="data.submitted && (!fixedAsset.EndDate || depreciationEndDateModel.status == 'INVALID' )"
-                              required />
-                            <div *ngIf="data.submitted && depreciationEndDateModel.invalid" class="invalid-feedback">
-                              <div *ngIf="!depreciationEndDateModel.errors.required && depreciationEndDateModel.status == 'INVALID'">
-                                Lütfen Geçerli Format Giriniz.
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div>
-                          <button class="btn btn-az-primary" id="btnFilterDepDate" type="submit" style="padding: 5px 20px; min-height: 27px;">Sorgula</button>                        
-                        </div>
+                  <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" style="display: flex; flex: 1;" novalidate>
                       
+                            <div>
+                                <label>Hesaplamanın Başlayacağı Yıl: </label>             
+                            </div>
+                            <!-- BAŞLANGIÇ TARİHİ -->
+                            <div>
+                              <div class="input-group">
+                                <div class="input-group-append"
+                                  [class.is-invalid]="data.submitted && (!fixedAsset.DepreciationStartDate || depreciationStartDateModel.status == 'INVALID' )">
+                                  <div (click)="depreciationStartDate.toggle()" class="input-group-text">
+                                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                                  </div>
+                                </div>
+                                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationStartDate"
+                                  [(ngModel)]="fixedAsset.DepreciationStartDate" ngbDatepicker #depreciationStartDate="ngbDatepicker" #depreciationStartDateModel="ngModel"
+                                  [class.is-invalid]="data.submitted && (!fixedAsset.DepreciationStartDate || depreciationStartDateModel.status == 'INVALID' )">
+                                <div *ngIf="data.submitted && depreciationStartDateModel.invalid" class="invalid-feedback">
+                                  <div *ngIf="!depreciationStartDateModel.errors.required && depreciationStartDateModel.status == 'INVALID'">
+                                    Lütfen Geçerli Format Giriniz.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- BİTİŞ TARİHİ -->
+                            <div>
+                              <div class="input-group">
+                                <div class="input-group-append"
+                                  [class.is-invalid]="data.submitted && (!fixedAsset.EndDate || depreciationEndDateModel.status == 'INVALID' )">
+                                  <div (click)="endDate.toggle()" class="input-group-text">
+                                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                                  </div>
+                                </div>
+                                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate" [minDate]="fixedAsset.DepreciationStartDate"
+                                  [(ngModel)]="fixedAsset.EndDate" ngbDatepicker #endDate="ngbDatepicker" #depreciationEndDateModel="ngModel"
+                                  [class.is-invalid]="data.submitted && (!fixedAsset.EndDate || depreciationEndDateModel.status == 'INVALID' )"
+                                  required />
+                                <div *ngIf="data.submitted && depreciationEndDateModel.invalid" class="invalid-feedback">
+                                  <div *ngIf="!depreciationEndDateModel.errors.required && depreciationEndDateModel.status == 'INVALID'">
+                                    Lütfen Geçerli Format Giriniz.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div>
+                              <button class="btn btn-az-primary" id="btnFilterDepreciationDate" type="submit" style="padding: 5px 20px; min-height: 27px;">Sorgula</button>                        
+                            </div>
+                </form>
+                          
 
                       <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
+
+                          <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalUpdateDepreciation"></button>          
                           <div>
-                          <button class="btn btn-az-primary" id="btnCalculateDepreciation" style="padding: 5px 20px; margin-right:10px;">Amortisman Hesapla</button>
+                              <button class="btn btn-az-primary" id="btnCalculateDepreciation" style="padding: 5px 20px; margin-right:10px;">Amortisman Hesapla</button>
+                          </div>
+                          <div>                        
+                              <button class="btn btn-az-primary" id="btnUpdateInfos" data-dismiss="modal" style="margin-right:10px;" (click)="depreciationInfo()">Bilgileri Güncelle</button>            
+                          </div>
                       </div>
-                      <div>                        
-                          <button class="btn btn-az-primary" id="btnUpdateInfos" data-dismiss="modal" data-toggle="modal" data-target="#modalUpdateDepreciation" style="margin-right:10px;">Bilgileri Güncelle</button>            </div>
                     </div>
-                  </div>
-                    </form>
+              </div>
 
-
-                </div>
               <mat-tab-group style="margin-top:10px;">
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -122,7 +116,31 @@
                     <ng-template mat-tab-label>
                       Amortisman Bilgileri
                     </ng-template>
-                    <h1>Lelele</h1>
+                    <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                        <tree-grid-table [dataTable]="dataTableDepreciationDetail">
+                        </tree-grid-table>
+                        <!-- Pagination Side -->
+                        <div class="table-pagination">
+                          <!-- Per In Page Select area -->
+                          <select class="table-pagination-select" (change)="loadFixedAsset(perInPage,1)" [(ngModel)]="perInPage">
+                            <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
+                            <option value="1000">Hepsi</option>
+                          </select>
+                          <!-- END Per In Page Select area END -->
+                          <!-- Paginations -->
+                          <nav class="pagination-nav">
+                            <ul class="pagination">
+                              <ng-container *ngFor="let page of pages">
+                                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                    (click)="loadFixedAsset(perInPage,page.value)" class="page-link">{{page.display}}</button>
+                                </li>
+                              </ng-container>
+                            </ul>
+                          </nav>
+                          <!-- END Paginations END -->
+                        </div>
+                        <!-- END Pagination Side END -->
+                      </div> 
                   </mat-tab>
 
                   <mat-tab>
@@ -152,24 +170,17 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
+      <form name="form" #dataDepreciation="ngForm" (ngSubmit)="onSubmitDepreciation(dataDepreciation) && dataDepreciation.form.valid" novalidate>
         <div class="modal-body">
           <div class="row">
               <div class="col-md-6  form-group">
                 <div class="row">
 
                   <!-- BARKOD -->                  
-                  <div class="col-md-6 form-group">                
+                  <div class="col-md-12 form-group">                
                     <label>Barkod</label>
-                    <input [(ngModel)]="fixedAsset.Barcode" name="Barcode" type="text" class="form-control" disabled />
+                    <input value="{{ fixedAssetBarcodes }}" name="Barcode" type="text" class="form-control" disabled />
                   </div>
-
-                  <!-- DEMİRBAŞ ADI -->
-                  <div class="col-md-6 form-group">
-                      <label>Demirbaş Adı</label>
-                      <input [(ngModel)]="fixedAsset.FixedAssetCard.Name" name="Name" type="text" class="form-control" disabled />          
-                  </div>
-
                 </div>
               </div>
 
@@ -202,8 +213,8 @@
                   <!-- AMORTİSMAN HESAPLANACAK MI? -->
                   <div class="col-md-12" style="margin-top:10px;">
                       <label class="ckbox">
-                          <input type="checkbox" [checked]="fixedAsset.WillDepreciationBeCalculated"
-                            (change)="fixedAsset.WillDepreciationBeCalculated = !fixedAsset.WillDepreciationBeCalculated"
+                          <input type="checkbox" [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" [checked]="fixedAsset.WillDepreciationBeCalculated"
+                          (change)="willDepreciationBeCalculated($event)"
                             name="WillDepreciationBeCalculated" /><span>Amortismanı hesaplanacak mı?</span>
                         </label>
                   </div>
@@ -212,7 +223,7 @@
                     <!-- AMORTİSMAN YÖNTEMİ -->
                     <div class="form-group col-md-6">
                         <label>Amortisman Yöntemi</label> 
-                        <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" name="DepreciationCalculationTypeId"  class="form-control select2-no-search">
+                        <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" [disabled]="depreciationBeCalculated==false" name="DepreciationCalculationTypeId"  class="form-control select2-no-search">
                             <option value="-1" >Seçiniz</option>
                             <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
                         </select>   
@@ -221,37 +232,32 @@
                     <!-- AMORTİSMAN PERİYODU -->
                     <div class="form-group col-md-6">
                         <label>Amortisman Periyodu</label> 
-                        <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
+                        <input [(ngModel)]="fixedAsset.DepreciationPeriod" [disabled]="depreciationBeCalculated==false" name="DepreciationPeriod" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
                     </div>   
 
                   </div>         
 
               </fieldset>
-                  <label class="ckbox">
-                      <input type="checkbox" [checked]="fixedAsset.HasInflationIndexation"
-                        (change)="fixedAsset.HasInflationIndexation = !fixedAsset.HasInflationIndexation"
-                        name="HasInflationIndexation" /><span>Enflasyon hesaplaması yapılacak mı?</span>
-                    </label>
           </div>
 
           <div class="col-md-6">
-              <fieldset class="field_set">
+              <fieldset class="field_set" style="padding-bottom: 0px;">
                   <legend>IFRS Amortisman Bilgileri</legend>
 
                   <!-- IFRS AMORTİSMAN HESAPLANACAK MI -->
-                      <div class="col-md-12" style="margin-top:10px;">
-                          <label class="ckbox">
-                              <input type="checkbox" [checked]="fixedAsset.WillIFRSBeCalculated"
-                                (change)="fixedAsset.WillIFRSBeCalculated = !fixedAsset.WillIFRSBeCalculated"
-                                name="WillIFRSBeCalculated" /><span>IFRS amortismanı hesaplanacak mı?</span>
-                            </label>
-                      </div>
+                  <div class="col-md-12" style="margin-top:10px;">
+                      <label class="ckbox">
+                          <input type="checkbox" [(ngModel)]="fixedAsset.WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
+                            (change)="willIfrsDepreciationBeCalculated($event)"
+                            name="WillIfrsbeCalculated" /><span>IFRS amortismanı hesaplanacak mı?</span>
+                        </label>
+                  </div>
 
                   <div class="row" style="margin-top:15px;">                                                  
                   <!-- IFRS PERİYODU -->
                   <div class="form-group col-md-6">
                       <label>IFRS Periyodu</label> 
-                      <input [(ngModel)]="fixedAsset.Ifrsperiod" name="Ifrsperiod" type="text" placeholder="IFRS Periyodu" class="form-control"/>
+                      <input [(ngModel)]="fixedAsset.Ifrsperiod" [disabled]="ifrsDepreciationBeCalculated==false" name="Ifrsperiod" type="text" placeholder="IFRS Periyodu" class="form-control"/>
                   </div>
 
                   <!-- IFRS FİYATI -->
@@ -259,13 +265,14 @@
                     <div class="row">                                                                      
                       <div class="form-group col-md-6">
                         <label>IFRS Fiyatı</label> 
-                        <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="text" placeholder="IFRS Fiyat" class="form-control"/>   
+                        <input [(ngModel)]="fixedAsset.Ifrsprice" [disabled]="ifrsDepreciationBeCalculated==false" name="Ifrsprice" type="text" placeholder="IFRS Fiyat" class="form-control"/>   
                       </div>
-                      <div class="form-group col-md-6" style="padding-left:0px;">
+                      <!-- IFRS PARA BİRİMİ -->
+                      <div class="form-group col-md-6">
                           <label>Para Birimi</label> 
-                      <select [(ngModel)]="fixedAsset.IFRSCurrecyId" name="IFRSCurrecyId" class="form-control select2-no-search">
+                      <select [(ngModel)]="fixedAsset.IFRSCurrecyId" [disabled]="ifrsDepreciationBeCalculated==false" name="IFRSCurrecyId" class="form-control select2-no-search">
                           <option value="-1">IFRS Para Pirimi</option>
-                          <option *ngFor="let currency of ifrscurrencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
+                          <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
                       </select> 
                       </div>
 
@@ -275,29 +282,21 @@
 
                 </div>
 
-                  <!-- PARA BİRİMİ -->
-                  <!-- <div class="form-group col-md-6">
-                      <label>Para Birimi</label> 
-                      <select [(ngModel)]="fixedAsset.IFRSCurrecyId" name="IFRSCurrecyId" class="form-control select2-no-search">
-                          <option value="-1">IFRS Para Pirimi</option>
-                          <option *ngFor="let currency of ifrscurrencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
-                      </select> 
-                  </div> -->
-
               </fieldset>
           </div>
-        </div>
+
+       
+      </div>
           
- 
-          <!-- <div class="row">
-              <div class="col-md-12">
+          <div class="row">
+              <div class="col-md-12" style="margin-top:10px;">
                   <label class="ckbox">
-                      <input type="checkbox" [checked]="fixedAsset.HasInflationIndexation"
+                      <input type="checkbox" [(ngModel)]="fixedAsset.HasInflationIndexation" [checked]="fixedAsset.HasInflationIndexation"
                         (change)="fixedAsset.HasInflationIndexation = !fixedAsset.HasInflationIndexation"
                         name="HasInflationIndexation" /><span>Enflasyon hesaplaması yapılacak mı?</span>
                     </label>
               </div>
-          </div> -->
+          </div>
   
           
         </div>

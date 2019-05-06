@@ -43,7 +43,8 @@ export class FixedAsset implements IData {
   StatusId: number;
   FirmId: number;
   CompanyId: number;
-  Price: string;
+  Price: number;
+  // Price: string;
   HasMaintanence: boolean;
   ReceiptDate: NgbDate;
   CurrencyId: number;
