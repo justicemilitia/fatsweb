@@ -26,3 +26,6 @@
   max-width: 900px;
   margin: 1.75rem auto;
 }
+.ckbox span {
+  padding-left: 11px;
+}

@@ -7,7 +7,9 @@ import { FixedAsset } from "../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
 import { Currency } from "../../../models/Currency";
-import { Depreciation } from "../../../models/Depreciation";
+import { DepreciationCalculationType } from "../../../models/DepreciationCalculationType";
+import { MatTabChangeEvent } from '@angular/material';
+import { Depreciation } from '../../../models/Depreciation';
 
 @Component({
   selector: "app-depreciation",
@@ -31,11 +33,14 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   pages: Page[] = [];
   fixedAssetIds: number[] = [];
   currencies: Currency[] = [];
-  depreciationTypes: Depreciation[] = [];
+  depreciationTypes: DepreciationCalculationType[] = [];
   fixedAssetBarcodes: string;
   depreciationBeCalculated: boolean = false;
   ifrsDepreciationBeCalculated: boolean = false;
-
+  fixedAssetDepreciationDetails: Depreciation[]=[];
+  fixedAssetIfrsDepreciationDetails: Depreciation[]=[];
+  isDetailInfo: boolean = false;
+  isValid: boolean = true;
   public dataTable: TreeGridTable = new TreeGridTable(
     "depreciation",
     [
@@ -186,13 +191,109 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     }
   );
 
+  
+  public dataTableDepreciationDetail: TreeGridTable = new TreeGridTable(
+    "depreciationdetail",
+    [
+      {
+        columnDisplayName: "Amortisman Tarihi",
+        columnName: ["EndDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.EndDate ? value.EndDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
+      },
+      {
+        columnDisplayName: "Amortisman Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Birikmiş Amortisman",
+        columnName: ["AccumulatedValue"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Net Defter Değeri",
+        columnName: ["Nddvalue"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+    ],
+    {
+      isDesc: false,
+      column: ["EndDate"]
+    }
+  );
+
+  public dataTableIFRSDepreciationDetail: TreeGridTable = new TreeGridTable(
+    "ifrsdepreciationdetail",
+    [
+      {
+        columnDisplayName: "Amortisman Tarihi",
+        columnName: ["EndDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.EndDate ? value.EndDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
+      },
+      {
+        columnDisplayName: "Aylık Değer",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Birikmiş Amortisman",
+        columnName: ["AccumulatedValue"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Net Defter Değeri",
+        columnName: ["Nddvalue"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+    ],
+    {
+      isDesc: false,
+      column: ["EndDate"]
+    }
+  );
+
   constructor(protected baseService: BaseService) {
     super(baseService);
-    this.loadFixedAsset();
+    this.loadFixedAsset(this.isValid);
     this.loadCurrencies();
     this.loadDepreciationCalculationTypes();
 
     this.dataTable.isPagingActive = false;
+
+    this.dataTableDepreciationDetail.isPagingActive=false;
+    this.dataTableDepreciationDetail.isMultipleSelectedActive=false;
+    
+    this.dataTableIFRSDepreciationDetail.isPagingActive=false;
   }
 
   async TGT_calculatePages() {
@@ -279,7 +380,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   ngOnInit() {}
 
   //Demirbaş Listesi
-  async loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {
+  async loadFixedAsset(_isValid, _perInPage: number = 25, _currentPage: number = 1) {
     this.searchDescription = "";
     this.dataTable.TGT_clearData();
     this.dataTable.isLoading = true;
@@ -403,39 +504,17 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
           /* Update fixed asset values with valid values */
           willUpdateItem.FixedAssetIds = this.fixedAsset.FixedAssetIds;
-          willUpdateItem.Price = dataDepreciation.value.Price
-            ? Number(dataDepreciation.value.Price)
-            : 0;
-          willUpdateItem.Ifrsprice = dataDepreciation.value.Ifrsprice
-            ? Number(dataDepreciation.value.Ifrsprice)
-            : 0;
-          willUpdateItem.CurrencyId = dataDepreciation.value.CurrencyId
-            ? Number(dataDepreciation.value.CurrencyId)
-            : null;
-          willUpdateItem.IFRSCurrecyId = dataDepreciation.value.IFRSCurrecyId
-            ? Number(dataDepreciation.value.IFRSCurrecyId)
-            : null;
-          willUpdateItem.DepreciationPeriod = dataDepreciation.value
-            .DepreciationPeriod
-            ? Number(dataDepreciation.value.DepreciationPeriod)
-            : null;
-          willUpdateItem.Ifrsperiod = dataDepreciation.value.Ifrsperiod
-            ? Number(dataDepreciation.value.Ifrsperiod)
-            : null;
-          willUpdateItem.WillDepreciationBeCalculated = dataDepreciation.value
-            .WillDepreciationBeCalculated
-            ? true
-            : false;
-          willUpdateItem.WillIfrsbeCalculated = dataDepreciation.value
-            .WillIfrsbeCalculated
-            ? true
-            : false;
-          willUpdateItem.HasInflationIndexation = dataDepreciation.value
-            .HasInflationIndexation
-            ? true
-            : false;
+          willUpdateItem.Price = dataDepreciation.value.Price ? Number(dataDepreciation.value.Price) : 0;
+          willUpdateItem.Ifrsprice = dataDepreciation.value.Ifrsprice ? Number(dataDepreciation.value.Ifrsprice) : 0;
+          willUpdateItem.CurrencyId = dataDepreciation.value.CurrencyId ? Number(dataDepreciation.value.CurrencyId) : null;
+          willUpdateItem.IFRSCurrecyId = dataDepreciation.value.IFRSCurrecyId ? Number(dataDepreciation.value.IFRSCurrecyId) : null;
+          willUpdateItem.DepreciationPeriod = dataDepreciation.value.DepreciationPeriod ? Number(dataDepreciation.value.DepreciationPeriod): null;
+          willUpdateItem.Ifrsperiod = dataDepreciation.value.Ifrsperiod ? Number(dataDepreciation.value.Ifrsperiod) : null;
+          willUpdateItem.WillDepreciationBeCalculated = dataDepreciation.value.WillDepreciationBeCalculated ? true: false;
+          willUpdateItem.WillIfrsbeCalculated = dataDepreciation.value.WillIfrsbeCalculated ? true: false;
+          willUpdateItem.HasInflationIndexation = dataDepreciation.value.HasInflationIndexation ? true : false;
 
-          this.baseService.fixedAssetService.UpdateDepreciation(
+          this.baseService.depreciationService.UpdateDepreciation(
             willUpdateItem,
             (_fixedAsset, message) => {
               // this.isWaitingInsertOrUpdate = false;
@@ -446,7 +525,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
               this.dataTable.TGT_updateData(willUpdateItem);
 
               this.resetForm(dataDepreciation, true);
-              this.loadFixedAsset();
+              this.loadFixedAsset(this.isValid);
 
               /* Get original source from table */
               this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
@@ -458,6 +537,42 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
             }
           );
         }
+      }
+    );
+  }
+
+  loadDepreciationByFixedAssetId(){
+
+    let selectedId = (<FixedAsset[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
+    let fixedAssetId: number;
+    fixedAssetId=selectedId[0];
+
+    this.baseService.depreciationService.GetDepreciationById(
+      fixedAssetId,
+      (depreciationDetails: Depreciation[]) => {
+        this.fixedAssetDepreciationDetails = depreciationDetails;
+        this.dataTableDepreciationDetail.TGT_loadData(this.fixedAssetDepreciationDetails);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  loadDepreciationIFRSByFixedAssetId(){
+
+    let selectedId = (<FixedAsset[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
+    let fixedAssetId: number;
+    fixedAssetId=selectedId[0];
+
+    this.baseService.depreciationService.GetIFRSDepreciationById(
+      fixedAssetId,
+      (ifrsDepreciationDetails: Depreciation[]) => {
+        this.fixedAssetIfrsDepreciationDetails = ifrsDepreciationDetails;
+        this.dataTableIFRSDepreciationDetail.TGT_loadData(this.fixedAssetIfrsDepreciationDetails);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
@@ -517,6 +632,25 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     if (isNewItem == true) {
       this.selectedBarcodes = null;
       this.fixedAsset = new FixedAsset();
+    }
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent) {
+    // console.log('tabChangeEvent => ', tabChangeEvent);
+    // console.log('index => ', tabChangeEvent.index);
+    if(tabChangeEvent.index==0){
+      this.isDetailInfo=false;
+      this.loadFixedAsset(this.isValid);
+    } 
+    else if(tabChangeEvent.index==1){
+
+      this.isDetailInfo=true;
+      this.depreciationInfo();
+      this.loadDepreciationByFixedAssetId();
+    }
+    else if(tabChangeEvent.index==2){
+      this.isDetailInfo=true;
+      this.loadDepreciationIFRSByFixedAssetId();
     }
   }
 }
