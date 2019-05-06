@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from "@angular/core";
+import { Component, OnInit, NgModule, ViewChild } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
@@ -10,6 +10,9 @@ import { Location } from "../../../models/Location";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import UserTitle from "src/app/models/UserTitle";
 import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
+import { MatStepper } from '@angular/material';
+import { FixedAssetCardCategory } from 'src/app/models/FixedAssetCardCategory';
+import { Firm } from 'src/app/models/Firm';
 
 @Component({
   selector: "app-user",
@@ -22,6 +25,17 @@ import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
   providers: [UserComponent]
 })
 export class UserComponent extends BaseComponent implements OnInit {
+
+  isLocationDropdownOpen: boolean = false;
+
+  isUserDropdownOpen:boolean = false;
+
+  isFirmDropdownOpen:boolean = false;
+
+  isFaCardCategoryDropdownOpen: boolean = false;
+
+  visibleInsertButton:boolean=true;
+
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
 
@@ -37,14 +51,22 @@ export class UserComponent extends BaseComponent implements OnInit {
   /* Store all the table users */
   users: User[] = [];
 
+  dropdownUsers:User[]=[];
+
   /* Store the departments to inser users */
   departments: Department[] = [];
 
   /* Store the locations to insert users */
   locations: Location[] = [];
 
+  /* Store the categories to insert users */
+  categories:FixedAssetCardCategory[] = [];
+
   /* Store the roles to insert users */
   roles: Role[] = [];
+
+/* Store the firms to insert users */
+  firms:Firm[]=[];
 
   /* Store user titles to insert users */
   userTitles: UserTitle[] = [];
@@ -56,6 +78,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   checkedSystemUser: boolean = false;
 
   isInsertOrUpdate: boolean = false;
+
+  @ViewChild("stepper") stepper: MatStepper;
 
   /* Data Table instance */
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -165,6 +189,78 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
   );
 
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "location",
+    [
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableFixedAssetCategory: TreeGridTable = new TreeGridTable(
+    "fixedassetcategory",
+    [
+      {
+        columnDisplayName: "Demirbaş Kategorisi",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableUser: TreeGridTable = new TreeGridTable(
+    "user",
+    [
+      {
+        columnDisplayName: "Kullanıcı",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableFirm: TreeGridTable = new TreeGridTable(
+    "firm",
+    [
+      {
+        columnDisplayName: "Firma",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
   constructor(public baseService: BaseService) {
     super(baseService);
 
@@ -179,8 +275,87 @@ export class UserComponent extends BaseComponent implements OnInit {
     };
 
     this.loadUsers();
+    this.loadDropdownLocations();
+    this.loadDropdownUsers();
+    this.loadDropdownFirms();
+    this.loadDropdownCategory();
+
+  
+    //#region DataTable Property
+    this.dataTableLocation.isPagingActive = false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isScrollActive = false;
+
+    this.dataTableFixedAssetCategory.isPagingActive = false;
+    this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
+    this.dataTableFixedAssetCategory.isDeleteable = false;
+    this.dataTableFixedAssetCategory.isLoading = false;
+    this.dataTableFixedAssetCategory.isScrollActive = false;
+
+    this.dataTableFirm.isPagingActive = false;
+    this.dataTableFirm.isColumnOffsetActive = false;
+    this.dataTableFirm.isDeleteable = false;
+    this.dataTableFirm.isLoading = false;
+    this.dataTableFirm.isScrollActive=false;
+
+    this.dataTableUser.isPagingActive = false;
+    this.dataTableUser.isColumnOffsetActive = false;
+    this.dataTableUser.isDeleteable = false;
+    this.dataTableUser.isLoading = false;
+    this.dataTableUser.isScrollActive=false;
+    //#endregion
+    
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnUser").length == 0 
+        && $(e.target).closest("#btnFaCategory").length == 0  && $(e.target).closest("#btnFirm").length == 0
+      ) {
+        this.isLocationDropdownOpen = false;
+        this.isUserDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen=false;
+        this.isFirmDropdownOpen=false;
+      }
+    });
   }
+
   ngOnInit() {}
+
+  toggleDropdown(key:string) {
+
+    switch (key) {
+      case "location":
+    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+    this.isFaCardCategoryDropdownOpen = false;
+    this.isFirmDropdownOpen=false;
+    this.isUserDropdownOpen=false;    
+    break;
+
+    case "user":
+    this.isUserDropdownOpen=!this.isUserDropdownOpen;
+    this.isFirmDropdownOpen=false;
+    this.isFaCardCategoryDropdownOpen = false;
+    this.isLocationDropdownOpen = false;
+    break;
+    
+    case "firm":
+    this.isFirmDropdownOpen=!this.isFirmDropdownOpen;
+    this.isLocationDropdownOpen = false;
+    this.isUserDropdownOpen=false;
+    this.isFaCardCategoryDropdownOpen = false;
+    break;
+
+    case "category":
+    this.isFaCardCategoryDropdownOpen = !this.isFaCardCategoryDropdownOpen;
+    this.isLocationDropdownOpen = false;
+    this.isFirmDropdownOpen = false;
+    this.isUserDropdownOpen = false;
+    break;
+    }
+  }
+
 
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset modal form then reload lists */
@@ -190,6 +365,17 @@ export class UserComponent extends BaseComponent implements OnInit {
     if (isNewItem == true) {
       this.currentUser = new User();
     }
+  }
+
+  next(){
+    if(this.currentUser.FirstName !=null && this.currentUser.LastName != null && this.currentUser.UserCode
+      && this.currentUser.LocationId && this.currentUser.DepartmentId && this.currentUser.UserTitleId && this.currentUser.UserMail){
+        this.stepper.next();
+      }else return;
+  }
+
+  previous(){
+    this.stepper.previous();
   }
 
   onSubmit(data: NgForm) {
@@ -217,6 +403,10 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.isWaitingInsertOrUpdate = true;
 
     this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
+    this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x=>x.getId());
+    this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x=>x.getId());
+    this.currentUser.FixedassetCardCategoryIds=<[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x=>x.getId());
+    this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x=>x.getId());
 
     /* insert into service */
     this.baseService.userService.InsertUser(
@@ -443,15 +633,46 @@ export class UserComponent extends BaseComponent implements OnInit {
     );
   }
 
+  async loadDropdownFirms(){
+    this.baseService.userService.GetFirms(
+      (firms:Firm[])=>
+      {
+        this.firms=firms;
+        this.dataTableFirm.TGT_loadData(this.firms);
+      },(error: HttpErrorResponse)=>{
+
+      })
+  }
+
+  async loadDropdownLocations(){
+    this.baseService.locationService.GetLocations((location:Location[])=>{
+      this.locations=location;
+      this.dataTableLocation.TGT_loadData(this.locations);
+    },(error:HttpErrorResponse)=>{})
+  }
+
+  async loadDropdownUsers() {
+    /* Load just user to table */
+    this.baseService.userService.GetUsers(
+      (usrs: User[]) => {
+        this.dropdownUsers = usrs;
+        this.dataTableUser.TGT_loadData(this.dropdownUsers);
+   
+      },
+      (error: HttpErrorResponse) => {}
+    );
+  }
+
+  async loadDropdownCategory(){
+    this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
+    (faCategory:FixedAssetCardCategory[]) => {
+      this.categories=faCategory;
+      this.dataTableFixedAssetCategory.TGT_loadData(this.categories);
+    },
+    (error:HttpErrorResponse)=>{})
+  }
+
   async loadDropdownList() {
-    // Departmanların listelenmesi
-    // if (this.departments.length == 0) {
-    //   this.baseService.departmentService.GetDepartments((departments: Department[]) => {
-    //     this.departments = departments
-    //   }, (error: HttpErrorResponse) => {
-    //     this.baseService.popupService.ShowErrorPopup(error);
-    //   });
-    // }
 
     // Lokasyonların listelenmesi
     this.loadLocationList();
@@ -544,8 +765,10 @@ export class UserComponent extends BaseComponent implements OnInit {
   isSystemUser(event) {
     if (event.target.checked == true) {
       this.checkedSystemUser = true;
+      this.visibleInsertButton = false;
     } else {
       this.checkedSystemUser = false;
+      this.visibleInsertButton = true;
     }
   }
 

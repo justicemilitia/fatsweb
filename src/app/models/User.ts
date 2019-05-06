@@ -40,7 +40,13 @@ export class User implements IData {
     /**
      * To Update Roles
      */
+    
+    LocationIds: any[];
+    UserIds:any[];
+    FixedassetCardCategoryIds:any[];
+    FirmIds:any[];
     RoleIds: any[];
+
     constructor() {
         this.Department = new Department();
         this.UserRoles = [];

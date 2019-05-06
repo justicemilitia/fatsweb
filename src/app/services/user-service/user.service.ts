@@ -193,7 +193,7 @@ export class UserService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            success(<User>response.ResultObject, response.LanguageKeyword);
+            success(response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -280,8 +280,11 @@ export class UserService {
           let response: Response = <Response>result;
           if ((<[]>response.ResultObject).length == 0) {
             success(response.ResultObject, response.LanguageKeyword);
-          } else {
+          } else if(response.LanguageKeyword == "You_are_not_allowed_to_delete_records_found_that_releated"){
             failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
+          }
+          else{
+            failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
         error => {
