@@ -9,14 +9,19 @@ export class TreeGridTable {
     //#region Variables
 
     /**
+     * When the multiple select will contains 
+     */
+    public isSelectAllWithChildrenActive: boolean = false;
+
+    /**
      * Max height of table if scroll is active. 
      */
-    public maxHeightOfTable:string = '70vh';
+    public maxHeightOfTable: string = '70vh';
 
     /**
      * Scroll active means remove maxheight and make no limit table.
      */
-    public isScrollActive:boolean = true;
+    public isScrollActive: boolean = true;
 
     /**
      * Set true if header visible
@@ -497,7 +502,17 @@ export class TreeGridTable {
      * Toggle of select / unselect for all items
      */
     public TGT_toggleSelectAll() {
+
+        /* Select or deselect for main items */
         this.dataSource.forEach(e => { e.isChecked = this._selectAllState; });
+
+        /* if children selection is active then make children select or deselect */
+        if (this.isSelectAllWithChildrenActive == true) {
+
+            this.dataSource.forEach(e => {
+                this.TGT_doToggleSelectInChildren(e.getChildren(), this._selectAllState);
+            })
+        }
         this.TGT_loadData(this.originalSource);
     }
 
@@ -505,8 +520,55 @@ export class TreeGridTable {
      * Deselect All items
      */
     public TGT_deselectAllItems() {
-        this.originalSource.forEach(e => e.isChecked = false);
+
+        /* Deselect master items */
+        this.dataSource.forEach(e => e.isChecked = false);
+
+        /* if the children selection is active then make children toggle */
+        if (this.isSelectAllWithChildrenActive == true) {
+            this.dataSource.forEach(e => {
+                this.TGT_doToggleSelectInChildren(e.getChildren(), false);
+            });
+        }
+
+        /* Do Filter again */
         this.TGT_doFilter();
+    }
+
+    /**
+     * Select All items in datasource
+     */
+    public TGT_selectAllItems() {
+
+        /* Select master items */
+        this.dataSource.forEach(e => e.isChecked = true);
+
+        /* if the children selection is active then make children toggle */
+        if (this.isSelectAllWithChildrenActive == true) {
+            this.dataSource.forEach(e => {
+                this.TGT_doToggleSelectInChildren(e.getChildren(), true);
+            });
+        }
+
+        /* Do Filter again */
+        this.TGT_doFilter();
+    }
+
+    /**
+     * Select The items in table with given item ids.
+     * @param ids Selected Item ids
+     */
+    public TGT_selectItemsByIds(ids: number[]) {
+
+        this.dataSource.forEach(e => {
+            if (ids.findIndex(x => x == e.getId()) > -1) {
+                e.isChecked = true;
+                if (this.isSelectAllWithChildrenActive == true) {
+                    this.TGT_doToggleSelectInChildren(e.getChildren(), true);
+                }
+            }
+        });
+
     }
 
     /**
@@ -1227,6 +1289,25 @@ export class TreeGridTable {
                 this.TGT_doOrderInChildren(e.getChildren());
             }
         });
+
+    }
+
+    /**
+     * Do toggle select for each item and their children
+     * @param _datasource The treesource of children.
+     * @param selectState The state of select or deselect
+     */
+    public TGT_doToggleSelectInChildren(_datasource: IData[], selectState: boolean) {
+
+        /* Do toggle select for all children */
+        if (_datasource && _datasource.length > 0) {
+            _datasource.forEach(e => {
+                e.isChecked = selectState;
+                if (e.getChildren().length > 0) {
+                    this.TGT_doToggleSelectInChildren(e.getChildren(), selectState);
+                }
+            });
+        }
 
     }
 

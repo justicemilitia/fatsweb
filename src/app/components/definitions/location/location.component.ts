@@ -94,6 +94,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
   );
   constructor(public baseService: BaseService) {
     super(baseService);
+    this.dataTable.isSelectAllWithChildrenActive = true;
     this.loadLocations();
   }
 
