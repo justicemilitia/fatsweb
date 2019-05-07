@@ -198,7 +198,6 @@
               <div class="form-group col-md-6"></div>
             
             </div>
-            <!-- <ng-template [ngIf]="isInsertOrUpdate==false"> -->
                 <div class="row justify-content-center" *ngIf="checkedSystemUser==true">
                     <div class="form-group col-md-6">
                       <label class="required-span">Şifre</label>
@@ -229,19 +228,19 @@
         </div>     
         <div class="modal-footer">  
           <ng-template [ngIf]="visibleInsertButton == true">
-          <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false && isUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
-          <div class="grp-btn-action" *ngIf="visibleUpdateButton==true">
-          <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">İleri</button>
-          </div>
-        </ng-template>
+              <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUser == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+              <div class="grp-btn-action" *ngIf="checkedSystemUser == true">
+              <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">İleri</button>
+              </div>
+          </ng-template>
           <ng-template [ngIf]="visibleInsertButton == false">
-           <div class="grp-btn-action">
-           <button mat-raised-button type="button" class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">İleri</button>
-           </div>   
+              <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUserUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+              <div class="grp-btn-action" *ngIf="checkedSystemUserUpdate == true">
+              <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">İleri</button>
+              </div>
           </ng-template>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-        </div>  
-        
+        </div>          
         </mat-step>
 
         <mat-step label="Rol ve Yetkiler" >
@@ -251,12 +250,12 @@
                   <label class="required-span">Rol</label>
                   <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="'Seçiniz'"
                     [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" [ngClass]="{ 'is-invalid': data.submitted }"
-                    (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUser==true ? true : undefined" >
+                    (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUserUpdate==true ? true : undefined" required>
                   </ng-multiselect-dropdown>
                   <div style="display:block"
                     *ngIf="data.submitted && (!currentUserRoles || currentUserRoles.length == 0)"
                     class="invalid-feedback">
-                    <div>Bu alan zorunludur.</div>
+                    <div *ngIf="">Bu alan zorunludur.</div>
                   </div>
               </div>
               <div class="form-group col-md-6">
@@ -324,9 +323,8 @@
             <div class="grp-btn-action-left">
               <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange">Geri</button>
             </div>
-            <div class="grp-btn-action">
-                <button class="btn btn-az-primary" id="btnCreateUser" type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
-            </div>
+            <button class="btn btn-az-primary" id="btnCreateUser" type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
           </div>
         </mat-step>
       </mat-horizontal-stepper>

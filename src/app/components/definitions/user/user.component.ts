@@ -79,6 +79,8 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   checkedSystemUser: boolean = false;
 
+  checkedSystemUserUpdate:boolean=false;
+
   isInsertOrUpdate: boolean = false;
 
   CategoryIds:number[]=[];
@@ -378,7 +380,21 @@ export class UserComponent extends BaseComponent implements OnInit {
     /* Reset modal form then reload lists */
     data.resetForm(this.currentUser);
     this.currentUserRoles = [];
+
+    this.isUpdate=false;
+    
     this.loadDropdownList();
+
+    this.loadDropdownCategory();
+
+    this.loadDropdownFirms();
+
+    this.loadDropdownUsers();
+
+    this.loadDropdownLocations();
+
+    this.stepper.reset();
+
     if (isNewItem == true) {
       this.currentUser = new User();
     }
@@ -445,6 +461,9 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.refreshTable();
 
         this.checkedSystemUser = false;
+
+ 
+     
       },
       (error: HttpErrorResponse) => {
         /* Change loading bar status */
@@ -472,19 +491,16 @@ export class UserComponent extends BaseComponent implements OnInit {
             x => x.UserId == this.currentUser.ParentUserId
           );
 
+          this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x=>x.getId());
+          this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x=>x.getId());
+          this.currentUser.FixedassetCardCategoryIds=<[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x=>x.getId());
+          this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x=>x.getId());
+
           if (this.checkedSystemUser == true){
             this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
-
-            this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x=>x.getId());
-            this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x=>x.getId());
-            this.currentUser.FixedassetCardCategoryIds=<[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x=>x.getId());
-            this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x=>x.getId());
             }          
           else {
-            this.currentUser.RoleIds = [];
-            this.currentUser.LocationIds=[];
-            this.currentUser.UserIds=[];
-            this.currentUser.FixedassetCardCategoryIds=[];
+            this.currentUser.RoleIds = [];    
           }
           /* loading icon visible */
           this.isWaitingInsertOrUpdate = true;
@@ -600,11 +616,12 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   async onDoubleClickItem(item: User) {
 
-    this.isUpdate =true;
+    this.visibleInsertButton=false;
+
 
     if(item.IsSystemUser==true)
-    this.visibleUpdateButton = true;
-    else this.visibleUpdateButton = false;
+    this.checkedSystemUserUpdate = true;
+    else this.checkedSystemUserUpdate = false;
 
     /* Clear Model */
     this.currentUser = new User();
@@ -834,10 +851,10 @@ export class UserComponent extends BaseComponent implements OnInit {
   isSystemUser(event) {
     if (event.target.checked == true) {
       this.checkedSystemUser = true;
-      this.visibleInsertButton = false;
+      this.checkedSystemUserUpdate=true;
     } else {
       this.checkedSystemUser = false;
-      this.visibleInsertButton = true;
+      this.checkedSystemUserUpdate=false;
     }
   }
 
