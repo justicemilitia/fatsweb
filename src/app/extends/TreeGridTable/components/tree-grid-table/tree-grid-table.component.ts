@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, DoCheck } from '@angular/core';
 import { TreeGridTable } from '../../modules/TreeGridTable';
 import { IData } from '../../models/interfaces/IData';
-import { iif } from 'rxjs';
 
 @Component({
   selector: 'tree-grid-table',

@@ -17,11 +17,13 @@ export class TreeGridDragDirective implements OnChanges {
 
     /* Relase hold item */
     $(document).on('mouseup', (event) => {
-      this.relaseItem(event);
+      if (event.which == 1)
+        this.relaseItem(event);
     });
 
     $(this.ef.nativeElement).on('mousedown', (event) => {
-      this.holdItem();
+      if (event.which == 1)
+        this.holdItem();
     });
 
     $(document).on('mousemove', (event) => {
@@ -71,7 +73,7 @@ export class TreeGridDragDirective implements OnChanges {
         element.css('z-index', '2');
       }
 
-    }, 100)
+    }, 150);
   }
 
 
@@ -93,24 +95,30 @@ export class TreeGridDragDirective implements OnChanges {
     this.isHold = false;
     this.startPosX = null;
 
-    /* Mouse position from event */
-    let mouse = {
-      left: event.pageX,
-      top: event.pageY
-    };
+    /* hold items positon  */
+    let holdColPosition = {
+      left:$(this.dataTable.currentHoldColumn.directive.ef.nativeElement).position().left,
+      top:$(this.dataTable.currentHoldColumn.directive.ef.nativeElement).position().top,
+      leftCenter: $(this.dataTable.currentHoldColumn.directive.ef.nativeElement).position().left +
+            $(this.dataTable.currentHoldColumn.directive.ef.nativeElement).outerWidth() / 2,
+      topCenter: $(this.dataTable.currentHoldColumn.directive.ef.nativeElement).position().top +
+            $(this.dataTable.currentHoldColumn.directive.ef.nativeElement).outerHeight() / 2,
+
+    }
 
     /* Get jquery object of current element */
     let element = $(this.ef.nativeElement);
 
-    /* Normally hold item stays on target item so we have to check manually all columsn is mouse in their target */
+    /* Normally hold item stays on target item so we have to check manually all the columns is mouse on them */
     this.dataTable.dataColumns.forEach(e => {
 
       /* if we find any item we stop binding more */
       if (!this.dataTable.lastPassedColumn) {
-
+        
         /* Check item position with its width if mouse in then we can bind it */
-        if (mouse.left > $(e.directive.ef.nativeElement).position().left && mouse.left < $(e.directive.ef.nativeElement).position().left + $(e.directive.ef.nativeElement).width()) {
-
+        if (holdColPosition.leftCenter > $(e.directive.ef.nativeElement).position().left + $(e.directive.ef.nativeElement).outerWidth() / 3 
+          && holdColPosition.leftCenter < $(e.directive.ef.nativeElement).position().left + $(e.directive.ef.nativeElement).outerWidth()) {
+          
           /* if find hold item we will pass it */
           if (e != this.dataTable.currentHoldColumn) {
             this.dataTable.lastPassedColumn = e;
@@ -123,7 +131,7 @@ export class TreeGridDragDirective implements OnChanges {
     this.dataTable.TGT_swapColumns(this.dataTable.currentHoldColumn, this.dataTable.lastPassedColumn);
 
     /* We have to call order again to prevent ordering */
-    this.dataTable.TGT_doOrder(this.dataTable.currentHoldColumn, true);
+    this.dataTable.TGT_doOrder(this.dataTable.currentHoldColumn, false);
 
     /* Remove hold items */
     this.dataTable.currentHoldColumn = null;
