@@ -229,34 +229,39 @@
         </div>     
         <div class="modal-footer">  
           <ng-template [ngIf]="visibleInsertButton == true">
-          <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
-          </ng-template>
+          <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false && isUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+          <div class="grp-btn-action" *ngIf="visibleUpdateButton==true">
+          <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">İleri</button>
+          </div>
+        </ng-template>
           <ng-template [ngIf]="visibleInsertButton == false">
            <div class="grp-btn-action">
-           <button mat-raised-button type="button" class="btn btn-az-primary" (click)="next()" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">İleri</button>
+           <button mat-raised-button type="button" class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">İleri</button>
            </div>   
           </ng-template>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-        </div>     
+        </div>  
+        
         </mat-step>
 
         <mat-step label="Rol ve Yetkiler" >
+            <div class="modal-body">
             <div class="row justify-content-center">
               <div class="form-group col-md-6">
                   <label class="required-span">Rol</label>
                   <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="'Seçiniz'"
-                    [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
-                    (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUser==true ? true : undefined" required>
+                    [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" [ngClass]="{ 'is-invalid': data.submitted }"
+                    (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUser==true ? true : undefined" >
                   </ng-multiselect-dropdown>
                   <div style="display:block"
-                    *ngIf="data.submitted && (!currentUserRoles || currentUserRoles.length == 0) && checkedSystemUser==true"
+                    *ngIf="data.submitted && (!currentUserRoles || currentUserRoles.length == 0)"
                     class="invalid-feedback">
                     <div>Bu alan zorunludur.</div>
                   </div>
               </div>
               <div class="form-group col-md-6">
                   <div>
-                      <label class="required-span" style="margin-bottom: 0;
+                      <label style="margin-bottom: 0;
                         font-weight: 700;" >Personel</label>        
                       <div style="display:flex;">
                       <button id="btnUser" (click)="toggleDropdown('user') " class="dropdown-button" type="button"></button>
@@ -271,7 +276,7 @@
             <div class="row justify-content-center">
                 <div class="form-group col-md-6">
                     <div>
-                        <label class="required-span" style="margin-bottom: 0;
+                        <label style="margin-bottom: 0;
                           font-weight: 700;" >Demirbaş Kategorisi</label>        
                         <div style="display:flex;">
                         <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button" ></button>
@@ -284,23 +289,22 @@
                   </div>
                   <div class="form-group col-md-6">
                     <div>
-                      <label class="required-span" style="margin-bottom: 0;
+                      <label style="margin-bottom: 0;
                       font-weight: 700;" >Lokasyon</label>                
                       <div style="display:flex;">
                       <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  ></button>
                         <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
                       </div>                     
-                    </div>
-                  </div>
+                    </div>                 
                 <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
                     <tree-grid-table  [dataTable]="dataTableLocation"></tree-grid-table>
-                </div>               
+                </div>     
+              </div>          
             </div>
-
             <div class="row justify-content-center">
                 <div class="form-group col-md-6">
                     <div>
-                        <label class="required-span" style="margin-bottom: 0;
+                        <label style="margin-bottom: 0;
                           font-weight: 700;" >Firma</label>        
                         <div style="display:flex;">
                         <button id="btnFirm" (click)="toggleDropdown('firm') " class="dropdown-button" type="button" ></button>
@@ -315,18 +319,15 @@
                 
                 </div>
             </div>  
-            <div class="row" style="margin-right: 0px; margin-left: 0px; margin-top:10px">            
+          </div>
+          <div class="modal-footer">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;  min-height: 29px;
-              min-width: 30px;
-              padding: 0 16px;
-              font-weight: 400;" >Geri</button>
+              <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange">Geri</button>
             </div>
             <div class="grp-btn-action">
-                <button class="btn btn-az-primary" id="btnCreateUser" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
-                margin-bottom: 0px;" type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
+                <button class="btn btn-az-primary" id="btnCreateUser" type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? 'Kullanıcıyı Güncelle' : 'Kullanıcı Ekle'}}</button>
             </div>
-            </div>
+          </div>
         </mat-step>
       </mat-horizontal-stepper>
       </form>

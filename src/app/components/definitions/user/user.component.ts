@@ -39,6 +39,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
 
+  visibleUpdateButton:boolean = false;
+
   /* Is Table Refreshing */
   isTableRefreshing: boolean = false;
 
@@ -78,6 +80,17 @@ export class UserComponent extends BaseComponent implements OnInit {
   checkedSystemUser: boolean = false;
 
   isInsertOrUpdate: boolean = false;
+
+  CategoryIds:number[]=[];
+
+  FirmIds:number[]=[];
+
+  LocationIds:number[]=[];
+
+  UserIds:number[]=[];
+
+  isUpdate:boolean=false;
+
 
   @ViewChild("stepper") stepper: MatStepper;
 
@@ -230,7 +243,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: "Kullanıcı",
-        columnName: ["Name"],
+        columnName: ["FirstName"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -239,7 +252,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["Name"]
+      column: ["FirstName"]
     }
   );
 
@@ -287,24 +300,28 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableLocation.isDeleteable = false;
     this.dataTableLocation.isLoading = false;
     this.dataTableLocation.isScrollActive = false;
+    this.dataTableLocation.isSelectAllWithChildrenActive=true;
 
     this.dataTableFixedAssetCategory.isPagingActive = false;
     this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
     this.dataTableFixedAssetCategory.isDeleteable = false;
     this.dataTableFixedAssetCategory.isLoading = false;
     this.dataTableFixedAssetCategory.isScrollActive = false;
+    this.dataTableFixedAssetCategory.isSelectAllWithChildrenActive = true;
 
     this.dataTableFirm.isPagingActive = false;
     this.dataTableFirm.isColumnOffsetActive = false;
     this.dataTableFirm.isDeleteable = false;
     this.dataTableFirm.isLoading = false;
     this.dataTableFirm.isScrollActive=false;
+    this.dataTableFirm.isSelectAllWithChildrenActive=true;
 
     this.dataTableUser.isPagingActive = false;
     this.dataTableUser.isColumnOffsetActive = false;
     this.dataTableUser.isDeleteable = false;
     this.dataTableUser.isLoading = false;
     this.dataTableUser.isScrollActive=false;
+    this.dataTableUser.isSelectAllWithChildrenActive = true;
     //#endregion
     
     $(document).on("click", e => {
@@ -367,11 +384,15 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
   }
 
-  next(){
+  next(event,data:NgForm){
     if(this.currentUser.FirstName !=null && this.currentUser.LastName != null && this.currentUser.UserCode
       && this.currentUser.LocationId && this.currentUser.DepartmentId && this.currentUser.UserTitleId && this.currentUser.UserMail){
         this.stepper.next();
-      }else return;
+      }else 
+      {
+        data.onSubmit(event);
+        return;
+      }
   }
 
   previous(){
@@ -450,9 +471,21 @@ export class UserComponent extends BaseComponent implements OnInit {
           let parentUser = this.users.find(
             x => x.UserId == this.currentUser.ParentUserId
           );
-          if (this.checkedSystemUser == true)
+
+          if (this.checkedSystemUser == true){
             this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
-          else this.currentUser.RoleIds = [];
+
+            this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x=>x.getId());
+            this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x=>x.getId());
+            this.currentUser.FixedassetCardCategoryIds=<[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x=>x.getId());
+            this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x=>x.getId());
+            }          
+          else {
+            this.currentUser.RoleIds = [];
+            this.currentUser.LocationIds=[];
+            this.currentUser.UserIds=[];
+            this.currentUser.FixedassetCardCategoryIds=[];
+          }
           /* loading icon visible */
           this.isWaitingInsertOrUpdate = true;
 
@@ -566,6 +599,13 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   async onDoubleClickItem(item: User) {
+
+    this.isUpdate =true;
+
+    if(item.IsSystemUser==true)
+    this.visibleUpdateButton = true;
+    else this.visibleUpdateButton = false;
+
     /* Clear Model */
     this.currentUser = new User();
 
@@ -583,12 +623,13 @@ export class UserComponent extends BaseComponent implements OnInit {
       this.departments = [];
 
     this.isInsertOrUpdate = true;
+    
 
-    /* get company information from server */
+    /* get user information from server */
     await this.baseService.userService.GetUserById(
       item.UserId,
       (result: User) => {
-        /* then bind it to company model to update */
+        /* then bind it to user model to update */
         setTimeout(() => {
           /* close loading */
           this.baseService.spinner.hide();
@@ -606,6 +647,34 @@ export class UserComponent extends BaseComponent implements OnInit {
             if (role) this.currentUserRoles.push(role);
           });
         }, 1000);
+
+        /*get user authorized fixed asset categories from server */
+        result.UserAuthorizedFixedAssetCardCategories.forEach(e=>{
+            this.CategoryIds.push(e.FixedAssetCardCategoryId);        
+          });
+
+        this.dataTableFixedAssetCategory.TGT_selectItemsByIds(this.CategoryIds);
+
+        /*get user authorized firms from server */
+        result.UserAuthorizedFirms.forEach(e=>{
+          this.FirmIds.push(e.FirmId);
+        });
+
+        this.dataTableFirm.TGT_selectItemsByIds(this.FirmIds);
+
+        /*get user authorized locations from server */
+        result.UserAuthorizedLocations.forEach(e=>{
+        this.LocationIds.push(e.LocationId);
+        });
+
+        this.dataTableLocation.TGT_selectItemsByIds(this.LocationIds);          
+
+        /*get user authorized users from server */
+        result.UserAuthorizedUsers.forEach(e=>{
+          this.FirmIds.push(e.AuthorizedUserId);
+        });
+
+        this.dataTableUser.TGT_selectItemsByIds(this.FirmIds);
       },
       (error: HttpErrorResponse) => {
         /* hide spinner */

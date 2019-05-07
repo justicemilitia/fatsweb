@@ -61,16 +61,12 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Yeni Departman</label>
-        <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId"  class="form-control" #DepartmentId="ngModel"
-          [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }" required>
+        <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId"  class="form-control" #DepartmentId="ngModel">
           <option [ngValue]="null">Yok</option>
           <option *ngFor="let dep of departments" value={{dep.DepartmentId}}>
             {{ dep.Name }}
           </option>
-        </select>
-        <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
-          <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
-        </div>
+        </select>  
       </div>
     </div>
 

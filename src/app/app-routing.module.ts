@@ -30,6 +30,7 @@ import { RelationshipFixedAssetComponent } from './components/operations/relatio
 import { TransactionListComponent } from './components/operations/transaction-list/transaction-list.component';
 import { UserSettingsComponent } from './components/definitions/user-settings/user-settings.component';
 import { DepreciationComponent } from './components/depreciation/depreciation/depreciation.component';
+import { CycleCountPlanComponent } from './components/operations/cycle-count/cycle-count-plan/cycle-count-plan.component';
 
 export const routes: Routes = [
   {
@@ -197,6 +198,12 @@ export const routes: Routes = [
     path: "depreciation",
     component: DepreciationComponent,
     data: { pageKeyword: pages.MENU_DEPRECIATIONS }
+    // //canActivate: [AuthGuard]
+  },
+  {
+    path: "cyclecount",
+    component: CycleCountPlanComponent,
+    data: { pageKeyword: pages.MENU_CYCLECOUNTPLANNIG }
     // //canActivate: [AuthGuard]
   }
 

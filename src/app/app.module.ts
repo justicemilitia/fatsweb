@@ -74,6 +74,7 @@ import { DepreciationComponent } from "./components/depreciation/depreciation/de
 import { MatTabsModule } from "@angular/material/tabs";
 import { TreeGridDragDirective } from './extends/TreeGridTable/directives/tree-grid-drag.directive';
 import { FaEditFileComponent } from './components/operations/fixed-asset/fa-edit-file/fa-edit-file.component';
+import { CycleCountPlanComponent } from './components/operations/cycle-count/cycle-count-plan/cycle-count-plan.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { FaEditFileComponent } from './components/operations/fixed-asset/fa-edit
     TreeGridDragDirective,
     FaEditFileComponent,
     DepreciationComponent,
+    CycleCountPlanComponent
   ],
   imports: [
     BrowserModule,
