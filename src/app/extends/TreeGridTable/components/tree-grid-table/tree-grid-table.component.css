@@ -78,12 +78,13 @@ select option:hover {
     border: 1px solid #dee2e6;
     border-right: none;
     color: #424242;
-    height: 37px;
+    height: 35px;
     background: #f9f9f9;
     cursor: pointer;
     display: flex;
     align-items: center;
     padding: 0px 3px 7px 3px;
+    margin-top:1px;
 }
 
 .table-no-content {
