@@ -10,6 +10,7 @@ import { Currency } from "src/app/models/Currency";
 import { CheckOutReason } from "src/app/models/CheckOutReason";
 import * as $ from "jquery";
 import { FixedAssetUser } from '../../../models/FixedAssetUser';
+import { convertNgbDateToDateString } from '../../../declarations/extends';
 
 @Component({
   selector: "app-suspended-fixed-asset",
@@ -191,27 +192,28 @@ export class SuspendedFixedAssetComponent extends BaseComponent
   undoSuspendedFixedAsset(dataSuspend: NgForm) {
     if (dataSuspend.form.invalid == true) return;
 
+    this.transactionLogSuspended =new TransactionLog();
     this.transactionLogSuspended.FixedAssetIds = this.selectedSuspendFa();
+    this.transactionLogSuspended.UndoSuspensionDate = convertNgbDateToDateString(dataSuspend.value.undoSuspensionDate);
 
     this.baseService.popupService.ShowQuestionPopupForOperation(
       (response: boolean) => {
         if (response == true) {
           this.baseService.suspendedService.UndoSuspensionProcess(
             this.transactionLogSuspended,
-            () => {
+            (insertedItem: TransactionLog, message) => {
               this.dataTable.TGT_removeItemsByIds(
                 this.transactionLogSuspended.FixedAssetIds
               );
 
-              this.baseService.popupService.ShowSuccessPopup(
-                "İşlem başarılı !"
-              );
+              this.baseService.popupService.ShowSuccessPopup(message);
             },
             (error: HttpErrorResponse) => {
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
         }
+      this.resetForm(dataSuspend, true);        
       }
     );
   }
@@ -293,5 +295,12 @@ export class SuspendedFixedAssetComponent extends BaseComponent
     await this.loadSuspendedList();
 
     this.isTableRefreshing = false;
+  }
+
+    resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.suspendedFa);
+    if (isNewItem == true) {
+      this.suspendedFa = new FixedAsset();
+    }
   }
 }

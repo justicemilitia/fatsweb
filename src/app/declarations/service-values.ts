@@ -79,6 +79,8 @@ export const CHANGE_RELATIONSHIP = "FixedAsset/SetFixedAssetRelationship";
 export const BREAK_RELATIONSHIP = "FixedAsset/BreakFixedAssetRelationship";
 export const FIXEDASSET_PROPERTY_UNIQUE_CHECK = "FixedAsset/GetFixedAssetDetailUniqueCheck";
 export const UPDATE_DEPRECIATION = "Depreciation/UpdateDepreciation";
+export const CALCULATE_DEPRECIATION = "Depreciation/CalculateFixedAssetDepreciationValues";
+export const CALCULATE_IFRSDEPRECIATION = "DepreciationIFRS/UpdateDepreciationIFRS";
 //#endregion
 
 //#region Depreciations

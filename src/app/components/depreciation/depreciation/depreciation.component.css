@@ -29,3 +29,44 @@
 .ckbox span {
   padding-left: 11px;
 }
+.btn{
+  min-height: 25px;
+}
+
+.table-scroll {
+  height: 500px;
+  overscroll-behavior-y: contain;
+  overflow-y: scroll;
+}
+
+.table-pagination {
+  padding-top: 0;
+  color: #333333;
+  float: right;
+  text-align: center;
+  width: 100%;
+}
+
+.table-pagination-select {
+  height: 35px;
+  float: right;
+  margin-left: 20px;
+  border-radius: 3px;
+  border: 1px solid #bfc3c7;
+  color: #5a5a5a;
+  font-size: 13px;
+  padding: 5px;
+  border-radius: 0;
+}
+
+.pagination-nav {
+  float: right;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #e67300;
+  border-color: #cc6703;
+  max-height: 35px;
+}

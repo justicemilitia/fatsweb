@@ -10,6 +10,7 @@ import { Currency } from "../../../models/Currency";
 import { DepreciationCalculationType } from "../../../models/DepreciationCalculationType";
 import { MatTabChangeEvent } from '@angular/material';
 import { Depreciation } from '../../../models/Depreciation';
+import { DepreciationIFRS } from '../../../models/DepreciationIFRS';
 
 @Component({
   selector: "app-depreciation",
@@ -38,9 +39,14 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   depreciationBeCalculated: boolean = false;
   ifrsDepreciationBeCalculated: boolean = false;
   fixedAssetDepreciationDetails: Depreciation[]=[];
-  fixedAssetIfrsDepreciationDetails: Depreciation[]=[];
+  fixedAssetIfrsDepreciationDetails: DepreciationIFRS[]=[];
   isDetailInfo: boolean = false;
   isValid: boolean = true;
+  isDepreciationNull: boolean=false;
+
+    /* Is Table Exporting */
+    isTableExporting: boolean = false;
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "depreciation",
     [
@@ -260,16 +266,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         type: "text"
       },
       {
-        columnDisplayName: "Birikmiş Amortisman",
-        columnName: ["AccumulatedValue"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
         columnDisplayName: "Net Defter Değeri",
-        columnName: ["Nddvalue"],
+        columnName: ["NDDValue"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -285,8 +283,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadFixedAsset(this.isValid);
-    this.loadCurrencies();
-    this.loadDepreciationCalculationTypes();
+    this.loadDropdownList();
 
     this.dataTable.isPagingActive = false;
 
@@ -294,6 +291,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     this.dataTableDepreciationDetail.isMultipleSelectedActive=false;
     
     this.dataTableIFRSDepreciationDetail.isPagingActive=false;
+    this.dataTableIFRSDepreciationDetail.isMultipleSelectedActive=false;    
   }
 
   async TGT_calculatePages() {
@@ -445,7 +443,26 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     );
   }
 
-  loadDropdownList() {}
+  loadDropdownList() {
+    
+    this.baseService.currencyService.GetCurrencies(
+      currencies => {
+        this.currencies = currencies;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.baseService.depreciationService.GetDepreciationCalculationTypes(
+      depreciationTypes => {
+        this.depreciationTypes = depreciationTypes;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
 
   onSubmit(data: NgForm) {
     if (data.form.invalid == true) return;
@@ -484,6 +501,27 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       this.selectedBarcodes();
       $("#showModal").click();
     }
+  }
+
+  async depreciationInfoForDetail() {
+
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
+
+      this.baseService.fixedAssetService.GetFixedAssetById(
+        selectedItems[0].getId(),
+        (result: FixedAsset) => {
+          Object.assign(this.fixedAsset, result);
+          this.depreciationBeCalculated = result.WillDepreciationBeCalculated;
+          this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated;
+        },
+        (error: HttpErrorResponse) => {
+          /* hide spinner */
+          this.baseService.spinner.hide();
+
+          /* show error message */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
   }
 
   async updateAllDepreciation(dataDepreciation: NgForm) {
@@ -543,15 +581,32 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   loadDepreciationByFixedAssetId(){
 
-    let selectedId = (<FixedAsset[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
+    let selectedIds = (<FixedAsset[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
     let fixedAssetId: number;
-    fixedAssetId=selectedId[0];
+    fixedAssetId=selectedIds[0];
 
     this.baseService.depreciationService.GetDepreciationById(
       fixedAssetId,
       (depreciationDetails: Depreciation[]) => {
+        if(depreciationDetails.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.dataTableDepreciationDetail.isLoading=false;
+          
+          let dataSource : Depreciation[]=[];
+          this.dataTableDepreciationDetail.TGT_loadData(dataSource);
+          }
+        
+         else if (selectedIds.length > 1) {
+          this.baseService.popupService.ShowAlertPopup(
+            "Birden fazla demirbaş seçtiniz.!"
+          );
+          return;
+        }
+      else 
+      {
         this.fixedAssetDepreciationDetails = depreciationDetails;
         this.dataTableDepreciationDetail.TGT_loadData(this.fixedAssetDepreciationDetails);
+      } 
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -561,38 +616,33 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   loadDepreciationIFRSByFixedAssetId(){
 
-    let selectedId = (<FixedAsset[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
+    let selectedIds = (<FixedAsset[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
     let fixedAssetId: number;
-    fixedAssetId=selectedId[0];
+    fixedAssetId=selectedIds[0];
 
     this.baseService.depreciationService.GetIFRSDepreciationById(
       fixedAssetId,
-      (ifrsDepreciationDetails: Depreciation[]) => {
+      (ifrsDepreciationDetails: DepreciationIFRS[]) => {
+        if(ifrsDepreciationDetails.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.dataTableIFRSDepreciationDetail.isLoading=false;
+
+          let dataSource : DepreciationIFRS[]=[];
+          this.dataTableIFRSDepreciationDetail.TGT_loadData(dataSource);
+          }
+        
+         else if (selectedIds.length > 1) {
+          this.baseService.popupService.ShowAlertPopup(
+            "Birden fazla demirbaş seçtiniz!"
+          );
+          return;
+        }
+      else 
+      {
         this.fixedAssetIfrsDepreciationDetails = ifrsDepreciationDetails;
         this.dataTableIFRSDepreciationDetail.TGT_loadData(this.fixedAssetIfrsDepreciationDetails);
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
       }
-    );
-  }
-
-  loadCurrencies() {
-    this.baseService.currencyService.GetCurrencies(
-      currencies => {
-        this.currencies = currencies;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
-
-  loadDepreciationCalculationTypes() {
-    this.baseService.depreciationService.GetDepreciationCalculationTypes(
-      depreciationTypes => {
-        this.depreciationTypes = depreciationTypes;
-      },
+       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
@@ -636,21 +686,47 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    // console.log('tabChangeEvent => ', tabChangeEvent);
-    // console.log('index => ', tabChangeEvent.index);
+    let selectedItems= this.dataTable.TGT_getSelectedItems();
+    
     if(tabChangeEvent.index==0){
       this.isDetailInfo=false;
       this.loadFixedAsset(this.isValid);
     } 
     else if(tabChangeEvent.index==1){
-
       this.isDetailInfo=true;
-      this.depreciationInfo();
       this.loadDepreciationByFixedAssetId();
+      this.depreciationInfoForDetail();    
+      
     }
     else if(tabChangeEvent.index==2){
       this.isDetailInfo=true;
       this.loadDepreciationIFRSByFixedAssetId();
+      this.depreciationInfoForDetail();
     }
+  }
+
+  async calculateDepreciations(){
+    
+      this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+        
+        if(this.fixedAsset.FixedAssetIds.length==0){
+          this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+          return;
+        }
+
+        await this.baseService.depreciationService.CalculateAllDepreciation(
+        this.fixedAsset,
+        (insertedItem: FixedAsset, message) => {
+          /* Show success pop up */
+          this.baseService.popupService.ShowSuccessPopup(message);
+
+          // this.transactionLogs.push(this.transactionLog);
+          this.loadFixedassetDepreciations();
+        },
+        (error: HttpErrorResponse) => {
+          /* Show alert message */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
   }
 }

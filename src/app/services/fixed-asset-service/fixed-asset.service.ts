@@ -226,7 +226,7 @@ export class FixedAssetService {
           if (response.ResultStatus == true) {
             let updatedFixedAsset: FixedAsset = new FixedAsset();
             Object.assign(updatedFixedAsset, response.ResultObject);
-            success(response.LanguageKeyword);
+            success(updatedFixedAsset, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -540,7 +540,7 @@ export class FixedAssetService {
           if (response.ResultStatus == true) {
             let updatedFixedAsset: FixedAssetUser = new FixedAssetUser();
             Object.assign(updatedFixedAsset, response.ResultObject);
-            success(response.LanguageKeyword);
+            success(updatedFixedAsset, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

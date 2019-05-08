@@ -108,7 +108,7 @@
         <div class="modal-header">
           <h6 class="modal-title" *ngIf="resetPasswordSucceed == false">Şifremi yenile</h6>
           <h6 class="modal-title" *ngIf="resetPasswordSucceed == true">Şifre yenileme tamamlandı.</h6>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" id="closePopup" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -116,7 +116,7 @@
             <h6>Yeni şifreniz eposta adresinize gönderilmiştir.</h6>
         </div>
         <div class="modal-body" *ngIf="resetPasswordSucceed == false">
-          <h6>Şifrenizi yenilemek için epostanızı giriniz</h6>
+          <h6>Şifrenizi yenilemek için e-mailinizi giriniz</h6>
           <div class="form-group">
             <label class="required-span">E-Posta</label>
             <input class="form-control" [ngClass]="{ 'is-invalid': recoveryForm.submitted && email.invalid }"
