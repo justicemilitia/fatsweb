@@ -121,7 +121,7 @@ export class CycleCountPlanComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["CycleCountPlanNo"]
+      column: ["Barcode"]
     }
   );
 

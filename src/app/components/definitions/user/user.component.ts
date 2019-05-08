@@ -13,6 +13,7 @@ import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 import { MatStepper } from '@angular/material';
 import { FixedAssetCardCategory } from 'src/app/models/FixedAssetCardCategory';
 import { Firm } from 'src/app/models/Firm';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: "app-user",
@@ -249,7 +250,15 @@ export class UserComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value != null ? value.FirstName + ' ' + value.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
       }
     ],
     {
@@ -499,9 +508,8 @@ export class UserComponent extends BaseComponent implements OnInit {
           if (this.checkedSystemUser == true){
             this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
             }          
-          else {
-            this.currentUser.RoleIds = [];    
-          }
+          else this.currentUser.RoleIds = [];    
+          
           /* loading icon visible */
           this.isWaitingInsertOrUpdate = true;
 
