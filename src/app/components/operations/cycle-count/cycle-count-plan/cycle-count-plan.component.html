@@ -1,3 +1,81 @@
-<p>
-  cycle-count-plan works!
-</p>
+<div class="az-content az-content-dashboard-four">
+    <div class="media media-dashboard">
+      <div class="media-body">
+        <!-- Bread Crumb -->
+        <div class="az-content-breadcrumb">
+          <span>SAYIM PLANLARI</span>
+        </div>
+        <!-- END Bread Crumb END -->
+        <div class="card card-dashboard-twelve mg-b-20">
+          <div class="card-header">
+            <h2 class="az-content-title">Sayım Planları</h2>
+          </div>            
+           <div class="card-body">
+
+              <mat-tab-group style="margin-top:10px;">
+                  <mat-tab>
+                    <ng-template mat-tab-label>
+                      Sayım Planları
+                    </ng-template>     
+                    <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                        <tree-grid-table [dataTable]="dataTable">
+                        </tree-grid-table>
+                      </div>          
+                  </mat-tab>
+                  <mat-tab>
+                   <ng-template mat-tab-label>
+                     Sayım Detayları
+                   </ng-template>     
+                    <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                        <tree-grid-table [dataTable]="dataTableCycleCountDetail">
+                        </tree-grid-table>
+                      </div>              
+                    </mat-tab>
+                </mat-tab-group>
+           </div>
+        </div>
+      </div>
+      <!-- az-content-body -->
+    </div>
+  </div>
+  <!-- az-content -->
+
+
+  
+<!-- LARGE MODAL -->
+<div id="modalUpdateDepreciation" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Amortisman bilgilerini giriniz.</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="form" #dataDepreciation="ngForm" (ngSubmit)="onSubmitDepreciation(dataDepreciation) && dataDepreciation.form.valid" novalidate>
+        <div class="modal-body">
+          <div class="row">
+        
+          </div>
+ 
+      <div class="row">       
+       
+      </div>
+          
+          <div class="row">
+  
+          </div>
+  
+          
+        </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+        
+          <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->

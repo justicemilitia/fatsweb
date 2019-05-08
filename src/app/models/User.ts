@@ -2,6 +2,10 @@ import { Department } from './Department';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import UserTitle from './UserTitle';
 import { UserRole } from './UserRole';
+import { UserAuthorizedFirms } from './UserAuthorizedFirms';
+import { UserAuthorizedLocations } from './UserAuthorizedLocations';
+import { UserAuthorizedFixedAssetCardCategories } from './UserAuthorizedFixedAssetCardCategories';
+import { UserAuthorizedUsers } from './UserAuthorizedUsers';
 
 export class User implements IData {
     childIndex: number;
@@ -46,6 +50,11 @@ export class User implements IData {
     FixedassetCardCategoryIds:any[];
     FirmIds:any[];
     RoleIds: any[];
+
+    UserAuthorizedFirms:UserAuthorizedFirms[];
+    UserAuthorizedLocations:UserAuthorizedLocations[];
+    UserAuthorizedFixedAssetCardCategories:UserAuthorizedFixedAssetCardCategories[];
+    UserAuthorizedUsers:UserAuthorizedUsers[];
 
     constructor() {
         this.Department = new Department();

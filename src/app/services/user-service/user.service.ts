@@ -174,9 +174,15 @@ export class UserService {
       .get(SERVICE_URL + GET_FIRM_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(
+      .subscribe(        
         result => {
-          callback(<Firm[]>result["ResultObject"]);
+          let firms =[];
+          (<Firm[]>result["ResultObject"]).forEach(x=>{
+            let firm = new Firm();
+            Object.assign(firm,x);
+            firms.push(firm);
+          })
+          callback(firms);
         },
         (error: HttpErrorResponse) => {
           failed(error);

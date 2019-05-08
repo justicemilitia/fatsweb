@@ -179,7 +179,6 @@ export class TreeGridTable {
         return this._isPagingActive;
     }
 
-
     /**
      * Store per in page vale.
      */
@@ -577,7 +576,6 @@ export class TreeGridTable {
     public TGT_getSelectedItems(): IData[] {
         return this.originalSource.filter(x => x.isChecked == true);
     }
-
 
     /**
      * Change config div visibility
