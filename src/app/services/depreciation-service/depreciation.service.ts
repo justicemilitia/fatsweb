@@ -8,7 +8,8 @@ import {
   GET_DEPRECIATIONTYPE_LIST,
   UPDATE_DEPRECIATION,
   GET_DEPRECIATIONLIST_BY_ID,
-  GET_IFRSDEPRECIATIONLIST_BY_ID
+  GET_IFRSDEPRECIATIONLIST_BY_ID,
+  CALCULATE_DEPRECIATION
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -16,6 +17,7 @@ import { getAnErrorResponse } from "src/app/declarations/extends";
 import { DepreciationCalculationType } from "src/app/models/DepreciationCalculationType";
 import { FixedAsset } from '../../models/FixedAsset';
 import { Depreciation } from '../../models/Depreciation';
+import { DepreciationIFRS } from '../../models/DepreciationIFRS';
 
 @Injectable({
   providedIn: "root"
@@ -51,8 +53,28 @@ export class DepreciationService {
       );
   }
 
-  CalculateAllDepreciation(){
-    
+  CalculateAllDepreciation(fixedAssets: FixedAsset, success, failed){
+
+    this.httpclient
+    .post(
+      SERVICE_URL + CALCULATE_DEPRECIATION, fixedAssets, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+    .subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let fixedAsset: FixedAsset = new FixedAsset();
+          Object.assign(fixedAsset, response.ResultObject);
+          success(response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
   }
 
   
@@ -112,9 +134,9 @@ export class DepreciationService {
         result=>{
           let response:Response=<Response>result;
           if(response.ResultStatus == true){
-              let fixedAssets:Depreciation[]=[];
-              (<Depreciation[]>response.ResultObject).forEach(e=>{
-                let fa:Depreciation=new Depreciation();
+              let fixedAssets:DepreciationIFRS[]=[];
+              (<DepreciationIFRS[]>response.ResultObject).forEach(e=>{
+                let fa:DepreciationIFRS=new DepreciationIFRS();
                 Object.assign(fa,e);
                 fixedAssets.push(fa);
               })

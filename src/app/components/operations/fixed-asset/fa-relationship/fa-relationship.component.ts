@@ -70,6 +70,7 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
             (error: HttpErrorResponse) => {
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
+              this.resetForm(data);              
             }
           );
         }

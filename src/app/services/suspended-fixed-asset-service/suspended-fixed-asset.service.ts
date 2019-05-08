@@ -50,7 +50,7 @@ export class SuspendedFixedAssetService {
       }).subscribe(result=>{
         let response:Response=<Response>result;
         if(response.ResultStatus == true){          
-          success(ids,response.LanguageKeyword);          
+          success(ids, response.LanguageKeyword);          
         }
         else{
           failed(getAnErrorResponse(response.LanguageKeyword));

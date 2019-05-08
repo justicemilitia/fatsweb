@@ -123,10 +123,11 @@ export class LoginComponent extends BaseComponent implements OnInit {
     });
   }
 
-  resetPasswordAreas(data: NgForm) {
+  resetPasswordAreas(event, data: NgForm) {
     data.reset();
     this.isWaitingForResetPassword = false;
     this.resetPasswordSucceed = false;
+    $('#closePopup').trigger('click');
   }
 
 }
