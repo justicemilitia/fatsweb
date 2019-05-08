@@ -287,6 +287,11 @@ export const GET_DASHBOARD_FIXED_ASSETS_STATUS_COUNT = "Dashboard/GetDashboardFi
 export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
 //#endregion
 
+//#region CycleCountPlan
+export const GET_CYCLE_COUNT_PLAN_LIST ="CycleCountingPlans/GetCountingPlansList";
+
+//#endregion
+
 //#region TransactionList
 export const GET_TRANSACTION_LIST = "TransactionLog/TransactionLogsList";
 export const GET_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";

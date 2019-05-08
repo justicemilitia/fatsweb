@@ -303,15 +303,14 @@
                 <div class="form-group col-md-3">
                     <div style="display:flex; justify-content: flex-start;">
                         <div style="flex:1">
-                            <div class="row justify-content-center">         
                                 <div class="form-group">
                                   <label>Özellik Adı</label>
-                                    <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%;">
+                                    <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
                                         <option value="-1">Özellik Seçiniz</option>
                                         <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                                     </select>   
                                 </div>
-                              </div>
+                            
                               <div class="form-group"> 
                                   <label>Özellik Değeri</label>    
                                    <div class="flexProperty">        

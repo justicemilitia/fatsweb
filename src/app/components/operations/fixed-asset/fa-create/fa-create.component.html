@@ -63,7 +63,7 @@
                   <label class="required-span" style="margin-bottom: 0;
                   font-weight: 700;" >Demirbaş Kategorisi</label>        
                 <div style="display:flex;">
-                <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedCategory"  required>{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
+                <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedCategory"  required>{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
                   <span class="span-dropdown"  (click)="selectedCategory = null" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedCategory" style="color:red">
@@ -88,7 +88,7 @@
               <label class="required-span" style="margin-bottom: 0;
               font-weight: 700;">Demirbaş Kartı</label>
               <div style="display:flex;">
-                <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedCard"  required>{{selectedCard ? selectedCard.Name : 'Seçiniz' }}</button>
+                <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" [class.dropdown-button-valid]="data.submitted && !selectedCard"  required>{{selectedCard ? selectedCard.Name : 'Seçiniz' }}</button>
                   <span class="span-dropdown"  (click)="selectedCard = null" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedCard" style="color:red">
@@ -218,10 +218,9 @@
           <div class="form-group col-md-3">
               <div style="display:flex; justify-content: flex-start;">
                   <div style="flex:1">
-                      <div class="row justify-content-center">         
                           <div class="form-group">
                             <label>Özellik Adı</label>
-                              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%; margin-right: 55px;">
+                              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search">
                                   <option value="-1">Özellik Seçiniz</option>
                                   <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                               </select>   
@@ -229,7 +228,7 @@
                                 <div>Bir özellik seçiniz.</div>
                               </div>
                           </div>
-                        </div>
+                        
                         <div class="form-group"> 
                             <label>Özellik Değeri</label>    
                              <div class="flexProperty">        

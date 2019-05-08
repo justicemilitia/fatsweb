@@ -1,13 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material';
-import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
+import { Component, OnInit } from "@angular/core";
+import { MatTabChangeEvent } from "@angular/material";
+import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
+import { BaseComponent } from "src/app/components/base/base.component";
+import { BaseService } from "src/app/services/base.service";
+import { CycleCountPlan } from 'src/app/models/CycleCountPlan';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-cycle-count-plan',
-  templateUrl: './cycle-count-plan.component.html',
-  styleUrls: ['./cycle-count-plan.component.css']
+  selector: "app-cycle-count-plan",
+  templateUrl: "./cycle-count-plan.component.html",
+  styleUrls: ["./cycle-count-plan.component.css"]
 })
-export class CycleCountPlanComponent implements OnInit {
+export class CycleCountPlanComponent extends BaseComponent implements OnInit {
+
+  cycleCountPlans:CycleCountPlan[]=[];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "cyclecount",
@@ -50,15 +56,15 @@ export class CycleCountPlanComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text",
+        type: "text"
       },
       {
         columnDisplayName: "Durum",
-        columnName: ["CycleCountStatus","Name"],
+        columnName: ["CycleCountStatus", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text",
+        type: "text"
       }
     ],
     {
@@ -108,15 +114,15 @@ export class CycleCountPlanComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text",
+        type: "text"
       },
       {
         columnDisplayName: "Durum",
-        columnName: ["CycleCountStatus","Name"],
+        columnName: ["CycleCountStatus", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text",
+        type: "text"
       }
     ],
     {
@@ -125,19 +131,27 @@ export class CycleCountPlanComponent implements OnInit {
     }
   );
 
+  constructor(public baseService: BaseService) {
+    super(baseService);
+  }
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  GetCycleCountPlanList() {
+    this.baseService.cycleCountService.GetCycleCountPlan(
+      (cyclecountplans:CycleCountPlan[]) => {
+        this.cycleCountPlans = cyclecountplans;
+        this.dataTable.TGT_loadData(this.cycleCountPlans);
+      },   
+      (error: HttpErrorResponse) => {
+        /* if error show pop up */
+        this.baseService.popupService.ShowErrorPopup(error);
+      });
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    if(tabChangeEvent.index==0){
-     
-    } 
-    else if(tabChangeEvent.index==1){
-
-
+    if (tabChangeEvent.index == 0) {
+    } else if (tabChangeEvent.index == 1) {
     }
   }
 }

@@ -36,6 +36,7 @@ import { TransactionService } from './transaction-service/transaction.service';
 import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asset-create.service';
 import { ActivatedRoute } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
+import { CycleCountService } from './cycle-count-service/cycle-count.service';
 
 @Injectable({
   providedIn: "root"
@@ -77,6 +78,7 @@ export class BaseService {
     public dashboardService: DashboardService,
     public firmService: FirmService,
     public transactionService: TransactionService,
+    public cycleCountService : CycleCountService,
     public alertInfoService: AlertInfoService,
     public activeRoute: ActivatedRoute) { }
 
