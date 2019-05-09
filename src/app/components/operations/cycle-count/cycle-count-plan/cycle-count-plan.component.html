@@ -7,11 +7,27 @@
         </div>
         <!-- END Bread Crumb END -->
         <div class="card card-dashboard-twelve mg-b-20">
-          <div class="card-header">
-            <h2 class="az-content-title">Sayım Planları</h2>
+          <div class="card-header" style="padding-bottom:0px;">
+            <h2 class="az-content-title" style="margin-left:20px;">Sayım Planları</h2>
+            <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
+               <div>
+              <button class="btn btn-az-primary btn-create-assets" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
+              data-target="#modalCycleCountPlan"><i class="fas fa-plus-circle"></i></button>
+              </div>
+              <div>
+                <button class="btn btn-danger btn-exit-assets" style="margin-right:10px" data-toggle="tooltip"
+                data-placement="bottom" title="Sayımı İptal Et"><i
+                class="fas fa-minus-circle"></i></button>
+              </div>
+              <div>
+                <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
+                data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
+                [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
+                </button>  
+              </div>
+            </div>
           </div>            
-           <div class="card-body">
-
+           <div class="card-body">           
               <mat-tab-group style="margin-top:10px;">
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -43,30 +59,85 @@
 
   
 <!-- LARGE MODAL -->
-<div id="modalUpdateDepreciation" class="modal" data-backdrop="static">
+<div id="modalCycleCountPlan" class="modal" data-backdrop="static">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Amortisman bilgilerini giriniz.</h6>
+        <h6 class="modal-title">Sayım bilgilerini giriniz.</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #dataDepreciation="ngForm" (ngSubmit)="onSubmitDepreciation(dataDepreciation) && dataDepreciation.form.valid" novalidate>
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
         <div class="modal-body">
-          <div class="row">
-        
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+                <label>Sayım No</label>
+              <input name="CycleCountNo" type="text" trim="blur" class="form-control">
+            </div>
+          </div> 
+          <div class="row justify-content-center">       
+            <div class="form-group col-md-6">
+              <label>Başlama Tarihi</label>
+              <div class="input-group">
+                  <div class="input-group-append"
+                    [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )">
+                    <div (click)="startDate.toggle()" class="input-group-text">
+                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                    </div>
+                  </div>
+                  <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
+                    [(ngModel)]="agreement.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"
+                    [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )"
+                    required>
+                  <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
+                    <div *ngIf="startDateModel.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
+                      Lütfen Geçerli Format Giriniz.
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Bitiş Tarihi</label>
+                <div class="input-group">
+                    <div class="input-group-append"
+                      [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )">
+                      <div (click)="startDate.toggle()" class="input-group-text">
+                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                      </div>
+                    </div>
+                    <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
+                      [(ngModel)]="agreement.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"
+                      [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )"
+                      required>
+                    <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
+                      <div *ngIf="startDateModel.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
+                        Lütfen Geçerli Format Giriniz.
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>          
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+                <label>Görev Adı</label>
+                <input name="TaskName" type="text" trim="blur" class="form-control">
+           </div>
           </div>
- 
-      <div class="row">       
-       
-      </div>
-          
-          <div class="row">
-  
-          </div>
-  
-          
+          <div class="row justify-content-center">
+              <div class="form-group col-md-12">
+                  <label>Lokasyon</label>
+                  <input name="Location" type="text" trim="blur" class="form-control">
+             </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="form-group col-md-12">
+                    <label>Açıklama</label>
+                    <textarea style="resize:none" name="Description" maxlength="150" class="form-control" type="text"></textarea>                
+               </div>
+              </div>
         </div>
         <!-- modal-body -->
         <div class="modal-footer">

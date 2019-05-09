@@ -63,7 +63,7 @@
                   <label class="required-span" style="margin-bottom: 0;
                   font-weight: 700;" >Demirbaş Kategorisi</label>        
                 <div style="display:flex;">
-                <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedCategory"  required>{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
+                <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedCategory"  required>{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
                   <span class="span-dropdown"  (click)="selectedCategory = null" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedCategory" style="color:red">
@@ -88,7 +88,7 @@
               <label class="required-span" style="margin-bottom: 0;
               font-weight: 700;">Demirbaş Kartı</label>
               <div style="display:flex;">
-                <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedCard"  required>{{selectedCard ? selectedCard.Name : 'Seçiniz' }}</button>
+                <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" [class.dropdown-button-valid]="data.submitted && !selectedCard"  required>{{selectedCard ? selectedCard.Name : 'Seçiniz' }}</button>
                   <span class="span-dropdown"  (click)="selectedCard = null" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedCard" style="color:red">
@@ -218,10 +218,9 @@
           <div class="form-group col-md-3">
               <div style="display:flex; justify-content: flex-start;">
                   <div style="flex:1">
-                      <div class="row justify-content-center">         
                           <div class="form-group">
                             <label>Özellik Adı</label>
-                              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%; margin-right: 55px;">
+                              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search">
                                   <option value="-1">Özellik Seçiniz</option>
                                   <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                               </select>   
@@ -229,7 +228,7 @@
                                 <div>Bir özellik seçiniz.</div>
                               </div>
                           </div>
-                        </div>
+                        
                         <div class="form-group"> 
                             <label>Özellik Değeri</label>    
                              <div class="flexProperty">        
@@ -423,50 +422,60 @@
           </fieldset>
           <fieldset class="field_set">
               <legend>Amortisman Bilgileri</legend>
-            <div class="row justify-content-center">
-                <div class="form-group col-md-3">                    
-                        <label class="ckbox" style="margin-top: 17px">
-                          <input [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" name="WillDepreciationBeCalculated"  [checked]="fixedAsset.WillDepreciationBeCalculated"
-                          (change)="fixedAsset.WillDepreciationBeCalculated = !fixedAsset.WillDepreciationBeCalculated" type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
-                        </label>                 
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row justify-content-center">
+                  <div class="form-group col-md-6">                    
+                    <label class="ckbox" style="margin-top: 17px">
+                      <input [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" name="WillDepreciationBeCalculated"  [checked]="fixedAsset.WillDepreciationBeCalculated"
+                      (change)="WillDepreciationBeCalculated($event)" type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
+                    </label>                 
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label  *ngIf="visibleDepreciation==true">Amortisman Periyodu</label> 
+                      <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod"  *ngIf="visibleDepreciation==true" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
+                  </div>
                 </div>
-                <div class="form-group col-md-3">
-                    <label>Amortisman Periyodu</label> 
-                    <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
+                <div class="row justify-content-center">
+                    <div class="form-group col-md-6" *ngIf="visibleDepreciation==true">
+                        <label  >Amortisman Yöntemi</label> 
+                        <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" name="DepreciationCalculationTypeId" class="form-control select2-no-search">
+                            <option value="-1" >Seçiniz</option>
+                            <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
+                        </select>   
+                    </div>
+                    <div class="col-md-6"></div>
                 </div>
-                <div class="form-group col-md-3">                  
+                </div>
+                <div class="col-md-6">
+                  <div class="row justify-content-center">
+                    <div class="form-group col-md-6" >                  
                         <label class="ckbox" style="margin-top: 17px">
                           <input [(ngModel)]="fixedAsset.WillIfrsbeCalculated" name="WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
-                          (change)="fixedAsset.WillIfrsbeCalculated = !fixedAsset.WillIfrsbeCalculated" type="checkbox"/>
+                          (change)="WillIfrsbeCalculated($event)" type="checkbox"/>
                           <span>IFRS Hesaplanacak mı ?</span>
                         </label>               
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label *ngIf="visibleIfrs==true">IFRS Periyodu</label> 
+                        <input *ngIf="visibleIfrs==true" [(ngModel)]="fixedAsset.Ifrsperiod" name="Ifrsperiod" type="text" placeholder="IFRS Periyodu" class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="row justify-content-center">
+                      <div class="form-group col-md-6" *ngIf="visibleIfrs==true">
+                          <label>IFRS Fiyatı</label> 
+                          <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="text" placeholder="IFRS Fiyat" class="form-control"/>   
+                      </div>
+                      <div class="form-group col-md-6" *ngIf="visibleIfrs==true">
+                          <label>Para Birimi</label> 
+                          <select [(ngModel)]="fixedAsset.IFRSCurrecyId" name="IFRSCurrecyId" class="form-control select2-no-search">
+                              <option value="-1">IFRS Para Pirimi</option>
+                              <option *ngFor="let currency of ifrscurrencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
+                          </select> 
+                      </div>
+                  </div>
                 </div>
-                <div class="form-group col-md-3">
-                    <label>IFRS Periyodu</label> 
-                    <input [(ngModel)]="fixedAsset.Ifrsperiod" name="Ifrsperiod" type="text" placeholder="IFRS Periyodu" class="form-control"/>
-                </div>
-            </div>  
-
-          <div class="row justify-content-center">
-              <div class="form-group col-md-6">
-                  <label>Amortisman Yöntemi</label> 
-                  <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" name="DepreciationCalculationTypeId" style="width: 50%;" class="form-control select2-no-search">
-                      <option value="-1" >Seçiniz</option>
-                      <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
-                  </select>   
               </div>
-              <div class="form-group col-md-3">
-                  <label>IFRS Fiyatı</label> 
-                  <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="text" placeholder="IFRS Fiyat" class="form-control"/>   
-              </div>
-              <div class="form-group col-md-3">
-                  <label>Para Birimi</label> 
-                  <select [(ngModel)]="fixedAsset.IFRSCurrecyId" name="IFRSCurrecyId" class="form-control select2-no-search">
-                      <option value="-1">IFRS Para Pirimi</option>
-                      <option *ngFor="let currency of ifrscurrencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
-                  </select> 
-              </div>
-          </div>   
        </fieldset>  
           <div class="row" style="margin-right: 0px; margin-left: 0px; margin-top:10px">
             <div class="grp-btn-action-left">

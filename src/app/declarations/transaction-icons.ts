@@ -86,37 +86,37 @@ export enum TransactionTypes {
 export const GetTransactionIcon = (icon: number): TransactionIcon => {
     switch (icon) {
         case TransactionTypes.ASKIYAALMA:
-            return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-purple", "15px", "fas fa-level-up-alt");
         case TransactionTypes.ASKIDANALMA:
-            return new TransactionIcon(icon, "bg-orange", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-purple", "15px", "fas fa-level-up-down");
         case TransactionTypes.DEMIRBAS_CIKIS_ISLEMI:
-            return new TransactionIcon(icon, "bg-danger", "20px", "typcn typcn-times-outline");
+            return new TransactionIcon(icon, "bg-danger", "15px", "fas fa-minus-circle");
         case TransactionTypes.ASKIYA_ALINAN_ISLEMI_GERI_ALMA:
-            return new TransactionIcon(icon, "bg-orange", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-purple", "15px", "fas fa-level-up-down");
         case TransactionTypes.LOST:
-            return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-orange", "15px", "fas fa-search-minus");
         case TransactionTypes.CHANGE_FIRM_FROM_FIXEDASSET:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-primary", "15px", "fas fa-building");
         case TransactionTypes.UNDO_LOST:
-            return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-orange", "15px", "fas fa-search-plus");
         case TransactionTypes.CHANGE_LOCATION_FROM_FIXEDASSE:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-primary", "15px", "fas fa-map-marker-alt");
         case TransactionTypes.CHANGE_DEPARTMENT_FROM_FIXEDAS:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-primary", "15px", "fas fa-sitemap");
         case TransactionTypes.CHANGE_SUPPLIER_COMPANY_FROM_F:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-primary", "15px", "fas fa-building");
         case TransactionTypes.CHANGE_INSURANCE_COMPANY_FROM_:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-primary", "15px", "fas fa-building");
         case TransactionTypes.CHANGE_GUARANTEE_START_DATE_FR:
             return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
         case TransactionTypes.CHANGE_GUARANTEE_END_DATE_FROM:
             return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
         case TransactionTypes.CHANGE_STATUS_FROM_FIXEDASSET:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-warning", "15px", "typcn typcn-tick-outline");
         case TransactionTypes.CHANGE_CARD_BRAND_FROM_FIXEDAS:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-info", "15px", "typcn typcn-tick-outline");
         case TransactionTypes.CHANGE_CARD_MODEL_FROM_FIXEDAS:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-info", "15px", "typcn typcn-tick-outline");
         case TransactionTypes.CHANGE_EXPENSE_CENTER_FROM_FIX:
             return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
         case TransactionTypes.CHANGE_INVOICE_DATE_FROM_FIXED:
@@ -124,21 +124,21 @@ export const GetTransactionIcon = (icon: number): TransactionIcon => {
         case TransactionTypes.CHANGE_INVOICE_NUMBER_FROM_FIX:
             return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
         case TransactionTypes.CHANGE_DEBIT:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-teal", "15px", "fas fa-user-edit");
         case TransactionTypes.DELETE_DEBIT:
-            return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-danger", "15px", "fas fa-user-minus");
         case TransactionTypes.ADD_DEBIT:
-            return new TransactionIcon(icon, "bg-success", "20px", "typcn icon-default typcn-plus-outline");
+            return new TransactionIcon(icon, "bg-teal", "15px", "fas fa-user-edit");
         case TransactionTypes.CHANGE_BARCODE:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-primary", "15px", "fas fa-digital-tachograph");
         case TransactionTypes.UPDATE_BARCODE_NAME:
-            return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
+            return new TransactionIcon(icon, "bg-primary", "15px", "fas fa-digital-tachograph");
         case TransactionTypes.CREATE_FIXEDASSET:
-            return new TransactionIcon(icon, "bg-success", "20px", "typcn icon-default typcn-plus-outline");
+            return new TransactionIcon(icon, "bg-success", "15px", "fas fa-plus-circle");
         case TransactionTypes.UPDATE_FIXEDASSET:
             return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
         case TransactionTypes.RELEATE_FIXEDASSET:
-            return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-pink", "15px", "fas fa-link");
         case TransactionTypes.NEW_SUPPLIER_ADDED:
             return new TransactionIcon(icon, "bg-success", "20px", "typcn icon-default typcn-plus-outline");
         case TransactionTypes.NEW_AGREEMENT_ADDED:
@@ -216,9 +216,9 @@ export const GetTransactionIcon = (icon: number): TransactionIcon => {
         case TransactionTypes.CHANGE_RECEIP_DATE_FROM_FIXEDA:
             return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
         case TransactionTypes.BREAK_RELEATE_FIXEDASSET:
-            return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-pink", "15px", "fas fa-unlink");
         case TransactionTypes.COLLECTIVE_TRANSACTIONS:
-            return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
+            return new TransactionIcon(icon, "bg-indigo", "15px", "fas fa-retweet");
         default:
             return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
     }
