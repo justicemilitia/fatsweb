@@ -198,7 +198,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     });
   }
 
-  async loadCounts(event, reportType: string, groupType: number) {
+  loadCounts(event, reportType: string, groupType: number) {
     if (reportType)
       this.fixedAssetGroupTypes[reportType] = groupType;
 

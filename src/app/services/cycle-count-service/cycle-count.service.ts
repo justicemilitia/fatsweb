@@ -3,7 +3,9 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
   SERVICE_URL,
   GET_HEADERS,
-  GET_CYCLE_COUNT_PLAN_LIST
+  GET_CYCLE_COUNT_PLAN_LIST,
+  INSERT_AGREEMENT,
+  INSERT_CYCLE_COUNT_PLAN
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -43,5 +45,22 @@ export class CycleCountService {
       });
   }
 
+  InsertCycleCountPlan(cycleCountPlan:CycleCountPlan,success,failed){
+    this.httpclient.post(SERVICE_URL + INSERT_CYCLE_COUNT_PLAN, cycleCountPlan,{
+      headers:GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result=>{
+      let response:Response=<Response>result;
+      if(response.ResultStatus==true){
+        let insertedPlan: CycleCountPlan = new CycleCountPlan();
+        Object.assign(insertedPlan, response.ResultObject);
+        success(insertedPlan, response.LanguageKeyword);
+      }else{
+        failed(getAnErrorResponse(response.LanguageKeyword));
+      }
+    },
+    (error:HttpErrorResponse)=>{
+      failed(error);
+    });
+  }
   
 }

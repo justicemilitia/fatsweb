@@ -88,11 +88,11 @@ export const GetTransactionIcon = (icon: number): TransactionIcon => {
         case TransactionTypes.ASKIYAALMA:
             return new TransactionIcon(icon, "bg-purple", "15px", "fas fa-level-up-alt");
         case TransactionTypes.ASKIDANALMA:
-            return new TransactionIcon(icon, "bg-purple", "15px", "fas fa-level-up-down");
+            return new TransactionIcon(icon, "bg-purple", "15px", "fas fa-level-down-alt");
         case TransactionTypes.DEMIRBAS_CIKIS_ISLEMI:
             return new TransactionIcon(icon, "bg-danger", "15px", "fas fa-minus-circle");
         case TransactionTypes.ASKIYA_ALINAN_ISLEMI_GERI_ALMA:
-            return new TransactionIcon(icon, "bg-purple", "15px", "fas fa-level-up-down");
+            return new TransactionIcon(icon, "bg-purple", "15px", "fas fa-level-down-alt");
         case TransactionTypes.LOST:
             return new TransactionIcon(icon, "bg-orange", "15px", "fas fa-search-minus");
         case TransactionTypes.CHANGE_FIRM_FROM_FIXEDASSET:
@@ -124,11 +124,11 @@ export const GetTransactionIcon = (icon: number): TransactionIcon => {
         case TransactionTypes.CHANGE_INVOICE_NUMBER_FROM_FIX:
             return new TransactionIcon(icon, "bg-info", "20px", "typcn typcn-tick-outline");
         case TransactionTypes.CHANGE_DEBIT:
-            return new TransactionIcon(icon, "bg-teal", "15px", "fas fa-user-edit");
+            return new TransactionIcon(icon, "bg-darkblue", "15px", "fas fa-user-edit");
         case TransactionTypes.DELETE_DEBIT:
             return new TransactionIcon(icon, "bg-danger", "15px", "fas fa-user-minus");
         case TransactionTypes.ADD_DEBIT:
-            return new TransactionIcon(icon, "bg-teal", "15px", "fas fa-user-edit");
+            return new TransactionIcon(icon, "bg-darkblue", "15px", "fas fa-user-edit");
         case TransactionTypes.CHANGE_BARCODE:
             return new TransactionIcon(icon, "bg-primary", "15px", "fas fa-digital-tachograph");
         case TransactionTypes.UPDATE_BARCODE_NAME:
@@ -218,7 +218,7 @@ export const GetTransactionIcon = (icon: number): TransactionIcon => {
         case TransactionTypes.BREAK_RELEATE_FIXEDASSET:
             return new TransactionIcon(icon, "bg-pink", "15px", "fas fa-unlink");
         case TransactionTypes.COLLECTIVE_TRANSACTIONS:
-            return new TransactionIcon(icon, "bg-indigo", "15px", "fas fa-retweet");
+            return new TransactionIcon(icon, "bg-rose", "15px", "fas fa-retweet");
         default:
             return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
     }

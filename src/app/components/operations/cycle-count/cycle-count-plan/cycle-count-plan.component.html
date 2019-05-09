@@ -11,7 +11,7 @@
             <h2 class="az-content-title" style="margin-left:20px;">Sayım Planları</h2>
             <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
                <div>
-              <button class="btn btn-az-primary btn-create-assets" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
+              <button class="btn btn-az-primary btn-create-assets" (click)="resetForm(data,true)" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
               data-target="#modalCycleCountPlan"><i class="fas fa-plus-circle"></i></button>
               </div>
               <div>
@@ -36,7 +36,7 @@
                     <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                         <tree-grid-table [dataTable]="dataTable">
                         </tree-grid-table>
-                      </div>          
+                    </div>          
                   </mat-tab>
                   <mat-tab>
                    <ng-template mat-tab-label>
@@ -46,7 +46,7 @@
                         <tree-grid-table [dataTable]="dataTableCycleCountDetail">
                         </tree-grid-table>
                       </div>              
-                    </mat-tab>
+                  </mat-tab>
                 </mat-tab-group>
            </div>
         </div>
@@ -55,8 +55,6 @@
     </div>
   </div>
   <!-- az-content -->
-
-
   
 <!-- LARGE MODAL -->
 <div id="modalCycleCountPlan" class="modal" data-backdrop="static">
@@ -72,8 +70,8 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-                <label>Sayım No</label>
-              <input name="CycleCountNo" type="text" trim="blur" class="form-control">
+              <label>Sayım No</label>
+              <input [(ngModel)]="cycleCountPlan.CycleCountPlanNo" name="CycleCountPlanNo" type="text" trim="blur" class="form-control">
             </div>
           </div> 
           <div class="row justify-content-center">       
@@ -81,14 +79,14 @@
               <label>Başlama Tarihi</label>
               <div class="input-group">
                   <div class="input-group-append"
-                    [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )">
+                    [class.is-invalid]="data.submitted && (!cycleCountPlan.StartTime || startDateModel.status == 'INVALID' )">
                     <div (click)="startDate.toggle()" class="input-group-text">
                       <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                     </div>
                   </div>
                   <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
-                    [(ngModel)]="agreement.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"
-                    [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )"
+                    [(ngModel)]="cycleCountPlan.StartTime" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"
+                    [class.is-invalid]="data.submitted && (!cycleCountPlan.StartDate || startDateModel.status == 'INVALID' )"
                     required>
                   <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
                     <div *ngIf="startDateModel.errors.required">Bu alan zorunludur.</div>
@@ -102,18 +100,18 @@
                 <label>Bitiş Tarihi</label>
                 <div class="input-group">
                     <div class="input-group-append"
-                      [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )">
-                      <div (click)="startDate.toggle()" class="input-group-text">
+                      [class.is-invalid]="data.submitted && (!cycleCountPlan.EndTime || endDateModel.status == 'INVALID' )">
+                      <div (click)="endDate.toggle()" class="input-group-text">
                         <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                       </div>
                     </div>
-                    <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
-                      [(ngModel)]="agreement.StartDate" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"
-                      [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )"
+                    <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                      [(ngModel)]="cycleCountPlan.EndTime" ngbDatepicker #endDate="ngbDatepicker" [minDate]="cycleCountPlan.StartTime" #endDateModel="ngModel"
+                      [class.is-invalid]="data.submitted && (!cycleCountPlan.EndDate || endDateModel.status == 'INVALID' )"
                       required>
-                    <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
-                      <div *ngIf="startDateModel.errors.required">Bu alan zorunludur.</div>
-                      <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
+                    <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
+                      <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
                         Lütfen Geçerli Format Giriniz.
                       </div>
                     </div>
@@ -123,26 +121,35 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
                 <label>Görev Adı</label>
-                <input name="TaskName" type="text" trim="blur" class="form-control">
+                <input [(ngModel)]="cycleCountPlan.TaskName" name="TaskName" type="text" trim="blur" class="form-control">
            </div>
           </div>
           <div class="row justify-content-center">
               <div class="form-group col-md-12">
                   <label>Lokasyon</label>
-                  <input name="Location" type="text" trim="blur" class="form-control">
+                  <select [(ngModel)]="cycleCountPlan.LocationId" name="locationIds" class="form-control" (click)="loadLocationList()"
+                  #locationIds="ngModel" >
+                  <option [ngValue]="null">Yok</option>
+                  <option *ngFor="let location of locations" value="{{ location.LocationId }}">
+                    {{ location.Name }}
+                  </option>
+                </select>               
              </div>
             </div>
             <div class="row justify-content-center">
                 <div class="form-group col-md-12">
                     <label>Açıklama</label>
-                    <textarea style="resize:none" name="Description" maxlength="150" class="form-control" type="text"></textarea>                
+                    <textarea [(ngModel)]="cycleCountPlan.Description" style="resize:none" name="Description" maxlength="150" class="form-control" type="text"></textarea>                
                </div>
               </div>
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-        
-          <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
+          <button id="btnInsertCycleCountPlan" *ngIf="isWaitingInsertOrUpdate == false" type="submit"
+          class="btn btn-az-primary">
+          Sayım Planı Ekle
+        </button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
     </div>

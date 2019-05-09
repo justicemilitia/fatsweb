@@ -1,5 +1,6 @@
 import { CycleCountStatus } from './CycleCountStatus';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export class CycleCountPlan implements IData{
 
@@ -23,8 +24,8 @@ export class CycleCountPlan implements IData{
     TaskName:string;
     FirmId:number;
     CycleCountStatusId:number;
-    StartTime:Date;
-    EndTime:Date;
+    StartTime:NgbDate;
+    EndTime:NgbDate;
     Description:string;
     CycleCountStatu: CycleCountStatus;
 }
