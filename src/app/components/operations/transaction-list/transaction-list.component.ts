@@ -308,4 +308,8 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
 
     this.isTableRefreshing = false;
   }
+
+  downloadForm(){
+    
+  }
 }
