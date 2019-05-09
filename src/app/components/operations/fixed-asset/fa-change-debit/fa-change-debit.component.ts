@@ -166,10 +166,11 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
               this.baseService.spinner.hide();
               /* Show success pop up */
               //this.baseService.popupService.ShowSuccessPopup(message);
-
+              if(this.IsCreateDebitForm==true){
               for(let i=0;i<formList.length;i++){
                 this.PressDebitForm(formList[i].FixedAssetFormCode);
               }
+            }
               /* Set inserted Item id to model */
               // this.faBarcode.Barcode = cloneItem.Barcode;
               insertedUserIds.forEach(e => {

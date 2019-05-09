@@ -224,9 +224,10 @@ export class FixedAssetService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let updatedFixedAsset: FixedAsset = new FixedAsset();
+            let updatedFixedAsset: FixedAssetForm = new FixedAssetForm();
             Object.assign(updatedFixedAsset, response.ResultObject);
-            success(updatedFixedAsset, response.LanguageKeyword);
+            // success(updatedFixedAsset, response.LanguageKeyword);
+            success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

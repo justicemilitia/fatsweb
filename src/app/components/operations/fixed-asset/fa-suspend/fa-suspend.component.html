@@ -74,7 +74,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label class="ckbox">
-            <input type="checkbox" name="PrintExitForm" /><span>Askıya alma formu basılsın.</span>
+            <input type="checkbox" [(ngModel)]="transactionLog.IsCreateSuspendForm" (change)="isCreateSuspendForm($event)" name="IsCreateSuspendForm" #IsCreateSuspendForm="ngModel" /><span>Askıya alma formu basılsın.</span>
           </label>
         </div>
       </div>
@@ -85,7 +85,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label class="ckbox">
-                <input type="checkbox" name="PrintExitForm" /><span>E-posta ile hatırlatma istiyorum.</span>
+                <input type="checkbox" name="ExitMailForm" /><span>E-posta ile hatırlatma istiyorum.</span>
               </label>
             </div>
           </div>

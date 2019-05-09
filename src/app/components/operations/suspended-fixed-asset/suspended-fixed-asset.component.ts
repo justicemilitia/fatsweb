@@ -11,6 +11,7 @@ import { CheckOutReason } from "src/app/models/CheckOutReason";
 import * as $ from "jquery";
 import { FixedAssetUser } from '../../../models/FixedAssetUser';
 import { convertNgbDateToDateString } from '../../../declarations/extends';
+import { DOCUMENT_URL } from '../../../declarations/service-values';
 
 @Component({
   selector: "app-suspended-fixed-asset",
@@ -36,6 +37,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
   faBarcodes: string;
+  IsCreateUndoSuspendForm: boolean=false;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "suspendedfixedasset",
@@ -201,10 +203,16 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         if (response == true) {
           this.baseService.suspendedService.UndoSuspensionProcess(
             this.transactionLogSuspended,
-            (insertedItem: TransactionLog, message) => {
+            (formList: any[], message) => {
               this.dataTable.TGT_removeItemsByIds(
                 this.transactionLogSuspended.FixedAssetIds
               );
+
+              if(this.IsCreateUndoSuspendForm==true){
+                for(let i=0;i<formList.length;i++){
+                  this.PressUndoSuspendForm(formList[i].FixedAssetFormCode);
+                }
+              }
 
               this.baseService.popupService.ShowSuccessPopup(message);
             },
@@ -302,5 +310,21 @@ export class SuspendedFixedAssetComponent extends BaseComponent
     if (isNewItem == true) {
       this.suspendedFa = new FixedAsset();
     }
+  }
+
+  isCreateUndoSuspendForm(event){
+    if(event.target.checked == true){
+      this.IsCreateUndoSuspendForm = true;
+    }
+    else {
+      this.IsCreateUndoSuspendForm = false;
+    }
+  }
+
+  PressUndoSuspendForm(formName: string){
+    let url:string;
+    url=DOCUMENT_URL + formName + ".pdf";
+    // this.router.navigate([url]); 
+    window.open(url,"_blank");    
   }
 }
