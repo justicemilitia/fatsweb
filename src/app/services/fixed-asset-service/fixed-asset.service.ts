@@ -201,9 +201,9 @@ export class FixedAssetService {
         result => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let insertedTransactionLog: TransactionLog = new TransactionLog();
-            Object.assign(insertedTransactionLog, response.ResultObject);
-            success(insertedTransactionLog, response.LanguageKeyword);
+            let exitFixedAsset: FixedAssetForm = new FixedAssetForm();
+            Object.assign(exitFixedAsset, response.ResultObject);
+            success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -226,7 +226,6 @@ export class FixedAssetService {
           if (response.ResultStatus == true) {
             let updatedFixedAsset: FixedAssetForm = new FixedAssetForm();
             Object.assign(updatedFixedAsset, response.ResultObject);
-            // success(updatedFixedAsset, response.LanguageKeyword);
             success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
@@ -436,7 +435,7 @@ export class FixedAssetService {
           if (response.ResultStatus == true) {
             let updatedFixedAsset: FixedAssetUser = new FixedAssetUser();
             Object.assign(updatedFixedAsset, response.ResultObject);
-            success(response.ResultObject);
+            success(response.ResultObject, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

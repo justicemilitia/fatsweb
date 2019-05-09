@@ -205,7 +205,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label class="ckbox">
-                    <input type="checkbox" name="PrintExitForm" /><span>Demirbaş çıkış formu basılsın.</span>
+                    <input type="checkbox"  [(ngModel)]="transactionLog.IsCreateExitForm" (change)="isCreateExitForm($event)" name="IsCreateExitForm" #IsCreateExitForm="ngModel"/><span>Demirbaş çıkış formu basılsın.</span>
                   </label>
                 </div>
               </div>
