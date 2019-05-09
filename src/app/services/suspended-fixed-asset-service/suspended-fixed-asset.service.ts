@@ -14,6 +14,7 @@ import { getAnErrorResponse } from "src/app/declarations/extends";
 import { FixedAsset } from 'src/app/models/FixedAsset';
 import { TransactionLog } from 'src/app/models/TransactionLog';
 import { CreateDebitForm } from 'src/app/models/CreateDebitForm';
+import { FixedAssetForm } from '../../models/FixedAssetForm';
 @Injectable({
   providedIn: 'root'
 })
@@ -50,7 +51,11 @@ export class SuspendedFixedAssetService {
       }).subscribe(result=>{
         let response:Response=<Response>result;
         if(response.ResultStatus == true){          
-          success(ids, response.LanguageKeyword);          
+          let updatedFixedAsset: FixedAssetForm = new FixedAssetForm();
+          Object.assign(updatedFixedAsset, response.ResultObject);
+          // success(updatedFixedAsset, response.LanguageKeyword);
+          success(response.ResultObject, response.LanguageKeyword);
+          // success(ids, response.LanguageKeyword);          
         }
         else{
           failed(getAnErrorResponse(response.LanguageKeyword));

@@ -511,8 +511,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         selectedItems[0].getId(),
         (result: FixedAsset) => {
           Object.assign(this.fixedAsset, result);
-          this.depreciationBeCalculated = result.WillDepreciationBeCalculated;
-          this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated;
+          this.depreciationBeCalculated = result.WillDepreciationBeCalculated == null ? false: result.WillDepreciationBeCalculated;
+          this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated == null ? false: result.WillIfrsbeCalculated;
         },
         (error: HttpErrorResponse) => {
           /* hide spinner */

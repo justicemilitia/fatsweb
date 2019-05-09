@@ -21,6 +21,7 @@ import {
   getToday
 } from "../../../../declarations/extends";
 import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
+import { DOCUMENT_URL } from '../../../../declarations/service-values';
 
 @Component({
   selector: "app-fa-suspend",
@@ -39,6 +40,7 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
   suspensions: CheckOutReason[] = [];
   transactionLog: TransactionLog = new TransactionLog();
   transactionLogs: TransactionLog[] = [];
+  IsCreateSuspendForm:boolean=false;  
 
   constructor(baseService: BaseService) {
     super(baseService);
@@ -65,12 +67,15 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
 
     await this.baseService.fixedAssetService.SuspendFixedAsset(
       cloneItem,
-      (insertedItem: TransactionLog, message) => {
+      (formList: any[], message) => {
         /* Show success pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
 
-        /* Set inserted Item id to model */
-        cloneItem.TransactionLogId = insertedItem.TransactionLogId;
+        if(this.IsCreateSuspendForm==true){
+          for(let i=0;i<formList.length;i++){
+            this.PressSuspendForm(formList[i].FixedAssetFormCode);
+          }
+        }
 
         /* Push inserted item to Property list */
         this.transactionLogs.push(this.transactionLog);
@@ -81,6 +86,7 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
       (error: HttpErrorResponse) => {
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
+        this.IsCreateSuspendForm==false;
         // this.resetForm(data, true);
       }
     );
@@ -112,5 +118,21 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
     let getdate:NgbDate = getToday();
     console.log(getdate);
     return getToday();
+  }
+
+  isCreateSuspendForm(event){
+    if(event.target.checked == true){
+      this.IsCreateSuspendForm = true;
+    }
+    else {
+      this.IsCreateSuspendForm = false;
+    }
+  }
+
+  PressSuspendForm(formName: string){
+    let url:string;
+    url=DOCUMENT_URL + formName + ".pdf";
+    // this.router.navigate([url]); 
+    window.open(url,"_blank");    
   }
 }

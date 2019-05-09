@@ -42,7 +42,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
     [   
       {
         columnDisplayName: "Hareket Tipi",
-        columnName: ["CheckOutReasonName"],
+        columnName: ["TransactionTypeName"],
         isActive: true,
         classes: [],
         placeholder: "",

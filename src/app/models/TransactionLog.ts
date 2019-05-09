@@ -108,4 +108,7 @@ export class TransactionLog implements IData{
     PerPage:number;
     StartDate:Date;
     EndDate:Date;
+    IsCreateSuspendForm: boolean;
+    IsCreateUndoSuspendForm: boolean;
+    IsCreateExitForm: boolean;
 }
