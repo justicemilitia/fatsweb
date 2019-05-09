@@ -591,9 +591,16 @@ label.custom-file:hover {
 }
 
 .bg-primary {
-    background-color: #8d5adf;
+    background-color: #8d5adf !important;
 }
 
+.bg-rose{
+    background-color:  #e26262;
+}
+
+.bg-darkblue{
+    background-color: #314d83;
+}
 
 .bg-primary.primary-active {
     border: 1px solid orange;

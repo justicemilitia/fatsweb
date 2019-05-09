@@ -263,7 +263,7 @@ function loadData() {
         },
         xaxis: {
           show: true,
-          ticks: [[0, ''], [20, 'ŞUBAT'], [40, 'MART'], [60, 'NİSAN']],
+          ticks: [[0, ''], [20, 'MART'], [40, 'NİSAN'], [60, 'MAYIS']],
           tickColor: 'rgba(255,255,255,0)'
         }
       });
@@ -299,7 +299,7 @@ function loadData() {
         xaxis: {
           show: true,
           max: 40,
-          ticks: [[0, ''], [15, 'MART'], [30, 'NİSAN']],
+          ticks: [[0, ''], [15, 'NİSAN'], [30, 'MAYIS']],
           tickColor: 'rgba(255,255,255,0)'
         }
       });
@@ -343,7 +343,7 @@ function loadData() {
         xaxis: {
           show: true,
           max: 40,
-          ticks: [[0, ''], [15, 'MART'], [30, 'NİSAN']],
+          ticks: [[0, ''], [15, 'NİSAN'], [30, 'MAYIS']],
           tickColor: 'rgba(255,255,255,0)'
         }
       });
