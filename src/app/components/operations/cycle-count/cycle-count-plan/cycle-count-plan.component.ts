@@ -15,6 +15,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   cycleCountPlans:CycleCountPlan[]=[];
 
+  isTableExporting: boolean = false;
+  
   public dataTable: TreeGridTable = new TreeGridTable(
     "cyclecount",
     [
@@ -32,7 +34,10 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.StartTime ? value.StartTime.substring(0, 10).split("-").reverse().join("-") : "";
+        }
       },
       {
         columnDisplayName: "Bitiş Tarihi",
@@ -40,7 +45,10 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.EndTime ? value.EndTime.substring(0, 10).split("-").reverse().join("-") : "";
+        }
       },
       {
         columnDisplayName: "Görev Adı",
@@ -133,11 +141,12 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   constructor(public baseService: BaseService) {
     super(baseService);
+    this.LoadCycleCountPlanList();
   }
 
   ngOnInit() {}
 
-  GetCycleCountPlanList() {
+  LoadCycleCountPlanList() {
     this.baseService.cycleCountService.GetCycleCountPlan(
       (cyclecountplans:CycleCountPlan[]) => {
         this.cycleCountPlans = cyclecountplans;
@@ -148,6 +157,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }
+
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     if (tabChangeEvent.index == 0) {

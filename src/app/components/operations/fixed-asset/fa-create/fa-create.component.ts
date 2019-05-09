@@ -72,7 +72,8 @@ export class FaCreateComponent extends BaseComponent
   isFaCardDropdownOpen:boolean = false;
   isFaCardCategoryDropdownOpen: boolean = false;
   isUniqueProperty:boolean=false;
-
+  visibleDepreciation:boolean=false;
+  visibleIfrs:boolean=false;
 
   isFinished: boolean = false;
   isWaitingValidBarcode: boolean = false;
@@ -452,11 +453,15 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     } else return;
   }
 
-  nextDataTable() {
-    if (this.fixedAsset.ActivationDate != null) {
+  nextDataTable(event,data:NgForm) {
+    if (this.fixedAsset.ActivationDate != null && this.fixedAsset.InvoiceDate != null) {
       this.isFinished = true;
       this.stepper.next();
-    } else return;
+    } else 
+    {
+      data.onSubmit(event);
+      return;
+    }
   }
 
   //#region Load Dropdown
@@ -1062,5 +1067,18 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     );
   }
 
+  WillDepreciationBeCalculated(event){
+    if(event.target.checked==true)
+      this.visibleDepreciation=true;
+    else
+      this.visibleDepreciation=false;
+  }
+
+   WillIfrsbeCalculated(event){
+    if(event.target.checked == true)
+      this.visibleIfrs=true;
+    else
+      this.visibleIfrs=false;
+  }
   //#endregion
 }

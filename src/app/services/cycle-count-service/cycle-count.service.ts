@@ -22,7 +22,7 @@ export class CycleCountService {
   GetCycleCountPlan(success, failed) {
     this.httpclient
       .get(SERVICE_URL + GET_CYCLE_COUNT_PLAN_LIST, {
-        headers: GET_HEADERS(this.authenticationService.getToken)
+        headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result=>{
         let response: Response = <Response>result;
