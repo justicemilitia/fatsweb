@@ -6,6 +6,12 @@ import { BaseService } from "src/app/services/base.service";
 import { CycleCountPlan } from "src/app/models/CycleCountPlan";
 import { HttpErrorResponse } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
+import {
+  convertNgbDateToDateString,
+  convertDateToNgbDate,
+  getToday
+} from "../../../../declarations/extends";
+import{Location} from "src/app/models/Location";
 
 @Component({
   selector: "app-cycle-count-plan",
@@ -22,6 +28,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate:boolean=false;
 
   locations:Location[]=[];
+
+  isLocationDropdownOpen: boolean = false;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "cyclecount",
@@ -73,6 +81,23 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
+      },
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["|CycleCountPlanLocations"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.CycleCountPlanLocations.length> 0 ? value.CycleCountPlanLocations[0].Location.Name : '';
+          }
+          else {
+            return '';
+          }
+        }
+
       },
       {
         columnDisplayName: "Açıklama",
@@ -155,10 +180,44 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     }
   );
 
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "location",
+    [
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.LoadCycleCountPlanList();
     this.loadLocationList();
+
+    this.dataTableLocation.isPagingActive = false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isScrollActive = false;
+    this.dataTableLocation.isSelectAllWithChildrenActive=true;
+
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnLocation").length == 0         
+      ) {
+        this.isLocationDropdownOpen = false; 
+      }
+    });
   }
 
   ngOnInit() {}
@@ -181,11 +240,21 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     await this.baseService.locationService.GetLocations(
       locations => {
         this.locations = locations;
+        this.dataTableLocation.TGT_loadData(this.locations)
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  toggleDropdown(key:string) {
+
+    switch (key) {
+      case "location":
+    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;   
+    break;
+      }
   }
 
   onSubmit(data: NgForm) {
@@ -201,6 +270,10 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
     this.isWaitingInsertOrUpdate = true;
 
+    willInsertItem.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x=>x.getId());
+    willInsertItem.StartTime=convertNgbDateToDateString(data.value.startTime);
+    willInsertItem.EndTime=convertNgbDateToDateString(data.value.endTime);
+
     this.baseService.cycleCountService.InsertCycleCountPlan(
       willInsertItem,
       (insertedItem:CycleCountPlan,message) => {
@@ -213,6 +286,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
         this.dataTable.TGT_loadData(this.cycleCountPlans);
 
+        this.resetForm(data, true);
       },
       (error:HttpErrorResponse) => {
         this.isWaitingInsertOrUpdate = false;
@@ -223,6 +297,10 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     );
   }
 
+  CancelCycleCountPlan(){
+
+  }
+  
   resetForm(data: NgForm, isNewItem: boolean) {
     if (isNewItem == true) {
       this.cycleCountPlan = new CycleCountPlan(); 

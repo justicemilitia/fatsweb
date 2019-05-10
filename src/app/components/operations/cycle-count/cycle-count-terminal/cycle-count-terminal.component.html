@@ -1,0 +1,53 @@
+<div class="az-signin-wrapper">
+  <div class="az-card-signin">
+    <div>
+      <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span>
+        <span class="version">v6.0.100</span>
+      </h1>
+      <h2 _ngcontent-c4="" class="az-card-signin-title">Demirbaş Yönetim Sistemi
+      </h2>
+    </div>
+    <div class="az-signin-header">
+      <!-- form-group -->
+      <form #loginForm="ngForm" (ngSubmit)="Login(loginForm)" novalidate>
+
+          <div class="form-group">
+              <label>Lokasyon</label>
+              <select [(ngModel)]="CycleCountPlanId" name="CycleCountPlanId" class="form-control">
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let plan of cyclecountplans" value="{{ plan.CycleCountPlanId }}">
+                  {{ "plan.CycleCountPlanNo" + "plan.TaskName" }}
+                </option>
+              </select>          
+          </div>
+
+          <div class="form-group">
+              <label>Lokasyon</label>
+              <select [(ngModel)]="LocationId" name="LocationId" class="form-control" (click)="loadLocationByCycleCountPlanId()">
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let location of locations" value="{{ location.LocationId }}">
+                  {{ location.Name }}
+                </option>
+              </select>          
+          </div>
+
+          <div class="form-group">
+            <input name="Barcode" id="Barcode" autocomplete="off" type="email" class="form-control"
+              placeholder="Barkod giriniz"/>         
+          </div>
+
+        <div class="form-group" style="margin-top: 19px;">
+          <input id="Location" name="Location" autocomplete="off" type="text" class="form-control" placeholder="Lokasyon Barkodu"/>        
+        </div>
+        <button class="btn btn-orange btn-block" id="btnCycleCount" type="submit">
+          Sayımı Bitir
+        </button>
+        <button class="btn btn-orange btn-block" id="btnExit" type="submit">
+            Çıkış
+          </button>
+      </form>
+      <!-- form-group -->
+    </div>
+  </div>
+</div>
+<!-- az-signin-wrapper -->

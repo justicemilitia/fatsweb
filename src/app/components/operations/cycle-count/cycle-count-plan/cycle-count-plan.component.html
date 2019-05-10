@@ -78,64 +78,48 @@
             <div class="form-group col-md-6">
               <label>Başlama Tarihi</label>
               <div class="input-group">
-                  <div class="input-group-append"
-                    [class.is-invalid]="data.submitted && (!cycleCountPlan.StartTime || startDateModel.status == 'INVALID' )">
-                    <div (click)="startDate.toggle()" class="input-group-text">
-                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                    </div>
-                  </div>
-                  <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
-                    [(ngModel)]="cycleCountPlan.StartTime" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"
-                    [class.is-invalid]="data.submitted && (!cycleCountPlan.StartDate || startDateModel.status == 'INVALID' )"
-                    required>
-                  <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
-                    <div *ngIf="startDateModel.errors.required">Bu alan zorunludur.</div>
-                    <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
-                      Lütfen Geçerli Format Giriniz.
-                    </div>
+                <div class="input-group-append">
+                  <div (click)="startTime.toggle()" class="input-group-text">
+                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                   </div>
                 </div>
+                <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="startTime"
+                [(ngModel)]="cycleCountPlan.StartTime" ngbDatepicker #startTime="ngbDatepicker" #startTimeModel="ngModel"/>      
+            </div>
             </div>
             <div class="form-group col-md-6">
                 <label>Bitiş Tarihi</label>
                 <div class="input-group">
-                    <div class="input-group-append"
-                      [class.is-invalid]="data.submitted && (!cycleCountPlan.EndTime || endDateModel.status == 'INVALID' )">
-                      <div (click)="endDate.toggle()" class="input-group-text">
-                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                      </div>
-                    </div>
-                    <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
-                      [(ngModel)]="cycleCountPlan.EndTime" ngbDatepicker #endDate="ngbDatepicker" [minDate]="cycleCountPlan.StartTime" #endDateModel="ngModel"
-                      [class.is-invalid]="data.submitted && (!cycleCountPlan.EndDate || endDateModel.status == 'INVALID' )"
-                      required>
-                    <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
-                      <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
-                      <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
-                        Lütfen Geçerli Format Giriniz.
-                      </div>
+                  <div class="input-group-append">
+                    <div (click)="endTime.toggle()" class="input-group-text">
+                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                     </div>
                   </div>
+                  <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="endTime"
+                  [(ngModel)]="cycleCountPlan.EndTime" ngbDatepicker #endTime="ngbDatepicker" #endTimeModel="ngModel"/> 
+               </div>
               </div>
           </div>          
           <div class="row justify-content-center">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
                 <label>Görev Adı</label>
                 <input [(ngModel)]="cycleCountPlan.TaskName" name="TaskName" type="text" trim="blur" class="form-control">
            </div>
+           <div class="form-group col-md-6">
+            <div>
+              <label style="margin-bottom: 0;
+              font-weight: 700;" >Lokasyon</label>                
+              <div style="display:flex;">
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyın seçildi" : "Seçiniz" }}</button>
+                <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
+              </div>                     
+            </div>                 
+            <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                <tree-grid-table  [dataTable]="dataTableLocation"></tree-grid-table>
+              </div>     
+            </div> 
           </div>
-          <div class="row justify-content-center">
-              <div class="form-group col-md-12">
-                  <label>Lokasyon</label>
-                  <select [(ngModel)]="cycleCountPlan.LocationId" name="locationIds" class="form-control" (click)="loadLocationList()"
-                  #locationIds="ngModel" >
-                  <option [ngValue]="null">Yok</option>
-                  <option *ngFor="let location of locations" value="{{ location.LocationId }}">
-                    {{ location.Name }}
-                  </option>
-                </select>               
-             </div>
-            </div>
+      
             <div class="row justify-content-center">
                 <div class="form-group col-md-12">
                     <label>Açıklama</label>

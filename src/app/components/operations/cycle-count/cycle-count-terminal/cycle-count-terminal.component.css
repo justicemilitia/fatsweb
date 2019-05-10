@@ -1,0 +1,236 @@
+.az-signin-wrapper {
+    background-color:white;
+}
+
+.forgetPassword {
+    cursor: pointer;
+}
+
+.btn-orange{
+background-color: #e67300;
+color: white;
+}
+
+.flags {
+    padding:1px;
+    height: 19px;
+    width: 25px;
+    margin: 0;
+    margin-bottom: 0;
+}
+
+.flag-image {
+    display: inherit;   
+}
+
+.flag-content {
+    margin-left: 10px;
+    font-size: 13px;
+}
+
+.flags-active {
+    padding: 0;
+    box-shadow: 0 0 10px #525252;
+}
+
+.az-card-signin {
+    height: 560px;
+    box-shadow:none;
+    margin-bottom: 15px
+}
+
+.az-card-signin-title {
+    color:#212229;
+    font-weight: 400;
+    margin-bottom: 25px;
+    font-size: 1.21875rem;
+}
+
+.az-signin-footer {
+    margin-top: 15px;
+}
+
+.az-signin-footer a {
+    font-size: 13px;
+}
+
+.az-signin-footer p {
+    font-size: 13px;
+}
+
+.form-group > input {
+    border-radius: 0;
+    min-height: 38px;
+}
+
+
+.flag-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex: 1;
+    margin-top: 8px;
+}
+
+#loginbtn {
+    margin-top: 10px;
+    font-size: 13px;
+    padding: 0 !important;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+    min-height: 38px;
+    border-radius: 0px;
+}
+
+
+
+@media (min-width: 480px) {
+    .az-card-signin {
+        justify-content: space-between;
+    }
+}
+.form-group > select {
+    height: 38px;
+    font-size: 13px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.loader {
+    margin-top:5px;
+    margin-bottom: 5px;
+}
+.az-logo {
+    font-size: 41px !important;
+    margin-bottom: 0;
+}
+
+.dropdown-menu {
+    width: 100%;
+}
+
+.dropdown-toggle {
+    width: 100%;
+    margin-top: 10px;
+    background: #ffffff;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: #dee2e6;
+    color: black;
+    text-align: left;
+    height: 30px;
+}
+
+.dropdown-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item:active {
+    background: #c46200;
+}
+
+.dropdown-item:hover {
+    box-shadow: #c46200;
+}
+.dropdown-item:focus {
+    outline: 5px auto #da7108;
+}
+
+.dropdown-toggle {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-bottom: 0;
+    padding-top: 0;
+    min-height: 38px;
+}
+
+.dropdown-toggle:active {
+    color: black !important;
+    background-color: #f1f1f1 !important;
+    border-color: #dedede !important;
+    border-width: 2px !important;
+}
+
+.dropdown-toggle:focus {
+    box-shadow:none !important;
+}
+
+.show>.btn-secondary.dropdown-toggle {
+    color: black !important;
+    background-color: #f1f1f1 !important;
+    border-color: #dedede !important;
+    border-width: 2px !important;
+}
+
+#userFirms {
+    margin-top:19px
+}
+
+.language-button {
+    width: 95%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown  {
+    width: 100%;
+}
+
+
+.az-signin-header .form-control:focus {
+    border-width: 2px;
+    border-color: #ced4da;
+    box-shadow: none;
+}
+.alert-custom > button {
+    padding: 0;
+}
+
+.alert-custom > button > span {
+    margin-right: 5px;
+}
+
+.copyright-text {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 0;
+    position: absolute;
+    bottom: 5px;
+    color: #949494;
+}
+
+.copyright-text > a {
+    color: #e67300;    
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #f3f3f3;
+}
+
+.version {
+    font-size: 10px;
+    color: #e67300;
+    font-weight: 100;
+    letter-spacing: 0.0;
+    margin-left:5px;
+}
+
+.welcome-title {
+    font-weight: 500;
+    color: #e67300;
+    letter-spacing: -1px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+}
+
+.login-continue {
+    font-weight: 400;
+    color: #212229;
+    margin-bottom: 10px;
+    font-size: 19.5px;
+}

@@ -1,8 +1,8 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-export const SERVICE_URL = "http://localhost:5000/api/";
-//export const SERVICE_URL = "http://localhost:11889/api/";
+//export const SERVICE_URL = "http://localhost:5000/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
 //export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
@@ -292,6 +292,8 @@ export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/G
 //#region CycleCountPlan
 export const GET_CYCLE_COUNT_PLAN_LIST ="CycleCountingPlans/GetCountingPlansList";
 export const INSERT_CYCLE_COUNT_PLAN ="CycleCountingPlans/AddCountingPlan";
+export const GET_LOCATION_BY_CYCLE_PLAN_ID ="CycleCounting/GetCycleCountingPlanLocationListById";
+
 
 //#endregion
 
