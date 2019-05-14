@@ -287,6 +287,7 @@ export const GET_DASHBOARD_FIXED_ASSETS_STATUS_COUNT = "Dashboard/GetDashboardFi
 
 //#region Depreciation
 export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
+export const GET_FIXED_ASSET_DEPRECIATION_LIST = "Depreciation/GetDepreciationFixedAssetsDetailsList"
 //#endregion
 
 //#region CycleCountPlan
