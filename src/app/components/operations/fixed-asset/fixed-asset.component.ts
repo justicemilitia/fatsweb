@@ -207,6 +207,30 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
+        columnDisplayName: "Tedarikçi Şirket",
+        columnName: ["Company", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      // {
+      //   columnDisplayName: "Sözleşme Adı",
+      //   columnName: ["Agreement", "Name"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      {
+        columnDisplayName: "Sözleşmeli Şirket",
+        columnName: ["InsuranceCompany", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
         columnDisplayName: "Lokasyon Kodu",
         columnName: ["Location", "LocationCode"],
         isActive: true,
@@ -363,6 +387,17 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
       },
       {
+        columnDisplayName: "Demirbaş Giriş Tarihi",
+        columnName: ["CreationDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.CreationDate ? value.CreationDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
+      },
+      {
         columnDisplayName: "Aktivasyon Tarihi",
         columnName: ["ActivationDate"],
         isActive: true,
@@ -421,6 +456,14 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
           }
         }
       },
+      {
+        columnDisplayName: "Aktif mi?",
+        columnName: ["IsActive"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "checkbox"
+      }
       // {
       //   columnDisplayName: "Masraf Yeri",
       //   columnName: ["ExpenseCenter", "Name"],

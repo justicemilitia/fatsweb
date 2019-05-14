@@ -80,7 +80,8 @@ export enum TransactionTypes {
     CHANGE_ACTIVATION_DATE_FROM_FI = 76,
     CHANGE_RECEIP_DATE_FROM_FIXEDA = 77,
     BREAK_RELEATE_FIXEDASSET = 78,
-    COLLECTIVE_TRANSACTIONS = 79
+    COLLECTIVE_TRANSACTIONS = 79,
+    UPDATE_DEPRECIATION = 82
 }
 
 export const GetTransactionIcon = (icon: number): TransactionIcon => {
@@ -219,6 +220,8 @@ export const GetTransactionIcon = (icon: number): TransactionIcon => {
             return new TransactionIcon(icon, "bg-pink", "15px", "fas fa-unlink");
         case TransactionTypes.COLLECTIVE_TRANSACTIONS:
             return new TransactionIcon(icon, "bg-rose", "15px", "fas fa-retweet");
+        case TransactionTypes.UPDATE_DEPRECIATION:
+        return new TransactionIcon(icon, "bg-midnightblue", "15px", "typcn icon-default typcn-chart-line-outline");  
         default:
             return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
     }

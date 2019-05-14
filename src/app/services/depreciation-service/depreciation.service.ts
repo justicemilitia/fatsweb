@@ -9,7 +9,9 @@ import {
   UPDATE_DEPRECIATION,
   GET_DEPRECIATIONLIST_BY_ID,
   GET_IFRSDEPRECIATIONLIST_BY_ID,
-  CALCULATE_DEPRECIATION
+  CALCULATE_DEPRECIATION,
+  CALCULATE_IFRSDEPRECIATION,
+  GET_FIXED_ASSET_DEPRECIATION_LIST
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -18,6 +20,7 @@ import { DepreciationCalculationType } from "src/app/models/DepreciationCalculat
 import { FixedAsset } from '../../models/FixedAsset';
 import { Depreciation } from '../../models/Depreciation';
 import { DepreciationIFRS } from '../../models/DepreciationIFRS';
+import { FixedAssetFilter } from '../../models/FixedAssetFilter';
 
 @Injectable({
   providedIn: "root"
@@ -27,6 +30,71 @@ export class DepreciationService {
     private httpclient: HttpClient,
     private authenticationService: AuthenticationService
   ) {}
+  
+  GetDepreciationFixedAsset(_perInPage: number = 25, _currentPage: number = 1, _isFilter: boolean = false, _isValid: boolean = true, success, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + GET_FIXED_ASSET_DEPRECIATION_LIST,
+        { Page: _currentPage, PerPage: _perInPage, IsFilter: _isFilter, IsValid : _isValid },
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      ).subscribe(
+        (result: any) => {
+
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let fixedAssets: FixedAsset[] = [];
+            (<FixedAsset[]>response.ResultObject).forEach(e => {
+              let fa: FixedAsset = new FixedAsset();
+              Object.assign(fa, e);
+              fixedAssets.push(fa);
+            });
+            success(fixedAssets, result.TotalPage, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  GetFilterList(fixedAsset: FixedAssetFilter, callback, failed){
+    this.httpclient
+    .post(
+      SERVICE_URL + GET_FIXED_ASSET_DEPRECIATION_LIST, fixedAsset,
+      {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      }
+    )
+    .subscribe(
+      (result: any) => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let fixedAssets: FixedAsset[] = [];
+          (<FixedAsset[]>response.ResultObject).forEach(e => {
+            let fa: FixedAsset = new FixedAsset();
+            Object.assign(fa, e);
+            fixedAssets.push(fa);
+          });
+
+          callback(fixedAssets, result.TotalPage);
+
+
+          // Object.assign(fixedAssets, response.ResultObject);
+          // callback(<FixedAsset[]>result["ResultObject"]);
+          // success(response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
 
   GetDepreciationCalculationTypes(success, failed) {
     this.httpclient
@@ -77,6 +145,29 @@ export class DepreciationService {
     );
   }
 
+  CalculateAllIfrsDepreciation(fixedAssets: FixedAsset, success, failed){
+
+    this.httpclient
+    .post(
+      SERVICE_URL + CALCULATE_IFRSDEPRECIATION, fixedAssets, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+    .subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let fixedAsset: FixedAsset = new FixedAsset();
+          Object.assign(fixedAsset, response.ResultObject);
+          success(response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
   
   UpdateDepreciation(fixedAsset: FixedAsset, success, failed) {
     this.httpclient

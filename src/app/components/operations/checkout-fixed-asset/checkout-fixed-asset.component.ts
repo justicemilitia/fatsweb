@@ -155,8 +155,6 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
     super(baseService);
     this.loadExitList();
 
-    this.dataTable.isMultipleSelectedActive = false;
-
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
@@ -289,5 +287,26 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
 
     this.dataTablePropertyValue.TGT_clearData();
 
+  }
+
+  async downloadForm(){
+    let formList: string[];
+
+    (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+
+      (response: boolean) => {
+        if (response == true) {
+            for(let i=0;i<formList.length;i++){
+              this.PressExitForm(formList[i]);
+            }
+        }   
+      }
+  }
+
+  PressExitForm(formName: string){
+    let url:string;
+    url=DOCUMENT_URL + formName + ".pdf";
+    // this.router.navigate([url]); 
+    window.open(url,"_blank");    
   }
 }
