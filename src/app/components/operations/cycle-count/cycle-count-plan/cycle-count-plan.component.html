@@ -47,6 +47,24 @@
                         </tree-grid-table>
                       </div>              
                   </mat-tab>
+                  <mat-tab>
+                      <ng-template mat-tab-label>
+                        Sayımda Olup Envanterde Olmayanlar
+                      </ng-template>     
+                       <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                           <tree-grid-table [dataTable]="dataTableCycleCountDetail">
+                           </tree-grid-table>
+                         </div>              
+                     </mat-tab>
+                     <mat-tab>
+                        <ng-template mat-tab-label>
+                          Lokasyonu Farklı Olanlar
+                        </ng-template>     
+                         <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                             <tree-grid-table [dataTable]="dataTableCycleCountDetail">
+                             </tree-grid-table>
+                           </div>              
+                       </mat-tab>
                 </mat-tab-group>
            </div>
         </div>

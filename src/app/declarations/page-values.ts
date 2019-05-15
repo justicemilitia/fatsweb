@@ -32,3 +32,4 @@ export const MENU_FIXEDASSETSTATUS = "Menu_FixedAssetStatus";
 export const MENU_FIXEDASSETRELATIONSHIP = "Menu_FixedAssetRelationship";
 export const MENU_TRANSACTIONLIST="Menu_TransactionList";
 // export const MENU_USERSETTINGS="Menu_UserSettings";
+export const MENU_TERMINAL = "Menu_CycleCountTerminal";

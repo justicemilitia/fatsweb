@@ -4,9 +4,12 @@ import {
   SERVICE_URL,
   GET_HEADERS,
   GET_CYCLE_COUNT_PLAN_LIST,
-  INSERT_AGREEMENT,
   INSERT_CYCLE_COUNT_PLAN,
-  GET_LOCATION_BY_CYCLE_PLAN_ID
+  GET_LOCATION_BY_CYCLE_PLAN_ID,
+  UPDATE_CYCLE_COUNT_STATU,
+  GET_CYCLE_PLAN_STATU,
+  MAKE_COUNTING,
+  GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -16,6 +19,7 @@ import {
   convertNgbDateToDateString
 } from "src/app/declarations/extends";
 import { CycleCountPlan } from "src/app/models/CycleCountPlan";
+import { Location } from "src/app/models/Location";
 
 @Injectable({
   providedIn: "root"
@@ -29,6 +33,35 @@ export class CycleCountService {
   GetCycleCountPlan(success, failed) {
     this.httpclient
       .get(SERVICE_URL + GET_CYCLE_COUNT_PLAN_LIST, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let cyclecountplans: CycleCountPlan[] = [];
+            (<CycleCountPlan[]>response.ResultObject).forEach(e => {
+              let cyclecountplan: CycleCountPlan = new CycleCountPlan();
+              Object.assign(cyclecountplan, e);
+              cyclecountplans.push(cyclecountplan);
+            });
+
+            success(cyclecountplans, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  
+  
+  GetCycleCountPlanWithoutCancelPlan(success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(
@@ -75,23 +108,45 @@ export class CycleCountService {
       );
   }
 
-  CanceledCycleCountPlan(statuId: number, success, failed) {}
+  //CYCLE COUNT TERMINAL
 
   GetLocationByCycleCountPlanId(planId: number, success, failed) {
     this.httpclient
       .get(SERVICE_URL + GET_LOCATION_BY_CYCLE_PLAN_ID + "/" + planId, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let locations: Location[] = [];
+            (<CycleCountPlan[]>response.ResultObject).forEach(e => {
+              let location: Location = new Location();
+              Object.assign(location, e.Location);
+              locations.push(location);
+            });
+            success(locations, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  MakeCycleCounting(fixedasset: CycleCountPlan, success, failed) {
+    this.httpclient
+      .post(SERVICE_URL + MAKE_COUNTING, fixedasset, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
       .subscribe(result=>{
         let response:Response=<Response>result;
-        if(response.ResultStatus==true){
-          let locations:Location[]=[];
-          (<CycleCountPlan[]>response.ResultObject).forEach(e=>{
-            let location:Location=new Location();
-            Object.assign(location,e);
-            locations.push(location);
-          });
-          success(locations,response.LanguageKeyword);
+        if(response.ResultStatus == true){
+          let fixedasset:CycleCountPlan=new CycleCountPlan();
+          Object.assign(fixedasset,response.ResultObject);
+          success(fixedasset,response.LanguageKeyword);
         }
         else{
           failed(getAnErrorResponse(response.LanguageKeyword));
@@ -99,5 +154,47 @@ export class CycleCountService {
       },(error:HttpErrorResponse)=>{
         failed(error);
       });
+  }
+
+  GetCycleCountPlanStatusByPlanId(planId: number, success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_CYCLE_PLAN_STATU + "/" + planId, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let cyclecountplan: CycleCountPlan = new CycleCountPlan();
+            Object.assign(cyclecountplan, response.ResultObject);
+            success(cyclecountplan, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  UpdateCycleCountStatu(cycleCountPlan: CycleCountPlan, success, failed) {
+    this.httpclient
+      .post(SERVICE_URL + UPDATE_CYCLE_COUNT_STATU, cycleCountPlan, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            success(cycleCountPlan, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
   }
 }

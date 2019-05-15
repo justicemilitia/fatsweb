@@ -79,6 +79,12 @@ export abstract class BaseComponent implements OnInit {
     return this.baseService.authenticationService.isMenuAccessable(pageKeyword);
   }
 
+  isTerminalOperator(pageKeyword:string){
+    if(pageKeyword == 'cyclecountterminal')
+      return false;
+    return true;
+  }
+
   changeFirm(firmId: number) {
     let firm = this.baseService.authenticationService.Firms.find(x => x.FirmId == Number(firmId));
     if (firm) {
@@ -102,6 +108,11 @@ export abstract class BaseComponent implements OnInit {
 
   redirectTo(page: string) {
     this.baseService.router.navigateByUrl(page);
+  }
+
+  redirectToTerminal(page: string) {
+    this.baseService.router.navigateByUrl(page);
+    this.isTerminalOperator(page);
   }
 
   isNumeric(n) {

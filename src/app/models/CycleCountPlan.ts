@@ -20,8 +20,10 @@ export class CycleCountPlan implements IData{
     isChecked: boolean;
     isVisible: boolean;
 
+    CycleCountPlanLocationId:number;
     CycleCountPlanId:number;
     CycleCountPlanNo:string;
+    LocationId:number;
     TaskName:string;
     FirmId:number;
     CycleCountStatusId:number;
@@ -31,7 +33,6 @@ export class CycleCountPlan implements IData{
     CycleCountStatu: CycleCountStatus;
     LocationIds:number[];
     CycleCountPlanLocations:CycleCountPlanLocations[];
-
-
+    Location:Location;
     Barcode:string;
 }
