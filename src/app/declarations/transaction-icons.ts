@@ -221,7 +221,7 @@ export const GetTransactionIcon = (icon: number): TransactionIcon => {
         case TransactionTypes.COLLECTIVE_TRANSACTIONS:
             return new TransactionIcon(icon, "bg-rose", "15px", "fas fa-retweet");
         case TransactionTypes.UPDATE_DEPRECIATION:
-        return new TransactionIcon(icon, "bg-midnightblue", "15px", "typcn icon-default typcn-chart-line-outline");  
+        return new TransactionIcon(icon, "bg-midnightblue", "20px", "typcn icon-default typcn-chart-line-outline");  
         default:
             return new TransactionIcon(icon, "bg-purple", "20px", "typcn typcn-arrow-forward-outline");
     }

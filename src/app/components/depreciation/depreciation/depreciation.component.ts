@@ -49,6 +49,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   isValid: boolean = true;
   isDepreciationNull: boolean=false;
   isFixedAssetList: boolean;
+  isExitList: boolean;
     /* Is Table Exporting */
     isTableExporting: boolean = false;
 
@@ -485,8 +486,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         selectedItems[0].getId(),
         (result: FixedAsset) => {
           Object.assign(this.fixedAsset, result);
-          this.depreciationBeCalculated = result.WillDepreciationBeCalculated;
-          this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated;
+          this.depreciationBeCalculated = result.WillDepreciationBeCalculated == null ? false : result.WillDepreciationBeCalculated;
+          this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated == null ? false : result.WillIfrsbeCalculated;
           this.fixedAssetBarcodes = result.Barcode;
           $("#showModal").click();
         },
@@ -500,6 +501,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       );
     } else {
       this.selectedBarcodes();
+      this.depreciationBeCalculated = false;
+      this.ifrsDepreciationBeCalculated = false;
+      this.fixedAsset= new FixedAsset();
       $("#showModal").click();
     }
   }
@@ -592,11 +596,11 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     let cloneItem = new FixedAssetFilter();
     Object.assign(cloneItem, this.fixedAssetFilter);
 
-    cloneItem.StartDate = this.fixedAsset.StartDate == null ? null : convertNgbDateToDateString(data.value.depreciationStartDate);
-    cloneItem.EndDate = this.fixedAsset.EndDate == null ? null : convertNgbDateToDateString(data.value.endDate);
+    cloneItem.StartDate = data.value.depreciationStartDate == null ? null : convertNgbDateToDateString(data.value.depreciationStartDate);
+    cloneItem.EndDate = data.value.depreciationStartDate == null ? null : convertNgbDateToDateString(data.value.endDate);
     cloneItem.WillDepreciationBeCalculated = data.value.WillDepreciationBeCalculated;
     cloneItem.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
-    cloneItem.IsValid=this.isFixedAssetList;
+    cloneItem.IsValid=this.isValid;
 
     await this.baseService.depreciationService.GetFilterList(
       cloneItem,
@@ -717,19 +721,21 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   isDepreciationList(event){
     if (event.target.checked == true) {
-      this.isFixedAssetList = true;
+      this.isExitList = true;
       this.isValid=true;
     } else {
-      this.isFixedAssetList = false;
+      this.isExitList = false;
       this.isValid=false;
     }
   }
 
   isExitDepreciationList(event){
     if (event.target.checked == true) {
-      this.isFixedAssetList = false;
-    } else {
       this.isFixedAssetList = true;
+      this.isValid=false;
+    } else {
+      this.isFixedAssetList = false;
+      this.isValid=true;
     }
   }
 
