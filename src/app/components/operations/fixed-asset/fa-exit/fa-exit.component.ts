@@ -17,6 +17,7 @@ import { CheckOutReason } from "../../../../models/CheckOutReason";
 import { FixedAssetComponent } from "../fixed-asset.component";
 import { TreeGridTable } from "../../../../extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAsset } from "../../../../models/FixedAsset";
+import { DOCUMENT_URL } from '../../../../declarations/service-values';
 
 @Component({
   selector: "app-fa-exit",
@@ -40,6 +41,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
   @Input() faComponent: FixedAssetComponent;
+  IsCreateExitForm: boolean = false;
 
   constructor(baseService: BaseService) {
     super(baseService);
@@ -65,14 +67,17 @@ export class FaExitComponent extends BaseComponent implements OnInit {
 
           this.baseService.fixedAssetService.ExitFixedAsset(
             this.transactionLog,
-            (insertedItem: TransactionLog, message) => {
+            (formList: any[], message) => {
               /* Show success pop up */
+
               this.baseService.popupService.ShowSuccessPopup(message);
 
-              /* Set inserted Item id to model */
-              this.transactionLog.TransactionLogId =
-                insertedItem.TransactionLogId;
-
+              if(this.IsCreateExitForm==true){
+                for(let i=0;i<formList.length;i++){
+                  this.PressExitForm(formList[i].FixedAssetFormCode);
+                }
+              }
+              
               /* Push inserted item to Property list */
               this.transactionLogs.push(this.transactionLog);
               this.faComponent.loadFixedAsset();
@@ -126,5 +131,21 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     }
     data.reset();
     data.resetForm(this.transactionLog);
+  }
+
+  isCreateExitForm(event){
+    if(event.target.checked == true){
+      this.IsCreateExitForm = true;
+    }
+    else {
+      this.IsCreateExitForm = false;
+    }
+  }
+
+  PressExitForm(formName: string){
+    let url:string;
+    url=DOCUMENT_URL + formName + ".pdf";
+    // this.router.navigate([url]); 
+    window.open(url,"_blank");    
   }
 }

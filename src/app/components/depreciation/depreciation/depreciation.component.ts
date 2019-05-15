@@ -11,6 +11,8 @@ import { DepreciationCalculationType } from "../../../models/DepreciationCalcula
 import { MatTabChangeEvent } from '@angular/material';
 import { Depreciation } from '../../../models/Depreciation';
 import { DepreciationIFRS } from '../../../models/DepreciationIFRS';
+import { FixedAssetFilter } from '../../../models/FixedAssetFilter';
+import { convertNgbDateToDateString } from '../../../declarations/extends';
 
 @Component({
   selector: "app-depreciation",
@@ -26,6 +28,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   searchDescription: string = "";
   fixedAssets: FixedAsset[] = [];
   fixedAsset: FixedAsset = new FixedAsset();
+
+  fixedAssetFilters: FixedAssetFilter[] = [];
+  fixedAssetFilter: FixedAssetFilter = new FixedAssetFilter();
 
   path: string;
   currentPage: number = 1;
@@ -43,7 +48,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   isDetailInfo: boolean = false;
   isValid: boolean = true;
   isDepreciationNull: boolean=false;
-
+  isFixedAssetList: boolean;
+  isExitList: boolean;
     /* Is Table Exporting */
     isTableExporting: boolean = false;
 
@@ -282,7 +288,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   constructor(protected baseService: BaseService) {
     super(baseService);
-    this.loadFixedAsset(this.isValid);
+    this.loadFixedAssetDepreciations();
     this.loadDropdownList();
 
     this.dataTable.isPagingActive = false;
@@ -378,48 +384,49 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   ngOnInit() {}
 
   //Demirbaş Listesi
-  async loadFixedAsset(_isValid, _perInPage: number = 25, _currentPage: number = 1) {
-    this.searchDescription = "";
-    this.dataTable.TGT_clearData();
-    this.dataTable.isLoading = true;
+  // async loadFixedAsset(_isValid, _perInPage: number = 25, _currentPage: number = 1) {
+  //   this.searchDescription = "";
+  //   this.dataTable.TGT_clearData();
+  //   this.dataTable.isLoading = true;
 
-    this.baseService.fixedAssetService.GetFixedAsset(
-      _perInPage,
-      _currentPage,
-      false,
-      (fa: FixedAsset[], totalPage: number, message: string) => {
-        this.perInPage = _perInPage;
-        this.currentPage = _currentPage;
-        this.dataTable.perInPage = _perInPage;
-        this.fixedAssets = fa;
-        this.totalPage = totalPage ? totalPage : 1;
+  //   this.baseService.fixedAssetService.GetFixedAsset(
+  //     _perInPage,
+  //     _currentPage,
+  //     false,
+  //     (fa: FixedAsset[], totalPage: number, message: string) => {
+  //       this.perInPage = _perInPage;
+  //       this.currentPage = _currentPage;
+  //       this.dataTable.perInPage = _perInPage;
+  //       this.fixedAssets = fa;
+  //       this.totalPage = totalPage ? totalPage : 1;
 
-        fa.forEach(e => {
-          e.FixedAssetPropertyDetails.forEach(p => {
-            if (p.FixedAssetCardPropertyId) {
-              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
-            }
-          });
-        });
-        this.dataTable.TGT_loadData(this.fixedAssets);
-        this.TGT_calculatePages();
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
+  //       fa.forEach(e => {
+  //         e.FixedAssetPropertyDetails.forEach(p => {
+  //           if (p.FixedAssetCardPropertyId) {
+  //             e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+  //           }
+  //         });
+  //       });
+  //       this.dataTable.TGT_loadData(this.fixedAssets);
+  //       this.TGT_calculatePages();
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       this.baseService.popupService.ShowErrorPopup(error);
+  //     }
+  //   );
+  // }
 
   //Amortisman Detayları 
-  async loadFixedassetDepreciations(_perInPage: number = 25, _currentPage: number = 1) {
+  async loadFixedAssetDepreciations(_perInPage: number = 25, _currentPage: number = 1) {
     this.searchDescription = "";
     this.dataTable.TGT_clearData();
     this.dataTable.isLoading = true;
 
-    this.baseService.fixedAssetService.GetFixedAsset(
+    this.baseService.depreciationService.GetDepreciationFixedAsset(
       _perInPage,
       _currentPage,
       false,
+      true,
       (fa: FixedAsset[], totalPage: number, message: string) => {
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
@@ -427,13 +434,6 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         this.fixedAssets = fa;
         this.totalPage = totalPage ? totalPage : 1;
 
-        fa.forEach(e => {
-          e.FixedAssetPropertyDetails.forEach(p => {
-            if (p.FixedAssetCardPropertyId) {
-              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
-            }
-          });
-        });
         this.dataTable.TGT_loadData(this.fixedAssets);
         this.TGT_calculatePages();
       },
@@ -466,6 +466,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   onSubmit(data: NgForm) {
     if (data.form.invalid == true) return;
+    this.filterDepreciation(data);
   }
 
   onSubmitDepreciation(dataDepreciation: NgForm) {
@@ -485,8 +486,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         selectedItems[0].getId(),
         (result: FixedAsset) => {
           Object.assign(this.fixedAsset, result);
-          this.depreciationBeCalculated = result.WillDepreciationBeCalculated;
-          this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated;
+          this.depreciationBeCalculated = result.WillDepreciationBeCalculated == null ? false : result.WillDepreciationBeCalculated;
+          this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated == null ? false : result.WillIfrsbeCalculated;
+          this.fixedAssetBarcodes = result.Barcode;
           $("#showModal").click();
         },
         (error: HttpErrorResponse) => {
@@ -499,6 +501,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       );
     } else {
       this.selectedBarcodes();
+      this.depreciationBeCalculated = false;
+      this.ifrsDepreciationBeCalculated = false;
+      this.fixedAsset= new FixedAsset();
       $("#showModal").click();
     }
   }
@@ -513,6 +518,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           Object.assign(this.fixedAsset, result);
           this.depreciationBeCalculated = result.WillDepreciationBeCalculated == null ? false: result.WillDepreciationBeCalculated;
           this.ifrsDepreciationBeCalculated = result.WillIfrsbeCalculated == null ? false: result.WillIfrsbeCalculated;
+          this.fixedAssetBarcodes = result.Barcode;
         },
         (error: HttpErrorResponse) => {
           /* hide spinner */
@@ -563,7 +569,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
               this.dataTable.TGT_updateData(willUpdateItem);
 
               this.resetForm(dataDepreciation, true);
-              this.loadFixedAsset(this.isValid);
+              this.loadFixedAssetDepreciations();
 
               /* Get original source from table */
               this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
@@ -578,6 +584,42 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       }
     );
   }
+
+  async filterDepreciation(data: NgForm){
+    /* Is Form Valid */
+    if (data.form.invalid == true) return;
+
+    this.fixedAssetFilter.IsFilter = true;
+    this.fixedAssetFilter.Page = 1;
+    this.fixedAssetFilter.PerPage = 1000;
+
+    let cloneItem = new FixedAssetFilter();
+    Object.assign(cloneItem, this.fixedAssetFilter);
+
+    cloneItem.StartDate = data.value.depreciationStartDate == null ? null : convertNgbDateToDateString(data.value.depreciationStartDate);
+    cloneItem.EndDate = data.value.depreciationStartDate == null ? null : convertNgbDateToDateString(data.value.endDate);
+    cloneItem.WillDepreciationBeCalculated = data.value.WillDepreciationBeCalculated;
+    cloneItem.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
+    cloneItem.IsValid=this.isValid;
+
+    await this.baseService.depreciationService.GetFilterList(
+      cloneItem,
+      (fixedAssets: FixedAsset[],totalPage) => {
+
+        this.fixedAssets = fixedAssets;
+        this.dataTable.TGT_loadData(this.fixedAssets);
+        this.currentPage = 1;
+        this.perInPage = 1000;
+        this.totalPage = totalPage;
+        this.TGT_calculatePages();
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        console.log(error);
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  };
 
   loadDepreciationByFixedAssetId(){
 
@@ -604,7 +646,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         }
       else 
       {
-        this.fixedAssetDepreciationDetails = depreciationDetails;
+        Object.assign(this.fixedAssetDepreciationDetails, depreciationDetails);
         this.dataTableDepreciationDetail.TGT_loadData(this.fixedAssetDepreciationDetails);
       } 
       },
@@ -640,7 +682,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       else 
       {
         this.fixedAssetIfrsDepreciationDetails = ifrsDepreciationDetails;
-        this.dataTableIFRSDepreciationDetail.TGT_loadData(this.fixedAssetIfrsDepreciationDetails);
+        this.dataTableIFRSDepreciationDetail.TGT_loadData(ifrsDepreciationDetails);        
+        // this.dataTableIFRSDepreciationDetail.TGT_loadData(this.fixedAssetIfrsDepreciationDetails);
       }
        },
       (error: HttpErrorResponse) => {
@@ -676,6 +719,26 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     }
   }
 
+  isDepreciationList(event){
+    if (event.target.checked == true) {
+      this.isExitList = true;
+      this.isValid=true;
+    } else {
+      this.isExitList = false;
+      this.isValid=false;
+    }
+  }
+
+  isExitDepreciationList(event){
+    if (event.target.checked == true) {
+      this.isFixedAssetList = true;
+      this.isValid=false;
+    } else {
+      this.isFixedAssetList = false;
+      this.isValid=true;
+    }
+  }
+
   resetForm(data: NgForm, isNewItem: boolean) {
     data.resetForm(this.fixedAsset);
 
@@ -690,7 +753,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     
     if(tabChangeEvent.index==0){
       this.isDetailInfo=false;
-      this.loadFixedAsset(this.isValid);
+      this.loadFixedAssetDepreciations();
     } 
     else if(tabChangeEvent.index==1){
       this.isDetailInfo=true;
@@ -721,7 +784,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           this.baseService.popupService.ShowSuccessPopup(message);
 
           // this.transactionLogs.push(this.transactionLog);
-          this.loadFixedassetDepreciations();
+          this.loadFixedAssetDepreciations();
         },
         (error: HttpErrorResponse) => {
           /* Show alert message */
@@ -729,4 +792,28 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         }
       );
   }
+  async calculateIfrsDepreciations(){
+    
+    this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+      
+      if(this.fixedAsset.FixedAssetIds.length==0){
+        this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+        return;
+      }
+
+      await this.baseService.depreciationService.CalculateAllIfrsDepreciation(
+      this.fixedAsset,
+      (insertedItem: FixedAsset, message) => {
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        // this.transactionLogs.push(this.transactionLog);
+        this.loadFixedAssetDepreciations();
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+}
 }

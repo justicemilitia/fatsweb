@@ -36,6 +36,11 @@ export class FixedAssetFilter implements IData {
   IsCalculatedDepreciation: boolean;
   IsCalculatedIFRSDepreciation: boolean;
   FixedAssetPropertyArray: FixedAssetPropertyDetails[];
+  WillDepreciationBeCalculated:boolean;
+  WillIfrsbeCalculated: boolean;
+  DepreciationCalculationTypeID: number;
+  IsFilter: boolean;
+  IsValid: boolean;
 
   constructor() {
     this.FixedAssetPropertyArray = [];

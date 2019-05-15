@@ -85,7 +85,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label class="ckbox">
-                <input type="checkbox" name="ExitMailForm" /><span>E-posta ile hatırlatma istiyorum.</span>
+                <input type="checkbox" [(ngModel)]="transactionLog.IsSendMail" name="IsSendMail" #IsCreateSuspendForm="ngModel"/><span>E-posta ile hatırlatma istiyorum.</span>
               </label>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { TransactionTypes } from 'src/app/declarations/transaction-types';
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
+import { DOCUMENT_URL } from '../../../declarations/service-values';
 
 @Component({
   selector: "app-transaction-list",
@@ -307,5 +308,32 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
     await this.loadTransactionList(this.perInPage, this.currentPage);
 
     this.isTableRefreshing = false;
+  }
+
+  async downloadForm(){
+    
+    let formList: string[];
+
+      (response: boolean) => {
+        if (response == true) {
+
+          formList = (<TransactionLog[]>(
+            this.dataTable.TGT_getSelectedItems()
+          )).map(x => x.FixedAssetFormCode);
+
+          for(let i=0;i<formList.length;i++){
+            if(formList[i] != null){
+              this.PressExitForm(formList[i]);
+            }
+          }
+        }   
+      }
+  }
+
+  PressExitForm(formName: string){
+    let url:string;
+    url=DOCUMENT_URL + formName + ".pdf";
+    // this.router.navigate([url]); 
+    window.open(url,"_blank");    
   }
 }

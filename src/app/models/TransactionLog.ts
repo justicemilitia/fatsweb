@@ -111,4 +111,6 @@ export class TransactionLog implements IData{
     IsCreateSuspendForm: boolean;
     IsCreateUndoSuspendForm: boolean;
     IsCreateExitForm: boolean;
+    IsSendMail: boolean;
+    FixedAssetFormCode: string;
 }

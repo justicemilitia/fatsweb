@@ -15,6 +15,11 @@
             <button id="btnTransactionInfo" class="btn btn-success btn-excel-custom" style="display:none" data-toggle="modal" data-target="#modalTransactionLogInfo">
             </button>
 
+            
+            <button class="btn btn-success btn-excel-custom" (click)="downloadForm()" style="margin-right:10px" data-toggle="tooltip"
+            data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>
+
+
             <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i>

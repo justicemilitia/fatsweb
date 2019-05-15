@@ -1,9 +1,15 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
+<<<<<<< HEAD
 //export const SERVICE_URL = "http://localhost:5000/api/";
 export const SERVICE_URL = "http://localhost:11889/api/";
 //export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+=======
+export const SERVICE_URL = "http://localhost:5000/api/";
+//export const SERVICE_URL = "http://localhost:11889/api/";
+// export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+>>>>>>> 259e1fa1d2382bf8e096901509e1329654850067
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -287,6 +293,7 @@ export const GET_DASHBOARD_FIXED_ASSETS_STATUS_COUNT = "Dashboard/GetDashboardFi
 
 //#region Depreciation
 export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
+export const GET_FIXED_ASSET_DEPRECIATION_LIST = "Depreciation/GetDepreciationFixedAssetsDetailsList"
 //#endregion
 
 //#region CycleCountPlan
