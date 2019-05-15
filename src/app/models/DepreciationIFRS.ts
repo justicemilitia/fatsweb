@@ -10,24 +10,25 @@ export class DepreciationIFRS implements IData {
         return [];
     }
     getId(): number {
-        return this.DepreciationIFRSId;
+        return this.DepreciationIfrsid;
     }
     childIndex: number;
     isExtended: boolean;
     isChecked: boolean;
     isVisible: boolean;
 
-    DepreciationIFRSId: number;
+    DepreciationIfrsid: number;
     // DecreciationCalculationTypeId: number;
     FixedAssetId: number;
     EndDate: number;
     Rate: number;
     Value: number;
     RevaluatedValue: number;
-    NDDValue: number;
+    UsefulMonths: number;
+    Nddvalue: number;
     CreationDate: Date;
     CreatorId: number;
     IsValid: boolean;
-    DecreciationCalculationType: DepreciationCalculationType[];
+    // DecreciationCalculationType: DepreciationCalculationType[];
     FixedAssets: FixedAsset[];
 }

@@ -88,6 +88,23 @@ export class PopupService {
       });
   }
 
+  ShowQuestionPopupForDepreciation(callBack) {
+    swal({
+      title: "Amortismanları hesaplamak istediğinize emin misiniz?",
+      text: "Seçili demirbaşların amortismanı hesaplanacaktır.",
+      icon: "warning",
+      buttons: ['Vazgeç', 'Hesapla'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          callBack(true);
+        } else {
+          callBack(false);
+        }
+      });
+  }
+
   ShowQuestionPopup(message, callBack) {
     swal({
       title: message,
