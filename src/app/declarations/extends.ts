@@ -4,7 +4,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 export const getAnErrorResponse = (message: string): HttpErrorResponse => {
     let response: HttpErrorResponse = new HttpErrorResponse({
         status: 400,
-        statusText: message
+        statusText: message == 'Unknown Error' ? 'Bağlantı Hatası' : message
     });
     return response;
 }
