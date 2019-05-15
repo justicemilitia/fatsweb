@@ -5,6 +5,7 @@ import { Firm } from "src/app/models/Firm";
 import { HttpErrorResponse } from "@angular/common/http";
 import { UserLogin } from 'src/app/models/UserLogin';
 import { NgForm } from '@angular/forms';
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Component({
   selector: "app-login",
@@ -92,7 +93,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
       }, (error: HttpErrorResponse) => {
         /* if any error show on screen and stop getting firms */
-        this.errorMessage = error.statusText;
+        this.errorMessage = getAnErrorResponse(error.statusText).statusText;
         this.firms = [];
         this.isUserFirmsGetting = false;
 
