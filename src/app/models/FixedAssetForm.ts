@@ -18,4 +18,5 @@ export class FixedAssetForm implements IData {
   FixedAssetFormId: number;
   UserId: number;
   FixedAssetFormCode: string;
+  FixedAssetFormTypeId: number;
 }

@@ -290,16 +290,21 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
   }
 
   async downloadForm(){
-    let formList: string[];
+      let formList: string[]=[];
+      let selectedItems: FixedAsset[]=[];
 
-    (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+      selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
 
-      (response: boolean) => {
-        if (response == true) {
-            for(let i=0;i<formList.length;i++){
-              this.PressExitForm(formList[i]);
-            }
-        }   
+      selectedItems.forEach(e=> {
+        for(let i=0; i<e.FixedAssetForms.length; i++){
+        if(e.FixedAssetForms[i].FixedAssetFormTypeId==6){
+        formList.push(e.FixedAssetForms[i].FixedAssetFormCode);
+      }
+    }
+      });
+    
+      for(let i=0;i<formList.length;i++){
+        this.PressExitForm(formList[i]);
       }
   }
 

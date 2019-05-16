@@ -12,6 +12,7 @@ import { FixedAssetFile } from './FixedAssetFile';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from './Location';
 import { FixedAssetUser } from './FixedAssetUser';
+import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
 
 export class FixedAsset implements IData {
   getParentId(): number {
@@ -99,6 +100,7 @@ export class FixedAsset implements IData {
   DepreciationBeginDate: string;
   DepreciationEndDate: string;
   Description:string;
+  FixedAssetForms: FixedAssetForm[];
 
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();
