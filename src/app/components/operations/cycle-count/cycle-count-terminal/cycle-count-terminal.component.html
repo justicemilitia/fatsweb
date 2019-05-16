@@ -10,7 +10,7 @@
 
           <div class="form-group">
               <label>Sayım Planı</label>
-              <select [(ngModel)]="cyclecountplan.CycleCountPlanId" name="CycleCountPlanId" class="form-control" (change)="loadLocationByCycleCountPlanId($event)">
+              <select [(ngModel)]="cyclecountplan.CycleCountPlanIds" name="CycleCountPlanIds" class="form-control" (change)="loadLocationByCycleCountPlanId($event)">
                 <option [ngValue]="null">Yok</option>
                 <option *ngFor="let plan of cyclecountplans" value="{{ plan.CycleCountPlanId }}">
                   {{ plan.CycleCountPlanNo +" - "+ plan.TaskName }}

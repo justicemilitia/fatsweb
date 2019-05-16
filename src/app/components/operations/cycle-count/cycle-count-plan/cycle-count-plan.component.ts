@@ -508,13 +508,9 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     let cycleCountPlan:CycleCountPlan=new CycleCountPlan();
     let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
 
-    cycleCountPlan.CycleCountPlanId=selectedIds[0];
+    cycleCountPlan.CycleCountPlanIds=selectedIds;
     cycleCountPlan.CycleCountStatusId=CycleCountStatu.CANCELED;
 
-    if(selectedIds.length > 1){
-      this.baseService.popupService.ShowWarningPopup("Birden fazla sayım planı seçtiniz!");
-      return;
-    }
           this.isWaitingInsertOrUpdate = true;
           this.baseService.spinner.show();
 
@@ -522,13 +518,15 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
             (_cyclecountplan,message) => {
 
               this.isWaitingInsertOrUpdate = false;
-              this.baseService.spinner.hide();
+            
               this.baseService.popupService.ShowSuccessPopup(message);
 
               this.dataTable.TGT_updateData(cycleCountPlan);
+
+              this.dataTableCanceledPlan.TGT_clearData();
             },
             (error: HttpErrorResponse) => {
-              this.baseService.spinner.hide();
+       
               this.isWaitingInsertOrUpdate = false;
               /* Show error message */
               this.baseService.popupService.ShowErrorPopup(error);

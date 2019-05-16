@@ -84,7 +84,7 @@ export class CycleCountTerminalComponent extends BaseComponent
 
   updateCycleCountPlanStatu(cyclecountplan: CycleCountPlan, startOrExit: boolean) {
 
-    if(this.cyclecountplan.CycleCountPlanId==null && this.cyclecountplan.CycleCountPlanLocationId == null){
+    if(this.cyclecountplan.CycleCountPlanIds == null && this.cyclecountplan.CycleCountPlanLocationId == null){
       this.isSelectedPlanOrLocation = true;
       this.isStarted = false;
       return;
@@ -110,11 +110,15 @@ export class CycleCountTerminalComponent extends BaseComponent
         );
     }
 
-    if (startOrExit == false && this.cyclecountplan.CycleCountPlanId == null && this.cyclecountplan.CycleCountPlanLocationId == null) 
+    if (startOrExit == false && this.cyclecountplan.CycleCountPlanIds == null && this.cyclecountplan.CycleCountPlanLocationId == null) 
     {
       this.baseService.router.navigateByUrl("/dashboard");
       return;
     }
+    
+    let Ids:number[] = [];
+    Object.assign(Ids,this.cyclecountplan.CycleCountPlanIds);
+    this.cyclecountplan.CycleCountPlanIds=Ids;
 
     this.baseService.cycleCountService.UpdateCycleCountStatu(
       this.cyclecountplan,

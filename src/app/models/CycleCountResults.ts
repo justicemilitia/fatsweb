@@ -17,7 +17,6 @@ export class CycleCountResults implements IData{
     isExtended: boolean;
     isChecked: boolean;
     isVisible: boolean;
-
     
     CycleCountResultId:number;
     CycleCountPlanId:number;   
