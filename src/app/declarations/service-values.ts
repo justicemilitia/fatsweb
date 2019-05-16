@@ -293,7 +293,12 @@ export const GET_FIXED_ASSET_DEPRECIATION_LIST = "Depreciation/GetDepreciationFi
 //#region CycleCountPlan
 export const GET_CYCLE_COUNT_PLAN_LIST ="CycleCountingPlans/GetCountingPlansList";
 export const INSERT_CYCLE_COUNT_PLAN ="CycleCountingPlans/AddCountingPlan";
-
+export const GET_LOCATION_BY_CYCLE_PLAN_ID ="CycleCounting/GetCycleCountingPlanLocationListById";
+export const UPDATE_CYCLE_COUNT_STATU = "CycleCountingStatus/UpdateCountingStatus";
+export const GET_CYCLE_PLAN_STATU ="CycleCountingStatus/GetCyleCountingStatusByCountingPlanId";
+export const MAKE_COUNTING = "CycleCounting/MakeCounting";
+export const GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL="CycleCountingPlans/GetCountingPlansListWithoutDoneAndCancel"; 
+export const GET_CYCLE_COUNT_RESULT ="CycleCountingResults/GetCycleCountingResultsById";
 //#endregion
 
 //#region TransactionList

@@ -613,6 +613,10 @@ export class TreeGridTable {
         this.TGT_loadData(this.originalSource);
     }
 
+    /**
+     * Remove item orginal source
+     * @param item Remove item.
+     */
     public TGT_removeItem(item: IData) {
 
         let index = this.originalSource.findIndex(x => x.getId() == item.getId());

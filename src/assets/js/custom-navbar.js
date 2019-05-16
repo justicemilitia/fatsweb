@@ -6,8 +6,6 @@ $(document).ready(() => {
             navigation.addClass('closed');
     }
 
-    $('')
-
     doParentsSelected();
 
     $('.nav-mobile-button').on('click', function () {
@@ -18,6 +16,7 @@ $(document).ready(() => {
             navigation.addClass('closed');
     });
 
+    
 
     $(window).resize(function () {
         if (window.innerWidth < 1100) {

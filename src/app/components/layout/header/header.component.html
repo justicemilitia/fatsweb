@@ -35,12 +35,16 @@
           </ng-container>
         </div>
       </div>
-      <div class="btn-group">
+      <div class="btn-group">  
+          <button type="button" class="bell-custom-button" (click)="redirectToTerminal('/cyclecountterminal')">
+              <i class="fas fa-barcode"></i>
+            </button>
         <button type="button" class="info-custom-button" data-container="body" data-popover-color="head-secondary"
           data-placement="bottom" title="Bilgilendirme" data-html="true"
           [attr.data-content]="drawnContentForApplicationInfo">
           <i class="typcn icon-default typcn-info-large-outline"></i>
         </button>
+    
         <button type="button" class="bell-custom-button">
           <i class="far fa-bell fa-bell-custom"></i>
         </button>

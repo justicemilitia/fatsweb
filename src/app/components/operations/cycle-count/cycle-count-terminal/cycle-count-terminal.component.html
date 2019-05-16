@@ -1,0 +1,57 @@
+<div class="az-signin-wrapper">
+  <div class="az-card-signin">
+    <div>   
+      <h2 _ngcontent-c4=""> Sayım bilgilerini seçtikten sonra sayımı başlatınız.
+      </h2>
+    </div>
+    <div class="az-signin-header">
+      <!-- form-group -->
+      <form #data="ngForm" (ngSubmit)="updateCycleCountPlanStatu(data)" novalidate>
+
+          <div class="form-group">
+              <label>Sayım Planı</label>
+              <select [(ngModel)]="cyclecountplan.CycleCountPlanId" name="CycleCountPlanId" class="form-control" (change)="loadLocationByCycleCountPlanId($event)">
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let plan of cyclecountplans" value="{{ plan.CycleCountPlanId }}">
+                  {{ plan.CycleCountPlanNo +" - "+ plan.TaskName }}
+                </option>
+              </select>          
+          </div>
+
+          <div class="form-group">
+              <label>Lokasyon</label>
+              <select [(ngModel)]="cyclecountplan.LocationId" name="LocationId" class="form-control" >
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let location of locations" value="{{ location.LocationId }}">
+                  {{ location.Name }}
+                </option>
+              </select>          
+          </div>
+
+          <div class="form-group">
+            <label>Barkod</label>
+            <input [(ngModel)]="cyclecountplan.Barcode" name="Barcode" id="Barcode" [disabled]="isStarted==false" autocomplete="off" (focusout)="makeCycleCounting()" type="text" class="form-control"/>         
+          </div>
+
+          <!-- alert -->
+          <div *ngIf="isSelectedPlanOrLocation == true" class="alert alert-solid-danger alert-custom" role="alert">
+            Lütfen sayım planı ve lokasyon seçiniz!
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">×</span></button>
+          </div>
+          <!-- alert -->
+
+        <button class="btn btn-orange btn-block" id="btnFinishedCycleCount" type="button" (click)="updateCycleCountPlanStatu(cyclecountplan,true)">
+             {{ isStarted == false ? 'Sayımı Başlat' : 'Sayımı Bitir'}} 
+        </button>
+
+        <button class="btn btn-orange btn-block" id="btnExit" type="button" (click)="updateCycleCountPlanStatu(cyclecountplan,false)">
+            Çıkış
+        </button>
+
+      </form>
+      <!-- form-group -->
+    </div>
+  </div>
+</div>
+<!-- az-signin-wrapper -->

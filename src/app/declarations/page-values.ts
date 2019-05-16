@@ -34,3 +34,4 @@ export const MENU_TRANSACTIONLIST="Menu_TransactionList";
 export const MENU_DEPRECIATIONDETAILLIST="Menu_DepreciationDetailList";
 export const  MENU_DEPRECIATIONOPERATION= "Menu_DepreciationOperation"
 // export const MENU_USERSETTINGS="Menu_UserSettings";
+export const MENU_TERMINAL = "Menu_CycleCountTerminal";

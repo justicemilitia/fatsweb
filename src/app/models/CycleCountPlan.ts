@@ -1,6 +1,7 @@
 import { CycleCountStatus } from './CycleCountStatus';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { CycleCountPlanLocations } from './CycleCountPlanLocations';
 
 export class CycleCountPlan implements IData{
 
@@ -19,8 +20,10 @@ export class CycleCountPlan implements IData{
     isChecked: boolean;
     isVisible: boolean;
 
+    CycleCountPlanLocationId:number;
     CycleCountPlanId:number;
     CycleCountPlanNo:string;
+    LocationId:number;
     TaskName:string;
     FirmId:number;
     CycleCountStatusId:number;
@@ -28,4 +31,8 @@ export class CycleCountPlan implements IData{
     EndTime:NgbDate;
     Description:string;
     CycleCountStatu: CycleCountStatus;
+    LocationIds:number[];
+    CycleCountPlanLocations:CycleCountPlanLocations[];
+    Location:Location;
+    Barcode:string;
 }

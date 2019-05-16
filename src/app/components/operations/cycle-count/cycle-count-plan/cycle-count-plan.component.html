@@ -15,8 +15,8 @@
               data-target="#modalCycleCountPlan"><i class="fas fa-plus-circle"></i></button>
               </div>
               <div>
-                <button class="btn btn-danger btn-exit-assets" style="margin-right:10px" data-toggle="tooltip"
-                data-placement="bottom" title="Sayımı İptal Et"><i
+                <button class="btn btn-danger btn-exit-assets" id="btnCanceledCycleCountPlan" (click)="loadCanceledCycleCountPlan()" style="margin-right:10px" data-toggle="modal"
+                data-target="#modalCanceledCycleCountPlan" title="Sayımı İptal Et"><i
                 class="fas fa-minus-circle"></i></button>
               </div>
               <div>
@@ -28,7 +28,7 @@
             </div>
           </div>            
            <div class="card-body">           
-              <mat-tab-group style="margin-top:10px;">
+              <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
                   <mat-tab>
                     <ng-template mat-tab-label>
                       Sayım Planları
@@ -37,17 +37,102 @@
                         <tree-grid-table [dataTable]="dataTable">
                         </tree-grid-table>
                     </div>          
+                 
                   </mat-tab>
-                  <mat-tab>
+
+                  <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
                    <ng-template mat-tab-label>
                      Sayım Detayları
                    </ng-template>     
                     <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                         <tree-grid-table [dataTable]="dataTableCycleCountDetail">
                         </tree-grid-table>
+                          <!-- Pagination Side -->
+                          <div class="table-pagination">
+                            <!-- Per In Page Select area -->
+                            <select class="table-pagination-select" (change)="loadCycleCountResult(perInPage,1,1)" [(ngModel)]="perInPage">
+                              <option *ngFor="let perIn of dataTableCycleCountDetail.perInPages" value="{{perIn}}">{{perIn}}</option>
+                              <option value="1000">Hepsi</option>
+                            </select>
+                            <!-- END Per In Page Select area END -->
+                            <!-- Paginations -->
+                            <nav class="pagination-nav">
+                              <ul class="pagination">
+                                <ng-container *ngFor="let page of pages">
+                                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                      (click)="loadCycleCountResult(perInPage,page.value,1)" class="page-link">{{page.display}}</button>
+                                  </li>
+                                </ng-container>
+                              </ul>
+                            </nav>
+                            <!-- END Paginations END -->
+                          </div>
+                          <!-- END Pagination Side END -->
                       </div>              
                   </mat-tab>
-                </mat-tab-group>
+
+                  <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
+                      <ng-template mat-tab-label>
+                        Sayımda Olup Envanterde Olmayanlar
+                      </ng-template>     
+                       <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                           <tree-grid-table [dataTable]="dataTableNotFoundFixedAsset">
+                           </tree-grid-table>
+                          <!-- Pagination Side -->
+                          <div class="table-pagination">
+                            <!-- Per In Page Select area -->
+                            <select class="table-pagination-select" (change)="loadCycleCountResultNotFoundFixedAsset(perInPage,1)" [(ngModel)]="perInPage">
+                              <option *ngFor="let perIn of dataTableNotFoundFixedAsset.perInPages" value="{{perIn}}">{{perIn}}</option>
+                              <option value="1000">Hepsi</option>
+                            </select>
+                            <!-- END Per In Page Select area END -->
+                            <!-- Paginations -->
+                            <nav class="pagination-nav">
+                              <ul class="pagination">
+                                <ng-container *ngFor="let page of pages">
+                                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                      (click)="loadCycleCountResultNotFoundFixedAsset(perInPage,page.value)" class="page-link">{{page.display}}</button>
+                                  </li>
+                                </ng-container>
+                              </ul>
+                            </nav>
+                            <!-- END Paginations END -->
+                          </div>
+                          <!-- END Pagination Side END -->
+                         </div>              
+                  </mat-tab>
+
+                  <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
+                        <ng-template mat-tab-label>
+                          Lokasyonu Farklı Olanlar
+                        </ng-template>     
+                         <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                             <tree-grid-table [dataTable]="dataTableDifferenLocationFixedAsset">
+                             </tree-grid-table>
+                                                       <!-- Pagination Side -->
+                          <div class="table-pagination">
+                            <!-- Per In Page Select area -->
+                            <select class="table-pagination-select" (change)="loadCycleCountResult(perInPage,1,3)" [(ngModel)]="perInPage">
+                              <option *ngFor="let perIn of dataTableDifferenLocationFixedAsset.perInPages" value="{{perIn}}">{{perIn}}</option>
+                              <option value="1000">Hepsi</option>
+                            </select>
+                            <!-- END Per In Page Select area END -->
+                            <!-- Paginations -->
+                            <nav class="pagination-nav">
+                              <ul class="pagination">
+                                <ng-container *ngFor="let page of pages">
+                                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                      (click)="loadCycleCountResult(perInPage,page.value,3)" class="page-link">{{page.display}}</button>
+                                  </li>
+                                </ng-container>
+                              </ul>
+                            </nav>
+                            <!-- END Paginations END -->
+                          </div>
+                          <!-- END Pagination Side END -->
+                           </div>              
+                  </mat-tab>
+              </mat-tab-group>
            </div>
         </div>
       </div>
@@ -78,64 +163,48 @@
             <div class="form-group col-md-6">
               <label>Başlama Tarihi</label>
               <div class="input-group">
-                  <div class="input-group-append"
-                    [class.is-invalid]="data.submitted && (!cycleCountPlan.StartTime || startDateModel.status == 'INVALID' )">
-                    <div (click)="startDate.toggle()" class="input-group-text">
-                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                    </div>
-                  </div>
-                  <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
-                    [(ngModel)]="cycleCountPlan.StartTime" ngbDatepicker #startDate="ngbDatepicker" #startDateModel="ngModel"
-                    [class.is-invalid]="data.submitted && (!cycleCountPlan.StartDate || startDateModel.status == 'INVALID' )"
-                    required>
-                  <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
-                    <div *ngIf="startDateModel.errors.required">Bu alan zorunludur.</div>
-                    <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
-                      Lütfen Geçerli Format Giriniz.
-                    </div>
+                <div class="input-group-append">
+                  <div (click)="startTime.toggle()" class="input-group-text">
+                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                   </div>
                 </div>
+                <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="startTime"
+                [(ngModel)]="cycleCountPlan.StartTime" ngbDatepicker #startTime="ngbDatepicker" #startTimeModel="ngModel"/>      
+            </div>
             </div>
             <div class="form-group col-md-6">
                 <label>Bitiş Tarihi</label>
                 <div class="input-group">
-                    <div class="input-group-append"
-                      [class.is-invalid]="data.submitted && (!cycleCountPlan.EndTime || endDateModel.status == 'INVALID' )">
-                      <div (click)="endDate.toggle()" class="input-group-text">
-                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                      </div>
-                    </div>
-                    <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
-                      [(ngModel)]="cycleCountPlan.EndTime" ngbDatepicker #endDate="ngbDatepicker" [minDate]="cycleCountPlan.StartTime" #endDateModel="ngModel"
-                      [class.is-invalid]="data.submitted && (!cycleCountPlan.EndDate || endDateModel.status == 'INVALID' )"
-                      required>
-                    <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
-                      <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
-                      <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
-                        Lütfen Geçerli Format Giriniz.
-                      </div>
+                  <div class="input-group-append">
+                    <div (click)="endTime.toggle()" class="input-group-text">
+                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                     </div>
                   </div>
+                  <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="endTime"
+                  [(ngModel)]="cycleCountPlan.EndTime" ngbDatepicker #endTime="ngbDatepicker" #endTimeModel="ngModel"/> 
+               </div>
               </div>
           </div>          
           <div class="row justify-content-center">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
                 <label>Görev Adı</label>
                 <input [(ngModel)]="cycleCountPlan.TaskName" name="TaskName" type="text" trim="blur" class="form-control">
            </div>
+           <div class="form-group col-md-6">
+            <div>
+              <label style="margin-bottom: 0;
+              font-weight: 700;" >Lokasyon</label>                
+              <div style="display:flex;">
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyın seçildi" : "Seçiniz" }}</button>
+                <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
+              </div>                     
+            </div>                 
+            <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                <tree-grid-table  [dataTable]="dataTableLocation"></tree-grid-table>
+              </div>     
+            </div> 
           </div>
-          <div class="row justify-content-center">
-              <div class="form-group col-md-12">
-                  <label>Lokasyon</label>
-                  <select [(ngModel)]="cycleCountPlan.LocationId" name="locationIds" class="form-control" (click)="loadLocationList()"
-                  #locationIds="ngModel" >
-                  <option [ngValue]="null">Yok</option>
-                  <option *ngFor="let location of locations" value="{{ location.LocationId }}">
-                    {{ location.Name }}
-                  </option>
-                </select>               
-             </div>
-            </div>
+      
             <div class="row justify-content-center">
                 <div class="form-group col-md-12">
                     <label>Açıklama</label>
@@ -157,3 +226,36 @@
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
+
+<div id="modalCanceledCycleCountPlan" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+<div class="modal-header">
+  <h6 class="modal-title">Uyarı!</h6>
+  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form name="form" #data="ngForm" (ngSubmit)="lostFixedAsset(data)">
+    <div class="modal-body">
+      <div>
+        <p style="width:500px;">Seçili sayım planları iptal edilecektir. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+      </div>
+      <br>
+      <div class="property-values-table">
+        <tree-grid-table class="table-scroll" [dataTable]="dataTableCanceledPlan"></tree-grid-table>
+      </div>
+    </div>
+
+    <!-- modal-body -->
+    <div class="modal-footer">
+        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">Hayır</button>        
+        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="CancelCycleCountPlan()" style="padding: 5px 20px;">Evet</button>
+      <!-- <button class="btn btn-az-primary " data-dismiss="modal" style="width:150px; " data-toggle="modal" data-target="#modalLostFixedAsset">Evet</button> -->
+    </div>
+</form>
+</div>
+</div>
+<!-- modal-dialog -->
+</div>
