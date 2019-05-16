@@ -9,21 +9,23 @@
         <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header" style="padding-bottom:0px;">
             <h2 class="az-content-title" style="margin-left:20px;">Amortisman Yönetimi</h2>
+          </div>            
+            <div>
             <div *ngIf="isDetailInfo == true">          
               <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTableDepreciationDetail)"
                         data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px; min-height: 37px;"><i
                         [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                         [class.btn-refresh-loader]="isTableExporting == true"></i>
-                      </button>
-                    </div>
+              </button>
+            </div>
     
              <div *ngIf="isDetailInfo == false">
               <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
   
                   <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalUpdateDepreciation"></button>  
-                  <div>
+                  <!-- <div>
                       <button class="btn btn-az-primary" id="btnFilterDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;"  id="showModal" data-toggle="modal" data-target="#modalFilterDepreciation">Filtrele</button>
-                  </div> 
+                  </div>  -->
                   <div>
                       <button class="btn btn-az-primary" id="btnCalculateIFRSDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="calculateIfrsDepreciations()">IFRS Hesapla</button>
                   </div>       
@@ -31,12 +33,12 @@
                       <button class="btn btn-az-primary" id="btnCalculateDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="calculateDepreciations()">Amortisman Hesapla</button>
                   </div>
                   <div>
-                    <button class="btn btn-az-primary" id="btnUpdateInfos"data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px;" (click)="depreciationInfo()">Bilgileri Güncelle</button>
+                    <button class="btn btn-az-primary" id="btnUpdateInfos"data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:20px;" (click)="depreciationInfo()">Bilgileri Güncelle</button>
                 </div>
               </div>
             </div>
           </div>            
-           <div class="card-body">
+           <div class="card-body" style="padding-top:0px;">
 
               <div *ngIf="isDetailInfo == true">
                     <fieldset class="field_set" style="padding-left: 10px; margin-right: 10px; margin-left: 20px;">
@@ -209,7 +211,7 @@
                       <!-- FİYAT -->
                       <div class="col-md-6 form-group ">
                               <label>Fiyat</label>
-                              <input [(ngModel)]="fixedAsset.Price" name="Price" type="text" placeholder="Fiyat" class="form-control"/>               
+                              <input [(ngModel)]="fixedAsset.Price" name="Price" type="text" class="form-control"/>               
                       </div>
 
                       <!-- PARA BİRİMİ -->
@@ -349,7 +351,7 @@
                     
                         <div class="row form-group">                        
                         <!-- BAŞLANGIÇ TARİHİ -->
-                        <div class="col-md-6 form group">
+                        <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
                           <div class="input-group">
                             <div class="input-group-append">
                               <div (click)="depreciationStartDate.toggle()" class="input-group-text">
@@ -361,7 +363,7 @@
                           </div>
                         </div>
                         <!-- BİTİŞ TARİHİ -->
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
                           <div class="input-group">
                             <div class="input-group-append">
                               <div (click)="endDate.toggle()" class="input-group-text">
@@ -375,21 +377,27 @@
                     </div>                           
                       </fieldset>
                     <div class="row">
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-4 form-group">
                             <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
                                 <input type="checkbox" [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" [checked]="fixedAsset.WillDepreciationBeCalculated"
                                   name="WillDepreciationBeCalculated" /><span>Amortismanı hesaplananlar</span>
                               </label>
                         </div>
-                        <div class="col-md-6 form-group">
-                            <label class="ckbox" style="margin-left: 5px; margin-top: 15px;">
+                        <div class="col-md-4 form-group">
+                            <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
                                 <input type="checkbox" [(ngModel)]="fixedAsset.WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
                                   name="WillIfrsbeCalculated" /><span>IFRS amortismanı hesaplananlar</span>
                               </label>
                         </div>
+                        <div class="col-md-4 form-group">
+                          <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
+                              <input type="checkbox"
+                              name="WillIfrsbeCalculated" /><span>Çıkışı yapılmış demirbaşlar</span>
+                            </label>
+                      </div>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                             <div class="col-md-6 form-group">
                             <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
                                 <input type="checkbox" 
@@ -404,10 +412,11 @@
                                 name="WillIfrsbeCalculated" /><span>Çıkışı yapılmış demirbaşlar</span>
                               </label>
                         </div>
-                    </div>                            
+                    </div>                             -->
           </div>
           <!-- modal-body -->
           <div class="modal-footer">
+              <button type="button" class="btn btn-danger" (click)="resetFilter()">Filtreyi Temizle</button>
             <button id="btnInsertOrUpdateFilterDepreciation" type="submit" class="btn btn-az-primary">Filtrele
             </button>
             <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->

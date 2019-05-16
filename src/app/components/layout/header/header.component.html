@@ -180,10 +180,24 @@
           </ul>-->
         </li>
         <li class="drop-right nav-item">
-          <a class="nav-link with-sub" routerLink="/depreciation"  routerLinkActive="active" >
+          <!-- <a class="nav-link with-sub" href="#"  routerLinkActive="active" >
             <i class="typcn icon-default typcn-chart-line-outline" style="font-size:23px"></i>
             Amortisman Yönetimi
-          </a>
+          </a> -->
+          <a href="#" onclick="return false" class="nav-link with-sub">
+              <i class="typcn typcn-edit"></i>Amortisman Yönetimi</a>
+          <ul class="nav-link-item-ul">
+              <li class="nav-link-item-parent">
+                <a class="nav-link-item-link" routerLink="/depreciation" routerLinkActive="active">
+                  Amortisman Bilgileri
+                </a>
+              </li>
+              <li class="nav-link-item-parent">
+                <a class="nav-link-item-link" routerLink="/depreciationdetaillist" routerLinkActive="active">
+                  Detaylı Amortisman Listesi
+                </a>
+              </li>
+            </ul>
         </li>
 
         <li class="drop-right nav-item">

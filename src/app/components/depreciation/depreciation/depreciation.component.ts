@@ -273,12 +273,12 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Net Defter Değeri",
-        columnName: ["NDDValue"],
+        columnName: ["Nddvalue"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      },
+      }
     ],
     {
       isDesc: false,
@@ -719,25 +719,25 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     }
   }
 
-  isDepreciationList(event){
-    if (event.target.checked == true) {
-      this.isExitList = true;
-      this.isValid=true;
-    } else {
-      this.isExitList = false;
-      this.isValid=false;
-    }
-  }
+  // isDepreciationList(event){
+  //   if (event.target.checked == true) {
+  //     this.isExitList = true;
+  //     this.isValid=true;
+  //   } else {
+  //     this.isExitList = false;
+  //     this.isValid=false;
+  //   }
+  // }
 
-  isExitDepreciationList(event){
-    if (event.target.checked == true) {
-      this.isFixedAssetList = true;
-      this.isValid=false;
-    } else {
-      this.isFixedAssetList = false;
-      this.isValid=true;
-    }
-  }
+  // isExitDepreciationList(event){
+  //   if (event.target.checked == true) {
+  //     this.isFixedAssetList = true;
+  //     this.isValid=false;
+  //   } else {
+  //     this.isFixedAssetList = false;
+  //     this.isValid=true;
+  //   }
+  // }
 
   resetForm(data: NgForm, isNewItem: boolean) {
     data.resetForm(this.fixedAsset);
@@ -777,7 +777,11 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           return;
         }
 
-        await this.baseService.depreciationService.CalculateAllDepreciation(
+      /* Ask for approve question if its true then update the fixed asset */
+      this.baseService.popupService.ShowQuestionPopupForDepreciation(
+      (response: boolean) => {
+        if (response == true) {
+       this.baseService.depreciationService.CalculateAllDepreciation(
         this.fixedAsset,
         (insertedItem: FixedAsset, message) => {
           /* Show success pop up */
@@ -791,29 +795,49 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
+     }
+    }
+   );
   }
-  async calculateIfrsDepreciations(){
-    
-    this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+
+    async calculateIfrsDepreciations(){
       
-      if(this.fixedAsset.FixedAssetIds.length==0){
-        this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
-        return;
-      }
+      this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+        
+        if(this.fixedAsset.FixedAssetIds.length==0){
+          this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
+          return;
+        }
 
-      await this.baseService.depreciationService.CalculateAllIfrsDepreciation(
-      this.fixedAsset,
-      (insertedItem: FixedAsset, message) => {
-        /* Show success pop up */
-        this.baseService.popupService.ShowSuccessPopup(message);
+      /* Ask for approve question if its true then update the fixed asset */
+      this.baseService.popupService.ShowQuestionPopupForDepreciation(
+      (response: boolean) => {
+        if (response == true) {
+        this.baseService.depreciationService.CalculateAllIfrsDepreciation(
+        this.fixedAsset,
+        (insertedItem: FixedAsset, message) => {
+          /* Show success pop up */
+          this.baseService.popupService.ShowSuccessPopup(message);
 
-        // this.transactionLogs.push(this.transactionLog);
-        this.loadFixedAssetDepreciations();
-      },
-      (error: HttpErrorResponse) => {
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-}
+          // this.transactionLogs.push(this.transactionLog);
+          this.loadFixedAssetDepreciations();
+        },
+        (error: HttpErrorResponse) => {
+          /* Show alert message */
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+   }
+  );
+  }
+
+  async resetFilter() {
+    
+    this.fixedAssetFilter = new FixedAssetFilter();
+    this.fixedAssetFilter.WillDepreciationBeCalculated=false;
+    this.fixedAssetFilter.WillIfrsbeCalculated=false;
+    this.isExitList=false;
+  }
+
 }

@@ -31,7 +31,11 @@ import { TransactionListComponent } from './components/operations/transaction-li
 import { UserSettingsComponent } from './components/definitions/user-settings/user-settings.component';
 import { DepreciationComponent } from './components/depreciation/depreciation/depreciation.component';
 import { CycleCountPlanComponent } from './components/operations/cycle-count/cycle-count-plan/cycle-count-plan.component';
+<<<<<<< HEAD
 import { CycleCountTerminalComponent } from './components/operations/cycle-count/cycle-count-terminal/cycle-count-terminal.component';
+=======
+import { DepreciationDetailListComponent } from './components/depreciation/depreciation-detail-list/depreciation-detail-list.component';
+>>>>>>> ea08f4c5c0dfe2720aeace6169a4359dcbe72c4a
 
 export const routes: Routes = [
   {
@@ -198,13 +202,19 @@ export const routes: Routes = [
   {
     path: "depreciation",
     component: DepreciationComponent,
-    data: { pageKeyword: pages.MENU_DEPRECIATIONS }
+    data: { pageKeyword: pages.MENU_DEPRECIATIONOPERATION }
     // //canActivate: [AuthGuard]
   },
   {
     path: "cyclecount",
     component: CycleCountPlanComponent,
-    data: { pageKeyword: pages.MENU_CYCLECOUNTPLANNIG }
+    data: { pageKeyword: pages.MENU_CYCLECOUNTPLANING }
+    // //canActivate: [AuthGuard]
+  },
+  {
+    path: "depreciationdetaillist",
+    component: DepreciationDetailListComponent,
+    data: { pageKeyword: pages.MENU_DEPRECIATIONDETAILLIST }
     // //canActivate: [AuthGuard]
   },
   {
