@@ -26,6 +26,8 @@ export class CycleCountTerminalComponent extends BaseComponent
 
   isStarted: boolean = false;
 
+  isSelectedPlanOrLocation:boolean = false;
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadCycleCountPlan();
@@ -34,7 +36,7 @@ export class CycleCountTerminalComponent extends BaseComponent
   ngOnInit() {}
 
   loadCycleCountPlan() {
-    this.baseService.cycleCountService.GetCycleCountPlanWithoutCancelPlan(
+    this.baseService.cycleCountService.GetCycleCountPlanWithoutCanceledPlan(
       (cyclecountplans: CycleCountPlan[]) => {
         this.cyclecountplans = cyclecountplans;
       },
@@ -80,10 +82,17 @@ export class CycleCountTerminalComponent extends BaseComponent
     );
   }
 
-  updateCycleCountPlanStatu(
-    cyclecountplan: CycleCountPlan,
-    startOrExit: boolean
-  ) {
+  updateCycleCountPlanStatu(cyclecountplan: CycleCountPlan, startOrExit: boolean) {
+
+    if(this.cyclecountplan.CycleCountPlanId==null && this.cyclecountplan.CycleCountPlanLocationId == null){
+      this.isSelectedPlanOrLocation = true;
+      this.isStarted = false;
+      return;
+    }
+    else
+      this.isSelectedPlanOrLocation = false;
+    
+
     switch (this.cyclecountstatus) {
       case 1:
         this.cyclecountplan.CycleCountStatusId = <number>(
@@ -101,11 +110,8 @@ export class CycleCountTerminalComponent extends BaseComponent
         );
     }
 
-    if (
-      startOrExit == false &&
-      this.cyclecountplan.CycleCountPlanId == null &&
-      this.cyclecountplan.CycleCountPlanLocationId == null
-    ) {
+    if (startOrExit == false && this.cyclecountplan.CycleCountPlanId == null && this.cyclecountplan.CycleCountPlanLocationId == null) 
+    {
       this.baseService.router.navigateByUrl("/dashboard");
       return;
     }
@@ -136,11 +142,12 @@ export class CycleCountTerminalComponent extends BaseComponent
 
     this.baseService.cycleCountService.MakeCycleCounting(
       cycleplan,
-      () => {
-
+      (cyclecount,message) => {
+        this.baseService.popupService.ShowSuccessPopup(message);
       },
-      () => {
-
+      (error: HttpErrorResponse) => {
+        /* Show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }

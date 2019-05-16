@@ -19,6 +19,8 @@ export abstract class BaseComponent implements OnInit {
 
   protected readonly PAGES = pages;
 
+  isTerminal:boolean = false;
+
   public Version: string = "6.0.100";
 
   public Languages: SystemLanguage[] = [{
@@ -72,6 +74,7 @@ export abstract class BaseComponent implements OnInit {
   }
 
   isLogged() {
+    this.isTerminal = true;
     return this.baseService.authenticationService.isLoggedIn();
   }
 
@@ -79,11 +82,6 @@ export abstract class BaseComponent implements OnInit {
     return this.baseService.authenticationService.isMenuAccessable(pageKeyword);
   }
 
-  isTerminalOperator(pageKeyword:string){
-    if(pageKeyword == 'cyclecountterminal')
-      return false;
-    return true;
-  }
 
   changeFirm(firmId: number) {
     let firm = this.baseService.authenticationService.Firms.find(x => x.FirmId == Number(firmId));
@@ -103,6 +101,7 @@ export abstract class BaseComponent implements OnInit {
   }
 
   pageRoute(key: string) {
+
     return this.baseService.authenticationService.pageRoute(key);
   }
 
@@ -111,8 +110,8 @@ export abstract class BaseComponent implements OnInit {
   }
 
   redirectToTerminal(page: string) {
+    this.isTerminal = true;
     this.baseService.router.navigateByUrl(page);
-    this.isTerminalOperator(page);
   }
 
   isNumeric(n) {

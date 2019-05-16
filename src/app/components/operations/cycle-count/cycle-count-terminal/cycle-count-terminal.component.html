@@ -32,7 +32,15 @@
             <label>Barkod</label>
             <input [(ngModel)]="cyclecountplan.Barcode" name="Barcode" id="Barcode" [disabled]="isStarted==false" autocomplete="off" (focusout)="makeCycleCounting()" type="text" class="form-control"/>         
           </div>
-       
+
+          <!-- alert -->
+          <div *ngIf="isSelectedPlanOrLocation == true" class="alert alert-solid-danger alert-custom" role="alert">
+            Lütfen sayım planı ve lokasyon seçiniz!
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">×</span></button>
+          </div>
+          <!-- alert -->
+
         <button class="btn btn-orange btn-block" id="btnFinishedCycleCount" type="button" (click)="updateCycleCountPlanStatu(cyclecountplan,true)">
              {{ isStarted == false ? 'Sayımı Başlat' : 'Sayımı Bitir'}} 
         </button>

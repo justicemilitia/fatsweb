@@ -1,15 +1,9 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-<<<<<<< HEAD
 //export const SERVICE_URL = "http://localhost:5000/api/";
 export const SERVICE_URL = "http://localhost:11889/api/";
 //export const SERVICE_URL = "http://dev.fatsapi.com/api/";
-=======
-export const SERVICE_URL = "http://localhost:5000/api/";
-//export const SERVICE_URL = "http://localhost:11889/api/";
-// export const SERVICE_URL = "http://dev.fatsapi.com/api/";
->>>>>>> 259e1fa1d2382bf8e096901509e1329654850067
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -304,6 +298,7 @@ export const UPDATE_CYCLE_COUNT_STATU = "CycleCountingStatus/UpdateCountingStatu
 export const GET_CYCLE_PLAN_STATU ="CycleCountingStatus/GetCyleCountingStatusByCountingPlanId";
 export const MAKE_COUNTING = "CycleCounting/MakeCounting";
 export const GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL="CycleCountingPlans/GetCountingPlansListWithoutDoneAndCancel"; 
+export const GET_CYCLE_COUNT_RESULT ="CycleCountingResults/GetCycleCountingResultsById";
 //#endregion
 
 //#region TransactionList
