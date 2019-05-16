@@ -135,7 +135,8 @@ import { DepreciationDetailListComponent } from './components/depreciation/depre
     FaEditFileComponent,
     DepreciationComponent,
     CycleCountPlanComponent,
-    CycleCountTerminalComponent
+    CycleCountTerminalComponent,
+    DepreciationDetailListComponent
   ],
   imports: [
     BrowserModule,
