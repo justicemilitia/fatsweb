@@ -11,7 +11,8 @@ import {
   GET_IFRSDEPRECIATIONLIST_BY_ID,
   CALCULATE_DEPRECIATION,
   CALCULATE_IFRSDEPRECIATION,
-  GET_FIXED_ASSET_DEPRECIATION_LIST
+  GET_FIXED_ASSET_DEPRECIATION_LIST,
+  GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -61,10 +62,45 @@ export class DepreciationService {
       );
   }
 
-  GetFilterList(fixedAsset: FixedAssetFilter, callback, failed){
+  GetDepreciationFilterList(fixedAsset: FixedAssetFilter, callback, failed){
     this.httpclient
     .post(
       SERVICE_URL + GET_FIXED_ASSET_DEPRECIATION_LIST, fixedAsset,
+      {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      }
+    )
+    .subscribe(
+      (result: any) => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let fixedAssets: FixedAsset[] = [];
+          (<FixedAsset[]>response.ResultObject).forEach(e => {
+            let fa: FixedAsset = new FixedAsset();
+            Object.assign(fa, e);
+            fixedAssets.push(fa);
+          });
+
+          callback(fixedAssets, result.TotalPage);
+
+
+          // Object.assign(fixedAssets, response.ResultObject);
+          // callback(<FixedAsset[]>result["ResultObject"]);
+          // success(response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
+
+  GetDepreciationIFRSFilterList(fixedAsset: FixedAssetFilter, callback, failed){
+    this.httpclient
+    .post(
+      SERVICE_URL + GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST, fixedAsset,
       {
         headers: GET_HEADERS(this.authenticationService.getToken())
       }

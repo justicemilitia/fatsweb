@@ -25,7 +25,8 @@ import {
   GET_FIXED_ASSET_DESCRIPTION,
   GET_FIXEDASSET_DEBIT_FORM,
   UPDATE_DEPRECIATION,
-  GET_DEPRECIATIONTYPE_LIST
+  GET_DEPRECIATIONTYPE_LIST,
+  GET_DASHBOARD_GUARANTEE_FIXED_ASSET_LIST
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -139,6 +140,31 @@ export class FixedAssetService {
           failed(error);
         }
       );
+  }
+
+  GetGuaranteeFixedAssetList(success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_DASHBOARD_GUARANTEE_FIXED_ASSET_LIST, 
+        {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let fixedAssets: FixedAsset[] = [];
+            (<FixedAsset[]>response.ResultObject).forEach(e => {
+              let fa: FixedAsset = new FixedAsset();
+              Object.assign(fa, e);
+              fixedAssets.push(fa);
+            });
+            success(fixedAssets, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        }, (error: HttpErrorResponse) => {
+          failed(error);
+        });
   }
 
   GetExitFixedAssetList(success, failed) {

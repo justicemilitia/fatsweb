@@ -11,6 +11,12 @@ import Morris, { ColorizeMorrisses } from 'src/app/models/MorrisModel';
 import FlotPie from 'src/app/models/FlotPie';
 import { GetTransactionIcon } from 'src/app/declarations/transaction-icons';
 import { GetDayOfWeekFromDayOfYear, GetMonthOfYearsLong } from 'src/app/declarations/date-values';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { convertNgbDateToDateString, convertDateToNgbDate, getToday } from "../../declarations/extends";
+import { FixedAsset } from '../../models/FixedAsset';
+import { FixedAssetComponent } from '../operations/fixed-asset/fixed-asset.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Page } from '../../extends/TreeGridTable/models/Page';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +34,13 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   personalValues: vGetDashboardPersonalInfo = new vGetDashboardPersonalInfo();
 
   countValues: any = {};
+  
+  fixedAssets: FixedAsset[] = [];
+  faComponent: FixedAssetComponent;
+  currentPage: number = 1;
+  perInPage: number = 25;
+  totalPage: number = 1;
+  pages: Page[] = [];
 
   totalPrices: any[] = [];
   totalPricesActiveGroup = 2;
@@ -268,6 +281,46 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     }, (result) => {
       // Error
     });
+  }
+
+  // onClickGuaranteeFixedAsset(){
+  //     /* Load all fixed asset cards to datatable */
+  //      this.baseService.fixedAssetService.GetGuaranteeFixedAssetList(
+  //       (fa: FixedAsset[]) => {
+  //         this.fixedAssets = fa;
+  //         fa.forEach((element: FixedAsset) => {
+  //         });
+  //         this.faComponent.dataTable.TGT_loadData(this.fixedAssets);
+  //       },
+  //       (error: HttpErrorResponse) => {
+  //         this.baseService.popupService.ShowErrorPopup(error);
+  //       }
+  //     );
+  // }
+
+  onClickGuaranteeFixedAsset() {
+
+    this.faComponent.dataTable.TGT_clearData();
+    this.faComponent.dataTable.isLoading = true;
+
+    this.baseService.fixedAssetService.GetGuaranteeFixedAssetList(
+      (fa: FixedAsset[], message: string) => {
+        this.fixedAssets = fa;
+
+        fa.forEach(e => {
+          e.FixedAssetPropertyDetails.forEach(p => {
+            if (p.FixedAssetCardPropertyId) {
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+            }
+          });
+        });
+        this.faComponent.dataTable.TGT_loadData(this.fixedAssets);
+        this.faComponent.TGT_calculatePages();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
 }
