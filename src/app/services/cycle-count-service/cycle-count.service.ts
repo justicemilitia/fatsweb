@@ -13,7 +13,8 @@ import {
   GET_CYCLE_COUNT_RESULT,
   CANCEL_CYCLE_COUNT_PLAN,
   GET_CYCLECOUNTPLAN_BY_PLAN_ID,
-  UPDATE_FIND_DIFFERENT_LOCATION
+  UPDATE_FIND_DIFFERENT_LOCATION,
+  UPDATE_NOTFOUND_FIXEDASSET
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -115,11 +116,7 @@ export class CycleCountService {
       );
   }
 
-  GetCycleCountResultNotFoundFixedAsset(
-    result: CycleCountResults,
-    success,
-    failed
-  ) {
+  GetCycleCountResultNotFoundFixedAsset(result: CycleCountResults, success, failed) {
     this.httpclient
       .post(SERVICE_URL + GET_CYCLE_COUNT_RESULT, result, {
         headers: GET_HEADERS(this.authenticationService.getToken())
@@ -210,7 +207,7 @@ export class CycleCountService {
     this.httpclient.post(SERVICE_URL + UPDATE_FIND_DIFFERENT_LOCATION, cycleCountPlan,{
       headers: GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(result=>{
-      let response:Response=new Response();
+      let response:Response=<Response>result;
       if(response.ResultStatus==true){
         success(response.LanguageKeyword);
       }else{
@@ -221,7 +218,20 @@ export class CycleCountService {
     });
   }
 
-
+  UpdateNotFoundFixedAsset(cycleCountPlan:CycleCountPlan,success,failed){
+    this.httpclient.post(SERVICE_URL + UPDATE_NOTFOUND_FIXEDASSET, cycleCountPlan,{
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result => {
+      let response:Response=<Response>result;
+      if(response.ResultStatus == true){
+        success(response.LanguageKeyword);
+      }else{
+        failed(getAnErrorResponse(response.LanguageKeyword));
+      }
+    },(error:HttpErrorResponse)=>{
+      failed(error);
+    });
+  }
   //#region CYCLE COUNT TERMINAL
 
   GetLocationByCycleCountPlanId(planId: number, success, failed) {

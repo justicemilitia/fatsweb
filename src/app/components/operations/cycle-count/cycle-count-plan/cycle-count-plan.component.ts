@@ -59,6 +59,12 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     DifferentLocationFixedAsset:3,
     NotRegisteredFixedAsset:4,
   }
+
+  cycleCountOperationEnums = {
+    cancelCycleCount:1,
+    lostFixedAsset:2,
+    updateLocation:3
+  }
   
   public dataTable: TreeGridTable = new TreeGridTable(
     "cyclecount",
@@ -350,7 +356,6 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadCycleCountPlanList();
-    this.loadLocationList();
 
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
@@ -512,6 +517,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     switch (key) {
       case "location":
     this.isLocationDropdownOpen = !this.isLocationDropdownOpen;  
+    this.loadLocationList();
 
     break;
       }
@@ -563,13 +569,27 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   loadCanceledCycleCountPlan(){
     let selectedItems = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems());
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
+      return;
+    }
+    else{
+
     this.dataTableCanceledPlan.TGT_loadData(selectedItems);   
+
+    $("#btnCanceledCycleCountPlan").trigger("click");
+    }  
   }
 
   CancelCycleCountPlan(){
     let cycleCountPlan:CycleCountPlan=new CycleCountPlan();
+
     let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
 
+ 
           cycleCountPlan.CycleCountPlanIds=selectedIds;         
 
           this.baseService.cycleCountService.CancelCyleCountPlan(cycleCountPlan,
@@ -589,7 +609,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
               /* Show error message */
               this.baseService.popupService.ShowErrorPopup(error);
             });   
-  }
+  
+}
 
   UpdateFindDifferentLocationsFixedassets(){
     let cycleCount:CycleCountResults=new CycleCountResults();
@@ -601,6 +622,11 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     });
      cycleCount.Barcodes = barcodes;
      //this.baseService.cycleCountService.UpdateFindDifferentLocationsFixedassets(cycleCount,()=>{},()=>{})
+  }
+
+  UpdateNotFoundFixedAsset(){
+
+
   }
 
   resetForm(data: NgForm, isNewItem: boolean) {
@@ -637,6 +663,20 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       this.lostFixedAssetButton=false;
       this.locationButton=false;
       this.loadCycleCountResult(this.perInPage,this.currentPage,4);
+    }
+  }
+
+  public doOperation(operationType: number) {
+    switch(operationType){
+      case this.cycleCountOperationEnums.cancelCycleCount:
+      this.loadCanceledCycleCountPlan();
+      break;
+      case this.cycleCountOperationEnums.lostFixedAsset:
+
+      break;
+      case this.cycleCountOperationEnums.updateLocation:
+
+      break;
     }
   }
 
