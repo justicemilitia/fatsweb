@@ -2,8 +2,8 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 // export const SERVICE_URL = "http://localhost:5000/api/";
-export const SERVICE_URL = "http://localhost:11889/api/";
-//export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+//export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -283,11 +283,13 @@ export const GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_LOCATIONS = "Dashboard/GetDashb
 export const GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_DEPARTMENTS = "Dashboard/GetDashboardFixedAssetCountByDepartment";
 export const GET_DASHBOARD_FIXED_ASSETS_COUNT_BY_CATEGORY = "Dashboard/GetDashboardFixedAssetCountByCategory";
 export const GET_DASHBOARD_FIXED_ASSETS_STATUS_COUNT = "Dashboard/GetDashboardFixedAssetsStatusCount";
+export const GET_DASHBOARD_GUARANTEE_FIXED_ASSET_LIST = "FixedAsset/GetFixedAssetsGuaranteeNotTheEndList";
 //#endregion
 
 //#region Depreciation
 export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
-export const GET_FIXED_ASSET_DEPRECIATION_LIST = "Depreciation/GetDepreciationFixedAssetsDetailsList"
+export const GET_FIXED_ASSET_DEPRECIATION_LIST = "Depreciation/GetDepreciationFixedAssetsDetailsList2"
+export const GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST = "Depreciation/GetDepreciationIFRSFixedAssetsDetailsList2"
 //#endregion
 
 //#region CycleCountPlan

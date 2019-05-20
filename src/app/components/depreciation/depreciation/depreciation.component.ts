@@ -13,6 +13,7 @@ import { Depreciation } from '../../../models/Depreciation';
 import { DepreciationIFRS } from '../../../models/DepreciationIFRS';
 import { FixedAssetFilter } from '../../../models/FixedAssetFilter';
 import { convertNgbDateToDateString } from '../../../declarations/extends';
+import { FixedAssetCardProperty } from '../../../models/FixedAssetCardProperty';
 
 @Component({
   selector: "app-depreciation",
@@ -52,6 +53,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   isExitList: boolean;
     /* Is Table Exporting */
     isTableExporting: boolean = false;
+    faProperties: FixedAssetCardProperty[] = [];
+    
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "depreciation",
@@ -300,6 +303,26 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     this.dataTableIFRSDepreciationDetail.isMultipleSelectedActive=false;    
   }
 
+  async loadFixedAssetProperties() {
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+        this.faProperties = faProperties;
+        this.faProperties.forEach(e => {
+          this.dataTable.dataColumns.push({
+            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
+            columnDisplayName: e.Name,
+            isActive: true,
+            type: "text"
+          });
+        });
+        this.dataTable.TGT_bindActiveColumns();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
   async TGT_calculatePages() {
     let items: Page[] = [];
     let totalPage = this.totalPage;
@@ -464,11 +487,6 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     );
   }
 
-  onSubmit(data: NgForm) {
-    if (data.form.invalid == true) return;
-    this.filterDepreciation(data);
-  }
-
   onSubmitDepreciation(dataDepreciation: NgForm) {
     this.updateAllDepreciation(dataDepreciation);
   }
@@ -585,42 +603,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     );
   }
 
-  async filterDepreciation(data: NgForm){
-    /* Is Form Valid */
-    if (data.form.invalid == true) return;
-
-    this.fixedAssetFilter.IsFilter = true;
-    this.fixedAssetFilter.Page = 1;
-    this.fixedAssetFilter.PerPage = 1000;
-
-    let cloneItem = new FixedAssetFilter();
-    Object.assign(cloneItem, this.fixedAssetFilter);
-
-    cloneItem.StartDate = data.value.depreciationStartDate == null ? null : convertNgbDateToDateString(data.value.depreciationStartDate);
-    cloneItem.EndDate = data.value.depreciationStartDate == null ? null : convertNgbDateToDateString(data.value.endDate);
-    cloneItem.WillDepreciationBeCalculated = data.value.WillDepreciationBeCalculated;
-    cloneItem.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
-    cloneItem.IsValid=this.isValid;
-
-    await this.baseService.depreciationService.GetFilterList(
-      cloneItem,
-      (fixedAssets: FixedAsset[],totalPage) => {
-
-        this.fixedAssets = fixedAssets;
-        this.dataTable.TGT_loadData(this.fixedAssets);
-        this.currentPage = 1;
-        this.perInPage = 1000;
-        this.totalPage = totalPage;
-        this.TGT_calculatePages();
-      },
-      (error: HttpErrorResponse) => {
-        /* Show alert message */
-        console.log(error);
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  };
-
+  
   loadDepreciationByFixedAssetId(){
 
     let selectedIds = (<FixedAsset[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());

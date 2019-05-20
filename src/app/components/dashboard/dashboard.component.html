@@ -99,7 +99,7 @@
                   <div id="flotChart3" class="flot-chart"></div>
                 </div><!-- chart-wrapper -->
               </div><!-- col -->
-              <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/fixedasset">
+              <div class="col-6 col-sm-4 col-lg fixed-asset-info" (click)="onClickGuaranteeFixedAsset()">
                 <label class="card-label">GARANTİLİ DEMİRBAŞLAR</label>
                 <h6 class="card-value">{{assetValues.GuaranteedFixedAssets}}</h6>
                 <div class="chart-wrapper">
