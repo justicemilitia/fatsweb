@@ -1,16 +1,16 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-export const SERVICE_URL = "http://localhost:5000/api/";
+// export const SERVICE_URL = "http://localhost:5000/api/";
 //export const SERVICE_URL = "http://localhost:11889/api/";
-// export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
 
-export const IMAGE_URL = "http://dev.fatsapi.com/"
+export const IMAGE_URL = "http://dev.fatsapi.com/";
 export const CRYPTO_KEY = "xOPecpi5elDQenHT";
 
 //#region Departments
@@ -296,11 +296,15 @@ export const GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST = "Depreciation/GetDepreciat
 export const GET_CYCLE_COUNT_PLAN_LIST ="CycleCountingPlans/GetCountingPlansList";
 export const INSERT_CYCLE_COUNT_PLAN ="CycleCountingPlans/AddCountingPlan";
 export const GET_LOCATION_BY_CYCLE_PLAN_ID ="CycleCounting/GetCycleCountingPlanLocationListById";
-export const UPDATE_CYCLE_COUNT_STATU = "CycleCountingStatus/UpdateCountingStatus";
+export const UPDATE_CYCLE_COUNT_STATU = "CycleCountingStatus/UpdateCountingPlanStatus";
 export const GET_CYCLE_PLAN_STATU ="CycleCountingStatus/GetCyleCountingStatusByCountingPlanId";
 export const MAKE_COUNTING = "CycleCounting/MakeCounting";
 export const GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL="CycleCountingPlans/GetCountingPlansListWithoutDoneAndCancel"; 
 export const GET_CYCLE_COUNT_RESULT ="CycleCountingResults/GetCycleCountingResultsById";
+export const CANCEL_CYCLE_COUNT_PLAN="CycleCountingStatus/CancelCountingStatus";
+export const GET_CYCLECOUNTPLAN_BY_PLAN_ID="CycleCountingPlans/GetCountingPlansByCycleCountPlanId";
+export const UPDATE_FIND_DIFFERENT_LOCATION ="CycleCountingResults/UpdateFindDifferentLocationsDuringTheCountingFixedassets";
+export const UPDATE_NOTFOUND_FIXEDASSET = "CycleCountingResults/UpdateNotFoundDuringTheCountingFixedassets";
 //#endregion
 
 //#region TransactionList

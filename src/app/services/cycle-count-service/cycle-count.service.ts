@@ -10,7 +10,10 @@ import {
   GET_CYCLE_PLAN_STATU,
   MAKE_COUNTING,
   GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL,
-  GET_CYCLE_COUNT_RESULT
+  GET_CYCLE_COUNT_RESULT,
+  CANCEL_CYCLE_COUNT_PLAN,
+  GET_CYCLECOUNTPLAN_BY_PLAN_ID,
+  UPDATE_FIND_DIFFERENT_LOCATION
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -21,8 +24,8 @@ import {
 } from "src/app/declarations/extends";
 import { CycleCountPlan } from "src/app/models/CycleCountPlan";
 import { Location } from "src/app/models/Location";
-import { CycleCountResults } from 'src/app/models/CycleCountResults';
-import { FixedAsset } from 'src/app/models/FixedAsset';
+import { CycleCountResults } from "src/app/models/CycleCountResults";
+import { FixedAsset } from "src/app/models/FixedAsset";
 
 @Injectable({
   providedIn: "root"
@@ -87,47 +90,57 @@ export class CycleCountService {
       );
   }
 
-  GetCycleCountResult(result:CycleCountResults, success, failed) {
+  GetCycleCountResult(result: CycleCountResults, success, failed) {
     this.httpclient
       .post(SERVICE_URL + GET_CYCLE_COUNT_RESULT, result, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
-      .subscribe((result : any)=>{
-        let response:Response=<Response>result;
-        if (response.ResultStatus == true) {
-        let cycleCountResults:CycleCountResults[]=[];
-        (<CycleCountResults[]>response.ResultObject).forEach(e=>{
-          let cycleCountResult:CycleCountResults=new CycleCountResults();
-          Object.assign(cycleCountResult,e);
-          cycleCountResults.push(cycleCountResult);
-        });
-        console.log(cycleCountResults);
-        success(cycleCountResults,result.TotalPage);
-      }
-      },(error:HttpErrorResponse)=>{
-        failed(error);
-      });
+      .subscribe(
+        (result: any) => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let cycleCountResults: CycleCountResults[] = [];
+            (<CycleCountResults[]>response.ResultObject).forEach(e => {
+              let cycleCountResult: CycleCountResults = new CycleCountResults();
+              Object.assign(cycleCountResult, e);
+              cycleCountResults.push(cycleCountResult);
+            });
+            console.log(cycleCountResults);
+            success(cycleCountResults, result.TotalPage);
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
   }
 
-  GetCycleCountResultNotFoundFixedAsset(result:CycleCountResults, success, failed) {
+  GetCycleCountResultNotFoundFixedAsset(
+    result: CycleCountResults,
+    success,
+    failed
+  ) {
     this.httpclient
       .post(SERVICE_URL + GET_CYCLE_COUNT_RESULT, result, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
-      .subscribe((result : any)=>{
-        let response:Response=<Response>result;
-        if (response.ResultStatus == true) {
-        let fixedAssets:FixedAsset[]=[];
-        (<FixedAsset[]>response.ResultObject).forEach(e=>{
-          let fixedAsset:FixedAsset=new FixedAsset();
-          Object.assign(fixedAsset,e);
-          fixedAssets.push(fixedAsset);
-        });
-        success(fixedAssets,result.TotalPage);
-      }
-      },(error:HttpErrorResponse)=>{
-        failed(error);
-      });
+      .subscribe(
+        (result: any) => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let fixedAssets: FixedAsset[] = [];
+            (<FixedAsset[]>response.ResultObject).forEach(e => {
+              let fixedAsset: FixedAsset = new FixedAsset();
+              Object.assign(fixedAsset, e);
+              fixedAssets.push(fixedAsset);
+            });
+            success(fixedAssets, result.TotalPage);
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
   }
 
   InsertCycleCountPlan(cycleCountPlan: CycleCountPlan, success, failed) {
@@ -151,6 +164,63 @@ export class CycleCountService {
         }
       );
   }
+
+  CancelCyleCountPlan(cycleCountPlan: CycleCountPlan, success, failed) {
+    this.httpclient
+      .post(SERVICE_URL + CANCEL_CYCLE_COUNT_PLAN, cycleCountPlan, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let insertedItem: CycleCountPlan = new CycleCountPlan();
+            Object.assign(insertedItem, response.ResultObject);
+            success(insertedItem, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  GetCycleCountPlanByPlanId(planId: number, success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_CYCLECOUNTPLAN_BY_PLAN_ID + "/" + planId, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(result => {
+        let response:Response=<Response>result;
+        if(response.ResultStatus==true){
+          let cyclePlan:CycleCountPlan=new CycleCountPlan();
+          Object.assign(cyclePlan,response.ResultObject);
+          success(cyclePlan,response.LanguageKeyword);
+        }else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      });
+  }
+
+  UpdateFindDifferentLocationsFixedassets(cycleCountPlan:CycleCountPlan,success,failed){
+    this.httpclient.post(SERVICE_URL + UPDATE_FIND_DIFFERENT_LOCATION, cycleCountPlan,{
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result=>{
+      let response:Response=new Response();
+      if(response.ResultStatus==true){
+        success(response.LanguageKeyword);
+      }else{
+        failed(getAnErrorResponse(response.LanguageKeyword));
+      }
+    },(error:HttpErrorResponse)=>{
+      failed(error);
+    });
+  }
+
 
   //#region CYCLE COUNT TERMINAL
 

@@ -10,15 +10,25 @@
           <div class="card-header" style="padding-bottom:0px;">
             <h2 class="az-content-title" style="margin-left:20px;">Sayım Planları</h2>
             <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
+              <div *ngIf="locationButton == true">
+                <button class="btn btn-az-primary btn-change-location" id="btnUpdateLocations" style="margin-right:10px"><i class="fas fa-map-marker-alt"></i></button>
+              </div>
+
+              <div *ngIf="lostFixedAssetButton == true">
+                <button class="btn btn-az-primary btn-lost-assets"  id="btnLostFixedAsset" style="margin-right:10px"><i class="fas fa-search-minus"></i></button>
+              </div>
+
                <div>
               <button class="btn btn-az-primary btn-create-assets" (click)="resetForm(data,true)" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
               data-target="#modalCycleCountPlan"><i class="fas fa-plus-circle"></i></button>
               </div>
+
               <div>
                 <button class="btn btn-danger btn-exit-assets" id="btnCanceledCycleCountPlan" (click)="loadCanceledCycleCountPlan()" style="margin-right:10px" data-toggle="modal"
                 data-target="#modalCanceledCycleCountPlan" title="Sayımı İptal Et"><i
                 class="fas fa-minus-circle"></i></button>
               </div>
+
               <div>
                 <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
                 data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
@@ -73,7 +83,7 @@
 
                   <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
                       <ng-template mat-tab-label>
-                        Sayımda Olup Envanterde Olmayanlar
+                        Sayımda Bulunamayanlar
                       </ng-template>     
                        <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                            <tree-grid-table [dataTable]="dataTableNotFoundFixedAsset">
@@ -132,6 +142,37 @@
                           <!-- END Pagination Side END -->
                            </div>              
                   </mat-tab>
+
+                  <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
+                    <ng-template mat-tab-label>
+                      Sistemde Kaydı Bulunmayanlar
+                    </ng-template>     
+                     <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                         <tree-grid-table [dataTable]="dataTableNotRegisteredFixedAsset">
+                         </tree-grid-table>
+                                                   <!-- Pagination Side -->
+                      <div class="table-pagination">
+                        <!-- Per In Page Select area -->
+                        <select class="table-pagination-select" (change)="loadCycleCountResult(perInPage,1,4)" [(ngModel)]="perInPage">
+                          <option *ngFor="let perIn of dataTableNotRegisteredFixedAsset.perInPages" value="{{perIn}}">{{perIn}}</option>
+                          <option value="1000">Hepsi</option>
+                        </select>
+                        <!-- END Per In Page Select area END -->
+                        <!-- Paginations -->
+                        <nav class="pagination-nav">
+                          <ul class="pagination">
+                            <ng-container *ngFor="let page of pages">
+                              <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                  (click)="loadCycleCountResult(perInPage,page.value,4)" class="page-link">{{page.display}}</button>
+                              </li>
+                            </ng-container>
+                          </ul>
+                        </nav>
+                        <!-- END Paginations END -->
+                      </div>
+                      <!-- END Pagination Side END -->
+                       </div>              
+              </mat-tab>
               </mat-tab-group>
            </div>
         </div>
@@ -156,7 +197,11 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
               <label>Sayım No</label>
-              <input [(ngModel)]="cycleCountPlan.CycleCountPlanNo" name="CycleCountPlanNo" type="text" trim="blur" class="form-control">
+              <input [(ngModel)]="cycleCountPlan.CycleCountPlanNo" name="CycleCountPlanNo" type="text" trim="blur"
+              #CycleCountPlanNo="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CycleCountPlanNo.invalid }" class="form-control" required>
+              <div *ngIf="data.submitted && CycleCountPlanNo.invalid" class="invalid-feedback">
+                <div *ngIf="CycleCountPlanNo.errors.required">Bu alan zorunludur.</div>             
+              </div>
             </div>
           </div> 
           <div class="row justify-content-center">       
@@ -188,16 +233,23 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
                 <label>Görev Adı</label>
-                <input [(ngModel)]="cycleCountPlan.TaskName" name="TaskName" type="text" trim="blur" class="form-control">
-           </div>
+                <input [(ngModel)]="cycleCountPlan.TaskName" name="TaskName" type="text" trim="blur" class="form-control"
+                #TaskName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && TaskName.invalid }" required>
+                <div *ngIf="data.submitted && TaskName.invalid" class="invalid-feedback">
+                  <div *ngIf="TaskName.errors.required">Bu alan zorunludur.</div>             
+                </div>
+              </div>
            <div class="form-group col-md-6">
             <div>
               <label style="margin-bottom: 0;
               font-weight: 700;" >Lokasyon</label>                
               <div style="display:flex;">
-              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyın seçildi" : "Seçiniz" }}</button>
-                <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
-              </div>                     
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyın seçildi" : "Seçiniz" }}</button>
+                <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>   
+              <div *ngIf="data.submitted && !selectedLocation" style="color:red">
+                <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
+              </div>                  
             </div>                 
             <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
                 <tree-grid-table  [dataTable]="dataTableLocation"></tree-grid-table>
@@ -232,7 +284,7 @@
     <div class="modal-content modal-content-demo">
 <div class="modal-header">
   <h6 class="modal-title">Uyarı!</h6>
-  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <button type="button" id="closePopup" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>

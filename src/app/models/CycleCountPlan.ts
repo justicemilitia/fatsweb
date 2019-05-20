@@ -20,6 +20,7 @@ export class CycleCountPlan implements IData{
     isChecked: boolean;
     isVisible: boolean;
 
+    CycleCountPlanIds:number[];
     CycleCountPlanLocationId:number;
     CycleCountPlanId:number;
     CycleCountPlanNo:string;

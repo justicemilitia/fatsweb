@@ -17,7 +17,6 @@ export class CycleCountResults implements IData{
     isExtended: boolean;
     isChecked: boolean;
     isVisible: boolean;
-
     
     CycleCountResultId:number;
     CycleCountPlanId:number;   
@@ -26,11 +25,14 @@ export class CycleCountResults implements IData{
     LocationName:string;
     LocationId:number;
     DepartmentId:number;
+    PlanLocation:string;
+    Barcodes:string[];
  
     UserId:number;
     CountDate:Date;
     NotFoundDuringTheCounting:boolean;
     ShowDifferentLocationsFixedAssets:boolean;
+    UnKnownBarcodeList:boolean;
     Page:number;
     PerPage:number;
     TotalCount:number;

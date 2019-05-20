@@ -22,6 +22,7 @@ import { CycleCountStatu } from 'src/app/declarations/cycle-count-statu';
   templateUrl: "./cycle-count-plan.component.html",
   styleUrls: ["./cycle-count-plan.component.css"]
 })
+
 export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   cycleCountPlans: CycleCountPlan[] = [];
 
@@ -43,6 +44,10 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   fixedAssets:FixedAsset[]=[];
 
+  locationButton:boolean=false;
+
+  lostFixedAssetButton:boolean=false;
+
   currentPage: number = 1;
   perInPage: number = 25;
   totalPage: number = 1;
@@ -51,7 +56,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   cycleCountListEnums = {
     CycleCountResult:1,
     NotFoundFixedAsset:2,
-    DifferentLocationFixedAsset:3
+    DifferentLocationFixedAsset:3,
+    NotRegisteredFixedAsset:4,
   }
   
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -170,7 +176,15 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.CountDate
+            ? value.CountDate.substring(0, 10)
+                .split("-")
+                .reverse()
+                .join("-")
+            : "";
+        }
       }  
     ],
     {
@@ -246,7 +260,41 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
+      },    
+      {
+        columnDisplayName: "Planlanan Lokasyon Adı",
+        columnName: ["PlanLocation"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
       }
+    ],
+    {
+      isDesc: false,
+      column: ["Barcode"]
+    }
+  );
+
+  public dataTableNotRegisteredFixedAsset: TreeGridTable = new TreeGridTable(
+    "notregisteredfixedasset",
+    [
+      {
+        columnDisplayName: "Barkod",
+        columnName: ["Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },  
+      {
+        columnDisplayName: "Lokasyon Adı",
+        columnName: ["Location", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      } 
     ],
     {
       isDesc: false,
@@ -314,6 +362,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     this.dataTableDifferenLocationFixedAsset.isPagingActive = false;
     this.dataTableNotFoundFixedAsset.isPagingActive = false;
     this.dataTableCycleCountDetail.isPagingActive = false;
+    this.dataTableNotRegisteredFixedAsset.isPagingActive=false;
 
     this.dataTableCanceledPlan.isPagingActive = false;
     this.dataTableCanceledPlan.isColumnOffsetActive = false;
@@ -380,15 +429,23 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       case this.cycleCountListEnums.CycleCountResult:
       cycleCountResult.NotFoundDuringTheCounting=false;
       cycleCountResult.ShowDifferentLocationsFixedAssets=false;
+      cycleCountResult.UnKnownBarcodeList=false;
       break; 
       case this.cycleCountListEnums.DifferentLocationFixedAsset:
       cycleCountResult.NotFoundDuringTheCounting=false;
       cycleCountResult.ShowDifferentLocationsFixedAssets=true;
+      cycleCountResult.UnKnownBarcodeList=false;
+      break;
+      case this.cycleCountListEnums.NotRegisteredFixedAsset:
+      cycleCountResult.NotFoundDuringTheCounting=false;
+      cycleCountResult.ShowDifferentLocationsFixedAssets=false;
+      cycleCountResult.UnKnownBarcodeList=true;
       break;
     }
 
     this.baseService.cycleCountService.GetCycleCountResult(cycleCountResult,
       (cycleCountResults:CycleCountResults[],totalPage:number)=>{
+
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTableCycleCountDetail.perInPage = _perInPage;
@@ -404,6 +461,9 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
           break;
           case this.cycleCountListEnums.DifferentLocationFixedAsset:
           this.dataTableDifferenLocationFixedAsset.TGT_loadData(this.cycleCountResult);
+          break;
+          case this.cycleCountListEnums.NotRegisteredFixedAsset:
+          this.dataTableNotRegisteredFixedAsset.TGT_loadData(this.cycleCountResult);
           break;
         }
    
@@ -451,10 +511,13 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   toggleDropdown(key:string) {
     switch (key) {
       case "location":
-    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;   
+    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;  
+
     break;
       }
   }
+
+  selectedLocation: Location[];
 
   onSubmit(data: NgForm) {
     if (this.cycleCountPlan.CycleCountPlanId == null) {
@@ -468,7 +531,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     Object.assign(willInsertItem, this.cycleCountPlan);
 
     this.isWaitingInsertOrUpdate = true;
-
+    this.selectedLocation=<[]>this.dataTableLocation.TGT_getSelectedItems();
     willInsertItem.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x=>x.getId());
     willInsertItem.StartTime=convertNgbDateToDateString(willInsertItem.StartTime);
     willInsertItem.EndTime=convertNgbDateToDateString(willInsertItem.EndTime);
@@ -486,7 +549,6 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         this.cycleCountPlans.push(willInsertItem);
 
         this.dataTable.TGT_loadData(this.cycleCountPlans);
-
 
         this.resetForm(data, true);
       },
@@ -508,54 +570,73 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     let cycleCountPlan:CycleCountPlan=new CycleCountPlan();
     let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
 
-    cycleCountPlan.CycleCountPlanId=selectedIds[0];
-    cycleCountPlan.CycleCountStatusId=CycleCountStatu.CANCELED;
+          cycleCountPlan.CycleCountPlanIds=selectedIds;         
 
-    if(selectedIds.length > 1){
-      this.baseService.popupService.ShowWarningPopup("Birden fazla sayım planı seçtiniz!");
-      return;
-    }
-          this.isWaitingInsertOrUpdate = true;
-          this.baseService.spinner.show();
-
-          this.baseService.cycleCountService.UpdateCycleCountStatu(cycleCountPlan,
-            (_cyclecountplan,message) => {
-
-              this.isWaitingInsertOrUpdate = false;
-              this.baseService.spinner.hide();
+          this.baseService.cycleCountService.CancelCyleCountPlan(cycleCountPlan,
+            (_cyclecountplan,message) => {   
+            
               this.baseService.popupService.ShowSuccessPopup(message);
 
               this.dataTable.TGT_updateData(cycleCountPlan);
+
+              this.dataTableCanceledPlan.TGT_clearData();
+
+              $('#closePopup').trigger('click');
             },
             (error: HttpErrorResponse) => {
-              this.baseService.spinner.hide();
+       
               this.isWaitingInsertOrUpdate = false;
               /* Show error message */
               this.baseService.popupService.ShowErrorPopup(error);
             });   
   }
-  
+
+  UpdateFindDifferentLocationsFixedassets(){
+    let cycleCount:CycleCountResults=new CycleCountResults();
+
+     let selectedId= (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
+     let barcodes = (<CycleCountPlan[]>this.dataTableDifferenLocationFixedAsset.TGT_getSelectedItems()).map(x=>x.Barcode);
+    selectedId.forEach(e=>{
+      cycleCount.CycleCountPlanId = e;
+    });
+     cycleCount.Barcodes = barcodes;
+     //this.baseService.cycleCountService.UpdateFindDifferentLocationsFixedassets(cycleCount,()=>{},()=>{})
+  }
+
   resetForm(data: NgForm, isNewItem: boolean) {
     if (isNewItem == true) {
       this.cycleCountPlan = new CycleCountPlan(); 
     }
     data.reset();
     data.resetForm(this.cycleCountPlan);
+    this.dataTableLocation.TGT_clearData();
   }
-
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     if (tabChangeEvent.index == 0) {
+      this.lostFixedAssetButton=false;
+      this.locationButton=false;
       this.loadCycleCountPlanList();
     } 
     else if (tabChangeEvent.index == 1) {
+      this.lostFixedAssetButton=false;
+      this.locationButton=false;
       this.loadCycleCountResult(this.perInPage,this.currentPage,1);
     }
     else if(tabChangeEvent.index == 2){
+      this.lostFixedAssetButton=true;
+      this.locationButton=false;
       this.loadCycleCountResultNotFoundFixedAsset(this.perInPage,this.currentPage);
     }
     else if(tabChangeEvent.index == 3){
+      this.lostFixedAssetButton=false;
+      this.locationButton=true;
       this.loadCycleCountResult(this.perInPage,this.currentPage,3);
+    }
+    else if(tabChangeEvent.index == 4){
+      this.lostFixedAssetButton=false;
+      this.locationButton=false;
+      this.loadCycleCountResult(this.perInPage,this.currentPage,4);
     }
   }
 
