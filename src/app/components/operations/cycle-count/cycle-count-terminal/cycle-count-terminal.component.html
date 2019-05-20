@@ -6,11 +6,11 @@
     </div>
     <div class="az-signin-header">
       <!-- form-group -->
-      <form #data="ngForm" (ngSubmit)="updateCycleCountPlanStatu(data)" novalidate>
+      <form #data="ngForm"  novalidate>
 
           <div class="form-group">
               <label>Sayım Planı</label>
-              <select [(ngModel)]="cyclecountplan.CycleCountPlanIds" name="CycleCountPlanIds" class="form-control" (change)="loadLocationByCycleCountPlanId($event)">
+              <select [(ngModel)]="cyclecountplan.CycleCountPlanId" name="CycleCountPlanId" class="form-control" (change)="loadLocationByCycleCountPlanId($event)">
                 <option [ngValue]="null">Yok</option>
                 <option *ngFor="let plan of cyclecountplans" value="{{ plan.CycleCountPlanId }}">
                   {{ plan.CycleCountPlanNo +" - "+ plan.TaskName }}
@@ -30,13 +30,30 @@
 
           <div class="form-group">
             <label>Barkod</label>
-            <input [(ngModel)]="cyclecountplan.Barcode" name="Barcode" id="Barcode" [disabled]="isStarted==false" autocomplete="off" (focusout)="makeCycleCounting()" type="text" class="form-control"/>         
+            <input [(ngModel)]="cyclecountplan.Barcode" name="Barcode" id="Barcode" [disabled]="isStarted==false" autocomplete="off" (keyup)="onCountingKeyUp($event)" type="text" class="form-control"/>         
+       
           </div>
 
           <!-- alert -->
           <div *ngIf="isSelectedPlanOrLocation == true" class="alert alert-solid-danger alert-custom" role="alert">
             Lütfen sayım planı ve lokasyon seçiniz!
             <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">×</span></button>
+          </div>
+          <!-- alert -->
+
+          <!-- alert -->
+          <div *ngIf="errorMessage != ''" class="alert alert-solid-danger alert-custom" role="alert">
+            {{errorMessage}}
+            <button type="button" (click)="resetAlert($event)" class="close" data-dismiss="alert">
+              <span aria-hidden="true">×</span></button>
+          </div>
+          <!-- alert -->
+
+          <!-- alert -->
+          <div *ngIf="succesMessage != ''" class="alert alert-solid-success" role="alert">
+            {{succesMessage}}
+            <button type="button" (click)="resetAlert($event)" class="close" data-dismiss="alert">
               <span aria-hidden="true">×</span></button>
           </div>
           <!-- alert -->

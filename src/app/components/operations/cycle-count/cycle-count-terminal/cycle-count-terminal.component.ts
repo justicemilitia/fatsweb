@@ -6,6 +6,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
 import { CycleCountStatu } from "src/app/declarations/cycle-count-statu";
 import { CycleCountStatus } from "src/app/models/CycleCountStatus";
+import { getAnErrorResponse } from 'src/app/declarations/extends';
 
 @Component({
   selector: "app-cycle-count-terminal",
@@ -28,6 +29,16 @@ export class CycleCountTerminalComponent extends BaseComponent
 
   isSelectedPlanOrLocation:boolean = false;
 
+  isBarcodeRead:boolean=false;
+
+  addCycleCounting:boolean=false;
+
+  cycleCountingContinue:boolean=false;
+
+  errorMessage: string = '';
+  
+  succesMessage: string = '';
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadCycleCountPlan();
@@ -49,6 +60,7 @@ export class CycleCountTerminalComponent extends BaseComponent
   loadLocationByCycleCountPlanId(event: any) {
     this.locations = [];
 
+    this.isStarted = false;
     /* if value is empty return to prevent error */
     if (!event.target.value || event.target.value == "") {
       this.cyclecountplan.CycleCountPlanId = null;
@@ -64,7 +76,7 @@ export class CycleCountTerminalComponent extends BaseComponent
         },
         (error: HttpErrorResponse) => {
           /* show error pop up */
-          this.baseService.popupService.ShowErrorPopup(error);
+          this.errorMessage = getAnErrorResponse(error.statusText).statusText;
         }
       );
 
@@ -77,6 +89,8 @@ export class CycleCountTerminalComponent extends BaseComponent
       planId,
       (cyclecountplan: CycleCountPlan) => {
         this.cyclecountstatus = cyclecountplan.CycleCountStatusId;
+        if(this.cyclecountstatus == <number>(CycleCountStatu.CONTINUED))
+          this.isStarted = true;
       },
       (error: HttpErrorResponse) => {}
     );
@@ -84,56 +98,65 @@ export class CycleCountTerminalComponent extends BaseComponent
 
   updateCycleCountPlanStatu(cyclecountplan: CycleCountPlan, startOrExit: boolean) {
 
-    if(this.cyclecountplan.CycleCountPlanIds == null && this.cyclecountplan.CycleCountPlanLocationId == null){
-      this.isSelectedPlanOrLocation = true;
-      this.isStarted = false;
-      return;
-    }
+    if(startOrExit==true)
+    this.cycleCountingContinue=true;
     else
-      this.isSelectedPlanOrLocation = false;
-    
+    this.cycleCountingContinue=false;
 
-    switch (this.cyclecountstatus) {
-      case 1:
-        this.cyclecountplan.CycleCountStatusId = <number>(
-          CycleCountStatu.CONTINUED
-        );
-        break;
-      case 5:
-        this.cyclecountplan.CycleCountStatusId = <number>(
-          CycleCountStatu.FINISHED
-        );
-        break;
-      case 4:
-        this.cyclecountplan.CycleCountStatusId = <number>(
-          CycleCountStatu.CONTINUED
-        );
-    }
-
-    if (startOrExit == false && this.cyclecountplan.CycleCountPlanIds == null && this.cyclecountplan.CycleCountPlanLocationId == null) 
+    if (this.cycleCountingContinue == false && this.cyclecountplan.CycleCountPlanId == null && this.cyclecountplan.LocationId == null) 
     {
       this.baseService.router.navigateByUrl("/dashboard");
       return;
     }
     
-    let Ids:number[] = [];
-    Object.assign(Ids,this.cyclecountplan.CycleCountPlanIds);
-    this.cyclecountplan.CycleCountPlanIds=Ids;
+    if(this.cyclecountplan.CycleCountPlanId != null && this.cyclecountplan.LocationId != null){
+      this.isSelectedPlanOrLocation = false;
+    }
+    else{
+      this.isSelectedPlanOrLocation = true;
+      this.isStarted = false;  
+      return;
+    }
+
+    switch (this.cyclecountstatus) {
+      case 1:
+        this.cyclecountplan.CycleCountStatusId = <number>(
+          CycleCountStatu.CONTINUED);
+        break;
+      case 5:
+      if(startOrExit == true){
+        this.cyclecountplan.CycleCountStatusId = <number>(
+          CycleCountStatu.FINISHED);
+        this.resetForm();
+      }
+        else
+        this.cyclecountplan.CycleCountStatusId = <number>(
+          CycleCountStatu.STOPPED);
+      break;
+      case 4:
+        this.cyclecountplan.CycleCountStatusId = <number>(
+          CycleCountStatu.CONTINUED);
+      break;
+    }
+
+  
 
     this.baseService.cycleCountService.UpdateCycleCountStatu(
       this.cyclecountplan,
-      (cyclecountplan, message) => {
+      (cyclecountplan : CycleCountPlan, message) => {
         /* Show pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
 
         this.isStarted = true;
 
         if (startOrExit == false)
-          this.baseService.router.navigateByUrl("/dashboard");
+          this.baseService.router.navigateByUrl("/dashboard");        
+
+        this.cyclecountstatus = cyclecountplan.CycleCountStatusId;
       },
       (error: HttpErrorResponse) => {
         /* Show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
+        this.errorMessage = getAnErrorResponse(error.statusText).statusText;
       }
     );
   }
@@ -141,18 +164,41 @@ export class CycleCountTerminalComponent extends BaseComponent
   makeCycleCounting() {
 
     let cycleplan:CycleCountPlan=new CycleCountPlan();
+    if(this.cyclecountplan.Barcode == null){     
+      this.errorMessage = "Barkod Okunamadı"
+      return;
+    }
 
     Object.assign(cycleplan,this.cyclecountplan);
 
     this.baseService.cycleCountService.MakeCycleCounting(
       cycleplan,
       (cyclecount,message) => {
-        this.baseService.popupService.ShowSuccessPopup(message);
+        this.succesMessage = message;
+        this.isBarcodeRead = false;
+        this.addCycleCounting = true;
       },
       (error: HttpErrorResponse) => {
         /* Show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
+        this.errorMessage = getAnErrorResponse(error.statusText).statusText;
       }
     );
+  }
+
+  onCountingKeyUp(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      this.makeCycleCounting();
+    }
+  };
+
+  resetAlert(event){
+    this.succesMessage='';
+    this.errorMessage ='';
+  }
+
+  resetForm(){
+    this.isStarted=false;
+    this.cyclecountplan=new CycleCountPlan();
   }
 }

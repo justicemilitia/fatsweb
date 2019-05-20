@@ -25,11 +25,14 @@ export class CycleCountResults implements IData{
     LocationName:string;
     LocationId:number;
     DepartmentId:number;
+    PlanLocation:string;
+    Barcodes:string[];
  
     UserId:number;
     CountDate:Date;
     NotFoundDuringTheCounting:boolean;
     ShowDifferentLocationsFixedAssets:boolean;
+    UnKnownBarcodeList:boolean;
     Page:number;
     PerPage:number;
     TotalCount:number;
