@@ -23,11 +23,16 @@
                   [class.btn-refresh-loader]="isTableRefreshing == true"></i>
               </button>
   
-              <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddConsumableCategory"
+              <button class="btn btn-az-primary"  id="btnAddConsumableCategory"
                 data-toggle="modal" data-target="#modalConsumableCategory" (click)="resetForm(data,true)">Kategori
                 Ekle
               </button>
   
+              <button style="display:none" id="btnEditConsumableCategory"
+              data-toggle="modal" data-target="#modalConsumableCategory" (click)="resetForm(data,false)">Kategori
+              Düzenle
+            </button>
+
             </div>
           </div>
           <div class="sales-overview">
