@@ -15,16 +15,20 @@
               </div>
 
               <div *ngIf="lostFixedAssetButton == true">
-                <button class="btn btn-az-primary btn-lost-assets"  id="btnLostFixedAsset" style="margin-right:10px"><i class="fas fa-search-minus"></i></button>
+                <button class="btn btn-az-primary btn-lost-assets" (click)="doOperation(2)" style="margin-right:10px"><i class="fas fa-search-minus"></i></button>
+
+                <button class="btn btn-az-primary btn-lost-assets" data-toggle="modal" data-target="#modalLostFixedAsset" id="btnLostFixedAsset" style="display:none; margin-right:10px"><i class="fas fa-search-minus"></i></button>
               </div>
 
                <div>
               <button class="btn btn-az-primary btn-create-assets" (click)="resetForm(data,true)" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
               data-target="#modalCycleCountPlan"><i class="fas fa-plus-circle"></i></button>
               </div>
-
               <div>
-                <button class="btn btn-danger btn-exit-assets" id="btnCanceledCycleCountPlan" (click)="loadCanceledCycleCountPlan()" style="margin-right:10px" data-toggle="modal"
+                <button class="btn btn-danger btn-exit-assets" (click)="doOperation(1)" style="margin-right:10px" title="Sayımı İptal Et"><i
+                class="fas fa-minus-circle"></i></button>
+
+                <button class="btn btn-danger btn-exit-assets" id="btnCanceledCycleCountPlan" style="display:none; margin-right:10px" data-toggle="modal"
                 data-target="#modalCanceledCycleCountPlan" title="Sayımı İptal Et"><i
                 class="fas fa-minus-circle"></i></button>
               </div>
@@ -172,7 +176,7 @@
                       </div>
                       <!-- END Pagination Side END -->
                        </div>              
-              </mat-tab>
+                  </mat-tab>
               </mat-tab-group>
            </div>
         </div>
@@ -245,7 +249,7 @@
               font-weight: 700;" >Lokasyon</label>                
               <div style="display:flex;">
               <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyın seçildi" : "Seçiniz" }}</button>
-                <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span>
+                <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
               </div>   
               <div *ngIf="data.submitted && !selectedLocation" style="color:red">
                 <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
@@ -304,6 +308,35 @@
     <div class="modal-footer">
         <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">Hayır</button>        
         <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="CancelCycleCountPlan()" style="padding: 5px 20px;">Evet</button>
+      <!-- <button class="btn btn-az-primary " data-dismiss="modal" style="width:150px; " data-toggle="modal" data-target="#modalLostFixedAsset">Evet</button> -->
+    </div>
+</form>
+</div>
+</div>
+<!-- modal-dialog -->
+</div>
+
+<div id="modalLostFixedAsset" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+<div class="modal-header">
+  <h6 class="modal-title">Uyarı!</h6>
+  <button type="button" id="closePopup" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="form" #data="ngForm" (ngSubmit)="lostFixedAsset(data)">
+    <div class="modal-body">
+      <div>
+        <p style="width:500px;">Seçili demirbaşlar kayıp olarak işaretlenecektir. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+      </div>
+      <br>
+    </div>
+
+    <!-- modal-body -->
+    <div class="modal-footer">
+        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">Hayır</button>        
+        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="UpdateNotFoundFixedAsset()" style="padding: 5px 20px;">Evet</button>
       <!-- <button class="btn btn-az-primary " data-dismiss="modal" style="width:150px; " data-toggle="modal" data-target="#modalLostFixedAsset">Evet</button> -->
     </div>
 </form>
