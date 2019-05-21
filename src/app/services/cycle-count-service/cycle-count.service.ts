@@ -218,7 +218,7 @@ export class CycleCountService {
     });
   }
 
-  UpdateNotFoundFixedAsset(cycleCountPlan:CycleCountPlan,success,failed){
+  UpdateNotFoundFixedAsset(cycleCountPlan:CycleCountResults,success,failed){
     this.httpclient.post(SERVICE_URL + UPDATE_NOTFOUND_FIXEDASSET, cycleCountPlan,{
       headers: GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(result => {
@@ -232,6 +232,8 @@ export class CycleCountService {
       failed(error);
     });
   }
+
+
   //#region CYCLE COUNT TERMINAL
 
   GetLocationByCycleCountPlanId(planId: number, success, failed) {

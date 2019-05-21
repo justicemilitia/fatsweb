@@ -567,6 +567,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     );
   }
 
+  
+
   loadCanceledCycleCountPlan(){
     let selectedItems = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems());
 
@@ -626,7 +628,30 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   UpdateNotFoundFixedAsset(){
 
+    let result:CycleCountResults=new CycleCountResults();
 
+    let selectedItems = (<CycleCountResults[]>this.dataTableNotFoundFixedAsset.TGT_getSelectedItems()).map(x=>x.Barcode);
+
+    let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
+    result.Barcodes = selectedItems;
+    result.CycleCountPlanId = selectedIds[0];
+
+    this.baseService.cycleCountService.UpdateNotFoundFixedAsset(result,()=>{},()=>{})
+
+  }
+
+  NotFoundFixedAsset(){
+    let selectedItems = this.dataTableNotFoundFixedAsset.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
+      return;
+    }
+
+    $("#btnLostFixedAsset").trigger("click");
+    
   }
 
   resetForm(data: NgForm, isNewItem: boolean) {
@@ -672,7 +697,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       this.loadCanceledCycleCountPlan();
       break;
       case this.cycleCountOperationEnums.lostFixedAsset:
-
+        this.NotFoundFixedAsset();
       break;
       case this.cycleCountOperationEnums.updateLocation:
 
