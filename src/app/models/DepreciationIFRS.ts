@@ -1,6 +1,7 @@
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { FixedAsset } from './FixedAsset';
 import { DepreciationCalculationType } from './DepreciationCalculationType';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export class DepreciationIFRS implements IData {
     getParentId(): number {
@@ -31,4 +32,5 @@ export class DepreciationIFRS implements IData {
     IsValid: boolean;
     // DecreciationCalculationType: DepreciationCalculationType[];
     FixedAssets: FixedAsset[];
+    TargetDate: NgbDate;    
 }

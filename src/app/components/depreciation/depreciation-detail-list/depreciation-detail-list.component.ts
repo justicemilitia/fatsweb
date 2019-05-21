@@ -1001,7 +1001,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
 
        
 
-        this.dataTable.TGT_loadData(this.fixedAssets);
+        this.dataTableIFRS.TGT_loadData(this.fixedAssets);
         this.currentPage = 1;
         this.perInPage = 1000;
         this.totalPage = totalPage;
@@ -1029,6 +1029,26 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
           });
         });
         this.dataTable.TGT_bindActiveColumns();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  async loadFixedAssetPropertiesIFRS() {
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+        this.faProperties = faProperties;
+        this.faProperties.forEach(e => {
+          this.dataTableIFRS.dataColumns.push({
+            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
+            columnDisplayName: e.Name,
+            isActive: true,
+            type: "text"
+          });
+        });
+        this.dataTableIFRS.TGT_bindActiveColumns();
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -1126,7 +1146,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     else if(tabChangeEvent.index==1){
       this.totalDepreciationIFRSValues(this.today());      
       this.loadDepreciationIFRSList();
-      this.loadFixedAssetProperties();
+      this.loadFixedAssetPropertiesIFRS();
 
       this.isDepreciationList=false;
       this.isDepreciationIFRSList=true;
@@ -1165,6 +1185,14 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
        this.baseService.popupService.ShowErrorPopup(error);
      }
    );
- }
+  }
 
+  isExitFixedAsset(event){
+    if(event.target.checked==true){
+      this.isValid=false;
+    }
+    else{
+      this.isValid=true;
+    }
+  }
 }

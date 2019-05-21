@@ -33,6 +33,9 @@ import { DepreciationComponent } from './components/depreciation/depreciation/de
 import { CycleCountPlanComponent } from './components/operations/cycle-count/cycle-count-plan/cycle-count-plan.component';
 import { CycleCountTerminalComponent } from './components/operations/cycle-count/cycle-count-terminal/cycle-count-terminal.component';
 import { DepreciationDetailListComponent } from './components/depreciation/depreciation-detail-list/depreciation-detail-list.component';
+import { ConsumableCardComponent } from './components/consumable/consumable-card/consumable-card.component';
+import { ConsumableCategoryComponent } from './components/consumable/consumable-category/consumable-category.component';
+import { ConsumableUnitComponent } from './components/consumable/consumable-unit/consumable-unit.component';
 
 export const routes: Routes = [
   {
@@ -215,8 +218,20 @@ export const routes: Routes = [
     // //canActivate: [AuthGuard]
   },
   {
-    path: "cyclecountterminal",
-    component: CycleCountTerminalComponent,
+    path: "consumablecard",
+    component: ConsumableCardComponent,
+    data: { pageKeyword: pages.MENU_TERMINAL }
+    // //canActivate: [AuthGuard]
+  },
+  {
+    path: "consumablecategory",
+    component: ConsumableCategoryComponent,
+    data: { pageKeyword: pages.MENU_TERMINAL }
+    // //canActivate: [AuthGuard]
+  },
+  {
+    path: "consumableunit",
+    component: ConsumableUnitComponent,
     data: { pageKeyword: pages.MENU_TERMINAL }
     // //canActivate: [AuthGuard]
   }
