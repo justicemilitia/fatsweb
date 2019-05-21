@@ -1,9 +1,15 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
+<<<<<<< HEAD
 // export const SERVICE_URL = "http://localhost:5000/api/";
 export const SERVICE_URL = "http://localhost:11889/api/";
 //export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+=======
+export const SERVICE_URL = "http://localhost:5000/api/";
+//export const SERVICE_URL = "http://localhost:11889/api/";
+// export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+>>>>>>> b5aa27910a681996178c396077333687d407797a
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -87,6 +93,8 @@ export const CALCULATE_IFRSDEPRECIATION = "DepreciationIFRS/CalculateFixedAssetD
 export const GET_DEPRECIATIONTYPE_LIST = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
 export const GET_DEPRECIATIONLIST_BY_ID="Depreciation/GetDepreciationListbyFixedAssetId";
 export const GET_IFRSDEPRECIATIONLIST_BY_ID="DepreciationIFRS/GetDepreciationIFRSListbyFixedAssetId";
+export const DEPRECIATION_TOTAL_VALUES = "Depreciation/GetDepreciationIFRSTotals";
+export const IFRS_DEPRECIATION_TOTAL_VALUES = "Depreciation/GetDepreciationTotals";
 //#endregion
 
 //#region FixedAssetDebit

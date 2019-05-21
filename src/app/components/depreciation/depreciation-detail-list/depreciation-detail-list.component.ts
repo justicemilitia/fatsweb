@@ -831,6 +831,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     super(baseService);
     this.loadDepreciationList();
     this.loadFixedAssetProperties();
+
+    this.totalDepreciationValues(this.today());
   }
 
   async  TGT_calculatePages() {
@@ -921,14 +923,14 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
   ngOnInit() {
   }
 
-  onSubmitDepreciationFilter(data: NgForm) {
-    if (data.form.invalid == true) return;
-    this.filterDepreciation(data);
+  onSubmitDepreciationFilter(dataDepreciationFilter: NgForm) {
+    if (dataDepreciationFilter.form.invalid == true) return;
+    this.filterDepreciation(dataDepreciationFilter);
   }
 
-  onSubmitDepreciationIFRSFilter(data: NgForm) {
-    if (data.form.invalid == true) return;
-    this.filterDepreciationIFRS(data);
+  onSubmitDepreciationIFRSFilter(dataDepreciationIFRSFilter: NgForm) {
+    if (dataDepreciationIFRSFilter.form.invalid == true) return;
+    this.filterDepreciationIFRS(dataDepreciationIFRSFilter);
   }
 
   loadDepreciationList(){
@@ -1060,6 +1062,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         this.perInPage = 1000;
         this.totalPage = totalPage;
         this.TGT_calculatePages();
+        this.totalDepreciationValues(cloneItem.Date);
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -1113,17 +1116,55 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     let selectedItems= this.dataTable.TGT_getSelectedItems();
     
     if(tabChangeEvent.index==0){
+      this.totalDepreciationValues(this.today());
       this.loadDepreciationList();
       this.loadFixedAssetProperties();
+      
       this.isDepreciationList=true;
       this.isDepreciationIFRSList=false;
     } 
     else if(tabChangeEvent.index==1){
+      this.totalDepreciationIFRSValues(this.today());      
       this.loadDepreciationIFRSList();
       this.loadFixedAssetProperties();
+
       this.isDepreciationList=false;
       this.isDepreciationIFRSList=true;
     }
   }
+
+   totalDepreciationValues(date:NgbDate){
+     this.baseService.depreciationService.DepreciationTotalValues(date,
+      (totalValues: any[],totalPage) => {
+
+        this.totalAccumulatedValue = totalValues == null ? null : totalValues[0].TotalAccumulatedValue;
+        this.totalNddValue = totalValues == null ? null : totalValues[0].TotalNDDValue;
+        this.totalDepreciationMonthlyValue = totalValues == null ? null : totalValues[0].TotalValue;
+        this.totalRevaluatedValue = totalValues == null ? null : totalValues[0].TotalRevaluatedValue;
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        console.log(error); 
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  totalDepreciationIFRSValues(date:NgbDate){
+    this.baseService.depreciationService.DepreciationIFRSTotalValues(date,
+     (totalValues: any[],totalPage) => {
+
+       this.totalAccumulatedValue = totalValues == null ? null : totalValues[0].TotalAccumulatedValue;
+       this.totalNddValue = totalValues == null ? null : totalValues[0].TotalNDDValue;
+       this.totalDepreciationMonthlyValue = totalValues == null ? null : totalValues[0].TotalValue;
+       this.totalRevaluatedValue = totalValues == null ? null : totalValues[0].TotalRevaluatedValue;
+     },
+     (error: HttpErrorResponse) => {
+       /* Show alert message */
+       console.log(error); 
+       this.baseService.popupService.ShowErrorPopup(error);
+     }
+   );
+ }
 
 }
