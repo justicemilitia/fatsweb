@@ -235,6 +235,9 @@ export class DepreciationService {
   
   DepreciationIFRSTotalValues(date: NgbDate, success, failed){
 
+    let dep = new DepreciationIFRS();
+    dep.TargetDate =convertNgbDateToDateString(date);
+
     this.httpclient
     .post(
       SERVICE_URL + IFRS_DEPRECIATION_TOTAL_VALUES, date, {
@@ -244,8 +247,7 @@ export class DepreciationService {
       result => {
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
-          let totalIFRSValues: any;
-          success(totalIFRSValues, response.LanguageKeyword);
+          success(response.ResultObject, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }

@@ -35,3 +35,6 @@ export const MENU_DEPRECIATIONDETAILLIST="Menu_DepreciationDetailList";
 export const  MENU_DEPRECIATIONOPERATION= "Menu_DepreciationOperation"
 // export const MENU_USERSETTINGS="Menu_UserSettings";
 export const MENU_TERMINAL = "Menu_CycleCountTerminal";
+export const MENU_CONSUMABLECARD = "Menu_ConsumableCard";
+export const MENU_CONSUMABLECATEGORY = "Menu_ConsumableCategory";
+export const MENU_CONSUMABLEUNIT = "Menu_ConsumableUnit";

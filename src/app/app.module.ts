@@ -77,6 +77,9 @@ import { FaEditFileComponent } from './components/operations/fixed-asset/fa-edit
 import { CycleCountPlanComponent } from './components/operations/cycle-count/cycle-count-plan/cycle-count-plan.component';
 import { CycleCountTerminalComponent } from './components/operations/cycle-count/cycle-count-terminal/cycle-count-terminal.component';
 import { DepreciationDetailListComponent } from './components/depreciation/depreciation-detail-list/depreciation-detail-list.component';
+import { ConsumableCardComponent } from './components/consumable/consumable-card/consumable-card.component';
+import { ConsumableCategoryComponent } from './components/consumable/consumable-category/consumable-category.component';
+import { ConsumableUnitComponent } from './components/consumable/consumable-unit/consumable-unit.component';
 
 @NgModule({
   declarations: [
@@ -136,7 +139,10 @@ import { DepreciationDetailListComponent } from './components/depreciation/depre
     DepreciationComponent,
     CycleCountPlanComponent,
     CycleCountTerminalComponent,
-    DepreciationDetailListComponent
+    DepreciationDetailListComponent,
+    ConsumableCardComponent,
+    ConsumableCategoryComponent,
+    ConsumableUnitComponent
   ],
   imports: [
     BrowserModule,

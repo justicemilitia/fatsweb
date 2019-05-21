@@ -37,6 +37,10 @@ import { FixedAssetCreateService } from './fixed-asset-create-service/fixed-asse
 import { ActivatedRoute } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { CycleCountService } from './cycle-count-service/cycle-count.service';
+import { ConsumableCategoryService } from './consumable-category-service/consumable-category.service';
+import { ConsumableCard } from '../models/ConsumableCard';
+import { ConsumableCardService } from './consumable-card-service/consumable-card.service';
+import { ConsumableUnitService } from './consumable-card-service/consumable-unit.service';
 
 @Injectable({
   providedIn: "root"
@@ -55,6 +59,9 @@ export class BaseService {
     public fixedAssetCardCategoryService: FixedAssetCardCategoryService,
     public fixedAssetCardService: FixedAssetCardService,
     public fixedAssetCardPropertyService: FixedAssetCardPropertyService,
+    public consumableCategoryService : ConsumableCategoryService,
+    public consumableCardService: ConsumableCardService,
+    public consumableUnitService: ConsumableUnitService,
     public popupService: PopupService,
     public errorService: ErrorService,
     public expenseCenterService: ExpenseCenterService,

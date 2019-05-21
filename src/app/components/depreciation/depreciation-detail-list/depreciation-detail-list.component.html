@@ -17,15 +17,19 @@
                     <legend>Toplam Değerler</legend>        
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="col-md-12" style="padding-left:0px;">                       
+                            <div class="row">                          
+                            <div class="col-md-5">                       
                                 <label><b>Toplam Birikmiş Değer:</b></label>                                            
-                                <span style="margin-left:20px;">{{ totalAccumulatedValue }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span>{{ totalDepreciationMonthlyValue }}</span>
+                              </div>
                             </div>
                         </div> 
 
                       <div class="col-md-6">
                           <div class="row">
-                              <div class="form-group col-md-6">
+                              <div class="form-group col-md-4">
                                 <label>Toplam Net Defter Değeri:</label>
                               </div>
                               <div class="col-md-6">
@@ -37,7 +41,7 @@
                     <div class="row">
                       <div class="col-md-6">
                           <div class="row">
-                              <div class="form-group col-md-6">
+                              <div class="form-group col-md-5">
                                 <label>Toplam Aktif Amortisman Değeri:</label>
                               </div>
                               <div class="col-md-6">
@@ -47,7 +51,7 @@
                       </div>
                       <div class="col-md-6">
                           <div class="row">
-                              <div class="form-group col-md-6">
+                              <div class="form-group col-md-4">
                                 <label>Toplam Amortisman Değeri:</label>
                               </div>
                               <div class="col-md-6">
@@ -80,7 +84,7 @@
                             </div>
                             <div class="col-md-4 form-group">
                               <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                                <input type="checkbox"
+                                <input type="checkbox" (change)="isExitFixedAsset($event)"
                                 name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
                               </label>
                             </div>
@@ -114,7 +118,7 @@
                             </div>
                             <div class="col-md-4 form-group">
                               <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                                <input type="checkbox"
+                                <input type="checkbox" (change)="IsExitFixedAsset($event)"
                                 name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
                               </label>
                             </div>

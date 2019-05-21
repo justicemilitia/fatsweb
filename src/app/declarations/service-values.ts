@@ -87,8 +87,8 @@ export const CALCULATE_IFRSDEPRECIATION = "DepreciationIFRS/CalculateFixedAssetD
 export const GET_DEPRECIATIONTYPE_LIST = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
 export const GET_DEPRECIATIONLIST_BY_ID="Depreciation/GetDepreciationListbyFixedAssetId";
 export const GET_IFRSDEPRECIATIONLIST_BY_ID="DepreciationIFRS/GetDepreciationIFRSListbyFixedAssetId";
-export const DEPRECIATION_TOTAL_VALUES = "Depreciation/GetDepreciationIFRSTotals";
-export const IFRS_DEPRECIATION_TOTAL_VALUES = "Depreciation/GetDepreciationTotals";
+export const DEPRECIATION_TOTAL_VALUES = "Depreciation/GetDepreciationTotals";
+export const IFRS_DEPRECIATION_TOTAL_VALUES = "Depreciation/GetDepreciationIFRSTotals";
 //#endregion
 
 //#region FixedAssetDebit
@@ -160,6 +160,15 @@ export const DELETE_FIXEDASSETCARDPROPERTY = "FixedAssetCardProperties/RemoveByI
 export const GET_FIXEDASSETCARDPROPERTY_BY_TYPEID = "FixedAssetCardProperties/GetFixedAssetCardPropertyByTypeId";
 export const GET_FIXEDASSETCARDPROPERTYTYPE_LIST = "FixedAssetPropertyTypes/GetFixedAssetPropertyTypesList";
 export const GET_PROPERTYVALUES_BY_PROPERTYID = "FixedAssetProperyValues/GetFixedAssetPropertyValueByPropertyId";
+//#endregion
+
+
+//#region Consumable
+export const GET_CONSUMABLE_CATEGORY_LIST = "ConsumableCategories/ConsumableCategoryList";
+export const GET_CONSUMABLE_CATEGORY_BY_ID = "ConsumableCategories/GetConsumableCategoryById";
+export const INSERT_CONSUMABLE_CATEGORY = "ConsumableCategories/AddConsumableCategory";
+export const UPDATE_CONSUMABLE_CATEGORY = "ConsumableCategories/UpdateConsumableCategory";
+export const DELETE_CONSUMABLE_CATEGORY = "ConsumableCategories/RemoveByIdList";
 //#endregion
 
 

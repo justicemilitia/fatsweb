@@ -98,7 +98,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir şirket seçiniz");
+      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir kategori seçiniz");
       return;
     }
 
