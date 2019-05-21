@@ -127,7 +127,6 @@ export class CycleCountTerminalComponent extends BaseComponent
       if(startOrExit == true){
         this.cyclecountplan.CycleCountStatusId = <number>(
           CycleCountStatu.FINISHED);
-        this.resetForm();
       }
         else
         this.cyclecountplan.CycleCountStatusId = <number>(
@@ -139,10 +138,11 @@ export class CycleCountTerminalComponent extends BaseComponent
       break;
     }
 
-  
+    let selectedCycleCountPlan:CycleCountPlan=new CycleCountPlan();
+    Object.assign(selectedCycleCountPlan,this.cyclecountplan);
 
     this.baseService.cycleCountService.UpdateCycleCountStatu(
-      this.cyclecountplan,
+      selectedCycleCountPlan,
       (cyclecountplan : CycleCountPlan, message) => {
         /* Show pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
@@ -153,6 +153,9 @@ export class CycleCountTerminalComponent extends BaseComponent
           this.baseService.router.navigateByUrl("/dashboard");        
 
         this.cyclecountstatus = cyclecountplan.CycleCountStatusId;
+        
+        this.resetForm();
+
       },
       (error: HttpErrorResponse) => {
         /* Show error message */
@@ -164,6 +167,7 @@ export class CycleCountTerminalComponent extends BaseComponent
   makeCycleCounting() {
 
     let cycleplan:CycleCountPlan=new CycleCountPlan();
+    
     if(this.cyclecountplan.Barcode == null){     
       this.errorMessage = "Barkod Okunamadı"
       return;
@@ -198,7 +202,9 @@ export class CycleCountTerminalComponent extends BaseComponent
   }
 
   resetForm(){
+
     this.isStarted=false;
+
     this.cyclecountplan=new CycleCountPlan();
   }
 }

@@ -6,6 +6,7 @@
 </div>
 <form name="form" #data="ngForm" (ngSubmit)="addToFixedAssetList(data) && data.form.valid" novalidate >
 <mat-horizontal-stepper  [@.disabled]="true" linear #stepper>   
+
   <mat-step label="Genel Bilgiler"  [editable]="editable">
         <div class="row justify-content-center">
 
@@ -64,7 +65,7 @@
                   font-weight: 700;" >Demirbaş Kategorisi</label>        
                 <div style="display:flex;">
                 <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedCategory"  required>{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
-                  <span class="span-dropdown"  (click)="selectedCategory = null" class="typcn icon-default typcn-times span-dropdown"></span>
+                  <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedCategory" style="color:red">
                   <div *ngIf="!selectedCategory">Bu alan zorunludur.</div>
@@ -89,7 +90,7 @@
               font-weight: 700;">Demirbaş Kartı</label>
               <div style="display:flex;">
                 <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" [class.dropdown-button-valid]="data.submitted && !selectedCard"  required>{{selectedCard ? selectedCard.Name : 'Seçiniz' }}</button>
-                  <span class="span-dropdown"  (click)="selectedCard = null" class="typcn icon-default typcn-times span-dropdown"></span>
+                  <span class="span-dropdown"  (click)="resetDropdown('card')" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedCard" style="color:red">
                   <div *ngIf="!selectedCard">Bu alan zorunludur.</div>
@@ -140,7 +141,7 @@
                 </select>       -->
                 <div style="display:flex;">
                 <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
-                  <span class="span-dropdown"  (click)="selectedLocation = null" class="typcn icon-default typcn-times span-dropdown"></span>
+                  <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedLocation" style="color:red">
                   <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
@@ -162,7 +163,7 @@
                 font-weight: 700;">Departman</label>
                      <div style="display:flex;">
                         <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
-                          <span class="span-dropdown"  (click)="selectedDepartment = null" class="typcn icon-default typcn-times span-dropdown"></span>
+                          <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
                         </div>
                 </div>
                   <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
@@ -210,6 +211,7 @@
           </div>
         </div>
   </mat-step>
+
   <mat-step label="Özellik Bilgileri" [editable]="editable">
   
       <div class="row justify-content-center">
@@ -297,6 +299,7 @@
           </div>
         </div>
   </mat-step>
+
   <mat-step label="Finansal Bilgiler" [editable]="editable">  
       <fieldset class="field_set">
           <legend>Finansal Bilgiler</legend>
@@ -491,6 +494,7 @@
           </div>   
       
   </mat-step>
+  
   <mat-step label="Demirbaş Listesi" [editable]="editable" >
     <div class="property-values-table">
     <tree-grid-table [dataTable]="dataTable"></tree-grid-table>

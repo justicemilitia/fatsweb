@@ -11,7 +11,10 @@
             <h2 class="az-content-title" style="margin-left:20px;">Sayım Planları</h2>
             <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
               <div *ngIf="locationButton == true">
-                <button class="btn btn-az-primary btn-change-location" id="btnUpdateLocations" style="margin-right:10px"><i class="fas fa-map-marker-alt"></i></button>
+                <button class="btn btn-az-primary btn-change-location" (click)="doOperation(3)" style="margin-right:10px"><i class="fas fa-map-marker-alt"></i></button>
+             
+                <button class="btn btn-az-primary btn-change-location" id="btnUpdateLocations" data-toggle="modal" data-target="#modalUpdateDifferentLocation" style="display:none;margin-right:10px"><i class="fas fa-map-marker-alt"></i></button>
+
               </div>
 
               <div *ngIf="lostFixedAssetButton == true">
@@ -24,6 +27,7 @@
               <button class="btn btn-az-primary btn-create-assets" (click)="resetForm(data,true)" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
               data-target="#modalCycleCountPlan"><i class="fas fa-plus-circle"></i></button>
               </div>
+
               <div>
                 <button class="btn btn-danger btn-exit-assets" (click)="doOperation(1)" style="margin-right:10px" title="Sayımı İptal Et"><i
                 class="fas fa-minus-circle"></i></button>
@@ -31,6 +35,13 @@
                 <button class="btn btn-danger btn-exit-assets" id="btnCanceledCycleCountPlan" style="display:none; margin-right:10px" data-toggle="modal"
                 data-target="#modalCanceledCycleCountPlan" title="Sayımı İptal Et"><i
                 class="fas fa-minus-circle"></i></button>
+              </div>
+
+              <div>
+                  <button type="button" (click)="refreshTable()" id="refreshTable" class="btn btn-success btn-refresh-custom">
+                      <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                        [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+                    </button>
               </div>
 
               <div>
@@ -321,14 +332,14 @@
     <div class="modal-content modal-content-demo">
 <div class="modal-header">
   <h6 class="modal-title">Uyarı!</h6>
-  <button type="button" id="closePopup" class="close" data-dismiss="modal" aria-label="Close">
+  <button type="button" id="closeLostFixedAssetPopup" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form name="form" #data="ngForm" (ngSubmit)="lostFixedAsset(data)">
+<form name="form">
     <div class="modal-body">
       <div>
-        <p style="width:500px;">Seçili demirbaşlar kayıp olarak işaretlenecektir. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+        <p>Seçili demirbaşlar kayıp olarak işaretlenecektir. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
       </div>
       <br>
     </div>
@@ -337,6 +348,34 @@
     <div class="modal-footer">
         <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">Hayır</button>        
         <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="UpdateNotFoundFixedAsset()" style="padding: 5px 20px;">Evet</button>
+      <!-- <button class="btn btn-az-primary " data-dismiss="modal" style="width:150px; " data-toggle="modal" data-target="#modalLostFixedAsset">Evet</button> -->
+    </div>
+</form>
+</div>
+</div>
+<!-- modal-dialog -->
+</div>
+
+<div id="modalUpdateDifferentLocation" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+<div class="modal-header">
+  <h6 class="modal-title">Uyarı!</h6>
+  <button type="button" id="closeDifferentLocationPopup" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="form">
+    <div class="modal-body">
+      <div>
+        <p>Seçili demirbaşların lokasyonu, bulunan lokasyona göre güncellenecektir ve departmanları silinecektir. İşlemi onaylıyor musunuz?</p>
+      </div>
+      <br>
+    </div>
+    <!-- modal-body -->
+    <div class="modal-footer">
+        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">Hayır</button>        
+        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="UpdateFindDifferentLocationsFixedassets()" style="padding: 5px 20px;">Evet</button>
       <!-- <button class="btn btn-az-primary " data-dismiss="modal" style="width:150px; " data-toggle="modal" data-target="#modalLostFixedAsset">Evet</button> -->
     </div>
 </form>

@@ -37,33 +37,6 @@ export class CycleCountService {
     private authenticationService: AuthenticationService
   ) {}
 
-  GetCycleCountPlanWithoutCanceledPlan(success, failed) {
-    this.httpclient
-      .get(SERVICE_URL + GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL, {
-        headers: GET_HEADERS(this.authenticationService.getToken())
-      })
-      .subscribe(
-        result => {
-          let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
-            let cyclecountplans: CycleCountPlan[] = [];
-            (<CycleCountPlan[]>response.ResultObject).forEach(e => {
-              let cyclecountplan: CycleCountPlan = new CycleCountPlan();
-              Object.assign(cyclecountplan, e);
-              cyclecountplans.push(cyclecountplan);
-            });
-
-            success(cyclecountplans, response.LanguageKeyword);
-          } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
-        },
-        (error: HttpErrorResponse) => {
-          failed(error);
-        }
-      );
-  }
-
   GetCycleCountPlan(success, failed) {
     this.httpclient
       .get(SERVICE_URL + GET_CYCLE_COUNT_PLAN_LIST, {
@@ -203,8 +176,8 @@ export class CycleCountService {
       });
   }
 
-  UpdateFindDifferentLocationsFixedassets(cycleCountPlan:CycleCountPlan,success,failed){
-    this.httpclient.post(SERVICE_URL + UPDATE_FIND_DIFFERENT_LOCATION, cycleCountPlan,{
+  UpdateFindDifferentLocationsFixedassets(result:CycleCountResults,success,failed){
+    this.httpclient.post(SERVICE_URL + UPDATE_FIND_DIFFERENT_LOCATION, result,{
       headers: GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(result=>{
       let response:Response=<Response>result;
@@ -218,13 +191,14 @@ export class CycleCountService {
     });
   }
 
-  UpdateNotFoundFixedAsset(cycleCountPlan:CycleCountResults,success,failed){
-    this.httpclient.post(SERVICE_URL + UPDATE_NOTFOUND_FIXEDASSET, cycleCountPlan,{
+  UpdateNotFoundFixedAsset(result:CycleCountResults,success,failed){
+    this.httpclient.post(SERVICE_URL + UPDATE_NOTFOUND_FIXEDASSET, result,{
       headers: GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(result => {
       let response:Response=<Response>result;
-      if(response.ResultStatus == true){
+      if(response.ResultStatus == true){        
         success(response.LanguageKeyword);
+
       }else{
         failed(getAnErrorResponse(response.LanguageKeyword));
       }
@@ -235,6 +209,33 @@ export class CycleCountService {
 
 
   //#region CYCLE COUNT TERMINAL
+
+  GetCycleCountPlanWithoutCanceledPlan(success, failed) {
+    this.httpclient
+      .get(SERVICE_URL + GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let cyclecountplans: CycleCountPlan[] = [];
+            (<CycleCountPlan[]>response.ResultObject).forEach(e => {
+              let cyclecountplan: CycleCountPlan = new CycleCountPlan();
+              Object.assign(cyclecountplan, e);
+              cyclecountplans.push(cyclecountplan);
+            });
+
+            success(cyclecountplans, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
 
   GetLocationByCycleCountPlanId(planId: number, success, failed) {
     this.httpclient
