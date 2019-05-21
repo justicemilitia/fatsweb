@@ -12,16 +12,19 @@ import {
   CALCULATE_DEPRECIATION,
   CALCULATE_IFRSDEPRECIATION,
   GET_FIXED_ASSET_DEPRECIATION_LIST,
-  GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST
+  GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST,
+  DEPRECIATION_TOTAL_VALUES,
+  IFRS_DEPRECIATION_TOTAL_VALUES
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
-import { getAnErrorResponse } from "src/app/declarations/extends";
+import { getAnErrorResponse, convertNgbDateToDateString } from "src/app/declarations/extends";
 import { DepreciationCalculationType } from "src/app/models/DepreciationCalculationType";
 import { FixedAsset } from '../../models/FixedAsset';
 import { Depreciation } from '../../models/Depreciation';
 import { DepreciationIFRS } from '../../models/DepreciationIFRS';
 import { FixedAssetFilter } from '../../models/FixedAssetFilter';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: "root"
@@ -204,7 +207,55 @@ export class DepreciationService {
       }
     );
   }
+
+  DepreciationTotalValues(date: NgbDate, success, failed){
+    
+    let dep = new Depreciation();
+    dep.TargetDate =convertNgbDateToDateString(date);
+
+    this.httpclient
+    .post(
+      SERVICE_URL + DEPRECIATION_TOTAL_VALUES, dep, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+    .subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
   
+  DepreciationIFRSTotalValues(date: NgbDate, success, failed){
+
+    this.httpclient
+    .post(
+      SERVICE_URL + IFRS_DEPRECIATION_TOTAL_VALUES, date, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+    .subscribe(
+      result => {
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let totalIFRSValues: any;
+          success(totalIFRSValues, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },
+      error => {
+        failed(error);
+      }
+    );
+  }
+
   UpdateDepreciation(fixedAsset: FixedAsset, success, failed) {
     this.httpclient
       .post(

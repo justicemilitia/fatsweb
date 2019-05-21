@@ -64,7 +64,7 @@
                     <fieldset class="field_set" style="padding-left: 10px; margin-right: 40px; margin-left: 40px; margin-top:10px;">
                         <legend>Filtre</legend>        
                     
-                    <form name="form" #dataDepreciationFilter="ngForm" (ngSubmit)="onSubmitDepreciationFilter(dataDepreciation) && dataDepreciation.form.valid" novalidate>
+                    <form name="form" #dataDepreciationFilter="ngForm" (ngSubmit)="onSubmitDepreciationFilter(dataDepreciationFilter) && dataDepreciationFilter.form.valid" novalidate>
                     
                         <div class="row">
                             <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
@@ -93,47 +93,42 @@
                     </fieldset>
                       
                 </div>
-            </div>
-          </div>
+                <div *ngIf="isDepreciationIFRSList == true">
 
-        <div class="row">
-            <div class="col-md-4">        
-              <div *ngIf="isDepreciationIFRSList == true">
-
-                <form name="form" #dataDepreciationIFRSFilter="ngForm" (ngSubmit)="onSubmitDepreciationIFRSFilter(dataDepreciationIFRS) && dataDepreciationIFRS.form.valid" novalidate>
-                  
-                  <div>
-                      <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
-                        <div class="input-group">
-                          <div class="input-group-append">
-                            <div (click)="depreciationDate.toggle()" class="input-group-text">
-                              <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                    <fieldset class="field_set" style="padding-left: 10px; margin-right: 40px; margin-left: 40px; margin-top:10px;">
+                        <legend>Filtre</legend>        
+                    
+                    <form name="form" #dataDepreciationIFRSFilter="ngForm" (ngSubmit)="onSubmitDepreciationIFRSFilter(dataDepreciationIFRSFilter) && dataDepreciationIFRSFilter.form.valid" novalidate>
+                     
+                        <div class="row">
+                            <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
+                              <div class="input-group">
+                                <div class="input-group-append">
+                                  <div (click)="depreciationDate.toggle()" class="input-group-text">
+                                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                                  </div>
+                                </div>
+                                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationDate"
+                                  [(ngModel)]="fixedAsset.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel">
+                              </div>
                             </div>
+                            <div class="col-md-4 form-group">
+                              <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
+                                <input type="checkbox"
+                                name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
+                              </label>
+                            </div>
+                            <div class="col-md-2">
+                                <button id="btnFilterDepreciationIFRS" type="submit" class="btn btn-az-primary" style="margin-left:100px;">Filtrele
+                                </button>
+                              </div>
                           </div>
-                          <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationDate"
-                            [(ngModel)]="fixedAsset.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel">
-                        </div>
-                      </div>
-          
-                      <div class="col-md-4 form-group">
-                        <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                          <input type="checkbox"
-                          name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
-                        </label>
-                      </div>
-                  </div>
-
-                  <button id="btnFilterDepreciationIFRS" type="submit" class="btn btn-az-primary">Filtrele
-                  </button>
-
-                </form>
-
-              </div>
+                    </form>
+                  </fieldset>
+               </div>
             </div>
-
-            <div class="col-md-6">
-            </div>
-        </div>
+            
+          </div>
 
           <!-- <div>
               <button class="btn btn-az-primary" id="btnFilterDepreciation" style="padding: 5px 20px;margin-right: 40px;margin-top: 5px;float: right;margin-bottom: 15px;"  id="showModal" data-toggle="modal" data-target="#modalFilterDepreciation">Filtrele</button>
