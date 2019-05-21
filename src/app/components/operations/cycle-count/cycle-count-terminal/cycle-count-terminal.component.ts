@@ -152,9 +152,11 @@ export class CycleCountTerminalComponent extends BaseComponent
         if (startOrExit == false)
           this.baseService.router.navigateByUrl("/dashboard");        
 
+
+        if(this.cyclecountstatus != 1)
+          this.resetForm();
+
         this.cyclecountstatus = cyclecountplan.CycleCountStatusId;
-        
-        this.resetForm();
 
       },
       (error: HttpErrorResponse) => {
