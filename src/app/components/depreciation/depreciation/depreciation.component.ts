@@ -61,7 +61,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     [
       {
         columnDisplayName: "Barkod",
-        columnName: ["Barcode"],
+        columnName: ["FixedAsset","Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -69,7 +69,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Demirbaş Adı",
-        columnName: ["FixedAssetCard", "Name"],
+        columnName: ["FixedAsset","FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -77,7 +77,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Fiyat",
-        columnName: ["Price"],
+        columnName: ["FixedAsset","Price"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -85,7 +85,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Fatura No",
-        columnName: ["InvoiceNo"],
+        columnName: ["FixedAsset","InvoiceNo"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -93,7 +93,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Fatura Tarihi",
-        columnName: ["InvoiceDate"],
+        columnName: ["FixedAsset","InvoiceDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -109,7 +109,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Aktivasyon Tarihi",
-        columnName: ["ActivationDate"],
+        columnName: ["FixedAsset","ActivationDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -125,7 +125,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Masraf Yeri",
-        columnName: ["ExpenseCenter", "Name"],
+        columnName: ["FixedAsset","ExpenseCenter", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -133,7 +133,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Demirbaş Açıklaması",
-        columnName: ["Description"],
+        columnName: ["FixedAsset","Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -143,7 +143,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         //  NESNE DÖNÜLECEK
         columnDisplayName: "Amortisman Yöntemi",
         columnName: [
-          "DepreciationCalculationType",
+          "FixedAsset","DepreciationCalculationType",
           "DepreciationCalculationTypeDescription"
         ],
         isActive: true,
@@ -153,7 +153,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Amortisman hesaplanacak mı ?",
-        columnName: ["WillDepreciationBeCalculated"],
+        columnName: ["FixedAsset","WillDepreciationBeCalculated"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -161,7 +161,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Amortisman Periyodu",
-        columnName: ["DepreciationPeriod"],
+        columnName: ["FixedAsset","DepreciationPeriod"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -169,7 +169,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Ifrs hesaplanacak mı ?",
-        columnName: ["WillIfrsbeCalculated"],
+        columnName: ["FixedAsset","WillIfrsbeCalculated"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -177,7 +177,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Ifrs Fiyatı",
-        columnName: ["Ifrsprice"],
+        columnName: ["FixedAsset","Ifrsprice"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -185,7 +185,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Ifrs Periyodu",
-        columnName: ["Ifrsperiod"],
+        columnName: ["FixedAsset","Ifrsperiod"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -193,7 +193,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Enflasyon hesaplanacak mı?",
-        columnName: ["HasInflationIndexation"],
+        columnName: ["FixedAsset","HasInflationIndexation"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -202,7 +202,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     ],
     {
       isDesc: false,
-      column: ["Barcode"]
+      column: ["FixedAsset","Barcode"]
     }
   );
 

@@ -23,11 +23,21 @@
                   [class.btn-refresh-loader]="isTableRefreshing == true"></i>
               </button>
   
+              <button type="button" (click)="deleteConsumableCategories()" class="btn btn-danger btn-delete-custom">
+                {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
+                <i class="fas fa-trash"></i></button>
+
+              
               <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddConsumableCategory"
                 data-toggle="modal" data-target="#modalConsumableCategory" (click)="resetForm(data,true)">Kategori
                 Ekle
               </button>
   
+              <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditConsumableCategory"
+              data-toggle="modal" data-target="#modalConsumableCategory" (click)="resetForm(data,false)">Kategori
+              Düzenle
+            </button>
+
             </div>
           </div>
           <div class="sales-overview">

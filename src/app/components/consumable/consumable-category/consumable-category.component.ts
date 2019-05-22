@@ -91,17 +91,117 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
     }
   }
 
-  loadConsumableCategories(){
+  async loadConsumableCategories(){
+         
+    /* Load all fixed asset card cateogories to datatable */
+    await this.baseService.consumableCategoryService.GetConsumableCategories(
+      (consumableCategories: ConsumableCategory[]) => {
 
+        /* Bind Fixed Categories to model */
+        this.consumableCategories = consumableCategories;
+
+        /* Load data to table */
+        this.dataTable.TGT_loadData(this.consumableCategories);
+        if(consumableCategories.length==0){
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
+      },
+      (error: HttpErrorResponse) => {
+
+        /* if error show pop up */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      }
+    );
   }
 
   async addConsumableCategory(data: NgForm) {
 
-   
+    /* Close waiting loader */
+    this.isWaitingInsertOrUpdate = true;
+
+    /* Insert Fixed Asset Card Category */
+    this.baseService.consumableCategoryService.InsertConsumableCategory(
+      this.consumableCategory,
+      (insertedItem: ConsumableCategory, message) => {
+
+        /* Close waiting loader */
+        this.isWaitingInsertOrUpdate = false;
+
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        /* Set inserted Item id to model */
+        this.consumableCategory.ConsumableCategoryId = insertedItem.ConsumableCategoryId;
+
+        /* Bind Parent category to bind */
+        this.consumableCategory.ConsumableParentCategory =
+          this.consumableCategories.find(x => x.ConsumableCategoryId == this.consumableCategory.ConsumableParentCategoryId);
+
+        /* Push inserted item to category list */
+        this.consumableCategories.push(this.consumableCategory);
+
+        /* Reload data table */
+        this.dataTable.TGT_loadData(this.consumableCategories);
+
+        /* Reset Forms */
+        this.resetForm(data, true);
+
+      }, (error: HttpErrorResponse) => {
+
+        /* Close waiting loader */
+        this.isWaitingInsertOrUpdate = false;
+
+        /* Show alert message */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      });
   }
 
-  updateConsumableCategory(data:NgForm){
+  async updateConsumableCategory(data:NgForm){
+    /* Ask for approve question if its true then update the fixed asset card category */
+    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
+      if (response == true) {
 
+        /* Change button to loading */
+        this.isWaitingInsertOrUpdate = true;
+
+        /* Update Model to database */
+        this.baseService.consumableCategoryService.UpdateConsumableCategory(
+          this.consumableCategory,
+          (_consumableCategory, message) => {
+
+            /* Change loading to button */
+            this.isWaitingInsertOrUpdate = false;
+
+            /* Show pop up then update data in datatable */
+            this.baseService.popupService.ShowSuccessPopup(message);
+
+            /* Create a fixed asset for updated item to create a refrences */
+            let updatedModel = new ConsumableCategory();
+            Object.assign(updatedModel, this.consumableCategory);
+
+            /* Binding selected brand */
+            updatedModel.ConsumableParentCategory =
+              this.consumableCategories.find(x => x.ConsumableCategoryId == updatedModel.ConsumableParentCategoryId);
+
+            /* Update in datatable */
+            this.dataTable.TGT_updateData(updatedModel);
+
+            /* Get original source */
+            this.consumableCategories = <ConsumableCategory[]>this.dataTable.TGT_copySource();
+
+          }, (error: HttpErrorResponse) => {
+
+            /* Change loading to button */
+            this.isWaitingInsertOrUpdate = false;
+
+            /* Show error message */
+            this.baseService.popupService.ShowErrorPopup(error);
+
+          });
+      }
+    });
   }
 
   async deleteConsumableCategories() {
@@ -169,5 +269,53 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
     });
   }
 
+  async onDoubleClickItem(item: ConsumableCategory) {
+
+    /* Show spinner for loading */
+    this.baseService.spinner.show();
+
+    /* Load fixed asset card categories if not loaded */
+    this.loadConsumableCategories();
+
+    /* Get company information from server */
+    await this.baseService.consumableCategoryService.GetConsumableCategoryById(item.ConsumableCategoryId,
+      (result: ConsumableCategory) => {
+
+        /* Then bind it to fixed asset card category model to update */
+        setTimeout(() => {
+
+          /* Hide Spinner */
+          this.baseService.spinner.hide();
+
+          /* Trigger edit button to show modal */
+          $("#btnEditConsumableCategory").trigger("click");
+
+          /* bind result to model */
+          this.consumableCategory = result;
+
+        }, 1000);
+      }, (error: HttpErrorResponse) => {
+
+        /* hide spinner */
+        this.baseService.spinner.hide();
+
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      });
+  }
+  
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadConsumableCategories();
+
+    this.isTableRefreshing = false;
+
+  }
 
 }

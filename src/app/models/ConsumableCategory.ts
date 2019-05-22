@@ -1,14 +1,15 @@
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+import { ConsumableCard } from './ConsumableCard';
 
 export class ConsumableCategory implements IData {
     getParentId(): number {
-        throw new Error("Method not implemented.");
+    return this.ConsumableParentCategoryId;
     }
     getChildren(): IData[] {
-        throw new Error("Method not implemented.");
+    return this.InverseConsumableParentCategory;       
     }
     getId(): number {
-        throw new Error("Method not implemented.");
+    return this.ConsumableCategoryId;      
     }
     childIndex: number;
     isExtended: boolean;
@@ -25,4 +26,7 @@ export class ConsumableCategory implements IData {
     ModifierId: number;
     IsValid: boolean;
     ConsumableCategoryIds: number[];
+    ConsumableParentCategory: ConsumableCategory;
+    ConsumableCards: ConsumableCard[]=[];
+    InverseConsumableParentCategory: ConsumableCategory[] = [];
 }
