@@ -31,6 +31,8 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
    /* Store Fixed Categories */
    consumableCategories: ConsumableCategory[] = [];
  
+   consumableCategoriesWithoutCurrent: ConsumableCategory[] = [];
+
    /* Current Fixed Asset Category */
    consumableCategory: ConsumableCategory = new ConsumableCategory();
  
@@ -73,6 +75,7 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
 
     /* Reset form if required create a new object */
     data.resetForm(this.consumableCategory);
+    this.getCategoryWithoutCurrent();    
     if (isNewItem == true) {
       this.consumableCategory = new ConsumableCategory();
     }
@@ -112,6 +115,12 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
         this.baseService.popupService.ShowErrorPopup(error);
 
       }
+    );
+  }
+
+   getCategoryWithoutCurrent() {
+    this.consumableCategoriesWithoutCurrent = this.consumableCategories.filter(
+      x => x.ConsumableCategoryId != this.consumableCategory.ConsumableCategoryId
     );
   }
 
@@ -231,9 +240,9 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
         else
-          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
 
         /* Clear ids from source */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -313,7 +322,7 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
     this.dataTable.TGT_clearData();
 
     await this.loadConsumableCategories();
-
+    
     this.isTableRefreshing = false;
 
   }

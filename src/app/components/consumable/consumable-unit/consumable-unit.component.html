@@ -65,7 +65,7 @@
               <label class="required-span">Adı</label>
               <input [(ngModel)]="consumableUnit.ConsumableUnitName" name="ConsumableUnitName" type="text" trim="blur"
                 class="form-control" #ConsumableUnitName="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
+                [ngClass]="{ 'is-invalid': data.submitted && ConsumableUnitName.invalid }" required />
               <div *ngIf="data.submitted && ConsumableUnitName.invalid" class="invalid-feedback">
                 <div *ngIf="ConsumableUnitName.errors.required">Bu alan zorunludur.</div>
               </div>

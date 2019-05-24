@@ -236,7 +236,7 @@ export const routes: Routes = [
     data: { pageKeyword: pages.MENU_CONSUMABLEUNIT }
     // //canActivate: [AuthGuard]
   },
-  {
+  { 
     path: "consumablelist",
     component: ConsumableListComponent,
     data: { pageKeyword: pages.MENU_CONSUMABLELIST }

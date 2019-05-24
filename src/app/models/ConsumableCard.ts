@@ -34,5 +34,6 @@ export class ConsumableCard implements IData{
     IsValid: boolean;
     ConsumableCategory: ConsumableCategory;
     ConsumableUnit: ConsumableUnit;
+    ConsumableCardIds: number[];
     // Consumables: Consumable[]= [];
 }

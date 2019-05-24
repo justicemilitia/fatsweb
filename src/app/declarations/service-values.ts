@@ -1,9 +1,9 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-// export const SERVICE_URL = "http://localhost:5000/api/";
+export const SERVICE_URL = "http://localhost:5000/api/";
 //export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+// export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -181,12 +181,12 @@ export const UPDATE_CONSUMABLE_UNIT = "ConsumableUnits/UpdateConsumableUnit";
 export const DELETE_CONSUMABLE_UNIT = "ConsumableUnits/RemoveByIdList";
 //#endregion
 
-//#region Consumable Card
-export const GET_CONSUMABLE_CARD_UNIT_LIST = "ConsumableCards/ConsumableCardsList";
-export const GET_CONSUMABLE_CARD_UNIT_BY_ID = "ConsumableCards/GetConsumableCardById";
-export const INSERT_CONSUMABLE_CARD_UNIT = "ConsumableCards/AddConsumableCard";
-export const UPDATE_CONSUMABLE_CARD_UNIT = "ConsumableCards/UpdateConsumableCard";
-export const DELETE_CONSUMABLE_CARD_UNIT = "ConsumableCards/RemoveByIdList";
+//#region Consumable Card Unit
+export const GET_CONSUMABLE_CARD_LIST = "ConsumableCards/ConsumableCardsList";
+export const GET_CONSUMABLE_CARD_BY_ID = "ConsumableCards/GetConsumableCardById";
+export const INSERT_CONSUMABLE_CARD = "ConsumableCards/AddConsumableCard";
+export const UPDATE_CONSUMABLE_CARD = "ConsumableCards/UpdateConsumableCard";
+export const DELETE_CONSUMABLE_CARD = "ConsumableCards/RemoveByIdList";
 //#endregion
 
 
