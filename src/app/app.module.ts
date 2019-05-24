@@ -80,6 +80,7 @@ import { DepreciationDetailListComponent } from './components/depreciation/depre
 import { ConsumableCardComponent } from './components/consumable/consumable-card/consumable-card.component';
 import { ConsumableCategoryComponent } from './components/consumable/consumable-category/consumable-category.component';
 import { ConsumableUnitComponent } from './components/consumable/consumable-unit/consumable-unit.component';
+import { ConsumableListComponent } from './components/consumable/consumable-list/consumable-list.component';
 
 @NgModule({
   declarations: [
@@ -142,7 +143,8 @@ import { ConsumableUnitComponent } from './components/consumable/consumable-unit
     DepreciationDetailListComponent,
     ConsumableCardComponent,
     ConsumableCategoryComponent,
-    ConsumableUnitComponent
+    ConsumableUnitComponent,
+    ConsumableListComponent
   ],
   imports: [
     BrowserModule,

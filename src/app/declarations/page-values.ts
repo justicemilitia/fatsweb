@@ -38,3 +38,5 @@ export const MENU_TERMINAL = "Menu_CycleCountTerminal";
 export const MENU_CONSUMABLECARD = "Menu_ConsumableCard";
 export const MENU_CONSUMABLECATEGORY = "Menu_ConsumableCategory";
 export const MENU_CONSUMABLEUNIT = "Menu_ConsumableUnit";
+export const MENU_CONSUMABLELIST = "Menu_ConsumableList";
+

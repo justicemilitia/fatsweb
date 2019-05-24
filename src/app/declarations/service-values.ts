@@ -2,13 +2,8 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 // export const SERVICE_URL = "http://localhost:5000/api/";
-<<<<<<< HEAD
 export const SERVICE_URL = "http://localhost:11889/api/";
 //export const SERVICE_URL = "http://dev.fatsapi.com/api/";
-=======
-//export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
->>>>>>> bfcf5f17b1fd0066a56f06293015684cf58ef5fa
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -174,6 +169,8 @@ export const GET_CONSUMABLE_CATEGORY_BY_ID = "ConsumableCategories/GetConsumable
 export const INSERT_CONSUMABLE_CATEGORY = "ConsumableCategories/AddConsumableCategory";
 export const UPDATE_CONSUMABLE_CATEGORY = "ConsumableCategories/UpdateConsumableCategory";
 export const DELETE_CONSUMABLE_CATEGORY = "ConsumableCategories/RemoveByIdList";
+export const INSERT_CONSUMABLE_MATERIAL = "Consumable/AddRequestedMaterial";
+export const GET_CONSUMABLE_CARDS_BY_CATEGORY_ID = "ConsumableCards/GetConsumableCategoryById";
 //#endregion
 
 
