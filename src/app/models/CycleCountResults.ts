@@ -23,7 +23,8 @@ export class CycleCountResults implements IData{
     Barcode:string;
     DepartmentName:string;
     LocationName:string;
-    LocationId:number;
+    PlanLocationId:number;
+    FixedAssetLocationId:number;
     DepartmentId:number;
     PlanLocation:string;
     Barcodes:string[];

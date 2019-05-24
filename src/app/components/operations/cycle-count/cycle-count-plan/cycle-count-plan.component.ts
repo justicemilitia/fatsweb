@@ -16,6 +16,7 @@ import { CycleCountResults } from 'src/app/models/CycleCountResults';
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 import { FixedAsset } from 'src/app/models/FixedAsset';
 import { CycleCountStatu } from 'src/app/declarations/cycle-count-statu';
+import * as $ from "jquery";
 
 @Component({
   selector: "app-cycle-count-plan",
@@ -29,6 +30,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   cycleCountPlan: CycleCountPlan = new CycleCountPlan();
 
   isTableExporting: boolean = false;
+
+  isTableRefreshing: boolean = false;
 
   isWaitingInsertOrUpdate:boolean=false;
 
@@ -47,6 +50,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   locationButton:boolean=false;
 
   lostFixedAssetButton:boolean=false;
+
+  currentTab:number = 0;
 
   currentPage: number = 1;
   perInPage: number = 25;
@@ -242,7 +247,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   );
 
   public dataTableDifferenLocationFixedAsset: TreeGridTable = new TreeGridTable(
-    "differenlocation",
+    "differentlocation",
     [
       {
         columnDisplayName: "Barkod",
@@ -260,16 +265,16 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },    
       {
-        columnDisplayName: "Lokasyon Adı",
-        columnName: ["Location", "Name"],
+        columnDisplayName: "Sayım Yapılan Lokasyon",
+        columnName: ["PlanLocation", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },    
       {
-        columnDisplayName: "Planlanan Lokasyon Adı",
-        columnName: ["PlanLocation"],
+        columnDisplayName: "Demirbaşın Bulunduğu Lokasyon",
+        columnName: ["FixedAssetLocation","Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -357,6 +362,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     super(baseService);
     this.loadCycleCountPlanList();
 
+    //#region DataTable Properties
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
     this.dataTableLocation.isDeleteable = false;
@@ -365,9 +371,13 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     this.dataTableLocation.isSelectAllWithChildrenActive=true;
 
     this.dataTableDifferenLocationFixedAsset.isPagingActive = false;
+    this.dataTableDifferenLocationFixedAsset.isLoading = false;
     this.dataTableNotFoundFixedAsset.isPagingActive = false;
+    this.dataTableNotFoundFixedAsset.isLoading = false;
     this.dataTableCycleCountDetail.isPagingActive = false;
+    this.dataTableCycleCountDetail.isLoading = false;
     this.dataTableNotRegisteredFixedAsset.isPagingActive=false;
+    this.dataTableNotRegisteredFixedAsset.isLoading = false;
 
     this.dataTableCanceledPlan.isPagingActive = false;
     this.dataTableCanceledPlan.isColumnOffsetActive = false;
@@ -377,6 +387,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     this.dataTableCanceledPlan.isMultipleSelectedActive = false;
     this.dataTableCanceledPlan.isLoading = false;
     this.dataTableCanceledPlan.isFilterActive=false;
+    //#endregion
 
     $(document).on("click", e => {
       if (
@@ -409,18 +420,17 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         this.cycleCountPlans = cyclecountplans;
         this.dataTable.TGT_loadData(this.cycleCountPlans);
       },
-      (error: HttpErrorResponse) => {
-        /* if error show pop up */
+      (error: HttpErrorResponse) => {       
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
 
-  loadCycleCountResult(_perInPage: number = 25, _currentPage: number = 1,tabIndex:number){
+  async loadCycleCountResult(_perInPage: number = 25, _currentPage: number = 1,tabIndex:number){
     this.cycleCountResult = [];
     let cycleCountResult: CycleCountResults = new CycleCountResults();
     let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
-   
+
     cycleCountResult.CycleCountPlanId = selectedIds[0];
     cycleCountResult.PerPage = _perInPage;
     cycleCountResult.Page = _currentPage;
@@ -460,15 +470,19 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         switch(tabIndex){
           case this.cycleCountListEnums.CycleCountResult:
           this.dataTableCycleCountDetail.TGT_loadData(this.cycleCountResult);
+          this.dataTableCycleCountDetail.isLoading=false;
           break;
           case this.cycleCountListEnums.NotFoundFixedAsset:
           this.dataTableNotFoundFixedAsset.TGT_loadData(this.cycleCountResult);
+          this.dataTableNotFoundFixedAsset.isLoading=false;
           break;
           case this.cycleCountListEnums.DifferentLocationFixedAsset:
           this.dataTableDifferenLocationFixedAsset.TGT_loadData(this.cycleCountResult);
+          this.dataTableDifferenLocationFixedAsset.isLoading=false;
           break;
           case this.cycleCountListEnums.NotRegisteredFixedAsset:
           this.dataTableNotRegisteredFixedAsset.TGT_loadData(this.cycleCountResult);
+          this.dataTableNotRegisteredFixedAsset.isLoading=false;
           break;
         }
    
@@ -480,7 +494,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   }
 
-  loadCycleCountResultNotFoundFixedAsset(_perInPage: number = 25, _currentPage: number = 1){
+  async loadCycleCountResultNotFoundFixedAsset(_perInPage: number = 25, _currentPage: number = 1){
     this.cycleCountResult = [];
     let cycleCountResult: CycleCountResults = new CycleCountResults();
     let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
@@ -507,29 +521,20 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
         this.dataTableNotFoundFixedAsset.TGT_loadData(this.fixedAssets); 
         this.TGT_calculatePages();
+        this.dataTableNotFoundFixedAsset.isLoading = false;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }
 
-  toggleDropdown(key:string) {
-    switch (key) {
-      case "location":
-    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;  
-    this.loadLocationList();
-
-    break;
-      }
-  }
-
-  selectedLocation: Location[];
-
   onSubmit(data: NgForm) {
     if (this.cycleCountPlan.CycleCountPlanId == null) {
       this.addCycleCountPlan(data);
     }
   }
+
+  selectedLocation: Location[];
 
   addCycleCountPlan(data: NgForm) {
     let willInsertItem = new CycleCountPlan();
@@ -567,9 +572,16 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     );
   }
 
-  
+  toggleDropdown(key:string) {
+    switch (key) {
+      case "location":
+    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;  
+    this.loadLocationList();
+    break;
+      }
+  }  
 
-  loadCanceledCycleCountPlan(){
+  selectedCanceledCycleCountPlan(){
     let selectedItems = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems());
 
     if (!selectedItems || selectedItems.length == 0) {
@@ -610,37 +622,44 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
               this.isWaitingInsertOrUpdate = false;
               /* Show error message */
               this.baseService.popupService.ShowErrorPopup(error);
-            });   
-  
+            });     
 }
+
+  selectedDifferentLocations(){
+    let selectedItems = this.dataTableDifferenLocationFixedAsset.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir demirbaş seçiniz"
+      );
+      return;
+    }
+
+    $('#btnUpdateLocations').trigger('click');
+  }
 
   UpdateFindDifferentLocationsFixedassets(){
     let cycleCount:CycleCountResults=new CycleCountResults();
 
      let selectedId= (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
      let barcodes = (<CycleCountPlan[]>this.dataTableDifferenLocationFixedAsset.TGT_getSelectedItems()).map(x=>x.Barcode);
-    selectedId.forEach(e=>{
-      cycleCount.CycleCountPlanId = e;
-    });
+
+     cycleCount.CycleCountPlanId=selectedId[0];
      cycleCount.Barcodes = barcodes;
-     //this.baseService.cycleCountService.UpdateFindDifferentLocationsFixedassets(cycleCount,()=>{},()=>{})
+     this.baseService.cycleCountService.UpdateFindDifferentLocationsFixedassets(cycleCount,
+      (message)=>{
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        $('#refreshTable').trigger('click');
+
+        $("#closeDifferentLocationPopup").trigger('click');
+      },
+      (error:HttpErrorResponse)=>{
+        this.baseService.popupService.ShowErrorPopup(error);
+      });
   }
 
-  UpdateNotFoundFixedAsset(){
-
-    let result:CycleCountResults=new CycleCountResults();
-
-    let selectedItems = (<CycleCountResults[]>this.dataTableNotFoundFixedAsset.TGT_getSelectedItems()).map(x=>x.Barcode);
-
-    let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
-    result.Barcodes = selectedItems;
-    result.CycleCountPlanId = selectedIds[0];
-
-    this.baseService.cycleCountService.UpdateNotFoundFixedAsset(result,()=>{},()=>{})
-
-  }
-
-  NotFoundFixedAsset(){
+  selectedNotFoundFixedAsset(){
     let selectedItems = this.dataTableNotFoundFixedAsset.TGT_getSelectedItems();
 
     if (!selectedItems || selectedItems.length == 0) {
@@ -654,6 +673,36 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     
   }
 
+  UpdateNotFoundFixedAsset(){
+
+    let result:CycleCountResults=new CycleCountResults();
+
+    let selectedItems = (<CycleCountResults[]>this.dataTableNotFoundFixedAsset.TGT_getSelectedItems()).map(x=>x.Barcode);
+
+    let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
+    result.Barcodes = selectedItems;
+    result.CycleCountPlanId = selectedIds[0];
+
+    this.baseService.cycleCountService.UpdateNotFoundFixedAsset(result,
+      (fixedAssetIds:number[],message)=>{
+
+        this.baseService.popupService.ShowSuccessPopup(message);
+        
+        $('#refreshTable').trigger('click');
+
+
+        $("#closeLostFixedAssetPopup").trigger('click');
+
+      },
+      (error:HttpErrorResponse)=>{
+        this.baseService.popupService.ShowErrorPopup(error);
+
+        $("#closeLostFixedAssetPopup").trigger('click');
+      });
+
+  }
+
+
   resetForm(data: NgForm, isNewItem: boolean) {
     if (isNewItem == true) {
       this.cycleCountPlan = new CycleCountPlan(); 
@@ -664,7 +713,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    if (tabChangeEvent.index == 0) {
+    this.currentTab = tabChangeEvent.index; 
+    if (tabChangeEvent.index == 0) {      
       this.lostFixedAssetButton=false;
       this.locationButton=false;
       this.loadCycleCountPlanList();
@@ -691,16 +741,55 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     }
   }
 
+  async refreshTable() {
+
+    let currentTabIndex:number = this.currentTab;
+
+    this.isTableRefreshing = true;
+
+    
+
+    switch(currentTabIndex){
+      case 0:
+        this.dataTable.isLoading = true;
+        this.dataTable.TGT_clearData();
+        this.loadCycleCountPlanList();        
+      break;
+      case 1:
+        this.dataTableCycleCountDetail.isLoading=true;
+        this.dataTableCycleCountDetail.TGT_clearData();
+        this.loadCycleCountResult(this.perInPage,this.currentPage,1);
+      break;
+      case 2:
+        this.dataTableNotFoundFixedAsset.isLoading=true;
+        this.dataTableNotFoundFixedAsset.TGT_clearData();
+        this.loadCycleCountResultNotFoundFixedAsset(this.perInPage,this.currentPage);
+      break;
+      case 3:
+        this.dataTableDifferenLocationFixedAsset.isLoading=true;
+        this.dataTableDifferenLocationFixedAsset.TGT_clearData();
+        this.loadCycleCountResult(this.perInPage,this.currentPage,3);
+      break;
+      case 4:
+        this.dataTableNotRegisteredFixedAsset.isLoading=true;
+        this.dataTableNotRegisteredFixedAsset.TGT_clearData();
+        this.loadCycleCountResult(this.perInPage,this.currentPage,4);
+      break;
+    }    
+
+    this.isTableRefreshing = false;
+  }
+
   public doOperation(operationType: number) {
     switch(operationType){
       case this.cycleCountOperationEnums.cancelCycleCount:
-      this.loadCanceledCycleCountPlan();
+      this.selectedCanceledCycleCountPlan();
       break;
       case this.cycleCountOperationEnums.lostFixedAsset:
-        this.NotFoundFixedAsset();
+        this.selectedNotFoundFixedAsset();
       break;
       case this.cycleCountOperationEnums.updateLocation:
-
+      this.selectedDifferentLocations();
       break;
     }
   }

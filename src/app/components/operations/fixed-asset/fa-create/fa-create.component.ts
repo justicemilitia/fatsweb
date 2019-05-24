@@ -847,14 +847,18 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
 
         fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
 
-        if (this.fixedAsset.Prefix != null)
-          this.fixedAsset.Barcode =
-            this.fixedAsset.Prefix + this.barcode.toString();
-        else this.fixedAsset.Barcode = this.barcode.toString();
+        Object.assign(fixedasset, this.fixedAsset);
+
+        let prefix:string = this.fixedAsset.Prefix;
+        let lastBarcode:number = Number(fixedasset.Barcode);
+
+        if (prefix != null && this.barcode.toString() == lastBarcode.toString())
+         fixedasset.Barcode = prefix + this.barcode.toString();
+        else fixedasset.Barcode = this.barcode.toString();
 
         this.barcode = Number(this.barcode) + 1;
+        lastBarcode = lastBarcode + 1;
 
-        Object.assign(fixedasset, this.fixedAsset);
         this.fixedAssets.push(fixedasset);
 
         this.isFinished = false;
@@ -977,6 +981,25 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     );
   }
 
+  resetDropdown(key:string){
+    switch(key){
+      case "category":
+      this.selectedCategory = null;
+      break;
+      case "card":
+      this.selectedCard = null;
+      this.dataTableFixedAssetCard.TGT_clearData();
+      break;
+      case "location":
+      this.selectedLocation = null;
+      this.dataTableDepartment.TGT_clearData();
+      break;
+      case "department":
+      this.selectedDepartment = null;      
+      break;
+    }
+  }
+
   resetForm(data: NgForm) {
     this.editable = true;
 
@@ -1009,6 +1032,14 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     this.dataTablePropertyValue.TGT_clearData();
 
     this.dataTableFile.TGT_clearData();
+
+    this.dataTableDepartment.TGT_clearData();
+
+    this.dataTableLocation.TGT_clearData();
+
+    this.dataTableFixedAssetCard.TGT_clearData();
+
+    this.dataTableFixedAssetCategory.TGT_clearData();
   }
 
   // #region FILE UPLOAD
