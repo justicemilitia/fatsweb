@@ -220,19 +220,19 @@ export const routes: Routes = [
   {
     path: "consumablecard",
     component: ConsumableCardComponent,
-    data: { pageKeyword: pages.MENU_TERMINAL }
+    data: { pageKeyword: pages.MENU_CONSUMABLECARD }
     // //canActivate: [AuthGuard]
   },
   {
     path: "consumablecategory",
     component: ConsumableCategoryComponent,
-    data: { pageKeyword: pages.MENU_TERMINAL }
+    data: { pageKeyword: pages.MENU_CONSUMABLECATEGORY }
     // //canActivate: [AuthGuard]
   },
   {
     path: "consumableunit",
     component: ConsumableUnitComponent,
-    data: { pageKeyword: pages.MENU_TERMINAL }
+    data: { pageKeyword: pages.MENU_CONSUMABLEUNIT }
     // //canActivate: [AuthGuard]
   }
 

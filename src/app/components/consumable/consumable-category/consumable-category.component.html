@@ -17,7 +17,7 @@
                   [class.btn-refresh-loader]="isTableExporting == true"></i>
               </button>
   
-              <button type="button" *ngIf="IsAuthForDelete==true" (click)="refreshTable()"
+              <button type="button" (click)="refreshTable()"
                 class="btn btn-success btn-refresh-custom">
                 <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                   [class.btn-refresh-loader]="isTableRefreshing == true"></i>
@@ -57,7 +57,7 @@
         <div class="modal-header">
           <h6 class="modal-title">
             {{
-                consumableCategory.ConsumableCategoryId ?  'Demirbaş Kategorisi Güncelle' : 'Demirbaş Kategorisi Ekle'
+                consumableCategory.ConsumableCategoryId ?  'Malzeme kategorisi güncellemek için bilgileri giriniz.' : 'Yeni malzeme kategorisi eklemek için bilgileri giriniz.'
               }}
           </h6>
           <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -67,7 +67,7 @@
         <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
           <div class="modal-body">
             <div class="row justify-content-center">
-              <div class="form-group col-md-6">
+              <!-- <div class="form-group col-md-6">
                 <label class="required-span">Kategori Kodu</label>
                 <input [(ngModel)]="consumableCategory.ConsumableCategoryCode" name="ConsumableCategoryCode"
                   type="text" trim="blur" class="form-control"
@@ -76,25 +76,33 @@
                 <div *ngIf="data.submitted && ConsumableCategoryCode.invalid" class="invalid-feedback">
                   <div *ngIf="ConsumableCategoryCode.errors.required">Bu alan zorunludur.</div>
                 </div>
+              </div> -->
+              <div class="form-group col-md-6">
+                <label class="required-span">Kategori Kodu</label>
+                <input [(ngModel)]="consumableCategory.ConsumableCategoryCode" name="ConsumableCategoryCode" type="text" trim="blur" class="form-control"
+                  #ConsumableCategoryCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryCode.invalid }" required />
+                <div *ngIf="data.submitted && ConsumableCategoryCode.invalid" class="invalid-feedback">
+                  <div *ngIf="ConsumableCategoryCode.errors.required">Bu alan zorunludur.</div>
+                </div>
               </div>
               <div class="form-group col-md-6">
                 <label class="required-span">Kategori Adı</label>
-                <input [(ngModel)]="consumableCategory.Name" name="Name" type="text" trim="blur" class="form-control"
-                  #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
-                <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                  <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <input [(ngModel)]="consumableCategory.ConsumableCategoryName" name="ConsumableCategoryName" type="text" trim="blur" class="form-control"
+                  #ConsumableCategoryName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryName.invalid }" required />
+                <div *ngIf="data.submitted && ConsumableCategoryName.invalid" class="invalid-feedback">
+                  <div *ngIf="ConsumableCategoryName.errors.required">Bu alan zorunludur.</div>
                 </div>
               </div>
             </div>
             <div class="row justify-content-center">
               <div class="form-group col-md-12">
                 <label>Bağlı Olduğu Kategori</label>
-                <select [(ngModel)]="consumableCategory.ParentConsumableCategoryId"
-                  name="ParentConsumableCategoryId" class="form-control" (click)="loadConsumableCategories()">
+                <select [(ngModel)]="consumableCategory.ConsumableParentCategoryId"
+                  name="ConsumableParentCategoryId" class="form-control" (click)="loadConsumableCategories()">
                   <option [ngValue]="null">Yok</option>
                   <option *ngFor="let consumableCategory of consumableCategories"
                     value={{consumableCategory.ConsumableCategoryId}}>
-                    {{consumableCategory.Name}}
+                    {{consumableCategory.ConsumableCategoryName}}
                   </option>
                 </select>
               </div>

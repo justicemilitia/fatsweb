@@ -191,7 +191,7 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
             /* Get original source */
             this.consumableCategories = <ConsumableCategory[]>this.dataTable.TGT_copySource();
 
-          }, (error: HttpErrorResponse) => {
+           }, (error: HttpErrorResponse) => {
 
             /* Change loading to button */
             this.isWaitingInsertOrUpdate = false;

@@ -9,8 +9,6 @@
         <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header" style="padding-bottom:0px;">
             <h2 class="az-content-title" style="margin-left:20px;">Amortisman Yönetimi</h2>
-          </div>            
-            <div>
             <div *ngIf="isDetailInfo == true">          
               <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTableDepreciationDetail)"
                         data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px; min-height: 37px;"><i
@@ -18,6 +16,9 @@
                         [class.btn-refresh-loader]="isTableExporting == true"></i>
               </button>
             </div>
+          </div>            
+            <div>
+            
     
              <div *ngIf="isDetailInfo == false">
               <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">

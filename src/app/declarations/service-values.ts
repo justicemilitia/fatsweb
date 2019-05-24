@@ -1,9 +1,9 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
-// export const SERVICE_URL = "http://localhost:5000/api/";
+export const SERVICE_URL = "http://localhost:5000/api/";
 //export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+// export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -163,12 +163,28 @@ export const GET_PROPERTYVALUES_BY_PROPERTYID = "FixedAssetProperyValues/GetFixe
 //#endregion
 
 
-//#region Consumable
+//#region Consumable Category
 export const GET_CONSUMABLE_CATEGORY_LIST = "ConsumableCategories/ConsumableCategoryList";
 export const GET_CONSUMABLE_CATEGORY_BY_ID = "ConsumableCategories/GetConsumableCategoryById";
 export const INSERT_CONSUMABLE_CATEGORY = "ConsumableCategories/AddConsumableCategory";
 export const UPDATE_CONSUMABLE_CATEGORY = "ConsumableCategories/UpdateConsumableCategory";
 export const DELETE_CONSUMABLE_CATEGORY = "ConsumableCategories/RemoveByIdList";
+//#endregion
+
+//#region Consumable Unit
+export const GET_CONSUMABLE_UNIT_LIST = "ConsumableUnits/ConsumableUnitList";
+export const GET_CONSUMABLE_UNIT_BY_ID = "ConsumableUnits/GetConsumableUnitById";
+export const INSERT_CONSUMABLE_UNIT = "ConsumableUnits/AddConsumableUnit";
+export const UPDATE_CONSUMABLE_UNIT = "ConsumableUnits/UpdateConsumableUnit";
+export const DELETE_CONSUMABLE_UNIT = "ConsumableUnits/RemoveByIdList";
+//#endregion
+
+//#region Consumable Card
+export const GET_CONSUMABLE_CARD_UNIT_LIST = "ConsumableCards/ConsumableCardsList";
+export const GET_CONSUMABLE_CARD_UNIT_BY_ID = "ConsumableCards/GetConsumableCardById";
+export const INSERT_CONSUMABLE_CARD_UNIT = "ConsumableCards/AddConsumableCard";
+export const UPDATE_CONSUMABLE_CARD_UNIT = "ConsumableCards/UpdateConsumableCard";
+export const DELETE_CONSUMABLE_CARD_UNIT = "ConsumableCards/RemoveByIdList";
 //#endregion
 
 
@@ -299,8 +315,10 @@ export const GET_DASHBOARD_GUARANTEE_FIXED_ASSET_LIST = "FixedAsset/GetFixedAsse
 
 //#region Depreciation
 export const GET_DEPRECIATION_CALCULATION_TYPE = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
-export const GET_FIXED_ASSET_DEPRECIATION_LIST = "Depreciation/GetDepreciationFixedAssetsDetailsList2"
-export const GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST = "Depreciation/GetDepreciationIFRSFixedAssetsDetailsList2"
+export const GET_FIXED_ASSET_DEPRECIATION_DETAIL_LIST = "Depreciation/GetDepreciationFixedAssetsDetailsList2"
+export const GET_FIXED_ASSET_DEPRECIATION_LIST = "Depreciation/GetDepreciationFixedAssetsDetailsList"
+export const GET_FIXED_ASSET_IFRS_DEPRECIATION_DETAIL_LIST = "Depreciation/GetDepreciationIFRSFixedAssetsDetailsList2"
+export const GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST = "Depreciation/GetDepreciationIFRSFixedAssetsDetailsList"
 //#endregion
 
 //#region CycleCountPlan
