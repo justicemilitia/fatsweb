@@ -3,6 +3,7 @@ import { FixedAssetCardProperty } from './FixedAssetCardProperty';
 import { FixedAssetCardPropertyValue } from './FixedAssetCardPropertyValue';
 import { FixedAssetCardPropertyType } from './FixedAssetCardPropertyType';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+import { Consumable } from './Consumable';
 
 export class FixedAssetPropertyDetails implements IData{
     
@@ -31,8 +32,10 @@ export class FixedAssetPropertyDetails implements IData{
     ModifiedDate: Date;
     ModifierId: number;
     IsValid: boolean;
+    ConsumableId: number;
     FixedAsset: FixedAsset;
     FixedAssetCardProperty:FixedAssetCardProperty;
     FixedAssetPropertyValues:FixedAssetCardPropertyValue;
     FixedAssetPropertyType:FixedAssetCardPropertyType;
+    Consumable:Consumable;
 }

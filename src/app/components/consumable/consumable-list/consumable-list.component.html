@@ -1,0 +1,176 @@
+<div class="az-content az-content-dashboard-four">
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+      <div class="az-content-breadcrumb">
+        <span>MALZEME LİSTESİ</span>
+      </div>
+      <!-- END Bread Crumb END -->
+      <div class="card card-dashboard-twelve mg-b-20">
+        <div class="card-header">
+          <h2 class="az-content-title">Malzeme Listesi</h2>
+          <div class="grp-btn-action">
+
+            <button class="btn btn-az-primary" id="btnAddConsumable"
+              data-toggle="modal" data-target="#modalAddConsumable" (click)="resetForm(data,true)" style="margin-right:10px"><i
+              class="fas fa-plus-circle"></i>
+            </button>
+
+            <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
+            data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
+              [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+              [class.btn-refresh-loader]="isTableExporting == true"></i>
+          </button>
+
+            <button type="button" (click)="refreshTable()"
+              class="btn btn-success btn-refresh-custom" style="margin-right:10px">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
+            </button>
+
+          </div>
+        </div>
+        <div class="sales-overview">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          </tree-grid-table>
+        </div>
+      </div>
+      <!-- az-content-body -->
+    </div>
+  </div>
+</div>
+
+<!-- LARGE MODAL -->
+<div id="modalAddConsumable" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">
+      
+        </h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
+        <div class="modal-body">
+          <div class="row justify-content-center">
+
+            <div class="form-group col-md-6">
+                <label class="required-span">Malzeme Kategorisi</label>
+                <select [(ngModel)]="consumable.ConsumableCategoryId" name="ConsumableCategoryId" class="form-control">
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let categories of consumableCategories" value="{{categories.ConsumableCategoryId}}">{{categories.ConsumableCategoryName}}</option>
+              </select>            
+            </div>
+
+            <div class="form-group col-md-6">
+                <label class="required-span">Malzeme Adı</label>
+                <select [(ngModel)]="consumable.ConsumableCardId"
+                name="ConsumableCardId" class="form-control">
+                <option [ngValue]="null">Yok</option>
+                <option *ngFor="let card of consumableCards" ></option>
+              </select>            
+            </div>
+
+          </div>
+
+          <div class="row justify-content-center">
+          <div class="form-group col-md-6">
+              <label class="required-span">Lokasyon</label>
+              <select [(ngModel)]="consumable.ConsumableCategoryId"
+              name="ConsumableCategoryId" class="form-control">
+              <option [ngValue]="null">Yok</option>
+              <option></option>
+            </select>            
+          </div>
+          <div class="form-group col-md-6">
+              <label>Tedarikçi</label>
+              <select [(ngModel)]="consumable.CompanyId"
+                name="CompanyId" class="form-control">
+                <option [ngValue]="null">Yok</option>
+                <option></option>
+              </select>            
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+              <div class="form-group col-md-6">
+                  <label>Marka</label>
+                  <select [(ngModel)]="consumable.ConsumableCategoryId"
+                  name="ConsumableCategoryId" class="form-control">
+                  <option [ngValue]="null">Yok</option>
+                  <option></option>
+                </select>            
+              </div>  
+              <div class="form-group col-md-6">
+                <label>Model</label>
+                <select class="form-control">
+                  <option [ngValue]="null">Yok</option>
+                  <option></option>
+                </select>            
+              </div>            
+          </div>
+
+          <div class="row justify-content-center">            
+              <div class="form-group col-md-6">
+                  <label class="required-span">Miktar</label>
+                  <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"/>
+              </div>  
+              <div class="form-group col-md-6">
+                    <label>Birim</label>
+                    <input [(ngModel)]="consumable.ConsumableUnits" name="ConsumableUnits" class="form-control" type="text" />
+              </div>            
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>Özellik Adı</label>
+              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
+                <option value="-1">Özellik Seçiniz</option>
+                <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+              </select> 
+              <div *ngIf="visible == true" style="color:red">
+                  <div>Bir özellik seçiniz.</div>
+                </div> 
+            </div>
+            <div class="form-group col-md-6">
+                <label>Özellik Değeri</label>   
+                <div class="flexProperty">
+                  <div style="flex:1;">
+                  <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
+                    <option [ngValue]="null">Özellik Değeri Seçiniz</option>
+                    <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
+                  </select> 
+                  <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
+                  <div *ngIf="visible == true" style="color:red">
+                      <div>Özellik değeri giriniz.</div>
+                    </div>
+                    <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     
+                  </div>
+                  <div class="property-add-value">                    
+                    <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
+                  </div>    
+                </div>
+            </div>
+          </div>   
+          <div class="row justify-content-center">
+              <div class="form-group col-md-12">   
+                      <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+              </div>   
+          </div>   
+        </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit"
+            data-toggle="modal" data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
+            {{consumable.ConsumableId ?  'Güncelle' : 'Ekle'}}
+          </button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
