@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { ConsumableCategory } from './ConsumableCategory';
 import { ConsumableUnit } from './ConsumableUnit';
@@ -36,8 +35,4 @@ export class ConsumableCard implements IData{
     ConsumableCategory: ConsumableCategory;
     ConsumableUnit: ConsumableUnit;
     // Consumables: Consumable[]= [];
-=======
-export class ConsumableCard {
-    
->>>>>>> 65d08f23dbfc92d06ac99d22a89b392910c1934e
 }

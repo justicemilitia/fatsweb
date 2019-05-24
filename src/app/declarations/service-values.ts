@@ -2,13 +2,8 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 // export const SERVICE_URL = "http://localhost:5000/api/";
-<<<<<<< HEAD
 //export const SERVICE_URL = "http://localhost:11889/api/";
 export const SERVICE_URL = "http://dev.fatsapi.com/api/";
-=======
-export const SERVICE_URL = "http://localhost:11889/api/";
-//export const SERVICE_URL = "http://dev.fatsapi.com/api/";
->>>>>>> 65d08f23dbfc92d06ac99d22a89b392910c1934e
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
