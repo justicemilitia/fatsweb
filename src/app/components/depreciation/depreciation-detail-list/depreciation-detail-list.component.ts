@@ -1058,7 +1058,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
 
   async filterDepreciation(data: NgForm){
     /* Is Form Valid */
-    if (data.form.invalid == true) return;
+    // if (data.form.invalid == true) return;
 
     this.fixedAssetFilter.IsFilter = true;
     this.fixedAssetFilter.Page = 1;
