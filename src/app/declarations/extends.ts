@@ -20,7 +20,13 @@ export const convertDateToNgbDate = (value: any):NgbDate => {
             value = value.substring(0, 10).split('/');
             value = new NgbDate(Number(value[2]),Number(value[0]),Number(value[1]));
             return value;
-        }else {
+        }
+        else if(value.includes('.')){
+            value = value.substring(0, 10).split('.');
+            value = new NgbDate(Number(value[2]),Number(value[0]),Number(value[1]));
+            return value;
+        }
+        else {
 
             value = value.substring(0, 10).split('-');
             value = new NgbDate(Number(value[0]),Number(value[1]),Number(value[2]));
