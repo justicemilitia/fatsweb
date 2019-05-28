@@ -1,67 +1,176 @@
-import { Component, OnInit, NgModule } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { BaseComponent } from '../../base/base.component';
-import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
-import { BaseService } from '../../../services/base.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Consumable } from 'src/app/models/Consumable';
-import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
-import { FixedAssetCardPropertyValue } from 'src/app/models/FixedAssetCardPropertyValue';
-import { FixedAssetCardProperty } from 'src/app/models/FixedAssetCardProperty';
-import { PropertyValueTypes } from 'src/app/declarations/property-value-types.enum';
-import { ConsumableCategory } from 'src/app/models/ConsumableCategory';
-import { FixedAssetCardBrand } from 'src/app/models/FixedAssetCardBrand';
-import { FixedAssetCardModel } from 'src/app/models/FixedAssetCardModel';
-import { ConsumableCard } from 'src/app/models/ConsumableCard';
+import { Component, OnInit, NgModule } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { BaseComponent } from "../../base/base.component";
+import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
+import { BaseService } from "../../../services/base.service";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Consumable } from "src/app/models/Consumable";
+import { FixedAssetPropertyDetails } from "src/app/models/FixedAssetPropertyDetails";
+import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
+import { FixedAssetCardProperty } from "src/app/models/FixedAssetCardProperty";
+import { PropertyValueTypes } from "src/app/declarations/property-value-types.enum";
+import { ConsumableCategory } from "src/app/models/ConsumableCategory";
+import { FixedAssetCardBrand } from "src/app/models/FixedAssetCardBrand";
+import { FixedAssetCardModel } from "src/app/models/FixedAssetCardModel";
+import { ConsumableCard } from "src/app/models/ConsumableCard";
+import { Location } from "src/app/models/Location";
+import { Company } from "src/app/models/Company";
+import { ConsumableUnit } from 'src/app/models/ConsumableUnit';
 
 @Component({
-  selector: 'app-consumable-list',
-  templateUrl: './consumable-list.component.html',
-  styleUrls: ['./consumable-list.component.css']
+  selector: "app-consumable-list",
+  templateUrl: "./consumable-list.component.html",
+  styleUrls: ["./consumable-list.component.css"]
 })
 export class ConsumableListComponent extends BaseComponent implements OnInit {
+  isTableRefreshing: boolean = false;
 
-  isTableRefreshing:boolean = false;
+  isTableExporting: boolean = false;
 
-  isTableExporting:boolean = false;
+  isListSelected: boolean = false;
 
-  isListSelected:boolean=false;
+  isLocationDropdownOpen: boolean = false;
 
-  isWaitingInsertOrUpdate:boolean=false;
+  isWaitingInsertOrUpdate: boolean = false;
 
-  isSelectedProperty:boolean=false;
+  isSelectedProperty: boolean = false;
 
-  visible:boolean=false;
+  visible: boolean = false;
+
+  visiblePropertyName:boolean = false;
 
   propertyValue: string;
 
-  consumable:Consumable = new Consumable();
+  consumable: Consumable = new Consumable();
 
-  fixedAssetPropertyDetail:FixedAssetPropertyDetails=new FixedAssetPropertyDetails();
+  consumableCard: ConsumableCard=new ConsumableCard();
 
-  fixedAssetCardPropertyValue:FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+  fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
+
+  fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
 
   faProperties: FixedAssetCardProperty[] = [];
+
+  locations: Location[] = [];
+
+  companies: Company[] = [];
+
+  consumables: Consumable[] = [];
 
   fixedassetproperty: FixedAssetCardProperty[] = [];
 
   faPropertyDetails: FixedAssetPropertyDetails[] = [];
 
-  consumableCategories:ConsumableCategory[]=[];
+  consumableCategories: ConsumableCategory[] = [];
 
-  consumableCards:ConsumableCard[]=[];
-  
+  consumableCards: ConsumableCard[] = [];
+
   brands: FixedAssetCardBrand[] = [];
-  
+
   models: FixedAssetCardModel[] = [];
 
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
-  
-  constructor(public baseService: BaseService) { 
-    
+
+  /* Data Table */
+  public dataTable: TreeGridTable = new TreeGridTable(
+    "consumablematerial",
+    [
+      {
+        columnDisplayName: "Malzeme Kodu",
+        columnName: ["ConsumableCard","ConsumableCardCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Kategori Adı",
+        columnName: ["ConsumableCard","ConsumableCategory","ConsumableCategoryName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Malzeme Adı",
+        columnName: ["ConsumableCard","ConsumableCardName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["ConsumableLocation", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Toplam Miktar",
+        columnName: ["ConsumableAmount"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["ConsumableCard","ConsumableCardName"]
+    }
+  );
+
+  public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalue",
+    [
+      {
+        columnDisplayName: "Özellik Adı",
+        columnName: ["FixedAssetCardProperty", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["FixedAssetCardProperty", "Name"]
+    }
+  );
+
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "location",
+    [
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  constructor(public baseService: BaseService) {
     super(baseService);
     this.loadFixedAssetProperties();
     this.loadDropdown();
+    this.loadConsumableList();
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
@@ -70,89 +179,41 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.dataTablePropertyValue.isFilterActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isScrollActive = false;
+    this.dataTablePropertyValue.isDeleteable=true;
+
+    this.dataTableLocation.isPagingActive = false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isMultipleSelectedActive = false;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isHeaderVisible = false;
+    this.dataTableLocation.isScrollActive = false;
+
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnLocation").length == 0
+      ) {
+        this.isLocationDropdownOpen = false;
+      }
+    });
   }
 
-    /* Data Table */
-    public dataTable: TreeGridTable = new TreeGridTable(
-      "consumablematerial",
-      [
-        {
-          columnDisplayName: "Malzeme Kodu",
-          columnName: ["ConsumableCategoryName"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Kategori Adı",
-          columnName: ["ConsumableCategoryName"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Kategori Kodu",
-          columnName: ["ConsumableCategoryCode"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Lokasyon",
-          columnName: ["Location","Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Toplam Miktar",
-          columnName: ["ConsumableAmount"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        
-      ],
-      {
-        isDesc: false,
-        column: ["ConsumableCategoryName"]
-      }
-    );
+  ngOnInit() {}
 
-    public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
-      "fixedassetpropertyvalue", [
-        {
-          columnDisplayName: "Özellik Adı",
-          columnName: ["FixedAssetCardProperty", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Özellik Değeri",
-          columnName: ["Value"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        }
-      ],
-      {
-        isDesc: false,
-        column: ["FixedAssetCardProperty", "Name"]
-      }
-    )
+  onSubmit(data: NgForm) {
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
 
-  ngOnInit() {
+    this.addConsumableMaterial(data);
   }
 
-  loadDropdown(){
+  selectedLocation: Location;
+  onClickLocation(item) {
+    this.selectedLocation = item;
+  }
+
+  async loadDropdown() {
     this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
       (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
         this.fixedassetproperty = fixedAssetCardProperties;
@@ -162,13 +223,33 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       }
     );
 
+    this.baseService.companyService.GetCompanies(
+      (companies: Company[]) => {
+        this.companies = companies;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
     this.baseService.consumableCategoryService.GetConsumableCategories(
-    (categories:ConsumableCategory[])=>{
-      this.consumableCategories = categories;
-    },
-    (error:HttpErrorResponse)=>{
-      this.baseService.popupService.ShowErrorPopup(error);
-    });
+      (categories: ConsumableCategory[]) => {
+        this.consumableCategories = categories;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.baseService.locationService.GetLocations(
+      (locations: Location[]) => {
+        this.locations = locations;
+        this.dataTableLocation.TGT_loadData(this.locations);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
 
     if (this.brands && this.brands.length == 0) {
       this.models = [];
@@ -182,8 +263,9 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     }
   }
 
-  loadConsumableCardByCategoryId(event:any){
+  async loadConsumableCardByCategoryId(event: any) {
     this.consumableCards = [];
+    this.consumableCard.ConsumableUnit = null;    
 
     if (!event.target.value || event.target.value == "") {
       this.consumable.ConsumableCardId = null;
@@ -191,14 +273,53 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       return;
     }
     if (event.target.value) {
+      this.baseService.consumableCardService.GetConsumableCardsByCategoryId(
+        <number>event.target.value,
+        (consumableCards: ConsumableCard[]) => {
+          this.consumableCards = consumableCards;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+  }
 
-    this.baseService.consumableCardService.GetConsumableCardsByCategoryId(<number>event.target.value,
-      (consumableCards:ConsumableCard[]) => {
-        this.consumableCards = consumableCards;
+  async loadConsumableUnitByCardId(event:any){
+
+    if (!event.target.value || event.target.value == "") {
+      this.consumable.ConsumableUnits.ConsumableUnitId = null;
+      this.consumable.ConsumableUnits = new ConsumableUnit();
+      return;
+    }
+    this.baseService.consumableService.GetConsumableCardUnitByCardId(<number>event.target.value,
+      (consumablecard:ConsumableCard) => {
+        this.consumableCard = consumablecard; 
       },
-      (error:HttpErrorResponse) => {
+      (error:HttpErrorResponse)=>{
         this.baseService.popupService.ShowErrorPopup(error);
       });
+  }
+
+  async loadModelByBrandId(event: any) {
+    this.models = [];
+
+    if (!event.target.value || event.target.value == "") {
+      this.consumable.ConsumableModelId = null;
+      this.consumable.FixedAssetCardModel = new FixedAssetCardModel();
+      return;
+    }
+
+    if (event.target.value) {
+      this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
+        <number>event.target.value,
+        (models: FixedAssetCardModel[]) => {
+          this.models = models;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
     }
   }
 
@@ -221,15 +342,41 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       }
     );
   }
-  
+
+  loadConsumableList() {
+    /* Load all consumables to datatable */
+    this.baseService.consumableService.GetConsumableList(
+      (consumables: Consumable[]) => {
+        this.consumables = consumables;
+        this.dataTable.TGT_loadData(this.consumables);
+        consumables.forEach(e=>{
+          e.FixedAssetPropertyDetails.forEach(p=>{
+            if(p.FixedAssetCardPropertyId){
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+            }
+          });
+        });  
+        if (this.consumables.length == 0) {
+          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+        }
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
   getPropertyValue(event: any) {
     this.propertyValue = event.target.value;
     this.visible = false;
   }
 
   async loadValuesByPropertyId(event) {
+
     this.isSelectedProperty = true;
+
     this.visible = false;
+
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
     );
@@ -251,38 +398,107 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   }
 
   insertPropertyValueToArray(propertyId: any) {
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
 
-    //let propId = Number(propertyId.value);
-    //this.isUniqueFixedAssetProperty(propId);
+      if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
 
-    //if(this.isUniqueProperty != true){
+        this.visiblePropertyName=false;
 
-      if (this.isSelectedProperty == true) {
-        let fixedasset = this.fixedassetproperty.find(
-          x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-        );
+        if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId !=null){
+        
+            let fixedasset = this.fixedassetproperty.find(
+              x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+            );
+      
+            this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+              (this.faPropertyDetails.length + 1) * -1;
+      
+            this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+      
+            if (this.isListSelected == true)
+              this.fixedAssetPropertyDetail.Value = this.propertyValue;
+            this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+      
+            this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+      
+            this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+            this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+            propertyId = null;
+            this.visible = false;
+            this.isSelectedProperty = false;
 
-        this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-          (this.faPropertyDetails.length + 1) * -1;
-
-        this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
-
-        if (this.isListSelected == true)
-          this.fixedAssetPropertyDetail.Value = this.propertyValue;
-        this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
-
-        this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
-
-        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-        this.fixedAssetCardPropertyValue=new FixedAssetCardPropertyValue();
-        propertyId = null;
-        this.visible = false;
-        this.isSelectedProperty = false;
-      } else {
-        this.visible = true;
+        }else{
+          this.visiblePropertyName=true;    
+        } 
+      }else{
+          this.visible=true;
+          this.visiblePropertyName=true;    
       }
-    //}
+  }
+
+  addConsumableMaterial(data: NgForm) {
+    let insertedItem: Consumable = new Consumable();
+    let propertyDetail = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
+    insertedItem.ConsumableLocationId=this.selectedLocation.LocationId;
+
+    Object.assign(insertedItem, this.consumable);
+    insertedItem.FixedAssetPropertyDetails = propertyDetail;
+
+    this.baseService.consumableService.InsertConsumableMaterial(
+      insertedItem,
+      (consumableItem:Consumable,message) => {
+        this.isWaitingInsertOrUpdate = false;
+
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        insertedItem.ConsumableId = consumableItem.ConsumableId;
+
+        $('refreshTable').trigger('click');
+      
+        //Apiyi düzelttir! Yanlış nesne dönüyor.
+
+        // this.consumables.push(insertedItem);
+
+        // this.dataTable.TGT_loadData(this.consumables);
+
+        this.resetForm(data, true);
+      },
+      (error:HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  toggleDropdown(key: string) {
+    switch (key) {
+      case "location":
+        this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+        break;
+    }
+  }
+
+  resetForm(data: NgForm, isNewItem: boolean) {
+    if (isNewItem == true) {
+      this.consumable = new Consumable();   
+    }
+    data.reset();
+    data.resetForm(this.consumable);
+  }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadConsumableList();
+
+    this.isTableRefreshing = false;
   }
 
 }

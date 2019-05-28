@@ -2,8 +2,8 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 // export const SERVICE_URL = "http://localhost:5000/api/";
-//export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://localhost:11889/api/";
+//export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -170,7 +170,6 @@ export const INSERT_CONSUMABLE_CATEGORY = "ConsumableCategories/AddConsumableCat
 export const UPDATE_CONSUMABLE_CATEGORY = "ConsumableCategories/UpdateConsumableCategory";
 export const DELETE_CONSUMABLE_CATEGORY = "ConsumableCategories/RemoveByIdList";
 export const INSERT_CONSUMABLE_MATERIAL = "Consumable/AddRequestedMaterial";
-export const GET_CONSUMABLE_CARDS_BY_CATEGORY_ID = "ConsumableCards/GetConsumableCategoryById";
 //#endregion
 
 //#region Consumable Unit
@@ -187,6 +186,12 @@ export const GET_CONSUMABLE_CARD_UNIT_BY_ID = "ConsumableCards/GetConsumableCard
 export const INSERT_CONSUMABLE_CARD_UNIT = "ConsumableCards/AddConsumableCard";
 export const UPDATE_CONSUMABLE_CARD_UNIT = "ConsumableCards/UpdateConsumableCard";
 export const DELETE_CONSUMABLE_CARD_UNIT = "ConsumableCards/RemoveByIdList";
+export const GET_CONSUMABLE_CARDS_BY_CATEGORY_ID = "ConsumableCards/GetConsumableCategoryById";
+//#endregion
+
+//#region Consumable Material
+export const GET_CONSUMABLE_LIST = "Consumable/GetConsumableList";
+export const ADD_CONSUMABLE_MATERIAL ="Consumable/AddConsumableMaterial";
 //#endregion
 
 

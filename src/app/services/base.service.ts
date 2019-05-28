@@ -41,6 +41,7 @@ import { ConsumableCategoryService } from './consumable-category-service/consuma
 import { ConsumableCard } from '../models/ConsumableCard';
 import { ConsumableCardService } from './consumable-card-service/consumable-card.service';
 import { ConsumableUnitService } from './consumable-card-service/consumable-unit.service';
+import { ConsumableService } from './consumable-service/consumable.service';
 
 @Injectable({
   providedIn: "root"
@@ -62,6 +63,7 @@ export class BaseService {
     public consumableCategoryService : ConsumableCategoryService,
     public consumableCardService: ConsumableCardService,
     public consumableUnitService: ConsumableUnitService,
+    public consumableService: ConsumableService,
     public popupService: PopupService,
     public errorService: ErrorService,
     public expenseCenterService: ExpenseCenterService,

@@ -22,7 +22,7 @@
               [class.btn-refresh-loader]="isTableExporting == true"></i>
           </button>
 
-            <button type="button" (click)="refreshTable()"
+            <button type="button" (click)="refreshTable()"  id="refreshTable"
               class="btn btn-success btn-refresh-custom" style="margin-right:10px">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
@@ -58,19 +58,27 @@
 
             <div class="form-group col-md-6">
                 <label class="required-span">Malzeme Kategorisi</label>
-                <select [(ngModel)]="consumable.ConsumableCategoryId" name="ConsumableCategoryId" class="form-control">
-                <option [ngValue]="null">Yok</option>
+                <select [(ngModel)]="consumable.ConsumableCategoryId" name="ConsumableCategoryId" class="form-control select2-no-search" (change)="loadConsumableCardByCategoryId($event)"
+                [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryId.invalid }" #ConsumableCategoryId="ngModel" required>
+                <option [ngValue]="null">Seçiniz</option>
                 <option *ngFor="let categories of consumableCategories" value="{{categories.ConsumableCategoryId}}">{{categories.ConsumableCategoryName}}</option>
-              </select>            
+              </select>  
+              <div *ngIf="data.submitted && ConsumableCategoryId.invalid" class="invalid-feedback">
+                <div *ngIf="ConsumableCategoryId.errors.required">Bu alan zorunludur.</div>
+              </div>             
             </div>
 
             <div class="form-group col-md-6">
                 <label class="required-span">Malzeme Adı</label>
                 <select [(ngModel)]="consumable.ConsumableCardId"
-                name="ConsumableCardId" class="form-control">
-                <option [ngValue]="null">Yok</option>
-                <option *ngFor="let card of consumableCards" ></option>
-              </select>            
+                name="ConsumableCardId" class="form-control select2-no-search" (change)="loadConsumableUnitByCardId($event)"
+                [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardId.invalid }" #ConsumableCardId="ngModel" required>
+                <option [ngValue]="null">Seçiniz</option>
+                <option *ngFor="let card of consumableCards"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
+              </select>   
+              <div *ngIf="data.submitted && ConsumableCardId.invalid" class="invalid-feedback">
+                <div *ngIf="ConsumableCardId.errors.required">Bu alan zorunludur.</div>
+              </div>           
             </div>
 
           </div>
@@ -78,18 +86,23 @@
           <div class="row justify-content-center">
           <div class="form-group col-md-6">
               <label class="required-span">Lokasyon</label>
-              <select [(ngModel)]="consumable.ConsumableCategoryId"
-              name="ConsumableCategoryId" class="form-control">
-              <option [ngValue]="null">Yok</option>
-              <option></option>
-            </select>            
+              <div style="display:flex;">
+                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
+                  <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
+                </div>
+                <div *ngIf="data.submitted && !selectedLocation" style="color:red">
+                  <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
+                </div>    
+                <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                  <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
+                </div>
           </div>
           <div class="form-group col-md-6">
               <label>Tedarikçi</label>
               <select [(ngModel)]="consumable.CompanyId"
-                name="CompanyId" class="form-control">
-                <option [ngValue]="null">Yok</option>
-                <option></option>
+                name="CompanyId" class="form-control select2-no-search">
+                <option [ngValue]="null">Seçiniz</option>
+                <option *ngFor="let company of companies" value="{{company.CompanyId}}">{{company.Name}}</option>
               </select>            
             </div>
           </div>
@@ -97,17 +110,17 @@
           <div class="row justify-content-center">
               <div class="form-group col-md-6">
                   <label>Marka</label>
-                  <select [(ngModel)]="consumable.ConsumableCategoryId"
-                  name="ConsumableCategoryId" class="form-control">
-                  <option [ngValue]="null">Yok</option>
-                  <option></option>
+                  <select 
+                  name="ConsumableBrandId" class="form-control select2-no-search" (change)="loadModelByBrandId($event)">
+                  <option [ngValue]="null">Seçiniz</option>
+                  <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
                 </select>            
               </div>  
               <div class="form-group col-md-6">
                 <label>Model</label>
-                <select class="form-control">
-                  <option [ngValue]="null">Yok</option>
-                  <option></option>
+                <select [(ngModel)]="consumable.ConsumableModelId" name="ConsumableModelId" style="width:100%;"  class="form-control select2-no-search">
+                  <option [ngValue]="null">Seçiniz</option>
+                  <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
                 </select>            
               </div>            
           </div>
@@ -115,11 +128,15 @@
           <div class="row justify-content-center">            
               <div class="form-group col-md-6">
                   <label class="required-span">Miktar</label>
-                  <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"/>
+                  <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"
+                  [ngClass]="{ 'is-invalid': data.submitted && ConsumableAmount.invalid }" #ConsumableAmount="ngModel" required/>
+                  <div *ngIf="data.submitted && ConsumableAmount.invalid" class="invalid-feedback">
+                    <div *ngIf="ConsumableAmount.errors.required">Bu alan zorunludur.</div>
+                  </div>
               </div>  
               <div class="form-group col-md-6">
                     <label>Birim</label>
-                    <input [(ngModel)]="consumable.ConsumableUnits" name="ConsumableUnits" class="form-control" type="text" />
+                    <input name="ConsumableUnits"  value="{{consumableCard.ConsumableUnit == null ? '' : consumableCard.ConsumableUnit.ConsumableUnitName}}" class="form-control" type="text" disabled/>
               </div>            
           </div>
 
@@ -143,7 +160,7 @@
                     <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
                   </select> 
                   <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
-                  <div *ngIf="visible == true" style="color:red">
+                  <div *ngIf="visiblePropertyName == true" style="color:red">
                       <div>Özellik değeri giriniz.</div>
                     </div>
                     <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     

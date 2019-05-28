@@ -29,10 +29,8 @@ export class ConsumableCardService {
       )
       .subscribe(result => {
         let response:Response = <Response>result;
-        if(response.ResultStatus == true){
-          let consumablecard : ConsumableCard = new ConsumableCard();
-          Object.assign(consumablecard,response.ResultObject);
-          success(consumablecard,response.LanguageKeyword);
+        if(response.ResultStatus == true){     
+          success(<ConsumableCard[]>response.ResultObject,response.LanguageKeyword);
         }
         else{
           failed(getAnErrorResponse(response.LanguageKeyword));
