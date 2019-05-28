@@ -23,7 +23,7 @@ export const convertDateToNgbDate = (value: any):NgbDate => {
         }
         else if(value.includes('.')){
             value = value.substring(0, 10).split('.');
-            value = new NgbDate(Number(value[2]),Number(value[0]),Number(value[1]));
+            value = new NgbDate(Number(value[2]),Number(value[1]),Number(value[0]));
             return value;
         }
         else {
@@ -59,5 +59,5 @@ export const convertNgbDateToDateString = (value:NgbDate):any => {
 export const getToday = ():NgbDate => {
    
     let today=new Date();
-    return convertDateToNgbDate(today.toLocaleDateString());
+    return convertDateToNgbDate(today.toLocaleDateString("tr-TR"));
 }

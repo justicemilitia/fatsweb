@@ -1129,6 +1129,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
 
   today() {
     let getdate:NgbDate = getToday();
+    console.log(getToday());
     return getToday();
   }
 
