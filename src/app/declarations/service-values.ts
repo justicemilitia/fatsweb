@@ -192,6 +192,12 @@ export const GET_CONSUMABLE_CARDS_BY_CATEGORY_ID = "ConsumableCards/GetConsumabl
 //#region Consumable Material
 export const GET_CONSUMABLE_LIST = "Consumable/GetConsumableList";
 export const ADD_CONSUMABLE_MATERIAL ="Consumable/AddConsumableMaterial";
+//#region Consumable Card Unit
+export const GET_CONSUMABLE_CARD_LIST = "ConsumableCards/ConsumableCardsList";
+export const GET_CONSUMABLE_CARD_BY_ID = "ConsumableCards/GetConsumableCardById";
+export const INSERT_CONSUMABLE_CARD = "ConsumableCards/AddConsumableCard";
+export const UPDATE_CONSUMABLE_CARD = "ConsumableCards/UpdateConsumableCard";
+export const DELETE_CONSUMABLE_CARD = "ConsumableCards/RemoveByIdList";
 //#endregion
 
 

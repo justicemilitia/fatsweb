@@ -60,20 +60,19 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Malzeme Kart Kodu</label>
+              <label class="required-span">Malzeme Kodu</label>
               <input type="text" trim="blur" [(ngModel)]="consumableCard.ConsumableCardCode"
                 #ConsumableCardCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardCode.invalid }"
                 name="ConsumableCardCode" required maxlength="50" class="form-control" />
               <div *ngIf="data.submitted && ConsumableCardCode.invalid" class="invalid-feedback">
                 <div *ngIf="ConsumableCardCode.errors.required">Bu alan zorunludur.</div>
                 <div *ngIf="ConsumableCardCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
-
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Malzeme Kart Adı</label>
+              <label class="required-span">Malzeme Adı</label>
               <input [(ngModel)]="consumableCard.ConsumableCardName" name="ConsumableCardName" type="text" trim="blur" class="form-control"
                 #ConsumableCardName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardName.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && ConsumableCardName.invalid" class="invalid-feedback">
@@ -84,7 +83,7 @@
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Malzeme Kart Kategorisi</label>
+              <label class="required-span">Malzeme Kategorisi</label>
               <select [(ngModel)]="consumableCard.ConsumableCategoryId" name="ConsumableCategoryId"
                 [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryId.invalid }" class="form-control"
                 (click)="loadConsumableCategories()" #ConsumableCategoryId="ngModel" required>
@@ -101,11 +100,15 @@
             <div class="col-md-6 form-group">
               <label class="required-span">Birim</label>
               <select [(ngModel)]="consumableCard.ConsumableUnitId" name="ConsumableUnitId" class="form-control"
-                (click)="loadConsumableUnits()" #ConsumableUnitId="ngModel" required>
+              [ngClass]="{ 'is-invalid': data.submitted && ConsumableUnitId.invalid }"
+              (click)="loadConsumableUnits()" #ConsumableUnitId="ngModel" required>
                 <option [ngValue]="null">Yok</option>
                 <option *ngFor="let consumableUnit of consumableUnits"
-                  value={{consumableUnit.ConsumableUnitId}}>{{consumableUnit.ConsumableCategoryName}}</option>
+                  value={{consumableUnit.ConsumableUnitId}}>{{consumableUnit.ConsumableUnitName}}</option>
               </select>
+              <div *ngIf="data.submitted && ConsumableUnitId.invalid" class="invalid-feedback">
+                <div *ngIf="ConsumableUnitId.errors.required">Bu alan zorunludur.</div>
+              </div>
             </div>
             <div class="col-md-6 form-group">
               <label>Minimum Stok Seviyesi</label>
@@ -113,14 +116,15 @@
                 #MinimumStockLevel="ngModel" maxlength="50" />
             </div>
           </div>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-md-12 form-group">
+          <div class="row justify-content-center">
+           <div class="col-md-12 form-group">
             <label>Açıklama</label>
             <textarea [(ngModel)]="consumableCard.Description" name="Description" style="resize:none" rows="2"
               #Description="ngModel" class="form-control" type="text" maxlength="150"></textarea>
           </div>
         </div>
+        </div>
+   
         <!-- form-group -->
         <div class="modal-footer justify-content-center">
           <button id="btnInsertOrUpdateConsumableCard" type="submit" class="btn btn-az-primary" data-toggle="modal"

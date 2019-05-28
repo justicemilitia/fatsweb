@@ -54,14 +54,14 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     /* Is Table Exporting */
     isTableExporting: boolean = false;
     faProperties: FixedAssetCardProperty[] = [];
-    
+
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "depreciation",
     [
       {
         columnDisplayName: "Barkod",
-        columnName: ["FixedAsset","Barcode"],
+        columnName:["Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -69,7 +69,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Demirbaş Adı",
-        columnName: ["FixedAsset","FixedAssetCard", "Name"],
+        columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -77,7 +77,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Fiyat",
-        columnName: ["FixedAsset","Price"],
+        columnName: ["Price"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -85,7 +85,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Fatura No",
-        columnName: ["FixedAsset","InvoiceNo"],
+        columnName: ["InvoiceNo"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -93,7 +93,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Fatura Tarihi",
-        columnName: ["FixedAsset","InvoiceDate"],
+        columnName: ["InvoiceDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -109,7 +109,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Aktivasyon Tarihi",
-        columnName: ["FixedAsset","ActivationDate"],
+        columnName: ["ActivationDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -125,7 +125,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Masraf Yeri",
-        columnName: ["FixedAsset","ExpenseCenter", "Name"],
+        columnName: ["ExpenseCenter", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -133,7 +133,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Demirbaş Açıklaması",
-        columnName: ["FixedAsset","Description"],
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -142,8 +142,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       {
         //  NESNE DÖNÜLECEK
         columnDisplayName: "Amortisman Yöntemi",
-        columnName: [
-          "FixedAsset","DepreciationCalculationType",
+        columnName: ["DepreciationCalculationType",
           "DepreciationCalculationTypeDescription"
         ],
         isActive: true,
@@ -153,7 +152,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Amortisman hesaplanacak mı ?",
-        columnName: ["FixedAsset","WillDepreciationBeCalculated"],
+        columnName: ["WillDepreciationBeCalculated"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -161,7 +160,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Amortisman Periyodu",
-        columnName: ["FixedAsset","DepreciationPeriod"],
+        columnName: ["DepreciationPeriod"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -169,7 +168,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Ifrs hesaplanacak mı ?",
-        columnName: ["FixedAsset","WillIfrsbeCalculated"],
+        columnName: ["WillIfrsbeCalculated"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -177,7 +176,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Ifrs Fiyatı",
-        columnName: ["FixedAsset","Ifrsprice"],
+        columnName: ["Ifrsprice"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -185,7 +184,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Ifrs Periyodu",
-        columnName: ["FixedAsset","Ifrsperiod"],
+        columnName: ["Ifrsperiod"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -193,7 +192,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       },
       {
         columnDisplayName: "Enflasyon hesaplanacak mı?",
-        columnName: ["FixedAsset","HasInflationIndexation"],
+        columnName: ["HasInflationIndexation"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -202,11 +201,11 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     ],
     {
       isDesc: false,
-      column: ["FixedAsset","Barcode"]
+      column: ["Barcode"]
     }
   );
 
-  
+
   public dataTableDepreciationDetail: TreeGridTable = new TreeGridTable(
     "depreciationdetail",
     [
@@ -291,16 +290,18 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   constructor(protected baseService: BaseService) {
     super(baseService);
-    this.loadFixedAssetDepreciations();
+    // this.loadFixedAssetDepreciations();
     this.loadDropdownList();
+    this.loadFixedAsset(this.perInPage, this.currentPage);
+    this.loadFixedAssetProperties();
 
     this.dataTable.isPagingActive = false;
 
     this.dataTableDepreciationDetail.isPagingActive=false;
     this.dataTableDepreciationDetail.isMultipleSelectedActive=false;
-    
+
     this.dataTableIFRSDepreciationDetail.isPagingActive=false;
-    this.dataTableIFRSDepreciationDetail.isMultipleSelectedActive=false;    
+    this.dataTableIFRSDepreciationDetail.isMultipleSelectedActive=false;
   }
 
   async loadFixedAssetProperties() {
@@ -406,16 +407,50 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   ngOnInit() {}
 
-  //Demirbaş Listesi
-  // async loadFixedAsset(_isValid, _perInPage: number = 25, _currentPage: number = 1) {
+    //Demirbaş Listesi
+    async loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {
+
+      this.searchDescription = '';
+      this.dataTable.TGT_clearData();
+      this.dataTable.isLoading = true;
+
+      this.baseService.fixedAssetService.GetFixedAsset(_perInPage, _currentPage, false,
+        (fa: FixedAsset[], totalPage: number, message: string) => {
+
+          this.perInPage = _perInPage;
+          this.currentPage = _currentPage;
+          this.dataTable.perInPage = _perInPage;
+          this.fixedAssets = fa;
+          this.totalPage = totalPage ? totalPage : 1;
+
+          fa.forEach(e => {
+            e.FixedAssetPropertyDetails.forEach(p => {
+              if (p.FixedAssetCardPropertyId) {
+                e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+              }
+            });
+          });
+          this.dataTable.TGT_loadData(this.fixedAssets);
+          this.TGT_calculatePages();
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+
+
+  //Amortisman Detayları
+  // async loadFixedAssetDepreciations(_perInPage: number = 25, _currentPage: number = 1) {
   //   this.searchDescription = "";
   //   this.dataTable.TGT_clearData();
   //   this.dataTable.isLoading = true;
 
-  //   this.baseService.fixedAssetService.GetFixedAsset(
+  //   this.baseService.depreciationService.GetDepreciationFixedAsset(
   //     _perInPage,
   //     _currentPage,
   //     false,
+  //     true,
   //     (fa: FixedAsset[], totalPage: number, message: string) => {
   //       this.perInPage = _perInPage;
   //       this.currentPage = _currentPage;
@@ -423,13 +458,6 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   //       this.fixedAssets = fa;
   //       this.totalPage = totalPage ? totalPage : 1;
 
-  //       fa.forEach(e => {
-  //         e.FixedAssetPropertyDetails.forEach(p => {
-  //           if (p.FixedAssetCardPropertyId) {
-  //             e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
-  //           }
-  //         });
-  //       });
   //       this.dataTable.TGT_loadData(this.fixedAssets);
   //       this.TGT_calculatePages();
   //     },
@@ -439,35 +467,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   //   );
   // }
 
-  //Amortisman Detayları 
-  async loadFixedAssetDepreciations(_perInPage: number = 25, _currentPage: number = 1) {
-    this.searchDescription = "";
-    this.dataTable.TGT_clearData();
-    this.dataTable.isLoading = true;
-
-    this.baseService.depreciationService.GetDepreciationFixedAsset(
-      _perInPage,
-      _currentPage,
-      false,
-      true,
-      (fa: FixedAsset[], totalPage: number, message: string) => {
-        this.perInPage = _perInPage;
-        this.currentPage = _currentPage;
-        this.dataTable.perInPage = _perInPage;
-        this.fixedAssets = fa;
-        this.totalPage = totalPage ? totalPage : 1;
-
-        this.dataTable.TGT_loadData(this.fixedAssets);
-        this.TGT_calculatePages();
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
-
   loadDropdownList() {
-    
+
     this.baseService.currencyService.GetCurrencies(
       currencies => {
         this.currencies = currencies;
@@ -587,7 +588,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
               this.dataTable.TGT_updateData(willUpdateItem);
 
               this.resetForm(dataDepreciation, true);
-              this.loadFixedAssetDepreciations();
+              // this.loadFixedAssetDepreciations();
+              this.loadFixedAsset(this.perInPage, this.currentPage);
+              this.loadFixedAssetProperties();
+
 
               /* Get original source from table */
               this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
@@ -603,7 +607,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     );
   }
 
-  
+
   loadDepreciationByFixedAssetId(){
 
     let selectedIds = (<FixedAsset[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
@@ -616,22 +620,22 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         if(depreciationDetails.length==0){
           this.baseService.popupService.ShowWarningPopup("Record_not_found");
           this.dataTableDepreciationDetail.isLoading=false;
-          
+
           let dataSource : Depreciation[]=[];
           this.dataTableDepreciationDetail.TGT_loadData(dataSource);
           }
-        
+
          else if (selectedIds.length > 1) {
           this.baseService.popupService.ShowAlertPopup(
             "Birden fazla demirbaş seçtiniz.!"
           );
           return;
         }
-      else 
+      else
       {
         Object.assign(this.fixedAssetDepreciationDetails, depreciationDetails);
         this.dataTableDepreciationDetail.TGT_loadData(this.fixedAssetDepreciationDetails);
-      } 
+      }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -655,17 +659,17 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           let dataSource : DepreciationIFRS[]=[];
           this.dataTableIFRSDepreciationDetail.TGT_loadData(dataSource);
           }
-        
+
          else if (selectedIds.length > 1) {
           this.baseService.popupService.ShowAlertPopup(
             "Birden fazla demirbaş seçtiniz!"
           );
           return;
         }
-      else 
+      else
       {
         this.fixedAssetIfrsDepreciationDetails = ifrsDepreciationDetails;
-        this.dataTableIFRSDepreciationDetail.TGT_loadData(ifrsDepreciationDetails);        
+        this.dataTableIFRSDepreciationDetail.TGT_loadData(ifrsDepreciationDetails);
         // this.dataTableIFRSDepreciationDetail.TGT_loadData(this.fixedAssetIfrsDepreciationDetails);
       }
        },
@@ -733,16 +737,18 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     let selectedItems= this.dataTable.TGT_getSelectedItems();
-    
+
     if(tabChangeEvent.index==0){
       this.isDetailInfo=false;
-      this.loadFixedAssetDepreciations();
-    } 
+      // this.loadFixedAssetDepreciations();
+      this.loadFixedAsset(this.perInPage, this.currentPage);
+      this.loadFixedAssetProperties();
+    }
     else if(tabChangeEvent.index==1){
       this.isDetailInfo=true;
       this.loadDepreciationByFixedAssetId();
-      this.depreciationInfoForDetail();    
-      
+      this.depreciationInfoForDetail();
+
     }
     else if(tabChangeEvent.index==2){
       this.isDetailInfo=true;
@@ -752,9 +758,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   }
 
   async calculateDepreciations(){
-    
+
       this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
-        
+
         if(this.fixedAsset.FixedAssetIds.length==0){
           this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
           return;
@@ -770,8 +776,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           /* Show success pop up */
           this.baseService.popupService.ShowSuccessPopup(message);
 
-          // this.transactionLogs.push(this.transactionLog);
-          this.loadFixedAssetDepreciations();
+          this.loadFixedAsset(this.perInPage, this.currentPage);
+          this.loadFixedAssetProperties();
         },
         (error: HttpErrorResponse) => {
           /* Show alert message */
@@ -784,9 +790,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   }
 
     async calculateIfrsDepreciations(){
-      
+
       this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
-        
+
         if(this.fixedAsset.FixedAssetIds.length==0){
           this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
           return;
@@ -802,8 +808,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           /* Show success pop up */
           this.baseService.popupService.ShowSuccessPopup(message);
 
-          // this.transactionLogs.push(this.transactionLog);
-          this.loadFixedAssetDepreciations();
+          this.loadFixedAsset(this.perInPage, this.currentPage);
+          this.loadFixedAssetProperties();
         },
         (error: HttpErrorResponse) => {
           /* Show alert message */
@@ -816,7 +822,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   }
 
   async resetFilter() {
-    
+
     this.fixedAssetFilter = new FixedAssetFilter();
     this.fixedAssetFilter.WillDepreciationBeCalculated=false;
     this.fixedAssetFilter.WillIfrsbeCalculated=false;

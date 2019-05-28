@@ -100,7 +100,7 @@
                 <select [(ngModel)]="consumableCategory.ConsumableParentCategoryId"
                   name="ConsumableParentCategoryId" class="form-control" (click)="loadConsumableCategories()">
                   <option [ngValue]="null">Yok</option>
-                  <option *ngFor="let consumableCategory of consumableCategories"
+                  <option *ngFor="let consumableCategory of consumableCategoriesWithoutCurrent"
                     value={{consumableCategory.ConsumableCategoryId}}>
                     {{consumableCategory.ConsumableCategoryName}}
                   </option>
