@@ -55,6 +55,7 @@ export const GET_USER_LIST_BY_FIRM_ID = "User/GetUsersByFirmId";
 export const GET_DEBITUSER_LIST = "FixedAssetUsers/GetFixedAssetUsersList";
 export const GET_DEBITUSER_BY_ID = "FixedAssetUsers/GetFixedAssetUserByFixedassetId";
 export const CHECK_USER_PASSWORD = "User/CheckUserIsValid";
+export const GET_USER_BY_DEPARTMENT_ID = "User/GetUsersByDepartmentId";
 //#endregion
 
 //#region FixedAssetCards

@@ -7,7 +7,8 @@ import {
   GET_CONSUMABLE_LIST,
   ADD_CONSUMABLE_MATERIAL,
   GET_CONSUMABLE_CARD_UNIT_BY_ID,
-  GET_CONSUMABLE_MATERIAL_BY_ID
+  GET_CONSUMABLE_MATERIAL_BY_ID,
+  ADD_FREE_REQUESTED_MATERIAL
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { Consumable } from "src/app/models/Consumable";
@@ -97,17 +98,37 @@ export class ConsumableService {
       })
       .subscribe(
         result => {
-          let response:Response=<Response>result;
-          if(response.ResultStatus == true){
-            let consumable:Consumable = new Consumable();
-            Object.assign(consumable,response.ResultObject);
-            success(consumable,response.LanguageKeyword);
-          }else{
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let consumable: Consumable[] = [];
+            Object.assign(consumable, response.ResultObject);
+            success(consumable, response.LanguageKeyword);
+          } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
-      },(error:HttpErrorResponse) => {
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  ExitConsumableMaterial(exitconsumable: Consumable, success, failed) {
+    this.httpclient
+      .post(SERVICE_URL + ADD_FREE_REQUESTED_MATERIAL, exitconsumable, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(result => {
+        let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let exitItem: Consumable = new Consumable();
+            Object.assign(exitItem, response.ResultObject);
+            success(exitItem, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+      },(error: HttpErrorResponse) => {
         failed(error);
       });
   }
-  
 }

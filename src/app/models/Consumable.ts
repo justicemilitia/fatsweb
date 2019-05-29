@@ -32,7 +32,7 @@ export class Consumable implements IData{
     ConsumableCategoryId:number;
     Number:number;
     ReceivedUserId:number;
-    ConsumableDepartmentId:number;
+    ReceivedDepartmentId:number;
     FreeExitAmount:number;
     NewAmount:number;
     ConsumableCard:ConsumableCard;
@@ -44,6 +44,7 @@ export class Consumable implements IData{
     FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
     User: User;
     Description:string;
+    
 
     constructor(){
         this.InverseConsumableParent = [];

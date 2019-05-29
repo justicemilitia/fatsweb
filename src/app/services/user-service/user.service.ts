@@ -19,7 +19,8 @@ import {
   GET_USERTITLE_LIST,
   GET_USER_LIST_BY_FIRM_ID,
   GET_DEBITUSER_LIST,
-  CHECK_USER_PASSWORD
+  CHECK_USER_PASSWORD,
+  GET_USER_BY_DEPARTMENT_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { User } from "../../models/User";
@@ -137,12 +138,13 @@ export class UserService {
 
   GetUserByDepartmentId(departmentId: number,success,failed) {
     this.httpClient
-      .get(SERVICE_URL + GET_USER_LIST_BY_FIRM_ID + "/" + departmentId, {
+      .get(SERVICE_URL + GET_USER_BY_DEPARTMENT_ID + "/" + departmentId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
       .subscribe(result=>{
         let response:Response = <Response>result;
         let users:User[]=[];
+        
         (<User[]>response.ResultObject).forEach(e=>{
           let user:User=new User();
           Object.assign(user,e);
