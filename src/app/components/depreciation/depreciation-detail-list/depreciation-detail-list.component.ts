@@ -942,6 +942,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       cloneItem.Page=1;      
       cloneItem.Date =  this.today() == null ? null : convertNgbDateToDateString(this.today());
       cloneItem.IsValid=true;
+      cloneItem.WillDepreciationBeCalculated = true;
 
     this.baseService.depreciationService.GetDepreciationFixedAssetDetail(
         cloneItem,
@@ -984,6 +985,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     cloneItem.Page=1;      
     cloneItem.Date =  this.today() == null ? null : convertNgbDateToDateString(this.today());
     cloneItem.IsValid=true;
+    cloneItem.WillIfrsbeCalculated = true;    
 
    this.baseService.depreciationService.GetDepreciationIFRSFilterList(
       cloneItem,
@@ -1129,6 +1131,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
 
   today() {
     let getdate:NgbDate = getToday();
+    console.log(getToday());
     return getToday();
   }
 
