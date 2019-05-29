@@ -134,6 +134,25 @@ export class UserService {
         failed(error);
       });
   }
+
+  GetUserByDepartmentId(departmentId: number,success,failed) {
+    this.httpClient
+      .get(SERVICE_URL + GET_USER_LIST_BY_FIRM_ID + "/" + departmentId, {
+        headers: GET_HEADERS(this.aService.getToken())
+      })
+      .subscribe(result=>{
+        let response:Response = <Response>result;
+        let users:User[]=[];
+        (<User[]>response.ResultObject).forEach(e=>{
+          let user:User=new User();
+          Object.assign(user,e);
+          users.push(user);  
+        });
+        success(users,response.LanguageKeyword);
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      });
+  }
   
   GetRoles(callback) {
     this.httpClient

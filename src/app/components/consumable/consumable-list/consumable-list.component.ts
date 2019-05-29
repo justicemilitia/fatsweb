@@ -16,6 +16,9 @@ import { ConsumableCard } from "src/app/models/ConsumableCard";
 import { Location } from "src/app/models/Location";
 import { Company } from "src/app/models/Company";
 import { ConsumableUnit } from 'src/app/models/ConsumableUnit';
+import * as $ from "jquery";
+import { Department } from 'src/app/models/Department';
+import { User } from 'src/app/models/User';
 
 @Component({
   selector: "app-consumable-list",
@@ -55,6 +58,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   companies: Company[] = [];
 
+  departments: Department[] = [];
+
   consumables: Consumable[] = [];
 
   fixedassetproperty: FixedAssetCardProperty[] = [];
@@ -69,7 +74,13 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   models: FixedAssetCardModel[] = [];
 
+  users: User[]=[];
+
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
+
+  consumableOperationEnums = {
+    exitConsumableMaterial:1
+  }
 
   /* Data Table */
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -261,6 +272,39 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         (error: HttpErrorResponse) => {}
       );
     }
+
+    this.baseService.departmentService.GetDepartments(
+      (departments:Department[]) => {
+      this.departments = departments;
+      },
+      (error: HttpErrorResponse)=>{
+
+      });
+    
+
+  }
+
+  async loadUserByDepartmentId(event:any){
+    this.users=[];
+
+    if (!event.target.value || event.target.value == "") {
+      this.consumable.ReceivedUserId = null;
+
+      return;
+    }
+
+    if (event.target.value) {
+      this.baseService.userService.GetUserByDepartmentId(
+        <number>event.target.value,
+        (users: User[]) => {
+          this.users = users;
+        },
+        (error: HttpErrorResponse) => {
+          
+        }
+      );
+    }
+
   }
 
   async loadConsumableCardByCategoryId(event: any) {
@@ -279,7 +323,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
           this.consumableCards = consumableCards;
         },
         (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
+         
         }
       );
     }
@@ -364,6 +408,43 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  selectedConsumableMaterial(){
+
+    let selectedItems = <Consumable[]>this.dataTable.TGT_getSelectedItems()
+
+      if(!selectedItems || selectedItems.length == 0){
+        this.baseService.popupService.ShowAlertPopup(
+          "Lütfen en az bir sarf malzeme seçiniz"
+        );
+        return;
+      }
+
+      if (selectedItems.length > 1) {
+        this.baseService.popupService.ShowAlertPopup(
+          "Birden fazla sarf malzeme seçtiniz.!"
+        );
+
+        return;
+      }
+
+      if(selectedItems[0].ConsumableParentId == null){
+        this.baseService.popupService.ShowAlertPopup("Lütfen malzeme kartının altında bulunan bir sarf malzeme seçiniz!");
+        return;
+      }
+
+      $("#btnExitConsumable").trigger("click");
+
+      let selectedId:number = selectedItems[0].ConsumableId;
+
+      this.getConsumableMaterialById(selectedId);
+  }
+
+  getConsumableMaterialById(consumableId:number){
+    this.baseService.consumableService.GetConsumableMaterialById(consumableId,
+      (consumable:Consumable)=>{},
+      ()=>{});
   }
 
   getPropertyValue(event: any) {
@@ -478,6 +559,14 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       case "location":
         this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
         break;
+    }
+  }
+
+  public doOperation(operationType: number) {
+    switch(operationType){
+      case this.consumableOperationEnums.exitConsumableMaterial:
+      this.selectedConsumableMaterial();
+      break;
     }
   }
 
