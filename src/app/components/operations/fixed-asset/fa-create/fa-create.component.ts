@@ -74,6 +74,7 @@ export class FaCreateComponent extends BaseComponent
   isUniqueProperty:boolean=false;
   visibleDepreciation:boolean=false;
   visibleIfrs:boolean=false;
+  visiblePropertyName=false;
 
   isFinished: boolean = false;
   isWaitingValidBarcode: boolean = false;
@@ -739,10 +740,11 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
   insertPropertyValueToArray(propertyId: any) {
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
-    //let propId = Number(propertyId.value);
-    //this.isUniqueFixedAssetProperty(propId);
+    if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
 
-    //if(this.isUniqueProperty != true){
+      this.visiblePropertyName=false;
+
+      if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId !=null){
 
       if (this.isSelectedProperty == true) {
         let fixedasset = this.fixedassetproperty.find(
@@ -765,10 +767,15 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
         propertyId = null;
         this.visible = false;
         this.isSelectedProperty = false;
-      } else {
-        this.visible = true;
-      }
-    //}
+      }else{
+        this.visiblePropertyName=true;    
+      } 
+    }else{
+        this.visible=true;
+        this.visiblePropertyName=true;    
+    }
+  }
+  
   }
 
   isUniqueFixedAssetProperty(propertyId:number){
