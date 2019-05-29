@@ -7,3 +7,19 @@
   .fieldset_text {
     color: #e67300;
   }
+  .btn-orange {
+    background: #e67300;
+    color: white;
+    border-radius: 5px;
+  }
+  /* .btnAddDepartment-height {
+    min-height: 15px;
+  } */
+  .btn-height{
+    min-height:15px;
+  }
+  /* .txt-width{
+    border-radius: 5px;
+    height:30px;
+  }
+   */

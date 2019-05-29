@@ -15,7 +15,8 @@ import {
   GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST,
   DEPRECIATION_TOTAL_VALUES,
   IFRS_DEPRECIATION_TOTAL_VALUES,
-  GET_FIXED_ASSET_DEPRECIATION_DETAIL_LIST
+  GET_FIXED_ASSET_DEPRECIATION_DETAIL_LIST,
+  GET_FIXED_ASSET_IFRS_DEPRECIATION_DETAIL_LIST
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -134,7 +135,7 @@ export class DepreciationService {
   GetDepreciationIFRSFilterList(fixedAsset: FixedAssetFilter, callback, failed){
     this.httpclient
     .post(
-      SERVICE_URL + GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST, fixedAsset,
+      SERVICE_URL + GET_FIXED_ASSET_IFRS_DEPRECIATION_DETAIL_LIST, fixedAsset,
       {
         headers: GET_HEADERS(this.authenticationService.getToken())
       }
