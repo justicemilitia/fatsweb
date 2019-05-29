@@ -37,6 +37,7 @@ import { ConsumableCardComponent } from './components/consumable/consumable-card
 import { ConsumableCategoryComponent } from './components/consumable/consumable-category/consumable-category.component';
 import { ConsumableUnitComponent } from './components/consumable/consumable-unit/consumable-unit.component';
 import { ConsumableListComponent } from './components/consumable/consumable-list/consumable-list.component';
+import { ConsumableRequestListComponent } from './components/consumable/consumable-request-list/consumable-request-list.component';
 
 export const routes: Routes = [
   {
@@ -240,6 +241,12 @@ export const routes: Routes = [
     path: "consumablelist",
     component: ConsumableListComponent,
     data: { pageKeyword: pages.MENU_CONSUMABLELIST }
+    // //canActivate: [AuthGuard]
+  },
+  { 
+    path: "consumablerequestlist",
+    component: ConsumableRequestListComponent,
+    data: { pageKeyword: pages.MENU_CONSUMABLEREQUESTLIST }
     // //canActivate: [AuthGuard]
   }
 

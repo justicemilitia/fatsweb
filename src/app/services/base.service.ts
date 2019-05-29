@@ -40,7 +40,7 @@ import { CycleCountService } from './cycle-count-service/cycle-count.service';
 import { ConsumableCategoryService } from './consumable-category-service/consumable-category.service';
 import { ConsumableCard } from '../models/ConsumableCard';
 import { ConsumableCardService } from './consumable-card-service/consumable-card.service';
-import { ConsumableUnitService } from './consumable-card-service/consumable-unit.service';
+import { ConsumableUnitService } from './consumable-unit-service/consumable-unit.service';
 
 @Injectable({
   providedIn: "root"
