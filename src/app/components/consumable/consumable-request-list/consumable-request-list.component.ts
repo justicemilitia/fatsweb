@@ -15,7 +15,9 @@ import { ConsumableRequest } from '../../../models/ConsumableRequest';
 })
 export class ConsumableRequestListComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    
+   }
 
   ngOnInit() {
   }

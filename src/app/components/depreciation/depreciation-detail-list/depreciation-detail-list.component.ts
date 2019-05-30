@@ -28,6 +28,11 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
   isValid: boolean = true;
   isDepreciationList: boolean = true;
   isDepreciationIFRSList: boolean = false;
+  isDetailInfo:boolean = true;
+  isDetailInfoIFRS: boolean = false;
+  
+  /* Is Table Exporting */
+  isTableExporting:boolean = false;
   
   currentPage: number = 1;
   perInPage: number = 25;
@@ -45,7 +50,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     [
       {
         columnDisplayName: "Barkod",
-        columnName: ["Barcode"],
+        columnName: ["FixedAsset", "Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -53,7 +58,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Demirbaş Adı",
-        columnName: ["FixedAssetCard", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -61,7 +66,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Demirbaş Kategorisi",
-        columnName: ["FixedAssetCard", "FixedAssetCardCategory", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCard", "FixedAssetCardCategory", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -69,15 +74,23 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       { 
         columnDisplayName: "Amortisman Yöntemi",
-        columnName: ["DepreciationCalculationType","Name"],
+        columnName: ["FixedAsset", "DepreciationCalculationType","Name"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
       {
-        columnDisplayName: "Aktif demirbaş Değeri",
-        columnName: ["Price"],
+        columnDisplayName: "Aktif Demirbaş Değeri",
+        columnName: ["FixedAsset", "Price"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Aktif Demirbaş Değeri",
+        columnName: ["FixedAsset", "Currency", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -125,7 +138,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },  
       {
         columnDisplayName: "Seri No",
-        columnName: ["SerialNumber"],
+        columnName: ["FixedAsset", "SerialNumber"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -133,7 +146,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Marka",
-        columnName: ["FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -141,7 +154,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Model",
-        columnName: ["FixedAssetCardModel", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCardModel", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -149,7 +162,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Statü",
-        columnName: ["Status", "Name"],
+        columnName: ["FixedAsset", "Status", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -157,7 +170,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Statü Kodu",
-        columnName: ["Status", "FixedAssetStatuCode"],
+        columnName: ["FixedAsset", "Status", "FixedAssetStatuCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -165,7 +178,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Personel",
-        columnName: ["|FixedAssetUsers"],
+        columnName: ["FixedAsset", "|FixedAssetUsers"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -182,7 +195,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Adı",
-        columnName: ["Location", "Name"],
+        columnName: ["FixedAsset", "Location", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -190,7 +203,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Tedarikçi Şirket",
-        columnName: ["Company", "Name"],
+        columnName: ["FixedAsset", "Company", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -198,7 +211,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Sözleşmeli Şirket",
-        columnName: ["InsuranceCompany", "Name"],
+        columnName: ["FixedAsset", "InsuranceCompany", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -206,7 +219,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Kodu",
-        columnName: ["Location", "LocationCode"],
+        columnName: ["FixedAsset", "Location", "LocationCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -214,7 +227,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Barkodu",
-        columnName: ["Location", "Barcode"],
+        columnName: ["FixedAsset", "Location", "Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -222,7 +235,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Koordinatı",
-        columnName: ["Location", "Coordinate"],
+        columnName: ["FixedAsset", "Location", "Coordinate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -230,7 +243,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Adresi",
-        columnName: ["Location", "Address"],
+        columnName: ["FixedAsset", "Location", "Address"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -238,7 +251,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Açıklaması",
-        columnName: ["Location", "Description"],
+        columnName: ["FixedAsset", "Location", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -246,7 +259,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Statü Rengi",
-        columnName: ["Status","Color"],
+        columnName: ["FixedAsset", "Status","Color"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -254,7 +267,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Makbuz Tarihi",
-        columnName: ["ReceiptDate"],
+        columnName: ["FixedAsset", "ReceiptDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -265,7 +278,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Fatura No",
-        columnName: ["InvoiceNo"],
+        columnName: ["FixedAsset", "InvoiceNo"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -273,7 +286,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Fatura Tarihi",
-        columnName: ["InvoiceDate"],
+        columnName: ["FixedAsset", "InvoiceDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -284,7 +297,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Amortisman hesaplanacak mı ?",
-        columnName: ["WillDepreciationBeCalculated"],
+        columnName: ["FixedAsset", "WillDepreciationBeCalculated"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -292,7 +305,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Amortisman Periyodu",
-        columnName: ["DepreciationPeriod"],
+        columnName: ["FixedAsset", "DepreciationPeriod"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -300,7 +313,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Ifrs Fiyatı",
-        columnName: ["Ifrsprice"],
+        columnName: ["FixedAsset", "Ifrsprice"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -308,7 +321,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Ifrs hesaplanacak mı ?",
-        columnName: ["WillIfrsbeCalculated"],
+        columnName: ["FixedAsset", "WillIfrsbeCalculated"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -316,7 +329,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Ifrs Periyodu",
-        columnName: ["Ifrsperiod"],
+        columnName: ["FixedAsset", "Ifrsperiod"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -324,7 +337,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Enflasyon İndekslemesi",
-        columnName: ["HasInflationIndexation"],
+        columnName: ["FixedAsset", "HasInflationIndexation"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -332,7 +345,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Garanti Başlangıç Tarihi",
-        columnName: ["GuaranteeStartDate"],
+        columnName: ["FixedAsset", "GuaranteeStartDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -343,7 +356,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Garanti Bitiş Tarihi",
-        columnName: ["GuaranteeEndDate"],
+        columnName: ["FixedAsset", "GuaranteeEndDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -354,7 +367,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Demirbaş Giriş Tarihi",
-        columnName: ["CreationDate"],
+        columnName: ["FixedAsset", "CreationDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -365,7 +378,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Aktivasyon Tarihi",
-        columnName: ["ActivationDate"],
+        columnName: ["FixedAsset", "ActivationDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -376,7 +389,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Departman Kodu",
-        columnName: ["Department", "DepartmentCode"],
+        columnName: ["FixedAsset", "Department", "DepartmentCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -384,7 +397,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Departman Adı",
-        columnName: ["Department", "Name"],
+        columnName: ["FixedAsset", "Department", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -392,7 +405,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Departman Açıklama",
-        columnName: ["Department", "Description"],
+        columnName: ["FixedAsset", "Department", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -400,7 +413,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Demirbaş Açıklaması",
-        columnName: ["Description"],
+        columnName: ["FixedAsset", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -408,7 +421,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Dosya Adı",
-        columnName: ["FixedAssetFiles","FileName"],
+        columnName: ["FixedAsset", "FixedAssetFiles","FileName"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -424,7 +437,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Aktif mi?",
-        columnName: ["IsActive"],
+        columnName: ["FixedAsset", "IsActive"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -433,7 +446,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     ],
     {
       isDesc: false,
-      column: ["Barcode"]
+      column: ["FixedAsset", "Barcode"]
     }
   );
 
@@ -442,7 +455,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     [
       {
         columnDisplayName: "Barkod",
-        columnName: ["Barcode"],
+        columnName: ["FixedAsset", "Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -450,7 +463,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Demirbaş Adı",
-        columnName: ["FixedAssetCard", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -458,7 +471,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Demirbaş Kategorisi",
-        columnName: ["FixedAssetCard", "FixedAssetCardCategory", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCard", "FixedAssetCardCategory", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -474,7 +487,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       // },
       {
         columnDisplayName: "IFRS Demirbaş Değeri",
-        columnName: ["Price"],
+        columnName: ["FixedAsset", "Price"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -514,7 +527,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },  
       {
         columnDisplayName: "Seri No",
-        columnName: ["SerialNumber"],
+        columnName: ["FixedAsset", "SerialNumber"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -522,7 +535,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Marka",
-        columnName: ["FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -530,7 +543,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Model",
-        columnName: ["FixedAssetCardModel", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCardModel", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -538,7 +551,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Statü",
-        columnName: ["Status", "Name"],
+        columnName: ["FixedAsset", "Status", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -546,7 +559,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Statü Kodu",
-        columnName: ["Status", "FixedAssetStatuCode"],
+        columnName: ["FixedAsset", "Status", "FixedAssetStatuCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -554,7 +567,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Personel",
-        columnName: ["|FixedAssetUsers"],
+        columnName: ["FixedAsset", "|FixedAssetUsers"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -571,7 +584,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Adı",
-        columnName: ["Location", "Name"],
+        columnName: ["FixedAsset", "Location", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -579,7 +592,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Tedarikçi Şirket",
-        columnName: ["Company", "Name"],
+        columnName: ["FixedAsset", "Company", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -587,7 +600,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Sözleşmeli Şirket",
-        columnName: ["InsuranceCompany", "Name"],
+        columnName: ["FixedAsset", "InsuranceCompany", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -595,7 +608,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Kodu",
-        columnName: ["Location", "LocationCode"],
+        columnName: ["FixedAsset", "Location", "LocationCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -603,7 +616,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Barkodu",
-        columnName: ["Location", "Barcode"],
+        columnName: ["FixedAsset", "Location", "Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -611,7 +624,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Koordinatı",
-        columnName: ["Location", "Coordinate"],
+        columnName: ["FixedAsset", "Location", "Coordinate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -619,7 +632,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Adresi",
-        columnName: ["Location", "Address"],
+        columnName: ["FixedAsset", "Location", "Address"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -627,7 +640,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Lokasyon Açıklaması",
-        columnName: ["Location", "Description"],
+        columnName: ["FixedAsset", "Location", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -635,7 +648,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Statü Rengi",
-        columnName: ["Status","Color"],
+        columnName: ["FixedAsset", "Status","Color"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -643,7 +656,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Makbuz Tarihi",
-        columnName: ["ReceiptDate"],
+        columnName: ["FixedAsset", "ReceiptDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -654,7 +667,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Fatura No",
-        columnName: ["InvoiceNo"],
+        columnName: ["FixedAsset", "InvoiceNo"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -662,7 +675,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Fatura Tarihi",
-        columnName: ["InvoiceDate"],
+        columnName: ["FixedAsset", "InvoiceDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -673,7 +686,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Amortisman hesaplanacak mı ?",
-        columnName: ["WillDepreciationBeCalculated"],
+        columnName: ["FixedAsset", "WillDepreciationBeCalculated"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -681,7 +694,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Amortisman Periyodu",
-        columnName: ["DepreciationPeriod"],
+        columnName: ["FixedAsset", "DepreciationPeriod"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -689,7 +702,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Ifrs Fiyatı",
-        columnName: ["Ifrsprice"],
+        columnName: ["FixedAsset", "Ifrsprice"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -697,7 +710,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Ifrs hesaplanacak mı ?",
-        columnName: ["WillIfrsbeCalculated"],
+        columnName: ["FixedAsset", "WillIfrsbeCalculated"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -705,7 +718,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Ifrs Periyodu",
-        columnName: ["Ifrsperiod"],
+        columnName: ["FixedAsset", "Ifrsperiod"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -713,7 +726,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Enflasyon İndekslemesi",
-        columnName: ["HasInflationIndexation"],
+        columnName: ["FixedAsset", "HasInflationIndexation"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -721,7 +734,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Garanti Başlangıç Tarihi",
-        columnName: ["GuaranteeStartDate"],
+        columnName: ["FixedAsset", "GuaranteeStartDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -732,7 +745,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Garanti Bitiş Tarihi",
-        columnName: ["GuaranteeEndDate"],
+        columnName: ["FixedAsset", "GuaranteeEndDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -743,7 +756,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Demirbaş Giriş Tarihi",
-        columnName: ["CreationDate"],
+        columnName: ["FixedAsset", "CreationDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -754,7 +767,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Aktivasyon Tarihi",
-        columnName: ["ActivationDate"],
+        columnName: ["FixedAsset", "ActivationDate"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -765,7 +778,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Departman Kodu",
-        columnName: ["Department", "DepartmentCode"],
+        columnName: ["FixedAsset", "Department", "DepartmentCode"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -773,7 +786,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Departman Adı",
-        columnName: ["Department", "Name"],
+        columnName: ["FixedAsset", "Department", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -781,7 +794,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Departman Açıklama",
-        columnName: ["Department", "Description"],
+        columnName: ["FixedAsset", "Department", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -789,7 +802,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Demirbaş Açıklaması",
-        columnName: ["Description"],
+        columnName: ["FixedAsset", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -813,7 +826,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       {
         columnDisplayName: "Aktif mi?",
-        columnName: ["IsActive"],
+        columnName: ["FixedAsset", "IsActive"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -822,7 +835,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     ],
     {
       isDesc: false,
-      column: ["Barcode"]
+      column: ["FixedAsset", "Barcode"]
     }
   );
 
@@ -832,7 +845,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     this.loadDepreciationList();
     this.loadFixedAssetProperties();
 
-    this.totalDepreciationValues(this.today());
+    this.totalDepreciationValues(this.today(), true);
   }
 
   async  TGT_calculatePages() {
@@ -937,7 +950,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
 
       let cloneItem = new FixedAssetFilter();
 
-      cloneItem.IsFilter = true;  
+      cloneItem.IsFilter = true;
       cloneItem.PerPage = 1000;
       cloneItem.Page=1;      
       cloneItem.Date =  this.today() == null ? null : convertNgbDateToDateString(this.today());
@@ -951,7 +964,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
           this.fixedAssets = fixedAssets;
 
                 fixedAssets.forEach(e => {
-                    e.FixedAssetPropertyDetails.forEach(p => {
+                    e.FixedAsset.FixedAssetPropertyDetails.forEach(p => {
                       if (p.FixedAssetCardPropertyId) {
                         e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
                       }
@@ -987,14 +1000,14 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     cloneItem.IsValid=true;
     cloneItem.WillIfrsbeCalculated = true;    
 
-   this.baseService.depreciationService.GetDepreciationIFRSFilterList(
+   this.baseService.depreciationService.GetIFRSFixedAssetDetail(
       cloneItem,
       (fixedAssets: any[],totalPage) => {
 
         this.fixedAssets = fixedAssets;
 
               fixedAssets.forEach(e => {
-                  e.FixedAssetPropertyDetails.forEach(p => {
+                  e.FixedAsset.FixedAssetPropertyDetails.forEach(p => {
                     if (p.FixedAssetCardPropertyId) {
                       e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
                     }
@@ -1084,7 +1097,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         this.perInPage = 1000;
         this.totalPage = totalPage;
         this.TGT_calculatePages();
-        this.totalDepreciationValues(cloneItem.Date);
+        this.totalDepreciationValues(cloneItem.Date, cloneItem.IsValid);
+        this.totalDepreciationIFRSValues(cloneItem.Date, cloneItem.IsValid);        
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -1110,7 +1124,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     cloneItem.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
     cloneItem.IsValid=this.isValid;
 
-    await this.baseService.depreciationService.GetDepreciationIFRSFilterList(
+    await this.baseService.depreciationService.GetIFRSFixedAssetDetail(
       cloneItem,
       (fixedAssets: FixedAsset[],totalPage) => {
 
@@ -1139,25 +1153,29 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     let selectedItems= this.dataTable.TGT_getSelectedItems();
     
     if(tabChangeEvent.index==0){
-      this.totalDepreciationValues(this.today());
+      this.totalDepreciationValues(this.today(), true);
       this.loadDepreciationList();
       this.loadFixedAssetProperties();
       
       this.isDepreciationList=true;
       this.isDepreciationIFRSList=false;
+      this.isDetailInfo=true;
+      this.isDetailInfoIFRS=false;
     } 
     else if(tabChangeEvent.index==1){
-      this.totalDepreciationIFRSValues(this.today());      
+      this.totalDepreciationIFRSValues(this.today(), true);      
       this.loadDepreciationIFRSList();
       this.loadFixedAssetPropertiesIFRS();
 
       this.isDepreciationList=false;
       this.isDepreciationIFRSList=true;
+      this.isDetailInfoIFRS=true;
+      this.isDetailInfo=false;      
     }
   }
 
-   totalDepreciationValues(date:NgbDate){
-     this.baseService.depreciationService.DepreciationTotalValues(date,
+   totalDepreciationValues(date:NgbDate, isValid: boolean){
+     this.baseService.depreciationService.DepreciationTotalValues(date, isValid,
       (totalValues: any[],totalPage) => {
 
         this.totalAccumulatedValue = totalValues == null ? null : totalValues[0].TotalAccumulatedValue;
@@ -1173,8 +1191,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     );
   }
 
-  totalDepreciationIFRSValues(date:NgbDate){
-    this.baseService.depreciationService.DepreciationIFRSTotalValues(date,
+  totalDepreciationIFRSValues(date:NgbDate, isValid: boolean){
+    this.baseService.depreciationService.DepreciationIFRSTotalValues(date, isValid,
      (totalValues: any[],totalPage) => {
 
        this.totalAccumulatedValue = totalValues == null ? null : totalValues[0].TotalAccumulatedValue;

@@ -18,8 +18,11 @@
   .btn-height{
     min-height:15px;
   }
-  /* .txt-width{
-    border-radius: 5px;
-    height:30px;
+  .btn-az-primary {
+    padding: 5px 14px !important;
   }
-   */
+
+  #mat-tab-header {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
