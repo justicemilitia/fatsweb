@@ -1,9 +1,9 @@
 <div class="az-signin-wrapper">
-  <div class="az-card-signin">
-    <div>   
-      <h2 _ngcontent-c4=""> Sayım bilgilerini seçtikten sonra sayımı başlatınız.
-      </h2>
-    </div>
+  <div class="az-card-signin" style="height: 440px;
+  box-shadow: none;
+  margin-bottom: 15px;">     
+      <h2 _ngcontent-c4=""> {{ cyclecountplan.CycleCountPlanId ? 'Sayım başlatıldı.' : 'Sayım bilgilerini seçtikten sonra sayımı başlatınız.'}}
+      </h2>   
     <div class="az-signin-header">
       <!-- form-group -->
       <form #data="ngForm"  novalidate>
@@ -63,7 +63,7 @@
         </button>
 
         <button class="btn btn-orange btn-block" id="btnExit" type="button" (click)="updateCycleCountPlanStatu(cyclecountplan,false)">
-            Çıkış
+            Geri
         </button>
 
       </form>

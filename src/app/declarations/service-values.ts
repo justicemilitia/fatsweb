@@ -1,9 +1,15 @@
 import { HttpHeaders } from "@angular/common/http";
 
 
+<<<<<<< HEAD
 export const SERVICE_URL = "http://localhost:5000/api/";
 // export const SERVICE_URL = "http://localhost:11889/api/";
 //export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+=======
+// export const SERVICE_URL = "http://localhost:5000/api/";
+//export const SERVICE_URL = "http://localhost:11889/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+>>>>>>> 641fdd2a60cd4b4d82fbcb30c29f7d9f176caddd
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -55,6 +61,7 @@ export const GET_USER_LIST_BY_FIRM_ID = "User/GetUsersByFirmId";
 export const GET_DEBITUSER_LIST = "FixedAssetUsers/GetFixedAssetUsersList";
 export const GET_DEBITUSER_BY_ID = "FixedAssetUsers/GetFixedAssetUserByFixedassetId";
 export const CHECK_USER_PASSWORD = "User/CheckUserIsValid";
+export const GET_USER_BY_DEPARTMENT_ID = "User/GetUsersByDepartmentId";
 //#endregion
 
 //#region FixedAssetCards
