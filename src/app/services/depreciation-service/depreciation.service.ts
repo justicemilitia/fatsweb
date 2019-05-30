@@ -70,7 +70,7 @@ export class DepreciationService {
   GetDepreciationFixedAssetDetail(fixedAsset: FixedAssetFilter, success, failed) {
     this.httpclient
       .post(
-        SERVICE_URL + GET_FIXED_ASSET_DEPRECIATION_LIST,
+        SERVICE_URL + GET_FIXED_ASSET_DEPRECIATION_DETAIL_LIST,
         fixedAsset,
         {
           headers: GET_HEADERS(this.authenticationService.getToken())
@@ -132,7 +132,7 @@ export class DepreciationService {
     );
   }
 
-  GetDepreciationIFRSFilterList(fixedAsset: FixedAssetFilter, callback, failed){
+  GetIFRSFixedAssetDetail(fixedAsset: FixedAssetFilter, success, failed){
     this.httpclient
     .post(
       SERVICE_URL + GET_FIXED_ASSET_IFRS_DEPRECIATION_DETAIL_LIST, fixedAsset,
@@ -142,6 +142,7 @@ export class DepreciationService {
     )
     .subscribe(
       (result: any) => {
+        
         let response: Response = <Response>result;
         if (response.ResultStatus == true) {
           let fixedAssets: FixedAsset[] = [];
@@ -150,18 +151,12 @@ export class DepreciationService {
             Object.assign(fa, e);
             fixedAssets.push(fa);
           });
-
-          callback(fixedAssets, result.TotalPage);
-
-
-          // Object.assign(fixedAssets, response.ResultObject);
-          // callback(<FixedAsset[]>result["ResultObject"]);
-          // success(response.LanguageKeyword);
+          success(fixedAssets, result.TotalPage, response.LanguageKeyword);
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
       },
-      error => {
+      (error: HttpErrorResponse) => {
         failed(error);
       }
     );
@@ -240,10 +235,11 @@ export class DepreciationService {
     );
   }
 
-  DepreciationTotalValues(date: NgbDate, success, failed){
+  DepreciationTotalValues(date: NgbDate, isValid: boolean, success, failed){
     
     let dep = new Depreciation();
-    dep.TargetDate =convertNgbDateToDateString(date);
+    dep.TargetDate = date == null ? null : convertNgbDateToDateString(date);
+    dep.IsValid = isValid;
 
     this.httpclient
     .post(
@@ -265,14 +261,15 @@ export class DepreciationService {
     );
   }
   
-  DepreciationIFRSTotalValues(date: NgbDate, success, failed){
+  DepreciationIFRSTotalValues(date: NgbDate, isValid: boolean, success, failed){
 
     let dep = new DepreciationIFRS();
     dep.TargetDate =convertNgbDateToDateString(date);
+    dep.IsValid= isValid;
 
     this.httpclient
     .post(
-      SERVICE_URL + IFRS_DEPRECIATION_TOTAL_VALUES, date, {
+      SERVICE_URL + IFRS_DEPRECIATION_TOTAL_VALUES, dep, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
     .subscribe(

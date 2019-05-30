@@ -9,6 +9,18 @@
         <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header" style="padding-bottom:0px;">
             <h2 class="az-content-title" style="margin-left:20px;">Detaylı Amortisman Listesi</h2>
+            <div *ngIf="isDetailInfo == true">          
+                <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" style="margin-right:20px;">
+                    <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                      [class.btn-refresh-loader]="isTableExporting == true"></i>
+                  </button>
+              </div>
+              <div *ngIf="isDetailInfoIFRS == true">          
+                  <button type="button" (click)="exportAsExcelFile(dataTableIFRS)" class="btn btn-success btn-excel-custom" style="margin-right:20px;">
+                      <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                        [class.btn-refresh-loader]="isTableExporting == true"></i>
+                    </button>
+                </div>
           </div>   
 
           <div class="row">
@@ -89,7 +101,7 @@
                               </label>
                             </div>
                             <div class="col-md-2">
-                                <button id="btnFilterDepreciation" type="submit" class="btn btn-az-primary" style="margin-left:100px;">Filtrele
+                                <button id="btnFilterDepreciation" type="submit" class="btn btn-az-primary" style="margin-left:100px;margin-top: 5px;">Filtrele
                                 </button>
                               </div>
                           </div>                      
@@ -140,7 +152,7 @@
             <div>
 
           </div>            
-           <div class="card-body" style="padding-top:0px;">
+           <div class="card-body" style="padding-top:0px; margin-left:20px; margin-right:20px;">
                 <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
                 
                     <!-- AMORTİSMAN BİLGİLERİ -->
@@ -148,7 +160,7 @@
                       <ng-template mat-tab-label>
                         Detaylı Amortisman Listesi
                       </ng-template>
-                      <div class="sales-overview">
+                      <div class="sales-overview" style="flex-direction:column; margin-top:20px;">
                           <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
                         </div>
                     </mat-tab>
@@ -158,7 +170,7 @@
                         <ng-template mat-tab-label>
                           Detaylı IFRS Listesi
                         </ng-template>
-                        <div class="sales-overview">
+                        <div class="sales-overview" style="flex-direction:column; margin-top:20px;">
                             <tree-grid-table [dataTable]="dataTableIFRS"></tree-grid-table>
                           </div>
                     </mat-tab>

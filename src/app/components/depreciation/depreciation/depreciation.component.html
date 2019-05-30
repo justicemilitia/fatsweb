@@ -34,7 +34,7 @@
                       <button class="btn btn-az-primary" id="btnCalculateDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="calculateDepreciations()">Amortisman Hesapla</button>
                   </div>
                   <div>
-                    <button class="btn btn-az-primary" id="btnUpdateInfos"data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:20px;" (click)="depreciationInfo()">Bilgileri Güncelle</button>
+                    <button class="btn btn-az-primary" id="btnUpdateInfos"data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:40px;" (click)="depreciationInfo()">Bilgileri Güncelle</button>
                 </div>
               </div>
             </div>
@@ -112,7 +112,11 @@
 
                     </fieldset>
               </div>
+              <div>
 
+                </div> 
+
+              <div class="card-body" style="padding-top:0px;">
               <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
                 
                 <!-- AMORTİSMAN VE IFRS BİLGİLERİ -->
@@ -172,6 +176,8 @@
                 </mat-tab>
 
                 </mat-tab-group>
+           </div>
+                
            </div>
         </div>
       </div>
