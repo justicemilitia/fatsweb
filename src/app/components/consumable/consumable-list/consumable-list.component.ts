@@ -485,6 +485,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
         let property:FixedAssetPropertyDetails[] =  consumable[0].FixedAssetPropertyDetails;
 
+
       },
       (error:HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -571,6 +572,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     let propertyDetail = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
     );
+    console.log(propertyDetail);
     insertedItem.ConsumableLocationId=this.selectedLocation.LocationId;
 
     Object.assign(insertedItem, this.consumable);
@@ -662,6 +664,12 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     }
     data.reset();
     data.resetForm(this.consumable);
+
+    this.selectedLocation = null;
+
+    this.dataTablePropertyValue.TGT_clearData();
+
+    this.consumableCard = new ConsumableCard();
   }
 
   
