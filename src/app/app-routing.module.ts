@@ -214,6 +214,12 @@ export const routes: Routes = [
     // //canActivate: [AuthGuard]
   },
   {
+    path: "cyclecountterminal",
+    component: CycleCountTerminalComponent,
+    data: { pageKeyword: pages.MENU_TERMINAL }
+    // //canActivate: [AuthGuard]
+  },
+  {
     path: "depreciationdetaillist",
     component: DepreciationDetailListComponent,
     data: { pageKeyword: pages.MENU_DEPRECIATIONDETAILLIST }

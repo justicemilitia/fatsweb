@@ -54,6 +54,7 @@ export class CycleCountTerminalComponent extends BaseComponent
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
+    
     );
   }
 
