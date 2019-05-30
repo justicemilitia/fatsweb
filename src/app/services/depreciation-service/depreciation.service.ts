@@ -100,7 +100,7 @@ export class DepreciationService {
   GetDepreciationFilterList(fixedAsset: FixedAssetFilter, callback, failed){
     this.httpclient
     .post(
-      SERVICE_URL + GET_FIXED_ASSET_DEPRECIATION_LIST, fixedAsset,
+      SERVICE_URL + GET_FIXED_ASSET_DEPRECIATION_DETAIL_LIST, fixedAsset,
       {
         headers: GET_HEADERS(this.authenticationService.getToken())
       }
