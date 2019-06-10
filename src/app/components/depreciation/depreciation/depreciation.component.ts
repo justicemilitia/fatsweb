@@ -47,6 +47,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   fixedAssetDepreciationDetails: Depreciation[]=[];
   fixedAssetIfrsDepreciationDetails: DepreciationIFRS[]=[];
   isDetailInfo: boolean = false;
+  isDepreciationTab: boolean = false;
+  isIFRSTab: boolean = false;
   isValid: boolean = true;
   isDepreciationNull: boolean=false;
   isFixedAssetList: boolean;
@@ -745,15 +747,20 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       this.loadFixedAssetProperties();
     }
     else if(tabChangeEvent.index==1){
-      this.isDetailInfo=true;
       this.loadDepreciationByFixedAssetId();
       this.depreciationInfoForDetail();
 
+      this.isDetailInfo=true;      
+      this.isDepreciationTab=true;
+      this.isIFRSTab=false; 
     }
     else if(tabChangeEvent.index==2){
-      this.isDetailInfo=true;
       this.loadDepreciationIFRSByFixedAssetId();
       this.depreciationInfoForDetail();
+
+      this.isDetailInfo=true;
+      this.isIFRSTab=true; 
+      this.isDepreciationTab=false;       
     }
   }
 
