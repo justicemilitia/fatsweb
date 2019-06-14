@@ -143,7 +143,6 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
         this.selectedUsers = [];
         this.fixedAssetComponent.loadFixedAsset();
 
-
       })
 
   }
