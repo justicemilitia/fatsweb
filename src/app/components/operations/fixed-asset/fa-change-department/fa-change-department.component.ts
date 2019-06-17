@@ -13,6 +13,7 @@ import { FixedAsset } from "../../../../models/FixedAsset";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Department } from "../../../../models/Department";
 import { FixedAssetComponent } from "../fixed-asset.component";
+import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: "app-fa-change-department",
@@ -38,24 +39,78 @@ export class FaChangeDepartmentComponent extends BaseComponent
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
 
+  isDepartmentDropdownOpen:boolean = false;
+
+  public dataTableDepartment: TreeGridTable = new TreeGridTable(
+    "department",
+    [
+      {
+        columnDisplayName: "Departman",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+  
   constructor(baseService: BaseService) {
     super(baseService);
-    this.loadDropdownList();
-  }
+    this.loadDepartmentByLocationId();
+
+    this.dataTableDepartment.isPagingActive = false;
+    this.dataTableDepartment.isColumnOffsetActive = false;
+    this.dataTableDepartment.isDeleteable = false;
+    this.dataTableDepartment.isMultipleSelectedActive = false;
+    this.dataTableDepartment.isLoading = false;
+    this.dataTableDepartment.isHeaderVisible = false;
+    this.dataTableDepartment.isScrollActive = false;
+
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnDepartment").length == 0 
+      ) {
+          this.isDepartmentDropdownOpen = false;
+        }
+     });
+    }
 
   ngOnInit() { }
+
+  toggleDropdown(key:string) {
+
+    switch (key) {
+      
+    case "department":
+    this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
+    this.loadDepartmentByLocationId();
+
+    break;
+    }
+  }
+
+  selectedDepartment: Department;
+  onClickDepartment(item) {
+    this.selectedDepartment = item;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
       changes["faBarcode"].currentValue != changes["faBarcode"].previousValue
     ) {
-      this.loadDropdownList();
+      this.loadDepartmentByLocationId();
     }
   }
 
   async ChangeDepartment(data: NgForm) {
     /* Is Form Valid */
-    if (data.form.invalid == true) return;
+    if (this.selectedDepartment != null) return;
 
     await this.baseService.popupService.ShowQuestionPopupForDepartmentUpdate(
       (response: boolean) => {
@@ -63,9 +118,10 @@ export class FaChangeDepartmentComponent extends BaseComponent
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
 
-          cloneItem.DepartmentId = data.value.departmentIds;
+          // cloneItem.DepartmentId = data.value.departmentIds;
+          cloneItem.DepartmentId = Number(this.selectedDepartment == null ? null :this.selectedDepartment.DepartmentId);
           cloneItem.Department = this.departments.find(
-            x => x.DepartmentId == cloneItem.DepartmentId
+            x => x.DepartmentId == this.selectedDepartment.DepartmentId
           );
 
           this.isWaitingInsertOrUpdate = true;
@@ -76,11 +132,17 @@ export class FaChangeDepartmentComponent extends BaseComponent
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
               this.isWaitingInsertOrUpdate = false;
+
               /* Set inserted Item id to model */
               this.faBarcode.DepartmentId = cloneItem.DepartmentId;
               this.faBarcode.Department = cloneItem.Department;
-              this.resetForm(data, true);
+              
+              // this.resetForm(data, true);
+              
               this.faComponent.loadFixedAsset();
+
+              this.resetDropdown('department');
+              
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -102,6 +164,14 @@ export class FaChangeDepartmentComponent extends BaseComponent
     // this.newDepartmentId = null;
   }
 
+  resetDropdown(key:string){
+    switch(key){
+      case "department":
+      this.selectedDepartment = null;      
+      break;
+    }
+  }
+
   // async loadDropdownList() {
   //   /* Load departments to department dropdown */
   //   this.baseService.departmentService.GetDepartmentsByLocationId(
@@ -115,7 +185,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
   //   );
   // }
 
-  loadDropdownList() {
+  loadDepartmentByLocationId() {
     this.departments = [];
 
     if (this.faBarcode.Location.LocationId == 0 || !this.faBarcode.Location.LocationId) {
@@ -127,6 +197,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
         this.faBarcode.Location.LocationId,
         (departments: Department[]) => {
           this.departments = departments;
+          this.dataTableDepartment.TGT_loadData(this.departments);          
         },
         (error: HttpErrorResponse) => {
           this.baseService.popupService.ShowErrorPopup(error);

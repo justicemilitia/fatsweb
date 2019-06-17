@@ -33,21 +33,46 @@
     </div>
 
     <!-- YENİ DEPARTMAN -->
-    <div class="row justify-content-center">
-      <div class="col-md-12 form-group">
-        <label>Yeni Departman</label>
-        <select [(ngModel)]="DepartmentId" name="departmentIds" class="form-control"
-          #departmentIds="ngModel" [ngClass]="{ 'is-invalid': data.submitted && departmentIds.invalid }" required>
-          <option value="">Yok</option>
-          <option *ngFor="let department of departments" value="{{ department.DepartmentId }}">
-            {{ department.Name }}
-          </option>
-        </select>
-        <div *ngIf="data.submitted && departmentIds.invalid" class="invalid-feedback">
-          <div *ngIf="departmentIds.errors.required">Bu alan zorunludur.</div>
-        </div>
+    <!-- <div class="row justify-content-center">
+      <div class="col-md-12 form-group"> -->
+      <!-- <div style="display: flex; flex-direction: column;"> -->
+      <!-- <label class="required-span" style="margin-bottom: 0;font-weight: 700;">Departman</label>
+           <div style="display:flex;">
+              <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  
+              [class.dropdown-button-valid]="data.submitted && !selectedDepartment" required>{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+                <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
+              </div> -->
+      <!-- </div> -->
+      <!-- <div *ngIf="data.submitted && !selectedDepartment" style="color:red">
+        <div *ngIf="!selectedDepartment">Bu alan zorunludur.</div>
       </div>
+        <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+            <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
+          </div>
+        </div>
+      </div>  -->
+
+
+      <div class="row justify-content-center">
+        <div class="col-md-12 form-group">
+          <div>
+              <label class="required-span" style="margin-bottom: 0;
+              font-weight: 700;" >Departman</label>
+              <div style="display:flex;">
+              <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  
+              [class.dropdown-button-valid]="data.submitted && !selectedDepartment"  required>{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+                <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+              <div *ngIf="data.submitted && !selectedDepartment" style="color:red">
+                <div *ngIf="!selectedDepartment">Bu alan zorunludur.</div>
+              </div>
+          </div>
+          <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+                  <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
+          </div>
     </div>
+  </div>   
+
   </div>
 
 

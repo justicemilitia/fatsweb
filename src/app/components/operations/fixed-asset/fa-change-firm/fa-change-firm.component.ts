@@ -8,6 +8,7 @@ import { Firm } from "../../../../models/Firm";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { UserFirm } from "src/app/models/UserFirm";
 import { Department } from "src/app/models/Department";
+import { Location } from "src/app/models/Location";
 import { User } from "src/app/models/User";
 import { FixedAssetComponent } from "../fixed-asset.component";
 import { TransactionLog } from "../../../../models/TransactionLog";
@@ -46,15 +47,108 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
   locations: Location[] = [];
 
+  isLocationDropdownOpen: boolean = false;
+  isDepartmentDropdownOpen:boolean = false;
+
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
+
+
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "location",
+    [
+      {
+        columnDisplayName: "Lokasyon",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableDepartment: TreeGridTable = new TreeGridTable(
+    "department",
+    [
+      {
+        columnDisplayName: "Departman",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
 
   constructor(baseService: BaseService) {
     super(baseService);
     this.loadDropdownList();
+
+    this.dataTableLocation.isPagingActive = false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isMultipleSelectedActive = false;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isHeaderVisible = false;
+    this.dataTableLocation.isScrollActive = false;
+
+    this.dataTableDepartment.isPagingActive = false;
+    this.dataTableDepartment.isColumnOffsetActive = false;
+    this.dataTableDepartment.isDeleteable = false;
+    this.dataTableDepartment.isMultipleSelectedActive = false;
+    this.dataTableDepartment.isLoading = false;
+    this.dataTableDepartment.isHeaderVisible = false;
+    this.dataTableDepartment.isScrollActive = false;
+
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnDepartment").length == 0 
+      ) {
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen = false;
+      }
+    });
   }
 
   ngOnInit() {}
+
+  toggleDropdown(key:string) {
+
+    switch (key) {
+      case "location":
+    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+    this.isDepartmentDropdownOpen=false;
+    break;
+
+    case "department":
+    this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
+    this.isLocationDropdownOpen = false;
+    this.loadDepartmentByLocationId();
+
+    break;
+    }
+  }
+
+  selectedLocation: Location;
+  onClickLocation(item) {
+    this.selectedLocation = item;
+  }
+
+  selectedDepartment: Department;
+  onClickDepartment(item) {
+    this.selectedDepartment = item;
+  }
 
   async ChangeFirm(data: NgForm) {
     /* Is Form Valid */
@@ -66,10 +160,10 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
 
-          cloneItem.FirmId = Number(data.value.FirmId);
-          cloneItem.LocationId = Number(data.value.LocationId);
-          cloneItem.DepartmentId = Number(data.value.DepartmentId);
-          cloneItem.UserId = Number(data.value.UserId);
+          cloneItem.FirmId = Number(data.value == null ? null : data.value.FirmId);
+          cloneItem.LocationId = Number(this.selectedLocation == null ? null : this.selectedLocation.LocationId);
+          cloneItem.DepartmentId = Number(this.selectedDepartment == null ? null :this.selectedDepartment.DepartmentId);
+          cloneItem.UserId = Number(data.value == null ? null : data.value.UserId);
 
           this.isWaitingInsertOrUpdate = true;
 
@@ -83,11 +177,11 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
               /* Set inserted Item id to model */
               this.faBarcode.FirmId = cloneItem.FirmId;
-              if (
-                this.faBarcode.FirmId !=
-                this.baseService.authenticationService.currentFirm.FirmId
-              )
-                this.resetForm(data, true);
+             
+              this.resetForm(data, true);
+              this.resetDropdown('location');
+              this.resetDropdown('department');
+
               this.faTable.TGT_removeItem(this.faBarcode);
               this.faComponent.loadFixedAsset();
             },
@@ -103,11 +197,29 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     );
   }
 
-  resetForm(data: NgForm, isNewItem:boolean) {
-    
+  // resetForm(cloneItem: FixedAsset, isNewItem: boolean) {
+  //   if (isNewItem == true) {
+  //     cloneItem = new FixedAsset();
+  //   }
+  // }
+
+  resetForm(data: NgForm, isNewItem: boolean) {
     data.resetForm(this.fixedAsset);
     if (isNewItem == true) {
       this.fixedAsset = new FixedAsset();
+    }
+  }
+
+
+  resetDropdown(key:string){
+    switch(key){
+      case "location":
+      this.selectedLocation = null;
+      this.dataTableDepartment.TGT_clearData();
+      break;
+      case "department":
+      this.selectedDepartment = null;      
+      break;
     }
   }
 
@@ -126,6 +238,16 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     this.baseService.firmService.GetUserFirmList(
       (firms: Firm[]) => {
         this.userFirms = firms;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+      this.baseService.locationService.GetLocations(
+      (locations: Location[]) => {
+        this.locations = locations;
+        this.dataTableLocation.TGT_loadData(this.locations);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -155,17 +277,19 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     );
   }
 
-  loadDepartmentByLocationId() {
-    this.baseService.departmentService.GetDepartmentsByLocationId(
-      this.locationId,
-      departments => {
-        1;
-        this.departments = departments;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+  async loadDepartmentByLocationId() {
+    this.departments = [];
+      if( this.selectedLocation != null){
+      this.baseService.departmentService.GetDepartmentsByLocationId(
+
+        this.selectedLocation.LocationId,
+        (departments: Department[]) => {
+          this.departments = departments;
+          this.dataTableDepartment.TGT_loadData(this.departments);
+        },
+        (error: HttpErrorResponse) => {}
+      );
+    }
   }
 
   getFirmId(event) {

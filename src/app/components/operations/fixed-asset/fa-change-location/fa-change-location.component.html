@@ -32,20 +32,57 @@
     </div>
 
     <!-- YENİ LOKASYON -->
-    <div class="row justify-content-center">
+    <!-- <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>Yeni Lokasyon</label>
         <select [(ngModel)]="LocationId" name="locationIds" class="form-control" (click)="loadDropdownList()"
           #locationIds="ngModel" [ngClass]="{ 'is-invalid': data.submitted && locationIds.invalid }" required>
           <option [ngValue]="null">Yok</option>
           <option *ngFor="let location of locations" value="{{ location.LocationId }}">
-            {{ location.Name }}
+            {{ location.LocationCode }} - {{ location.Name }}
           </option>
         </select>
         <div *ngIf="data.submitted && locationIds.invalid" class="invalid-feedback">
           <div *ngIf="locationIds.errors.required">Bu alan zorunludur.</div>
         </div>
       </div>
+    </div>
+  </div> -->
+
+  <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+  <div>
+      <label class="required-span" style="margin-bottom: 0;
+      font-weight: 700;" >Lokasyon</label>
+      <div style="display:flex;">
+      <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
+        <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
+      </div>
+      <div *ngIf="data.submitted && !selectedLocation" style="color:red">
+        <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
+      </div>
+  </div>
+  <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+          <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
+  </div>
+</div>
+</div> 
+
+   <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+          <label class="required-span" style="margin-bottom: 0;
+          font-weight: 700;" >Departman</label>
+          <div style="display:flex;">
+              <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+                <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+              <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+                  <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
+                </div>
+      </div>
+      <!-- <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+          <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
+      </div> -->
     </div>
   </div>
 

@@ -372,17 +372,17 @@ export class RelationshipFixedAssetComponent extends BaseComponent
     /* Load all fixed asset cards to datatable */
     await this.baseService.fixedAssetService.GetFixedAssetRelationship(
       (far: FixedAssetRelationship[]) => {
-        this.fixedAssets = far;
-        far.forEach((element: FixedAssetRelationship) => {
-          let e = element.InverseFixedAssetParent;
-          if (e && e.length != 0) {
-            e.forEach((p, i) => {
-              let f = new FixedAssetRelationship();
-              Object.assign(f, p);
-              this.fixedAssets.push(f);
-            })
-          }
-        });
+        Object.assign(this.fixedAssets, far);
+        // far.forEach((element: FixedAssetRelationship) => {
+        //   let e = element.InverseFixedAssetParent;
+        //   if (e && e.length != 0) {
+        //     e.forEach((p, i) => {
+        //       let f = new FixedAssetRelationship();
+        //       Object.assign(f, p);
+        //       this.fixedAssets.push(f);
+        //     })
+        //   }
+        // });
         this.dataTable.TGT_loadData(this.fixedAssets);
       },
       (error: HttpErrorResponse) => {

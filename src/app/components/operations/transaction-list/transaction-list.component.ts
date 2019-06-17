@@ -314,8 +314,8 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
     
     let formList: string[];
 
-      (response: boolean) => {
-        if (response == true) {
+      // (response: boolean) => {
+      //   if (response == true) {
 
           formList = (<TransactionLog[]>(
             this.dataTable.TGT_getSelectedItems()
@@ -323,14 +323,14 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
 
           for(let i=0;i<formList.length;i++){
             if(formList[i] != null){
-              this.PressExitForm(formList[i]);
+              this.PressForm(formList[i]);
             }
           }
-        }   
-      }
+        // }   
+      // }
   }
 
-  PressExitForm(formName: string){
+  PressForm(formName: string){
     let url:string;
     url=DOCUMENT_URL + formName + ".pdf";
     // this.router.navigate([url]); 
