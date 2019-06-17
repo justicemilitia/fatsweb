@@ -56,13 +56,13 @@ const URL = "";
   providers: [FaCreateComponent]
 })
 export class FaCreateComponent extends BaseComponent
-  implements OnInit, AfterViewInit, OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["isNewBarcode"]) {
-      this.getValidBarcode();
-      this.isNewBarcode = false;
-    }
-  }
+  implements OnInit, AfterViewInit {
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes["isNewBarcode"]) {
+  //     this.getValidBarcode();
+  //     this.isNewBarcode = false;
+  //   }
+  // }
 
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
@@ -112,11 +112,14 @@ export class FaCreateComponent extends BaseComponent
   fixedAssetFile: FixedAssetFile = new FixedAssetFile();
 
   propertyValue: string;
+  sameProperty:boolean = false;
+
   BarcodeIsUnique: boolean = true;
   disabledBarcode: boolean = true;
   errorMessage: string = "";
   isListSelected: boolean = false;
   barcode: number;
+  firstBarcode:number;
   quantity: number;
   validBarcode = false;
   editable: boolean = true;
@@ -440,7 +443,14 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     this.selectedCard=item;
   }
 
-  next() {
+  previous(){
+
+    this.barcode =this.firstBarcode;
+
+    this.stepper.previous();
+  }
+
+  nextTab() {
     if (this.barcode) this.fixedAsset.Barcode = this.barcode.toString();
 
     if (
@@ -452,9 +462,11 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     ) {
       this.stepper.next();
     } else return;
+
+
   }
 
-  nextDataTable(event,data:NgForm) {
+  nextFixedAssetList(event,data:NgForm) {
     if (this.fixedAsset.ActivationDate != null && this.fixedAsset.InvoiceDate != null) {
       this.isFinished = true;
       this.stepper.next();
@@ -599,7 +611,7 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
           this.models = models;
         },
         (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
+
         }
       );
     }
@@ -692,6 +704,8 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
   isBarcodeUnique(barcode: string) {
     if (barcode == "") return;
 
+    this.firstBarcode = Number(this.fixedAsset.Barcode);
+
     this.baseService.fixedAssetCreateService.isBarcodeUnique(
       barcode,
       result => {
@@ -733,52 +747,72 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
   //#endregion
 
   getPropertyValue(event: any) {
+
     this.propertyValue = event.target.value;
+
     this.visible = false;
+
+    this.fixedAssetPropertyDetail.Value = null;
   }
 
-  insertPropertyValueToArray(propertyId: any) {
+ async insertPropertyValueToArray(propertyId: any) {
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
+
+    console.log(this.propertyValue);
+    this.faPropertyDetails.forEach(e=>{
+      if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
+      this.sameProperty = true;
+      else this.sameProperty = false;
+    });
+
+    if(this.sameProperty == true)
+      return;
 
     if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
 
       this.visiblePropertyName=false;
 
-      if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId !=null){
+      if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){
+      
+          let fixedasset = this.fixedassetproperty.find(
+            x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+          );
+    
+          this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+            (this.faPropertyDetails.length + 1) * -1;
+    
+          this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+    
+          if (this.isListSelected == true)
+            this.fixedAssetPropertyDetail.Value = this.propertyValue;
 
-      if (this.isSelectedProperty == true) {
-        let fixedasset = this.fixedassetproperty.find(
-          x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-        );
+          this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+    
+          this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+    
+          this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
 
-        this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-          (this.faPropertyDetails.length + 1) * -1;
+          this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
 
-        this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+          propertyId = null;
+          
+          this.visible = false;
 
-        if (this.isListSelected == true)
-          this.fixedAssetPropertyDetail.Value = this.propertyValue;
-        this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+          this.isSelectedProperty = false;
 
-        this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
-
-        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-        this.fixedAssetCardPropertyValue=new FixedAssetCardPropertyValue();
-        propertyId = null;
-        this.visible = false;
-        this.isSelectedProperty = false;
-      }else{
+      }
+      else{
         this.visiblePropertyName=true;    
       } 
-    }else{
+    }
+    else{
         this.visible=true;
         this.visiblePropertyName=true;    
     }
-  }
   
   }
 
-  isUniqueFixedAssetProperty(propertyId:number){
+async isUniqueFixedAssetProperty(propertyId:number){
 
     this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(propertyId,
       (result)=>{
@@ -787,7 +821,7 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
       },(error:HttpErrorResponse)=>{
         this.isUniqueProperty=false;
         this.baseService.popupService.ShowErrorPopup(error);
-      })
+      });
   }
 
  async addImageFile(imageFile) {
@@ -812,7 +846,8 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
 
 
 
-  addToFixedAssetList(data: NgForm) {
+  async addToFixedAssetList(data: NgForm) {
+
     if (data.invalid) {
       return false;
     }
@@ -823,13 +858,11 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
       this.fixedAsset.Quantity = 1;
     this.quantity = this.fixedAsset.Quantity;
 
-    this.barcode = data.value.Barcode;
+    //this.barcode = data.value.Barcode;
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
-    let expensecenter = this.expensecenters.find(
-      x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId)
-    );
+    let expensecenter = this.expensecenters.find(x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId));
 
     this.fixedAsset.IsActive = Boolean(data.value.IsActive);
     this.fixedAsset.ActivationDate = data.value.activationDate;
@@ -846,10 +879,13 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
     this.fixedAsset.ReceiptDate = data.value.receiptDate;
     this.fixedAsset.Picture = this.picture;
+    this.fixedAsset.Barcode=this.barcode.toString();
 
     if (this.isFinished == true) {
       for (let i = 0; i < this.quantity; i++) {
+
         let fixedasset = new FixedAsset();
+        
         fixedasset.Barcode = this.barcode.toString();
 
         fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
@@ -857,14 +893,12 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
         Object.assign(fixedasset, this.fixedAsset);
 
         let prefix:string = this.fixedAsset.Prefix;
-        let lastBarcode:number = Number(fixedasset.Barcode);
-
-        if (prefix != null && this.barcode.toString() == lastBarcode.toString())
+    
+        if (prefix != null)
          fixedasset.Barcode = prefix + this.barcode.toString();
         else fixedasset.Barcode = this.barcode.toString();
 
         this.barcode = Number(this.barcode) + 1;
-        lastBarcode = lastBarcode + 1;
 
         this.fixedAssets.push(fixedasset);
 
@@ -875,7 +909,7 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     }
   }
 
-  toggleValidBarcodes() {
+  async toggleValidBarcodes() {
     if (!this.dataTable.dataFilters.willDisplay)
       this.dataTable.dataFilters.willDisplay = true;
     else
@@ -883,19 +917,27 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
         .willDisplay;
   }
 
-  doAllVisible() {
+  async doAllVisible() {
     this.dataTable.originalSource.forEach((e: FixedAsset) => {
       e.willDisplay = true;
     });
   }
 
-  doItemsHidden(items: string[]) {
+  async doItemsHidden(items: string[]) {
     this.dataTable.originalSource.forEach((e: FixedAsset) => {
       if (!items.includes(e.Barcode)) e.willDisplay = false;
     });
   }
 
-  addFixedAsset() {
+  Test(){
+    window.alert("Test");
+  }
+
+  Test1(){
+    window.alert("Test1");
+  }
+
+  async addFixedAsset() {
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
     this.insertedFixedAsset = this.fixedAssets[0];
@@ -911,47 +953,18 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     this.insertedFixedAsset.CompanyId = this.fixedAsset.CompanyId == null ? null : Number(this.fixedAsset.CompanyId);
     this.insertedFixedAsset.DepreciationCalculationTypeID = this.fixedAsset.DepreciationCalculationTypeID == null ? null
         : Number(this.fixedAsset.DepreciationCalculationTypeID);
-    this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null
-        : Number(this.fixedAsset.ExpenseCenterId);
-    this.insertedFixedAsset.StatusId =
-      this.fixedAsset.StatusId == null
-        ? null
-        : Number(this.fixedAsset.StatusId);
-    this.insertedFixedAsset.IFRSCurrecyId =
-      this.fixedAsset.IFRSCurrecyId == null
-        ? null
-        : Number(this.fixedAsset.IFRSCurrecyId);
-    this.insertedFixedAsset.UserId =
-      this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
-    this.insertedFixedAsset.ActivationDate =
-      this.fixedAsset.ActivationDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
-    this.insertedFixedAsset.InvoiceDate =
-      this.fixedAsset.InvoiceDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
-    this.insertedFixedAsset.ReceiptDate =
-      this.fixedAsset.ReceiptDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
-    this.insertedFixedAsset.GuaranteeEndDate =
-      this.fixedAsset.GuaranteeEndDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
-    this.insertedFixedAsset.GuaranteeStartDate =
-      this.fixedAsset.GuaranteeStartDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
+    this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null : Number(this.fixedAsset.ExpenseCenterId);
+    this.insertedFixedAsset.StatusId = this.fixedAsset.StatusId == null ? null : Number(this.fixedAsset.StatusId);
+    this.insertedFixedAsset.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId == null ? null : Number(this.fixedAsset.IFRSCurrecyId);
+    this.insertedFixedAsset.UserId = this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
+    this.insertedFixedAsset.ActivationDate = this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
+    this.insertedFixedAsset.InvoiceDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
+    this.insertedFixedAsset.ReceiptDate = this.fixedAsset.ReceiptDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
+    this.insertedFixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
+    this.insertedFixedAsset.GuaranteeStartDate = this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
     this.insertedFixedAsset.IsActive = this.fixedAsset.IsActive;
-    this.insertedFixedAsset.FixedAssetCardBrandId =
-      this.fixedAsset.FixedAssetCardBrandId == null
-        ? null
-        : Number(this.fixedAsset.FixedAssetCardBrandId);
-    this.insertedFixedAsset.FixedAssetCardModelId =
-      this.fixedAsset.FixedAssetCardModelId == null
-        ? null
-        : Number(this.fixedAsset.FixedAssetCardModelId);
+    this.insertedFixedAsset.FixedAssetCardBrandId = this.fixedAsset.FixedAssetCardBrandId == null ? null : Number(this.fixedAsset.FixedAssetCardBrandId);
+    this.insertedFixedAsset.FixedAssetCardModelId = this.fixedAsset.FixedAssetCardModelId == null ? null : Number(this.fixedAsset.FixedAssetCardModelId);
 
     this.insertedFixedAsset.Picture = this.picture;
 
@@ -977,7 +990,7 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
           this.doAllVisible();
           this.doItemsHidden(barcodes);
           this.editable = false;
-          this.visibleInsertButton = true;
+          this.visibleInsertButton = false;
           this.baseService.spinner.hide();
           this.baseService.popupService.ShowErrorPopup(message);
         }
@@ -992,6 +1005,7 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     switch(key){
       case "category":
       this.selectedCategory = null;
+      this.selectedCard = null;     
       break;
       case "card":
       this.selectedCard = null;
@@ -999,6 +1013,7 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
       break;
       case "location":
       this.selectedLocation = null;
+      this.selectedDepartment=null;
       this.dataTableDepartment.TGT_clearData();
       break;
       case "department":
@@ -1038,15 +1053,13 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
 
     this.dataTablePropertyValue.TGT_clearData();
 
-    this.dataTableFile.TGT_clearData();
+    this.dataTableFile.TGT_clearData();  
 
-    this.dataTableDepartment.TGT_clearData();
+    this.visibleInsertButton = false;
 
-    this.dataTableLocation.TGT_clearData();
+    this.validBarcode = false;
 
-    this.dataTableFixedAssetCard.TGT_clearData();
-
-    this.dataTableFixedAssetCategory.TGT_clearData();
+    this.getValidBarcode();
   }
 
   // #region FILE UPLOAD

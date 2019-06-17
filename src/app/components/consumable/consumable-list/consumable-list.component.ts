@@ -395,7 +395,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
           this.models = models;
         },
         (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
+        
         }
       );
     }
@@ -555,10 +555,12 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
             this.visible = false;
             this.isSelectedProperty = false;
 
-        }else{
+        }
+        else{
           this.visiblePropertyName=true;    
         } 
-      }else{
+      }
+      else{
           this.visible=true;
           this.visiblePropertyName=true;    
       }

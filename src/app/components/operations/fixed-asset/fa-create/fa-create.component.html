@@ -8,6 +8,7 @@
 <mat-horizontal-stepper  [@.disabled]="true" linear #stepper>   
 
   <mat-step label="Genel Bilgiler"  [editable]="editable">
+
         <div class="row justify-content-center">
 
             <!--BARCODE-->
@@ -193,7 +194,7 @@
               <label>Personel</label>
               <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2-no-search" style="width:100%;"  #UserId="ngModel">
                   <option [ngValue]="null">Personel Seçiniz</option>
-                  <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.UserMail}}</option>
+                  <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.RegistrationNumber ? staff.RegistrationNumber + ' - ' + staff.FirstName + ' ' + staff.LastName : staff.FirstName + ' ' + staff.LastName }}</option>
               </select>             
           </div> 
         </div>
@@ -206,7 +207,7 @@
           <div class="form-group col-md-3">
             <div class="grp-btn-action" style="margin-top: 13px;">
               <!-- [disabled]="!data.form.valid ? true : null" -->
-              <button mat-raised-button  class="btn btn-orange" (click)="next()" type="submit" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+              <button mat-raised-button  class="btn btn-orange" (click)="nextTab()" type="submit" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
           </div>  
           </div>
         </div>
@@ -291,10 +292,10 @@
     </div>
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
           <div class="grp-btn-action-left">
-            <button mat-button matStepperPrevious type="button"  class="btn btn-orange" >Geri</button>
+            <button mat-button type ="button" (click)="previous()"  class="btn btn-orange" >Geri</button>
           </div>
           <div class="grp-btn-action">
-            <button mat-raised-button  class="btn btn-orange" (click)="next()" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
+            <button mat-raised-button  class="btn btn-orange" (click)="nextTab()" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
             margin-bottom: 0px;">İleri</button>
           </div>
         </div>
@@ -322,13 +323,19 @@
               <div class="form-group col-md-3">   
               <label>Fatura Tarihi</label> 
               <div class="input-group">
-                  <div class="input-group-append">
+                  <div class="input-group-append" >
                     <div (click)="invoiceDate.toggle()" class="input-group-text">
                       <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                     </div>
                   </div>
                   <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="invoiceDate"
-                  [(ngModel)]="fixedAsset.InvoiceDate" ngbDatepicker #invoiceDate="ngbDatepicker" #invoiceDateModel="ngModel"/>     
+                  [(ngModel)]="fixedAsset.InvoiceDate"  [class.is-invalid]="(fixedAsset.InvoiceDate)"  ngbDatepicker #invoiceDate="ngbDatepicker" #invoiceDateModel="ngModel" />
+                  <div *ngIf="invoiceDateModel.invalid" class="invalid-feedback">
+                      <div *ngIf="invoiceDateModel.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="!invoiceDateModel.errors.required && invoiceDateModel.status == 'INVALID'">
+                        Lütfen Geçerli Format Giriniz.
+                      </div>
+                    </div>     
               </div>
             </div>
             </div>
@@ -344,15 +351,15 @@
                     <label>Aktifleştirme Tarihi</label>
                     <div class="input-group">
                         <div class="input-group-append"
-                        [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )">
+                        [class.is-invalid]="(!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )">
                           <div (click)="activationDate.toggle()" class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                           </div>
                         </div>
                         <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
                         [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
-                        [class.is-invalid]="data.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )" required/>                        
-                        <div *ngIf="data.submitted && activationDateModel.invalid" class="invalid-feedback">
+                        [class.is-invalid]="(!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )" required/>                        
+                        <div *ngIf="activationDateModel.invalid" class="invalid-feedback">
                           <div *ngIf="activationDateModel.errors.required">Bu alan zorunludur.</div>
                           <div *ngIf="!activationDateModel.errors.required && activationDateModel.status == 'INVALID'">
                             Lütfen Geçerli Format Giriniz.
@@ -482,13 +489,13 @@
        </fieldset>  
           <div class="row" style="margin-right: 0px; margin-left: 0px; margin-top:10px">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;  min-height: 29px;
+              <button mat-button matStepperPrevious type="button" class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;  min-height: 29px;
               min-width: 30px;
               padding: 0 16px;
               font-weight: 400;">Geri</button>
             </div>
             <div class="grp-btn-action">
-              <button mat-raised-button type="submit" (click)="nextDataTable()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
+              <button mat-raised-button type="submit" (click)="nextFixedAssetList()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
               margin-bottom: 0px;">İleri</button>
             </div>
           </div>   
@@ -503,7 +510,7 @@
         <div class="grp-btn-action-left">
           <button mat-button matStepperPrevious type="button" class="btn btn-orange" style="border-radius:0px; background-color: #e67300; margin-right:10px; color: white;">Geri</button>
           <button *ngIf="validBarcode" (click)="toggleValidBarcodes()" type="button" class="btn btn-orange" style="border-radius:0px; background-color: #e67300; color: white">İncele</button>
-          <div *ngIf="validBarcode" style="color:red">Eklemek istediğiniz barkod sistemde bulunmaktadır.</div>
+          <div *ngIf="validBarcode" style="color:red; margin-left: 10px">Eklemek istediğiniz barkod sistemde bulunmaktadır!</div>
         </div>
         <div class="grp-btn-action">
           <div *ngIf="visibleInsertButton;then insertFile else insertFixedAsset"></div>
@@ -550,7 +557,7 @@
               <button class="btn btn-orange" (click)="insertFiles()" id="btnAddAgreement">
                Dosya Ekle
               </button>
-          </div>
+            </div>
         </div>
   </mat-step>
   </mat-horizontal-stepper>
