@@ -678,7 +678,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         this.TGT_calculatePages();
       },
       (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
+        this.totalPage = 0;
+        this.TGT_calculatePages();
       }
     );
   }

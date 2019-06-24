@@ -1,0 +1,52 @@
+.form-group select {
+    height: 27px;
+    font-size: 13px;
+    padding-top: 3px;
+    border-radius: 0;
+  }
+  
+  .btn-orange {
+    background: #e67300;
+    color: white;
+    border-radius: 0px;
+    background-color: #e67300; color: white; min-height: 29px;
+    min-width: 30px;
+    padding: 0 16px;
+    font-weight: 400; line-height: 29px
+  }
+  
+  .field_set{
+      border:1;
+      border-color: #d0cbcb;
+      border-style: solid;
+  }
+  
+  .mat-raised-button {
+    box-sizing: border-box;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    min-height: 29px !important;
+    min-width: 30px;
+    padding: 0 16px;
+    font-weight: 400;
+    border-radius: 4px;
+    overflow: visible;
+    line-height: 29px;
+    margin-top: 5px;
+    margin-bottom: -5px;
+  }
+  
+  .mat-raised-button:not([class*=mat-elevation-z]) {
+    box-shadow: 0 0px 0px 0px rgba(0,0,0,0), 0 0px 0px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  }
+  .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: #e67300;
+    color: #fff;
+  }
+
+  
+  

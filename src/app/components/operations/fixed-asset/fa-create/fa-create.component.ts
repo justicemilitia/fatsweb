@@ -40,6 +40,9 @@ import { convertNgbDateToDateString } from "src/app/declarations/extends";
 import { MatStepper } from "@angular/material";
 import { FixedAssetComponent } from "../fixed-asset.component";
 import { Agreement } from "src/app/models/Agreement";
+import { FaGeneralInformationComponent } from "./fa-general-information/fa-general-information.component";
+import { FaPropertyInformationComponent } from "./fa-property-information/fa-property-information.component";
+import { FaFinancialInformationComponent } from "./fa-financial-information/fa-financial-information.component";
 
 const URL = "";
 
@@ -67,14 +70,19 @@ export class FaCreateComponent extends BaseComponent
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
+
+  // @ViewChild(FaGeneralInformationComponent)  resetGeneralForm: FaGeneralInformationComponent = null;
+  // @ViewChild(FaPropertyInformationComponent)  resetPropertyForm: FaPropertyInformationComponent = null;
+  // @ViewChild(FaFinancialInformationComponent)  resetFinancialForm: FaFinancialInformationComponent = null;
+
   isLocationDropdownOpen: boolean = false;
-  isDepartmentDropdownOpen:boolean = false;
-  isFaCardDropdownOpen:boolean = false;
+  isDepartmentDropdownOpen: boolean = false;
+  isFaCardDropdownOpen: boolean = false;
   isFaCardCategoryDropdownOpen: boolean = false;
-  isUniqueProperty:boolean=false;
-  visibleDepreciation:boolean=false;
-  visibleIfrs:boolean=false;
-  visiblePropertyName=false;
+  isUniqueProperty: boolean = false;
+  visibleDepreciation: boolean = false;
+  visibleIfrs: boolean = false;
+  visiblePropertyName = false;
 
   isFinished: boolean = false;
   isWaitingValidBarcode: boolean = false;
@@ -83,6 +91,7 @@ export class FaCreateComponent extends BaseComponent
   visible: boolean = false;
   fixedAssetForm: FormGroup;
   isNewBarcode: boolean;
+
   departments: Department[] = [];
   companies: Company[] = [];
   locations: Location[] = [];
@@ -106,26 +115,28 @@ export class FaCreateComponent extends BaseComponent
   agreements: Agreement[] = [];
 
   fixedAsset: FixedAsset = new FixedAsset();
+  faGeneralInformation: FixedAsset = new FixedAsset();
+  faPropertyInformation: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
   fixedAssetFile: FixedAssetFile = new FixedAssetFile();
 
   propertyValue: string;
-  sameProperty:boolean = false;
+  sameProperty: boolean = false;
 
   BarcodeIsUnique: boolean = true;
   disabledBarcode: boolean = true;
   errorMessage: string = "";
   isListSelected: boolean = false;
   barcode: number;
-  firstBarcode:number;
+  firstBarcode: number;
   quantity: number;
   validBarcode = false;
   editable: boolean = true;
   visibleInsertButton: boolean = false;
   isResetForm: boolean = false;
-  picture: any;
+  picture: string;
 
   @Input() faComponent: FixedAssetComponent;
   @ViewChild("stepper") stepper: MatStepper;
@@ -136,8 +147,7 @@ export class FaCreateComponent extends BaseComponent
   fileBarcode: any;
   insertedFixedAsset = new FixedAsset();
 
-//#region DataTables
-
+  //#region DataTables
 
   /*Fixed Asset List */
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -191,33 +201,6 @@ export class FaCreateComponent extends BaseComponent
     }
   );
 
-  /* Fixed Asset Card Property Value Data Table */
-  public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
-    "fixedassetcardpropertyvalue",
-    [
-      {
-        columnDisplayName: "Özellik Adı",
-        columnName: ["FixedAssetCardProperty", "Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: "Özellik Değeri",
-        columnName: ["Value"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["Value"]
-    }
-  );
-
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
     [
@@ -236,94 +219,19 @@ export class FaCreateComponent extends BaseComponent
     }
   );
 
-  public dataTableLocation: TreeGridTable = new TreeGridTable(
-    "location",
-    [
-      {
-        columnDisplayName: "Lokasyon",
-        columnName: ["Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["Name"]
-    }
-  );
+  //#endregion
 
-  public dataTableDepartment: TreeGridTable = new TreeGridTable(
-    "department",
-    [
-      {
-        columnDisplayName: "Departman",
-        columnName: ["Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["Name"]
-    }
-  );
-  
-  public dataTableFixedAssetCategory: TreeGridTable = new TreeGridTable(
-    "fixedassetcategory",
-    [
-      {
-        columnDisplayName: "Demirbaş Kategorisi",
-        columnName: ["Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["Name"]
-    }
-  );
-
-  public dataTableFixedAssetCard: TreeGridTable = new TreeGridTable(
-    "fixedassetcard",
-    [
-      {
-        columnDisplayName: "Demirbaş Kartı",
-        columnName: ["Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["Name"]
-    }
-  );
-//#endregion
-  
-constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
-    
+  constructor(
+    protected baseService: BaseService,
+    public HttpClient: HttpClient
+  ) {
     super(baseService);
 
-    this.loadDropdown();
+    //this.loadDropdown();
 
-    this.getValidBarcode();
+    // this.getValidBarcode();
 
     //#region DataTable Properties
-    this.dataTablePropertyValue.isPagingActive = false;
-    this.dataTablePropertyValue.isColumnOffsetActive = false;
-    this.dataTablePropertyValue.isTableEditable = true;
-    this.dataTablePropertyValue.isMultipleSelectedActive = false;
-    this.dataTablePropertyValue.isLoading = false;
-    this.dataTablePropertyValue.isDeleteable = true;
 
     this.dataTable.isPagingActive = false;
     this.dataTable.isColumnOffsetActive = false;
@@ -336,91 +244,25 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     this.dataTableFile.isMultipleSelectedActive = false;
     this.dataTableFile.isLoading = false;
 
-    this.dataTableLocation.isPagingActive = false;
-    this.dataTableLocation.isColumnOffsetActive = false;
-    this.dataTableLocation.isDeleteable = false;
-    this.dataTableLocation.isMultipleSelectedActive = false;
-    this.dataTableLocation.isLoading = false;
-    this.dataTableLocation.isHeaderVisible = false;
-    this.dataTableLocation.isScrollActive = false;
-
-    this.dataTableDepartment.isPagingActive = false;
-    this.dataTableDepartment.isColumnOffsetActive = false;
-    this.dataTableDepartment.isDeleteable = false;
-    this.dataTableDepartment.isMultipleSelectedActive = false;
-    this.dataTableDepartment.isLoading = false;
-    this.dataTableDepartment.isHeaderVisible = false;
-    this.dataTableDepartment.isScrollActive = false;
-
-    this.dataTableFixedAssetCategory.isPagingActive = false;
-    this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
-    this.dataTableFixedAssetCategory.isDeleteable = false;
-    this.dataTableFixedAssetCategory.isMultipleSelectedActive = false;
-    this.dataTableFixedAssetCategory.isLoading = false;
-    this.dataTableFixedAssetCategory.isHeaderVisible = false;
-    this.dataTableFixedAssetCategory.isScrollActive=false;
-
-    this.dataTableFixedAssetCard.isPagingActive = false;
-    this.dataTableFixedAssetCard.isColumnOffsetActive = false;
-    this.dataTableFixedAssetCard.isDeleteable = false;
-    this.dataTableFixedAssetCard.isMultipleSelectedActive = false;
-    this.dataTableFixedAssetCard.isLoading = false;
-    this.dataTableFixedAssetCard.isHeaderVisible = false;
-    this.dataTableFixedAssetCard.isScrollActive = false;
-    //#endregion    
+    //#endregion
 
     $(document).on("click", e => {
       if (
         $(e.target).closest(".custom-dropdown").length == 0 &&
-        $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnDepartment").length == 0 
-        && $(e.target).closest("#btnFaCategory").length == 0  && $(e.target).closest("#btnFaCard").length == 0
+        $(e.target).closest("#btnLocation").length == 0 &&
+        $(e.target).closest("#btnDepartment").length == 0 &&
+        $(e.target).closest("#btnFaCategory").length == 0 &&
+        $(e.target).closest("#btnFaCard").length == 0
       ) {
         this.isLocationDropdownOpen = false;
         this.isDepartmentDropdownOpen = false;
-        this.isFaCardCategoryDropdownOpen=false;
-        this.isFaCardDropdownOpen=false;
+        this.isFaCardCategoryDropdownOpen = false;
+        this.isFaCardDropdownOpen = false;
       }
     });
   }
 
   ngOnInit() {}
-
-  toggleDropdown(key:string) {
-
-    switch (key) {
-      case "location":
-    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
-    this.isDepartmentDropdownOpen=false;
-    this.isFaCardDropdownOpen=false;
-    this.isFaCardCategoryDropdownOpen = false;
-    break;
-
-    case "department":
-    this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
-    this.isFaCardDropdownOpen=false;
-    this.isFaCardCategoryDropdownOpen = false;
-    this.isLocationDropdownOpen = false;
-    this.loadDepartmentByLocationId();
-
-    break;
-    
-    case "card":
-    this.isFaCardDropdownOpen=!this.isFaCardDropdownOpen;
-    this.isLocationDropdownOpen = false;
-    this.isDepartmentDropdownOpen=false;
-    this.isFaCardCategoryDropdownOpen = false;
-    this.loadFaCardByCategoryId();
-
-    break;
-
-    case "category":
-    this.isFaCardCategoryDropdownOpen = !this.isFaCardCategoryDropdownOpen;
-    this.isLocationDropdownOpen = false;
-    this.isDepartmentDropdownOpen=false;
-    this.isFaCardDropdownOpen=false;
-    break;
-    }
-  }
 
   selectedLocation: Location;
   onClickLocation(item) {
@@ -432,67 +274,45 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     this.selectedDepartment = item;
   }
 
-  selectedCategory:FixedAssetCardCategory;
+  selectedCategory: FixedAssetCardCategory;
 
-  onClickFaCategory(item){
-    this.selectedCategory=item;
+  onClickFaCategory(item) {
+    this.selectedCategory = item;
   }
 
-  selectedCard:FixedAssetCard;
-  onClickFaCard(item){
-    this.selectedCard=item;
+  selectedCard: FixedAssetCard;
+  onClickFaCard(item) {
+    this.selectedCard = item;
   }
 
-  previous(){
-
-    this.barcode =this.firstBarcode;
-
+  previous() {
+   // this.barcode = this.firstBarcode;
+console.log(this.barcode);
     this.stepper.previous();
   }
 
   nextTab() {
     if (this.barcode) this.fixedAsset.Barcode = this.barcode.toString();
 
-    if (
-      this.selectedCard != null &&
-      this.selectedCategory != null &&
-      this.selectedLocation != null &&
-      this.fixedAsset.StatusId != null &&
-      this.fixedAsset.Barcode != null
-    ) {
-      this.stepper.next();
-    } else return;
-
-
+    this.stepper.next();
   }
 
-  nextFixedAssetList(event,data:NgForm) {
-    if (this.fixedAsset.ActivationDate != null && this.fixedAsset.InvoiceDate != null) {
+  nextFixedAssetList() {
+    if (
+      this.fixedAsset.ActivationDate != null &&
+      this.fixedAsset.InvoiceDate != null
+    ) {
       this.isFinished = true;
       this.stepper.next();
-    } else 
-    {
-      data.onSubmit(event);
-      return;
-    }
+    } else return;
   }
 
   //#region Load Dropdown
 
- async loadDropdown() {
+  async loadDropdown() {
     this.baseService.companyService.GetCompanies(
       (companies: Company[]) => {
         this.companies = companies;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-
-    this.baseService.locationService.GetLocations(
-      (locations: Location[]) => {
-        this.locations = locations;
-        this.dataTableLocation.TGT_loadData(this.locations);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -560,20 +380,6 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
       (error: HttpErrorResponse) => {}
     );
 
-    if (this.fixedassetcategories && this.fixedassetcategories.length == 0) {
-      this.fixedassetcards = [];
-
-      this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
-        (categories: FixedAssetCardCategory[]) => {
-          this.fixedassetcategories = categories;
-          this.dataTableFixedAssetCategory.TGT_loadData(this.fixedassetcategories);
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
-
     if (this.brands && this.brands.length == 0) {
       this.models = [];
 
@@ -595,140 +401,84 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
     );
   }
 
-  async loadModelByBrandId(event: any) {
-    this.models = [];
+  //  async loadFaCardByCategoryId() {
+  //     this.fixedassetcards = [];
 
-    if (!event.target.value || event.target.value == "") {
-      this.fixedAsset.FixedAssetCardModelId = null;
-      this.fixedAsset.FixedAssetCardModel = new FixedAssetCardModel();
-      return;
-    }
+  //     // if (!event.target.value || event.target.value == "") {
+  //     //   this.fixedAsset.FixedAssetCardId = null;
+  //     //   this.fixedAsset.FixedAssetCard = new FixedAssetCard();
+  //     //   return;
+  //     // }
 
-    if (event.target.value) {
-      this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
-        <number>event.target.value,
-        (models: FixedAssetCardModel[]) => {
-          this.models = models;
-        },
-        (error: HttpErrorResponse) => {
+  //     //if (event.target.value) {
+  //       this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
+  //         this.selectedCategory.FixedAssetCardCategoryId,
+  //         (fixedAssetCards: FixedAssetCard[]) => {
+  //           this.fixedassetcards = fixedAssetCards;
+  //           this.dataTableFixedAssetCard.TGT_loadData(this.fixedassetcards);
+  //         },
+  //         (error: HttpErrorResponse) => {
+  //           this.baseService.popupService.ShowErrorPopup(error);
+  //         }
+  //       );
+  //    //}
+  //   }
 
-        }
-      );
-    }
-  }
+  //   async loadDepartmentByLocationId() {
+  //     this.departments = [];
 
- async loadFaCardByCategoryId() {
-    this.fixedassetcards = [];
-    
-    // if (!event.target.value || event.target.value == "") {
-    //   this.fixedAsset.FixedAssetCardId = null;
-    //   this.fixedAsset.FixedAssetCard = new FixedAssetCard();
-    //   return;
-    // }
+  //     // if (!event.target.value || event.target.value == "") {
+  //     //   this.fixedAsset.DepartmentId = null;
+  //     //   this.fixedAsset.Department = new Department();
+  //     //   return;
+  //     // }
 
-    //if (event.target.value) {
-      this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
-        this.selectedCategory.FixedAssetCardCategoryId,
-        (fixedAssetCards: FixedAssetCard[]) => {
-          this.fixedassetcards = fixedAssetCards;
-          this.dataTableFixedAssetCard.TGT_loadData(this.fixedassetcards);
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-   //}
-  }
+  //     // if (event.target.value) {
+  //       if( this.selectedLocation != null){
+  //       this.baseService.departmentService.GetDepartmentsByLocationId(
 
- async loadFixedAssetProperties() {
-    this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
-      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
-        this.fixedassetproperty = fixedAssetCardProperties;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
-
-  async loadValuesByPropertyId(event) {
-    this.isSelectedProperty = true;
-    this.visible = false;
-    let fixedAssetProperty = this.fixedassetproperty.find(
-      x => x.FixedAssetCardPropertyId == Number(event.target.value)
-    );
-
-    if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
-      this.isListSelected = true;
-      this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
-        <number>event.target.value,
-        (propertyValues: FixedAssetCardPropertyValue[]) => {
-          this.fixedassetpropertyvalues = propertyValues;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    } else {
-      this.isListSelected = false;
-    }
-  }
-
-  async loadDepartmentByLocationId() {
-    this.departments = [];
-
-    // if (!event.target.value || event.target.value == "") {
-    //   this.fixedAsset.DepartmentId = null;
-    //   this.fixedAsset.Department = new Department();
-    //   return;
-    // }
-
-    // if (event.target.value) {
-      if( this.selectedLocation != null){
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-
-        this.selectedLocation.LocationId,
-        (departments: Department[]) => {
-          this.departments = departments;
-          this.dataTableDepartment.TGT_loadData(this.departments);
-        },
-        (error: HttpErrorResponse) => {}
-      );
-    }
-    //}
-  }
+  //         this.selectedLocation.LocationId,
+  //         (departments: Department[]) => {
+  //           this.departments = departments;
+  //           this.dataTableDepartment.TGT_loadData(this.departments);
+  //         },
+  //         (error: HttpErrorResponse) => {}
+  //       );
+  //     }
+  //     //}
+  //   }
 
   //#endregion
 
   //#region Barcode control
-  isBarcodeUnique(barcode: string) {
-    if (barcode == "") return;
+  // isBarcodeUnique(barcode: string) {
+  //   if (barcode == "") return;
 
-    this.firstBarcode = Number(this.fixedAsset.Barcode);
+  //   this.firstBarcode = Number(this.fixedAsset.Barcode);
 
-    this.baseService.fixedAssetCreateService.isBarcodeUnique(
-      barcode,
-      result => {
-        this.BarcodeIsUnique = false;
-        this.errorMessage = "";
-        this.barcode = Number(barcode);
-      },
-      (error: HttpErrorResponse) => {
-        this.BarcodeIsUnique = true;
-        this.errorMessage = error.statusText;
-      }
-    );
-  }
+  //   this.baseService.fixedAssetCreateService.isBarcodeUnique(
+  //     barcode,
+  //     result => {
+  //       this.BarcodeIsUnique = false;
+  //       this.errorMessage = "";
+  //       this.barcode = Number(barcode);
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       this.BarcodeIsUnique = true;
+  //       this.errorMessage = error.statusText;
+  //     }
+  //   );
+  // }
 
-  isBarcodeManual(event) {
-    if (event.target.checked == true) {
-      this.disabledBarcode = false;
-      this.barcode = null;
-    } else {
-      this.disabledBarcode = true;
-      this.getValidBarcode();
-    }
-  }
+  // isBarcodeManual(event) {
+  //   if (event.target.checked == true) {
+  //     this.disabledBarcode = false;
+  //     this.barcode = null;
+  //   } else {
+  //     this.disabledBarcode = true;
+  //     this.getValidBarcode();
+  //   }
+  // }
 
   getValidBarcode() {
     this.isWaitingValidBarcode = true;
@@ -746,119 +496,26 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
 
   //#endregion
 
-  getPropertyValue(event: any) {
-
-    this.propertyValue = event.target.value;
-
-    this.visible = false;
-
-    this.fixedAssetPropertyDetail.Value = null;
+  addFaGeneralInformation(fixedasset: FixedAsset) {
+    this.barcode = Number(fixedasset.Barcode);
+    Object.assign(this.faGeneralInformation, fixedasset);
   }
 
- async insertPropertyValueToArray(propertyId: any) {
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
-
-    console.log(this.propertyValue);
-    this.faPropertyDetails.forEach(e=>{
-      if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
-      this.sameProperty = true;
-      else this.sameProperty = false;
-    });
-
-    if(this.sameProperty == true)
-      return;
-
-    if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
-
-      this.visiblePropertyName=false;
-
-      if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){
-      
-          let fixedasset = this.fixedassetproperty.find(
-            x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-          );
-    
-          this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-            (this.faPropertyDetails.length + 1) * -1;
-    
-          this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
-    
-          if (this.isListSelected == true)
-            this.fixedAssetPropertyDetail.Value = this.propertyValue;
-
-          this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
-    
-          this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
-    
-          this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-
-          this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
-
-          propertyId = null;
-          
-          this.visible = false;
-
-          this.isSelectedProperty = false;
-
-      }
-      else{
-        this.visiblePropertyName=true;    
-      } 
-    }
-    else{
-        this.visible=true;
-        this.visiblePropertyName=true;    
-    }
-  
+  addFaPropertyInformation(fixedasset: FixedAsset) {
+    Object.assign(this.faPropertyInformation, fixedasset);
   }
 
-async isUniqueFixedAssetProperty(propertyId:number){
+  addToFixedAssetList(data: NgForm) {
+    Object.assign(this.fixedAsset, this.faGeneralInformation);
 
-    this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(propertyId,
-      (result)=>{
-        this.isUniqueProperty=true;
-
-      },(error:HttpErrorResponse)=>{
-        this.isUniqueProperty=false;
-        this.baseService.popupService.ShowErrorPopup(error);
-      });
-  }
-
- async addImageFile(imageFile) {
-    this.baseService.fileUploadService.ImageUpload(
-      imageFile,
-      result => {
-        this.picture = result;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-
-    var reader = new FileReader();
-    reader.readAsDataURL(imageFile[0]);
-    reader.onload = _event => (this.imgURL = reader.result.toString());
-  }
-
-  clearFiles() {
-    this.imgURL = null;
-  }
-
-
-
-  async addToFixedAssetList(data: NgForm) {
-
-    if (data.invalid) {
-      return false;
-    }
+    this.fixedAsset.FixedAssetPropertyDetails = this.faPropertyInformation.FixedAssetPropertyDetails;
+    this.fixedAsset.Picture = this.faPropertyInformation.Picture;
 
     this.dataTable.TGT_clearData();
 
     if (this.fixedAsset.Quantity == 0 || this.fixedAsset.Quantity == null)
       this.fixedAsset.Quantity = 1;
     this.quantity = this.fixedAsset.Quantity;
-
-    //this.barcode = data.value.Barcode;
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
@@ -867,35 +524,26 @@ async isUniqueFixedAssetProperty(propertyId:number){
     this.fixedAsset.IsActive = Boolean(data.value.IsActive);
     this.fixedAsset.ActivationDate = data.value.activationDate;
     this.fixedAsset.ExpenseCenter = expensecenter;
-    this.fixedAsset.SerialNumber = data.value.SerialNumber;
-    this.fixedAsset.FixedAssetCardCategory = this.selectedCategory;
-    this.fixedAsset.Location = this.selectedLocation;
-    this.fixedAsset.Department = this.selectedDepartment;
-    this.fixedAsset.FixedAssetCard = this.selectedCard;
     this.fixedAsset.Price = data.value.Price;
     this.fixedAsset.GuaranteeStartDate = data.value.guaranteeStartDate;
     this.fixedAsset.GuaranteeEndDate = data.value.guaranteeEndDate;
     this.fixedAsset.InvoiceDate = data.value.invoiceDate;
     this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
     this.fixedAsset.ReceiptDate = data.value.receiptDate;
-    this.fixedAsset.Picture = this.picture;
-    this.fixedAsset.Barcode=this.barcode.toString();
 
     if (this.isFinished == true) {
-      for (let i = 0; i < this.quantity; i++) {
-
+      for (let i = 0; i < this.fixedAsset.Quantity; i++) {
         let fixedasset = new FixedAsset();
-        
-        fixedasset.Barcode = this.barcode.toString();
 
+        fixedasset.Barcode = this.barcode.toString();
         fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
 
         Object.assign(fixedasset, this.fixedAsset);
 
-        let prefix:string = this.fixedAsset.Prefix;
-    
+        let prefix: string = this.fixedAsset.Prefix;
+
         if (prefix != null)
-         fixedasset.Barcode = prefix + this.barcode.toString();
+          fixedasset.Barcode = prefix + this.barcode.toString();
         else fixedasset.Barcode = this.barcode.toString();
 
         this.barcode = Number(this.barcode) + 1;
@@ -908,6 +556,69 @@ async isUniqueFixedAssetProperty(propertyId:number){
       this.dataTable.TGT_loadData(this.fixedAssets);
     }
   }
+
+  // async addToFixedAssetList(data: NgForm) {
+
+  //   if (data.invalid) {
+  //     return false;
+  //   }
+
+  //   this.dataTable.TGT_clearData();
+
+  //   if (this.fixedAsset.Quantity == 0 || this.fixedAsset.Quantity == null)
+  //     this.fixedAsset.Quantity = 1;
+  //   this.quantity = this.fixedAsset.Quantity;
+
+  //   //this.barcode = data.value.Barcode;
+
+  //   this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
+
+  //   let expensecenter = this.expensecenters.find(x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId));
+
+  //   this.fixedAsset.IsActive = Boolean(data.value.IsActive);
+  //   this.fixedAsset.ActivationDate = data.value.activationDate;
+  //   this.fixedAsset.ExpenseCenter = expensecenter;
+  //   this.fixedAsset.SerialNumber = data.value.SerialNumber;
+  //   this.fixedAsset.FixedAssetCardCategory = this.selectedCategory;
+  //   this.fixedAsset.Location = this.selectedLocation;
+  //   this.fixedAsset.Department = this.selectedDepartment;
+  //   this.fixedAsset.FixedAssetCard = this.selectedCard;
+  //   this.fixedAsset.Price = data.value.Price;
+  //   this.fixedAsset.GuaranteeStartDate = data.value.guaranteeStartDate;
+  //   this.fixedAsset.GuaranteeEndDate = data.value.guaranteeEndDate;
+  //   this.fixedAsset.InvoiceDate = data.value.invoiceDate;
+  //   this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
+  //   this.fixedAsset.ReceiptDate = data.value.receiptDate;
+  //   this.fixedAsset.Picture = this.picture;
+  //   this.fixedAsset.Barcode=this.barcode.toString();
+
+  //   if (this.isFinished == true) {
+  //     for (let i = 0; i < this.quantity; i++) {
+
+  //       let fixedasset = new FixedAsset();
+
+  //       fixedasset.Barcode = this.barcode.toString();
+
+  //       fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
+
+  //       Object.assign(fixedasset, this.fixedAsset);
+
+  //       let prefix:string = this.fixedAsset.Prefix;
+
+  //       if (prefix != null)
+  //        fixedasset.Barcode = prefix + this.barcode.toString();
+  //       else fixedasset.Barcode = this.barcode.toString();
+
+  //       this.barcode = Number(this.barcode) + 1;
+
+  //       this.fixedAssets.push(fixedasset);
+
+  //       this.isFinished = false;
+  //     }
+
+  //     this.dataTable.TGT_loadData(this.fixedAssets);
+  //   }
+  // }
 
   async toggleValidBarcodes() {
     if (!this.dataTable.dataFilters.willDisplay)
@@ -929,42 +640,82 @@ async isUniqueFixedAssetProperty(propertyId:number){
     });
   }
 
-  Test(){
-    window.alert("Test");
-  }
-
-  Test1(){
-    window.alert("Test1");
-  }
-
   async addFixedAsset() {
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
     this.insertedFixedAsset = this.fixedAssets[0];
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
+    //let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
-    this.insertedFixedAsset.FixedAssetPropertyDetails = propertyDetail;
-    this.insertedFixedAsset.CurrencyId = this.fixedAsset.CurrencyId == null ? null : Number(this.fixedAsset.CurrencyId);
-    this.insertedFixedAsset.DepartmentId = this.fixedAsset.Department == null ? null : Number(this.fixedAsset.Department.DepartmentId);
-    this.insertedFixedAsset.LocationId = Number(this.fixedAsset.Location.LocationId);
-    this.insertedFixedAsset.FixedAssetCardId = Number(this.fixedAsset.FixedAssetCard.FixedAssetCardId);
-    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(this.fixedAsset.FixedAssetCardCategory.FixedAssetCardCategoryId);
-    this.insertedFixedAsset.CompanyId = this.fixedAsset.CompanyId == null ? null : Number(this.fixedAsset.CompanyId);
-    this.insertedFixedAsset.DepreciationCalculationTypeID = this.fixedAsset.DepreciationCalculationTypeID == null ? null
+    //  this.insertedFixedAsset.FixedAssetPropertyDetails = propertyDetail;
+    this.insertedFixedAsset.CurrencyId =
+      this.fixedAsset.CurrencyId == null
+        ? null
+        : Number(this.fixedAsset.CurrencyId);
+    this.insertedFixedAsset.DepartmentId =
+      this.fixedAsset.Department == null
+        ? null
+        : Number(this.fixedAsset.Department.DepartmentId);
+    this.insertedFixedAsset.LocationId = Number(
+      this.fixedAsset.Location.LocationId
+    );
+    this.insertedFixedAsset.FixedAssetCardId = Number(
+      this.fixedAsset.FixedAssetCard.FixedAssetCardId
+    );
+    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(
+      this.fixedAsset.FixedAssetCardCategory.FixedAssetCardCategoryId
+    );
+    this.insertedFixedAsset.CompanyId =
+      this.fixedAsset.CompanyId == null
+        ? null
+        : Number(this.fixedAsset.CompanyId);
+    this.insertedFixedAsset.DepreciationCalculationTypeID =
+      this.fixedAsset.DepreciationCalculationTypeID == null
+        ? null
         : Number(this.fixedAsset.DepreciationCalculationTypeID);
-    this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null : Number(this.fixedAsset.ExpenseCenterId);
-    this.insertedFixedAsset.StatusId = this.fixedAsset.StatusId == null ? null : Number(this.fixedAsset.StatusId);
-    this.insertedFixedAsset.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId == null ? null : Number(this.fixedAsset.IFRSCurrecyId);
-    this.insertedFixedAsset.UserId = this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
-    this.insertedFixedAsset.ActivationDate = this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
-    this.insertedFixedAsset.InvoiceDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
-    this.insertedFixedAsset.ReceiptDate = this.fixedAsset.ReceiptDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
-    this.insertedFixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
-    this.insertedFixedAsset.GuaranteeStartDate = this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
+    this.insertedFixedAsset.ExpenseCenterId =
+      this.fixedAsset.ExpenseCenterId == null
+        ? null
+        : Number(this.fixedAsset.ExpenseCenterId);
+    this.insertedFixedAsset.StatusId =
+      this.fixedAsset.StatusId == null
+        ? null
+        : Number(this.fixedAsset.StatusId);
+    this.insertedFixedAsset.IFRSCurrecyId =
+      this.fixedAsset.IFRSCurrecyId == null
+        ? null
+        : Number(this.fixedAsset.IFRSCurrecyId);
+    this.insertedFixedAsset.UserId =
+      this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
+    this.insertedFixedAsset.ActivationDate =
+      this.fixedAsset.ActivationDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
+    this.insertedFixedAsset.InvoiceDate =
+      this.fixedAsset.InvoiceDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
+    this.insertedFixedAsset.ReceiptDate =
+      this.fixedAsset.ReceiptDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
+    this.insertedFixedAsset.GuaranteeEndDate =
+      this.fixedAsset.GuaranteeEndDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
+    this.insertedFixedAsset.GuaranteeStartDate =
+      this.fixedAsset.GuaranteeStartDate == null
+        ? null
+        : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
     this.insertedFixedAsset.IsActive = this.fixedAsset.IsActive;
-    this.insertedFixedAsset.FixedAssetCardBrandId = this.fixedAsset.FixedAssetCardBrandId == null ? null : Number(this.fixedAsset.FixedAssetCardBrandId);
-    this.insertedFixedAsset.FixedAssetCardModelId = this.fixedAsset.FixedAssetCardModelId == null ? null : Number(this.fixedAsset.FixedAssetCardModelId);
+    this.insertedFixedAsset.FixedAssetCardBrandId =
+      this.fixedAsset.FixedAssetCardBrandId == null
+        ? null
+        : Number(this.fixedAsset.FixedAssetCardBrandId);
+    this.insertedFixedAsset.FixedAssetCardModelId =
+      this.fixedAsset.FixedAssetCardModelId == null
+        ? null
+        : Number(this.fixedAsset.FixedAssetCardModelId);
 
     this.insertedFixedAsset.Picture = this.picture;
 
@@ -976,7 +727,6 @@ async isUniqueFixedAssetProperty(propertyId:number){
     this.baseService.fixedAssetCreateService.AddFixedAsset(
       this.insertedFixedAsset,
       (barcodes: [], status, message) => {
-        
         if (status == true) {
           this.editable = false;
           this.dataTable.isTableEditable = false;
@@ -1001,47 +751,20 @@ async isUniqueFixedAssetProperty(propertyId:number){
     );
   }
 
-  resetDropdown(key:string){
-    switch(key){
-      case "category":
-      this.selectedCategory = null;
-      this.selectedCard = null;     
-      break;
-      case "card":
-      this.selectedCard = null;
-      this.dataTableFixedAssetCard.TGT_clearData();
-      break;
-      case "location":
-      this.selectedLocation = null;
-      this.selectedDepartment=null;
-      this.dataTableDepartment.TGT_clearData();
-      break;
-      case "department":
-      this.selectedDepartment = null;      
-      break;
-    }
-  }
-
-  resetForm(data: NgForm) {
+  resetForm() {
     this.editable = true;
 
     this.fixedAsset = new FixedAsset();
 
-    this.fixedAssetCardPropertyValue=new FixedAssetCardPropertyValue();
-
     this.barcode = null;
 
-    this.selectedCard=null;
+    // this.resetGeneralForm.resetForm();
 
-    this.selectedCategory=null;
+    // this.resetPropertyForm.resetForm();
 
-    this.selectedDepartment=null;
+    // this.resetFinancialForm.resetForm();
 
-    this.selectedLocation=null;
-    
     this.stepper.reset();
-
-    data.resetForm(this.fixedAsset);
 
     this.isResetForm = true;
 
@@ -1051,15 +774,11 @@ async isUniqueFixedAssetProperty(propertyId:number){
 
     this.dataTable.TGT_clearData();
 
-    this.dataTablePropertyValue.TGT_clearData();
-
-    this.dataTableFile.TGT_clearData();  
+    this.dataTableFile.TGT_clearData();
 
     this.visibleInsertButton = false;
 
     this.validBarcode = false;
-
-    this.getValidBarcode();
   }
 
   // #region FILE UPLOAD
@@ -1090,8 +809,7 @@ async isUniqueFixedAssetProperty(propertyId:number){
   }
 
   insertFiles() {
-
-    if(this.fixedAssetFiles.length==0){
+    if (this.fixedAssetFiles.length == 0) {
       this.baseService.popupService.ShowWarningPopup("Dosya Seçiniz!");
       return;
     }
@@ -1118,18 +836,5 @@ async isUniqueFixedAssetProperty(propertyId:number){
     );
   }
 
-  WillDepreciationBeCalculated(event){
-    if(event.target.checked==true)
-      this.visibleDepreciation=true;
-    else
-      this.visibleDepreciation=false;
-  }
-
-   WillIfrsbeCalculated(event){
-    if(event.target.checked == true)
-      this.visibleIfrs=true;
-    else
-      this.visibleIfrs=false;
-  }
   //#endregion
 }
