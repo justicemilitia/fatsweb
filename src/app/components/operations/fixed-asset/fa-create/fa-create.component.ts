@@ -401,103 +401,6 @@ console.log(this.barcode);
     );
   }
 
-<<<<<<< HEAD
-  async loadModelByBrandId(event: any) {
-    this.models = [];
-
-    if (!event.target.value || event.target.value == "") {
-      this.fixedAsset.FixedAssetCardModelId = null;
-      this.fixedAsset.FixedAssetCardModel = new FixedAssetCardModel();
-      return;
-    }
-
-    if (event.target.value) {
-      this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
-        <number>event.target.value,
-        (models: FixedAssetCardModel[]) => {
-          this.models = models;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
-  }
-
- async loadFaCardByCategoryId() {
-    this.fixedassetcards = [];
-    
-      this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
-        this.selectedCategory == null ? null : this.selectedCategory.FixedAssetCardCategoryId,
-        (fixedAssetCards: FixedAssetCard[]) => {
-          this.fixedassetcards = fixedAssetCards;
-          this.dataTableFixedAssetCard.TGT_loadData(this.fixedassetcards);
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-   //}
-  }
-
- async loadFixedAssetProperties() {
-    this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
-      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
-        this.fixedassetproperty = fixedAssetCardProperties;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
-
-  async loadValuesByPropertyId(event) {
-    this.isSelectedProperty = true;
-    this.visible = false;
-    let fixedAssetProperty = this.fixedassetproperty.find(
-      x => x.FixedAssetCardPropertyId == Number(event.target.value)
-    );
-
-    if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
-      this.isListSelected = true;
-      this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
-        <number>event.target.value,
-        (propertyValues: FixedAssetCardPropertyValue[]) => {
-          this.fixedassetpropertyvalues = propertyValues;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    } else {
-      this.isListSelected = false;
-    }
-  }
-
-  async loadDepartmentByLocationId() {
-    this.departments = [];
-
-    // if (!event.target.value || event.target.value == "") {
-    //   this.fixedAsset.DepartmentId = null;
-    //   this.fixedAsset.Department = new Department();
-    //   return;
-    // }
-
-    // if (event.target.value) {
-      if( this.selectedLocation != null){
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-
-        this.selectedLocation.LocationId,
-        (departments: Department[]) => {
-          this.departments = departments;
-          this.dataTableDepartment.TGT_loadData(this.departments);
-        },
-        (error: HttpErrorResponse) => {}
-      );
-    }
-    //}
-  }
-=======
   //  async loadFaCardByCategoryId() {
   //     this.fixedassetcards = [];
 
@@ -544,7 +447,6 @@ console.log(this.barcode);
   //     }
   //     //}
   //   }
->>>>>>> 58e3c477136c56ca4b9ebb066973edf8e50c71c2
 
   //#endregion
 
