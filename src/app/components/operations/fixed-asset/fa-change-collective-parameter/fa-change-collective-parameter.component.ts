@@ -254,7 +254,7 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent
           this.models = models;
         },
         (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
+          
         }
       );
     }

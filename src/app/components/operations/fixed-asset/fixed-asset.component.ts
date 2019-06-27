@@ -73,6 +73,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   selectedItems: FixedAsset[];
   users = [];
+  fixedAssetUsers:string;
 
   fixedAssetInfo = new FixedAsset();
 
@@ -677,7 +678,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         this.TGT_calculatePages();
       },
       (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
+        this.totalPage = 0;
+        this.TGT_calculatePages();
       }
     );
   }
@@ -1181,8 +1183,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
 
         if (result.FixedAssetUsers != null) {
-          this.fixedAssetInfo.FixedAssetUsers.forEach(e => {
-            this.user = e.User.FirstName + " " + e.User.LastName;
+          let fixedassetusers="";
+          this.fixedAssetInfo.FixedAssetUsers.forEach((e,i) => {
+            let user:string = e.User.FirstName + " " + e.User.LastName;
+            fixedassetusers += user + (i == this.fixedAssetInfo.FixedAssetUsers.length - 1 ? "" : ", ");
+            this.fixedAssetUsers = fixedassetusers;
           });
         }
 

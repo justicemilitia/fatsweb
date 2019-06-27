@@ -1,0 +1,205 @@
+<form name="form" #dataFinancial="ngForm" (ngSubmit)="onSubmit(dataFinancial)" novalidate>
+<fieldset class="field_set">
+  <legend>Finansal Bilgiler</legend>
+    <div class="row justify-content-center">
+      <div class="form-group col-md-3">
+          <label>Fiyat</label>
+          <input [(ngModel)]="fixedAsset.Price" name="Price" type="text" placeholder="Fiyat" class="form-control"/>               
+      </div>
+      <div class="form-group col-md-3"> 
+          <label>Para Birimi</label>
+          <select [(ngModel)]="fixedAsset.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
+            <option value="-1" >Para Pirimi</option>
+            <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
+          </select>       
+      </div>
+      <div class="form-group col-md-3">        
+          <label>Fatura No</label>        
+          <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" placeholder="Fatura Numarası" class="form-control"/>  
+      </div>
+      <div class="form-group col-md-3">   
+      <label>Fatura Tarihi</label> 
+      <div class="input-group">
+          <div class="input-group-append" [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.InvoiceDate || invoiceDateModel.status == 'INVALID' )">
+            <div (click)="invoiceDate.toggle()" class="input-group-text">
+              <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+            </div>
+          </div>
+          <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="invoiceDate"
+          [(ngModel)]="fixedAsset.InvoiceDate"   ngbDatepicker #invoiceDate="ngbDatepicker" #invoiceDateModel="ngModel" 
+          [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.InvoiceDate || invoiceDateModel.status == 'INVALID' )" required/>
+          <div *ngIf="invoiceDateModel.invalid" class="invalid-feedback">
+              <div *ngIf="invoiceDateModel.errors.required">Bu alan zorunludur.</div>
+              <div *ngIf="!invoiceDateModel.errors.required && invoiceDateModel.status == 'INVALID'">
+                Lütfen Geçerli Format Giriniz.
+              </div>
+          </div>     
+      </div>
+    </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="form-group col-md-3">
+            <label></label> 
+            <label class="ckbox" style="margin-top: 17px">
+                <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" name="IsActive" #IsActive="ngModel"
+               /><span>Demirbaş Aktif mi ?</span>
+            </label>                    
+        </div>
+        <div class="form-group col-md-3">
+            <label class="required-span">Aktifleştirme Tarihi</label>
+            <div class="input-group">
+                <div class="input-group-append"
+                [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )">
+                  <div (click)="activationDate.toggle()" class="input-group-text">
+                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                  </div>
+                </div>
+                <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
+                [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
+                [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )" required/>                        
+                <div *ngIf="dataFinancial.submitted && activationDateModel.invalid" class="invalid-feedback">
+                  <div *ngIf="activationDateModel.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="!activationDateModel.errors.required && activationDateModel.status == 'INVALID'">
+                    Lütfen Geçerli Format Giriniz.
+                  </div>
+                </div>
+            </div>
+        </div>       
+            <div class="form-group col-md-3"> 
+                <label>Garanti Başlangıç Süresi</label> 
+                <div class="input-group">
+                    <div class="input-group-append">
+                      <div (click)="guaranteeStartDate.toggle()" class="input-group-text">
+                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                      </div>
+                    </div>
+                    <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="guaranteeStartDate"
+                    [(ngModel)]="fixedAsset.GuaranteeStartDate" ngbDatepicker #guaranteeStartDate="ngbDatepicker" #guaranteeStartDateModel="ngModel"/>      
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label>Garanti Bitiş Süresi</label> 
+                <div class="input-group">
+                    <div class="input-group-append">
+                      <div (click)="guaranteeEndDate.toggle()" class="input-group-text">
+                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                      </div>
+                    </div>
+                    <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="guaranteeEndDate"
+                    [minDate]="fixedAsset.GuaranteeStartDate" [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker" #guaranteeEndDateModel="ngModel"/>
+                    
+                    <!-- <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="guaranteeEndDate"
+          [minDate]="fixedAsset.GuaranteeStartDate" [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker"
+          #guaranteeEndDate="ngModel" /> -->
+
+                 </div>
+            </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="form-group col-md-3">
+            <label>Sözleşmeler</label> 
+            <!-- [(ngModel)]="fixedAsset.CompanyId" name="CompanyId"  -->
+          <select class="form-control select2-no-search">
+              <option value="-1" >Sözleşme Seçiniz</option>
+              <option *ngFor="let agreement of agreements" value = "{{agreement.AgreementId}}">{{agreement.Name}}</option>
+          </select>  
+        </div>
+        <div class="form-group col-md-3">
+            <label></label> 
+        <label class="ckbox" style="margin-top: 17px">
+            <input type="checkbox" [(ngModel)]="fixedAsset.HasInflationIndexation" name="HasInflationIndexation"               
+            name="HasInflationIndexation" /><span>Enflasyon Hesaplanacak mı ?</span>
+          </label>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Makbuz Tarihi</label>  
+            <div class="input-group">
+                <div class="input-group-append">
+                  <div (click)="receiptDate.toggle()" class="input-group-text">
+                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                  </div>
+                </div>
+                <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="receiptDate" 
+                [(ngModel)]="fixedAsset.ReceiptDate" ngbDatepicker #receiptDate="ngbDatepicker" #receiptDateModel="ngModel"/>  
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label>Masraf Merkezi</label> 
+                <select [(ngModel)]="fixedAsset.ExpenseCenterId" placeholder="Masraf"name="ExpenseCenterId" class="form-control select2-no-search">
+                    <option value="-1">Masraf Merkezi</option>
+                    <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
+                </select>
+            </div>
+    </div>
+  </fieldset>
+  <fieldset class="field_set">
+        <legend>Amortisman Bilgileri</legend>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row justify-content-center">
+            <div class="form-group col-md-6">                    
+              <label class="ckbox" style="margin-top: 17px">
+                <input [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" name="WillDepreciationBeCalculated"  [checked]="fixedAsset.WillDepreciationBeCalculated"
+                (change)="WillDepreciationBeCalculated($event)" type="checkbox"/><span>Amortisman Hesaplanacak mı ?</span>
+              </label>                 
+            </div>
+            <div class="form-group col-md-6">
+                <label  *ngIf="visibleDepreciation==true">Amortisman Periyodu</label> 
+                <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod"  *ngIf="visibleDepreciation==true" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+              <div class="form-group col-md-6" *ngIf="visibleDepreciation==true">
+                  <label  >Amortisman Yöntemi</label> 
+                  <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" name="DepreciationCalculationTypeId" class="form-control select2-no-search">
+                      <option value="-1" >Seçiniz</option>
+                      <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
+                  </select>   
+              </div>
+              <div class="col-md-6"></div>
+          </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row justify-content-center">
+              <div class="form-group col-md-6" >                  
+                  <label class="ckbox" style="margin-top: 17px">
+                    <input [(ngModel)]="fixedAsset.WillIfrsbeCalculated" name="WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
+                    (change)="WillIfrsbeCalculated($event)" type="checkbox"/>
+                    <span>IFRS Hesaplanacak mı ?</span>
+                  </label>               
+              </div>
+              <div class="form-group col-md-6">
+                  <label *ngIf="visibleIfrs==true">IFRS Periyodu</label> 
+                  <input *ngIf="visibleIfrs==true" [(ngModel)]="fixedAsset.Ifrsperiod" name="Ifrsperiod" type="text" placeholder="IFRS Periyodu" class="form-control"/>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="form-group col-md-6" *ngIf="visibleIfrs==true">
+                    <label>IFRS Fiyatı</label> 
+                    <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="text" placeholder="IFRS Fiyat" class="form-control"/>   
+                </div>
+                <div class="form-group col-md-6" *ngIf="visibleIfrs==true">
+                    <label>Para Birimi</label> 
+                    <select [(ngModel)]="fixedAsset.IFRSCurrecyId" name="IFRSCurrecyId" class="form-control select2-no-search">
+                        <option value="-1">IFRS Para Pirimi</option>
+                        <option *ngFor="let currency of ifrscurrencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
+                    </select> 
+                </div>
+            </div>
+          </div>
+        </div>
+  </fieldset>  
+  <div class="row" style="margin-right: 0px; margin-left: 0px; margin-top:10px">
+      <div class="grp-btn-action-left">
+        <button mat-button matStepperPrevious type="button" class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;  min-height: 29px;
+        min-width: 30px;
+        padding: 0 16px;
+        font-weight: 400;">Geri</button>
+      </div>
+      <div class="grp-btn-action">
+        <button mat-raised-button type="submit" (click)="nextTab()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
+        margin-bottom: 0px;">İleri</button>
+      </div>
+  </div>
+</form>

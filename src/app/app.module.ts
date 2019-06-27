@@ -82,6 +82,11 @@ import { ConsumableCategoryComponent } from './components/consumable/consumable-
 import { ConsumableUnitComponent } from './components/consumable/consumable-unit/consumable-unit.component';
 import { ConsumableListComponent } from './components/consumable/consumable-list/consumable-list.component';
 import { ConsumableRequestListComponent } from './components/consumable/consumable-request-list/consumable-request-list.component';
+import { FaGeneralInformationComponent } from './components/operations/fixed-asset/fa-create/fa-general-information/fa-general-information.component';
+import { FaPropertyInformationComponent } from './components/operations/fixed-asset/fa-create/fa-property-information/fa-property-information.component';
+import { FaFinancialInformationComponent } from './components/operations/fixed-asset/fa-create/fa-financial-information/fa-financial-information.component';
+import { FaListComponent } from './components/operations/fixed-asset/fa-create/fa-list/fa-list.component';
+import { FaFileComponent } from './components/operations/fixed-asset/fa-create/fa-file/fa-file.component';
 
 @NgModule({
   declarations: [
@@ -146,7 +151,12 @@ import { ConsumableRequestListComponent } from './components/consumable/consumab
     ConsumableCategoryComponent,
     ConsumableUnitComponent,
     ConsumableListComponent,
-    ConsumableRequestListComponent
+    ConsumableRequestListComponent,
+    FaGeneralInformationComponent,
+    FaPropertyInformationComponent,
+    FaFinancialInformationComponent,
+    FaListComponent,
+    FaFileComponent
   ],
   imports: [
     BrowserModule,

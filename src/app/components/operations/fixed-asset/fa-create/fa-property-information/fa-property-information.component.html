@@ -1,0 +1,86 @@
+<form name="form" #dataProperty="ngForm" (ngSubmit)="onSubmit(dataProperty)" novalidate>
+<div class="row justify-content-center">
+  <div class="col-md-12 form-group">   
+<div class="row">
+  <div class="form-group col-md-3">
+      <div style="display:flex; justify-content: flex-start;">
+          <div style="flex:1">
+                  <div class="form-group">
+                    <label>Özellik Adı</label>
+                      <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search">
+                          <option value="-1">Özellik Seçiniz</option>
+                          <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+                      </select>   
+                      <div *ngIf="visible == true" style="color:red">
+                        <div>Bir özellik seçiniz.</div>
+                      </div>
+                  </div>
+                
+                <div class="form-group"> 
+                    <label>Özellik Değeri</label>    
+                     <div class="flexProperty">        
+                      <div style="flex:1;">            
+                       <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
+                            <option [ngValue]="null">Özellik Değeri Seçiniz</option>
+                            <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
+                       </select> 
+                       <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
+                      style="font-size: 13px;height: 27px;">
+                      <div *ngIf="visiblePropertyName == true" style="color:red">
+                      <div>Özellik değeri giriniz.</div>
+                    </div>
+                    <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->
+                      </div>     
+                      <div class="property-add-value">                    
+                          <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
+                      </div>                          
+                    </div>                
+                </div> 
+          </div>
+      </div>
+  </div>
+  <div class="form-group col-md-6" style="padding-top: 18px;">                    
+      <div class="property-values-table" >
+          <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+      </div>
+  </div>
+  <div class="form-group col-md-3">
+      <div style="display:flex;justify-content: space-between; flex-direction: column;"> 
+          <div class="form-group">
+              <label>Demirbaş Resmi</label>
+          </div>
+          <div class="row justify-content-center" style="margin-top: -9px">  
+            <div class="form-group well my-drop-zone-image" *ngIf="!imgURL">                          
+            </div> 
+            <img [src]="imgURL" height="95" width="100" *ngIf="imgURL">
+          <div class="row justify-content-center col-md-4">
+      
+          <div class="file-area">
+            <div class="row justify-content-center" >
+              <input #Picture [(ngModel)]="imageFile" id="FixedAssetImage" accept='image/*' (change)="addImageFile(Picture.files)" name="Picture" type="file" class="form-control-file" style="display:none">
+              <label for="FixedAssetImage" class="custom-file-text">  
+                <label class="custom-file-remove" for="FixedAssetImage" ><span  for="FixedAssetImage" class="fa fa-plus"></span>                                
+                </label>
+              </label>
+            </div> 
+            <div class="row justify-content-center">
+                <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>                         
+    </div>
+  </div>           
+</div>
+</div>           
+</div>
+<div class="row" style="margin-right: 0px; margin-left: 0px;">
+  <div class="grp-btn-action-left">
+    <button mat-button type="button" (click)="previousTab()"  class="btn btn-orange" >Geri</button>
+  </div>
+  <div class="grp-btn-action">
+    <button mat-raised-button  class="btn btn-orange" type="submit" (click)="nextTab()" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
+    margin-bottom: 0px;">İleri</button>
+  </div>
+</div>
+</form>
