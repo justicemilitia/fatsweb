@@ -168,7 +168,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
               this.baseService.popupService.ShowSuccessPopup(message);
               if(this.IsCreateDebitForm==true){
               for(let i=0;i<formList.length;i++){
-                this.PressDebitForm(formList[0].FixedAsset.FixedAssetForms[i].FixedAssetFormCode);
+                this.PressDebitForm(formList[i].FixedAssetFormCode);
               }
 
               // if(formList != null){
@@ -197,6 +197,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
                   }
                 }
               });
+
+              this.resetForm();
             },
             (error: HttpErrorResponse) => {
               
@@ -279,8 +281,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     );
   }
 
-  resetForm(data: NgForm) {
-    this.selectedUser = [];
+  resetForm() {
+    this.fixedAssetUser.IsCreateDebitForm=false;
   }
 
   AddDebitUser() {
