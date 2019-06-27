@@ -132,7 +132,7 @@
           <!-- form-group -->
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label class="required-span">Ünvan</label>
+              <label class="required-span">Unvan</label>
               <select #UserTitleId="ngModel" [(ngModel)]="currentUser.UserTitleId" name="UserTitleId" required
                 class="form-control" [ngClass]="{ 'is-invalid': data.submitted && UserTitleId.invalid }">
                 <option [ngValue]="null">Seçiniz</option>
@@ -150,7 +150,7 @@
               <select [(ngModel)]="currentUser.ParentUserId" name="ParentUserId" class="form-control">
                 <option [ngValue]="null">Seçiniz</option>
                 <option *ngFor="let user of users" [ngValue]="user.UserId">
-                  {{user.FirstName + ' ' + user.LastName}}
+                  {{ user.RegistrationNumber == null ? user.FirstName + ' ' + user.LastName : user.RegistrationNumber + ' - ' + user.FirstName + ' ' + user.LastName}}
                 </option>
               </select>
             </div>

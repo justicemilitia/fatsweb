@@ -124,6 +124,7 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
   selectedLocation: Location;
   onClickLocation(item) {
     this.selectedLocation = item;
+    this.selectedDepartment = null;
   }
   selectedDepartment: Department;
   onClickDepartment(item) {
@@ -178,7 +179,13 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
 
   resetForm(data: NgForm) {
     data.resetForm();
-    this.newLocationId = null;
+    this.selectedLocation = null;
+    this.selectedDepartment = null;
+  }
+
+  
+  resetDepartment(){
+    this.selectedDepartment=null;
   }
 
   async loadDropdownList() {
@@ -209,5 +216,4 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
       );
     }
   }
-
 }

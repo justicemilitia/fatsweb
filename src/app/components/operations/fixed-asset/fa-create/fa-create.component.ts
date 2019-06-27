@@ -608,15 +608,8 @@ constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
  async loadFaCardByCategoryId() {
     this.fixedassetcards = [];
     
-    // if (!event.target.value || event.target.value == "") {
-    //   this.fixedAsset.FixedAssetCardId = null;
-    //   this.fixedAsset.FixedAssetCard = new FixedAssetCard();
-    //   return;
-    // }
-
-    //if (event.target.value) {
       this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
-        this.selectedCategory.FixedAssetCardCategoryId,
+        this.selectedCategory == null ? null : this.selectedCategory.FixedAssetCardCategoryId,
         (fixedAssetCards: FixedAssetCard[]) => {
           this.fixedassetcards = fixedAssetCards;
           this.dataTableFixedAssetCard.TGT_loadData(this.fixedassetcards);

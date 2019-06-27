@@ -122,7 +122,7 @@ export class DashboardService {
         failed(getAnErrorResponse(result.LanguageKeyword));
       }
     }, (error: HttpErrorResponse) => {
-      failed(error);
+      failed(error); 
     })
   }
 

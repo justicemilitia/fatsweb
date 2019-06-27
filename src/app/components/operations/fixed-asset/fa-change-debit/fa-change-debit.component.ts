@@ -59,7 +59,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
         type: "text",
         formatter: value => {
           if (value) {
-            return value.FirstName + " " + value.LastName;
+            return value.RegistrationNumber == null ? value.FirstName + " " + value.LastName : value.RegistrationNumber + " - " + value.FirstName + " " + value.LastName;
           } else {
             return "";
           }
@@ -85,7 +85,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
         type: "text",
         formatter: value => {
           if (value) {
-            return value.FirstName + " " + value.LastName;
+            return value.RegistrationNumber == null ? value.FirstName + " " + value.LastName : value.RegistrationNumber + " - " + value.FirstName + " " + value.LastName;
           } else {
             return "";
           }
@@ -168,8 +168,18 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
               this.baseService.popupService.ShowSuccessPopup(message);
               if(this.IsCreateDebitForm==true){
               for(let i=0;i<formList.length;i++){
-                this.PressDebitForm(formList[i].FixedAssetFormCode);
+                this.PressDebitForm(formList[0].FixedAsset.FixedAssetForms[i].FixedAssetFormCode);
               }
+
+              // if(formList != null){
+              // formList[0].FixedAsset.FixedAssetForms.forEach(e => 
+              //   { 
+              //       if(e != null){
+              //         this.PressDebitForm(e.FixedAssetFormCode);                  
+              //       }
+              //   }
+              // );
+              // }
             }
               /* Set inserted Item id to model */
               // this.faBarcode.Barcode = cloneItem.Barcode;
