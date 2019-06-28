@@ -21,3 +21,39 @@
     flex-direction: column;
     justify-content: center;
 }
+  
+
+.custom-dropdown {
+    position: absolute;
+    border: 1px solid;
+    background: #fdfdfd;
+    width: 87%;
+    height: 200px;
+    z-index: 1000;
+    top: 46px;
+    display: block;
+    max-height: 200px;
+    overflow-y: auto;
+    
+  }
+  
+  .dropdown-button {
+    background: white; 
+    border: 1px solid #ced4da;
+    flex:1;
+    height: 27px;
+  }
+  
+  .dropdown-button-valid {
+    height: 27px;
+    border: 1px solid red;
+  }
+  
+  .span-dropdown{
+    width: 30px;
+    border: 1px solid #ced4da;
+    margin-left: 5px;
+    text-align: center;
+    font-size: 13px;
+    padding-top: 3px;
+  }

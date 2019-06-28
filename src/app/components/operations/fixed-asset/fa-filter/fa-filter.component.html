@@ -22,22 +22,50 @@
             </div>
 
             <!-- DEMİRBAŞ ADI -->
-            <div class="col-md-4 form-group">
+            <!-- <div class="col-md-4 form-group">
               <label>Demirbaş Adı</label>
               <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="fixedAssetCards"
                 [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" [settings]="dropdownSettingsForCard"
                 (onSelect)="onSelectFixedAssetCard($event)" (onSelectAll)="onSelectAllFixedAssetCard($event)">
               </ng-multiselect-dropdown>
+            </div> -->
+
+            <div class="col-md-4 form-group">
+              <div>
+                <label class="required-span" style="margin-bottom: 0;
+                font-weight: 700;">Demirbaş Kartı</label>
+                <div style="display:flex;">
+                  <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" >{{selectedCard ? selectedCard.Name : 'Seçiniz' }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('card')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>
+                </div>
+                <div class="custom-dropdown" *ngIf="isFaCardDropdownOpen==true">
+                    <tree-grid-table (onClickItem)="onClickFaCard($event,item)" [dataTable]="dataTableFixedAssetCard"></tree-grid-table>
+                </div>
             </div>
 
             <!-- KATEGORİ -->
-            <div class="col-md-4 form-group">
+            <!-- <div class="col-md-4 form-group">
               <label>Kategori</label>
               <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="fixedassetcategories"
                 [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId"
                 [settings]="dropdownSettingsForCategory" (onSelect)="onSelectCategory($event)"
                 (onSelectAll)="onSelectAllCategory($event)">
               </ng-multiselect-dropdown>
+            </div> -->
+
+            <div class="col-md-4 form-group">
+              <div>
+                <label class="required-span" style="margin-bottom: 0;
+                font-weight: 700;" >Demirbaş Kategorisi</label>        
+              <div style="display:flex;">
+              <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  >{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
+                <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+          </div>
+          <div class="custom-dropdown" *ngIf="isFaCardCategoryDropdownOpen==true">
+                  <tree-grid-table (onClickItem)="onClickFaCategory($event,item)" [dataTable]="dataTableFixedAssetCategory"></tree-grid-table>
+          </div>
             </div>
 
           </div>
@@ -46,64 +74,139 @@
           <div class="row justify-content-center">
 
             <!-- DEPARTMAN -->
-            <div class="col-md-4 form-group">
+            <!-- <div class="col-md-4 form-group">
               <label>Departman</label>
               <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="departments"
                 [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" [settings]="dropdownSettingsForDepartment"
                 (onSelect)="onSelectDepartment($event)" (onSelectAll)="onSelectAllDepartment($event)">
               </ng-multiselect-dropdown>
+            </div> -->
+
+            <div class="col-md-4 form-group">
+              <div>
+                  <label style="margin-bottom: 0;
+                  font-weight: 700;" >Departman</label>
+                  <div style="display:flex;">
+                  <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  >{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>
+              </div>
+              <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+                      <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
+              </div>
             </div>
 
             <!-- MARKA -->
-            <div class="col-md-4 form-group">
+            <!-- <div class="col-md-4 form-group">
               <label>Marka</label>
               <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="brands"
                 [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId"
                 [settings]="dropdownSettingsForBrand" (onSelect)="onSelectFixedAssetCardBrand($event)"
                 (onSelectAll)="onSelectAllFixedAssetCardBrand($event)">
               </ng-multiselect-dropdown>
+            </div> -->
+
+            <div class="col-md-4 form-group">
+              <div>
+                  <label style="margin-bottom: 0;
+                  font-weight: 700;" >Marka</label>
+                  <div style="display:flex;">
+                  <button id="btnBrand" (click)="toggleDropdown('brand')" class="dropdown-button" type="button"  >{{selectedBrand ? selectedBrand.Name : 'Seçiniz' }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('brand')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>
+              </div>
+              <div class="custom-dropdown" *ngIf="isBrandDropdownOpen==true">
+                      <tree-grid-table (onClickItem)="onClickBrand($event,item)" [dataTable]="dataTableBrand"></tree-grid-table>
+              </div>
             </div>
 
             <!-- DEMİRBAŞ STATÜSÜ -->
             <div class="col-md-4 form-group">
+              <div>
+                  <label style="margin-bottom: 0;
+                  font-weight: 700;" >Demirbaş Statüsü</label>
+                  <div style="display:flex;">
+                  <button id="btnStatus" (click)="toggleDropdown('status')" class="dropdown-button" type="button"  >{{selectedStatus ? selectedStatus.Name : 'Seçiniz' }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('status')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>
+              </div>
+              <div class="custom-dropdown" *ngIf="isStatusDropdownOpen==true">
+                      <tree-grid-table (onClickItem)="onClickStatus($event,item)" [dataTable]="dataTableStatus"></tree-grid-table>
+              </div>
+            </div>
+
+             <!-- <div class="col-md-4 form-group">
               <label>Demirbaş Statüsü</label>
               <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="statuses" [(ngModel)]="fixedAsset.StatusId"
                 name="StatusId" [settings]="dropdownSettingsForStatus" (onSelect)="onSelectFixedAssetStatus($event)"
                 (onSelectAll)="onSelectAllFixedAssetStatus($event)">
               </ng-multiselect-dropdown>
-            </div>
-          </div>
+            </div> -->
+          </div> 
 
           <!-- LOKASYON, MODEL, PERSONEL, GARANTİSİ BİTENLER -->
           <div class="row justify-content-center">
 
             <!-- LOKASYON -->
-            <div class="col-md-4 form-group">
+            <!-- <div class="col-md-4 form-group">
               <label>Lokasyon</label>
               <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="locations" [(ngModel)]="fixedAsset.LocationId"
                 name="LocationId" [settings]="dropdownSettingsForLocation" (onSelect)="onSelectLocation($event)"
                 (onSelectAll)="onSelectAllLocation($event)">
               </ng-multiselect-dropdown>
+            </div> -->
+            <div class="col-md-4 form-group">
+              <div>
+                  <label style="margin-bottom: 0;
+                  font-weight: 700;" >Lokasyon</label>
+                  <div style="display:flex;">
+                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  >{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>
+              </div>
+              <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                      <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
+              </div>
             </div>
 
             <!-- MODEL -->
-            <div class="col-md-4 form-group">
+            <!-- <div class="col-md-4 form-group">
               <label>Model</label>
               <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="models"
                 [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId"
                 [settings]="dropdownSettingsForModel" (onSelect)="onSelectFixedAssetCardModel($event)"
                 (onSelectAll)="onSelectAllFixedAssetCardModel($event)">
               </ng-multiselect-dropdown>
+            </div> -->
+            <div class="col-md-4 form-group">
+              <div>
+                  <label style="margin-bottom: 0;
+                  font-weight: 700;" >Model</label>
+                  <div style="display:flex;">
+                  <button id="btnModel" (click)="toggleDropdown('model')" class="dropdown-button" type="button" >{{selectedModel ? selectedModel.Name : 'Seçiniz' }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('model')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>
+              </div>
+              <div class="custom-dropdown" *ngIf="isModelDropdownOpen==true">
+                      <tree-grid-table (onClickItem)="onClickModel($event,item)" [dataTable]="dataTableModel"></tree-grid-table>
+              </div>
             </div>
 
             <!-- PERSONEL -->
             <div class="col-md-4 form-group">
-              <label>Personel</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="users" [(ngModel)]="fixedAsset.UserId"
-                name="UserId" [settings]="dropdownSettingsForUser" (onSelect)="onSelectUser($event)"
-                (onSelectAll)="onSelectAllUser($event)">
-              </ng-multiselect-dropdown>
+              <div>
+                  <label class="required-span" style="margin-bottom: 0;
+                  font-weight: 700;" >Personel</label>
+                  <div style="display:flex;">
+                  <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button" >{{selectedUser ? selectedUser.FirstName + ' ' + selectedUser.LastName : 'Seçiniz' }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('user')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>
+              </div>
+              <div class="custom-dropdown" *ngIf="isUserDropdownOpen==true">
+                      <tree-grid-table (onClickItem)="onClickUser($event,item)" [dataTable]="dataTableUser"></tree-grid-table>
+              </div>
             </div>
+
           </div>
 
         </fieldset>
@@ -223,7 +326,7 @@
             <!-- GARANTİSİ OLANLAR -->
             <div class="form-group col-md-3">
               <label class="ckbox">
-                <input type="checkbox" [(ngModel)]="IsGuaranteed" id="IsGuaranteed"
+                <input type="checkbox" [(ngModel)]="fixedAsset.IsGuaranteed" id="IsGuaranteed"
                   name="IsGuaranteed" /><span>Garantisi olanlar</span>
               </label>
             </div>
@@ -231,7 +334,7 @@
             <!-- AMORTİSMANI HESAPLANANLAR -->
             <div class="form-group col-md-4">
               <label class="ckbox">
-                <input type="checkbox" [(ngModel)]="IsCalculatedDepreciation" id="IsCalculatedDepreciation"
+                <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedDepreciation" id="IsCalculatedDepreciation"
                   name="IsCalculatedDepreciation" /><span>Amortismanı hesaplananlar</span>
               </label>
             </div>
@@ -239,11 +342,34 @@
             <!-- IFRS AMORTİSMANI HESAPLANANLAR -->
             <div class="form-group col-md-5">
               <label class="ckbox">
-                <input type="checkbox" [(ngModel)]="IsCalculatedIFRSDepreciation" id="IsCalculatedIFRSDepreciation"
+                <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedIFRSDepreciation" id="IsCalculatedIFRSDepreciation"
                   name="IsCalculatedIFRSDepreciation" /><span>IFRS Amortismanı Hesaplananlar</span>
+
+               <!-- <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedIFRSDepreciation"  name="IsCreateSuspendForm" #IsCreateSuspendForm="ngModel" /><span>Askıya alma formu basılsın.</span> -->
+                  
               </label>
             </div>
           </div>
+
+          <div class="row justify-content-center">
+
+            <div class="form-group col-md-3">
+              <label class="ckbox">
+                <input type="checkbox" (change)="IsPassiveFa($event)" id="IsPassive"
+                  name="IsGuaranteed" /><span>Pasif Demirbaşlar</span>
+              </label>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="ckbox">
+                <input type="checkbox" (change)="IsActiveFa($event)" id="IsActive"
+                  name="IsCalculatedDepreciation" /><span>Aktif Demirbaşlar</span>
+              </label>
+            </div>
+            <div class="form-group col-md-6">
+            </div>
+          </div>
+
         </fieldset>
       </div>
     </div>

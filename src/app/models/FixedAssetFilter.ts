@@ -42,6 +42,7 @@ export class FixedAssetFilter implements IData {
   IsFilter: boolean;
   IsValid: boolean;
   Date: NgbDate;
+  RecordStatus: boolean;
 
   constructor() {
     this.FixedAssetPropertyArray = [];
@@ -54,5 +55,6 @@ export class FixedAssetFilter implements IData {
     this.Locations=[];
     this.Models=[];
     this.Users=[];
+    this.RecordStatus = null;
   }
 }

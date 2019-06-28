@@ -59,7 +59,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
         type: "text",
         formatter: value => {
           if (value) {
-            return value.FirstName + " " + value.LastName;
+            return value.RegistrationNumber == null ? value.FirstName + " " + value.LastName : value.RegistrationNumber + " - " + value.FirstName + " " + value.LastName;
           } else {
             return "";
           }
@@ -85,7 +85,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
         type: "text",
         formatter: value => {
           if (value) {
-            return value.FirstName + " " + value.LastName;
+            return value.RegistrationNumber == null ? value.FirstName + " " + value.LastName : value.RegistrationNumber + " - " + value.FirstName + " " + value.LastName;
           } else {
             return "";
           }
@@ -170,6 +170,16 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
               for(let i=0;i<formList.length;i++){
                 this.PressDebitForm(formList[i].FixedAssetFormCode);
               }
+
+              // if(formList != null){
+              // formList[0].FixedAsset.FixedAssetForms.forEach(e => 
+              //   { 
+              //       if(e != null){
+              //         this.PressDebitForm(e.FixedAssetFormCode);                  
+              //       }
+              //   }
+              // );
+              // }
             }
               /* Set inserted Item id to model */
               // this.faBarcode.Barcode = cloneItem.Barcode;
@@ -187,6 +197,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
                   }
                 }
               });
+
+              this.resetForm();
             },
             (error: HttpErrorResponse) => {
               
@@ -269,8 +281,8 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     );
   }
 
-  resetForm(data: NgForm) {
-    this.selectedUser = [];
+  resetForm() {
+    this.fixedAssetUser.IsCreateDebitForm=false;
   }
 
   AddDebitUser() {
