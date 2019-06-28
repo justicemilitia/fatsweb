@@ -39,12 +39,15 @@ export class FaEditFileComponent extends BaseComponent
   @Input() faComponent: FixedAssetComponent;
 
   fixedAsset: FixedAsset = new FixedAsset();
+  fixedAssets:FixedAsset[]=[];
   fixedAssetFiles: FixedAssetFile[] = [];
+  fileList:FileList[]=[];
   fixedAssetFilesDataTable: FixedAssetFile[] = [];
   fixedAssetFile: FixedAssetFile[] = [];
   InsertOrDelete:boolean=false;
   barcodes:any;
 
+  
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
     [
@@ -71,11 +74,43 @@ export class FaEditFileComponent extends BaseComponent
     }
   );
 
+  public dataTableNewFile: TreeGridTable = new TreeGridTable(
+    "fixedassetnewfile",
+    [
+      {
+        columnDisplayName: "Barkod",
+        columnName: ["Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Dosya adı",
+        columnName: ["FileName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Barcode"]
+    }
+  );  
+
   constructor(baseService: BaseService) {
     super(baseService);
     this.dataTableFile.isPagingActive = false;
     this.dataTableFile.isColumnOffsetActive = false;
     this.dataTableFile.isLoading = false;
+
+    this.dataTableNewFile.isPagingActive = false;
+    this.dataTableNewFile.isColumnOffsetActive = false;
+    this.dataTableNewFile.isLoading = false;
+    this.dataTableNewFile.isDeleteable = true;
+    this.dataTableNewFile.isMultipleSelectedActive=false;
   }
 
   ngOnInit() {}
@@ -84,9 +119,10 @@ export class FaEditFileComponent extends BaseComponent
     
     this.fixedAssetFile=[];
 
-    this.dataTableFile.TGT_clearData();
+    this.dataTableNewFile.TGT_clearData();
 
     this.faBarcode.forEach(e => {
+      this.fixedAssets.push(e);
       e.FixedAssetFiles.forEach(x => {
         let file: FixedAssetFile = new FixedAssetFile();
         file.Barcode = e.Barcode;
@@ -95,12 +131,11 @@ export class FaEditFileComponent extends BaseComponent
         this.fixedAssetFile.push(file);
       });
     });
+    
     this.dataTableFile.TGT_loadData(this.fixedAssetFile);
   }
 
   public onFileSelected(event) {
-
-    this.fixedAssetFilesDataTable=[];
 
     this.faBarcode.forEach(e => { 
 
@@ -110,24 +145,33 @@ export class FaEditFileComponent extends BaseComponent
         files.Barcode = e.Barcode;
         files.FixedAssetFileId = (this.fixedAssetFilesDataTable.length + 1) * -1;
         files.FileName = event.target.files[i].name;
+        
         this.fixedAssetFilesDataTable.push(files);
         }   
            
-        this.dataTableFile.TGT_loadData(this.fixedAssetFilesDataTable);
+        this.dataTableNewFile.TGT_loadData(this.fixedAssetFilesDataTable);
 
     });
 
     for (var i = 0; i < event.target.files.length; i++) {
     this.fixedAssetFiles.push(event.target.files[i]);
-    }
+    }    
   }
 
   insertFiles() {
+    
+    let selectedFiles = this.dataTableNewFile.TGT_selectAllItems();
 
-    if(this.fixedAssetFiles.length == 0){
-      this.baseService.popupService.ShowWarningPopup("Lütfen dosya ekleyiniz!")
-      return;
-    }
+    let fixedassetfiles:FixedAssetFile[]=[];
+
+    Object.assign(fixedassetfiles,selectedFiles);
+
+   this.fixedAssetFiles = this.fixedAssetFiles.filter(e => fixedassetfiles.some(t=>e.name == t.FileName));
+
+   if (this.fixedAssetFiles.length == 0) {
+    this.baseService.popupService.ShowWarningPopup("Dosya Seçiniz!");
+    return;
+   }
 
     this.baseService.spinner.show();
 
@@ -141,9 +185,10 @@ export class FaEditFileComponent extends BaseComponent
 
         this.baseService.popupService.ShowSuccessPopup("Dosya Yükleme Başarılı!");
 
-        this.dataTableFile.TGT_clearData();
+        this.dataTableNewFile.TGT_clearData();
         
         this.faComponent.loadFixedAsset();
+        
       },
       (error: HttpErrorResponse) => {
         this.baseService.spinner.hide();
@@ -151,6 +196,10 @@ export class FaEditFileComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+
+    this.loadFixedAssetFile();
+
+    this.fixedAssetFilesDataTable = [];
   }
 
   deleteFiles() {
@@ -181,6 +230,8 @@ export class FaEditFileComponent extends BaseComponent
   resetForm(){
 
     this.dataTableFile.TGT_clearData();
+
+    this.dataTableNewFile.TGT_clearData();
 
     this.fixedAssetFile = [];
 

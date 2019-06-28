@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseService } from 'src/app/services/base.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BaseComponent } from "src/app/components/base/base.component";
@@ -15,6 +15,7 @@ import { User } from 'src/app/models/User';
 import { FixedAsset } from 'src/app/models/FixedAsset';
 import { FaCreateComponent } from '../fa-create.component';
 import { NgForm } from '@angular/forms';
+import { MatStepper } from '@angular/material';
 
 @Component({
   selector: 'app-fa-general-information',
@@ -31,7 +32,7 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
   @Input() barcode:number;
   @Input() firstBarcode:number;
 
-  //@Output('reset') reset : EventEmitter<any> = new EventEmitter();
+  @Output('reset') reset : EventEmitter<any> = new EventEmitter();
 
   fixedAsset:FixedAsset=new FixedAsset();
 
@@ -56,6 +57,8 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
   fixedassetcategories: FixedAssetCardCategory[] = [];
   fixedassetcards: FixedAssetCard[] = [];
   staffs: User[] = [];
+
+  isResetForm:boolean=false;
 
   public dataTableLocation: TreeGridTable = new TreeGridTable(
     "location",
@@ -129,6 +132,8 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
     }
   );
 
+  @ViewChild("stepper") stepper: MatStepper;
+
   constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
        
     
@@ -191,7 +196,11 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
 
   onSubmit(data:NgForm){
 
-   // data.resetForm();
+    if(this.isResetForm)
+    {
+      data.resetForm();
+      this.isResetForm=false;
+    }
 
     this.fixedAsset.FixedAssetCardCategory = this.selectedCategory;
 
@@ -206,6 +215,8 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
 
   resetForm(){
     
+    this.reset.emit();
+    
     this.fixedAsset = new FixedAsset();
 
     this.selectedCard = null;
@@ -215,6 +226,8 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
     this.selectedDepartment = null;
 
     this.selectedLocation=null;
+
+    this.isResetForm = true;
 
     this.getValidBarcode();
   }
@@ -244,7 +257,10 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
     this.baseService.fixedAssetCreateService.GetValidBarcodeLastNumber(
       barcode => {
         this.isWaitingValidBarcode = false;
-       this.barcode = barcode;
+
+        this.barcode = barcode;
+
+        this.fixedAsset.Barcode=barcode;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

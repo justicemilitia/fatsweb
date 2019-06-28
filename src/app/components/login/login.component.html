@@ -4,12 +4,11 @@
       <h1 class="az-logo">fat<span>s<sup class="trade-mark">&reg;</sup></span>
         <span class="version">v6.0.100</span>
       </h1>
-      <h2 _ngcontent-c4="" class="az-card-signin-title">Demirbaş Yönetim Sistemi
-      </h2>
+      <h2 _ngcontent-c4="" class="az-card-signin-title">{{getLanguageValue('Fixed_Asset_Management_System')}}</h2>
     </div>
     <div>
-      <h2 class="welcome-title">Hoş geldiniz!</h2>
-      <h4 class="login-continue">Devam etmek için giriş yapınız.</h4>
+      <h2 class="welcome-title">{{getLanguageValue('Welcome')}}</h2>
+      <h4 class="login-continue">{{getLanguageValue('Log_in_to_continue')}}</h4>
     </div>
     <div class="az-signin-header">
       <!-- form-group -->
@@ -18,10 +17,10 @@
           <input [(ngModel)]="loginUser.UserMail" name="UserMail" id="UserMail" autocomplete="off" #UserMail="ngModel"
             [ngClass]="{ 'is-invalid': loginForm.submitted && UserMail.invalid }"
             (focusout)="GetUserFirms(loginUser.UserMail)" type="email" class="form-control"
-            placeholder="E-posta adresinizi giriniz" required minlength="5" maxlength="50" />
+            placeholder="{{getLanguageValue('Enter_your_email')}}" required minlength="5" maxlength="50" />
           <div *ngIf="loginForm.submitted && UserMail.invalid" class="invalid-feedback">
-            <div *ngIf="UserMail.errors.email">Lütfen geçerli bir e-posta giriniz.</div>
-            <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
+            <div *ngIf="UserMail.errors.email">{{getLanguageValue('This_value_is_required')}}</div>
+            <div *ngIf="UserMail.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
             <div *ngIf="UserMail.errors.minlength">Minimum 5 karakter giriniz.</div>
             <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
           </div>
@@ -29,10 +28,10 @@
         <div class="form-group" style="margin-top: 19px;">
           <input type="password" #Password="ngModel" id="Password" name="Password" autocomplete="off"
             [(ngModel)]="loginUser.Password" [ngClass]="{ 'is-invalid': loginForm.submitted && Password.invalid }"
-            type="password" class="form-control" placeholder="Şifrenizi giriniz" minlength="1" maxlength="16"
+            type="password" class="form-control" placeholder="{{getLanguageValue('Ener_your_password')}}" minlength="1" maxlength="16"
             required />
           <div *ngIf="loginForm.submitted && Password.invalid" class="invalid-feedback">
-            <div *ngIf="Password.errors.required">Bu alan zorunludur.</div>
+            <div *ngIf="Password.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
             <div *ngIf="Password.errors.minlength">Minimum 1 karakter giriniz.</div>
             <div *ngIf="Password.errors.maxlength">Maksimum 16 karakter giriniz.</div>
           </div>
@@ -44,7 +43,7 @@
           </div>
           <select *ngIf="isUserFirmsGetting == false && firms.length > 0" name="firmId" [(ngModel)]="loginUser.FirmId"
             class="form-control select2-no-search">
-            <option value="-1">Şirket Seçiniz</option>
+            <option value="-1">{{getLanguageValue('Choose_Firm')}}</option>
             <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>
           </select>
         </div>
@@ -57,7 +56,7 @@
           <div class="loader"></div>
         </div>
         <button *ngIf="isLoggining == false" class="btn btn-orange btn-block" id="loginbtn" type="submit">
-          Giriş
+            {{getLanguageValue('Log_in')}}
         </button>
         <div class="form-group" class="flag-area">
           <div class="dropdown">
@@ -89,7 +88,7 @@
     </div>
     <div class="az-signin-footer">
       <p><a class="forgetPassword" data-toggle="modal" data-target="#forgotPasswordModal"
-          onclick="return false;">Şifremi unuttum</a></p>
+          onclick="return false;">{{getLanguageValue('Forgot_Password')}}</a></p>
     </div>
   </div>
   <!-- az-card-signin -->
