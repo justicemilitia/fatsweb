@@ -3,13 +3,13 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>DEMİRBAŞ YÖNETİMİ</span>
-        <span>ASKIDAKİ DEMİRBAŞLAR</span>
+        <span>{{getLanguageValue('Fixed_Asset_Management')}}</span>
+        <span>{{getLanguageValue('Suspended_Fixed_Assets')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Askıdaki Demirbaşlar</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Suspended_Fixed_Assets')}}</h2>
           <div class="grp-btn-action">
             <button (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
@@ -52,7 +52,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Askıdan alma bilgilerini giriniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_undo_suspend_informations')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -61,7 +61,7 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label>Barkod</label>
+              <label>{{getLanguageValue('Barcode')}}</label>
               <input name="Barcode" value="{{faBarcodes}}" type="text" class="form-control" disabled />
             </div>
           </div>
@@ -71,7 +71,7 @@
               <input [(ngModel)]="transactionLogSuspended.CheckOutPrice" name="CheckOutPrice" type="text" class="form-control" #CheckOutPrice="ngModel"/>
             </div>
             <div class="col-md-6 form-group">
-              <label>Para Birimi</label>
+              <label>{{getLanguageValue('Currency')}}</label>
               <select [(ngModel)]="transactionLogSuspended.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
                 <option [ngValue]="null">Yok</option>
                 <option *ngFor="let currency of currencies" value={{currency.CurrencyId}}>
@@ -96,7 +96,7 @@
                   [class.is-invalid]="dataSuspend.submitted && (!transactionLogSuspended.UndoSuspensionDate || undoSuspensionDateModel.status == 'INVALID' )"
                   required />
                 <div *ngIf="dataSuspend.submitted && undoSuspensionDateModel.invalid" class="invalid-feedback">
-                  <div *ngIf="undoSuspensionDateModel.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="undoSuspensionDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   <div *ngIf="!undoSuspensionDateModel.errors.required && undoSuspensionDateModel.status == 'INVALID'">
                     Lütfen Geçerli Format Giriniz.
                   </div>
@@ -108,7 +108,7 @@
 
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label>Açıklama</label>
+              <label>{{getLanguageValue('Description')}}</label>
               <textarea [(ngModel)]="transactionLogSuspended.CheckOutDescription" name="CheckOutDescription" type="text"
                 style="resize:none;height: 80px;" rows="3" class="form-control" maxlength="150"></textarea>
             </div>
@@ -126,7 +126,7 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button id="btnSuspendedFixedAsset" type="submit" class="btn btn-az-primary" data-toggle="modal"
-            data-target="#modalSuspendedFa">Askıdan Al</button>
+            data-target="#modalSuspendedFa">{{getLanguageValue('Undo_Suspend')}}</button>
         </div>
       </form>
     </div>
@@ -138,7 +138,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
-          <h6 class="modal-title">Çıkış işlemi için bilgilerini giriniz.</h6>
+          <h6 class="modal-title">{{getLanguageValue('Enter_information_for_exit_process')}}</h6>
           <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -148,7 +148,7 @@
             <!-- BARKODLAR -->
             <div class="row justify-content-center">
               <div class="col-md-12 form-group">
-                <label>Barkod</label>
+                <label>{{getLanguageValue('Barcode')}}</label>
                 <input name="Barcodes" value="{{faBarcodes}}" type="text" class="form-control" disabled />
               </div>
             </div>
@@ -166,7 +166,7 @@
                   </option>
                 </select>
                 <div *ngIf="dataExit.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
-                  <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="CheckOutReasonId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 </div>
               </div>
             </div>
@@ -174,13 +174,13 @@
             <!-- FİYAT & PARA BİRİMİ -->
             <div class="row justify-content-center">
               <div class="col-md-6 form-group">
-                <label>Fiyat</label>
+                <label>{{getLanguageValue('Fixed_Asset_Price')}}</label>
                 <input [(ngModel)]="transactionLog.CheckoutPrice" name="CheckoutPrice" class="form-control" type="text"
                   #CheckoutPrice="ngModel">
               </div>
   
               <div class="col-md-6 form-group">
-                <label>Para Birimi</label>
+                <label>{{getLanguageValue('Currency')}}</label>
                 <select [(ngModel)]="transactionLog.CurrencyId" name="CurrencyId" style="resize:none0" class="form-control"
                   type="text">
                   <option [ngValue]="null">Yok</option>
@@ -194,7 +194,7 @@
             <!-- AÇIKLAMA -->
             <div class="row justify-content-center">
               <div class="col-md-12 form-group">
-                <label>Açıklama</label>
+                <label>{{getLanguageValue('Description')}}</label>
                 <textarea [(ngModel)]="transactionLog.Description" name="Description" style="resize:none" rows="2"
                   class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
               </div>
@@ -205,7 +205,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label class="ckbox">
-                    <input type="checkbox"  [(ngModel)]="transactionLog.IsCreateExitForm" (change)="isCreateExitForm($event)" name="IsCreateExitForm" #IsCreateExitForm="ngModel"/><span>Demirbaş çıkış formu basılsın.</span>
+                    <input type="checkbox"  [(ngModel)]="transactionLog.IsCreateExitForm" (change)="isCreateExitForm($event)" name="IsCreateExitForm" #IsCreateExitForm="ngModel"/><span>{{getLanguageValue('Create_fixed_asset_exit_Form')}}</span>
                   </label>
                 </div>
               </div>
@@ -216,7 +216,7 @@
           <div class="modal-footer">
             <button class="btn btn-az-primary" id="btnExitFixedAsset"
               type="submit" data-toggle="modal" data-target="#modalExitFixedAsset">
-              Kaydet
+              {{getLanguageValue('Save')}}
             </button>
           </div>
         </form>

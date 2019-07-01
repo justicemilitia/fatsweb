@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h6 class="modal-title">Şirket değişimi için gerekli bilgileri giriniz.</h6>
+  <h6 class="modal-title">{{getLanguageValue('Enter_information_about_changing_firm')}}</h6>
   <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,7 +10,7 @@
     <!-- BARKOD -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Barkod</label>
+        <label>{{getLanguageValue('Barcode')}}</label>
         <input name="Barcodes" value="{{ faBarcode.Barcode }}" type="text" class="form-control" disabled />
       </div>
     </div>
@@ -18,7 +18,7 @@
     <!-- DEMİRBAŞ ADI -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Demirbaş Adı</label>
+        <label>{{getLanguageValue('Fixed_Asset_Card_Name')}}</label>
         <input name="Name" value="{{ faBarcode.FixedAssetCard.Name }}" type="text" class="form-control" disabled />
       </div>
     </div>
@@ -26,7 +26,7 @@
     <!-- YENİ FİRMA -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label class="required-span">Yeni Firma</label>
+        <label class="required-span">{{getLanguageValue('New_Firm')}}</label>
         <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" (change)="getFirmId($event)" #FirmId="ngModel"
           [ngClass]="{ 'is-invalid': data.submitted && FirmId.invalid }" required>
           <option [ngValue]="null">Yok</option>
@@ -35,7 +35,7 @@
           </option>
         </select>
         <div *ngIf="data.submitted && FirmId.invalid" class="invalid-feedback">
-          <div *ngIf="FirmId.errors.required">Bu alan zorunludur.</div>
+          <div *ngIf="FirmId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
           </option>
         </select>
         <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
-          <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+          <div *ngIf="LocationId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
         </div>
       </div>
     </div>     -->
@@ -72,7 +72,7 @@
               <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
             </div>
             <div *ngIf="data.submitted && !selectedLocation" style="color:red">
-              <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
+              <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
             </div>
         </div>
         <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
@@ -99,7 +99,7 @@
         <div class="" style="display: flex;
         flex-direction: column;">
         <label style="margin-bottom: 0;
-        font-weight: 700;">Departman</label>
+        font-weight: 700;">{{getLanguageValue('Department')}}</label>
              <div style="display:flex;">
                 <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
                   <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -130,7 +130,7 @@
   <div class="modal-footer">
     <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-az-primary" id="btnChangeFirm" type="submit"
       data-toggle="modal" data-target="#modalChangeFirm">
-      Kaydet
+      {{getLanguageValue('Save')}}
     </button>
     <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
   </div>

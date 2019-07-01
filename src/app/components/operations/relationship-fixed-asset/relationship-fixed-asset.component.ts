@@ -47,7 +47,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
     "fixedassetrelationship",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -55,7 +55,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
@@ -63,7 +63,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Kategorisi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
         columnName: ["FixedAssetCard", "FixedAssetCardCategory", "Name"],
         isActive: true,
         classes: [],
@@ -71,7 +71,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Seri No",
+        columnDisplayName: this.getLanguageValue('Serial_Number'),
         columnName: ["SerialNumber"],
         isActive: true,
         classes: [],
@@ -79,7 +79,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Marka",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Brand_Name'),
         columnName: ["FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
         isActive: true,
         classes: [],
@@ -87,7 +87,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Model",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Model_Name'),
         columnName: ["FixedAssetCardModel", "Name"],
         isActive: true,
         classes: [],
@@ -95,7 +95,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Statü",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Name'),
         columnName: ["Status", "Name"],
         isActive: true,
         classes: [],
@@ -103,7 +103,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Statü Kodu",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Code'),
         columnName: ["Status", "FixedAssetStatusCode"],
         isActive: true,
         classes: [],
@@ -111,7 +111,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Fiyat",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Price'),
         columnName: ["Price"],
         isActive: true,
         classes: [],
@@ -136,7 +136,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       //   type: "text"
       // },
       {
-        columnDisplayName: "Lokasyon Adı",
+        columnDisplayName: this.getLanguageValue('Location_Name'),
         columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
@@ -144,7 +144,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Kodu",
+        columnDisplayName: this.getLanguageValue('Location_Code'),
         columnName: ["Location", "LocationCode"],
         isActive: true,
         classes: [],
@@ -152,7 +152,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Barkodu",
+        columnDisplayName: this.getLanguageValue('Location_Barcode'),
         columnName: ["Location", "Barcode"],
         isActive: true,
         classes: [],
@@ -160,7 +160,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Koordinatı",
+        columnDisplayName: this.getLanguageValue('Location_Coordinate'),
         columnName: ["Location", "Coordinate"],
         isActive: true,
         classes: [],
@@ -168,7 +168,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Adresi",
+        columnDisplayName: this.getLanguageValue('Address'),
         columnName: ["Location", "Address"],
         isActive: true,
         classes: [],
@@ -176,7 +176,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Açıklaması",
+        columnDisplayName: this.getLanguageValue('Location_Description'),
         columnName: ["Location", "Description"],
         isActive: true,
         classes: [],
@@ -184,7 +184,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Makbuz Tarihi",
+        columnDisplayName: this.getLanguageValue('Receipt_Date'),
         columnName: ["ReceiptDate"],
         isActive: true,
         classes: [],
@@ -192,7 +192,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Fatura No",
+        columnDisplayName: this.getLanguageValue('Invoice_No'),
         columnName: ["InvoiceNo"],
         isActive: true,
         classes: [],
@@ -200,7 +200,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Fatura Tarihi",
+        columnDisplayName: this.getLanguageValue('Invoice_Date'),
         columnName: ["InvoiceDate"],
         isActive: true,
         classes: [],
@@ -224,7 +224,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       //   type: "text"
       // },
       {
-        columnDisplayName: "Amortisman Periyodu",
+        columnDisplayName: this.getLanguageValue('Depreciation_Period'),
         columnName: ["DepreciationPeriod"],
         isActive: true,
         classes: [],
@@ -232,7 +232,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Ifrs Fiyatı",
+        columnDisplayName: this.getLanguageValue('IFRS_Price'),
         columnName: ["Ifrsprice"],
         isActive: true,
         classes: [],
@@ -240,7 +240,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Ifrs hesaplanacak mı ?",
+        columnDisplayName: this.getLanguageValue('Will_IFRS_Be_Calculated'),
         columnName: ["WillIfrsbeCalculated"],
         isActive: true,
         classes: [],
@@ -248,7 +248,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Ifrs Periyodu",
+        columnDisplayName: this.getLanguageValue('IFRS_Period'),
         columnName: ["Ifrsperiod"],
         isActive: true,
         classes: [],
@@ -264,7 +264,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       //   type: "text"
       // },
       {
-        columnDisplayName: "Garanti Başlangıç Tarihi",
+        columnDisplayName: this.getLanguageValue('Guarentee_Start_Date'),
         columnName: ["GuaranteeStartDate"],
         isActive: true,
         classes: [],
@@ -272,7 +272,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Garanti Bitiş Tarihi",
+        columnDisplayName: this.getLanguageValue('Guarentee_End_Date'),
         columnName: ["GuaranteeEndDate"],
         isActive: true,
         classes: [],
@@ -280,7 +280,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Aktivasyon Tarihi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Activation_Date'),
         columnName: ["ActivationDate"],
         isActive: true,
         classes: [],
@@ -288,7 +288,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Departman Kodu",
+        columnDisplayName: this.getLanguageValue('Department_Code'),
         columnName: ["Department", "DepartmentCode"],
         isActive: true,
         classes: [],
@@ -296,7 +296,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Departman Adı",
+        columnDisplayName: this.getLanguageValue('Department_Name'),
         columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
@@ -304,7 +304,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Departman Açıklama",
+        columnDisplayName: this.getLanguageValue('Department_Description'),
         columnName: ["Department", "Description"],
         isActive: true,
         classes: [],
@@ -330,7 +330,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
     "breakfixedassetrelationship",
     [
       {
-        columnDisplayName: "Demirbaş Barkodu",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -338,7 +338,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],

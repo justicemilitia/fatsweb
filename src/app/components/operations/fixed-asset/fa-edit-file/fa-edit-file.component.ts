@@ -52,7 +52,7 @@ export class FaEditFileComponent extends BaseComponent
     "fixedassetfile",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -60,7 +60,7 @@ export class FaEditFileComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Dosya adı",
+        columnDisplayName:  this.getLanguageValue('File_Name'),
         columnName: ["FileName"],
         isActive: true,
         classes: [],
@@ -78,7 +78,7 @@ export class FaEditFileComponent extends BaseComponent
     "fixedassetnewfile",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -86,7 +86,7 @@ export class FaEditFileComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Dosya adı",
+        columnDisplayName: this.getLanguageValue('File_Name'),
         columnName: ["FileName"],
         isActive: true,
         classes: [],
@@ -169,7 +169,7 @@ export class FaEditFileComponent extends BaseComponent
    this.fixedAssetFiles = this.fixedAssetFiles.filter(e => fixedassetfiles.some(t=>e.name == t.FileName));
 
    if (this.fixedAssetFiles.length == 0) {
-    this.baseService.popupService.ShowWarningPopup("Dosya Seçiniz!");
+    this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Choose_File'));
     return;
    }
 

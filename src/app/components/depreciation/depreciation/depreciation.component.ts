@@ -110,7 +110,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         }
       },
       {
-        columnDisplayName: "Aktivasyon Tarihi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Activation_Date'),
         columnName: ["ActivationDate"],
         isActive: true,
         classes: [],

@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h6 class="modal-title">Departman değişimi için gerekli bilgileri giriniz.</h6>
+  <h6 class="modal-title">{{getLanguageValue('Enter_information_about_changing_department')}}</h6>
   <button id="CloseModal" (click)="resetForm(data)" type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,7 +10,7 @@
     <!-- BARKOD -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Barkod</label>
+        <label>{{getLanguageValue('Barcode')}}</label>
         <input name="Barcodes" value="{{ faBarcode.Barcode }}" type="text" class="form-control" disabled />
       </div>
     </div>
@@ -18,7 +18,7 @@
     <!-- DEMİRBAŞ ADI -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Demirbaş Adı</label>
+        <label>{{getLanguageValue('Fixed_Asset_Card_Name')}}</label>
         <input name="Name" value="{{ faBarcode.FixedAssetCard == null ? null : faBarcode.FixedAssetCard.Name }}" type="text" class="form-control" disabled />
       </div>
     </div>
@@ -26,7 +26,7 @@
     <!-- ESKİ DEPARTMAN -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Departman</label>
+        <label>{{getLanguageValue('Department')}}</label>
         <input name="DepartmentName" value="{{ faBarcode.Department == null ? null : faBarcode.FixedAssetCard.Name }}" type="text" class="form-control"
           disabled />
       </div>
@@ -44,7 +44,7 @@
               </div> -->
       <!-- </div> -->
       <!-- <div *ngIf="data.submitted && !selectedDepartment" style="color:red">
-        <div *ngIf="!selectedDepartment">Bu alan zorunludur.</div>
+        <div *ngIf="!selectedDepartment">{{getLanguageValue('This_value_is_required')}}</div>
       </div>
         <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
             <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
@@ -57,14 +57,14 @@
         <div class="col-md-12 form-group">
           <div>
               <label class="required-span" style="margin-bottom: 0;
-              font-weight: 700;" >Departman</label>
+              font-weight: 700;" >{{getLanguageValue('Department')}}</label>
               <div style="display:flex;">
               <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  
               [class.dropdown-button-valid]="data.submitted && !selectedDepartment"  required>{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
               </div>
               <div *ngIf="data.submitted && !selectedDepartment" style="color:red">
-                <div *ngIf="!selectedDepartment">Bu alan zorunludur.</div>
+                <div *ngIf="!selectedDepartment">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
           </div>
           <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
@@ -81,7 +81,7 @@
   <div class="modal-footer">
     <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-orange" id="btnChangeDepartment" type="submit"
       data-toggle="modal" data-target="#modalChangeDepartment">
-      Kaydet
+      {{getLanguageValue('Save')}}
     </button>
     <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
   </div>
