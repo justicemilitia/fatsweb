@@ -17,6 +17,7 @@ import { FixedAsset } from '../../models/FixedAsset';
 import { FixedAssetComponent } from '../operations/fixed-asset/fixed-asset.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Page } from '../../extends/TreeGridTable/models/Page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,7 +37,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   countValues: any = {};
   
   fixedAssets: FixedAsset[] = [];
-  faComponent: FixedAssetComponent;
+  faComponent: FixedAssetComponent = new FixedAssetComponent(this.baseService);
   currentPage: number = 1;
   perInPage: number = 25;
   totalPage: number = 1;
@@ -61,7 +62,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     Week: 3
   }
 
-  constructor(public baseService: BaseService) {
+  constructor(public baseService: BaseService, private router: Router) {
     super(baseService);
   }
 
@@ -314,13 +315,30 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
             }
           });
         });
-        this.faComponent.dataTable.TGT_loadData(this.fixedAssets);
+
+        this.router.navigate(["fixedasset"]);
+
+        this.faComponent.dataTable.TGT_loadData(fa);
         this.faComponent.TGT_calculatePages();
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  onClickSearch() {
+    this.baseService.router.navigate(['/fixedasset'], {
+      queryParams: {
+        endDate: this.today()
+      }
+    });
+  }
+
+  today() {
+    let getdate:NgbDate = getToday();
+    console.log(getToday());
+    return getToday();
   }
 
 }
