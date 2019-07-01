@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FaListComponent } from './fa-list.component';
+import { FaResetFormComponent } from './fa-reset-form.component';
 
-describe('FaListComponent', () => {
-  let component: FaListComponent;
-  let fixture: ComponentFixture<FaListComponent>;
+describe('FaResetFormComponent', () => {
+  let component: FaResetFormComponent;
+  let fixture: ComponentFixture<FaResetFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FaListComponent ]
+      declarations: [ FaResetFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FaListComponent);
+    fixture = TestBed.createComponent(FaResetFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,15 +3,15 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
         <span>ROL TANIMLAMA</span>
-        <span>ROLE KULLANICI ATAMA</span>
+        <span> {{getLanguageValue('Add_User_To_Role')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
 
-          <h2 class="az-content-title" style="margin-left: 0px;">Rol - Kullanıcı Tanımlama</h2>
+          <h2 class="az-content-title" style="margin-left: 0px;">{{getLanguageValue('Add_User_To_Role')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" routerLink="/role" class="btn btn-danger btn-back-custom">
@@ -28,7 +28,7 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i></button>
 
             <button id="btnAddUserRole" *ngIf="IsAuthForInsert==true" class="btn btn-az-primary" data-toggle="modal"
-              data-target="#modalUserRoleDefinition" (click)="resetForm(data,true)">Role Kullanıcı Ata</button>
+              data-target="#modalUserRoleDefinition" (click)="resetForm(data,true)">{{getLanguageValue('Add_User_To_Role')}}</button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditUserRole" data-toggle="modal"
               data-target="#modalUserRoleDefinition" (click)="resetForm(data,false)">Role Kullanıcı Ata Düzenle
@@ -53,7 +53,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Role atanacak kullanıcıları belirleyiniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Choose_user_to_add_role')}}</h6>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -72,7 +72,7 @@
                   (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                 </ng-multiselect-dropdown>
                 <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
-                  <div *ngIf="UserId.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="UserId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 </div>
               </ng-template>
               <ng-template #updateUserRole>
@@ -94,7 +94,7 @@
                 <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
               </select>
               <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
-                <div *ngIf="RoleId.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="RoleId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
           </div>

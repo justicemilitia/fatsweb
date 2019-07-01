@@ -99,7 +99,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     "fixedasset",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],

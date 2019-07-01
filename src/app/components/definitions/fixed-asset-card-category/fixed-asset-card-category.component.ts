@@ -40,7 +40,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
     "fixedassetcardcategory",
     [
       {
-        columnDisplayName: "Kategori Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -48,7 +48,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
         type: "text"
       },
       {
-        columnDisplayName: "Kategori Kodu",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Category_Code'),
         columnName: ["FixedAssetCardCategoryCode"],
         isActive: true,
         classes: [],
@@ -119,9 +119,9 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear ids from source */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -259,7 +259,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
         /* Load data to table */
         this.dataTable.TGT_loadData(this.fixedAssetCardCategories);
         if(fixedAssetCardCategories.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

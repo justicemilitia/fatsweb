@@ -29,7 +29,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
     "suspension",
     [
       {
-        columnDisplayName: "Kod",
+        columnDisplayName: this.getLanguageValue('Suspension_Code'),
         columnName: ["CheckOutReasonCode"],
         isActive: true,
         classes: [],
@@ -37,7 +37,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Askıya Alma Sebebi",
+        columnDisplayName: this.getLanguageValue('Suspension_Reason'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -45,7 +45,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -90,7 +90,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
         /* then load them into table */
         this.dataTable.TGT_loadData(this.suspensions);
         if(suspensions.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {
@@ -179,9 +179,9 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
           () => {
             this.baseService.spinner.hide();  
             if (itemIds.length == 1)
-              this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+              this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Delete_operation_successful'));
             else
-              this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+              this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('All_records_deleted'));
   
             itemIds.forEach(e=> {
               let itemIndex = this.suspensions.findIndex(x=>x.CheckOutReasonId == e);

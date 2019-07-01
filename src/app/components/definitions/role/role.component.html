@@ -3,8 +3,8 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
-        <span>ROl TANIMLAMA</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>ROL TANIMLAMA</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
@@ -28,12 +28,12 @@
               <i class="fas fa-trash"></i></button>
 
             <button class="btn btn-az-primary" style="margin-right:10px" (click)="redirectTo('/roleuser')">
-              <i class="fa fa-list" style="margin-right:10px;"></i> Rol Kullanıcı Listesi
+              <i class="fa fa-list" style="margin-right:10px;"></i> {{getLanguageValue('Role_User_List')}}
             </button>
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" (click)="resetForm(data,true)"
               id="btnAddRoleAuth" data-toggle="modal" data-target="#modalRoleDefinition"><i
-                class="fa fa-plus-circle fa-plus-circle-add"></i> Rol Ekle
+                class="fa fa-plus-circle fa-plus-circle-add"></i>{{getLanguageValue('Add_Role')}}
             </button>
             <button style="display:none" id="btnEditRoleAuth" *ngIf="IsAuthForEdit==true" data-toggle="modal"
               data-target="#modalRoleDefinition">
@@ -68,14 +68,14 @@
               <input [(ngModel)]="role.Name" name="Name" #Name="ngModel" type="text" trim="blur" class="form-control"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label>Açıklama</label>
+              <label>{{getLanguageValue('Description')}}</label>
               <textarea [(ngModel)]="role.Description" name="Description" rows="3" type="text" style="resize:none"
                 class="form-control">
               </textarea>
@@ -85,7 +85,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-az-primary" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalAddRole">
-            {{role.RoleId ? 'Rolü Güncelle' : 'Rol Ekle'}}</button>
+            {{role.RoleId ? 'Rolü Güncelle' : getLanguageValue('Add_Role')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

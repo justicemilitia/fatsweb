@@ -68,7 +68,7 @@
                 <option *ngFor="let categories of consumableCategories" value="{{categories.ConsumableCategoryId}}">{{categories.ConsumableCategoryName}}</option>
               </select>  
               <div *ngIf="data.submitted && ConsumableCategoryId.invalid" class="invalid-feedback">
-                <div *ngIf="ConsumableCategoryId.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="ConsumableCategoryId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>             
             </div>
 
@@ -81,7 +81,7 @@
                 <option *ngFor="let card of consumableCards"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
               </select>   
               <div *ngIf="data.submitted && ConsumableCardId.invalid" class="invalid-feedback">
-                <div *ngIf="ConsumableCardId.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="ConsumableCardId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>           
             </div>
 
@@ -95,7 +95,7 @@
                   <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedLocation" style="color:red">
-                  <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
+                  <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
                 </div>    
                 <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
                   <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
@@ -135,7 +135,7 @@
                   <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"
                   [ngClass]="{ 'is-invalid': data.submitted && ConsumableAmount.invalid }" #ConsumableAmount="ngModel" required/>
                   <div *ngIf="data.submitted && ConsumableAmount.invalid" class="invalid-feedback">
-                    <div *ngIf="ConsumableAmount.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="ConsumableAmount.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
               </div>  
               <div class="form-group col-md-6">
@@ -248,7 +248,7 @@
                             <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
                           </div>
                           <div *ngIf="exitData.submitted && !selectedDepartment" style="color:red">
-                              <div *ngIf="!selectedDepartment">Bu alan zorunludur.</div>
+                              <div *ngIf="!selectedDepartment">{{getLanguageValue('This_value_is_required')}}</div>
                           </div>
                   </div>
                     <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
@@ -262,7 +262,7 @@
                   <option *ngFor="let user of users" value="{{user.UserId}}">{{user.FirstName + ' ' + user.LastName }}</option>
                 </select>  
                 <div *ngIf="exitData.submitted && ReceivedUserId.invalid" class="invalid-feedback">
-                    <div *ngIf="ReceivedUserId.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="ReceivedUserId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>            
               </div>            
           </div>
@@ -279,7 +279,7 @@
                   <input [(ngModel)]="consumable.FreeExitAmount" name="FreeExitAmount" class="form-control" type="text"
                   [ngClass]="{ 'is-invalid': exitData.submitted && FreeExitAmount.invalid }" #FreeExitAmount="ngModel" required/>
                   <div *ngIf="exitData.submitted && FreeExitAmount.invalid" class="invalid-feedback">
-                    <div *ngIf="FreeExitAmount.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="FreeExitAmount.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
               </div>  
               <div class="form-group col-md-6">

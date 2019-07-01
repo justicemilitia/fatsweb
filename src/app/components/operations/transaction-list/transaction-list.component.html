@@ -3,13 +3,13 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>DEMİRBAŞ YÖNETİMİ</span>
-        <span>HAREKET LİSTESİ</span>
+        <span>{{getLanguageValue('Fixed_Asset_Management')}}</span>
+        <span>{{getLanguageValue('Transaction_List')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Hareket Listesi</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Transaction_List')}}</h2>
           <div class="grp-btn-action">
               
             <button id="btnTransactionInfo" class="btn btn-success btn-excel-custom" style="display:none" data-toggle="modal" data-target="#modalTransactionLogInfo">
@@ -84,7 +84,7 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label>Barkod :</label>
+                        <label>{{getLanguageValue('Barcode')}} :</label>
                     </div>
                     <div class="col-md-6">
                         <span>{{transaction.Barcode}}</span> 
@@ -94,7 +94,7 @@
               <div class="col-md-6">
                 <div class="row">
                     <div class="form-group col-md-6">
-                      <label>Hareket Tipi :</label>
+                      <label>{{getLanguageValue('Transaction_Type')}} :</label>
                       </div>
                       <div class="col-md-6">
                         <span>{{transaction.TransactionTypeName}}</span>
@@ -106,7 +106,7 @@
                   <div class="col-md-6">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label>İşlemin Gerçekleştiği Tarih :</label>
+                            <label>{{getLanguageValue('Transaction_Date')}} :</label>
                         </div>
                         <div class="col-md-6">
                             <span>{{transaction.TransactionDate ? transaction.TransactionDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span> 
@@ -116,7 +116,7 @@
                   <div class="col-md-6">
                     <div class="row">
                         <div class="form-group col-md-6">
-                          <label>İşlemi Gerçekleştiren Kullanıcı :</label>
+                          <label>{{getLanguageValue('Transaction_User')}} :</label>
                           </div>
                           <div class="col-md-6">
                             <span>{{transaction.UserName}}</span>
@@ -134,7 +134,7 @@
                       <!-- *ngIf="transaction.ExistingBarcode" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Barkod :</label>
+                          <label>{{getLanguageValue('Barcode')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ExistingBarcode}}</span> 
@@ -143,7 +143,7 @@
                   <!-- *ngIf="transaction.FromFixedAssetCardCategoryName" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Demirbaş Kategorisi :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Category_Name')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromFixedAssetCardCategoryName}}</span> 
@@ -178,7 +178,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromCompanyName">
                       <div class="form-group col-md-6">
-                          <label>Tedarikçi :</label>
+                          <label>{{getLanguageValue('Supplier')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromCompanyName}}</span> 
@@ -203,7 +203,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromSerialNumber">
                       <div class="form-group col-md-6">
-                          <label>Seri Numarası :</label>
+                          <label>{{getLanguageValue('Serial_Number')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromSerialNumber}}</span> 
@@ -220,7 +220,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromBrandName">
                       <div class="form-group col-md-6">
-                          <label>Marka :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Brand_Name')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromBrandName}}</span> 
@@ -228,7 +228,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromModelName">
                       <div class="form-group col-md-6">
-                          <label>Model :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Model_Name')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromModelName}}</span> 
@@ -244,7 +244,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromInvoiceNo">
                       <div class="form-group col-md-6">
-                          <label>Fatura Numarası :</label>
+                          <label>{{getLanguageValue('Invoice_No')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromInvoiceNo}}</span> 
@@ -252,7 +252,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromInvoiceDate">
                       <div class="form-group col-md-6">
-                          <label>Fatura Tarihi :</label>
+                          <label>{{getLanguageValue('Invoice_Date')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromInvoiceDate}}</span> 
@@ -260,7 +260,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromGuaranteeStartDate">
                       <div class="form-group col-md-6">
-                          <label>Garanti Başlangıç Tarihi :</label>
+                          <label>{{getLanguageValue('Guarentee_Start_Date')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromGuaranteeStartDate}}</span> 
@@ -268,7 +268,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromGuaranteeEndDate">
                       <div class="form-group col-md-6">
-                          <label>Garanti Bitiş Tarihi:</label>
+                          <label>{{getLanguageValue('Guarentee_End_Date')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromGuaranteeEndDate}}</span> 
@@ -276,7 +276,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FixedAssetIsActive">
                       <div class="form-group col-md-6">
-                          <label>Aktiflik Durumu:</label>
+                          <label>Aktiflik Durumu :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FixedAssetIsActive}}</span> 
@@ -292,7 +292,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromFirmId">
                       <div class="form-group col-md-6">
-                          <label>Firma :</label>
+                          <label>{{getLanguageValue('Firm')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromFirmId}}</span> 
@@ -307,7 +307,7 @@
                       <!-- *ngIf="transaction.ToFixedAssetCardCategoryName" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Demirbaş Kategorisi :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Category_Name')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToFixedAssetCardCategoryName}}</span> 
@@ -316,7 +316,7 @@
                   <!-- *ngIf="transaction.NewBarcode" -->
                   <div class="row">
                       <div class="form-group col-md-6">
-                          <label>Barkod :</label>
+                          <label>{{getLanguageValue('Barcode')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.NewBarcode}}</span> 
@@ -354,7 +354,7 @@
 
                   <div class="row" *ngIf="transaction.ToCompanyName">
                       <div class="form-group col-md-6">
-                          <label>Tedarikçi :</label>
+                          <label>{{getLanguageValue('Supplier')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToCompanyName}}</span> 
@@ -382,7 +382,7 @@
 
                   <div class="row" *ngIf="transaction.ToSerialNumber">
                       <div class="form-group col-md-6">
-                          <label>Seri Numarası :</label>
+                          <label>{{getLanguageValue('Serial_Number')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToSerialNumber}}</span> 
@@ -401,7 +401,7 @@
 
                   <div class="row" *ngIf="transaction.ToBrandName">
                       <div class="form-group col-md-6">
-                          <label>Marka :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Brand_Name')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToBrandName}}</span> 
@@ -410,7 +410,7 @@
 
                   <div class="row" *ngIf="transaction.ToModelName">
                       <div class="form-group col-md-6">
-                          <label>Model :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Model_Name')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToModelName}}</span> 
@@ -428,7 +428,7 @@
 
                   <div class="row" *ngIf="transaction.ToInvoiceNo">
                       <div class="form-group col-md-6">
-                          <label>Fatura Numarası :</label>
+                          <label>{{getLanguageValue('Invoice_No')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToInvoiceNo}}</span> 
@@ -437,7 +437,7 @@
 
                   <div class="row" *ngIf="transaction.ToInvoiceDate">
                       <div class="form-group col-md-6">
-                          <label>Fatura Tarihi :</label>
+                          <label>{{getLanguageValue('Invoice_Date')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToInvoiceDate}}</span> 
@@ -446,7 +446,7 @@
 
                   <div class="row" *ngIf="transaction.ToGuaranteeStartDate">
                       <div class="form-group col-md-6">
-                          <label>Garanti Başlangıç Tarihi :</label>
+                          <label>{{getLanguageValue('Guarentee_Start_Date')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToGuaranteeStartDate}}</span> 
@@ -455,7 +455,7 @@
 
                   <div class="row" *ngIf="transaction.ToGuaranteeEndDate">
                       <div class="form-group col-md-6">
-                          <label>Garanti Bitiş Tarihi:</label>
+                          <label>{{getLanguageValue('Guarentee_End_Date')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToGuaranteeEndDate}}</span> 
@@ -482,7 +482,7 @@
 
                   <div class="row" *ngIf="transaction.ToFirmName">
                       <div class="form-group col-md-6">
-                          <label>Firma :</label>
+                          <label>{{getLanguageValue('Firm')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToFirmName}}</span> 
@@ -531,7 +531,7 @@
                     <div class="col-md-6" >
                         <div class="row" >
                             <div class="form-group col-md-6">
-                                <label>Beklenen Dönüş Tarihi :</label>
+                                <label>{{getLanguageValue('Expected_Arrival_Date')}} :</label>
                             </div>
                             <div class="col-md-6">
                                 <span>{{transaction.CheckInExpectedArrivalDate}}</span> 

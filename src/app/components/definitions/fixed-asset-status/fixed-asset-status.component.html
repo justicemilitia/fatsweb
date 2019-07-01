@@ -3,12 +3,12 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
-        <span>DEMİRBAŞ STATÜ TANIMLAMA</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>{{getLanguageValue('Fixed_Asset_Status')}}</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title" style="margin-left:0">Demirbaş Statü Tanımlama</h2>
+          <h2 class="az-content-title" style="margin-left:0">{{getLanguageValue('Fixed_Asset_Status')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
@@ -29,7 +29,7 @@
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddStatus" data-toggle="modal"
               data-target="#modalStatus">
-              Demirbaş Statüsü Ekle
+              {{getLanguageValue('Add_Fixed_Asset_Statu')}}
             </button>
 
             <button style="display:none" id="btnEditStatus" *ngIf="IsAuthForEdit==true" data-toggle="modal"
@@ -53,7 +53,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Demirbaş Statü Tanımlama</h6>
+              <h6 class="modal-title">
+              {{getLanguageValue('Enter_fixed_asset_statu_informations')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -62,31 +63,31 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Statü Kodu</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Statu_Code')}}</label>
               <input [(ngModel)]="status.FixedAssetStatuCode"
                 [ngClass]="{ 'is-invalid': data.submitted && FixedAssetStatuCode.invalid }" name="FixedAssetStatuCode"
                 #FixedAssetStatuCode="ngModel" type="text" class="form-control" required maxlength="50" />
               <div *ngIf="data.submitted && FixedAssetStatuCode.invalid" class="invalid-feedback">
-                <div *ngIf="FixedAssetStatuCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="FixedAssetStatuCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="FixedAssetStatuCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Statü Adı</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Statu_Name')}}</label>
               <input [(ngModel)]="status.Name" #Name="ngModel" name="Name"
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" type="text" required maxlength="50"
                 class="form-control" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Renk</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Statu_Color')}}</label>
               <input [(ngModel)]="selectedColor" name="selectedColor" type="text"
                 class="form-control color-custom-input" [(colorPicker)]="selectedColor"
                 (colorPickerChange)="selectedColor=$event" [style.background]="selectedColor"
@@ -97,7 +98,7 @@
                 (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)" required
                 [ngClass]="{ 'is-invalid': data.submitted && formSelectedColor.invalid }" />
               <div *ngIf="data.submitted && formSelectedColor.invalid" class="invalid-feedback">
-                <div *ngIf="formSelectedColor.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="formSelectedColor.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
           </div>
@@ -105,7 +106,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateStatus" type="submit" class="btn btn-az-primary" data-toggle="modal"
             data-target="#modalAddStatus">
-            {{status.FixedAssetStatusId ? 'Demirbaş Statüsünü Güncelle' : 'Demirbaş Statüsü Ekle'}}
+            {{status.FixedAssetStatusId ? 'Demirbaş Statüsünü Güncelle' : getLanguageValue('Add_Fixed_Asset_Statu')}}
           </button>
         </div>
       </form>

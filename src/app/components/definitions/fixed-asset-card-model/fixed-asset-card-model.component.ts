@@ -44,7 +44,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
     "fixedassetcardmodel",
     [
       {
-        columnDisplayName: "Kod",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Model_Code'),
         columnName: ["FixedAssetCardModelCode"],
         isActive: true,
         classes: [],
@@ -52,7 +52,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Marka",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Brand_Name'),
         columnName: ["FixedAssetCardBrand", "Name"],
         isActive: true,
         classes: [],
@@ -60,7 +60,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Model",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Model_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -150,7 +150,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
         this.fixedAssetCardModels = facms;
         this.dataTableModel.TGT_loadData(this.fixedAssetCardModels);
         if(this.fixedAssetCardModels.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {
@@ -288,9 +288,9 @@ export class FixedAssetCardModelComponent extends BaseComponent
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear ids from source */
         this.dataTableModel.TGT_removeItemsByIds(itemIds);

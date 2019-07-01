@@ -3,13 +3,13 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
-        <span>SÖZLEŞMELER</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>{{getLanguageValue('Agreements')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Sözleşmeler</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Agreements')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
@@ -30,7 +30,7 @@
 
             <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddAgreement" data-toggle="modal"
               data-target="#modalAgreement" *ngIf="IsAuthForInsert==true">
-              Sözleşme Ekle
+              {{getLanguageValue('Add_Aggreement')}}
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
@@ -57,7 +57,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Sözleşme bilgilerini giriniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_agreement_informations')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -66,22 +66,22 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label class="required-span">Sözleşme No</label>
+              <label class="required-span">{{getLanguageValue('Agreement_No')}}</label>
               <input [(ngModel)]="agreement.No" name="No" type="text" trim="blur" class="form-control" #No="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && No.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && No.invalid" class="invalid-feedback">
-                <div *ngIf="No.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="No.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="No.errors.maxlength">Maksimum 50 karakter giriniz.</div>
 
               </div>
             </div>
             <!-- SÖZLEŞME ADI -->
             <div class="form-group col-md-6">
-              <label class="required-span">Sözleşme Adı</label>
+              <label class="required-span">{{getLanguageValue('Agreement_Name')}}</label>
               <input [(ngModel)]="agreement.Name" name="Name" type="text" trim="blur" class="form-control"
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
@@ -90,18 +90,18 @@
           <div class="row justify-content-center">
             <!-- SÖZLEŞME KODU -->
             <div class="form-group col-md-6">
-              <label class="required-span">Sözleşme Kodu</label>
+              <label class="required-span">{{getLanguageValue('Agreement_Code')}}</label>
               <input [(ngModel)]="agreement.AgreementCode" #AgreementCode="ngModel" name="AgreementCode" type="text"
                 trim="blur" class="form-control" [ngClass]="{ 'is-invalid': data.submitted && AgreementCode.invalid }"
                 required maxlength="50" />
               <div *ngIf="data.submitted && AgreementCode.invalid" class="invalid-feedback">
-                <div *ngIf="AgreementCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="AgreementCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="AgreementCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
             <!-- İLGİLİ ŞİRKET -->
             <div class="form-group col-md-6">
-              <label class="required-span">İlgili Şirket</label>
+              <label class="required-span">{{getLanguageValue('Related_Company')}}</label>
               <select [(ngModel)]="agreement.CompanyId" name="CompanyId" class="form-control"
                 [ngClass]="{ 'is-invalid': data.submitted && CompanyId.invalid }" (click)="loadCompanies()" required
                 #CompanyId="ngModel">
@@ -111,7 +111,7 @@
                 </option>
               </select>
               <div *ngIf="data.submitted && CompanyId.invalid" class="invalid-feedback">
-                <div *ngIf="CompanyId.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="CompanyId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
           </div>
@@ -119,7 +119,7 @@
           <div class="row justify-content-center">
             <!-- BAŞLANGIÇ TARİHİ -->
             <div class="col-md-6 form-group">
-              <label class="required-span">Başlangıç Tarihi</label>
+              <label class="required-span">{{getLanguageValue('Start_Date')}}</label>
               <div class="input-group">
                 <div class="input-group-append"
                   [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )">
@@ -132,7 +132,7 @@
                   [class.is-invalid]="data.submitted && (!agreement.StartDate || startDateModel.status == 'INVALID' )"
                   required>
                 <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
-                  <div *ngIf="startDateModel.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="startDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
                     Lütfen Geçerli Format Giriniz.
                   </div>
@@ -141,7 +141,7 @@
             </div>
             <!-- BİTİŞ TARİHİ -->
             <div class="form-group col-md-6">
-              <label class="required-span">Bitiş Tarihi</label>
+              <label class="required-span">{{getLanguageValue('End_Date')}}</label>
               <div class="input-group">
                 <div class="input-group-append"
                   [class.is-invalid]="data.submitted && (!agreement.EndDate || endDateModel.status == 'INVALID' )">
@@ -155,7 +155,7 @@
                   [class.is-invalid]="data.submitted && (!agreement.EndDate || endDateModel.status == 'INVALID' )"
                   required />
                 <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
-                  <div *ngIf="endDateModel.errors.required">Bu alan zorunludur.</div>
+                  <div *ngIf="endDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
                     Lütfen Geçerli Format Giriniz.
                   </div>
@@ -167,7 +167,7 @@
           <div class="row justify-content-center">
             <!-- TUTAR -->
             <div class="form-group col-md-6">
-              <label>Tutar</label>
+              <label>{{getLanguageValue('Agreement_Price')}}</label>
               <input [(ngModel)]="agreement.Price" name="Price" maxlength="18" #Price="ngModel" type="text"
                 class="form-control"
                 [ngClass]="{ 'is-invalid': data.submitted && (Price.invalid || !isNumeric(Price.value)) && Price.value }" />
@@ -177,7 +177,7 @@
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label>Dosya</label>
+              <label>{{getLanguageValue('File')}}</label>
               <div class="file-area">
                 <input #agreementFile name="AgreementFile" (change)="changeFile($event)" id="AgreementFile" type="file"
                   class="form-control-file" style="display:none">
@@ -195,7 +195,7 @@
             <!-- AÇIKLAMA -->
             <div class="col-md-12">
               <div class="form-group">
-                <label>Açıklama</label>
+                <label>{{getLanguageValue('Description')}}</label>
                 <textarea [(ngModel)]="agreement.Description" #Description="ngModel" style="resize:none"
                   name="Description" maxlength="150" class="form-control"
                   [ngClass]="{ 'is-invalid': data.submitted && Description.invalid }" type="text"></textarea>
@@ -213,7 +213,7 @@
                 <label class="ckbox">
                   <input type="checkbox" [checked]="agreement.IsNotificationOn"
                     (change)="agreement.IsNotificationOn = !agreement.IsNotificationOn"
-                    name="IsNotificationOn" /><span>Bildirim gönderilsin.</span>
+                    name="IsNotificationOn" /><span>{{getLanguageValue('Send_Notification')}}</span>
                 </label>
               </div>
             </div>
@@ -225,7 +225,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateAgreement" *ngIf="isWaitingInsertOrUpdate == false" type="submit"
             class="btn btn-az-primary">
-            {{agreement.AgreementId ? 'Sözleşmeyi Güncelle' : 'Sözleşme Ekle'}}
+            {{agreement.AgreementId ? 'Sözleşmeyi Güncelle' : getLanguageValue('Add_Aggreement')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>

@@ -47,7 +47,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
     "department",
     [
       {
-        columnDisplayName: "Departman Adı",
+        columnDisplayName: this.getLanguageValue('Department_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -55,7 +55,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Departman Kodu",
+        columnDisplayName: this.getLanguageValue('Department_Code'),
         columnName: ["DepartmentCode"],
         isActive: true,
         classes: [],
@@ -63,7 +63,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Bağlı Olduğu Lokasyon",
+        columnDisplayName: this.getLanguageValue('Parent_Location'),
         columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
@@ -71,7 +71,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Department_Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -144,11 +144,11 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
           /* if all of them removed */
           if (itemIds.length == 1)
             this.baseService.popupService.ShowSuccessPopup(
-              "Kayıt Başarıyla silindi!"
+              this.getLanguageValue('Delete_operation_successful')
             );
           else
             this.baseService.popupService.ShowSuccessPopup(
-              "Tüm kayıtlar başarıyla silindi!"
+              this.getLanguageValue('All_records_deleted')
             );
 
           /* Clear all the ids from table */
@@ -350,7 +350,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         this.departments = departments;
         this.dataTable.TGT_loadData(this.departments);
         if(this.departments.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

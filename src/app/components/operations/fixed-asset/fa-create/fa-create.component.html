@@ -1,13 +1,15 @@
+
 <div class="modal-header">
   <h6 class="modal-title" style="margin-top: 5px;">Demirbaş giriş işlemi için bilgileri giriniz.</h6>
   <button id="CloseModal" type="button" class="close" (click)="resetForm()" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <mat-horizontal-stepper  [@.disabled]="true" linear #stepper>   
 
   <mat-step label="Genel Bilgiler"  [editable]="editable">
-    <app-fa-general-information [faCreate]="this" [barcode]="barcode" [firstBarcode]="firstBarcode" ></app-fa-general-information> 
+    <app-fa-general-information  [faCreate]="this" ></app-fa-general-information> 
   </mat-step>
 
   <mat-step label="Özellik Bilgileri" [editable]="editable">  
@@ -31,7 +33,7 @@
         <div class="grp-btn-action">
           <div *ngIf="visibleInsertButton;then insertFile else insertFixedAsset"></div>
          <ng-template #insertFixedAsset>
-          <button  class="btn btn-orange" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white;">Kaydet</button>
+          <button  class="btn btn-orange" type="button" (click)="addFixedAsset(data)" style="border-radius:0px; background-color: #e67300; color: white;">Kaydet</button>
         </ng-template>
         <ng-template #insertFile>
           <button mat-button matStepperNext  class="btn btn-orange" type="button" style="border-radius:0px; background-color: #e67300; color: white;">İleri</button>
@@ -77,7 +79,7 @@
         </div>
   </mat-step>
   </mat-horizontal-stepper>
-<!-- </form> -->
+
 
 
     

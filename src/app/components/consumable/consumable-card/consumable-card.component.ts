@@ -157,9 +157,9 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -294,7 +294,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
         this.consumableCards = consumableCards;
         this.dataTable.TGT_loadData(this.consumableCards);
         if(consumableCards.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

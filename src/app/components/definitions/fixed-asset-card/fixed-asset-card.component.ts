@@ -42,7 +42,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
     [
       {
-        columnDisplayName: "İsim",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -50,7 +50,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Kod",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Code'),
         columnName: ["FixedAssetCardCode"],
         isActive: true,
         classes: [],
@@ -58,7 +58,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Kategori",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
         columnName: ["FixedAssetCardCategory", "Name"],
         isActive: true,
         classes: [],
@@ -66,7 +66,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -139,9 +139,9 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -270,7 +270,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
         this.fixedAssetCards = fixedAssetCards;
         this.dataTable.TGT_loadData(this.fixedAssetCards);
         if(fixedAssetCards.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

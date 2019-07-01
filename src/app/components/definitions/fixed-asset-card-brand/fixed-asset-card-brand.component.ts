@@ -120,9 +120,9 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear ids from source */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -250,7 +250,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
         this.fixedAssetCardBrands = facbs;
         this.dataTable.TGT_loadData(this.fixedAssetCardBrands);
         if(this.fixedAssetCardBrands.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

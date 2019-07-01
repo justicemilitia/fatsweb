@@ -215,7 +215,7 @@ async isUniqueFixedAssetProperty(propertyId:number){
 }
 onSubmit(data:NgForm){
 
-  data.resetForm();
+  //data.resetForm();
 
   let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 

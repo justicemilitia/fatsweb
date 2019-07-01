@@ -22,8 +22,11 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
   //@Output() reset = new EventEmitter();
   
   visibleDepreciation:boolean=false;
+
   visibleIfrs:boolean=false;
   
+  isResetForm:boolean=false;
+
   fixedAsset:FixedAsset=new FixedAsset();
   
   companies: Company[] = [];
@@ -101,13 +104,19 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
 
   onSubmit(data:NgForm){
     
-    data.resetForm();
+    if(this.isResetForm)
+    {
+      data.resetForm();
+      this.isResetForm=false;
+    }
 
-this.faCreate.addToFixedAssetList(data);
+    this.faCreate.addToFixedAssetList(data);
   }
 
   nextTab(data:NgForm){
- this.faCreate.nextFixedAssetList();
+    if(this.fixedAsset.ActivationDate != null && this.fixedAsset.InvoiceDate !=null)
+      this.faCreate.nextFixedAssetList();
+    else return;
   }
 
   previousTab(){
@@ -128,9 +137,10 @@ this.faCreate.addToFixedAssetList(data);
       this.visibleIfrs=false;
   }
 
-  resetForm(){
-    //this.reset.emit({});
-    
+  resetForm(){    
+
     this.fixedAsset = new FixedAsset();
+
+    this.isResetForm = false;
   }
 }

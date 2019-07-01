@@ -102,7 +102,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     "user",
     [
       {
-        columnDisplayName: "Kullanıcı Kodu",
+        columnDisplayName: this.getLanguageValue('User_Code'),
         columnName: ["UserCode"],
         isActive: true,
         classes: [],
@@ -110,7 +110,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "İsim",
+        columnDisplayName: this.getLanguageValue('User_First_Name'),
         columnName: ["FirstName"],
         isActive: true,
         classes: [],
@@ -118,7 +118,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Soyisim",
+        columnDisplayName: this.getLanguageValue('User_Last_Name'),
         columnName: ["LastName"],
         isActive: true,
         classes: [],
@@ -126,7 +126,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Unvan",
+        columnDisplayName: this.getLanguageValue('User_Title'),
         columnName: ["UserTitle", "Title"],
         isActive: true,
         classes: [],
@@ -134,7 +134,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Sicil No",
+        columnDisplayName: this.getLanguageValue('User_Registration_Number'),
         columnName: ["RegistrationNumber"],
         isActive: true,
         classes: [],
@@ -142,7 +142,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
@@ -150,7 +150,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Telefon",
+        columnDisplayName: this.getLanguageValue('Phone'),
         columnName: ["PhoneNumber"],
         isActive: true,
         classes: [],
@@ -158,7 +158,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "E-mail",
+        columnDisplayName: this.getLanguageValue('email'),
         columnName: ["UserMail"],
         isActive: true,
         classes: [],
@@ -166,7 +166,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Bağlı Olduğu Personel",
+        columnDisplayName: this.getLanguageValue('Parent_User'),
         columnName: ["|User"],
         isActive: true,
         classes: [],
@@ -183,7 +183,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         }
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -191,7 +191,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Sistem Kullanıcısı",
+        columnDisplayName: this.getLanguageValue('System_User'),
         columnName: ["IsSystemUser"],
         isActive: true,
         classes: [],
@@ -227,7 +227,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     "fixedassetcategory",
     [
       {
-        columnDisplayName: "Demirbaş Kategorisi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -271,7 +271,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     "firm",
     [
       {
-        columnDisplayName: "Firma",
+        columnDisplayName: this.getLanguageValue('Firm'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -580,11 +580,11 @@ export class UserComponent extends BaseComponent implements OnInit {
           /* if all of them removed */
           if (itemIds.length == 1)
             this.baseService.popupService.ShowSuccessPopup(
-              "Kayıt Başarıyla silindi!"
+              this.getLanguageValue('Delete_operation_successful')
             );
           else
             this.baseService.popupService.ShowSuccessPopup(
-              "Tüm kayıtlar başarıyla silindi!"
+              this.getLanguageValue('All_records_deleted')
             );
 
           /* Clear all the ids from table */
@@ -718,7 +718,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.users = usrs;
         this.dataTable.TGT_loadData(this.users);
         if(usrs.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

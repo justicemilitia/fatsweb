@@ -551,6 +551,8 @@ export class TreeGridTable {
 
         /* Do Filter again */
         this.TGT_doFilter();
+
+        return this.dataSource;
     }
 
     /**

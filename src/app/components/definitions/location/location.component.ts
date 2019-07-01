@@ -39,7 +39,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
     "location",
     [
       {
-        columnDisplayName: "Lokasyon Adı",
+        columnDisplayName: this.getLanguageValue('Location_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -47,7 +47,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         type: "text",
       },
       {
-        columnDisplayName: "Lokasyon Kodu",
+        columnDisplayName: this.getLanguageValue('Location_Code'),
         columnName: ["LocationCode"],
         isActive: true,
         classes: [],
@@ -55,7 +55,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         type: "text",
       },
       {
-        columnDisplayName: "Lokasyon Barkodu",
+        columnDisplayName: this.getLanguageValue('Location_Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -63,7 +63,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         type: "text",
       },
       {
-        columnDisplayName: "Koordinat",
+        columnDisplayName: this.getLanguageValue('Location_Coordinate'),
         columnName: ["Coordinate"],
         isActive: true,
         classes: [],
@@ -71,7 +71,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Adres",
+        columnDisplayName: this.getLanguageValue('Address'),
         columnName: ["Address"],
         isActive: true,
         classes: [],
@@ -79,7 +79,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         type: "text",
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Location_Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -150,9 +150,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -278,7 +278,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
         Object.assign(this.locations, locs);
         this.dataTable.TGT_loadData(this.locations);
         if(locs.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

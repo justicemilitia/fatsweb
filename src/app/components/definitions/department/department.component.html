@@ -3,12 +3,12 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
-        <span>DEPARTMANLAR</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>{{getLanguageValue('Departments')}}</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Departmanlar</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Departments')}}</h2>
           <div class="grp-btn-action">
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
@@ -29,7 +29,7 @@
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddDepartment" data-toggle="modal"
               data-target="#modalDepartment" (click)="resetForm(data,true)">
               <i class="fa fa-plus-circle fa-plus-circle-add"></i>
-              Departman Ekle
+              {{getLanguageValue('Add_Department')}}
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
@@ -54,7 +54,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title model-title-center">Departman bilgilerini giriniz.</h6>
+        <h6 class="modal-title model-title-center">{{getLanguageValue('Enter_department_informations')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -63,22 +63,22 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-6 form-group">
-              <label class="required-span">Ad</label>
+              <label class="required-span">{{getLanguageValue('Department_Name')}}</label>
               <input [(ngModel)]="department.Name" name="Name" type="text" trim="blur" class="form-control"
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
 
             <div class="col-md-6 form-group">
-              <label class="required-span">Departman Kodu</label>
+              <label class="required-span">{{getLanguageValue('Department_Code')}} Departman Kodu</label>
               <input [(ngModel)]="department.DepartmentCode" name="DepartmentCode" type="text" trim="blur"
                 class="form-control" #DepartmentCode="ngModel" required maxlength="50"
                 [ngClass]="{ 'is-invalid': data.submitted && DepartmentCode.invalid }" />
               <div *ngIf="data.submitted && DepartmentCode.invalid" class="invalid-feedback">
-                <div *ngIf="DepartmentCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="DepartmentCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="DepartmentCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
@@ -88,7 +88,7 @@
 
             <!-- BAĞLI OLDUĞU LOKASYON  -->
             <div class="col-md-6 form-group">
-              <label class="required-span">Bağlı Olduğu Lokasyon</label>
+              <label class="required-span">{{getLanguageValue('Parent_Location')}}</label>
               <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control"
                 (change)="loadDepartmentByLocationId($event)" (click)="loadDropdownList()" #LocationId="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
@@ -98,7 +98,7 @@
                 </option>
               </select>
               <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
-                <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="LocationId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
 
@@ -116,7 +116,7 @@
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label>Açıklama</label>
+              <label>{{getLanguageValue('Department_Description')}}</label>
               <textarea [(ngModel)]="department.Description" name="Description" style="resize:none" rows="3"
                 class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
             </div>
@@ -126,7 +126,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateDepartment" type="submit" class="btn btn-az-primary"
             *ngIf="isWaitingInsertOrUpdate == false" data-toggle="modal"
-            data-target="#modalInsertDepartment">{{department.DepartmentId ?  'Departmanı Güncelle' : 'Departman Ekle'}}</button>
+            data-target="#modalInsertDepartment">{{department.DepartmentId ?  'Departmanı Güncelle' : getLanguageValue('Add_Department')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

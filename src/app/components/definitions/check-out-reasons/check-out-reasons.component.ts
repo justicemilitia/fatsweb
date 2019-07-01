@@ -25,7 +25,7 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
     "checkoutreason",
     [
       {
-        columnDisplayName: "Çıkış Tipi",
+        columnDisplayName: this.getLanguageValue('Exit_Type'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -33,7 +33,7 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -66,7 +66,7 @@ export class CheckOutReasonsComponent extends BaseComponent implements OnInit {
         /* then load them into table */
         this.dataTable.TGT_loadData(this.checkOutReasons);
         if(this.checkOutReasons.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

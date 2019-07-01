@@ -52,7 +52,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     "agreement",
     [
       {
-        columnDisplayName: "Sözleşme Adı",
+        columnDisplayName: this.getLanguageValue('Agreement_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -60,7 +60,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Sözleşme Kodu",
+        columnDisplayName: this.getLanguageValue('Agreement_Code'),
         columnName: ["AgreementCode"],
         isActive: true,
         classes: [],
@@ -68,7 +68,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Sözleşme No",
+        columnDisplayName: this.getLanguageValue('Agreement_No'),
         columnName: ["No"],
         isActive: true,
         classes: [],
@@ -76,7 +76,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "İlgili Şirket",
+        columnDisplayName: this.getLanguageValue('Related_Company'),
         columnName: ["Company", "Name"],
         isActive: true,
         classes: [],
@@ -84,7 +84,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Başlangıç Tarihi",
+        columnDisplayName: this.getLanguageValue('Start_Date'),
         columnName: ["StartDate"],
         isActive: true,
         classes: [],
@@ -95,7 +95,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         }
       },
       {
-        columnDisplayName: "Bitiş Tarihi",
+        columnDisplayName: this.getLanguageValue('End_Date'),
         columnName: ["EndDate"],
         isActive: true,
         classes: [],
@@ -106,7 +106,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         }
       },
       {
-        columnDisplayName: "Tutar",
+        columnDisplayName: this.getLanguageValue('Agreement_Price'),
         columnName: ["Price"],
         isActive: true,
         classes: [],
@@ -114,7 +114,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Dosya",
+        columnDisplayName: this.getLanguageValue('File'),
         columnName: ["AgreementFile"],
         isActive: true,
         classes: [],
@@ -122,7 +122,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -202,9 +202,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear ids from source */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -343,7 +343,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
         this.agreements = agreements;
         this.dataTable.TGT_loadData(this.agreements);
         if(agreements.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

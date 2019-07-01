@@ -106,7 +106,7 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
         /* Load data to table */
         this.dataTable.TGT_loadData(this.consumableCategories);
         if(consumableCategories.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {
@@ -240,9 +240,9 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear ids from source */
         this.dataTable.TGT_removeItemsByIds(itemIds);

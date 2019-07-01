@@ -37,7 +37,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
     "expensecenter",
     [
       {
-        columnDisplayName: "Masraf Yeri Kodu",
+        columnDisplayName: this.getLanguageValue('Expense_Center_Code'),
         columnName: ["ExpenseCenterCode"],
         isActive: true,
         classes: [],
@@ -45,7 +45,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Masraf Yeri",
+        columnDisplayName: this.getLanguageValue('Expense_Center_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -107,11 +107,11 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
           if (itemIds.length == 1)
             this.baseService.popupService.ShowSuccessPopup(
-              "Kayıt başarıyla silindi!"
+              this.getLanguageValue('Delete_operation_successful')
             );
           else
             this.baseService.popupService.ShowSuccessPopup(
-              "Tüm kayıtlar başarıyla silindi!"
+              this.getLanguageValue('All_records_deleted')
             );
 
           for (let ii = 0; ii < itemIds.length; ii++) {
@@ -206,7 +206,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
         this.expCenters = expCenters;
         this.dataTable.TGT_loadData(this.expCenters);
         if(expCenters.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

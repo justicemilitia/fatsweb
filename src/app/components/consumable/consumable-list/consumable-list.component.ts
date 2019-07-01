@@ -435,7 +435,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
           });
         });  
         if (this.consumables.length == 0) {
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

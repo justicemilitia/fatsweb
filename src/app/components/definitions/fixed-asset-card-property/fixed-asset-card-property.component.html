@@ -3,14 +3,14 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
-        <span>DEMİRBAŞ ÖZELLİKLERİ</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>{{getLanguageValue('Fixed_Asset_Card_Properties')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
 
-          <h2 class="az-content-title">Demirbaş Özellikleri</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Fixed_Asset_Card_Properties')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
@@ -29,7 +29,7 @@
               <i class="fas fa-trash"></i></button>
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddFixedAssetCardProperty"
-              data-toggle="modal" data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,true)">Özellik Ekle
+              data-toggle="modal" data-target="#modalFixedAssetCardProperty" (click)="resetForm(data,true)">{{getLanguageValue('Add_Fixed_Asset_Card_Property_Name')}}
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditFixedAssetCardProperty"
@@ -54,7 +54,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Demirbaş özellik bilgilerini giriniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_fixed_asset_card_property_informations')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -64,13 +64,13 @@
           <!-- ÖZELLİK KODU -->
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Özellik Kodu</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Card_Property_Code')}}</label>
               <input [(ngModel)]="fixedAssetCardProperty.FixedAssetCardPropertyCode" name="FixedAssetCardPropertyCode"
                 type="text" trim="blur" class="form-control"
                 [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardPropertyCode.invalid }"
                 #FixedAssetCardPropertyCode="ngModel" required />
               <div *ngIf="data.submitted && FixedAssetCardPropertyCode.invalid" class="invalid-feedback">
-                <div *ngIf="FixedAssetCardPropertyCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="FixedAssetCardPropertyCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
           </div>
@@ -78,11 +78,11 @@
           <!-- ÖZELLİK ADI -->
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Özellik Adı</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
               <input [(ngModel)]="fixedAssetCardProperty.Name" name="Name" type="text" trim="blur" class="form-control"
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
           </div>
@@ -90,27 +90,26 @@
           <!-- ÖZELLİK TİPİ -->
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Özellik Tipi</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Card_Property_Type')}}</label>
               <div class="flexProperty">
                 <div style="flex:1;">
                   <select [(ngModel)]="fixedAssetCardProperty.FixedAssetTypeId" name="FixedAssetTypeId"
                     class="form-control txt-width" #FixedAssetTypeId="ngModel"
                     [ngClass]="{ 'is-invalid': data.submitted && FixedAssetTypeId.invalid }" required
                     (change)="changeValue($event, fixedAssetCardProperty)">
-                    <option [ngValue]="null">Yok</option>
+                    <option [ngValue]="null">{{getLanguageValue('None')}}</option>
                     <option *ngFor="let fixedAssetType of fixedAssetTypes" value={{fixedAssetType.Id}}>
                       {{fixedAssetType.Name}}
                     </option>
                   </select>
                   <div *ngIf="data.submitted && FixedAssetTypeId.invalid" class="invalid-feedback">
-                    <div *ngIf="FixedAssetTypeId.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="FixedAssetTypeId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
                 </div>
 
                 <div style="width:135px; padding-left:15px; padding-top: 5px; margin-right:0px;">
                   <label class="ckbox">
-                    <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique" name="IsUnique" /><span>Tekil
-                      mi?</span>
+                    <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique" name="IsUnique" /><span>{{getLanguageValue('Fixed_Asset_Card_Property_Is_Unique')}}</span>
                   </label>
                 </div>
               </div>
@@ -120,13 +119,13 @@
           <!-- ÖZELLİK DEĞERİ -->
           <div class="row justify-content-center">
             <div class="col-md-12 form-group" *ngIf="isListSelected == true">
-              <label class="required-span">Değeri</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>
               <div class="flexProperty">
                 <div style="flex:1;">
                   <input #Value name="Value" class="form-control" type="text" style="font-size: 13px;height: 27px;"
                     id="value" [ngClass]="{ 'is-invalid': data.submitted && Value.invalid }" required>
                   <div *ngIf="data.submitted && Value.invalid" class="invalid-feedback">
-                    <div *ngIf="Value.errors.required">Bu alan zorunludur.</div>
+                    <div *ngIf="Value.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
                 </div>
                 <div class="property-add-value">
@@ -150,7 +149,7 @@
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnInsertOrUpdateFixedAssetCardProperty" type="submit"
             data-toggle="modal" data-target="#modalInsertFixedAssetProperty" *ngIf="isWaitingInsertOrUpdate == false">
-            {{fixedAssetCardProperty.FixedAssetCardPropertyId ?  'Demirbaş Özelliği Güncelle' : 'Demirbaş Özelliği Ekle'}}
+            {{fixedAssetCardProperty.FixedAssetCardPropertyId ?  'Demirbaş Özelliği Güncelle' : getLanguageValue('Add_Fixed_Asset_Card_Property_Name')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
