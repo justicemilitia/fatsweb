@@ -609,7 +609,7 @@ export class FixedAssetService {
     );
   }
 
-  GetFixedAssetDebitForms(fixedAssetId: FixedAsset, success, failed) {
+  GetFixedAssetDebitForms(fixedAssetId: number, success, failed) {
     this.httpclient.post(SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, fixedAssetId, {
       headers: GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(
@@ -617,7 +617,7 @@ export class FixedAssetService {
         let response: Response = <Response>result
         let forms: FixedAssetForm[] = [];
         Object.assign(forms, response.ResultObject);
-        success(forms);
+        success(forms, response.LanguageKeyword);
       }, (error: HttpErrorResponse) => {
         failed(error);
       })

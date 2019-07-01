@@ -1210,7 +1210,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   }
 
   downloadDebitForm() {
-    let fixedAssetId: FixedAsset = new FixedAsset();
+    let fixedAssetId: number;
 
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
@@ -1221,27 +1221,29 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       return;
     }
 
-    let itemIds: number[] = selectedItems.map(x => x.getId());
-    fixedAssetId.FixedAssetId = itemIds[0];
+    let itemId: number[] = selectedItems.map(x => x.getId());
+    fixedAssetId = itemId[0];
     this.baseService.fixedAssetService.GetFixedAssetDebitForms(fixedAssetId,
-      (result) => {
+      (faForms: any[]) => {
 
         let formName: string[] = [];
-        Object.assign(formName, result);
+        Object.assign(formName, faForms);
         let dataURL: string
-        const link = document.createElement('a');
+        // const link = document.createElement('a');
 
         for (let i = 0; i < formName.length; i++) {
           dataURL = DOCUMENT_URL + formName[i] + ".pdf";
+          window.open(dataURL,"_blank");    
+
           //link.href = dataURL;
-          link.setAttribute('href', DOCUMENT_URL + formName[i] + ".pdf");
-          link.download = dataURL;
+          // link.setAttribute('href', DOCUMENT_URL + formName[i] + ".pdf");
+          // link.download = dataURL;
         }
         
-        link.click();
-        setTimeout(() => {
-          window.URL.revokeObjectURL(dataURL);
-        }, 100);
+        // link.click();
+        // setTimeout(() => {
+        //   window.URL.revokeObjectURL(dataURL);
+        // }, 100);
       },
       ()=>{})
 

@@ -31,7 +31,7 @@ import { DOCUMENT_URL } from '../../../../declarations/service-values';
 export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() faBarcode: FixedAsset = new FixedAsset();
-  @Input() faComponent: FixedAssetComponent;
+  @Input() faComponent: FixedAssetComponent = new FixedAssetComponent(this.baseService);
   selectedIds: number[];
 
   /* List Of Users */
