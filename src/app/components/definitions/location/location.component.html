@@ -3,12 +3,12 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
-        <span>LOKASYONLAR</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>{{getLanguageValue('Locations')}}</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Lokasyonlar</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Locations')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
@@ -29,7 +29,7 @@
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddLocation" data-toggle="modal"
               data-target="#modalLocation" (click)="resetForm(data,true)">
               <i class="fa fa-plus-circle fa-plus-circle-add"></i>
-              Lokasyon Ekle
+              {{getLanguageValue('Add_Location')}}
             </button>
 
             <button style="display:none" (click)="resetForm(data,false)" *ngIf="IsAuthForEdit==true"
@@ -53,7 +53,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Lokasyon bilgilerini giriniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_location_informations')}}</h6>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">&times;</span></button>
       </div>
@@ -61,22 +61,22 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label class="required-span">Lokasyon Kodu</label>
+              <label class="required-span">{{getLanguageValue('Location_Code')}}</label>
               <input [(ngModel)]="location.LocationCode" #LocationCode="ngModel" maxlength="50" name="LocationCode"
                 type="text" trim="blur" class="form-control"
                 [ngClass]="{ 'is-invalid': data.submitted && LocationCode.invalid }" required />
               <div *ngIf="data.submitted && LocationCode.invalid" class="invalid-feedback">
-                <div *ngIf="LocationCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="LocationCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="LocationCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label class="required-span">Lokasyon Barkodu</label>
+              <label class="required-span">{{getLanguageValue('Location_Barcode')}}</label>
               <input [(ngModel)]="location.Barcode" name="Barcode" type="text" trim="blur" class="form-control"
                 #Barcode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" required
                 maxlength="50" />
               <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
-                <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Barcode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="Barcode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
@@ -84,19 +84,19 @@
           <!-- form-group -->
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label class="required-span">Lokasyon Adı</label>
+              <label class="required-span">{{getLanguageValue('Location_Name')}}</label>
               <input [(ngModel)]="location.Name" name="Name" type="text" trim="blur" class="form-control"
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label>Bağlı Olduğu Lokasyon</label>
+              <label>{{getLanguageValue('Parent_Location')}}</label>
               <select [(ngModel)]="location.ParentLocationId" name="ParentLocationId" class="form-control"
                 #ParentLocationId="ngModel">
-                <option [ngValue]="null">Yok</option>
+                <option [ngValue]="null">{{getLanguageValue('None')}}</option>
                 <option *ngFor="let location of getLocationsWithoutCurrent" value={{location.LocationId}}>
                   {{location.Name}}
                 </option>
@@ -105,12 +105,12 @@
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label>Adres</label>
+              <label>{{getLanguageValue('Address')}}</label>
               <textarea [(ngModel)]="location.Address" name="Address" style="resize:none" rows="2" class="form-control"
                 type="text"></textarea>
             </div>
             <div class="form-group col-md-6">
-              <label>Koordinat</label>
+              <label>{{getLanguageValue('Location_Coordinate')}}</label>
               <textarea [(ngModel)]="location.Coordinate" #Coordinate="ngModel" maxlength="150" rows="2"
                 style="resize:none" name="Coordinate" class="form-control" type="text">
                     </textarea>
@@ -121,7 +121,7 @@
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label>Açıklama</label>
+              <label>{{getLanguageValue('Location_Description')}}</label>
               <input [(ngModel)]="location.Description" name="Description" class="form-control" type="text"
                 #Description="ngModel" maxlength="150" />
               <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
@@ -135,7 +135,7 @@
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnCreateLocation" type="submit" data-toggle="modal"
             data-target="#modalInsertLocation"
-            *ngIf="isWaitingInsertOrUpdate == false">{{location.LocationId > 0 ?  'Lokasyonu Güncelle' : 'Lokasyon Ekle'}}</button>
+            *ngIf="isWaitingInsertOrUpdate == false">{{location.LocationId > 0 ?  'Lokasyonu Güncelle' : getLanguageValue('Add_Location')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

@@ -58,7 +58,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     "fixedassetcardproperty",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -66,7 +66,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Kodu",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Code'),
         columnName: ["FixedAssetCardPropertyCode"],
         isActive: true,
         classes: [],
@@ -74,7 +74,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Tipi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Type'),
         columnName: ["FixedAssetType", "Name"],
         isActive: true,
         classes: [],
@@ -82,7 +82,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Tekil Mi?",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Is_Unique'),
         columnName: ["IsUnique"],
         isActive: true,
         classes: [],
@@ -90,7 +90,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         type: "checkbox"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["FixedAssetAsDisplay"],
         isActive: true,
         classes: [],
@@ -109,7 +109,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     "fixedassetcardpropertyvalue",
     [
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -170,7 +170,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir şirket seçiniz"
+        "Lütfen en az bir özellik seçiniz"
       );
       return;
     }
@@ -193,11 +193,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
           /* if all of them removed */
           if (itemIds.length == 1)
             this.baseService.popupService.ShowSuccessPopup(
-              "Kayıt Başarıyla silindi!"
+              this.getLanguageValue('Delete_operation_successful')
             );
           else
             this.baseService.popupService.ShowSuccessPopup(
-              "Tüm kayıtlar başarıyla silindi!"
+              this.getLanguageValue('All_records_deleted')
             );
 
           /* Clear ids from source */
@@ -410,7 +410,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
         /* Load data to table */
         this.dataTable.TGT_loadData(this.fixedAssetCardProperties);
         if(fixedAssetCardProperties.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

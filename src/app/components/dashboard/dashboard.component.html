@@ -1,19 +1,19 @@
 <div class="az-content az-content-dashboard-ten">
   <div class="az-content-body">
     <div class="az-content-body-left">
-      <h2 class="az-content-title tx-24 mg-b-5">Merhaba!</h2>
-      <p class="mg-b-20">Demirbaşlarınızın güncel özetini görüntülüyorsunuz.</p>
+      <h2 class="az-content-title tx-24 mg-b-5">{{getLanguageValue('Hello')}}</h2>
+      <p class="mg-b-20">{{getLanguageValue('You_are_viewing_the_actual_summary_of_your_fixed_assets')}}</p>
 
       <div class="row row-sm mg-b-20">
         <div class="col-sm-6 col-lg-4">
           <div class="card card-dashboard-twentysix">
             <div class="card-header">
-              <h6 class="card-title">TOPLAM DEMİRBAŞ</h6>
+              <h6 class="card-title">{{getLanguageValue('Fixed_Asset_Total')}}</h6>
               <div class="chart-legend">
-                <div (click)="loadCounts($event,'totalGroupType',countEnums.Day)"><span class="bg-primary"></span> GÜN
+                <div (click)="loadCounts($event,'totalGroupType',countEnums.Day)"><span class="bg-primary"></span> {{getLanguageValue('Day')}}
                 </div>
-                <div (click)="loadCounts($event,'totalGroupType',countEnums.Month)"><span class="bg-primary primary-active"></span> AY</div>
-                <div (click)="loadCounts($event,'totalGroupType',countEnums.Year)"><span class="bg-primary"></span> YIL
+                <div (click)="loadCounts($event,'totalGroupType',countEnums.Month)"><span class="bg-primary primary-active"></span>{{getLanguageValue('Monh')}}</div>
+                <div (click)="loadCounts($event,'totalGroupType',countEnums.Year)"><span class="bg-primary"></span> {{getLanguageValue('Year')}}
                 </div>
               </div><!-- chart-legend -->
             </div><!-- card-header -->
@@ -26,7 +26,7 @@
                     <i class="icon ion-md-arrow-up"></i>
                   </span>
                 </h6>
-                <label>Top. Demirbaş/Ay</label>
+                <label>{{getLanguageValue('Total_Fixed_Asset_Month')}}</label>
               </div>
               <div class="chart-wrapper">
                 <div id="flotChart7" class="flot-chart"></div>
@@ -47,7 +47,7 @@
                     <i class="icon ion-md-arrow-up"></i>
                   </span>
                 </h6>
-                <label>Toplam</label>
+                <label>{{getLanguageValue('Total')}}</label>
               </div>
               <div class="chart-wrapper">
                 <div id="flotChart8" class="flot-chart"></div>
@@ -65,7 +65,7 @@
                 <h6>
                   {{assetValues.PassiveFixedAssets}}
                 </h6>
-                <label>Toplam</label>
+                <label>{{getLanguageValue('Total')}}</label>
               </div>
               <div class="chart-wrapper">
                 <div id="flotChart9" class="flot-chart"></div>
@@ -76,38 +76,38 @@
       </div><!-- row -->
 
       <div class="card card-body card-dashboard-twentyfive mg-b-20">
-        <h6 class="card-title">DEMİRBAŞLAR</h6>
+        <h6 class="card-title">{{getLanguageValue('Fixed_Assets')}}</h6>
         <div class="row row-sm">
           <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/relationshipfixedasset">
-            <label class="card-label">İLİŞKİLİ DEMİRBAŞLAR</label>
+            <label class="card-label">{{getLanguageValue('Related_Fixed_Assets')}}</label>
             <h6 class="card-value">{{assetValues.RelatedFixedAssets}}</h6>
                 <div class="chart-wrapper">
                   <div id="flotChart1" class="flot-chart"></div>
                 </div><!-- chart-wrapper -->
               </div><!-- col -->
               <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/suspendedfixedasset">
-                <label class="card-label">ASKIDAKİ DEMİRBAŞLAR</label>
+                <label class="card-label">{{getLanguageValue('Suspended_Fixed_Assets')}}</label>
                 <h6 class="card-value">{{assetValues.SuspendedFixedAssets}}</h6>
                 <div class="chart-wrapper">
                   <div id="flotChart2" class="flot-chart"></div>
                 </div><!-- chart-wrapper -->
               </div><!-- col -->
               <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/lostfixedasset">
-                <label class="card-label">KAYIP DEMİRBAŞLAR</label>
+                <label class="card-label">{{getLanguageValue('Lost_Fixed_Assets')}}</label>
                 <h6 class="card-value">{{assetValues.LostFixedAssets}}</h6>
                 <div class="chart-wrapper">
                   <div id="flotChart3" class="flot-chart"></div>
                 </div><!-- chart-wrapper -->
               </div><!-- col -->
               <div class="col-6 col-sm-4 col-lg fixed-asset-info" (click)="onClickGuaranteeFixedAsset()">
-                <label class="card-label">GARANTİLİ DEMİRBAŞLAR</label>
+                <label class="card-label">{{getLanguageValue('Guaranteed_Fixed_Assets')}}</label>
                 <h6 class="card-value">{{assetValues.GuaranteedFixedAssets}}</h6>
                 <div class="chart-wrapper">
                   <div id="flotChart6" class="flot-chart"></div>
                 </div><!-- chart-wrapper -->
               </div><!-- col -->
               <div class="col-6 col-sm-4 col-lg fixed-asset-info" routerLink="/checkoutfixedasset">
-                <label class="card-label">ÇIKIŞI YAPILMIŞ DEMİRBAŞLAR</label>
+                <label class="card-label">{{getLanguageValue('Exited_Fixed_Assets')}}</label>
                 <h6 class="card-value">{{assetValues.CheckedOutFixedAssets}}</h6>
                 <div class="chart-wrapper">
                   <div id="flotChart4" class="flot-chart"></div>
@@ -119,7 +119,7 @@
             <div class="col-sm-4">
               <div class="card card-body card-dashboard-twentyfive mg-b-20">
                 <div class="morris-donut-title">
-                  <h6 class="card-title">LOKASYON BAZLI</h6>
+                  <h6 class="card-title">{{getLanguageValue('Location_Based')}}</h6>
                 </div>
                 <div id="morrisDonut1" class="morris-donut-wrapper-demo"></div>
               </div><!-- col-6 -->
@@ -127,7 +127,7 @@
             <div class="col-sm-4">
               <div class="card card-body card-dashboard-twentyfive mg-b-20">
                 <div class="morris-donut-title">
-                  <h6 class="card-title">DEPARTMAN BAZLI</h6>
+                  <h6 class="card-title">{{getLanguageValue('Department_Based')}}</h6>
                 </div>
                 <div id="morrisDonut2" class="morris-donut-wrapper-demo"></div>
               </div><!-- col-6 -->
@@ -135,7 +135,7 @@
             <div class="col-sm-4">
                 <div class="card card-body card-dashboard-twentyfive mg-b-20">
                   <div class="morris-donut-title">
-                    <h6 class="card-title">KATEGORİ BAZLI</h6>
+                    <h6 class="card-title">{{getLanguageValue('Category_Based')}}</h6>
                   </div>
                   <div id="morrisDonut3" class="morris-donut-wrapper-demo"></div>
                 </div><!-- col-6 -->
@@ -145,10 +145,10 @@
             <div class="col-md-8 mg-t-20 mg-lg-t-0">
               <div class="card card-dashboard-twentyfour">
                 <div class="card-header">
-                  <h6 class="card-title">DEMİRBAŞ DEĞERİ</h6>
+                  <h6 class="card-title">{{getLanguageValue('Fixed_Asset_Price')}}</h6>
                   <div class="card-title-categories">
-                    <span (click)="loadFixedAssetPriceLine($event,countEnums.Month)">Aylık</span>
-                    <span (click)="loadFixedAssetPriceLine($event,countEnums.Week)">Haftalık</span>
+                    <span (click)="loadFixedAssetPriceLine($event,countEnums.Month)">{{getLanguageValue('Monthly')}}</span>
+                    <span (click)="loadFixedAssetPriceLine($event,countEnums.Week)">{{getLanguageValue('Weekly')}}</span>
                     <span (click)="loadFixedAssetPriceLine($event,countEnums.Day)" class="current">Günlük</span>
                   </div>
                 </div><!-- card-header -->
@@ -156,7 +156,7 @@
                   <div class="card-body-top">
                     <div *ngIf="totalPrices && totalPrices.length > 0">
                       <h6>{{totalPrices[totalPrices.length-1].TotalOfItems.toLocaleString() + ' TL'}}</h6>
-                      <label>Toplam Değer</label>
+                      <label>{{getLanguageValue('Total_Values')}}</label>
                     </div>
                     <!--<div>
                   <h6>38,130</h6>
@@ -169,7 +169,7 @@
                   </div><!-- card-body-top -->
 
                   <div class="d-flex justify-content-between mg-b-15">
-                    <label class="az-content-label">ANLIK DEMİRBAŞ DEĞERİ</label>
+                    <label class="az-content-label">{{getLanguageValue('Current_Fixed_Asset_Price')}}</label>
                   </div>
                   <div class="chart-wrapper">
                     <div id="flotLine1" class="flot-chart"></div>
@@ -180,7 +180,7 @@
             <div class="col-md-4">
               <div class="card card-body card-dashboard-twentyfive mg-b-20" style="padding-bottom:48px">
                 <div class="morris-donut-title">
-                  <h6 class="card-title">STATÜ BAZLI</h6>
+                  <h6 class="card-title">{{getLanguageValue('Statu_Based')}}</h6>
                 </div>
                 <div id="flotPie2" style="height:210px;margin-top:0px" class="ht-200 ht-sm-300"></div>
               </div><!-- col-6 -->
@@ -190,16 +190,16 @@
         <div class="az-content-body-right">
           <div class="row mg-b-20">
             <div class="col">
-              <label class="az-rating-label">SİSTEM KULLANICI SAYISI</label>
+              <label class="az-rating-label">{{getLanguageValue('System_User_Count')}}</label>
               <h6 class="az-rating-value">{{personalValues.CountOfSUsers}}</h6>
             </div><!-- col -->
             <div class="col">
-              <label class="az-rating-label">TOPLAM PERSONEL SAYISI</label>
+              <label class="az-rating-label">{{getLanguageValue('Total_Staff_Count')}}</label>
               <h6 class="az-rating-value">{{personalValues.CountOfUsers}}</h6>
             </div><!-- col -->
           </div><!-- row -->
           <hr class="mg-y-20">
-          <label class="az-content-label tx-base mg-b-25">Son Hareketler</label>
+          <label class="az-content-label tx-base mg-b-25">{{getLanguageValue('Last_Transactions')}}</label>
           <div class="az-media-list-activity mg-b-20">
             <div *ngFor="let t of transactions" class="media">
               <div class="media-icon {{icon.backClass}}" *ngIf="transactionIcons(t.TTId); let icon">

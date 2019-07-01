@@ -3,12 +3,12 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
-        <span>DEMİRBAŞ KARTLARI</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>{{getLanguageValue('Fixed_Asset_Cards')}}</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Demirbaş Kartları</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Fixed_Asset_Cards')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
@@ -27,8 +27,7 @@
               <i class="fas fa-trash"></i></button>
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddFixedAssetCard"
-              data-toggle="modal" data-target="#modalFixedAssetCard" (click)="resetForm(data,true)">Demirbaş Kartı
-              Ekle</button>
+              data-toggle="modal" data-target="#modalFixedAssetCard" (click)="resetForm(data,true)">{{getLanguageValue('Add_Fixed_Asset_Card')}}</button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditFixedAssetCard" data-toggle="modal"
               data-target="#modalFixedAssetCard" (click)="resetForm(data,false)">Demirbaş Kartı Düzenle</button>
@@ -50,7 +49,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Demirbaş kartı bilgilerini giriniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_fixed_asset_card_informations')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -59,12 +58,12 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Demirbaş Kart Kodu</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Card_Code')}}</label>
               <input type="text" trim="blur" [(ngModel)]="fixedAssetCard.FixedAssetCardCode"
                 #FixedAssetCardCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCode.invalid }"
                 name="FixedAssetCardCode" required maxlength="50" class="form-control" />
               <div *ngIf="data.submitted && FixedAssetCardCode.invalid" class="invalid-feedback">
-                <div *ngIf="FixedAssetCardCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="FixedAssetCardCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="FixedAssetCardCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
 
               </div>
@@ -72,18 +71,18 @@
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Demirbaş Kart Adı</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Card_Name')}}</label>
               <input [(ngModel)]="fixedAssetCard.Name" name="Name" type="text" trim="blur" class="form-control"
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Demirbaş Kart Kategorisi</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>
               <select [(ngModel)]="fixedAssetCard.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId"
                 [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" class="form-control"
                 (click)="loadFixedAssetCardCategories()" #FixedAssetCardCategoryId="ngModel" required>
@@ -92,13 +91,13 @@
                   value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>{{fixedAssetCardCategory.Name}}</option>
               </select>
               <div *ngIf="data.submitted && FixedAssetCardCategoryId.invalid" class="invalid-feedback">
-                <div *ngIf="FixedAssetCardCategoryId.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="FixedAssetCardCategoryId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label>Açıklama</label>
+              <label>{{getLanguageValue('Description')}}</label>
               <textarea [(ngModel)]="fixedAssetCard.Description" name="Description" style="resize:none" rows="2"
                 #Description="ngModel" class="form-control" type="text" maxlength="150"></textarea>
               <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
@@ -111,7 +110,7 @@
         <div class="modal-footer ustify-content-center">
           <button id="btnInsertOrUpdateFixedAssetCard" type="submit" class="btn btn-az-primary" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false"
-            data-target="#modalInsertFixedAssetCard">{{fixedAssetCard.FixedAssetCardId ? 'Demirbaş Kartı Güncelle' : 'Demirbaş Kartı Ekle'}}</button>
+            data-target="#modalInsertFixedAssetCard">{{fixedAssetCard.FixedAssetCardId ? 'Demirbaş Kartı Güncelle' : getLanguageValue('Add_Fixed_Asset_Card')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

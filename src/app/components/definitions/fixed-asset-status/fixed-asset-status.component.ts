@@ -33,7 +33,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
     "fixedassetstatus",
     [
       {
-        columnDisplayName: "Statü Kodu",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Code'),
         columnName: ["FixedAssetStatuCode"],
         isActive: true,
         classes: [],
@@ -41,7 +41,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Statü Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -49,7 +49,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Renk",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Color'),
         columnName: ["Color"],
         isActive: true,
         classes: [],
@@ -101,7 +101,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
         this.statuses = statuses;
         this.dataTable.TGT_loadData(this.statuses);
         if(this.statuses.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {
@@ -213,9 +213,9 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);

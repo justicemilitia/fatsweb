@@ -45,7 +45,7 @@ export class RoleAuthorizationComponent extends BaseComponent
     "roleauthorization",
     [
       {
-        columnDisplayName: "Menü",
+        columnDisplayName: this.getLanguageValue('Menu'),
         columnName: ["Menu","Name"],
         isActive: true,
         type: "text"
@@ -57,21 +57,21 @@ export class RoleAuthorizationComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Görüntüleyebilir",
+        columnDisplayName: this.getLanguageValue('Out_Browse'),
         columnName: ["OutBrowse"],
         isActive: true,
         type: "checkbox",
         isEditable: true
       },
       {
-        columnDisplayName: "Ekleyebilir",
+        columnDisplayName: this.getLanguageValue('Out_Insert'),
         columnName: ["OutInsert"],
         isActive: true,
         type: "checkbox",
         isEditable: true
       },
       {
-        columnDisplayName: "Düzenleyebilir",
+        columnDisplayName: this.getLanguageValue('Out_Insert'),
         columnName: ["OutUpdate"],
         isActive: true,
         classes: ["table-checkbox"],
@@ -80,7 +80,7 @@ export class RoleAuthorizationComponent extends BaseComponent
         isEditable: true
       },
       {
-        columnDisplayName: "Silebilir",
+        columnDisplayName: this.getLanguageValue('Out_Delete'),
         columnName: ["OutDelete"],
         isActive: true,
         classes: ["table-checkbox"],
@@ -102,20 +102,20 @@ export class RoleAuthorizationComponent extends BaseComponent
     "menu",
     [
       {
-        columnDisplayName: "Menü",
+        columnDisplayName: this.getLanguageValue('Menu'),
         columnName: ["Menu","Name"],
         isActive: true,
         type: "text"
       },
       {
-        columnDisplayName: "Görüntüleyebilir",
+        columnDisplayName: this.getLanguageValue('Out_Browse'),
         columnName: ["OutBrowse"],
         isActive: true,
         type: "checkbox",
         isEditable: true
       },
       {
-        columnDisplayName: "Ekleyebilir",
+        columnDisplayName: this.getLanguageValue('Out_Insert'),
         columnName: ["OutInsert"],
         isActive: true,
         type: "checkbox",
@@ -129,7 +129,7 @@ export class RoleAuthorizationComponent extends BaseComponent
         isEditable: true
       },
       {
-        columnDisplayName: "Silebilir",
+        columnDisplayName: this.getLanguageValue('Out_Delete'),
         columnName: ["OutDelete"],
         isActive: true,
         type: "checkbox",
@@ -192,7 +192,7 @@ export class RoleAuthorizationComponent extends BaseComponent
         this.tableRoleAuthorization = roleAuthorization;
         this.dataTable.TGT_loadData(this.tableRoleAuthorization);
         if(roleAuthorization.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {
@@ -307,9 +307,9 @@ export class RoleAuthorizationComponent extends BaseComponent
           () => {
             this.baseService.spinner.hide();  
             if (itemIds.length == 1)
-              this.baseService.popupService.ShowAlertPopup("Kayıt Başarıyla silindi!");
+              this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Delete_operation_successful'));
             else
-              this.baseService.popupService.ShowAlertPopup("Tüm kayıtlar başarıyla silindi!");
+              this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('All_records_deleted'));
   
             itemIds.forEach(e=> {
               let itemIndex = this.tableRoleAuthorization.findIndex(x=>x.RoleAuthorizationId == e);

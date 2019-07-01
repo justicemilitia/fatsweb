@@ -50,7 +50,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
     "exitfixedasset",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -58,7 +58,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
@@ -66,7 +66,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
         type: "text"
       },
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
@@ -82,7 +82,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
         type: "text"
       },
       {
-        columnDisplayName: "Çıkış Tipi",
+        columnDisplayName: this.getLanguageValue('Exit_Type'),
         columnName: ["CheckOutReasonName"],
         isActive: true,
         classes: [],
@@ -90,7 +90,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
         type: "text"
       },
       {
-        columnDisplayName: "Çıkış Tarihi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Exit_Date'),
         columnName: ["TransactionDate"],
         isActive: true,
         classes: [],
@@ -111,7 +111,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetpropertyvalue", [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -119,7 +119,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -136,7 +136,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
   public dataTableFixedAssetFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile", [
       {
-        columnDisplayName: "Dosya Adı",
+        columnDisplayName: this.getLanguageValue('File_Name'),
         columnName: [],
         isActive: true,
         classes: [],
@@ -182,7 +182,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
         this.exitFixedAssetList = exitFixedAsset;
         this.dataTable.TGT_loadData(this.exitFixedAssetList);
         if(this.exitFixedAssetList.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

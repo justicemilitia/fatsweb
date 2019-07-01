@@ -106,11 +106,11 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
 
           if (itemIds.length == 1)
             this.baseService.popupService.ShowSuccessPopup(
-              "Kayıt başarıyla silindi!"
+              this.getLanguageValue('Delete_operation_successful')
             );
           else
             this.baseService.popupService.ShowSuccessPopup(
-              "Tüm kayıtlar başarıyla silindi!"
+              this.getLanguageValue('All_records_deleted')
             );
 
           for (let ii = 0; ii < itemIds.length; ii++) {
@@ -160,7 +160,7 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
         this.consumableUnits = consUnits;
         this.dataTable.TGT_loadData(this.consumableUnits);
         if(consUnits.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

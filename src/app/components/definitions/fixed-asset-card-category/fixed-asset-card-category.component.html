@@ -3,13 +3,13 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>TANIMLAMALAR</span>
-        <span>DEMİRBAŞ KART KATEGORİLERİ</span>
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>{{getLanguageValue('Fixed_Asset_Card_Categories')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Demirbaş Kart Kategorileri</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Fixed_Asset_Card_Categories')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
@@ -28,8 +28,7 @@
               <i class="fas fa-trash"></i></button>
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddFixedAssetCardCategory"
-              data-toggle="modal" data-target="#modalFixedAssetCardCategory" (click)="resetForm(data,true)">Kategori
-              Ekle
+              data-toggle="modal" data-target="#modalFixedAssetCardCategory" (click)="resetForm(data,true)">{{getLanguageValue('Add_Fixed_Asset_Card_Category')}}
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditFixedAssetCardCategory"
@@ -67,21 +66,21 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label class="required-span">Kategori Kodu</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Card_Category_Code')}}</label>
               <input [(ngModel)]="fixedAssetCardCategory.FixedAssetCardCategoryCode" name="FixedAssetCardCategoryCode"
                 type="text" trim="blur" class="form-control"
                 [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryCode.invalid }"
                 #FixedAssetCardCategoryCode="ngModel" required maxlength="" />
               <div *ngIf="data.submitted && FixedAssetCardCategoryCode.invalid" class="invalid-feedback">
-                <div *ngIf="FixedAssetCardCategoryCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="FixedAssetCardCategoryCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label class="required-span">Kategori Adı</label>
+              <label class="required-span">{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>
               <input [(ngModel)]="fixedAssetCardCategory.Name" name="Name" type="text" trim="blur" class="form-control"
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
-                <div *ngIf="Name.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
           </div>
@@ -90,7 +89,7 @@
               <label>Bağlı Olduğu Kategori</label>
               <select [(ngModel)]="fixedAssetCardCategory.ParentFixedAssetCardCategoryId"
                 name="ParentFixedAssetCardCategoryId" class="form-control" (click)="loadFixedAssetCardCategories()">
-                <option [ngValue]="null">Yok</option>
+                <option [ngValue]="null">{{getLanguageValue('None')}}</option>
                 <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories"
                   value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>
                   {{fixedAssetCardCategory.Name}}
@@ -103,7 +102,7 @@
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnInsertOrUpdateFixedAssetCardCategory" type="submit"
             data-toggle="modal" data-target="#modalInsertFixedAssetCategory" *ngIf="isWaitingInsertOrUpdate == false">
-            {{fixedAssetCardCategory.FixedAssetCardCategoryId ?  'Demirbaş Kategorisi Güncelle' : 'Demirbaş Kategorisi Ekle'}}
+            {{fixedAssetCardCategory.FixedAssetCardCategoryId ?  'Demirbaş Kategorisi Güncelle' : getLanguageValue('Add_Fixed_Asset_Card_Category')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>

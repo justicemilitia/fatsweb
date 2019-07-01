@@ -1685,7 +1685,7 @@
   { "LanguageId": 1332, "LanguageKeyword": "Fax", "Tr": "Faks", "En": "Fax" },
   {
     "LanguageId": 1333,
-    "LanguageKeyword": "Desctiption",
+    "LanguageKeyword": "Description",
     "Tr": "Açıklama",
     "En": "Description"
   },

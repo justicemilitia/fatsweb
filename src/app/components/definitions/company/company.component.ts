@@ -49,7 +49,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     "company",
     [
       {
-        columnDisplayName: "Şirket Kodu",
+        columnDisplayName: this.getLanguageValue('Company_Code'),
         columnName: ["CompanyCode"],
         isActive: true,
         classes: [],
@@ -57,7 +57,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Şirket Adı",
+        columnDisplayName: this.getLanguageValue('Company_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -65,7 +65,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Mail",
+        columnDisplayName: this.getLanguageValue('email'),
         columnName: ["Email"],
         isActive: true,
         classes: [],
@@ -73,7 +73,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Adres",
+        columnDisplayName: this.getLanguageValue('Address'),
         columnName: ["Address"],
         isActive: true,
         classes: [],
@@ -81,7 +81,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Ülke",
+        columnDisplayName: this.getLanguageValue('Country'),
         columnName: ["City", "Country", "Name"],
         isActive: true,
         classes: [],
@@ -89,7 +89,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Şehir",
+        columnDisplayName: this.getLanguageValue('City'),
         columnName: ["City", "Name"],
         isActive: true,
         classes: [],
@@ -97,7 +97,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Vergi Numarası",
+        columnDisplayName: this.getLanguageValue('Tax_Number'),
         columnName: ["TaxNumber"],
         isActive: true,
         classes: [],
@@ -105,7 +105,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Telefon",
+        columnDisplayName:  this.getLanguageValue('Phone'),
         columnName: ["Phone"],
         isActive: true,
         classes: [],
@@ -121,7 +121,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Faks",
+        columnDisplayName:  this.getLanguageValue('Fax'),
         columnName: ["SecondPhone"],
         isActive: true,
         classes: [],
@@ -129,7 +129,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName:  this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -200,9 +200,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
         /* if all of them removed */
         if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
         else
-          this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
         /* Clear all the ids from table */
         this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -341,7 +341,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         this.companies = companies;
         this.dataTable.TGT_loadData(this.companies);
         if(companies.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

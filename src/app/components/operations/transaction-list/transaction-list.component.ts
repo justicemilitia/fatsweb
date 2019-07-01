@@ -202,7 +202,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
         this.TGT_calculatePages();
 
         if(this.transactions.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {

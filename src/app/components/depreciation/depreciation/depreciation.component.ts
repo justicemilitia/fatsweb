@@ -620,7 +620,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       fixedAssetId,
       (depreciationDetails: Depreciation[]) => {
         if(depreciationDetails.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
           this.dataTableDepreciationDetail.isLoading=false;
 
           let dataSource : Depreciation[]=[];
@@ -655,7 +655,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       fixedAssetId,
       (ifrsDepreciationDetails: DepreciationIFRS[]) => {
         if(ifrsDepreciationDetails.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
           this.dataTableIFRSDepreciationDetail.isLoading=false;
 
           let dataSource : DepreciationIFRS[]=[];

@@ -88,7 +88,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
         this.userRoles = userRole;
         this.dataTableUserRole.TGT_loadData(this.userRoles);
         if(this.userRoles.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {
@@ -220,11 +220,11 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
 
           if (itemIds.length == 1)
             this.baseService.popupService.ShowSuccessPopup(
-              "Kayıt Başarıyla silindi!"
+              this.getLanguageValue('Delete_operation_successful')
             );
           else
             this.baseService.popupService.ShowSuccessPopup(
-              "Tüm kayıtlar başarıyla silindi!"
+              this.getLanguageValue('All_records_deleted')
             );
 
           this.dataTableUserRole.TGT_removeItemsByIds(itemIds);

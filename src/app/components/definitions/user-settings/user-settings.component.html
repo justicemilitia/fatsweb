@@ -4,11 +4,12 @@
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
         <!-- <span>TANIMLAMALAR</span> -->
-        <span>KULLANICI AYARLARI</span>
+        <span>
+          {{getLanguageValue('User_Settings')}}</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20" >
         <div class="card-header">
-            <h2 class="az-content-title" style="margin-left:0px;">Kullanıcı Ayarları</h2>  
+            <h2 class="az-content-title" style="margin-left:0px;">{{getLanguageValue('User_Settings')}}</h2>  
         </div>
 
         <div>                          
@@ -19,12 +20,12 @@
                  
                   <!-- E-POSTA -->
                   <div class="form-group col-md-4">
-                    <label class="required-span">E-posta</label>
+                    <label class="required-span">{{getLanguageValue('email')}}</label>
                     <input type="email" name="UserMail" autocomplete="off" #UserMail="ngModel" required maxlength="50"
                       class="form-control" [(ngModel)]="currentUser.UserMail"
                       [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" email />
                       <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
-                      <div *ngIf="UserMail.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="UserMail.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                       <div *ngIf="UserMail.errors.email">Lütfen Geçerli Email Giriniz.</div>
                       <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
                     </div>
@@ -37,12 +38,12 @@
                       [ngClass]="{ 'is-invalid': data.submitted && UserCode.invalid }" #UserCode="ngModel" name="UserCode"
                       required class="form-control" maxlength="50"/>
                     <div *ngIf="data.submitted && UserCode.invalid" class="invalid-feedback">
-                      <div *ngIf="UserCode.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="UserCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                       <div *ngIf="UserCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
                     </div>
                   </div> -->
                   <div class="form-group col-md-4">
-                    <label>Kullanıcı Kodu</label>
+                    <label>{{getLanguageValue('User_Code')}}</label>
                     <input type="text" autocomplete="off" [(ngModel)]="currentUser.UserCode" #UserCode="ngModel" name="UserCode" class="form-control" disabled/>
                   </div>
 
@@ -57,11 +58,11 @@
                       </option>
                     </select>
                     <div *ngIf="data.submitted && UserTitleId.invalid" class="invalid-feedback">
-                      <div *ngIf="UserTitleId.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="UserTitleId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                     </div>
                   </div> -->
                   <div class="form-group col-md-4">
-                    <label>Unvan</label>
+                    <label>{{getLanguageValue('User_Title')}}</label>
                     <input type="text" autocomplete="off" [(ngModel)]="currentUser.UserTitle.Title"
                       #UserTitleId="ngModel" name="UserTitleId" class="form-control" disabled/>
                   </div>
@@ -73,12 +74,12 @@
                   
                   <!-- İSİM -->
                   <div class="form-group col-md-4">
-                    <label class="required-span">İsim</label>
+                    <label class="required-span">{{getLanguageValue('User_First_Name')}}</label>
                     <input type="text" trim="blur" autocomplete="off" [(ngModel)]="currentUser.FirstName"
                       [ngClass]="{ 'is-invalid': data.submitted && FirstName.invalid }" #FirstName="ngModel" name="FirstName"
                       required class="form-control" maxlength="50" />
                     <div *ngIf="data.submitted && FirstName.invalid" class="invalid-feedback">
-                      <div *ngIf="FirstName.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="FirstName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                       <div *ngIf="FirstName.errors.maxlength">Maksimum 50 karakter giriniz.</div>
                     </div>
                   </div>
@@ -97,7 +98,7 @@
                     </option>
                     </select>
                     <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
-                      <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="LocationId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                     </div>
                   </div> -->
                   <div class="form-group col-md-4">
@@ -119,12 +120,12 @@
                       </option>
                     </select>
                     <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
-                      <div *ngIf="DepartmentId.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="DepartmentId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                     </div>
                   </div> -->
 
                   <div class="form-group col-md-4">
-                    <label>Departman</label>
+                    <label>{{getLanguageValue('Department')}}</label>
                     <input type="text" autocomplete="off" [(ngModel)]="currentUser.Department == null ? '' : currentUser.Department.Name"
                       #DepartmentId="ngModel" name="DepartmentId" class="form-control" disabled/>
                   </div>
@@ -135,19 +136,19 @@
 
                   <!-- SOYİSİM -->
                   <div class="form-group col-md-4">
-                    <label class="required-span">Soyisim</label>
+                    <label class="required-span">{{getLanguageValue('User_Last_Name')}}</label>
                     <input type="text" trim="blur" autocomplete="off" [(ngModel)]="currentUser.LastName" #LastName="ngModel"
                       [ngClass]="{ 'is-invalid': data.submitted && LastName.invalid }" name="LastName" required
                       class="form-control" maxlength="50" />
                     <div *ngIf="data.submitted && LastName.invalid" class="invalid-feedback">
-                      <div *ngIf="LastName.errors.required">Bu alan zorunludur.</div>
+                      <div *ngIf="LastName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                       <div *ngIf="LastName.errors.maxlength">Maksimum 50 karakter giriniz.</div>
                     </div>
                   </div>
                   
                   <!-- TELEFON -->
                   <div class="form-group col-md-4">
-                    <label>Telefon</label>
+                    <label>{{getLanguageValue('Phone')}}</label>
                     <input type="text" mask="(000) 000-0000" [showMaskTyped] = "true" autocomplete="off" name="PhoneNumber" class="form-control"
                       [(ngModel)]="currentUser.PhoneNumber" />
                   </div>
@@ -163,7 +164,7 @@
                     </select>
                   </div> -->
                   <div class="form-group col-md-4">
-                    <label>Bağlı Olduğu Kişi</label>
+                    <label>{{getLanguageValue('Parent_User')}}</label>
                     <input type="text" autocomplete="off" [(ngModel)]="currentUser.ParentUser == null ? '' : currentUser.ParentUser.FirstName + ' ' +currentUser.ParentUser.LastName" 
                       #ParentUserId="ngModel" name="ParentUserId" class="form-control" disabled/>
                   </div>
@@ -194,7 +195,7 @@
 
                   <!-- AÇIKLAMA -->
                   <div class="form-group col-md-4">
-                    <label>Açıklama</label>
+                    <label>{{getLanguageValue('Description')}}</label>
                     <input [(ngModel)]="currentUser.Description" name="Description" #Description="ngModel"
                       class="form-control" type="text"/>
                       <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
@@ -206,7 +207,7 @@
                     <div class="form-group col-md-4">
                       <label class="ckbox" style="margin-top: 22px;">
                           <input type="checkbox" [(ngModel)]="currentUser.IsSystemUser" name="IsSystemUser" #IsSystemUser="ngModel" disabled/>
-                          <span>Sistem kullanıcısı mı ?</span>
+                          <span>{{getLanguageValue('Is_System_User')}}</span>
                       </label>  
                   </div>
 
@@ -220,10 +221,10 @@
                       <input type="password" #Password="ngModel" maxlength="16" name="Password" class="form-control"
                         [(ngModel)]="currentUser.Password" [attr.required] = "isCheckedPassword==true ? true : undefined" required/>
                       <!-- <div *ngIf="data.submitted && Password.invalid" class="invalid-feedback">
-                        <div *ngIf="Password.errors.required">Bu alan zorunludur.</div>
+                        <div *ngIf="Password.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                         <div *ngIf="Password.errors.maxlength">Maksimum 16 karakter giriniz.</div>
                       </div> -->
-                      <div *ngIf="isCheckedPassword==false" >Bu alan zorunludur.</div>
+                      <div *ngIf="isCheckedPassword==false" >{{getLanguageValue('This_value_is_required')}}</div>
                     </div>
                     <!-- <div class="form-group col-md-4" >
                       <label class="required-span">Yeni Şifre</label>
@@ -237,7 +238,7 @@
                       <input type="password" maxlength="16" name="PasswordConfirm"
                         autocomplete="off" class="form-control" [attr.required] = "isCheckedPassword==true ? true : undefined" />
                       <div *ngIf="data.submitted && PasswordConfirm.invalid && Password.value != PasswordConfirm.value" class="invalid-feedback">
-                        <div *ngIf="PasswordConfirm.errors.required">Bu alan zorunludur.</div>
+                        <div *ngIf="PasswordConfirm.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                         <div *ngIf="PasswordConfirm.errors.maxlength">Maksimum 16 karakter giriniz.</div>
                         <div *ngIf="Password.value != PasswordConfirm.value">Şifreleriniz Uyuşmamaktadır.</div>                        
                       </div>

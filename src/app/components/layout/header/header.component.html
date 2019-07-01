@@ -53,7 +53,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
           <button class="dropdown-item" (click)="userSettings()" type="button">Ayarlar</button>
-          <button class="dropdown-item" (click)="logout()" type="button">Çıkış Yap</button>
+          <button class="dropdown-item" (click)="logout()" type="button">{{getLanguageValue('Log_Out')}}</button>
         </div>
       </div>
 
@@ -72,67 +72,67 @@
       <ul>
         <li class="nav-item" routerLink="/dashboard" routerLinkActive="active">
           <a class="nav-link">
-            <i class="typcn icon-default typcn-home-outline" style="font-size: 22px;"></i>Ana Sayfa
+            <i class="typcn icon-default typcn-home-outline" style="font-size: 22px;"></i>{{getLanguageValue('Dashboard')}}
           </a>
         </li>
         <li class="drop-right nav-item">
           <a href="#" onclick="return false" class="nav-link with-sub">
-            <i class="typcn typcn-edit"></i>Tanımlamalar</a>
+            <i class="typcn typcn-edit"></i>{{getLanguageValue('Definitions')}}</a>
           <ul class="nav-link-item-ul">
             <li class="nav-link-item-parent">
-              <a class="nav-link-item-parent-link" href="#" onclick="return false">Genel Tanımlar <span
+              <a class="nav-link-item-parent-link" href="#" onclick="return false">{{getLanguageValue('General_Definitions')}}<span
                   class="typcn typcn-chevron-right"></span></a>
               <ul class="nav-link-item-ul-sub">
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/company"
-                    routerLinkActive="active">Şirketler</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Companies')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/location"
-                    routerLinkActive="active">Lokasyonlar</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Locations')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/department"
-                    routerLinkActive="active">Departmanlar</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Departments')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/user"
-                    routerLinkActive="active">Kullanıcılar</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Users')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/role"
-                    routerLinkActive="active">Roller</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Roles')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/roleauthorization"
-                    routerLinkActive="active">Rol Yetkilendirmeleri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Role_Authorization')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/expensecenter"
-                    routerLinkActive="active">Masraf Yerleri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Expense_Centers')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/checkedoutreason"
-                    routerLinkActive="active">Çıkış Tipleri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Exit_Types')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/suspension"
-                    routerLinkActive="active">Askıya Alma Sebepleri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Suspention_Reasons')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/agreement"
-                    routerLinkActive="active">Sözleşmeler</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Agreements')}}</a></li>
               </ul>
             </li>
             <li class="nav-link-item-parent">
-              <a class="nav-link-item-parent-link" href="#" onclick="return false">Demirbaş Tanımları<span
+              <a class="nav-link-item-parent-link" href="#" onclick="return false">{{getLanguageValue('Fixed_Asset_Definitions')}}<span
                   class="typcn typcn-chevron-right"></span></a>
               <ul class="nav-link-item-ul-sub">
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcard"
-                    routerLinkActive="active">Demirbaş Kartları</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Cards')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardproperty"
-                    routerLinkActive="active">Demirbaş Kart Özellikleri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Card_Properties')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardcategory"
-                    routerLinkActive="active">Demirbaş Kategorileri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Card_Categories')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardbrand"
-                    routerLinkActive="active">Demirbaş Markaları</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Brands')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardmodel"
-                    routerLinkActive="active">Demirbaş Modelleri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Models')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/status"
-                    routerLinkActive="active">Demirbaş Statüleri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Status')}}</a></li>
               </ul>
             </li>
             <li class="nav-link-item-parent">
-              <a class="nav-link-item-parent-link" href="#" onclick="return false">Sarf Malzeme Tanımları<span
+              <a class="nav-link-item-parent-link" href="#" onclick="return false">{{getLanguageValue('Consumable_Definitions')}}<span
                   class="typcn typcn-chevron-right"></span></a>
               <ul class="nav-link-item-ul-sub">
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/consumablecard"
-                    routerLinkActive="active">Sarf Malzeme Kartları</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Consumable_Cards')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/consumablecategory"
-                    routerLinkActive="active">Sarf Malzeme Kategorileri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Consumable_Card_Categories')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/consumableunit"
-                    routerLinkActive="active">Sarf Malzeme Birimleri</a></li>
+                    routerLinkActive="active">{{getLanguageValue('Consumable_Units')}}</a></li>
               </ul>
             </li>
             <!-- <li class="nav-link-item-parent">
@@ -143,42 +143,42 @@
         <li class="drop-right nav-item">
           <a href="#" onclick="return false" class="nav-link with-sub">
             <i class="fas fa-desktop" style="font-size:15px"></i>
-            Demirbaş Yönetimi
+            {{getLanguageValue('Fixed_Asset_Management')}}
           </a>
           <ul class="nav-link-item-ul">
             <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/fixedasset" routerLinkActive="active">
-                Demirbaş Operasyonları
+                {{getLanguageValue('Fixed_Asset_Operations')}}
               </a>
             </li>
             <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/suspendedfixedasset" routerLinkActive="active">
-                Askıdaki Demirbaşlar
+                {{getLanguageValue('Suspended_Fixed_Assets')}}
               </a>
             </li>
             <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/lostfixedasset" routerLinkActive="active">
-                Kayıp Demirbaşlar
+                {{getLanguageValue('Lost_Fixed_Assets')}}
               </a>
             </li>
             <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/checkoutfixedasset" routerLinkActive="active">
-                Çıkışı Yapılmış Demirbaşlar
+                {{getLanguageValue('Exit_Fixed_Assets')}}
               </a>
             </li>
             <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/relationshipfixedasset" routerLinkActive="active">
-                İlişkili Demirbaşlar
+                {{getLanguageValue('Related_Fixed_Assets')}}             
               </a>
             </li>
             <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/transactionlist" routerLinkActive="active">
-                Hareket Listesi
+                {{getLanguageValue('Transaction_List')}}
               </a>
             </li>
             <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/cyclecount" routerLinkActive="active">
-                Demirbaş Sayımları
+                {{getLanguageValue('Fixed_Asset_Counting')}}
               </a>
             </li>
           </ul>
@@ -197,16 +197,16 @@
             Amortisman Yönetimi
           </a> -->
           <a href="#" onclick="return false" class="nav-link with-sub">
-              <i class="typcn typcn-edit"></i>Amortisman Yönetimi</a>
+              <i class="typcn typcn-edit"></i> {{getLanguageValue('Depreciation_Management')}}</a>
           <ul class="nav-link-item-ul">
               <li class="nav-link-item-parent">
                 <a class="nav-link-item-link" routerLink="/depreciation" routerLinkActive="active">
-                  Amortisman Bilgileri
+                  {{getLanguageValue('Depreciation_Informations')}}
                 </a>
               </li>
               <li class="nav-link-item-parent">
                 <a class="nav-link-item-link" routerLink="/depreciationdetaillist" routerLinkActive="active">
-                  Detaylı Amortisman Listesi
+                  {{getLanguageValue('Detailed_Depreciation_List')}}
                 </a>
               </li>
             </ul>
@@ -226,17 +226,17 @@
             <ul class="nav-link-item-ul">
               <li class="nav-link-item-parent">
                   <a class="nav-link-item-link" routerLinkActive="active" routerLink="/consumablelist">
-                    Malzeme Listesi
+                    {{getLanguageValue('Consumable_List')}}
                   </a>
                 </li>
               <li class="nav-link-item-parent">
                   <a class="nav-link-item-link" routerLink="/consumablerequestlist"  routerLinkActive="active">
-                    Malzeme Talepleri
+                    {{getLanguageValue('Consumable_Requests')}}
                   </a>
                 </li>
                 <li class="nav-link-item-parent">
                     <a class="nav-link-item-link" routerLinkActive="active">
-                      Malzeme Tüketimi
+                      {{getLanguageValue('Consumable_Consumption')}}
                     </a>
                   </li>
               <!-- <li class="nav-link-item-parent">

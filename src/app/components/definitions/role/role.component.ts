@@ -44,7 +44,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -92,9 +92,9 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
           /* if all of them removed */
           if (itemIds.length == 1)
-            this.baseService.popupService.ShowSuccessPopup("Kayıt Başarıyla silindi!");
+            this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
           else
-            this.baseService.popupService.ShowSuccessPopup("Tüm kayıtlar başarıyla silindi!");
+            this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
            /* Clear all the ids from table */
           this.dataTable.TGT_removeItemsByIds(itemIds);
@@ -117,7 +117,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
         this.roles = roles;
         this.dataTable.TGT_loadData(this.roles);
         if(roles.length==0){
-          this.baseService.popupService.ShowWarningPopup("Record_not_found");
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
       (error: HttpErrorResponse) => {
