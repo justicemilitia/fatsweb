@@ -12,6 +12,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { FixedAsset } from "../../../models/FixedAsset";
+import { LanguageService } from '../../../services/language-service/language.service';
 
 @Component({
   selector: "app-relationship-fixed-asset",
@@ -43,7 +44,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
 
   isTableExporting: boolean = false;
 
-  errorMessage: HttpErrorResponse;
+  errorMessage: string = '';
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetrelationship",
@@ -354,7 +355,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
     }
   );
 
-  constructor(public baseService: BaseService) {
+  constructor(public baseService: BaseService, private languageService: LanguageService) {
     super(baseService);
     this.loadFixedAssetRelationship();
 
@@ -391,13 +392,14 @@ export class RelationshipFixedAssetComponent extends BaseComponent
           /* if error show pop up */
   
           /* Show error message */
-          this.errorMessage = error;
+          this.errorMessage = this.getLanguageValue(error.statusText);
           this.popupComponent.ShowModal("#modalShowErrorMessage");                    
           // this.baseService.popupService.ShowErrorPopup(error);
         }
       );
     }
   
+
     async breakRelationship(data: NgForm) {
       this.Ids = [];
   
@@ -459,7 +461,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
   
         selectedItems.forEach(e => {
           let item = new FixedAssetRelationship();
-          e.FixedAssetParentId = null;
+          // e.FixedAssetParentId = null;
           Object.assign(item, e);
           listedItem.push(item);
         });
@@ -468,7 +470,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         if (listedItem.length == 0) {
             this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
-        this.popupComponent.ShowModal("#modalRelationshipFixedAsset");
+        this.popupComponent.ShowModal("#modalBreakRelationship");
         
         // $("#btnOpenRelationship").trigger("click");
       }
