@@ -19,6 +19,7 @@ export class FixedAssetRelationship implements IData {
   }
   getChildren(): IData[] {
     return this.InverseFixedAssetParent;
+    // return this.FixedAssetParent;
   }
   getId(): number {
     return this.FixedAssetId;
@@ -32,6 +33,7 @@ export class FixedAssetRelationship implements IData {
   FixedAssetId: number;
   FixedAssetParentId: number;
   InverseFixedAssetParent: FixedAssetRelationship[];
+  // FixedAssetParent: FixedAssetRelationship[];
   FixedAssetCardCategoryId: number;
   Barcode: string;
   SerialNumber: string;

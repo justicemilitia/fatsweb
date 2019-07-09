@@ -27,7 +27,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
   implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["Ids"]) {
-      this.loadRelationalFixedAsset();
+      this.loadRelationalFixedAssetPopup();
     }
   }
 
@@ -42,6 +42,8 @@ export class RelationshipFixedAssetComponent extends BaseComponent
   isTableRefreshing: boolean = false;
 
   isTableExporting: boolean = false;
+
+  errorMessage: HttpErrorResponse;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetrelationship",
@@ -367,126 +369,133 @@ export class RelationshipFixedAssetComponent extends BaseComponent
   }
 
   ngOnInit() { }
-
-  async loadFixedAssetRelationship() {
-    /* Load all fixed asset cards to datatable */
-    await this.baseService.fixedAssetService.GetFixedAssetRelationship(
-      (far: FixedAssetRelationship[]) => {
-        Object.assign(this.fixedAssets, far);
-        // far.forEach((element: FixedAssetRelationship) => {
-        //   let e = element.InverseFixedAssetParent;
-        //   if (e && e.length != 0) {
-        //     e.forEach((p, i) => {
-        //       let f = new FixedAssetRelationship();
-        //       Object.assign(f, p);
-        //       this.fixedAssets.push(f);
-        //     })
-        //   }
-        // });
-        this.dataTable.TGT_loadData(this.fixedAssets);
-      },
-      (error: HttpErrorResponse) => {
-        /* if error show pop up */
-
-        /* Show error message */
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
-
-  async breakRelationship(data: NgForm) {
-    this.Ids = [];
-
-    /* Is Form Valid */
-    if (data.form.invalid == true) return;
-
-    let selectedItems = <FixedAssetRelationship[]>(
-      this.dataTable.TGT_getSelectedItems()
-    );
-
-    this.fixedAsset.FixedAssetIds = selectedItems.map(x => x.getId());
-
-    await this.baseService.fixedAssetService.BreakFixedAssetRelationship(
-      this.fixedAsset,
-      (insertedItem: FixedAsset, message) => {
-        /* Show success pop up */
-        this.baseService.popupService.ShowSuccessPopup(message);
-
-        /* Set inserted Item id to model */
-        this.fixedAsset.FixedAssetId = insertedItem.FixedAssetId;
-
-        /* Push inserted item to Property list */
-        this.fixedAssets.push(this.fixedAsset);
-        this.refreshTable();
-      },
-      (error: HttpErrorResponse) => {
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
-
-  loadRelationalFixedAsset() {
-    this.parentIds = [];
-    let selectedItems = <FixedAssetRelationship[]>(
-      this.dataTable.TGT_getSelectedItems()
-    );
-
-    selectedItems.forEach(e => {
-      if (e.FixedAssetParentId != null) {
-        this.parentIds.push(e.FixedAssetParentId);
-      }
-    });
-
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz"
+  
+    async loadFixedAssetRelationship() {
+      /* Load all fixed asset cards to datatable */
+      await this.baseService.fixedAssetService.GetFixedAssetRelationship(
+        (far: FixedAssetRelationship[]) => {
+          Object.assign(this.fixedAssets, far);
+          // far.forEach((element: FixedAssetRelationship) => {
+          //   let e = element.InverseFixedAssetParent;
+          //   if (e && e.length != 0) {
+          //     e.forEach((p, i) => {
+          //       let f = new FixedAssetRelationship();
+          //       Object.assign(f, p);
+          //       this.fixedAssets.push(f);
+          //     })
+          //   }
+          // });
+          this.dataTable.TGT_loadData(this.fixedAssets);
+        },
+        (error: HttpErrorResponse) => {
+          /* if error show pop up */
+  
+          /* Show error message */
+          this.errorMessage = error;
+          this.popupComponent.ShowModal("#modalShowErrorMessage");                    
+          // this.baseService.popupService.ShowErrorPopup(error);
+        }
       );
-      return;
-    } else if (this.parentIds.length == 0) {
-      // this.baseService.popupService.ShowAlertPopup(
-      //   "Seçilen demirbaşların ilişkisi bulunmadığı için işlem gerçekleştirilemedi!"
-      // );
-      // this.baseService.popupService.ShowQuestionPopupForRelationalFixedAsset();
-      $("#btnShowRelationshipModal").trigger("click");
-      return;
     }
+  
+    async breakRelationship(data: NgForm) {
+      this.Ids = [];
+  
+      /* Is Form Valid */
+      if (data.form.invalid == true) return;
+  
+      let selectedItems = <FixedAssetRelationship[]>(
+        this.dataTable.TGT_getSelectedItems()
+      );
+  
+      this.fixedAsset.FixedAssetIds = selectedItems.map(x => x.getId());
+  
+      await this.baseService.fixedAssetService.BreakFixedAssetRelationship(
+        this.fixedAsset,
+        (insertedItem: FixedAsset, message) => {
+          /* Show success pop up */
+          this.baseService.popupService.ShowSuccessPopup(message);
+  
+          /* Set inserted Item id to model */
+          this.fixedAsset.FixedAssetId = insertedItem.FixedAssetId;
+  
+          /* Push inserted item to Property list */
+          this.fixedAssets.push(this.fixedAsset);
+          this.refreshTable();
+        },
+        (error: HttpErrorResponse) => {
+          // this.errorMessage = error;
+          // this.popupComponent.ShowModal("#modalShowErrorMessage");          
 
-    else {
-      let listedItem: FixedAssetRelationship[] = [];
-
-      selectedItems.forEach(e => {
-        let item = new FixedAssetRelationship();
-        e.FixedAssetParentId = null;
-        Object.assign(item, e);
-        listedItem.push(item);
+          /* Show alert message */          
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    }
+  
+    loadRelationalFixedAssetPopup() {
+      this.parentIds = [];
+      let selectedItems = <FixedAssetRelationship[]>(
+        this.dataTable.TGT_getSelectedItems()
+      );
+  
+      selectedItems.forEach((e : FixedAssetRelationship) => {
+        if (e.FixedAssetParentId != null) {
+          this.parentIds.push(e.FixedAssetParentId);
+        }
       });
-
-      this.dataTableRelationship.TGT_loadData(listedItem);
-      if (listedItem.length == 0) {
-        this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+  
+      if (!selectedItems || selectedItems.length == 0) {
+        this.popupComponent.ShowModal("#modalSelectAtLeastOneFixedAsset");
+        return;
       }
-      $("#btnOpenRelationship").trigger("click");
+      else if(this.parentIds == null || this.parentIds.length == 0){
+        this.popupComponent.ShowModal("#modalRelationshipFixedAsset");
+        return;
+        }
+  
+      else {
+        let listedItem: FixedAssetRelationship[] = [];
+  
+        selectedItems.forEach(e => {
+          let item = new FixedAssetRelationship();
+          e.FixedAssetParentId = null;
+          Object.assign(item, e);
+          listedItem.push(item);
+        });
+  
+        this.dataTableRelationship.TGT_loadData(listedItem);
+        if (listedItem.length == 0) {
+            this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+        }
+        this.popupComponent.ShowModal("#modalRelationshipFixedAsset");
+        
+        // $("#btnOpenRelationship").trigger("click");
+      }
+    }
+  
+    selectedRelationFa() {
+      let selectedItems = this.dataTable.TGT_getSelectedItems();
+  
+      let itemIds: number[] = selectedItems.map(x => x.getId());
+      this.Ids = itemIds;
+      return this.Ids;
+    }
+  
+    async refreshTable() {
+      this.isTableRefreshing = true;
+  
+      this.dataTable.isLoading = true;
+  
+      this.dataTable.TGT_clearData();
+  
+      await this.loadFixedAssetRelationship();
+  
+      this.isTableRefreshing = false;
+    }
+
+    closeModal(){
+      this.popupComponent.CloseModal('#modalRelationshipFixedAsset');
     }
   }
-
-  selectedRelationFa() {
-    let selectedItems = this.dataTable.TGT_getSelectedItems();
-
-    let itemIds: number[] = selectedItems.map(x => x.getId());
-    this.Ids = itemIds;
-    return this.Ids;
-  }
-
-  async refreshTable() {
-    this.isTableRefreshing = true;
-
-    this.dataTable.isLoading = true;
-
-    this.dataTable.TGT_clearData();
-
-    await this.loadFixedAssetRelationship();
-
-    this.isTableRefreshing = false;
-  }
-}
+  

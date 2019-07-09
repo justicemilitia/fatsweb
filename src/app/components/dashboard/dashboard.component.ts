@@ -391,7 +391,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     );
   }
 
-  onClickSearch() {
+  onClickGuaranteedFixedAsset() {
     this.baseService.router.navigate(['/fixedasset'], {
       queryParams: {
         endDate: this.today()
@@ -402,7 +402,6 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   today() {
     let getdate:NgbDate = getToday();
     console.log(getToday());
-    return getToday();
+    return convertNgbDateToDateString(getdate);
   }
-
 }

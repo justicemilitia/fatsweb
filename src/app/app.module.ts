@@ -88,6 +88,7 @@ import { FaFinancialInformationComponent } from './components/operations/fixed-a
 import { FaResetFormComponent } from './components/operations/fixed-asset/fa-create/fa-reset-form/fa-reset-form.component';
 import { FaBarcodeLabelComponent } from './components/operations/fixed-asset/fa-barcode-label/fa-barcode-label.component';
 
+import { PopupComponent } from './components/popup/popup.component';
 
 
 @NgModule({
@@ -158,7 +159,8 @@ import { FaBarcodeLabelComponent } from './components/operations/fixed-asset/fa-
     FaPropertyInformationComponent,
     FaFinancialInformationComponent,
     FaResetFormComponent,
-    FaBarcodeLabelComponent
+    FaBarcodeLabelComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,

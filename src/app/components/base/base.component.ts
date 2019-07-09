@@ -5,6 +5,7 @@ import { SystemLanguage } from 'src/app/models/SystemLanguage';
 import * as XLSX from 'xlsx';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as PopUp from 'src/assets/js/popup';
 
 @Component({
   selector: "app-base",
@@ -18,6 +19,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export abstract class BaseComponent implements OnInit {
 
   protected readonly PAGES = pages;
+
+  public popupComponent = PopUp;
 
   isTerminal:boolean = false;
 

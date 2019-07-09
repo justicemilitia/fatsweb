@@ -24,6 +24,7 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
   newBarcode: string = "";
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
+  errorMessage: HttpErrorResponse;
 
   constructor(baseService: BaseService) {
     super(baseService);
@@ -68,7 +69,11 @@ if (data.form.invalid == true) return;
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
-              this.baseService.popupService.ShowErrorPopup(error);
+              // this.baseService.popupService.ShowErrorPopup(error);
+              this.errorMessage=error;
+
+              this.popupComponent.ShowModal("#modalShowErrorMessage");
+              
               this.isWaitingInsertOrUpdate = false;
             }
           );

@@ -128,7 +128,7 @@ export class FixedAssetService {
             let fixedAssets: FixedAssetRelationship[] = [];
             (<FixedAssetRelationship[]>response.ResultObject).forEach(e => {
               let fa: FixedAssetRelationship = new FixedAssetRelationship();
-              Object.assign(fa, e);
+               Object.assign(fa, e);
               fixedAssets.push(fa);
             });
             success(fixedAssets, response.LanguageKeyword);
