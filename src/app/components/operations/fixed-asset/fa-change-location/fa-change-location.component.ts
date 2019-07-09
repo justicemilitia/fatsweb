@@ -57,7 +57,7 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
     "department",
     [
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Name"],
         isActive: true,
         classes: [],

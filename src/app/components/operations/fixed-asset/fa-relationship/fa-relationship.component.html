@@ -12,7 +12,7 @@
         <!-- BARKOD -->
       <div class="row justify-content-center">
         <div class="col-md-12 form-group">
-          <label>Seçili Barkod(lar)</label>
+          <label>{{getLanguageValue('Choosen_Barcode(s)')}}</label>
           <input name="Barcodes" value="{{faBarcode}}" type="text" class="form-control" disabled/>          
         </div>
       </div>
@@ -24,7 +24,7 @@
             <input [(ngModel)]="fixedAsset.Barcode" name="newBarcodes" type="text" trim="blur" class="form-control" #newBarcodes="ngModel" 
             [ngClass]="{ 'is-invalid': data.submitted && newBarcodes.invalid }" required/>
             <div *ngIf="data.submitted && newBarcodes.invalid" class="invalid-feedback">
-                <div *ngIf="newBarcodes.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="newBarcodes.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>            
           </div>
         </div>
@@ -34,7 +34,7 @@
     <!-- modal-body -->
     <div class="modal-footer">
       <button class="btn btn-orange" id="btnChangeRelationship" type="submit" data-toggle="modal" data-target="#modalRelationship">
-        Demirbaş İlişkilendir
+        {{getLanguageValue('Relate_Fixed_Asset')}}
       </button>
     </div>
   </form>

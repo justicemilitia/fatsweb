@@ -75,7 +75,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     "cyclecount",
     [
       {
-        columnDisplayName: "Sayım No",
+        columnDisplayName: this.getLanguageValue('Counting_No'),
         columnName: ["CycleCountPlanNo"],
         isActive: true,
         classes: [],
@@ -91,7 +91,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon",
+        columnDisplayName: this.getLanguageValue('Counting_Location'),
         columnName: ["|CycleCountPlanLocations"],
         isActive: true,
         classes: [],
@@ -108,7 +108,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
       },
       {
-        columnDisplayName: "Başlama Tarihi",
+        columnDisplayName: this.getLanguageValue('Start_Date'),
         columnName: ["StartTime"],
         isActive: true,
         classes: [],
@@ -124,7 +124,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         }
       },
       {
-        columnDisplayName: "Bitiş Tarihi",
+        columnDisplayName: this.getLanguageValue('End_Date'),
         columnName: ["EndTime"],
         isActive: true,
         classes: [],
@@ -140,7 +140,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         }
       },        
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -166,7 +166,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     "cyclecountdetail",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -174,7 +174,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Adı",
+        columnDisplayName: this.getLanguageValue('Location_Name'),
         columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
@@ -182,7 +182,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       }, 
       {
-        columnDisplayName: "Sayım Tarihi",
+        columnDisplayName: this.getLanguageValue('Counting_Date'),
         columnName: ["CountDate"],
         isActive: true,
         classes: [],
@@ -208,7 +208,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     "notfoundfixedasset",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -216,7 +216,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCardName"],
         isActive: true,
         classes: [],
@@ -224,7 +224,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Adı",
+        columnDisplayName: this.getLanguageValue('Location_Name'),
         columnName: ["LocationName"],
         isActive: true,
         classes: [],
@@ -232,7 +232,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Departman Adı",
+        columnDisplayName: this.getLanguageValue('Department_Name'),
         columnName: ["DepartmentName"],
         isActive: true,
         classes: [],
@@ -250,14 +250,14 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     "differentlocation",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       }, {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCardName"],
         isActive: true,
         classes: [],
@@ -291,7 +291,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     "notregisteredfixedasset",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -299,7 +299,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },  
       {
-        columnDisplayName: "Lokasyon Adı",
+        columnDisplayName: this.getLanguageValue('Location_Name'),
         columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
@@ -335,7 +335,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     "canceledcylecountplan",
     [
       {
-        columnDisplayName: "Sayım No",
+        columnDisplayName:  this.getLanguageValue('Counting_No'),
         columnName: ["CycleCountPlanNo"],
         isActive: true,
         classes: [],

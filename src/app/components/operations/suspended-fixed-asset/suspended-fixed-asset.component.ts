@@ -44,7 +44,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
     "suspendedfixedasset",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -52,7 +52,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
@@ -76,7 +76,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         }
       },
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
@@ -92,7 +92,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Askıya Alınma Sebebi",
+        columnDisplayName: this.getLanguageValue('Suspention_Reasons'),
         columnName: ["CheckOutReasonName"],
         isActive: true,
         classes: [],
@@ -100,7 +100,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Beklenen Dönüş Tarihi",
+        columnDisplayName: this.getLanguageValue('Expected_Arrival_Date'),
         columnName: ["CheckInExpectedArrivalDate"],
         isActive: true,
         classes: [],
@@ -111,7 +111,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         }
       },
       {
-        columnDisplayName: "Askıya Alınma Tarihi",
+        columnDisplayName: this.getLanguageValue('Suspended_Date'),
         columnName: ["|TransactionDate"],
         isActive: true,
         classes: [],

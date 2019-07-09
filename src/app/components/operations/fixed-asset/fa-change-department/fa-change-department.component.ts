@@ -45,7 +45,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
     "department",
     [
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Name"],
         isActive: true,
         classes: [],

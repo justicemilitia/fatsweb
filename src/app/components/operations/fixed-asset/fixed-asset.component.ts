@@ -107,7 +107,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
@@ -115,7 +115,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Kategorisi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
         columnName: ["FixedAssetCard", "FixedAssetCardCategory", "Name"],
         isActive: true,
         classes: [],
@@ -123,7 +123,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Seri No",
+        columnDisplayName: this.getLanguageValue('Serial_Number'),
         columnName: ["SerialNumber"],
         isActive: true,
         classes: [],
@@ -131,7 +131,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Marka",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Brand_Name'),
         columnName: ["FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
         isActive: true,
         classes: [],
@@ -139,7 +139,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Model",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Model_Name'),
         columnName: ["FixedAssetCardModel", "Name"],
         isActive: true,
         classes: [],
@@ -147,7 +147,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Statü",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Name'),
         columnName: ["Status", "Name"],
         isActive: true,
         classes: [],
@@ -155,7 +155,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Statü Kodu",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Code'),
         columnName: ["Status", "FixedAssetStatuCode"],
         isActive: true,
         classes: [],
@@ -164,7 +164,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       },
   
       {
-        columnDisplayName: "Fiyat",
+        columnDisplayName:  this.getLanguageValue('Fixed_Asset_Price'),
         columnName: ["Price"],
         isActive: true,
         classes: [],
@@ -200,7 +200,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       //   }
       // },
       {
-        columnDisplayName: "Lokasyon Adı",
+        columnDisplayName: this.getLanguageValue('Location_Name'),
         columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
@@ -208,7 +208,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Tedarikçi Şirket",
+        columnDisplayName: this.getLanguageValue('Supplier'),
         columnName: ["Company", "Name"],
         isActive: true,
         classes: [],
@@ -224,7 +224,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       //   type: "text"
       // },
       {
-        columnDisplayName: "Sözleşmeli Şirket",
+        columnDisplayName:  this.getLanguageValue('Insurance_Company'),
         columnName: ["InsuranceCompany", "Name"],
         isActive: true,
         classes: [],
@@ -232,7 +232,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Kodu",
+        columnDisplayName: this.getLanguageValue('Location_Code'),
         columnName: ["Location", "LocationCode"],
         isActive: true,
         classes: [],
@@ -240,7 +240,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Barkodu",
+        columnDisplayName:  this.getLanguageValue('Location_Barcode'),
         columnName: ["Location", "Barcode"],
         isActive: true,
         classes: [],
@@ -248,7 +248,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Koordinatı",
+        columnDisplayName: this.getLanguageValue('Location_Coordinate'),
         columnName: ["Location", "Coordinate"],
         isActive: true,
         classes: [],
@@ -256,7 +256,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Adresi",
+        columnDisplayName: this.getLanguageValue('Address'),
         columnName: ["Location", "Address"],
         isActive: true,
         classes: [],
@@ -264,7 +264,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Açıklaması",
+        columnDisplayName: this.getLanguageValue('Location_Description'),
         columnName: ["Location", "Description"],
         isActive: true,
         classes: [],
@@ -272,7 +272,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Statü Rengi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Color'),
         columnName: ["Status","Color"],
         isActive: true,
         classes: [],
@@ -280,7 +280,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "color",   
       },
       {
-        columnDisplayName: "Makbuz Tarihi",
+        columnDisplayName: this.getLanguageValue('Receipt_Date'),
         columnName: ["ReceiptDate"],
         isActive: true,
         classes: [],
@@ -291,7 +291,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
       },
       {
-        columnDisplayName: "Fatura No",
+        columnDisplayName: this.getLanguageValue('Invoice_No'),
         columnName: ["InvoiceNo"],
         isActive: true,
         classes: [],
@@ -299,7 +299,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Fatura Tarihi",
+        columnDisplayName: this.getLanguageValue('Invoice_Date'),
         columnName: ["InvoiceDate"],
         isActive: true,
         classes: [],
@@ -310,7 +310,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
       },
       {
-        columnDisplayName: "Amortisman hesaplanacak mı ?",
+        columnDisplayName: this.getLanguageValue('Will_Depreciation_Be_Calculated'),
         columnName: ["WillDepreciationBeCalculated"],
         isActive: true,
         classes: [],
@@ -326,7 +326,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       //   type: "text"
       // },
       {
-        columnDisplayName: "Amortisman Periyodu",
+        columnDisplayName: this.getLanguageValue('Depreciation_Period'),
         columnName: ["DepreciationPeriod"],
         isActive: true,
         classes: [],
@@ -334,7 +334,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Ifrs Fiyatı",
+        columnDisplayName: this.getLanguageValue('IFRS_Price'),
         columnName: ["Ifrsprice"],
         isActive: true,
         classes: [],
@@ -342,7 +342,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Ifrs hesaplanacak mı ?",
+        columnDisplayName: this.getLanguageValue('Will_IFRS_Be_Calculated'),
         columnName: ["WillIfrsbeCalculated"],
         isActive: true,
         classes: [],
@@ -350,7 +350,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "checkbox"
       },
       {
-        columnDisplayName: "Ifrs Periyodu",
+        columnDisplayName: this.getLanguageValue('IFRS_Period'),
         columnName: ["Ifrsperiod"],
         isActive: true,
         classes: [],
@@ -358,7 +358,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Enflasyon İndekslemesi",
+        columnDisplayName: this.getLanguageValue('Has_Inflation_Indexation'),
         columnName: ["HasInflationIndexation"],
         isActive: true,
         classes: [],
@@ -366,7 +366,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "checkbox"
       },
       {
-        columnDisplayName: "Garanti Başlangıç Tarihi",
+        columnDisplayName:  this.getLanguageValue('Guarentee_Start_Date'),
         columnName: ["GuaranteeStartDate"],
         isActive: true,
         classes: [],
@@ -377,7 +377,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
       },
       {
-        columnDisplayName: "Garanti Bitiş Tarihi",
+        columnDisplayName: this.getLanguageValue('Guarentee_End_Date'),
         columnName: ["GuaranteeEndDate"],
         isActive: true,
         classes: [],
@@ -388,7 +388,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
       },
       {
-        columnDisplayName: "Demirbaş Giriş Tarihi",
+        columnDisplayName:  this.getLanguageValue('Fixed_Asset_Add_Date'),
         columnName: ["CreationDate"],
         isActive: true,
         classes: [],
@@ -399,7 +399,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
       },
       {
-        columnDisplayName: "Aktivasyon Tarihi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Activation_Date'),
         columnName: ["ActivationDate"],
         isActive: true,
         classes: [],
@@ -410,7 +410,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
       },
       {
-        columnDisplayName: "Departman Kodu",
+        columnDisplayName:  this.getLanguageValue('Department_Code'),
         columnName: ["Department", "DepartmentCode"],
         isActive: true,
         classes: [],
@@ -418,7 +418,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Departman Adı",
+        columnDisplayName: this.getLanguageValue('Department_Name'),
         columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
@@ -426,7 +426,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Departman Açıklama",
+        columnDisplayName: this.getLanguageValue('Department_Description'),
         columnName: ["Department", "Description"],
         isActive: true,
         classes: [],
@@ -434,7 +434,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Açıklaması",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -442,7 +442,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Dosya Adı",
+        columnDisplayName: this.getLanguageValue('File_Name'),
         columnName: ["FixedAssetFiles","FileName"],
         isActive: true,
         classes: [],
@@ -458,7 +458,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         }
       },
       {
-        columnDisplayName: "Aktif mi?",
+        columnDisplayName:  this.getLanguageValue('Fixed_Asset_Is_Active'),
         columnName: ["IsActive"],
         isActive: true,
         classes: [],
@@ -483,7 +483,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetpropertyvalue", [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -491,7 +491,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -508,7 +508,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   public dataTableFixedAssetFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile", [
       {
-        columnDisplayName: "Dosya Adı",
+        columnDisplayName: this.getLanguageValue('File_Name'),
         columnName: ["FileName"],
         isActive: true,
         classes: [],

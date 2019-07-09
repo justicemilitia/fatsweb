@@ -4,12 +4,12 @@
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
         <span>{{getLanguageValue('Definitions')}}</span>
-        <span>ROL TANIMLAMA</span>
+        <span>{{getLanguageValue('Role')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title" style="margin-left:0">Rol Tanımlama</h2>
+          <h2 class="az-content-title" style="margin-left:0">{{getLanguageValue('Enter_role_informations')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
@@ -55,7 +55,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Rol Tanımlama</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_role_informations')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

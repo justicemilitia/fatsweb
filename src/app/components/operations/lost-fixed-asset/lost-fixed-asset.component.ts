@@ -44,7 +44,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
     "lostfixedasset",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -52,7 +52,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
@@ -60,7 +60,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
@@ -154,7 +154,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
               this.dataTable.TGT_removeItemsByIds(this.lostFa.FixedAssetIds);
 
-              this.baseService.popupService.ShowSuccessPopup("İşlem başarılı !");
+              this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Operation_is_successful'));
 
             }, (error: HttpErrorResponse) => {
 

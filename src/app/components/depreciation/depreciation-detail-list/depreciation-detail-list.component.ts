@@ -377,7 +377,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         }
       },
       {
-        columnDisplayName: "Aktivasyon Tarihi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Activation_Date'),
         columnName: ["FixedAsset", "ActivationDate"],
         isActive: true,
         classes: [],
@@ -766,7 +766,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         }
       },
       {
-        columnDisplayName: "Aktivasyon Tarihi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Activation_Date'),
         columnName: ["FixedAsset", "ActivationDate"],
         isActive: true,
         classes: [],

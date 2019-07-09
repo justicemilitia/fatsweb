@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h6 class="modal-title">Filtrelenecek alanları belirleyiniz.</h6>
+  <h6 class="modal-title">{{getLanguageValue('Identify_filter_values')}}</h6>
   <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -11,13 +11,13 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <fieldset class="field_set">
-          <legend class="fieldset_text">Genel Bilgiler</legend>
+          <legend class="fieldset_text">{{getLanguageValue('General_Informations')}}</legend>
           <!-- BARKOD, DEMİRBAŞ ADI, KATEGORİ -->
           <div class="row justify-content-center">
 
             <!-- BARKOD -->
             <div class="col-md-4 form-group">
-              <label>Barkod</label>
+              <label>{{getLanguageValue('Barcode')}}</label>
               <input [(ngModel)]="fixedAsset.Barcode" name="Barcode" type="text" class="form-control" />
             </div>
 
@@ -57,7 +57,7 @@
             <div class="col-md-4 form-group">
               <div>
                 <label class="required-span" style="margin-bottom: 0;
-                font-weight: 700;" >Demirbaş Kategorisi</label>        
+                font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>        
               <div style="display:flex;">
               <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  >{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -85,7 +85,7 @@
             <div class="col-md-4 form-group">
               <div>
                   <label style="margin-bottom: 0;
-                  font-weight: 700;" >Departman</label>
+                  font-weight: 700;" >{{getLanguageValue('Department')}}</label>
                   <div style="display:flex;">
                   <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  >{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -109,7 +109,7 @@
             <div class="col-md-4 form-group">
               <div>
                   <label style="margin-bottom: 0;
-                  font-weight: 700;" >Marka</label>
+                  font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Brand_Name')}}</label>
                   <div style="display:flex;">
                   <button id="btnBrand" (click)="toggleDropdown('brand')" class="dropdown-button" type="button"  >{{selectedBrand ? selectedBrand.Name : 'Seçiniz' }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('brand')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -181,7 +181,7 @@
             <div class="col-md-4 form-group">
               <div>
                   <label style="margin-bottom: 0;
-                  font-weight: 700;" >Model</label>
+                  font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Model_Name')}}</label>
                   <div style="display:flex;">
                   <button id="btnModel" (click)="toggleDropdown('model')" class="dropdown-button" type="button" >{{selectedModel ? selectedModel.Name : 'Seçiniz' }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('model')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -258,7 +258,7 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <fieldset class="field_set">
-          <legend class="fieldset_text">Demirbaş Özellikleri</legend>
+          <legend class="fieldset_text">{{getLanguageValue('Fixed_Asset_Card_Properties')}}</legend>
 
           <!-- ÖZELLİK TİPİ, ÖZELLİK DEĞERİ -->
           <div class="row justify-content-center">
@@ -267,7 +267,7 @@
             <div class="col-md-6">
 
               <div class="col-md-12 form-group">
-                <label>Özellik Adı</label>
+                <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
                 <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId"
                   name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()"
                   (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
@@ -279,7 +279,7 @@
 
               <!-- ÖZELLİK DEĞERİ -->
               <div class="col-md-12 form-group">
-                <label>Özellik Değeri</label>
+                <label>{{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>
                 <div class="flexProperty">
                   <div style="flex:1;">
                     <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId"
@@ -320,14 +320,14 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <fieldset class="field_set">
-          <legend class="fieldset_text">Genel Bilgiler</legend>
+          <legend class="fieldset_text">{{getLanguageValue('General_Informations')}}</legend>
           <div class="row justify-content-center">
 
             <!-- GARANTİSİ OLANLAR -->
             <div class="form-group col-md-3">
               <label class="ckbox">
                 <input type="checkbox" [(ngModel)]="fixedAsset.IsGuaranteed" id="IsGuaranteed"
-                  name="IsGuaranteed" /><span>Garantisi olanlar</span>
+                  name="IsGuaranteed" /><span>{{getLanguageValue('Guaranteed_Fixed_Assets')}}</span>
               </label>
             </div>
 
@@ -356,7 +356,7 @@
             <div class="form-group col-md-3">
               <label class="ckbox">
                 <input type="checkbox" (change)="IsPassiveFa($event)" id="IsPassive"
-                  name="IsGuaranteed" /><span>Pasif Demirbaşlar</span>
+                  name="IsPassive" /><span>Pasif Demirbaşlar</span>
               </label>
             </div>
 
@@ -378,11 +378,11 @@
   <!-- modal-body -->
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="resetFilter()">
-      Filtreyi Temizle
+      {{getLanguageValue('Reset_Filter')}}
     </button>
     <button class="btn btn-az-primary" id="btnFilterFixedAsset" type="submit" data-toggle="modal"
       data-target="#modalFilterFixedAsset">
-      Filtrele
+      {{getLanguageValue('Filter')}}
     </button>
   </div>
 </form>

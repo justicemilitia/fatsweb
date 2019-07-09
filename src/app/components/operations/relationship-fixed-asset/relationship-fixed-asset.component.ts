@@ -1,380 +1,374 @@
 import {
-    Component,
-    OnInit,
-    NgModule,
-    OnChanges,
-    SimpleChanges,
-    Input,
-    CUSTOM_ELEMENTS_SCHEMA,
-    ViewChild
-  } from "@angular/core";
-  import { BaseComponent } from "../../base/base.component";
-  import { BaseService } from "../../../services/base.service";
-  import { FixedAssetRelationship } from "../../../models/FixedAssetRelationship";
-  import { HttpErrorResponse } from "@angular/common/http";
-  import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
-  import { ReactiveFormsModule, NgForm } from "@angular/forms";
-  import { FixedAsset } from "../../../models/FixedAsset";
-  import { PopupComponent } from '../../popup/popup.component';
+  Component,
+  OnInit,
+  NgModule,
+  OnChanges,
+  SimpleChanges
+} from "@angular/core";
+import { BaseComponent } from "../../base/base.component";
+import { BaseService } from "../../../services/base.service";
+import { FixedAssetRelationship } from "../../../models/FixedAssetRelationship";
+import { HttpErrorResponse } from "@angular/common/http";
+import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
+import { ReactiveFormsModule, NgForm } from "@angular/forms";
+import { FixedAsset } from "../../../models/FixedAsset";
 
-  
-  @Component({
-    selector: "app-relationship-fixed-asset",
-    templateUrl: "./relationship-fixed-asset.component.html",
-    styleUrls: ["./relationship-fixed-asset.component.css"]
-  })
-  @NgModule({
-    imports: [ReactiveFormsModule],
-    declarations: [RelationshipFixedAssetComponent],
-    providers: [RelationshipFixedAssetComponent]
-  })
-  export class RelationshipFixedAssetComponent extends BaseComponent
-    implements OnInit, OnChanges {
-    ngOnChanges(changes: SimpleChanges): void {
-      if (changes["Ids"]) {
-        this.loadRelationalFixedAssetPopup();
-      }
+@Component({
+  selector: "app-relationship-fixed-asset",
+  templateUrl: "./relationship-fixed-asset.component.html",
+  styleUrls: ["./relationship-fixed-asset.component.css"]
+})
+@NgModule({
+  imports: [ReactiveFormsModule],
+  declarations: [RelationshipFixedAssetComponent],
+  providers: [RelationshipFixedAssetComponent]
+})
+export class RelationshipFixedAssetComponent extends BaseComponent
+  implements OnInit, OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["Ids"]) {
+      this.loadRelationalFixedAssetPopup();
     }
-  
-    /* Fixed Asset list */
-    fixedAsset: FixedAssetRelationship = new FixedAssetRelationship();
+  }
 
-    fixedAssets: FixedAssetRelationship[] = [];
-    Ids: number[] = [];
-    parentIds: number[] = [];
-  
-    isParentNull: boolean = false;
-  
-    isTableRefreshing: boolean = false;
-  
-    isTableExporting: boolean = false;
+  /* Fixed Asset list */
+  fixedAsset: FixedAssetRelationship = new FixedAssetRelationship();
+  fixedAssets: FixedAssetRelationship[] = [];
+  Ids: number[] = [];
+  parentIds: number[] = [];
 
-    errorMessage: HttpErrorResponse ;
-  
-    public dataTable: TreeGridTable = new TreeGridTable(
-      "fixedassetrelationship",
-      [
-        {
-          columnDisplayName: "Barkod",
-          columnName: ["Barcode"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Demirbaş Adı",
-          columnName: ["FixedAssetCard", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Demirbaş Kategorisi",
-          columnName: ["FixedAssetCard", "FixedAssetCardCategory", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Seri No",
-          columnName: ["SerialNumber"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Marka",
-          columnName: ["FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Model",
-          columnName: ["FixedAssetCardModel", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Statü",
-          columnName: ["Status", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Statü Kodu",
-          columnName: ["Status", "FixedAssetStatusCode"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Fiyat",
-          columnName: ["Price"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Personel",
-          columnName: ["FixedAssetUsers", "User", "FirstName"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-  
-        // {
-        //   columnDisplayName: "Şirket",
-        //   columnName: ["Company","Name"],
-        //   isActive: true,
-        //   classes: [],
-        //   placeholder: "",
-        //   type: "text"
-        // },
-        {
-          columnDisplayName: "Lokasyon Adı",
-          columnName: ["Location", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Lokasyon Kodu",
-          columnName: ["Location", "LocationCode"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Lokasyon Barkodu",
-          columnName: ["Location", "Barcode"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Lokasyon Koordinatı",
-          columnName: ["Location", "Coordinate"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Lokasyon Adresi",
-          columnName: ["Location", "Address"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Lokasyon Açıklaması",
-          columnName: ["Location", "Description"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Makbuz Tarihi",
-          columnName: ["ReceiptDate"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Fatura No",
-          columnName: ["InvoiceNo"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Fatura Tarihi",
-          columnName: ["InvoiceDate"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        // {
-        //   columnDisplayName: "Amortisman hesaplanacak mı ?",
-        //   columnName: ["WillDepreciationBeCalculated"],
-        //   isActive: true,
-        //   classes: [],
-        //   placeholder: "",
-        //   type: "text"
-        // },
-        // {    NESNE DÖNÜLECEK
-        //   columnDisplayName: "Amortisman Yöntemi",
-        //   columnName: ["DepreciationCalculationType","Name"],
-        //   isActive: true,
-        //   classes: [],
-        //   placeholder: "",
-        //   type: "text"
-        // },
-        {
-          columnDisplayName: "Amortisman Periyodu",
-          columnName: ["DepreciationPeriod"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Ifrs Fiyatı",
-          columnName: ["Ifrsprice"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Ifrs hesaplanacak mı ?",
-          columnName: ["WillIfrsbeCalculated"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Ifrs Periyodu",
-          columnName: ["Ifrsperiod"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        // {
-        //   columnDisplayName: "Enflasyon İndekslemesi",
-        //   columnName: ["HasInflationIndexation"],
-        //   isActive: true,
-        //   classes: [],
-        //   placeholder: "",
-        //   type: "text"
-        // },
-        {
-          columnDisplayName: "Garanti Başlangıç Tarihi",
-          columnName: ["GuaranteeStartDate"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Garanti Bitiş Tarihi",
-          columnName: ["GuaranteeEndDate"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Aktivasyon Tarihi",
-          columnName: ["ActivationDate"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Departman Kodu",
-          columnName: ["Department", "DepartmentCode"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Departman Adı",
-          columnName: ["Department", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Departman Açıklama",
-          columnName: ["Department", "Description"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Masraf Yeri",
-          columnName: ["ExpenseCenter", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        }
-      ],
+  isParentNull: boolean = false;
+
+  isTableRefreshing: boolean = false;
+
+  isTableExporting: boolean = false;
+
+  errorMessage: HttpErrorResponse;
+
+  public dataTable: TreeGridTable = new TreeGridTable(
+    "fixedassetrelationship",
+    [
       {
-        isDesc: false,
-        column: ["Barcode"]
-      }
-    );
-  
-    public dataTableRelationship: TreeGridTable = new TreeGridTable(
-      "breakfixedassetrelationship",
-      [
-        {
-          columnDisplayName: "Demirbaş Barkodu",
-          columnName: ["Barcode"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        },
-        {
-          columnDisplayName: "Demirbaş Adı",
-          columnName: ["FixedAssetCard", "Name"],
-          isActive: true,
-          classes: [],
-          placeholder: "",
-          type: "text"
-        }
-      ],
+        columnDisplayName: this.getLanguageValue('Barcode'),
+        columnName: ["Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
       {
-        isDesc: false,
-        column: ["Barcode"]
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
+        columnName: ["FixedAssetCard", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
+        columnName: ["FixedAssetCard", "FixedAssetCardCategory", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Serial_Number'),
+        columnName: ["SerialNumber"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Brand_Name'),
+        columnName: ["FixedAssetCardModel", "FixedAssetCardBrand", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Model_Name'),
+        columnName: ["FixedAssetCardModel", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Name'),
+        columnName: ["Status", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu_Code'),
+        columnName: ["Status", "FixedAssetStatusCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Price'),
+        columnName: ["Price"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Personel",
+        columnName: ["FixedAssetUsers", "User", "FirstName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+
+      // {
+      //   columnDisplayName: "Şirket",
+      //   columnName: ["Company","Name"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      {
+        columnDisplayName: this.getLanguageValue('Location_Name'),
+        columnName: ["Location", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Location_Code'),
+        columnName: ["Location", "LocationCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Location_Barcode'),
+        columnName: ["Location", "Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Location_Coordinate'),
+        columnName: ["Location", "Coordinate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Address'),
+        columnName: ["Location", "Address"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Location_Description'),
+        columnName: ["Location", "Description"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Receipt_Date'),
+        columnName: ["ReceiptDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Invoice_No'),
+        columnName: ["InvoiceNo"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Invoice_Date'),
+        columnName: ["InvoiceDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      // {
+      //   columnDisplayName: "Amortisman hesaplanacak mı ?",
+      //   columnName: ["WillDepreciationBeCalculated"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      // {    NESNE DÖNÜLECEK
+      //   columnDisplayName: "Amortisman Yöntemi",
+      //   columnName: ["DepreciationCalculationType","Name"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      {
+        columnDisplayName: this.getLanguageValue('Depreciation_Period'),
+        columnName: ["DepreciationPeriod"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('IFRS_Price'),
+        columnName: ["Ifrsprice"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Will_IFRS_Be_Calculated'),
+        columnName: ["WillIfrsbeCalculated"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('IFRS_Period'),
+        columnName: ["Ifrsperiod"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      // {
+      //   columnDisplayName: "Enflasyon İndekslemesi",
+      //   columnName: ["HasInflationIndexation"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
+      {
+        columnDisplayName: this.getLanguageValue('Guarentee_Start_Date'),
+        columnName: ["GuaranteeStartDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Guarentee_End_Date'),
+        columnName: ["GuaranteeEndDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Activation_Date'),
+        columnName: ["ActivationDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Department_Code'),
+        columnName: ["Department", "DepartmentCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Department_Name'),
+        columnName: ["Department", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Department_Description'),
+        columnName: ["Department", "Description"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Masraf Yeri",
+        columnName: ["ExpenseCenter", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
       }
-    );
-  
-    constructor(public baseService: BaseService) {
-      super(baseService);
-      this.loadFixedAssetRelationship();
-  
-      this.dataTableRelationship.isPagingActive = false;
-      this.dataTableRelationship.isColumnOffsetActive = false;
-      this.dataTableRelationship.isDeleteable = false;
-      this.dataTableRelationship.isTableEditable = true;
-      this.dataTableRelationship.isMultipleSelectedActive = false;
-      this.dataTableRelationship.isLoading = false;
-      this.dataTableRelationship.isFilterActive = false;
-      this.dataTableRelationship.isConfigOpen = false;
+    ],
+    {
+      isDesc: false,
+      column: ["Barcode"]
     }
-  
-    ngOnInit() { }
+  );
+
+  public dataTableRelationship: TreeGridTable = new TreeGridTable(
+    "breakfixedassetrelationship",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Barcode'),
+        columnName: ["Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
+        columnName: ["FixedAssetCard", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Barcode"]
+    }
+  );
+
+  constructor(public baseService: BaseService) {
+    super(baseService);
+    this.loadFixedAssetRelationship();
+
+    this.dataTableRelationship.isPagingActive = false;
+    this.dataTableRelationship.isColumnOffsetActive = false;
+    this.dataTableRelationship.isDeleteable = false;
+    this.dataTableRelationship.isTableEditable = true;
+    this.dataTableRelationship.isMultipleSelectedActive = false;
+    this.dataTableRelationship.isLoading = false;
+    this.dataTableRelationship.isFilterActive = false;
+    this.dataTableRelationship.isConfigOpen = false;
+  }
+
+  ngOnInit() { }
   
     async loadFixedAssetRelationship() {
       /* Load all fixed asset cards to datatable */

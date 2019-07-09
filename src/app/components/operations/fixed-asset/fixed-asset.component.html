@@ -3,33 +3,33 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>OPERASYONLAR</span>
-        <span>DEMİRBAŞ LİSTESİ</span>
+        <span>{{getLanguageValue('Fixed_Asset_Operations')}}</span>
+        <span>{{getLanguageValue('Fixed_Asset_List')}}</span>
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header" style="flex-direction: column;align-items: flex-start">
           <div style="display:flex">
-            <h2 class="az-content-title">Demirbaş Listesi</h2>
+            <h2 class="az-content-title">{{getLanguageValue('Fixed_Asset_List')}}</h2>
           </div>
           <div style="display: flex;width: 100%;">
             <div class="grp-btn-action-left">
               <button class="btn btn-az-primary btn-create-assets" style="margin-right:10px" data-toggle="tooltip"
-                data-placement="bottom" (click)="doOperation(1)" title="Demirbaş Girişi"><i
+                data-placement="bottom" (click)="doOperation(1)" title="{{getLanguageValue('Add_Fixed_Asset')}}"><i
                   class="fas fa-plus-circle"></i></button>
 
               <button id="btnFixedAssetInfo" class="btn btn-az-primary btn-create-assets" data-toggle="modal"
-                style="display:none" data-target="#modalFixedAssetInfo" title="Demirbaş Girişi"></button>
+                style="display:none" data-target="#modalFixedAssetInfo" title="{{getLanguageValue('Add_Fixed_Asset')}}"></button>
 
               <button class="btn btn-danger btn-exit-assets" style="margin-right:10px" data-toggle="tooltip"
-                data-placement="bottom" title="Demirbaş Çıkışı" (click)="doOperation(8)"><i
+                data-placement="bottom" title="{{getLanguageValue('Exit_Fixed_Asset')}}" (click)="doOperation(8)"><i
                   class="fas fa-minus-circle"></i></button>
 
               <button class="btn btn-az-primary btn-relation-button" (click)="doOperation(12)" data-toggle="tooltip"
-                data-placement="bottom" title="Demirbaş İlişkiendir"><i class="fas fa-link"></i></button>
+                data-placement="bottom" title="{{getLanguageValue('Relate_Fixed_Asset')}}"><i class="fas fa-link"></i></button>
               <button class="btn btn-az-primary btn-suspend-button" (click)="doOperation(10)" data-toggle="tooltip"
-                data-placement="bottom" title="Askıya Al"><i class="fas fa-level-up-alt"></i></button>
+                data-placement="bottom" title="{{getLanguageValue('Suspend_Fixed_Asset')}}"><i class="fas fa-level-up-alt"></i></button>
               <button class="btn btn-az-primary btn-lost-assets" (click)="doOperation(11)" data-toggle="tooltip"
-                data-placement="bottom" title="Kayıp Demirbaş"><i class="fas fa-search-minus"></i></button>
+                data-placement="bottom" title="{{getLanguageValue('Lost_Fixed_Asset')}}"><i class="fas fa-search-minus"></i></button>
               <div class="divider"></div>
               <button class="btn btn-az-primary btn-debit" (click)="doOperation(6)" data-toggle="tooltip"
                 data-placement="bottom" title="Zimmet Değiştir"><i class="fas fa-user-edit"></i></button>
@@ -37,25 +37,25 @@
                 title="Zimmet İptal" (click)="doOperation(7)"><i class="fas fa-user-times"></i></button> -->
               <div class="divider"></div>
               <button class="btn btn-az-primary btn-change-barcode" data-toggle="tooltip" data-placement="bottom"
-                title="Barkod Değiştirme" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
+                title="{{getLanguageValue('Change_Barcode')}}" (click)="doOperation(2)"><i class="fas fa-digital-tachograph"></i></button>
               <button class="btn btn-az-primary btn-change-firm" data-toggle="tooltip" data-placement="bottom"
-                title="Şirket Değiştirme" (click)="doOperation(5)"><i class="fas fa-building"></i></button>
+                title="{{getLanguageValue('Change_Firm')}}" (click)="doOperation(5)"><i class="fas fa-building"></i></button>
               <button class="btn btn-az-primary btn-change-location" data-toggle="tooltip" data-placement="bottom"
-                title="Lokasyon Değiştirme" (click)="doOperation(3)"><i class="fas fa-map-marker-alt"></i></button>
+                title="{{getLanguageValue('Change_Location')}}" (click)="doOperation(3)"><i class="fas fa-map-marker-alt"></i></button>
               <button class="btn btn-az-primary btn-change-department" data-toggle="tooltip" data-placement="bottom"
-                title="Departman Değiştirme" (click)="doOperation(4)"><i class="fas fa-sitemap"></i></button>
+                title="{{getLanguageValue('Change_Department')}}" (click)="doOperation(4)"><i class="fas fa-sitemap"></i></button>
               <div class="divider"></div>
               <button class="btn btn-az-primary btn-change-group-button" data-toggle="tooltip" data-placement="bottom"
-                title="Toplu Parametre Değiştirme" (click)="doOperation(9)">
+                title="{{getLanguageValue('Collective_Transaction')}}" (click)="doOperation(9)">
                 <i class="fas fa-retweet"></i>
               </button>
               <div class="divider"></div>
               <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
-                title="Demirbaş Filtreleme" (click)="doOperation(13)" style="margin-right:10px">
+                title="{{getLanguageValue('Filter')}}" (click)="doOperation(13)" style="margin-right:10px">
                 <i class="fas fa-filter"></i>
               </button>
               <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
-                title="Filtreyi temizle" (click)="refreshTable()">
+                title="{{getLanguageValue('Reset_Filter')}}" (click)="refreshTable()">
                 <i class="fas fa-filter"></i>
                 <i class="fas fa-times"
                   style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
@@ -65,7 +65,7 @@
 
             <div class="grp-btn-action">
                 <button class="btn btn-success btn-excel-custom" (click)="doOperation(14)" style="margin-right:10px" data-toggle="tooltip"
-                data-placement="bottom" title="Dosya Ekle - Çıkar"><i class="far fa-file"></i></button>
+                data-placement="bottom" title="{{getLanguageValue('Insert_Delete_File')}}"><i class="far fa-file"></i></button>
 
               <button class="btn btn-success btn-excel-custom" (click)="downloadDebitForm()" style="margin-right:10px" data-toggle="tooltip"
                 data-placement="bottom" title="Form"><i class="fas fa-file-download"></i></button>
@@ -181,13 +181,13 @@
       </div>
       <div class="modal-body">
         <fieldset class="field_set" style="padding-left: 10px; margin-right: 10px; margin-left: 10px;">
-          <legend>Genel Bilgiler</legend>
+          <legend>{{getLanguageValue('General_Informations')}}</legend>
 
           <div class="row justify-content-center">
             <div class="col-md-6">
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Barkod :</label>
+                  <label>{{getLanguageValue('Barcode')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.Barcode}}</span>
@@ -195,7 +195,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Demirbaş Adı :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Card_Name')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.FixedAssetCard.Name}}</span>
@@ -203,7 +203,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Demirbaş Kategorisi :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Category_Name')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{category == null ? " " : category}}</span>
@@ -219,7 +219,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Departman :</label>
+                  <label>{{getLanguageValue('Department')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{department}}</span>
@@ -237,7 +237,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Seri Numarası :</label>
+                  <label>{{getLanguageValue('Serial_Number')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.SerialNumber}}</span>
@@ -256,7 +256,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Marka :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Brand_Name')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetBrand == null ? " " : fixedAssetBrand}}</span>
@@ -265,7 +265,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Model :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Model_Name')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetModel == null ? " " : fixedAssetModel}}</span>
@@ -289,12 +289,12 @@
           </div>
         </fieldset>
         <fieldset class="field_set" style="margin-top: 10px;padding-left: 10px;margin-right: 10px; margin-left: 10px;">
-          <legend>Finansal Bilgiler</legend>
+          <legend>{{getLanguageValue('Financial_Informations')}}</legend>
           <div class="row justify-content-center">
             <div class="col-md-6">
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Fiyat :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Price')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.Price}}</span>
@@ -310,7 +310,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Fatura No :</label>
+                  <label>{{getLanguageValue('Invoice_No')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.InvoiceNo}}</span>
@@ -318,7 +318,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Fatura Tarihi :</label>
+                  <label>{{getLanguageValue('Invoice_Date')}}  :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.InvoiceDate ? fixedAssetInfo.InvoiceDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
@@ -326,15 +326,15 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Makbuz Tarihi :</label>
+                  <label>{{getLanguageValue('Receipt_Date')}} :</label>
                 </div>
                 <div class="col-md-6">
-                  <span>{{fixedAssetInfo.InvoiceDate ? fixedAssetInfo.InvoiceDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
+                  <span>{{fixedAssetInfo.ReceiptDate ? fixedAssetInfo.ReceiptDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
                 </div>
               </div>
               <div class="row" >
                 <div class="form-group col-md-6">
-                  <label>Demirbaş Aktif mi ? :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Is_Active')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.IsActive == true ? "Aktif" : "Pasif"}}</span>
@@ -343,7 +343,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Aktifleştirme Tarihi :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Activation_Date')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.ActivationDate ? fixedAssetInfo.ActivationDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
@@ -351,7 +351,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Sigorta Şirketi :</label>
+                  <label>{{getLanguageValue('Insurance_Company')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span></span>
@@ -363,7 +363,7 @@
             <div class="col-md-6">
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Amortisman Hesaplanacak mı?:</label>
+                  <label>{{getLanguageValue('Will_Depreciation_Be_Calculated')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.WillDepreciationBeCalculated == true ? "Evet" : "Hayır"}}</span>
@@ -371,7 +371,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Amortisman Periyodu :</label>
+                  <label>{{getLanguageValue('Depreciation_Period')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.DepreciationPeriod}}</span>
@@ -379,7 +379,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Amortisman Yöntemi :</label>
+                  <label>{{getLanguageValue('Depreciation_Method')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span></span>
@@ -387,7 +387,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>IFRS Hesaplanacak mı? :</label>
+                  <label>{{getLanguageValue('Will_IFRS_Be_Calculated')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.WillIfrsbeCalculated == true ? "Evet" : "Hayır"}}</span>
@@ -395,7 +395,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>IFRS Fiyatı :</label>
+                  <label>{{getLanguageValue('IFRS_Price')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.Ifrsprice}}</span>
@@ -403,7 +403,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Garanti Başlangıç Tarihi :</label>
+                  <label>{{getLanguageValue('Guarentee_Start_Date')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.GuaranteeStartDate ? fixedAssetInfo.GuaranteeStartDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>
@@ -411,7 +411,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Garanti Bitiş Tarihi :</label>
+                  <label>{{getLanguageValue('Guarentee_End_Date')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.GuaranteeEndDate ? fixedAssetInfo.GuaranteeEndDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>

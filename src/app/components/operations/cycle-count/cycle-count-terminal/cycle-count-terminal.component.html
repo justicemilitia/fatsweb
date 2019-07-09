@@ -9,7 +9,7 @@
       <form #data="ngForm"  novalidate>
 
           <div class="form-group">
-              <label>Sayım Planı</label>
+              <label>{{getLanguageValue('Counting_Plans')}}</label>
               <select [(ngModel)]="cyclecountplan.CycleCountPlanId" name="CycleCountPlanId" class="form-control" (change)="loadLocationByCycleCountPlanId($event)">
                 <option [ngValue]="null">Yok</option>
                 <option *ngFor="let plan of cyclecountplans" value="{{ plan.CycleCountPlanId }}">
@@ -29,7 +29,7 @@
           </div>
 
           <div class="form-group">
-            <label>Barkod</label>
+            <label>{{getLanguageValue('Barcode')}}</label>
             <input [(ngModel)]="cyclecountplan.Barcode" name="Barcode" id="Barcode" [disabled]="isStarted==false" autocomplete="off" (keyup)="onCountingKeyUp($event)" type="text" class="form-control"/>         
        
           </div>

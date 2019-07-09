@@ -46,7 +46,7 @@ export class FaLostComponent extends BaseComponent
     "lostfixedasset",
     [
       {
-        columnDisplayName: "Demirbaş Barkodu",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -54,7 +54,7 @@ export class FaLostComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],

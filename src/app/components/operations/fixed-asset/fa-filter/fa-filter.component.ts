@@ -93,7 +93,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     "fixedassetcardpropertyvalue",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -101,7 +101,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -119,7 +119,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     "user",
     [
       {
-        columnDisplayName: "Kullanıcı",
+        columnDisplayName: this.getLanguageValue('User'),
         columnName: ["|User"],
         isActive: true,
         classes: [],
@@ -162,7 +162,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     "department",
     [
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -198,7 +198,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     "fixedassetcategory",
     [
       {
-        columnDisplayName: "Demirbaş Kategorisi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -234,7 +234,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     "brand",
     [
       {
-        columnDisplayName: "Marka",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Brand_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -252,7 +252,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     "model",
     [
       {
-        columnDisplayName: "Model",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Model_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],

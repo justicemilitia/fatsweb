@@ -3,12 +3,12 @@
       <div class="media-body">
         <!-- Bread Crumb -->
         <div class="az-content-breadcrumb">
-          <span>SAYIM PLANLARI</span>
+          <span>{{getLanguageValue('Counting_Plans')}}</span>
         </div>
         <!-- END Bread Crumb END -->
         <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header" style="padding-bottom:0px;">
-            <h2 class="az-content-title" style="margin-left:20px;">Sayım Planları</h2>
+            <h2 class="az-content-title" style="margin-left:20px;">{{getLanguageValue('Counting_Plans')}}</h2>
             <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
               <div *ngIf="locationButton == true">
                 <button class="btn btn-az-primary btn-change-location" (click)="doOperation(3)" style="margin-right:10px"><i class="fas fa-map-marker-alt"></i></button>
@@ -56,7 +56,7 @@
               <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
                   <mat-tab>
                     <ng-template mat-tab-label>
-                      Sayım Planları
+                      {{getLanguageValue('Counting_Plans')}}
                     </ng-template>     
                     <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                         <tree-grid-table [dataTable]="dataTable">
@@ -67,7 +67,7 @@
 
                   <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
                    <ng-template mat-tab-label>
-                     Sayım Detayları
+                    {{getLanguageValue('Counting_Details')}}
                    </ng-template>     
                     <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                         <tree-grid-table [dataTable]="dataTableCycleCountDetail">
@@ -98,7 +98,7 @@
 
                   <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
                       <ng-template mat-tab-label>
-                        Sayımda Bulunamayanlar
+                        {{getLanguageValue('Not_Found_In_Counting')}}
                       </ng-template>     
                        <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                            <tree-grid-table [dataTable]="dataTableNotFoundFixedAsset">
@@ -129,7 +129,7 @@
 
                   <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
                         <ng-template mat-tab-label>
-                          Lokasyonu Farklı Olanlar
+                          {{getLanguageValue('Found_In_Different_Location')}}
                         </ng-template>     
                          <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                              <tree-grid-table [dataTable]="dataTableDifferenLocationFixedAsset">
@@ -160,7 +160,7 @@
 
                   <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 ? null : 'disabled'">
                     <ng-template mat-tab-label>
-                      Sistemde Kaydı Bulunmayanlar
+                      {{getLanguageValue('No_Record_In_System')}}
                     </ng-template>     
                      <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                          <tree-grid-table [dataTable]="dataTableNotRegisteredFixedAsset">
@@ -211,17 +211,17 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label>Sayım No</label>
+              <label>{{getLanguageValue('Counting_No')}}</label>
               <input [(ngModel)]="cycleCountPlan.CycleCountPlanNo" name="CycleCountPlanNo" type="text" trim="blur"
               #CycleCountPlanNo="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CycleCountPlanNo.invalid }" class="form-control" required>
               <div *ngIf="data.submitted && CycleCountPlanNo.invalid" class="invalid-feedback">
-                <div *ngIf="CycleCountPlanNo.errors.required">Bu alan zorunludur.</div>             
+                <div *ngIf="CycleCountPlanNo.errors.required">{{getLanguageValue('This_value_is_required')}}</div>             
               </div>
             </div>
           </div> 
           <div class="row justify-content-center">       
             <div class="form-group col-md-6">
-              <label>Başlama Tarihi</label>
+              <label>{{getLanguageValue('Start_Date')}}</label>
               <div class="input-group">
                 <div class="input-group-append">
                   <div (click)="startTime.toggle()" class="input-group-text">
@@ -233,7 +233,7 @@
             </div>
             </div>
             <div class="form-group col-md-6">
-                <label>Bitiş Tarihi</label>
+                <label>{{getLanguageValue('End_Date')}}</label>
                 <div class="input-group">
                   <div class="input-group-append">
                     <div (click)="endTime.toggle()" class="input-group-text">
@@ -251,19 +251,19 @@
                 <input [(ngModel)]="cycleCountPlan.TaskName" name="TaskName" type="text" trim="blur" class="form-control"
                 #TaskName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && TaskName.invalid }" required>
                 <div *ngIf="data.submitted && TaskName.invalid" class="invalid-feedback">
-                  <div *ngIf="TaskName.errors.required">Bu alan zorunludur.</div>             
+                  <div *ngIf="TaskName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>             
                 </div>
               </div>
            <div class="form-group col-md-6">
             <div>
               <label style="margin-bottom: 0;
-              font-weight: 700;" >Lokasyon</label>                
+              font-weight: 700;" >{{getLanguageValue('Counting_Location')}}</label>                
               <div style="display:flex;">
-              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyın seçildi" : "Seçiniz" }}</button>
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyon seçildi" : "Seçiniz" }}</button>
                 <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
               </div>   
               <div *ngIf="data.submitted && !selectedLocation" style="color:red">
-                <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
+                <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
               </div>                  
             </div>                 
             <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
@@ -274,7 +274,7 @@
       
             <div class="row justify-content-center">
                 <div class="form-group col-md-12">
-                    <label>Açıklama</label>
+                    <label>{{getLanguageValue('Description')}}</label>
                     <textarea [(ngModel)]="cycleCountPlan.Description" style="resize:none" name="Description" maxlength="150" class="form-control" type="text"></textarea>                
                </div>
               </div>
@@ -283,7 +283,7 @@
         <div class="modal-footer">
           <button id="btnInsertCycleCountPlan" *ngIf="isWaitingInsertOrUpdate == false" type="submit"
           class="btn btn-az-primary">
-          Sayım Planı Ekle
+          {{getLanguageValue('Add_Counting_Plan')}}
         </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
@@ -317,8 +317,8 @@
 
     <!-- modal-body -->
     <div class="modal-footer">
-        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">Hayır</button>        
-        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="CancelCycleCountPlan()" style="padding: 5px 20px;">Evet</button>
+        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">{{getLanguageValue('No')}}</button>        
+        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="CancelCycleCountPlan()" style="padding: 5px 20px;">{{getLanguageValue('Yes')}}</button>
       <!-- <button class="btn btn-az-primary " data-dismiss="modal" style="width:150px; " data-toggle="modal" data-target="#modalLostFixedAsset">Evet</button> -->
     </div>
 </form>
@@ -346,8 +346,8 @@
 
     <!-- modal-body -->
     <div class="modal-footer">
-        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">Hayır</button>        
-        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="UpdateNotFoundFixedAsset()" style="padding: 5px 20px;">Evet</button>
+        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">{{getLanguageValue('No')}}</button>        
+        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="UpdateNotFoundFixedAsset()" style="padding: 5px 20px;">{{getLanguageValue('Yes')}}</button>
       <!-- <button class="btn btn-az-primary " data-dismiss="modal" style="width:150px; " data-toggle="modal" data-target="#modalLostFixedAsset">Evet</button> -->
     </div>
 </form>
@@ -374,8 +374,8 @@
     </div>
     <!-- modal-body -->
     <div class="modal-footer">
-        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">Hayır</button>        
-        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="UpdateFindDifferentLocationsFixedassets()" style="padding: 5px 20px;">Evet</button>
+        <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">{{getLanguageValue('No')}}</button>        
+        <button class="btn btn-az-primary" id="btnCycleCountPlan" type="button" (click)="UpdateFindDifferentLocationsFixedassets()" style="padding: 5px 20px;">{{getLanguageValue('Yes')}}</button>
       <!-- <button class="btn btn-az-primary " data-dismiss="modal" style="width:150px; " data-toggle="modal" data-target="#modalLostFixedAsset">Evet</button> -->
     </div>
 </form>

@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h6 class="modal-title">Askıya alma bilgilerini giriniz.</h6>
+    <h6 class="modal-title">{{getLanguageValue('Enter_information_about_suspend_process')}}</h6>
     <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -20,7 +20,7 @@
     <!-- ASKIYA ALMA NEDENİ -->
     <div class="row justify-content-center">
         <div class="col-md-12 form-group">
-          <label class="required-span">Askıya Alma Nedeni</label>
+          <label class="required-span">{{getLanguageValue('Suspention_Reasons')}}</label>
           <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
             #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }"
             required>
@@ -30,7 +30,7 @@
             </option>
           </select>
           <div *ngIf="data.submitted && CheckOutReasonId.invalid" class="invalid-feedback">
-            <div *ngIf="CheckOutReasonId.errors.required">Bu alan zorunludur.</div>
+            <div *ngIf="CheckOutReasonId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
     <!-- BEKLENEN DÖNÜŞ TARİHİ -->
   <div class="row justify-content-center">    
     <div class="col-md-12 form-group">
-    <label class="required-span">Beklenen Dönüş Tarihi</label>
+    <label class="required-span">{{getLanguageValue('Expected_Arrival_Date')}}</label>
     <div class="input-group">
       <div class="input-group-append"
         [class.is-invalid]="data.submitted && (!transactionLog.CheckInExpectedArrivalDate || checkInExpectedArrivalDateModel.status == 'INVALID' )">
@@ -51,7 +51,7 @@
         [class.is-invalid]="data.submitted && (!transactionLog.CheckInExpectedArrivalDate || checkInExpectedArrivalDateModel.status == 'INVALID' )" [minDate]="today()"
         required>
       <div *ngIf="data.submitted && checkInExpectedArrivalDateModel.invalid" class="invalid-feedback">
-        <div *ngIf="checkInExpectedArrivalDateModel.errors.required">Bu alan zorunludur.</div>
+        <div *ngIf="checkInExpectedArrivalDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
         <div *ngIf="!checkInExpectedArrivalDateModel.errors.required && checkInExpectedArrivalDateModel.status == 'INVALID'">
           Lütfen Geçerli Format Giriniz.
         </div>
@@ -63,7 +63,7 @@
     <!-- AÇIKLAMA -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Açıklama</label>
+        <label>{{getLanguageValue('Description')}}</label>
         <textarea [(ngModel)]="transactionLog.Description" name="Description" style="resize:none" rows="2"
           class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
       </div>
@@ -74,7 +74,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label class="ckbox">
-            <input type="checkbox" [(ngModel)]="transactionLog.IsCreateSuspendForm" (change)="isCreateSuspendForm($event)" name="IsCreateSuspendForm" #IsCreateSuspendForm="ngModel" /><span>Askıya alma formu basılsın.</span>
+            <input type="checkbox" [(ngModel)]="transactionLog.IsCreateSuspendForm" (change)="isCreateSuspendForm($event)" name="IsCreateSuspendForm" #IsCreateSuspendForm="ngModel" /><span>{{getLanguageValue('Create_suspend_form')}}</span>
           </label>
         </div>
       </div>
@@ -85,7 +85,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label class="ckbox">
-                <input type="checkbox" [(ngModel)]="transactionLog.IsSendMail" name="IsSendMail" #IsCreateSuspendForm="ngModel"/><span>E-posta ile hatırlatma istiyorum.</span>
+                <input type="checkbox" [(ngModel)]="transactionLog.IsSendMail" name="IsSendMail" #IsCreateSuspendForm="ngModel"/><span>{{getLanguageValue('Remind_me_with_an_email')}}</span>
               </label>
             </div>
           </div>
@@ -97,7 +97,7 @@
   <div class="modal-footer">
     <button class="btn btn-az-primary" id="btnExitFixedAsset" type="submit" data-toggle="modal"
       data-target="#modalExitFixedAsset">
-      Kaydet
+      {{getLanguageValue('Save')}}
     </button>
     <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
   </div>

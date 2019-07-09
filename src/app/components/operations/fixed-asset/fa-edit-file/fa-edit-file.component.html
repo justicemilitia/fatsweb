@@ -1,5 +1,6 @@
 <div class="modal-header">
-    <h6 class="modal-title">Dosya Düzenleme</h6>
+    <h6 class="modal-title">{{getLanguageValue('Insert_Delete_File')}}
+    </h6>
     <button id="CloseModal" type="button" class="close" (click)="resetForm()" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -19,7 +20,7 @@
                     <input #fixedAssetFiles name="FixedAssetFiles" id="FixedAssetFiles" type="file" multiple (change)="onFileSelected($event)" style="display:none"/>
                     <label for="FixedAssetFiles" class="custom-files">
                       <label  for="FixedAssetFiles" style="margin-top: 40px">
-                        Dosya eklemek için tıklayınız.
+                        {{getLanguageValue('Click_here_to_upload_file')}}
                       </label>  
                     </label>  
                     </div>
@@ -49,7 +50,7 @@
                  Dosya Sil
                 </button>
                 <button class="btn btn-orange" (click)="insertFiles($event)" id="btnAddFile">
-                  Dosya Ekle
+                  {{getLanguageValue('Add_File')}}
                  </button>
               </div>
             </div>

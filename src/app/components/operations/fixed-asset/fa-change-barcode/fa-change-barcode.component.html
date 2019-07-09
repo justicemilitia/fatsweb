@@ -12,7 +12,7 @@
     <!-- BARKOD -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Barkod</label>
+        <label>{{getLanguageValue('Barcode')}}</label>
         <input name="Barcodes" value="{{faBarcode.Barcode}}" type="text" class="form-control" disabled />
       </div>
     </div>
@@ -20,7 +20,7 @@
     <!-- DEMİRBAŞ ADI -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Demirbaş Adı</label>
+        <label>{{getLanguageValue('Fixed_Asset_Card_Name')}}</label>
         <input name="Name" value="{{faBarcode.FixedAssetCard.Name}}" type="text" class="form-control" disabled />
       </div>
     </div>
@@ -28,11 +28,11 @@
     <!-- YENİ BARKOD -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Yeni Barkod</label>
+        <label>{{getLanguageValue('New_Barcode')}}</label>
         <input [(ngModel)]="Barcode" name="newBarcodes" type="text" class="form-control" trim="blur" #newBarcodes="ngModel"
           [ngClass]="{ 'is-invalid': data.submitted && newBarcodes.invalid }" required />
         <div *ngIf="data.submitted && newBarcodes.invalid" class="invalid-feedback">
-          <div *ngIf="newBarcodes.errors.required">Bu alan zorunludur.</div>
+          <div *ngIf="newBarcodes.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
   <div class="modal-footer">
     <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-az-primary" id="btnChangeBarcode" type="submit"
       data-toggle="modal" data-target="#modalChangeBarcode">
-      Kaydet
+      {{getLanguageValue('Save')}}
     </button>
     <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
   </div>

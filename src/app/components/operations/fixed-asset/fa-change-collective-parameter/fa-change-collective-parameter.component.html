@@ -20,14 +20,14 @@
              
              <div class="col-md-12 form-group">
              <fieldset class="field_set">  
-                <legend>Genel Bilgiler</legend>
+                <legend>{{getLanguageValue('General_Informations')}}</legend>
 
                 <!--DEMİRBAŞ KATEGORİSİ - DEMİRBAŞ KARTI - DEMİRBAŞ RESMİ -->
              <div class="row">
               <!--DEMİRBAŞ KATEGORİSİ -->
 
                 <div class="col-md-3 form-group" >
-                    <label>Demirbaş Kategorisi</label>
+                    <label>{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>
                     <select [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId" (change)="loadFaCardByCategoryId($event)" class="form-control" #FixedAssetCardCategoryId="ngModel">
                       <option [ngValue]="null">Seçiniz</option>
                       <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}                      
@@ -42,21 +42,21 @@
                       <option [ngValue]="null">Seçiniz</option>
                       <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>          
                     </select>
-                    <div *ngIf="selectFixedAssetCard == true" style="color:red">Bu alan zorunludur.</div>
+                    <div *ngIf="selectFixedAssetCard == true" style="color:red">{{getLanguageValue('This_value_is_required')}}</div>
                     <div *ngIf="data.submitted && FixedAssetCardId.invalid" class="invalid-feedback">
-                        <div *ngIf="FixedAssetCardId.errors.required">Bu alan zorunludur.</div>
+                        <div *ngIf="FixedAssetCardId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div> 
                 </div>
 
                   <!--SERİ NO-->
                 <div class="col-md-3 form-group">
-                    <label>Seri No</label>
+                    <label>{{getLanguageValue('Serial_Number')}}</label>
                     <input [(ngModel)]="fixedAsset.SerialNumber" name="SerialNumber" type="text" class="form-control" #SerialNumber="ngModel" >
                 </div>
 
                 <!-- TEDARİKÇİ -->
                 <div class="col-md-3 form-group">
-                    <label>Tedarikçi</label>
+                    <label>{{getLanguageValue('Supplier')}}</label>
                     <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" class="form-control" #CompanyId="ngModel">
                         <option [ngValue]="null">Seçiniz</option>
                         <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
@@ -71,7 +71,7 @@
 
                   <!-- FİRMA -->
                   <div class="col-md-3 form-group">
-                      <label>Firma</label>
+                      <label>{{getLanguageValue('Firm')}}</label>
                       <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" (change)="getFirmId($event)" class="form-control" #FirmId="ngModel">
                         <option [ngValue]="null">Seçiniz</option>
                         <option *ngFor="let firm of firms" value="{{ firm.FirmId }}">
@@ -93,12 +93,12 @@
                             {{ location.Name }}
                       </option>
                         </select>
-                        <div *ngIf="selectedFirm == true" style="color:red">Bu alan zorunludur.</div>
+                        <div *ngIf="selectedFirm == true" style="color:red">{{getLanguageValue('This_value_is_required')}}</div>
                     </div>
   
                      <!-- DEPARTMAN -->
                      <div class="col-md-3 form-group">
-                      <label>Departman</label>
+                      <label>{{getLanguageValue('Department')}}</label>
                       <select
                         [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control" (change)="selectDepartment($event)" #DepartmentId="ngModel">
                         <option [ngValue]="">Seçiniz</option>
@@ -125,7 +125,7 @@
                 
                     <!-- MARKA -->
                     <div class="form-group col-md-3">
-                        <label>Marka</label>                  
+                        <label>{{getLanguageValue('Fixed_Asset_Brand_Name')}}</label>                  
                         <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" class="form-control select2-no-search" 
                          (change)="loadModelByBrandId($event)" #FixedAssetCardBrandId="ngModel">
                           <option [ngValue]="null">Seçiniz</option>
@@ -135,7 +135,7 @@
     
                     <!-- MODEL -->
                     <div class="form-group col-md-3">
-                        <label>Model</label>                  
+                        <label>{{getLanguageValue('Fixed_Asset_Model_Name')}}</label>                  
                         <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" class="form-control select2-no-search" #FixedAssetCardModelId="ngModel">
                             <option [ngValue]="null" >Seçiniz</option>
                             <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
@@ -147,11 +147,11 @@
                          <div class="row" style="margin-left:30px">
                             <div class="col-md-6" style="margin-top:20px">                             
                               <input type="radio" [(ngModel)]="fixedAsset.IsActive" class="form-check-input" (change)="isActivate(1)" [value]="true" name="IsActive" #IsActive="ngModel"
-                              /><span>Aktif</span>
+                              /><span>{{getLanguageValue('Active')}}</span>
                             </div>
                             <div class="col-md-6" style="margin-top:20px">
                               <input type="radio" [(ngModel)]="fixedAsset.IsActive" class="form-check-input" (change)="isActivate(0)" [value]="false" name="IsActive" #IsActive="ngModel"
-                              /><span>Pasif</span>
+                              /><span>{{getLanguageValue('Passive')}}</span>
                             </div>        
                           </div> 
                         </div>
@@ -181,20 +181,20 @@
 
             <div class="col-md-12 form-group">             
               <fieldset class="field_set">
-                  <legend>Finansal Bilgiler</legend>
+                  <legend>{{getLanguageValue('Financial_Informations')}}</legend>
               <div class="row">
 
                   <!-- FİYAT -->
                   <div class="col-md-3 form-group">
                     <div class="row">
                       <div class="col-md-6 form-group">
-                     <label>Fiyat</label>
+                     <label>{{getLanguageValue('Fixed_Asset_Price')}}</label>
                      <input [(ngModel)]="fixedAsset.Price" name="Price" type="text" class="form-control" #Price="ngModel" >
                     </div>
 
                     <!-- PARA BİRİMİ -->
                     <div class="col-md-6 form-group">
-                     <label>Para Birimi</label>
+                     <label>{{getLanguageValue('Currency')}}</label>
                      <select [(ngModel)]="fixedAsset.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
                        <option value="-1" >Para Pirimi</option>
                        <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
@@ -207,7 +207,7 @@
                   <div class="col-md-3 form-group">
 
                       <!-- SİGORTA ŞİRKETİ -->              
-                      <label>Sigorta Şirketi</label>
+                      <label>{{getLanguageValue('Insurance_Company')}}</label>
                       <select [(ngModel)]="fixedAsset.InsuranceCompanyId" name="InsuranceCompanyId" class="form-control" #InsuranceCompanyId="ngModel">
                           <option [ngValue]="null">Seçiniz</option>
                           <option *ngFor="let company of companies" value="{{ company.CompanyId }}">
@@ -219,7 +219,7 @@
 
                    <!-- FATURA TARİHİ -->
                   <div class="col-md-3 form-group">
-                      <label>Fatura Tarihi</label>
+                      <label>{{getLanguageValue('Invoice_Date')}}</label>
                       <div class="input-group">
                           <div class="input-group-append">
                             <div (click)="invoiceDate.toggle()" class="input-group-text">
@@ -233,7 +233,7 @@
 
                   <!-- FATURA NUMARASI -->
                   <div class="form-group col-md-3">
-                      <label>Fatura Numarası</label>
+                      <label> {{getLanguageValue('Invoice_No')}}</label>
                       <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" class="form-control" #InvoiceNo="ngModel"/>
                   </div>
                 </div>
@@ -251,7 +251,7 @@
 
                 <!-- MAKBUZ TARİHİ -->           
                 <div class="form-group col-md-3">
-                    <label>Makbuz Tarihi</label>  
+                    <label>{{getLanguageValue('Receipt_Date')}}</label>  
                     <div class="input-group">
                         <div class="input-group-append">
                           <div (click)="receiptDate.toggle()" class="input-group-text">
@@ -265,7 +265,7 @@
 
                 <!-- BAŞLANGIÇ TARİHİ -->
                 <div class="col-md-3 form-group">
-                    <label>Garanti Başlangıç Tarihi</label>
+                    <label> {{getLanguageValue('Guarentee_Start_Date')}}</label>
                     <div class="input-group">
                       <div class="input-group-append">
                         <div (click)="guaranteeStartDate.toggle()" class="input-group-text">
@@ -279,7 +279,7 @@
 
                 <!-- BİTİŞ TARİHİ -->
                 <div class="col-md-3 form-group">
-                    <label>Garanti Bitiş Tarihi</label>
+                    <label> {{getLanguageValue('Guarentee_End_Date')}}</label>
                     <div class="input-group">
                       <div class="input-group-append">
                         <div (click)="guaranteeEndDate.toggle()" class="input-group-text">
@@ -298,13 +298,13 @@
         <div class="row justify-content-center">
             <div class="col-md-12 form-group">   
             <fieldset class="field_set">
-                <legend>Demirbaş Özellikleri</legend>
+                <legend>{{getLanguageValue('Fixed_Asset_Card_Properties')}}</legend>
               <div class="row">
                 <div class="form-group col-md-3">
                     <div style="display:flex; justify-content: flex-start;">
                         <div style="flex:1">
                                 <div class="form-group">
-                                  <label>Özellik Adı</label>
+                                  <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
                                     <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
                                         <option value="-1">Özellik Seçiniz</option>
                                         <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
@@ -312,7 +312,7 @@
                                 </div>
                             
                               <div class="form-group"> 
-                                  <label>Özellik Değeri</label>    
+                                  <label> {{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>    
                                    <div class="flexProperty">        
                                     <div style="flex:1;">            
                                      <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
@@ -338,7 +338,7 @@
                 <div class="form-group col-md-3">
                     <div style="display:flex;justify-content: space-between; flex-direction: column;"> 
                         <div class="form-group">
-                            <label>Demirbaş Resmi</label>
+                            <label>{{getLanguageValue('Fixed_Asset_Picture')}}</label>
                         </div>
                         <div class="row justify-content-center" style="margin-top: -9px">  
                           <div class="form-group well my-drop-zone" *ngIf="!imgURL">                          
@@ -375,7 +375,7 @@
       id="btnChangeCollectiveParameter"
       type="submit"
       data-toggle="modal"
-      data-target="#modalChangeCollectiveParameter">Kaydet
+      data-target="#modalChangeCollectiveParameter">{{getLanguageValue('Save')}}
     </button>
   </div>
 </form>
