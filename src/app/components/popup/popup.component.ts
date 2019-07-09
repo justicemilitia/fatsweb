@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, NgModule, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BaseService } from '../../services/base.service';
 import { BaseComponent } from '../base/base.component';
@@ -19,10 +19,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PopupComponent extends BaseComponent implements OnInit {
 
-  errorMessage: HttpErrorResponse;
+  @Input() errorMessage: string ;
+  error: string;
   
   constructor(public baseService: BaseService) {
     super(baseService);
+    this.error=this.errorMessage;
   }
 
   ngOnInit() {
