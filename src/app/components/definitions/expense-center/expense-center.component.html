@@ -32,7 +32,7 @@
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
-              id="btnEditExpenseCenter" data-toggle="modal" data-target="#modalExpenseCenter">Masraf Yeri Düzenle
+              id="btnEditExpenseCenter" data-toggle="modal" data-target="#modalExpenseCenter">{{getLanguageValue('Reedit_Expense_Center')}}
             </button>
 
           </div>
@@ -53,7 +53,7 @@
   <div class="modal-dialog  modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Masraf yeri bilgilerini giriniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_expense_center_informations')}}.</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -77,7 +77,7 @@
                             <!-- Per In Page Select area -->
                             <select class="table-pagination-select" (change)="loadCycleCountResult(perInPage,1,1)" [(ngModel)]="perInPage">
                               <option *ngFor="let perIn of dataTableCycleCountDetail.perInPages" value="{{perIn}}">{{perIn}}</option>
-                              <option value="1000">Hepsi</option>
+                              <option value="1000">{{getLanguageValue('All')}}</option>
                             </select>
                             <!-- END Per In Page Select area END -->
                             <!-- Paginations -->
@@ -108,7 +108,7 @@
                             <!-- Per In Page Select area -->
                             <select class="table-pagination-select" (change)="loadCycleCountResultNotFoundFixedAsset(perInPage,1)" [(ngModel)]="perInPage">
                               <option *ngFor="let perIn of dataTableNotFoundFixedAsset.perInPages" value="{{perIn}}">{{perIn}}</option>
-                              <option value="1000">Hepsi</option>
+                              <option value="1000">{{getLanguageValue('All')}}</option>
                             </select>
                             <!-- END Per In Page Select area END -->
                             <!-- Paginations -->
@@ -139,7 +139,7 @@
                             <!-- Per In Page Select area -->
                             <select class="table-pagination-select" (change)="loadCycleCountResult(perInPage,1,3)" [(ngModel)]="perInPage">
                               <option *ngFor="let perIn of dataTableDifferenLocationFixedAsset.perInPages" value="{{perIn}}">{{perIn}}</option>
-                              <option value="1000">Hepsi</option>
+                              <option value="1000">{{getLanguageValue('All')}}</option>
                             </select>
                             <!-- END Per In Page Select area END -->
                             <!-- Paginations -->
@@ -170,7 +170,7 @@
                         <!-- Per In Page Select area -->
                         <select class="table-pagination-select" (change)="loadCycleCountResult(perInPage,1,4)" [(ngModel)]="perInPage">
                           <option *ngFor="let perIn of dataTableNotRegisteredFixedAsset.perInPages" value="{{perIn}}">{{perIn}}</option>
-                          <option value="1000">Hepsi</option>
+                          <option value="1000">{{getLanguageValue('All')}}</option>
                         </select>
                         <!-- END Per In Page Select area END -->
                         <!-- Paginations -->

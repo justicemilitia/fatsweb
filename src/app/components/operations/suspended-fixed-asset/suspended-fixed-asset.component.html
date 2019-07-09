@@ -98,7 +98,7 @@
                 <div *ngIf="dataSuspend.submitted && undoSuspensionDateModel.invalid" class="invalid-feedback">
                   <div *ngIf="undoSuspensionDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   <div *ngIf="!undoSuspensionDateModel.errors.required && undoSuspensionDateModel.status == 'INVALID'">
-                    Lütfen Geçerli Format Giriniz.
+                    {{getLanguageValue('Format_is_not_valid')}}
                   </div>
                 </div>
               </div>

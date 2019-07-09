@@ -36,8 +36,8 @@ export class FaDeleteDebitComponent extends BaseComponent implements OnInit, OnC
       singleSelection: false,
       idField: "UserId",
       textField: "UserMail",
-      selectAllText: "Hepsini Seç",
-      unSelectAllText: "Temizle",
+      selectAllText: this.getLanguageValue('Select_All'),
+      unSelectAllText: this.getLanguageValue('Clear'),
       itemsShowLimit: 10,
       allowSearchFilter: true
     };

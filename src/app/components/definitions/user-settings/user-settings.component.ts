@@ -65,8 +65,8 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
       singleSelection: false,
       idField: "RoleId",
       textField: "Name",
-      selectAllText: "Hepsini Seç",
-      unSelectAllText: "Temizle",
+      selectAllText: this.getLanguageValue('Select_All'),
+      unSelectAllText: this.getLanguageValue('Clear'),
       itemsShowLimit: 2,
       allowSearchFilter: true
     };

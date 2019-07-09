@@ -71,7 +71,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir rol seçiniz"
+        this.getLanguageValue('Choose_at_least_one_role')
       );
       return;
     }
@@ -105,7 +105,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
         },
         (failedItems: []) => {
           this.baseService.spinner.hide();
-          this.baseService.popupService.ShowAlertPopup("Kayıtlar ilişkili olduğundan silinemedi!");
+          this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Records_couldnt_delete_cause_theyre_related'));
         }
       );
     });

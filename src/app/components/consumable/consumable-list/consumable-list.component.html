@@ -89,9 +89,9 @@
 
           <div class="row justify-content-center">
           <div class="form-group col-md-6">
-              <label class="required-span">Lokasyon</label>
+              <label class="required-span">{{getLanguageValue('Location')}}</label>
               <div style="display:flex;">
-                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
+                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
                   <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedLocation" style="color:red">
@@ -226,7 +226,7 @@
           <div class="row justify-content-center">
 
           <div class="form-group col-md-6">
-              <label>Lokasyon</label>
+              <label>{{getLanguageValue('Location')}}</label>
               <input name="LocationId"  value="{{consumable.ConsumableLocation == null ? '' : consumable.ConsumableLocation.Name}}" class="form-control" type="text" disabled/>
           </div>
 
@@ -244,7 +244,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;">Gönderilecek Departman</label>
                        <div style="display:flex;">
-                          <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="exitData.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+                          <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="exitData.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
                             <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
                           </div>
                           <div *ngIf="exitData.submitted && !selectedDepartment" style="color:red">

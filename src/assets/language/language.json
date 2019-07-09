@@ -1093,7 +1093,7 @@
   },
   {
     "LanguageId": 206,
-    "LanguageKeyword": "No_related_records_found!",
+    "LanguageKeyword": "No_related_records_found!!",
     "Tr": "İlişkilendirilebilecek kayıt bulunamadı!",
     "En": "No related records found!"
   },
@@ -1848,7 +1848,7 @@
   },
   {
     "LanguageId": 1362,
-    "LanguageKeyword": "Out_Insert",
+    "LanguageKeyword": "Out_Edit",
     "Tr": "Düzenleyebilir",
     "En": "Edit"
   },
@@ -2324,7 +2324,7 @@
   {
     "LanguageId": 1445,
     "LanguageKeyword": "Insurance_Company",
-    "Tr": "Sözleşmeli Şirket",
+    "Tr": "Sigorta Şirketi",
     "En": "Insurance Company"
   },
   {
@@ -2408,7 +2408,7 @@
   {
     "LanguageId": 1459,
     "LanguageKeyword": "Fixed_Asset_Activation_Date",
-    "Tr": "Aktivasyon Tarihi",
+    "Tr": "Aktifleştirme Tarihi",
     "En": "Activation Date"
   },
   {
@@ -2456,7 +2456,7 @@
   {
     "LanguageId": 1468,
     "LanguageKeyword": "Lost_Fixed_Asset",
-    "Tr": "Kayıp İşaretle",
+    "Tr": "Kayıp Olarak İşaretle",
     "En": "Mark as Lost"
   },
   {
@@ -2973,7 +2973,7 @@
   {
     "LanguageId": 1560,
     "LanguageKeyword": "Click_here_to_upload_file",
-    "Tr": "Dosya eklemek için tıklayınız",
+    "Tr": "Dosya eklemek için tıklayınız.",
     "En": "Click here to upload file."
   },
   {
@@ -2998,7 +2998,7 @@
     "LanguageId": 1564,
     "LanguageKeyword": "Enter_the_barcode_to_relate",
     "Tr": "İlişkilendirilecek barkodu giriniz.",
-    "En": "Enter the barcode to relate"
+    "En": "Enter the barcode to relate."
   },
   {
     "LanguageId": 1565,
@@ -3115,5 +3115,675 @@
     "En": "Are you accept this process?"
   },
   { "LanguageId": 1584, "LanguageKeyword": "Yes", "Tr": "Evet", "En": "Yes" },
-  { "LanguageId": 1585, "LanguageKeyword": "No", "Tr": "Hayır", "En": "No" }
+  { "LanguageId": 1585, "LanguageKeyword": "No", "Tr": "Hayır", "En": "No" },
+  {
+    "LanguageId": 1586,
+    "LanguageKeyword": "Daily",
+    "Tr": "Daily",
+    "En": "Günlük"
+  },
+  {
+    "LanguageId": 1587,
+    "LanguageKeyword": "Active_Fixed_Assets",
+    "Tr": "Aktif Demirbaşlar",
+    "En": "Active Fixed Assets"
+  },
+  {
+    "LanguageId": 1588,
+    "LanguageKeyword": "Passive_Fixed_Assets",
+    "Tr": "Atıl Demirbaşlar",
+    "En": "Passive Fixed Assets"
+  },
+  {
+    "LanguageId": 1589,
+    "LanguageKeyword": "No_movement_yet",
+    "Tr": "Henüz hareket yapılmadı.",
+    "En": "No movement yet."
+  },
+  {
+    "LanguageId": 1590,
+    "LanguageKeyword": "Settings",
+    "Tr": "Ayarlar",
+    "En": "Settings"
+  },
+  {
+    "LanguageId": 1591,
+    "LanguageKeyword": "Maintanence_Management",
+    "Tr": "Bakım Yönetimi",
+    "En": "Maintanence Management"
+  },
+  {
+    "LanguageId": 1592,
+    "LanguageKeyword": "Reedit_Agreement",
+    "Tr": "Sözleşmeyi Düzenle",
+    "En": "Reedit Agreement"
+  },
+  {
+    "LanguageId": 1593,
+    "LanguageKeyword": "Only_can_enter_max_50_character.",
+    "Tr": "Maksimum 50 karakter girilebilir.",
+    "En": "Only_can_enter_Max. 50 character."
+  },
+  {
+    "LanguageId": 1594,
+    "LanguageKeyword": "Format_is_not_valid",
+    "Tr": "Format geçerli değil.",
+    "En": "Format is not valid."
+  },
+  { "LanguageId": 1595, "LanguageKeyword": "", "Tr": null, "En": null },
+  {
+    "LanguageId": 1596,
+    "LanguageKeyword": "Please_enter_a_valid_number",
+    "Tr": "Lütfen geçerli bir sayı giriniz.",
+    "En": "Please enter a valid number."
+  },
+  {
+    "LanguageId": 1597,
+    "LanguageKeyword": "Only_can_enter_max_150_character.",
+    "Tr": "Maksimum 150 karakter girilebilir.",
+    "En": "Only_can_enter_max_150_character."
+  },
+  {
+    "LanguageId": 1598,
+    "LanguageKeyword": "Reedit_Agreement",
+    "Tr": "Sözleşmeyi güncelle",
+    "En": "Update Agreement"
+  },
+  {
+    "LanguageId": 1599,
+    "LanguageKeyword": "Choose_at_least_one_agreement",
+    "Tr": "En az bir sözleşme seçiniz.",
+    "En": "Choose at least one agreement."
+  },
+  {
+    "LanguageId": 1600,
+    "LanguageKeyword": "Readit_Company",
+    "Tr": "Şirket Düzenle",
+    "En": "Reedit Company"
+  },
+  {
+    "LanguageId": 1601,
+    "LanguageKeyword": "Only_can_enter_max_100_character.",
+    "Tr": "Maksimum 100 karakter girilebilir.",
+    "En": "Only_can_enter_max_100_character."
+  },
+  {
+    "LanguageId": 1602,
+    "LanguageKeyword": "Please_enter_a_valid_email",
+    "Tr": "Lütfen geçerli bir e-posta giriniz.",
+    "En": "Please enter a valid e-mail."
+  },
+  {
+    "LanguageId": 1603,
+    "LanguageKeyword": "Tax_Office",
+    "Tr": "Vergi Dairesi",
+    "En": "Tax Office"
+  },
+  {
+    "LanguageId": 1604,
+    "LanguageKeyword": "Please_choose_at_least_one_record",
+    "Tr": "En az bir kayıt seçiniz.",
+    "En": "Please choose at least one record."
+  },
+  {
+    "LanguageId": 1605,
+    "LanguageKeyword": "Parent_Department",
+    "Tr": "Bağlı Olduğu Departman",
+    "En": "Related Department"
+  },
+  {
+    "LanguageId": 1606,
+    "LanguageKeyword": "Reedit_Expense_Center",
+    "Tr": "Masraf Merkezi Düzenle",
+    "En": "Reedit Expense Center"
+  },
+  {
+    "LanguageId": 1607,
+    "LanguageKeyword": "Enter_expense_center_informations",
+    "Tr": "Masraf merkezi bilgilerini giriniz.",
+    "En": "Enter expense center informations."
+  },
+  { "LanguageId": 1608, "LanguageKeyword": "", "Tr": null, "En": null },
+  {
+    "LanguageId": 1609,
+    "LanguageKeyword": "Choose_at_least_one_expense_center.",
+    "Tr": "En az bir masraf merkezi seçiniz.",
+    "En": "Choose at least one expense center."
+  },
+  {
+    "LanguageId": 1610,
+    "LanguageKeyword": "Records_couldnt_delete_cause_theyre_related",
+    "Tr": "İlişkili kayıt bulunduğundan silme işlemi yapılamadı.",
+    "En": "Records coulnd't delete because of they're related."
+  },
+  { "LanguageId": 1611, "LanguageKeyword": "", "Tr": null, "En": null },
+  {
+    "LanguageId": 1612,
+    "LanguageKeyword": "Readit_Fixed_Asset_Card",
+    "Tr": "Demirbaş Kartı Düzenle",
+    "En": "Reedit Fixed Asset Card"
+  },
+  {
+    "LanguageId": 1613,
+    "LanguageKeyword": "Choose_at_least_one_Fixed_Asset_Card",
+    "Tr": "En az bir demirbaş kartı seçiniz.",
+    "En": "Choose at least one fixed asset card"
+  },
+  {
+    "LanguageId": 1614,
+    "LanguageKeyword": "Reedit_Model",
+    "Tr": "Model Düzenle",
+    "En": "Reedit Model"
+  },
+  {
+    "LanguageId": 1615,
+    "LanguageKeyword": "Reedit_Brand",
+    "Tr": "Marka Düzenle",
+    "En": "Reedit Marka"
+  },
+  {
+    "LanguageId": 1616,
+    "LanguageKeyword": "Enter_brand_informations.",
+    "Tr": "Marka bilgilerini giriniz.",
+    "En": "Enter brand informations."
+  },
+  {
+    "LanguageId": 1617,
+    "LanguageKeyword": "Reedit_Category",
+    "Tr": "Kategori Düzenle",
+    "En": "Reaedit Category"
+  },
+  {
+    "LanguageId": 1618,
+    "LanguageKeyword": "Reedit_Fixed_Asset_Card_Category",
+    "Tr": "Kategori Güncelle",
+    "En": "Update Category"
+  },
+  {
+    "LanguageId": 1619,
+    "LanguageKeyword": "Parent_Category",
+    "Tr": "Bağlı Olduğu Kategori",
+    "En": "Related Category"
+  },
+  {
+    "LanguageId": 1620,
+    "LanguageKeyword": "Choose_at_least_one_category",
+    "Tr": "En az bir kategori seçiniz.",
+    "En": "Choose at least one category."
+  },
+  {
+    "LanguageId": 1621,
+    "LanguageKeyword": "Enter_model_informations.",
+    "Tr": "Model bilgilerini giriniz.",
+    "En": "Enter model informations."
+  },
+  {
+    "LanguageId": 1622,
+    "LanguageKeyword": "Choose",
+    "Tr": "seçiniz",
+    "En": "choose"
+  },
+  {
+    "LanguageId": 1623,
+    "LanguageKeyword": "Reedit_Property",
+    "Tr": "Özellik Düzenle",
+    "En": "Reedit Property"
+  },
+  {
+    "LanguageId": 1624,
+    "LanguageKeyword": "Reedit_Property",
+    "Tr": "Özellik Güncelle",
+    "En": "Update Property"
+  },
+  {
+    "LanguageId": 1625,
+    "LanguageKeyword": "Choose_at_least_one_property",
+    "Tr": "En az bir özellik seçiniz.",
+    "En": "Choose at least one property."
+  },
+  {
+    "LanguageId": 1626,
+    "LanguageKeyword": "Reedit_Statu",
+    "Tr": "Statü Düzenle",
+    "En": "Reedit Statu"
+  },
+  {
+    "LanguageId": 1627,
+    "LanguageKeyword": "Choose_at_least_one_location",
+    "Tr": "En az bir lokasyon seçiniz.",
+    "En": "Choose at least one location."
+  },
+  {
+    "LanguageId": 1628,
+    "LanguageKeyword": "Choose_at_least_one_role",
+    "Tr": "En az bir rol seçiniz.",
+    "En": "Choose at least one role."
+  },
+  {
+    "LanguageId": 1629,
+    "LanguageKeyword": "Location",
+    "Tr": "Lokasyon",
+    "En": "Location"
+  },
+  {
+    "LanguageId": 1630,
+    "LanguageKeyword": "Reedit_Role_Authorization",
+    "Tr": "Role Yetkisi Düzenle",
+    "En": "Reedit Role Authorization"
+  },
+  {
+    "LanguageId": 1631,
+    "LanguageKeyword": "Add_Authorization_To_Role",
+    "Tr": "Role Yetki Ata",
+    "En": "Add Authorization To Role"
+  },
+  {
+    "LanguageId": 1632,
+    "LanguageKeyword": "Table_couldnt_load",
+    "Tr": "Tablo yüklenemedi.",
+    "En": "Table couldn't load."
+  },
+  {
+    "LanguageId": 1633,
+    "LanguageKeyword": "Select_All",
+    "Tr": "Tümünü Seç",
+    "En": "Select All"
+  },
+  { "LanguageId": 1634, "LanguageKeyword": "All", "Tr": "Hepsi", "En": "All" },
+  {
+    "LanguageId": 1635,
+    "LanguageKeyword": "Transaction_Informations",
+    "Tr": "Hareket Bilgileri",
+    "En": "Transaction Informations"
+  },
+  { "LanguageId": 1636, "LanguageKeyword": "Old", "Tr": "Eski", "En": "Old" },
+  { "LanguageId": 1637, "LanguageKeyword": "New", "Tr": "Yeni", "En": "New" },
+  {
+    "LanguageId": 1638,
+    "LanguageKeyword": "Fixed_Asset_Card",
+    "Tr": "Demirbaş Kartı",
+    "En": "Fixed Asset Card"
+  },
+  {
+    "LanguageId": 1639,
+    "LanguageKeyword": "Edit",
+    "Tr": "Düzenle",
+    "En": "Edit"
+  },
+  {
+    "LanguageId": 1640,
+    "LanguageKeyword": "Clear",
+    "Tr": "Temizle",
+    "En": "Clear"
+  },
+  {
+    "LanguageId": 1641,
+    "LanguageKeyword": "Password",
+    "Tr": "Şifre",
+    "En": "Password"
+  },
+  {
+    "LanguageId": 1642,
+    "LanguageKeyword": "Department",
+    "Tr": "Departman",
+    "En": null
+  },
+  {
+    "LanguageId": 1643,
+    "LanguageKeyword": "Fixed_Asset_Statu",
+    "Tr": "Demirbaş Statüsü",
+    "En": "Fixed Asset Statu"
+  },
+  {
+    "LanguageId": 1644,
+    "LanguageKeyword": "Expense_Center",
+    "Tr": "Masraf Merkezi",
+    "En": "Masraf Merkezi"
+  },
+  {
+    "LanguageId": 1645,
+    "LanguageKeyword": "Actual_Password",
+    "Tr": "Mevcut Şifre",
+    "En": "Mevcut Password"
+  },
+  {
+    "LanguageId": 1646,
+    "LanguageKeyword": "New_Password",
+    "Tr": "Yeni Şifre",
+    "En": "New Password"
+  },
+  {
+    "LanguageId": 1647,
+    "LanguageKeyword": "Reenter_New_Password",
+    "Tr": "Yeni Şifre Tekrarı",
+    "En": "Reenter New Password"
+  },
+  {
+    "LanguageId": 1648,
+    "LanguageKeyword": "Reedit_User",
+    "Tr": "Kullanıcı Düzenle",
+    "En": "Update User"
+  },
+  {
+    "LanguageId": 1649,
+    "LanguageKeyword": "Undo_Suspend_Date",
+    "Tr": "Askıdan Alma Tarihi",
+    "En": "Undo Suspend Date"
+  },
+  {
+    "LanguageId": 1650,
+    "LanguageKeyword": "Sell_Price",
+    "Tr": "Satış Bedeli",
+    "En": "Sell Price"
+  },
+  {
+    "LanguageId": 1651,
+    "LanguageKeyword": "Barcodes",
+    "Tr": "Barkodlar",
+    "En": "Barcodes"
+  },
+  {
+    "LanguageId": 1652,
+    "LanguageKeyword": "Staff",
+    "Tr": "Personel",
+    "En": "Staff"
+  },
+  {
+    "LanguageId": 1653,
+    "LanguageKeyword": "The_Location_Selected",
+    "Tr": "Lokasyon seçildi.",
+    "En": "The location selected."
+  },
+  {
+    "LanguageId": 1654,
+    "LanguageKeyword": "The_Category_Selected",
+    "Tr": "Kategori seçildi.",
+    "En": "The kategori selected."
+  },
+  {
+    "LanguageId": 1655,
+    "LanguageKeyword": "The_Firm_Selected",
+    "Tr": "Şirket seçildi.",
+    "En": "Firm selected."
+  },
+  {
+    "LanguageId": 1656,
+    "LanguageKeyword": "Reedit_User_Role",
+    "Tr": "Kullanıcı Rolünü Güncelle",
+    "En": "Update User Role"
+  },
+  {
+    "LanguageId": 1657,
+    "LanguageKeyword": "Add_User_Role",
+    "Tr": "Kullanıcı Rolü Ekle",
+    "En": "Add User Role"
+  },
+  {
+    "LanguageId": 1658,
+    "LanguageKeyword": "Reedit_Suspend_Reason",
+    "Tr": "Askıya Alma Sepebini Güncelle",
+    "En": "Update Suspend Reason"
+  },
+  {
+    "LanguageId": 1659,
+    "LanguageKeyword": "Actual",
+    "Tr": "Güncel",
+    "En": "Actual"
+  },
+  {
+    "LanguageId": 1660,
+    "LanguageKeyword": "Exit_Transactions",
+    "Tr": "Çıkış Hareketleri",
+    "En": "Exit Transaction"
+  },
+  {
+    "LanguageId": 1661,
+    "LanguageKeyword": "Active_State",
+    "Tr": "Aktiflik Durumu",
+    "En": "Active State"
+  },
+  {
+    "LanguageId": 1663,
+    "LanguageKeyword": "Embezzled_User",
+    "Tr": "Zimmetli Kullanıcı",
+    "En": "Embezzled User"
+  },
+  {
+    "LanguageId": 2586,
+    "LanguageKeyword": "Expense_Center",
+    "Tr": "Masraf Merkezi",
+    "En": "Expense Center"
+  },
+  {
+    "LanguageId": 2587,
+    "LanguageKeyword": "Enter_counting_informations",
+    "Tr": "Sayım bilgilerini giriniz.",
+    "En": "Enter counting informations."
+  },
+  {
+    "LanguageId": 2588,
+    "LanguageKeyword": "Duty_Name",
+    "Tr": "Görev Adı",
+    "En": "Duty Name"
+  },
+  {
+    "LanguageId": 2589,
+    "LanguageKeyword": "Warning!",
+    "Tr": "Uyarı!",
+    "En": "Warning!"
+  },
+  {
+    "LanguageId": 2590,
+    "LanguageKeyword": "Choosen_countin_ plans_are_going_to_be_canceled_Do_you_accept_this_process",
+    "Tr": "Seçili sayım planları iptal edilcektir. İşlemi onaylıyor musunuz?",
+    "En": null
+  },
+  {
+    "LanguageId": 2591,
+    "LanguageKeyword": "Choosen_fixed_assets_are_going_to_be_marked_as_lost_Do_you_accept_this_process",
+    "Tr": "Seçili demirbaşlar kayıp olarak işaretlenecektir. İşlemi onaylıyor musunuz?",
+    "En": null
+  },
+  { "LanguageId": 2592, "LanguageKeyword": "", "Tr": null, "En": null },
+  { "LanguageId": 2593, "LanguageKeyword": "", "Tr": null, "En": null },
+  {
+    "LanguageId": 2594,
+    "LanguageKeyword": "Start_Counting",
+    "Tr": "Sayımı Başlat",
+    "En": "Start Counting"
+  },
+  {
+    "LanguageId": 2595,
+    "LanguageKeyword": "Finish Counting",
+    "Tr": "Sayımı Bitir",
+    "En": "Finish Counting"
+  },
+  {
+    "LanguageId": 2596,
+    "LanguageKeyword": "Barcode_could_not_read",
+    "Tr": "Barkod okunamadı.",
+    "En": "Barcode couldn't read."
+  },
+  {
+    "LanguageId": 2597,
+    "LanguageKeyword": "Choose_a_property",
+    "Tr": "Özellik seçiniz.",
+    "En": "Choose a proprty."
+  },
+  {
+    "LanguageId": 2598,
+    "LanguageKeyword": "Choose_a_property_value",
+    "Tr": "Özellik değeri seçiniz.",
+    "En": "Choose a proprty value."
+  },
+  {
+    "LanguageId": 2599,
+    "LanguageKeyword": "User_List",
+    "Tr": "Kullanıcı Listesi",
+    "En": "User List"
+  },
+  { "LanguageId": 2600, "LanguageKeyword": "", "Tr": null, "En": null },
+  {
+    "LanguageId": 2601,
+    "LanguageKeyword": "Remove_File",
+    "Tr": "Dosya Çıkar",
+    "En": "Remove File"
+  },
+  {
+    "LanguageId": 2602,
+    "LanguageKeyword": "Choose_at_least_one_file",
+    "Tr": "En az bir dosya seçiniz.",
+    "En": "Choose at least one file."
+  },
+  {
+    "LanguageId": 2603,
+    "LanguageKeyword": "Deletion_is_succesfull",
+    "Tr": "Silme işlemi başarılı.",
+    "En": "Deletion is succesfull."
+  },
+  {
+    "LanguageId": 2604,
+    "LanguageKeyword": "Addig_file_is_successfull.",
+    "Tr": "Dosya ekleme başarılı.",
+    "En": "Adding file is succesfull."
+  },
+  {
+    "LanguageId": 2605,
+    "LanguageKeyword": "State",
+    "Tr": "Durum",
+    "En": "State"
+  },
+  {
+    "LanguageId": 2606,
+    "LanguageKeyword": "Counted_Location",
+    "Tr": "Sayım Yapılan Lokasyon",
+    "En": "Counted Location"
+  },
+  {
+    "LanguageId": 2607,
+    "LanguageKeyword": "Fixed_Assets_Location",
+    "Tr": "Demirbaşın Lokasyonu",
+    "En": "Fixed Asset's Location"
+  },
+  {
+    "LanguageId": 2608,
+    "LanguageKeyword": "You_have_choosen_more_than_one_counting_plan",
+    "Tr": "Birden fazla sayım planı seçildi.",
+    "En": "You have choosen more than one counting plan."
+  },
+  {
+    "LanguageId": 2609,
+    "LanguageKeyword": "Counting_has_just_started",
+    "Tr": "Sayım başaltıldı.",
+    "En": "Counting has just started."
+  },
+  {
+    "LanguageId": 2610,
+    "LanguageKeyword": "Choose_counting_plan_and_location_please",
+    "Tr": "Lütfen sayım planı ve lokasyonu seçiniz.",
+    "En": "Choose counting plan and location please."
+  },
+  {
+    "LanguageId": 2611,
+    "LanguageKeyword": "Start_counting_after_choose_counting_informations.",
+    "Tr": "Sayım bilgilerini seçtiken sonra sayımı başlatınız.",
+    "En": "Start counting after choose counting informtaitons."
+  },
+  {
+    "LanguageId": 2612,
+    "LanguageKeyword": "Enter_informations_about_changing_barcode",
+    "Tr": "Barkod değişikliği için gerekli bilgileri giriniz.",
+    "En": "Enter informations abour changing barcode."
+  },
+  {
+    "LanguageId": 2613,
+    "LanguageKeyword": "Create_Debit_Form",
+    "Tr": "Zimmet formu basılsın.",
+    "En": "Create embezzled form."
+  },
+  {
+    "LanguageId": 2614,
+    "LanguageKeyword": "Enter_informations_about_changing_debit",
+    "Tr": "Zimet değişim bilgilerini giriniz.",
+    "En": "Enter information about changing embezzle."
+  },
+  {
+    "LanguageId": 2615,
+    "LanguageKeyword": "Change_Debit",
+    "Tr": "Zimmet Değişimi",
+    "En": "Change Embezzle"
+  },
+  {
+    "LanguageId": 2616,
+    "LanguageKeyword": "Embezzled_Staff",
+    "Tr": "Zimmetli Personel",
+    "En": "Embezzled Personel"
+  },
+  {
+    "LanguageId": 2617,
+    "LanguageKeyword": "Going_To_Be_Embezzle",
+    "Tr": "Zimmetlenecek Personel",
+    "En": "Going To Be Embezzle"
+  },
+  { "LanguageId": 2618, "LanguageKeyword": "Cancel_", "Tr": null, "En": null },
+  {
+    "LanguageId": 2619,
+    "LanguageKeyword": "Calculating_Depreciation",
+    "Tr": "Amortismanı Hesaplanalar",
+    "En": "Calculating Depreciation"
+  },
+  {
+    "LanguageId": 2620,
+    "LanguageKeyword": "Calculating_IFRS",
+    "Tr": "IFRS Amortismanı Hesapananalar",
+    "En": "Calculating IFRS"
+  },
+  {
+    "LanguageId": 2621,
+    "LanguageKeyword": "Are_you_sure_to_clear_the_filter",
+    "Tr": "Filtreyi temizlemek istediğinizden emin misiniz?",
+    "En": "Are you sure to clear the filter?"
+  },
+  {
+    "LanguageId": 2622,
+    "LanguageKeyword": "Will_Be_Related_Barcode",
+    "Tr": "İlişkilendirilecek Barkod",
+    "En": "Will Be Related Barcode"
+  },
+  {
+    "LanguageId": 2623,
+    "LanguageKeyword": "Enter_the_barcode_to_relate",
+    "Tr": "İlişkilendirilecek demirbaşı giriniz.",
+    "En": "Enter the barcode to relate."
+  },
+  {
+    "LanguageId": 2624,
+    "LanguageKeyword": "Fixed_Asset_Creation_Date",
+    "Tr": "Demirbaş Giriş Tarih Aralığı",
+    "En": "Fixed Asset Creation Date"
+  },
+  {
+    "LanguageId": 2625,
+    "LanguageKeyword": "Choosen_fixed_assets_are_going_to_marked_as_lost_and_move_to_the_Lost_Fixed_List_Do_you_accept_this_process",
+    "Tr": "Seçili demirbaşlar kayıp olarak işaretlenecek ve \"Kayıp Demirbaşlar\" listesine taşınacaktır. İşlemi onaylıyor musunuz?",
+    "En": "Choosen fixed assets are going to marked as lost and move to the \"Lost Fixed_Assets\" list. Do you accept this process?"
+  },
+  {
+    "LanguageId": 2626,
+    "LanguageKeyword": "Existing_files",
+    "Tr": "Var Olan Dosyalar",
+    "En": "Existing Files"
+  },
+  {
+    "LanguageId": 2627,
+    "LanguageKeyword": "Files_To_Add",
+    "Tr": "Eklenecek Dosyalar",
+    "En": "Files To Add"
+  },
+  {
+    "LanguageId": 2628,
+    "LanguageKeyword": "Identif_areas_for_collective_changing",
+    "Tr": "Toplu değişiklik yapılacak alanları belirleyiniz.",
+    "En": "Identify areas for collective changing."
+  }
 ]

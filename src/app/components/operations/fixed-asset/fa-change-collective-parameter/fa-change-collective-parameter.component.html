@@ -37,7 +37,7 @@
 
                 <!-- DEMİRBAŞ KARTI -->
                 <div class="col-md-3 form-group">
-                    <label>Demirbaş Kartı</label>
+                    <label>{{getLanguageValue('Fixed_Asset_Card')}}</label>
                     <select [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" [attr.required] = "selectFixedAssetCard == true ? true : undefined" (change)="selectedFixedAssetCard($event)" class="form-control" #FixedAssetCardId="ngModel">
                       <option [ngValue]="null">Seçiniz</option>
                       <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>          
@@ -83,7 +83,7 @@
   
                     <!-- LOKASYON -->
                     <div class="col-md-3 form-group">
-                        <label>Lokasyon</label>
+                        <label>{{getLanguageValue('Location')}}</label>
                         <select
                           [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel" (change)="loadDepartmentByLocationId($event)">
                           <option value="">Seçiniz</option>

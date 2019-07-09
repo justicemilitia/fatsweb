@@ -96,7 +96,7 @@
             </div>
             <div class="row justify-content-center">
               <div class="form-group col-md-12">
-                <label>Bağlı Olduğu Kategori</label>
+                <label>{{getLanguageValue('Parent_Category')}}</label>
                 <select [(ngModel)]="consumableCategory.ConsumableParentCategoryId"
                   name="ConsumableParentCategoryId" class="form-control" (click)="loadConsumableCategories()">
                   <option [ngValue]="null">Yok</option>
@@ -112,7 +112,7 @@
           <div class="modal-footer">
             <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit"
               data-toggle="modal" data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
-              {{consumableCategory.ConsumableCategoryId ?  'Demirbaş Kategorisi Güncelle' : 'Demirbaş Kategorisi Ekle'}}
+              {{consumableCategory.ConsumableCategoryId ?  getLanguageValue('Reedit_Fixed_Asset_Card_Category') : getLanguageValue('Enter_brand_informations')}}
             </button>
             <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
           </div>

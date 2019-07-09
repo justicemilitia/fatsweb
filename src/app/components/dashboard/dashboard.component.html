@@ -9,13 +9,14 @@
           <div class="card card-dashboard-twentysix">
             <div class="card-header">
               <h6 class="card-title">{{getLanguageValue('Fixed_Asset_Total')}}</h6>
-              <div class="chart-legend">
+              <!-- <div class="chart-legend">
                 <div (click)="loadCounts($event,'totalGroupType',countEnums.Day)"><span class="bg-primary"></span> {{getLanguageValue('Day')}}
                 </div>
                 <div (click)="loadCounts($event,'totalGroupType',countEnums.Month)"><span class="bg-primary primary-active"></span>{{getLanguageValue('Monh')}}</div>
                 <div (click)="loadCounts($event,'totalGroupType',countEnums.Year)"><span class="bg-primary"></span> {{getLanguageValue('Year')}}
                 </div>
-              </div><!-- chart-legend -->
+              </div> -->
+              <!-- chart-legend -->
             </div><!-- card-header -->
             <div class="card-body">
               <div class="pd-x-15">
@@ -149,7 +150,7 @@
                   <div class="card-title-categories">
                     <span (click)="loadFixedAssetPriceLine($event,countEnums.Month)">{{getLanguageValue('Monthly')}}</span>
                     <span (click)="loadFixedAssetPriceLine($event,countEnums.Week)">{{getLanguageValue('Weekly')}}</span>
-                    <span (click)="loadFixedAssetPriceLine($event,countEnums.Day)" class="current">Günlük</span>
+                    <span (click)="loadFixedAssetPriceLine($event,countEnums.Day)" class="current">{{getLanguageValue('Daily')}}</span>
                   </div>
                 </div><!-- card-header -->
                 <div class="card-body">
@@ -213,7 +214,7 @@
             </div><!-- media -->
             <div *ngIf="!transactions || transactions.length == 0" style="justify-content: center;font-weight: 500;"
               class="media">
-              Henüz Hareket Yapılmadı.
+              {{getLanguageValue('No_movement_yet')}}
             </div>
           </div><!-- az-media-list-activity -->
           <a routerLink="/transactionlist" class="btn btn-outline-light btn-block">Tüm Hareketler</a>

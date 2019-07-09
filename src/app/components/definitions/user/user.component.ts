@@ -292,14 +292,13 @@ export class UserComponent extends BaseComponent implements OnInit {
       singleSelection: false,
       idField: "RoleId",
       textField: "Name",
-      selectAllText: "Hepsini Seç",
-      unSelectAllText: "Temizle",
+      selectAllText: this.getLanguageValue('Select_All'),
+      unSelectAllText: this.getLanguageValue('Clear'),
       itemsShowLimit: 2,
       allowSearchFilter: true
     };
 
     this.loadUsers();
-    this.loadDropdownLocations();
     this.loadDropdownUsers();
     this.loadDropdownFirms();
     this.loadDropdownCategory();
@@ -312,6 +311,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableLocation.isLoading = false;
     this.dataTableLocation.isScrollActive = false;
     this.dataTableLocation.isSelectAllWithChildrenActive=true;
+    this.dataTableLocation.isMultipleSelectedActive=true;
 
     this.dataTableFixedAssetCategory.isPagingActive = false;
     this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
@@ -319,6 +319,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableFixedAssetCategory.isLoading = false;
     this.dataTableFixedAssetCategory.isScrollActive = false;
     this.dataTableFixedAssetCategory.isSelectAllWithChildrenActive = true;
+    this.dataTableFixedAssetCategory.isMultipleSelectedActive=true;
 
     this.dataTableFirm.isPagingActive = false;
     this.dataTableFirm.isColumnOffsetActive = false;
@@ -326,6 +327,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableFirm.isLoading = false;
     this.dataTableFirm.isScrollActive=false;
     this.dataTableFirm.isSelectAllWithChildrenActive=true;
+    this.dataTableFirm.isMultipleSelectedActive=true;
 
     this.dataTableUser.isPagingActive = false;
     this.dataTableUser.isColumnOffsetActive = false;
@@ -333,6 +335,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableUser.isLoading = false;
     this.dataTableUser.isScrollActive=false;
     this.dataTableUser.isSelectAllWithChildrenActive = true;
+    this.dataTableUser.isMultipleSelectedActive=true;
     //#endregion
     
     $(document).on("click", e => {
@@ -355,6 +358,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     switch (key) {
       case "location":
+    this.loadDropdownLocations();
     this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
     this.isFaCardCategoryDropdownOpen = false;
     this.isFirmDropdownOpen=false;
@@ -484,9 +488,9 @@ export class UserComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async updateUser(data: NgForm) {
+  updateUser(data: NgForm) {
     /* Ask for approve question if its true then update the location */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
+     this.baseService.popupService.ShowQuestionPopupForUpdate(
       (response: boolean) => {
         if (response == true) {
           /* Object bindings to store in datatable */
@@ -557,7 +561,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir kayıt seçiniz"
+         this.getLanguageValue('Please_choose_at_least_one_record')
       );
       return;
     }
@@ -622,10 +626,9 @@ export class UserComponent extends BaseComponent implements OnInit {
     });
   }
 
-  async onDoubleClickItem(item: User) {
+  onDoubleClickItem(item: User) {   
 
     this.visibleInsertButton=false;
-
 
     if(item.IsSystemUser==true)
     this.checkedSystemUserUpdate = true;
@@ -637,11 +640,6 @@ export class UserComponent extends BaseComponent implements OnInit {
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
-    /* load companies if not loaded */
-    this.loadDropdownList();
-
-    this.loadLocationList();
-
     if(item.Department)
       this.loadDepartmentByLocationId({ target: { value: item.LocationId } });
     else
@@ -651,11 +649,13 @@ export class UserComponent extends BaseComponent implements OnInit {
     
 
     /* get user information from server */
-    await this.baseService.userService.GetUserById(
+     this.baseService.userService.GetUserById(
       item.UserId,
       (result: User) => {
         /* then bind it to user model to update */
-        setTimeout(() => {
+        
+
+      //  setTimeout(() => {
           /* close loading */
           this.baseService.spinner.hide();
 
@@ -663,7 +663,7 @@ export class UserComponent extends BaseComponent implements OnInit {
           $("#btnEditUser").trigger("click");
 
           /* bind result to model */
-          Object.assign(this.currentUser, result);
+          this.currentUser = result;   
 
           this.currentUserRoles.splice(0);
 
@@ -671,35 +671,38 @@ export class UserComponent extends BaseComponent implements OnInit {
             let role = this.roles.find(y => y.RoleId == e.RoleId);
             if (role) this.currentUserRoles.push(role);
           });
-        }, 1000);
 
-        /*get user authorized fixed asset categories from server */
-        result.UserAuthorizedFixedAssetCardCategories.forEach(e=>{
-            this.CategoryIds.push(e.FixedAssetCardCategoryId);        
-          });
+          let CategoryIds:number[]= [];
 
-        this.dataTableFixedAssetCategory.TGT_selectItemsByIds(this.CategoryIds);
+          /*get user authorized fixed asset categories from server */
+         result.UserAuthorizedFixedAssetCardCategories.forEach(e=>{
+               CategoryIds.push(e.FixedAssetCardCategoryId);
+         });  
+         this.dataTableFixedAssetCategory.TGT_selectItemsByIds(CategoryIds);
+  
+         let FirmIds:number[]= [];
+         /*get user authorized firms from server */
+         result.UserAuthorizedFirms.forEach(e=>{
+           FirmIds.push(e.FirmId);
+         });  
+         this.dataTableFirm.TGT_selectItemsByIds(FirmIds);
+  
+         let LocationIds:number[]= [];
+         /*get user authorized locations from server */
+         result.UserAuthorizedLocations.forEach(e=>{
+         LocationIds.push(e.LocationId);
+         });  
+         this.dataTableLocation.TGT_selectItemsByIds(LocationIds);          
+  
+         let UserIds:number[]= [];
+         /*get user authorized users from server */
+         result.UserAuthorizedUsersAuthorizedUser.forEach(e=>{
+           UserIds.push(e.AuthorizedUserId);
+         });  
+         this.dataTableUser.TGT_selectItemsByIds(UserIds);
 
-        /*get user authorized firms from server */
-        result.UserAuthorizedFirms.forEach(e=>{
-          this.FirmIds.push(e.FirmId);
-        });
-
-        this.dataTableFirm.TGT_selectItemsByIds(this.FirmIds);
-
-        /*get user authorized locations from server */
-        result.UserAuthorizedLocations.forEach(e=>{
-        this.LocationIds.push(e.LocationId);
-        });
-
-        this.dataTableLocation.TGT_selectItemsByIds(this.LocationIds);          
-
-        /*get user authorized users from server */
-        result.UserAuthorizedUsers.forEach(e=>{
-          this.FirmIds.push(e.AuthorizedUserId);
-        });
-
-        this.dataTableUser.TGT_selectItemsByIds(this.FirmIds);
+       // }, 1000);
+       
       },
       (error: HttpErrorResponse) => {
         /* hide spinner */
@@ -738,7 +741,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       })
   }
 
-  async loadDropdownLocations(){
+  loadDropdownLocations(){
     this.baseService.locationService.GetLocations((location:Location[])=>{
       this.locations=location;
       this.dataTableLocation.TGT_loadData(this.locations);

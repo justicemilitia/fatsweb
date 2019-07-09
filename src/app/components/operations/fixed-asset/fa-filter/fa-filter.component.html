@@ -24,7 +24,7 @@
             <!-- DEMİRBAŞ ADI -->
             <!-- <div class="col-md-4 form-group">
               <label>Demirbaş Adı</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="fixedAssetCards"
+              <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="fixedAssetCards"
                 [(ngModel)]="fixedAsset.FixedAssetCardId" name="FixedAssetCardId" [settings]="dropdownSettingsForCard"
                 (onSelect)="onSelectFixedAssetCard($event)" (onSelectAll)="onSelectAllFixedAssetCard($event)">
               </ng-multiselect-dropdown>
@@ -33,9 +33,9 @@
             <div class="col-md-4 form-group">
               <div>
                 <label class="required-span" style="margin-bottom: 0;
-                font-weight: 700;">Demirbaş Kartı</label>
+                font-weight: 700;">{{getLanguageValue('Fixed_Asset_Card')}}</label>
                 <div style="display:flex;">
-                  <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" >{{selectedCard ? selectedCard.Name : 'Seçiniz' }}</button>
+                  <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" >{{selectedCard ? selectedCard.Name : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('card')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
                 </div>
@@ -47,7 +47,7 @@
             <!-- KATEGORİ -->
             <!-- <div class="col-md-4 form-group">
               <label>Kategori</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="fixedassetcategories"
+              <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="fixedassetcategories"
                 [(ngModel)]="fixedAsset.FixedAssetCardCategoryId" name="FixedAssetCardCategoryId"
                 [settings]="dropdownSettingsForCategory" (onSelect)="onSelectCategory($event)"
                 (onSelectAll)="onSelectAllCategory($event)">
@@ -59,7 +59,7 @@
                 <label class="required-span" style="margin-bottom: 0;
                 font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>        
               <div style="display:flex;">
-              <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  >{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
+              <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  >{{selectedCategory ? selectedCategory.Name : getLanguageValue('Choose') }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
               </div>
           </div>
@@ -76,7 +76,7 @@
             <!-- DEPARTMAN -->
             <!-- <div class="col-md-4 form-group">
               <label>Departman</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="departments"
+              <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="departments"
                 [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" [settings]="dropdownSettingsForDepartment"
                 (onSelect)="onSelectDepartment($event)" (onSelectAll)="onSelectAllDepartment($event)">
               </ng-multiselect-dropdown>
@@ -87,7 +87,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Department')}}</label>
                   <div style="display:flex;">
-                  <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  >{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+                  <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  >{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -99,7 +99,7 @@
             <!-- MARKA -->
             <!-- <div class="col-md-4 form-group">
               <label>Marka</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="brands"
+              <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="brands"
                 [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId"
                 [settings]="dropdownSettingsForBrand" (onSelect)="onSelectFixedAssetCardBrand($event)"
                 (onSelectAll)="onSelectAllFixedAssetCardBrand($event)">
@@ -111,7 +111,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Brand_Name')}}</label>
                   <div style="display:flex;">
-                  <button id="btnBrand" (click)="toggleDropdown('brand')" class="dropdown-button" type="button"  >{{selectedBrand ? selectedBrand.Name : 'Seçiniz' }}</button>
+                  <button id="btnBrand" (click)="toggleDropdown('brand')" class="dropdown-button" type="button"  >{{selectedBrand ? selectedBrand.Name : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('brand')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -126,7 +126,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >Demirbaş Statüsü</label>
                   <div style="display:flex;">
-                  <button id="btnStatus" (click)="toggleDropdown('status')" class="dropdown-button" type="button"  >{{selectedStatus ? selectedStatus.Name : 'Seçiniz' }}</button>
+                  <button id="btnStatus" (click)="toggleDropdown('status')" class="dropdown-button" type="button"  >{{selectedStatus ? selectedStatus.Name : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('status')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -137,7 +137,7 @@
 
              <!-- <div class="col-md-4 form-group">
               <label>Demirbaş Statüsü</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="statuses" [(ngModel)]="fixedAsset.StatusId"
+              <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="statuses" [(ngModel)]="fixedAsset.StatusId"
                 name="StatusId" [settings]="dropdownSettingsForStatus" (onSelect)="onSelectFixedAssetStatus($event)"
                 (onSelectAll)="onSelectAllFixedAssetStatus($event)">
               </ng-multiselect-dropdown>
@@ -150,7 +150,7 @@
             <!-- LOKASYON -->
             <!-- <div class="col-md-4 form-group">
               <label>Lokasyon</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="locations" [(ngModel)]="fixedAsset.LocationId"
+              <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="locations" [(ngModel)]="fixedAsset.LocationId"
                 name="LocationId" [settings]="dropdownSettingsForLocation" (onSelect)="onSelectLocation($event)"
                 (onSelectAll)="onSelectAllLocation($event)">
               </ng-multiselect-dropdown>
@@ -158,9 +158,9 @@
             <div class="col-md-4 form-group">
               <div>
                   <label style="margin-bottom: 0;
-                  font-weight: 700;" >Lokasyon</label>
+                  font-weight: 700;" >{{getLanguageValue('Location')}}</label>
                   <div style="display:flex;">
-                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  >{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
+                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  >{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -172,7 +172,7 @@
             <!-- MODEL -->
             <!-- <div class="col-md-4 form-group">
               <label>Model</label>
-              <ng-multiselect-dropdown [placeholder]="'Seçiniz'" [data]="models"
+              <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="models"
                 [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId"
                 [settings]="dropdownSettingsForModel" (onSelect)="onSelectFixedAssetCardModel($event)"
                 (onSelectAll)="onSelectAllFixedAssetCardModel($event)">
@@ -183,7 +183,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Model_Name')}}</label>
                   <div style="display:flex;">
-                  <button id="btnModel" (click)="toggleDropdown('model')" class="dropdown-button" type="button" >{{selectedModel ? selectedModel.Name : 'Seçiniz' }}</button>
+                  <button id="btnModel" (click)="toggleDropdown('model')" class="dropdown-button" type="button" >{{selectedModel ? selectedModel.Name : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('model')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -198,7 +198,7 @@
                   <label class="required-span" style="margin-bottom: 0;
                   font-weight: 700;" >Personel</label>
                   <div style="display:flex;">
-                  <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button" >{{selectedUser ? selectedUser.FirstName + ' ' + selectedUser.LastName : 'Seçiniz' }}</button>
+                  <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button" >{{selectedUser ? selectedUser.FirstName + ' ' + selectedUser.LastName : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('user')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -356,14 +356,14 @@
             <div class="form-group col-md-3">
               <label class="ckbox">
                 <input type="checkbox" (change)="IsPassiveFa($event)" id="IsPassive"
-                  name="IsPassive" /><span>Pasif Demirbaşlar</span>
+                  name="IsPassive" /><span>{{getLanguageValue('Passive_Fixed_Assets')}}</span>
               </label>
             </div>
 
             <div class="form-group col-md-3">
               <label class="ckbox">
                 <input type="checkbox" (change)="IsActiveFa($event)" id="IsActive"
-                  name="IsCalculatedDepreciation" /><span>Aktif Demirbaşlar</span>
+                  name="IsCalculatedDepreciation" /><span>{{getLanguageValue('Active_Fixed_Assets')}}</span>
               </label>
             </div>
             <div class="form-group col-md-6">

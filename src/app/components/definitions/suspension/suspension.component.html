@@ -65,7 +65,7 @@
                 class="form-control" maxlength="50" required />
               <div *ngIf="data.submitted && CheckOutReasonCode.invalid" class="invalid-feedback">
                 <div *ngIf="CheckOutReasonCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="CheckOutReasonCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="CheckOutReasonCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="Name.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@
         </div>
         <div class="modal-footer">
           <button id="btnInsertOrUpdateSuspension" type="submit" class="btn btn-az-primary" data-toggle="modal"
-            data-target="#modalAddSuspension">{{suspension.CheckOutReasonId ? 'Askıya Alma Sebebini Güncelle' : getLanguageValue('Add_Suspension_Reason')}}</button>
+            data-target="#modalAddSuspension">{{suspension.CheckOutReasonId ? 'getLanguageValue('Reedit_Suspend_Reason')' : getLanguageValue('Add_Suspension_Reason')</button>
         </div>
       </form>
       <!-- modal-body -->

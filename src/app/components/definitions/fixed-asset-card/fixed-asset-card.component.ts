@@ -118,7 +118,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
     /* If count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş kartı seçiniz");
+      this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Choose_at_least_one_Fixed_Asset_Card'));
       return;
     }
 

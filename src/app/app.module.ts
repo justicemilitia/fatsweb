@@ -86,6 +86,7 @@ import { FaGeneralInformationComponent } from './components/operations/fixed-ass
 import { FaPropertyInformationComponent } from './components/operations/fixed-asset/fa-create/fa-property-information/fa-property-information.component';
 import { FaFinancialInformationComponent } from './components/operations/fixed-asset/fa-create/fa-financial-information/fa-financial-information.component';
 import { FaResetFormComponent } from './components/operations/fixed-asset/fa-create/fa-reset-form/fa-reset-form.component';
+import { FaBarcodeLabelComponent } from './components/operations/fixed-asset/fa-barcode-label/fa-barcode-label.component';
 
 
 
@@ -156,7 +157,8 @@ import { FaResetFormComponent } from './components/operations/fixed-asset/fa-cre
     FaGeneralInformationComponent,
     FaPropertyInformationComponent,
     FaFinancialInformationComponent,
-    FaResetFormComponent
+    FaResetFormComponent,
+    FaBarcodeLabelComponent
   ],
   imports: [
     BrowserModule,

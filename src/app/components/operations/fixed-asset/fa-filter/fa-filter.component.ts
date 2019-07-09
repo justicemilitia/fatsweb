@@ -216,7 +216,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     "fixedassetcard",
     [
       {
-        columnDisplayName: "Demirbaş Kartı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -382,8 +382,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     //   singleSelection: false,
     //   idField: "FixedAssetCardId",
     //   textField: "Name",
-    //   selectAllText: "Hepsini Seç",
-    //   unSelectAllText: "Temizle",
+    //   selectAllText: this.getLanguageValue('Select_All'),
+    //   unSelectAllText: this.getLanguageValue('Clear'),
     //   itemsShowLimit: 10,
     //   allowSearchFilter: true
     // };
@@ -392,8 +392,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     //   singleSelection: false,
     //   idField: "DepartmentId",
     //   textField: "Name",
-    //   selectAllText: "Hepsini Seç",
-    //   unSelectAllText: "Temizle",
+    //   selectAllText: this.getLanguageValue('Select_All'),
+    //   unSelectAllText: this.getLanguageValue('Clear'),
     //   itemsShowLimit: 10,
     //   allowSearchFilter: true
     // };
@@ -401,8 +401,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     //   singleSelection: false,
     //   idField: "LocationId",
     //   textField: "Name",
-    //   selectAllText: "Hepsini Seç",
-    //   unSelectAllText: "Temizle",
+    //   selectAllText: this.getLanguageValue('Select_All'),
+    //   unSelectAllText: this.getLanguageValue('Clear'),
     //   itemsShowLimit: 10,
     //   allowSearchFilter: true
     // };
@@ -410,8 +410,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     //   singleSelection: false,
     //   idField: "FixedAssetCardCategoryId",
     //   textField: "Name",
-    //   selectAllText: "Hepsini Seç",
-    //   unSelectAllText: "Temizle",
+    //   selectAllText: this.getLanguageValue('Select_All'),
+    //   unSelectAllText: this.getLanguageValue('Clear'),
     //   itemsShowLimit: 10,
     //   allowSearchFilter: true
     // };
@@ -419,8 +419,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     //   singleSelection: false,
     //   idField: "FixedAssetStatusId",
     //   textField: "Name",
-    //   selectAllText: "Hepsini Seç",
-    //   unSelectAllText: "Temizle",
+    //   selectAllText: this.getLanguageValue('Select_All'),
+    //   unSelectAllText: this.getLanguageValue('Clear'),
     //   itemsShowLimit: 10,
     //   allowSearchFilter: true
     // };
@@ -428,8 +428,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     //   singleSelection: false,
     //   idField: "FixedAssetCardBrandId",
     //   textField: "Name",
-    //   selectAllText: "Hepsini Seç",
-    //   unSelectAllText: "Temizle",
+    //   selectAllText: this.getLanguageValue('Select_All'),
+    //   unSelectAllText: this.getLanguageValue('Clear'),
     //   itemsShowLimit: 10,
     //   allowSearchFilter: true
     // };
@@ -437,8 +437,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     //   singleSelection: false,
     //   idField: "FixedAssetCardModelId",
     //   textField: "Name",
-    //   selectAllText: "Hepsini Seç",
-    //   unSelectAllText: "Temizle",
+    //   selectAllText: this.getLanguageValue('Select_All'),
+    //   unSelectAllText: this.getLanguageValue('Clear'),
     //   itemsShowLimit: 10,
     //   allowSearchFilter: true
     // };
@@ -446,8 +446,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     //   singleSelection: false,
     //   idField: "UserId",
     //   textField: "FirstName + ' ' + Last Name",
-    //   selectAllText: "Hepsini Seç",
-    //   unSelectAllText: "Temizle",
+    //   selectAllText: this.getLanguageValue('Select_All'),
+    //   unSelectAllText: this.getLanguageValue('Clear'),
     //   itemsShowLimit: 10,
     //   allowSearchFilter: true
     // };

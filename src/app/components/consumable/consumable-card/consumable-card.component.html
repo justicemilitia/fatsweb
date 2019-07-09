@@ -66,7 +66,7 @@
                 name="ConsumableCardCode" required maxlength="50" class="form-control" />
               <div *ngIf="data.submitted && ConsumableCardCode.invalid" class="invalid-feedback">
                 <div *ngIf="ConsumableCardCode.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="ConsumableCardCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="ConsumableCardCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@
                 #ConsumableCardName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardName.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && ConsumableCardName.invalid" class="invalid-feedback">
                 <div *ngIf="ConsumableCardName.errors.required">Bu alan zorunludur.</div>
-                <div *ngIf="ConsumableCardName.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="ConsumableCardName.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>

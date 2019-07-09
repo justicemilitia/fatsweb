@@ -35,7 +35,7 @@
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
               id="btnEditAgreement" data-toggle="modal" data-target="#modalAgreement">
-              Sözleşmeyi Düzenle
+              {{getLanguageValue('Reedit_Agreement')}}
             </button>
 
           </div>
@@ -71,7 +71,7 @@
                 [ngClass]="{ 'is-invalid': data.submitted && No.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && No.invalid" class="invalid-feedback">
                 <div *ngIf="No.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="No.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="No.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
 
               </div>
             </div>
@@ -82,7 +82,7 @@
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="Name.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
@@ -96,7 +96,7 @@
                 required maxlength="50" />
               <div *ngIf="data.submitted && AgreementCode.invalid" class="invalid-feedback">
                 <div *ngIf="AgreementCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="AgreementCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="AgreementCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
             <!-- İLGİLİ ŞİRKET -->
@@ -134,7 +134,7 @@
                 <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
                   <div *ngIf="startDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
-                    Lütfen Geçerli Format Giriniz.
+                    {{getLanguageValue('Format_is_not_valid')}}
                   </div>
                 </div>
               </div>
@@ -157,7 +157,7 @@
                 <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
                   <div *ngIf="endDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
-                    Lütfen Geçerli Format Giriniz.
+                    {{getLanguageValue('Format_is_not_valid')}}
                   </div>
                 </div>
               </div>
@@ -173,7 +173,7 @@
                 [ngClass]="{ 'is-invalid': data.submitted && (Price.invalid || !isNumeric(Price.value)) && Price.value }" />
               <div *ngIf="data.submitted && ((Price.invalid || !isNumeric(Price.value)) && Price.value)"
                 class="invalid-feedback">
-                <div>Lütfen Geçerli Bir Sayı Giriniz.</div>
+                <div>{{getLanguageValue('Please_enter_a_valid_number')}}</div>
               </div>
             </div>
             <div class="form-group col-md-6">
@@ -200,7 +200,7 @@
                   name="Description" maxlength="150" class="form-control"
                   [ngClass]="{ 'is-invalid': data.submitted && Description.invalid }" type="text"></textarea>
                 <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
-                  <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                  <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_150_character')}}</div>
                 </div>
               </div>
             </div>
@@ -225,7 +225,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateAgreement" *ngIf="isWaitingInsertOrUpdate == false" type="submit"
             class="btn btn-az-primary">
-            {{agreement.AgreementId ? 'Sözleşmeyi Güncelle' : getLanguageValue('Add_Aggreement')}}
+            {{agreement.AgreementId ? getLanguageValue('Reedit_Agreement') : getLanguageValue('Add_Aggreement')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>

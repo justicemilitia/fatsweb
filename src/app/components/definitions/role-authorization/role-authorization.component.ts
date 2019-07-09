@@ -292,7 +292,7 @@ export class RoleAuthorizationComponent extends BaseComponent
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir kayıt seçiniz"
+         this.getLanguageValue('Please_choose_at_least_one_record')
       );
       return;
     }
@@ -383,7 +383,7 @@ export class RoleAuthorizationComponent extends BaseComponent
 
         this.dataTable.isLoading = false;
 
-        this.dataTable.errorMessage = 'Tablo Yüklenemedi';
+        this.dataTable.errorMessage = this.getLanguageValue('Table_couldnt_load');
 
         this.baseService.spinner.hide();
 

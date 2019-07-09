@@ -45,7 +45,7 @@
                         <!-- Per In Page Select area -->
                         <select class="table-pagination-select" (change)="loadTransactionList(perInPage,1)" [(ngModel)]="perInPage">
                           <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
-                          <option value="1000">Hepsi</option>
+                          <option value="1000">{{getLanguageValue('All')}}</option>
                         </select>
                         <!-- END Per In Page Select area END -->
                         <!-- Paginations -->
@@ -73,7 +73,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content modal-content-demo" style="width: 900px;">
         <div class="modal-header">
-          <h6 class="modal-title">Hareket Bilgileri</h6>
+          <h6 class="modal-title">{{getLanguageValue('Transaction_Informations')}}</h6>
           <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -130,7 +130,7 @@
             <div class="row justify-content-center">            
               <div class="col-md-6">
                   <fieldset  class="field_set" [hidden]="hideToFixedAsset == true || hideFromFixedAsset == true">
-                      <legend>Eski</legend>
+                      <legend>{{getLanguageValue('Old')}}</legend>
                       <!-- *ngIf="transaction.ExistingBarcode" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
@@ -152,7 +152,7 @@
                   <!-- *ngIf="transaction.FromFixedAssetCardName" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Demirbaş Kartı :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Card')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromFixedAssetCardName}}</span> 
@@ -161,7 +161,7 @@
                   <!-- *ngIf="transaction.FromLocationName" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Lokasyon :</label>
+                          <label>{{getLanguageValue('Location')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromLocationName}}</span> 
@@ -325,7 +325,7 @@
                   <!-- *ngIf="transaction.ToFixedAssetCardName" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Demirbaş Kartı :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Card')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToFixedAssetCardName}}</span> 
@@ -335,7 +335,7 @@
                   <!-- *ngIf="transaction.ToLocationName" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Lokasyon :</label>
+                          <label>{{getLanguageValue('Location')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToLocationName}}</span> 

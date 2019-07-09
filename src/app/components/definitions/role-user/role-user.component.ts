@@ -75,8 +75,8 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       singleSelection: false,
       idField: "UserId",
       textField: "UserMail",
-      selectAllText: "Hepsini Seç",
-      unSelectAllText: "Temizle",
+      selectAllText: this.getLanguageValue('Select_All'),
+      unSelectAllText: this.getLanguageValue('Clear'),
       itemsShowLimit: 10,
       allowSearchFilter: true
     };
@@ -203,7 +203,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir kayıt seçiniz"
+         this.getLanguageValue('Please_choose_at_least_one_record')
       );
       return;
     }

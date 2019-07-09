@@ -66,7 +66,7 @@
               <label class="required-span">Kullanıcı</label>
               <div *ngIf="visible;then insertUserRole else updateUserRole"></div>
               <ng-template #insertUserRole>
-                <ng-multiselect-dropdown [placeholder]="'Seçiniz'"
+                <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')"
                   [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required [data]="systemUsers"
                   [(ngModel)]="userRole.UserId" name="UserId" [settings]="dropdownSettings"
                   (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
@@ -103,7 +103,7 @@
         <div class="modal-footer">
           <button id="btnAddRole" type="submit" class="btn btn-az-primary" data-toggle="modal"
             data-target="#modalAddUserRole" *ngIf="isWaitingInsertOrUpdate == false">
-            {{userRole.UserRoleId ? 'Kullanıcı Rolünü Güncelle' : 'Kullanıcı Rolü Ekle'}}
+            {{userRole.UserRoleId ? getLanguageValue('Reedit_User_Role') : getLanguageValue('Add_User_Role')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>

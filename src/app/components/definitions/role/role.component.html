@@ -69,7 +69,7 @@
                 [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" required maxlength="50" />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="Name.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>

@@ -68,7 +68,7 @@
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="Name.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
 
@@ -79,7 +79,7 @@
                 [ngClass]="{ 'is-invalid': data.submitted && DepartmentCode.invalid }" />
               <div *ngIf="data.submitted && DepartmentCode.invalid" class="invalid-feedback">
                 <div *ngIf="DepartmentCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="DepartmentCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="DepartmentCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@
 
             <!-- BAĞLI OLDUĞU DEPARTMAN  -->
             <div class="col-md-6 form-group">
-              <label>Bağlı Olduğu Departman</label>
+              <label>{{getLanguageValue('Parent_Department')}}</label>
               <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none"
                 class="form-control" type="text">
                 <option [ngValue]="null">Yok</option>

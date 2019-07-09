@@ -129,7 +129,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir lokasyon seçiniz");
+      this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Choose_at_least_one_location'));
       return;
     }
 

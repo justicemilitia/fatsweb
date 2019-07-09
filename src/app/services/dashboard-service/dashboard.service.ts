@@ -155,6 +155,4 @@ export class DashboardService {
       failed(error);
     })
   }
-
-
 }

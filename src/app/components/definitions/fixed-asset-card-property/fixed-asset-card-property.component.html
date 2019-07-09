@@ -149,7 +149,7 @@
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnInsertOrUpdateFixedAssetCardProperty" type="submit"
             data-toggle="modal" data-target="#modalInsertFixedAssetProperty" *ngIf="isWaitingInsertOrUpdate == false">
-            {{fixedAssetCardProperty.FixedAssetCardPropertyId ?  'Demirbaş Özelliği Güncelle' : getLanguageValue('Add_Fixed_Asset_Card_Property_Name')}}
+            {{fixedAssetCardProperty.FixedAssetCardPropertyId ?  getLanguageValue('Reedit_Property') : getLanguageValue('Add_Fixed_Asset_Card_Property_Name')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>

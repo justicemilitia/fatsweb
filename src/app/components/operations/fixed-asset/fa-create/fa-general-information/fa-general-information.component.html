@@ -64,7 +64,7 @@
         <label class="required-span" style="margin-bottom: 0;
         font-weight: 700;" >Demirbaş Kategorisi</label>        
       <div style="display:flex;">
-      <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedCategory"  required>{{selectedCategory ? selectedCategory.Name : 'Seçiniz' }}</button>
+      <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedCategory"  required>{{selectedCategory ? selectedCategory.Name : getLanguageValue('Choose') }}</button>
         <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
       </div>
       <div *ngIf="data.submitted && !selectedCategory" style="color:red">
@@ -87,9 +87,9 @@
 <div class="form-group col-md-3">
     <div>
     <label class="required-span" style="margin-bottom: 0;
-    font-weight: 700;">Demirbaş Kartı</label>
+    font-weight: 700;">{{getLanguageValue('Fixed_Asset_Card')}}</label>
     <div style="display:flex;">
-      <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" [class.dropdown-button-valid]="data.submitted && !selectedCard"  required>{{selectedCard ? selectedCard.Name : 'Seçiniz' }}</button>
+      <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" [class.dropdown-button-valid]="data.submitted && !selectedCard"  required>{{selectedCard ? selectedCard.Name : getLanguageValue('Choose') }}</button>
         <span class="span-dropdown"  (click)="resetDropdown('card')" class="typcn icon-default typcn-times span-dropdown"></span>
       </div>
       <div *ngIf="data.submitted && !selectedCard" style="color:red">
@@ -134,13 +134,13 @@
   <div class="form-group col-md-3">
     <div>
       <label class="required-span" style="margin-bottom: 0;
-      font-weight: 700;" >Lokasyon</label>
+      font-weight: 700;" >{{getLanguageValue('Location')}}</label>
       <!-- <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2-no-search" style="width:100%;" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" #LocationId="ngModel" required (change)="loadDepartmentByLocationId($event)">
           <option value="">Lokasyon Seçiniz</option>
           <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
       </select>       -->
       <div style="display:flex;">
-      <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
+      <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
         <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
       </div>
       <div *ngIf="data.submitted && !selectedLocation" style="color:red">
@@ -162,7 +162,7 @@
       <label style="margin-bottom: 0;
       font-weight: 700;">Departman</label>
            <div style="display:flex;">
-              <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+              <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
               </div>
       </div>

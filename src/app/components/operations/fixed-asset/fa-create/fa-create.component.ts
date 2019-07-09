@@ -5,7 +5,7 @@ import {
   Directive,
   NgModule,
   ViewChild,
-  Input  
+  Input
 } from "@angular/core";
 import { BaseService } from "src/app/services/base.service";
 import { BaseComponent } from "src/app/components/base/base.component";
@@ -38,10 +38,9 @@ import { convertNgbDateToDateString } from "src/app/declarations/extends";
 import { MatStepper } from "@angular/material";
 import { FixedAssetComponent } from "../fixed-asset.component";
 import { Agreement } from "src/app/models/Agreement";
-import { FaGeneralInformationComponent } from './fa-general-information/fa-general-information.component';
-import { FaPropertyInformationComponent } from './fa-property-information/fa-property-information.component';
-import { FaFinancialInformationComponent } from './fa-financial-information/fa-financial-information.component';
-
+import { FaGeneralInformationComponent } from "./fa-general-information/fa-general-information.component";
+import { FaPropertyInformationComponent } from "./fa-property-information/fa-property-information.component";
+import { FaFinancialInformationComponent } from "./fa-financial-information/fa-financial-information.component";
 
 const URL = "";
 
@@ -59,12 +58,8 @@ const URL = "";
 })
 export class FaCreateComponent extends BaseComponent
   implements OnInit, AfterViewInit {
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes["isNewBarcode"]) {
-  //     this.getValidBarcode();
-  //     this.isNewBarcode = false;
-  //   }
+  // ngOnChanges() {
+  //   this.dataGeneral.reset();
   // }
 
   ngAfterViewInit(): void {
@@ -133,13 +128,17 @@ export class FaCreateComponent extends BaseComponent
   visibleInsertButton: boolean = false;
   isResetForm: boolean = false;
   picture: string;
-  isSuccess:boolean = false;
+  isSuccess: boolean = false;
 
   @Input() faComponent: FixedAssetComponent;
   @ViewChild("stepper") stepper: MatStepper;
-  @ViewChild(FaGeneralInformationComponent) resetGeneral:FaGeneralInformationComponent;
-  @ViewChild(FaPropertyInformationComponent) resetProperty:FaPropertyInformationComponent;
-  @ViewChild(FaFinancialInformationComponent) resetFinancial:FaFinancialInformationComponent;
+  @ViewChild(FaGeneralInformationComponent)
+  resetGeneral: FaGeneralInformationComponent;
+  @ViewChild(FaPropertyInformationComponent)
+  resetProperty: FaPropertyInformationComponent;
+  @ViewChild(FaFinancialInformationComponent)
+  resetFinancial: FaFinancialInformationComponent;
+  @ViewChild("data") dataGeneral: NgForm;
 
   public imagePath;
   imgURL: any;
@@ -286,7 +285,7 @@ export class FaCreateComponent extends BaseComponent
   }
 
   previous() {
-   // this.barcode = this.firstBarcode;
+    // this.barcode = this.firstBarcode;
 
     this.stepper.previous();
   }
@@ -298,10 +297,8 @@ export class FaCreateComponent extends BaseComponent
   }
 
   nextFixedAssetList() {
-
-      this.isFinished = true;
-      this.stepper.next();
-
+    this.isFinished = true;
+    this.stepper.next();
   }
 
   //#region Load Dropdown
@@ -503,7 +500,6 @@ export class FaCreateComponent extends BaseComponent
   }
 
   addToFixedAssetList(data: NgForm) {
-
     Object.assign(this.fixedAsset, this.faGeneralInformation);
 
     this.fixedAsset.FixedAssetPropertyDetails = this.faPropertyInformation.FixedAssetPropertyDetails;
@@ -517,17 +513,19 @@ export class FaCreateComponent extends BaseComponent
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
-    let expensecenter = this.expensecenters.find(x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId));
+    let expensecenter = this.expensecenters.find(
+      x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId)
+    );
 
-      this.fixedAsset.IsActive = Boolean(data.value.IsActive);
-      this.fixedAsset.ActivationDate = data.value.activationDate;
-      this.fixedAsset.ExpenseCenter = expensecenter;
-      this.fixedAsset.Price = data.value.Price;
-      this.fixedAsset.GuaranteeStartDate = data.value.guaranteeStartDate;
-      this.fixedAsset.GuaranteeEndDate = data.value.guaranteeEndDate;
-      this.fixedAsset.InvoiceDate = data.value.invoiceDate;
-      this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
-      this.fixedAsset.ReceiptDate = data.value.receiptDate;
+    this.fixedAsset.IsActive = Boolean(data.value.IsActive);
+    this.fixedAsset.ActivationDate = data.value.activationDate;
+    this.fixedAsset.ExpenseCenter = expensecenter;
+    this.fixedAsset.Price = data.value.Price;
+    this.fixedAsset.GuaranteeStartDate = data.value.guaranteeStartDate;
+    this.fixedAsset.GuaranteeEndDate = data.value.guaranteeEndDate;
+    this.fixedAsset.InvoiceDate = data.value.invoiceDate;
+    this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
+    this.fixedAsset.ReceiptDate = data.value.receiptDate;
 
     if (this.isFinished == true) {
       for (let i = 0; i < this.fixedAsset.Quantity; i++) {
@@ -638,7 +636,7 @@ export class FaCreateComponent extends BaseComponent
     });
   }
 
-  async addFixedAsset(data:NgForm) {
+  async addFixedAsset() {
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
 
     this.insertedFixedAsset = this.fixedAssets[0];
@@ -732,7 +730,7 @@ export class FaCreateComponent extends BaseComponent
           this.dataTable.TGT_clearData();
           this.baseService.spinner.hide();
           this.baseService.popupService.ShowSuccessPopup(message);
-          this.faComponent.loadFixedAsset(); 
+          this.faComponent.loadFixedAsset();
         } else {
           this.validBarcode = true;
           this.doAllVisible();
@@ -749,11 +747,11 @@ export class FaCreateComponent extends BaseComponent
     );
   }
 
-  resetForm(data:NgForm) {
-    
+  resetForm(data: NgForm) {
+
     this.editable = true;
 
-    this.fixedAsset = new FixedAsset();
+    //this.fixedAsset = new FixedAsset();
 
     this.resetGeneral.resetForm();
 
@@ -761,7 +759,7 @@ export class FaCreateComponent extends BaseComponent
 
     this.resetFinancial.resetForm();
 
-    this.barcode = null;
+    //this.barcode = null;
 
     this.stepper.reset();
 
@@ -792,13 +790,11 @@ export class FaCreateComponent extends BaseComponent
   }
 
   public onFileSelected(event) {
-
     for (var i = 0; i < event.target.files.length; i++) {
-
       let files: FixedAssetFile = new FixedAssetFile();
 
       files.FileName = event.target.files[i].name;
-      files.FixedAssetFileId = (this.fixedAssetFilesDataTable.length + 1) * -1;      
+      files.FixedAssetFileId = (this.fixedAssetFilesDataTable.length + 1) * -1;
       this.fixedAssetFilesDataTable.push(files);
 
       this.fixedAssetFiles.push(event.target.files[i]);
@@ -810,14 +806,15 @@ export class FaCreateComponent extends BaseComponent
   }
 
   insertFiles() {
-
-    let fixedassetfiles:FixedAssetFile[]=[];
+    let fixedassetfiles: FixedAssetFile[] = [];
 
     let selectedFiles = this.dataTableFile.TGT_selectAllItems();
 
-    Object.assign(fixedassetfiles,selectedFiles);
+    Object.assign(fixedassetfiles, selectedFiles);
 
-    this.fixedAssetFiles = this.fixedAssetFiles.filter(e => fixedassetfiles.some(t=>e.name == t.FileName));
+    this.fixedAssetFiles = this.fixedAssetFiles.filter(e =>
+      fixedassetfiles.some(t => e.name == t.FileName)
+    );
 
     if (this.fixedAssetFiles.length == 0) {
       this.baseService.popupService.ShowWarningPopup("Dosya Seçiniz!");

@@ -63,12 +63,12 @@
             <label class="required-span" style="margin-bottom: 0;
             font-weight: 700;" >Lokasyon</label>
             <!-- <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2-no-search" style="width:100%;" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" #LocationId="ngModel" required (change)="loadDepartmentByLocationId($event)">
-                <option value="">Lokasyon Seçiniz</option>
+                <option value="">{{getLanguageValue('Location')}} Seçiniz</option>
                 <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
             </select>       -->
             <div style="display:flex;">
             <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  
-            [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
+            [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
               <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
             </div>
             <div *ngIf="data.submitted && !selectedLocation" style="color:red">
@@ -101,7 +101,7 @@
         <label style="margin-bottom: 0;
         font-weight: 700;">{{getLanguageValue('Department')}}</label>
              <div style="display:flex;">
-                <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+                <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
                   <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
         </div>

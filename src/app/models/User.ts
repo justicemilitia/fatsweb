@@ -55,6 +55,8 @@ export class User implements IData {
     UserAuthorizedLocations:UserAuthorizedLocations[];
     UserAuthorizedFixedAssetCardCategories:UserAuthorizedFixedAssetCardCategories[];
     UserAuthorizedUsers:UserAuthorizedUsers[];
+    UserAuthorizedUsersAuthorizedUser:UserAuthorizedUsers[];
+
 
     constructor() {
         this.Department = new Department();

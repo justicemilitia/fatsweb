@@ -87,4 +87,120 @@ export const loadFlotLine = function (flotDimention, yValues, xValues) {
         },
       }
     });
+};
+
+export const loadMonth = function( xValues){
+
+  if ($('#flotChart7').length == 0)
+      return;
+
+
+    $.plot('#flotChart7', [{
+      data: dashData4,
+      color: '#560bd0',
+      // curvedLines: { apply: true }
+    }], {
+        series: {
+          shadowSize: 0,
+          lines: {
+            show: true,
+            lineWidth: 0,
+            fill: true,
+            fillColor: { colors: [{ opacity: .5 }, { opacity: 1 }] }
+          },
+          curvedLines: { active: true }
+        },
+        grid: {
+          borderWidth: 0,
+          labelMargin: 0
+        },
+        yaxis: {
+          show: true,
+          min: 0,
+          max: 50,
+          ticks: [[0, ''], [10, '50'], [20, '150'], [30, '300']],
+          tickColor: '#f3f3f3'
+        },
+        xaxis: {     
+          show: true,
+          ticks: xValues,
+          tickColor: 'rgba(255,255,255,0)'       
+        }
+      });
+
+      if ($('#flotChart8').length == 0)
+      return;
+
+
+    $.plot('#flotChart8', [{
+      data: dashData4,
+      color: '#3381d6'
+    }], {
+        series: {
+          bars: {
+            show: true,
+            lineWidth: 0,
+            fill: 1,
+            barWidth: .5
+          }
+        },
+        grid: {
+          borderWidth: 0,
+          labelMargin: 0
+        },
+        yaxis: {
+          show: true,
+          min: 0,
+          max: 30,
+          ticks: [[0, ''], [10, '100'], [20, '200']],
+          tickColor: 'rgba(255,255,255,0)'
+        },
+        xaxis: {
+          show: true,    
+          ticks: xValues,
+          tickColor: 'rgba(255,255,255,0)'
+        }
+      });
+
+      if ($('#flotChart9').length == 0)
+      return;
+
+
+    $.plot('#flotChart9', [{
+      data: dashData3,
+      color: '#fff',
+      bars: {
+        show: true,
+        lineWidth: 0,
+        barWidth: .5
+      }
+    }, {
+      data: dashData4,
+      color: '#fff',
+      lines: {
+        show: true,
+        lineWidth: 2,
+        fill: .16
+      }
+    }], {
+        series: {
+          shadowSize: 0
+        },
+        grid: {
+          borderWidth: 0,
+          labelMargin: 0
+        },
+        yaxis: {
+          show: true,
+          min: 0,
+          max: 30,
+          ticks: [[0, ''], [10, '100'], [20, '200']],
+          tickColor: 'rgba(255,255,255,0)'
+        },
+        xaxis: {
+          show: true,     
+          ticks: xValues,
+          tickColor: 'rgba(255,255,255,0)'
+        }
+      });
 }

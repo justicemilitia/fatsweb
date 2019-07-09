@@ -52,7 +52,7 @@
           <i class="far fa-user fa-user-custom"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-          <button class="dropdown-item" (click)="userSettings()" type="button">Ayarlar</button>
+          <button class="dropdown-item" (click)="userSettings()" type="button">{{getLanguageValue('Settings')}}</button>
           <button class="dropdown-item" (click)="logout()" type="button">{{getLanguageValue('Log_Out')}}</button>
         </div>
       </div>
@@ -215,7 +215,7 @@
         <li class="drop-right nav-item">
           <a href="#" onclick="return false" class="nav-link with-sub">
             <i class="typcn icon-default typcn-cog-outline" style="font-size: 20px"></i>
-            Bakım Yönetimi
+            {{getLanguageValue('Maintanence_Management')}}
           </a>
         </li>
         

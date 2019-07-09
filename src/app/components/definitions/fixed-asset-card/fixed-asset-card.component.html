@@ -30,7 +30,7 @@
               data-toggle="modal" data-target="#modalFixedAssetCard" (click)="resetForm(data,true)">{{getLanguageValue('Add_Fixed_Asset_Card')}}</button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditFixedAssetCard" data-toggle="modal"
-              data-target="#modalFixedAssetCard" (click)="resetForm(data,false)">Demirbaş Kartı Düzenle</button>
+              data-target="#modalFixedAssetCard" (click)="resetForm(data,false)">{{getLanguageValue('Readit_Fixed_Asset_Card')}}</button>
           </div>
         </div>
         <div class="sales-overview">
@@ -64,7 +64,7 @@
                 name="FixedAssetCardCode" required maxlength="50" class="form-control" />
               <div *ngIf="data.submitted && FixedAssetCardCode.invalid" class="invalid-feedback">
                 <div *ngIf="FixedAssetCardCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="FixedAssetCardCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="FixedAssetCardCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
 
               </div>
             </div>
@@ -76,7 +76,7 @@
                 #Name="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Name.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && Name.invalid" class="invalid-feedback">
                 <div *ngIf="Name.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="Name.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="Name.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@
               <textarea [(ngModel)]="fixedAssetCard.Description" name="Description" style="resize:none" rows="2"
                 #Description="ngModel" class="form-control" type="text" maxlength="150"></textarea>
               <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
-                <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_150_character')}}</div>
               </div>
             </div>
           </div>

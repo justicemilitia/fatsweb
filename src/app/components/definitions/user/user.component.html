@@ -68,7 +68,7 @@
                 required class="form-control" maxlength="50" />
               <div *ngIf="data.submitted && UserCode.invalid" class="invalid-feedback">
                 <div *ngIf="UserCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="UserCode.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="UserCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
             <div class="form-group col-md-6">
@@ -84,7 +84,7 @@
                 required class="form-control" maxlength="50" />
               <div *ngIf="data.submitted && FirstName.invalid" class="invalid-feedback">
                 <div *ngIf="FirstName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="FirstName.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="FirstName.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
             <div class="form-group col-md-6">
@@ -94,13 +94,13 @@
                 class="form-control" maxlength="50" />
               <div *ngIf="data.submitted && LastName.invalid" class="invalid-feedback">
                 <div *ngIf="LastName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="LastName.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                <div *ngIf="LastName.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label class="required-span">Lokasyon</label>
+              <label class="required-span">{{getLanguageValue('Location')}}</label>
               <select #LocationId="ngModel" name="LocationId" required class="form-control"
                 [(ngModel)]="currentUser.LocationId" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" (change)="loadDepartmentByLocationId($event)">
                 <option [ngValue]="null">Seçiniz</option>
@@ -172,7 +172,7 @@
                 <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
                   <div *ngIf="UserMail.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   <div *ngIf="UserMail.errors.email">Lütfen Geçerli Email Giriniz.</div>
-                  <div *ngIf="UserMail.errors.maxlength">Maksimum 50 karakter giriniz.</div>
+                  <div *ngIf="UserMail.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
                 </div>
               </div>
           </div>
@@ -183,7 +183,7 @@
                 <input [(ngModel)]="currentUser.Description" name="Description" #Description="ngModel"
                   class="form-control" type="text"/>
                   <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
-                    <div *ngIf="Description.errors.maxlength">Maksimum 150 karakter giriniz.</div>
+                    <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_150_character')}}</div>
                   </div>
               </div>
           </div>
@@ -248,7 +248,7 @@
             <div class="row justify-content-center">
               <div class="form-group col-md-6">
                   <label class="required-span">Rol</label>
-                  <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="'Seçiniz'"
+                  <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="getLanguageValue('Choose')"
                     [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" [ngClass]="{ 'is-invalid': data.submitted }"
                     (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUserUpdate==true ? true : undefined" required>
                   </ng-multiselect-dropdown>
@@ -263,7 +263,7 @@
                       <label style="margin-bottom: 0;
                         font-weight: 700;" >Personel</label>        
                       <div style="display:flex;">
-                      <button id="btnUser" (click)="toggleDropdown('user') " class="dropdown-button" type="button">{{dataTableUser.TGT_getSelectedItems().length > 0 ? dataTableUser.TGT_getSelectedItems().length + " Personel seçildi" : "Seçiniz" }}</button>
+                      <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button">{{dataTableUser.TGT_getSelectedItems().length > 0 ? dataTableUser.TGT_getSelectedItems().length + " Personel seçildi" : "Seçiniz" }}</button>
                         <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
                       </div>                     
                   </div>
@@ -289,7 +289,7 @@
                   <div class="form-group col-md-6">
                     <div>
                       <label style="margin-bottom: 0;
-                      font-weight: 700;" >Lokasyon</label>                
+                      font-weight: 700;" >{{getLanguageValue('Location')}}</label>                
                       <div style="display:flex;">
                       <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyon seçildi" : "Seçiniz" }}</button>
                         <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->

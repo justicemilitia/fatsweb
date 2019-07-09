@@ -109,9 +109,9 @@
 
           <div class="row justify-content-center">
           <div class="form-group col-md-6">
-              <label class="required-span">Lokasyon</label>
+              <label class="required-span">{{getLanguageValue('Location')}}</label>
               <div style="display:flex;">
-                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : 'Seçiniz' }}</button>
+                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
                   <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
                 <div *ngIf="data.submitted && !selectedLocation" style="color:red">
@@ -247,7 +247,7 @@
           <div class="row justify-content-center">
 
           <div class="form-group col-md-6">
-              <label>Lokasyon</label>
+              <label>{{getLanguageValue('Location')}}</label>
               <input name="LocationId"  value="{{consumableRequest.ConsumableLocation == null ? '' : consumableRequest.ConsumableLocation.Name}}" class="form-control" type="text" disabled/>
           </div>
 

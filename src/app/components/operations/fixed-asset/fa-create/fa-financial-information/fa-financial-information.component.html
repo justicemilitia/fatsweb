@@ -31,7 +31,7 @@
           <div *ngIf="invoiceDateModel.invalid" class="invalid-feedback">
               <div *ngIf="invoiceDateModel.errors.required">Bu alan zorunludur.</div>
               <div *ngIf="!invoiceDateModel.errors.required && invoiceDateModel.status == 'INVALID'">
-                Lütfen Geçerli Format Giriniz.
+                {{getLanguageValue('Format_is_not_valid')}}
               </div>
           </div>     
       </div>
@@ -60,7 +60,7 @@
                 <div *ngIf="dataFinancial.submitted && activationDateModel.invalid" class="invalid-feedback">
                   <div *ngIf="activationDateModel.errors.required">Bu alan zorunludur.</div>
                   <div *ngIf="!activationDateModel.errors.required && activationDateModel.status == 'INVALID'">
-                    Lütfen Geçerli Format Giriniz.
+                    {{getLanguageValue('Format_is_not_valid')}}
                   </div>
                 </div>
             </div>

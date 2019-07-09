@@ -39,7 +39,7 @@
       <!-- <label class="required-span" style="margin-bottom: 0;font-weight: 700;">Departman</label>
            <div style="display:flex;">
               <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  
-              [class.dropdown-button-valid]="data.submitted && !selectedDepartment" required>{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+              [class.dropdown-button-valid]="data.submitted && !selectedDepartment" required>{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
               </div> -->
       <!-- </div> -->
@@ -60,7 +60,7 @@
               font-weight: 700;" >{{getLanguageValue('Department')}}</label>
               <div style="display:flex;">
               <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  
-              [class.dropdown-button-valid]="data.submitted && !selectedDepartment"  required>{{selectedDepartment ? selectedDepartment.Name : 'Seçiniz' }}</button>
+              [class.dropdown-button-valid]="data.submitted && !selectedDepartment"  required>{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
               </div>
               <div *ngIf="data.submitted && !selectedDepartment" style="color:red">

@@ -5,7 +5,7 @@ import vDashboardFixedAssets from 'src/app/models/vDashboardFixedAssets';
 import vGetDashboardTransactions from 'src/app/models/vGetDashboardTransactions';
 import { Firm } from 'src/app/models/Firm';
 import vGetDashboardPersonalInfo from 'src/app/models/GetDashboardPersonalInfo';
-import { loadMorris, loadFlotLine } from 'src/assets/js/chart.morris.js';
+import { loadMorris, loadFlotLine, loadMonth } from 'src/assets/js/chart.morris.js';
 import { loadPieChart } from 'src/assets/js/chart.flot.js';
 import Morris, { ColorizeMorrisses } from 'src/app/models/MorrisModel';
 import FlotPie from 'src/app/models/FlotPie';
@@ -18,6 +18,7 @@ import { FixedAssetComponent } from '../operations/fixed-asset/fixed-asset.compo
 import { HttpErrorResponse } from '@angular/common/http';
 import { Page } from '../../extends/TreeGridTable/models/Page';
 import { Router } from '@angular/router';
+import { vGetDashboardFixedAssetCounts } from 'src/app/models/vGetDashboardFixedAssetCounts';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,13 +44,21 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   totalPage: number = 1;
   pages: Page[] = [];
 
+  totalCounts:any[]=[];
   totalPrices: any[] = [];
   totalPricesActiveGroup = 2;
+  totalMonths:any[]=[];
 
   fixedAssetGroupTypes = {
     priceGroupType: 1,
     activeGroupType: 1,
     totalGroupType: 1
+  }
+
+  fixedAssetStatuType = {
+    totalFixedAsset: 1,
+    activeFixedAsset: 2,
+    passiveFixedAsset:3
   }
 
   math = Math;
@@ -186,6 +195,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     this.loadFixedAssetsByCategory();
     this.loadFixedAssetsStatusCount();
     this.loadFixedAssetPriceLine(null, this.totalPricesActiveGroup);
+    //this.loadFixedAssetMonth();
   }
 
   async loadValues() {
@@ -212,12 +222,29 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     });
   }
 
-  loadCounts(event, reportType: string, groupType: number) {
+  async loadCounts(event, reportType: string, groupType: number) {
     if (reportType)
       this.fixedAssetGroupTypes[reportType] = groupType;
 
     this.baseService.dashboardService.GetDashboardFixedAssetsCount(this.fixedAssetGroupTypes, (result) => {
-      Object.assign(this.countValues, result);
+
+      let xValues = [];
+      let y:number=20;
+      /* x axis Values */
+        let currentMonth = (new Date()).getMonth();
+        xValues.push([0,'']);
+        GetMonthOfYearsLong('tr').forEach((e,i)=>{
+          if( i < currentMonth + 1 && i >= currentMonth-2){
+            xValues.push([y,e]);
+            y=y+20;
+            console.log(xValues);
+          }
+        });
+
+      loadMonth(xValues);
+
+      Object.assign(this.countValues,result);
+
       if (event) {
         $('.bg-primary').removeClass('primary-active');
         $(event.target).addClass('primary-active');
@@ -227,6 +254,43 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
       // Error
     });
   }
+
+  // loadFixedAssetMonth(){
+    
+  // this.baseService.dashboardService.GetDashboardFixedAssetMonthlyCount(1,(result)=>{
+
+  //   let count:any={};
+
+  //   Object.assign(count,result);
+
+  //   let xValues = [];
+  //   let y:number=20;
+  //   /* x axis Values */
+  //     let currentMonth = (new Date()).getMonth();
+  //     GetMonthOfYearsLong('tr').forEach((e,i)=>{
+  //       if( i < currentMonth + 1 && i >= currentMonth-2){
+  //         xValues.push([y,e]);
+  //         y=y+20;
+  //         console.log(xValues);
+  //       }
+  //     });
+
+  //   let yValues = [];
+
+  //   /* Y axis Values */
+  //   if (this.totalPrices.length > 0) {
+  //     let highest = this.totalPrices[this.totalPrices.length - 1].TotalOfItems;
+  //     yValues.push([Math.floor(highest / 2), Math.floor(highest / 2).toLocaleString().toString() + " TL"]);
+  //     yValues.push([Math.floor(highest / 4), Math.floor(highest / 4).toLocaleString().toString() + " TL"]);
+  //     yValues.push([Math.floor(highest), Math.floor(highest).toLocaleString().toString() + " TL"]);
+  //   }
+
+  //   loadMonth(xValues);
+  // },(error)=>{
+
+  // });
+
+  // }
 
   async loadFixedAssetPriceLine(event, groupType: number) {
 

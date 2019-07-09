@@ -30,11 +30,11 @@
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" (click)="resetForm(data,true)"
               id="btnAddRoleAuth" data-toggle="modal" data-target="#modalRoleAuthorization"><i
-                class="fa fa-plus-circle fa-plus-circle-add"></i>Role Yetki Atama
+                class="fa fa-plus-circle fa-plus-circle-add"></i>{{getLanguageValue('Add_Authorization_To_Role')}}
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
-              id="btnEditRoleAuth" data-toggle="modal" data-target="#modalRoleAuthorization">Role Yetki Düzenle
+              id="btnEditRoleAuth" data-toggle="modal" data-target="#modalRoleAuthorization">{{getLanguageValue('Reedit_Role_Authorization')}}
             </button>
 
           </div>

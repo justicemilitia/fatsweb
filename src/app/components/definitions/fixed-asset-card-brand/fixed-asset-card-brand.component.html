@@ -31,7 +31,7 @@
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
-              id="btnEditFixedAssetCardBrand" data-toggle="modal" data-target="#modalFixedAssetCardBrand">Marka Düzenle
+              id="btnEditFixedAssetCardBrand" data-toggle="modal" data-target="#modalFixedAssetCardBrand">{{getLanguageValue('Reedit_Brand')}}
             </button>
 
           </div>
@@ -52,7 +52,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title model-title-center">Yeni demirbaş markası oluşturmak için aşağıdaki alanları doldurunuz.
+        <h6 class="modal-title model-title-center">{{getLanguageValue('Enter_brand_informations')}}
         </h6>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">&times;</span></button>

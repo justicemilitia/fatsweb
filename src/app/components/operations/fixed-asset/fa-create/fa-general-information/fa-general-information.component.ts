@@ -22,7 +22,7 @@ import { MatStepper } from '@angular/material';
   templateUrl: './fa-general-information.component.html',
   styleUrls: ['./fa-general-information.component.css']
 })
-export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
+export class FaGeneralInformationComponent  extends BaseComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
@@ -118,7 +118,7 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
     "fixedassetcard",
     [
       {
-        columnDisplayName: "Demirbaş Kartı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -136,7 +136,7 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
 
   constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
        
-    
+        super(baseService);
 
         this.loadDropdown();
 
@@ -195,12 +195,8 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(data:NgForm){
-
-    if(this.isResetForm)
-    {
-      data.resetForm();
-      this.isResetForm=false;
-    }
+    
+    //data.resetForm();
 
     this.fixedAsset.FixedAssetCardCategory = this.selectedCategory;
 
@@ -214,7 +210,7 @@ export class FaGeneralInformationComponent implements OnInit, AfterViewInit {
   }
 
   resetForm(){
-    
+
     this.reset.emit();
     
     this.fixedAsset = new FixedAsset();

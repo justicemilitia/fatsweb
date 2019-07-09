@@ -90,7 +90,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir masraf yeri seçiniz"
+        this.getLanguageValue('Choose_at_least_one_expense_center')
       );
       return;
     }
@@ -142,7 +142,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
           });
 
           this.baseService.popupService.ShowAlertPopup(
-            "Kayıtlar ilişkili olduğundan silinemedi!"
+            this.getLanguageValue('Records_couldnt_delete_cause_theyre_related')
           );
 
           /* Show error message */

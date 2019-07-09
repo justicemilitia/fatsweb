@@ -113,7 +113,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Vergi Dairesi",
+        columnDisplayName: this.getLanguageValue('Tax_Office'),
         columnName: ["TaxOffice"],
         isActive: true,
         classes: [],
@@ -179,7 +179,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup("Lütfen en az bir kayıt seçiniz");
+      this.baseService.popupService.ShowAlertPopup( this.getLanguageValue('Please_choose_at_least_one_record'));
       return;
     }
 
