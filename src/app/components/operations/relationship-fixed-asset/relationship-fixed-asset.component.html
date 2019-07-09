@@ -12,9 +12,9 @@
             <h2 class="az-content-title">İlişkili Demirbaşlar</h2>
             <div class="grp-btn-action">
   
-                <button class="btn btn-az-primary " style="margin-right:10px" title="Demirbaş İlişki Koparma" (click)="loadRelationalFixedAsset()"><i class="fas fa-unlink"></i></button>
+                <button class="btn btn-az-primary " style="margin-right:10px" title="Demirbaş İlişki Koparma" (click)="loadRelationalFixedAssetPopup()"><i class="fas fa-unlink"></i></button>
              
-                <button data-target="#modalBreakRelationship" data-toggle="modal" id="btnOpenRelationship" style="display:none;"></button>             
+                <!-- <button data-target="#modalBreakRelationship" data-toggle="modal" id="btnOpenRelationship" style="display:none;"></button>              -->
 
               <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px">
                 <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
@@ -52,7 +52,7 @@
         <form name="form" #data="ngForm" (ngSubmit)="breakRelationship(data) && data.form.valid" novalidate>
           <div class="modal-body">
               <div>
-                  <p style="width:500px;">Seçili demirbaşlarınızın ilişkileri koparılacaktır. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+                  <p>Seçili demirbaşlarınızın ilişkileri koparılacaktır. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
                 </div>
                 <br>
                 <div class="fixed-asset-table">
@@ -71,12 +71,11 @@
     </div>
     <!-- modal-dialog -->
   </div>
+ 
 
-
-  <button data-target="#modalRelationshipFixedAsset" data-toggle="modal" id="btnShowRelationshipModal" style="display:none;"></button>     
-
-  <!-- <div class="pd-20 bg-gray-800 mg-t-20"> -->
-    <div class="modal" data-backdrop="static" id="modalRelationshipFixedAsset">
+  
+  <!-- DEMİRBAŞ İLİŞKİSİ KOPARMA -->
+  <div class="modal" data-backdrop="static" id="modalRelationshipFixedAsset">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content tx-size-sm">
           <div class="modal-body tx-center pd-y-20 pd-x-20">
@@ -84,11 +83,10 @@
               <span aria-hidden="true">&times;</span>
             </button>
             <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
-            <h4 class="tx-danger mg-b-20">Hata</h4>
+            <h4 class="tx-danger mg-b-20">{{getLanguageValue('Error')}}</h4>
             <p class="mg-b-20 mg-x-20">Seçilen demirbaşların ilişkisi bulunmadığı için işlem gerçekleştirilemedi!</p>
-            <button type="button" class="btn btn-danger pd-x-25" aria-label="Close" style="margin-bottom:20px;">Tamam</button>
+            <button type="button" class="btn btn-danger pd-x-25" aria-label="Close" style="margin-bottom:20px;" (click)="closeModal()">{{getLanguageValue('Error')}}</button>
           </div><!-- modal-body -->
         </div><!-- modal-content -->
       </div><!-- modal-dialog -->
     </div><!-- modal -->
-  <!-- </div> modal-wrapper-demo -->
