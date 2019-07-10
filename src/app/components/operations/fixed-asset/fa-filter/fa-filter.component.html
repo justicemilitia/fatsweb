@@ -196,7 +196,7 @@
             <div class="col-md-4 form-group">
               <div>
                   <label class="required-span" style="margin-bottom: 0;
-                  font-weight: 700;" >{{getLanguageValue('Staff)}}</label>
+                  font-weight: 700;" >{{getLanguageValue('Staff')}}</label>
                   <div style="display:flex;">
                   <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button" >{{selectedUser ? selectedUser.FirstName + ' ' + selectedUser.LastName : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('user')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -217,7 +217,7 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <fieldset class="field_set">
-          <legend class="fieldset_text">{{getLanguageValue('Fixed_Asset_Creation_Date)}}</legend>
+          <legend class="fieldset_text">{{getLanguageValue('Fixed_Asset_Creation_Date')}}</legend>
 
           <div class="row justify-content-center">
 
@@ -335,7 +335,7 @@
             <div class="form-group col-md-4">
               <label class="ckbox">
                 <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedDepreciation" id="IsCalculatedDepreciation"
-                  name="IsCalculatedDepreciation" /><span>{{getLanguageValue('Calculating_Depreciation)}}</span>
+                  name="IsCalculatedDepreciation" /><span>{{getLanguageValue('Calculating_Depreciation')}}</span>
               </label>
             </div>
 
@@ -343,7 +343,7 @@
             <div class="form-group col-md-5">
               <label class="ckbox">
                 <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedIFRSDepreciation" id="IsCalculatedIFRSDepreciation"
-                  name="IsCalculatedIFRSDepreciation" /><span>{{getLanguageValue('Calculating_IFRS)}}</span>
+                  name="IsCalculatedIFRSDepreciation" /><span>{{getLanguageValue('Calculating_IFRS')}}</span>
 
                <!-- <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedIFRSDepreciation"  name="IsCreateSuspendForm" #IsCreateSuspendForm="ngModel" /><span>Askıya alma formu basılsın.</span> -->
                   

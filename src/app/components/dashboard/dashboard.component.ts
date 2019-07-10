@@ -19,6 +19,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Page } from '../../extends/TreeGridTable/models/Page';
 import { Router } from '@angular/router';
 import { vGetDashboardFixedAssetCounts } from 'src/app/models/vGetDashboardFixedAssetCounts';
+import { User } from 'src/app/models/User';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +35,9 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   transactions: vGetDashboardTransactions[] = [];
 
   personalValues: vGetDashboardPersonalInfo = new vGetDashboardPersonalInfo();
+
+  /* Store the current edit user */
+  currentUser: User = new User();
 
   countValues: any = {};
   
@@ -73,6 +77,33 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
   constructor(public baseService: BaseService, private router: Router) {
     super(baseService);
+
+    this.GetUserInfoById(
+      this.baseService.authenticationService.getCurrentUserId()
+    );
+  }
+
+  async GetUserInfoById(item: number) {
+    /* Clear Model */
+    this.currentUser = new User();
+
+    /* get company information from server */
+    await this.baseService.userService.GetUserById(
+      item,
+      (result: User) => {
+
+          /* bind result to model */
+          Object.assign(this.currentUser, result);
+          
+      },
+      (error: HttpErrorResponse) => {
+        /* hide spinner */
+        this.baseService.spinner.hide();
+
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   ngOnInit() {
