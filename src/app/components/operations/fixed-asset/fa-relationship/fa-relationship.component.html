@@ -20,7 +20,7 @@
         <!-- İLİŞKİLEDİRİLECEK BARKOD -->
         <div class="row justify-content-center">
           <div class="col-md-12 form-group">
-            <label>İlişkilendirilecek Barkod</label>
+            <label>{{getLanguageValue('Enter_the_barcode_to_relate')}}</label>
             <input [(ngModel)]="fixedAsset.Barcode" name="newBarcodes" type="text" trim="blur" class="form-control" #newBarcodes="ngModel" 
             [ngClass]="{ 'is-invalid': data.submitted && newBarcodes.invalid }" required/>
             <div *ngIf="data.submitted && newBarcodes.invalid" class="invalid-feedback">

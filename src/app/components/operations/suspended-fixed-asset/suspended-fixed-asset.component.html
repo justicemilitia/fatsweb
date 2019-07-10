@@ -83,7 +83,7 @@
           <div class="row justify-content-center">
 
           <div class="form-group col-md-12">
-              <label class="required-span">Askıdan Alma Tarihi</label>
+              <label class="required-span">{{getLanguageValue('Undo_Suspend_Date')}}</label>
               <div class="input-group">
                 <div class="input-group-append"
                   [class.is-invalid]="dataSuspend.submitted && (!transactionLogSuspended.UndoSuspensionDate || undoSuspensionDateModel.status == 'INVALID' )">

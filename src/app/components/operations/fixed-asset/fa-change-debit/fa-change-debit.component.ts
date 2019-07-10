@@ -51,7 +51,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     "allUsers",
     [
       {
-        columnDisplayName: "Kullanıcı Listesi",
+        columnDisplayName: this.getLanguageValue('User_List'),
         columnName: ["|FirstNameAndLastName"],
         isActive: true,
         classes: [],
@@ -77,7 +77,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
     "debitUsers",
     [
       {
-        columnDisplayName: "Zimmetli Personel",
+        columnDisplayName: this.getLanguageValue('Embezzled_Staff'),
         columnName: ["|FirstNameAndLastNameOld"],
         isActive: true,
         classes: [],

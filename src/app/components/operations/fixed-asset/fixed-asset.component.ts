@@ -172,7 +172,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "text"
       },
       {
-        columnDisplayName: "Personel",
+        columnDisplayName: this.getLanguageValue('Staff'),
         columnName: ["|FixedAssetUsers"],
         isActive: true,
         classes: [],

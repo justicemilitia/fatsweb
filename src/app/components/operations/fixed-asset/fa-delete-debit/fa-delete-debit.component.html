@@ -27,7 +27,7 @@
     <!-- YENİ ZİMMET -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Zimmetli Personel</label>
+        <label>{{getLanguageValue('Embezzled_Staff')}}</label>
         <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="users" [(ngModel)]="UserIds" name="userIds"
           #userIds="ngModel" [ngClass]="{ 'is-invalid': data.submitted && userIds.invalid }"
           [settings]="dropdownSettings">

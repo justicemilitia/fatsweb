@@ -3105,7 +3105,7 @@
   {
     "LanguageId": 1582,
     "LanguageKeyword": "Choosen_fixed_assets_are_goig_to_be_add _Fixed_Asset_List\"",
-    "Tr": "Seçili demirbaşlar \"Demirbaş Listesi\"ne eklenecektir.",
+    "Tr": "{{getLanguageValue('Identif_areas_for_collective_changing')}} \"Demirbaş Listesi\"ne eklenecektir.",
     "En": "Choosen fixed assets are goig to be add \"Fixed Asset List\""
   },
   {
@@ -3594,7 +3594,7 @@
   },
   {
     "LanguageId": 2595,
-    "LanguageKeyword": "Finish Counting",
+    "LanguageKeyword": "Finish_Counting",
     "Tr": "Sayımı Bitir",
     "En": "Finish Counting"
   },

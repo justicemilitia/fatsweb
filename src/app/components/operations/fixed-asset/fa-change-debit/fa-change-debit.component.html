@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h6 class="modal-title">Zimmet değişikliği için gerekli bilgileri giriniz.</h6>
+  <h6 class="modal-title">{{getLanguageValue('Enter_informations_about_changing_debit')}}</h6>
   <button id="CloseModal" (click)="resetForm(data)" type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -28,7 +28,7 @@
     <!-- YENİ ZİMMET -->
     <!-- <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Zimmetli Personel</label>
+        <label>{{getLanguageValue('Embezzled_Staff')}}</label>
         <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="users" [(ngModel)]="selectedUser" name="userIds"
           #userIds="ngModel" [ngClass]="{ 'is-invalid': data.submitted && userIds.invalid }"
           [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
@@ -82,7 +82,7 @@
   <div class="modal-footer">
     <button class="btn btn-orange" id="btnChangeDebit" type="submit" data-toggle="modal"
       data-target="#modalChangeDebit">
-      Zimmeti Değiştir
+      {{getLanguageValue('Change_Debit')}}
     </button>
   </div>
 </form>

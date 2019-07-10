@@ -122,7 +122,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Personel",
+        columnDisplayName: this.getLanguageValue('Staff'),
         columnName: ["FixedAssetUsers", "User", "FirstName"],
         isActive: true,
         classes: [],

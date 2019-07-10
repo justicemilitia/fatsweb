@@ -177,7 +177,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         type: "text"
       },
       {
-        columnDisplayName: "Personel",
+        columnDisplayName: this.getLanguageValue('Staff'),
         columnName: ["FixedAsset", "|FixedAssetUsers"],
         isActive: true,
         classes: [],
@@ -566,7 +566,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         type: "text"
       },
       {
-        columnDisplayName: "Personel",
+        columnDisplayName: this.getLanguageValue('Staff'),
         columnName: ["FixedAsset", "|FixedAssetUsers"],
         isActive: true,
         classes: [],

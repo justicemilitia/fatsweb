@@ -195,7 +195,7 @@
                   <!-- *ngIf="transaction.FromUserName" -->
                   <div class="row">
                       <div class="form-group col-md-6">
-                          <label>Zimmetli Kullanıcı :</label>
+                          <label>{{getLanguageValue('Embezzled_User')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromUserName}}</span> 
@@ -212,7 +212,7 @@
                   <!-- *ngIf="transaction.FromStatusName" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Demirbaş Statüsü :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Statu')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromStatusName}}</span> 
@@ -236,7 +236,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FromExpenseCenterName">
                       <div class="form-group col-md-6">
-                          <label>Masraf Merkezi :</label>
+                          <label>{{getLanguageValue('Expense_Center')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FromExpenseCenterName}}</span> 
@@ -276,7 +276,7 @@
                   </div>
                   <div class="row" *ngIf="transaction.FixedAssetIsActive">
                       <div class="form-group col-md-6">
-                          <label>Aktiflik Durumu :</label>
+                          <label>{{getLanguageValue('Active_State')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FixedAssetIsActive}}</span> 
@@ -373,7 +373,7 @@
                   <!-- *ngIf="transaction.ToUserName" -->
                   <div class="row" >
                       <div class="form-group col-md-6">
-                          <label>Zimmetli Kullanıcı :</label>
+                          <label>{{getLanguageValue('Embezzled_User')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToUserName}}</span> 
@@ -392,7 +392,7 @@
                   <!-- *ngIf="transaction.ToStatusName" -->
                   <div class="row">
                       <div class="form-group col-md-6">
-                          <label>Demirbaş Statüsü :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Statu')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToStatusName}}</span> 
@@ -419,7 +419,7 @@
 
                   <div class="row" *ngIf="transaction.ToExpenseCenterName">
                       <div class="form-group col-md-6">
-                          <label>Masraf Merkezi :</label>
+                          <label>{{getLanguageValue('Expense_Center')}} :</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.ToExpenseCenterName}}</span> 
@@ -464,7 +464,7 @@
 
                   <div class="row" *ngIf="transaction.FixedAssetIsActive">
                       <div class="form-group col-md-6">
-                          <label>Aktiflik Durumu:</label>
+                          <label>{{getLanguageValue('Active_State')}}:</label>
                       </div>
                       <div class="col-md-6">
                           <span>{{transaction.FixedAssetIsActive}}</span> 
@@ -494,12 +494,12 @@
             </div>
 
             <fieldset class="field_set"   style = "margin-top: 8px;" [hidden]="hideCheckOutReason == true">
-              <legend>Çıkış Hareketleri</legend>
+              <legend>{{getLanguageValue('Exit_Transactions')}}</legend>
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <div class="row" >
                             <div class="form-group col-md-6">
-                                <label>Çıkış Nedeni :</label>
+                                <label>{{getLanguageValue('Exit_Type')}} :</label>
                             </div>
                             <div class="col-md-6">
                                 <span>{{transaction.CheckOutDescription}}</span> 
@@ -521,7 +521,7 @@
                     <div class="col-md-6" >
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label>Satış Bedeli :</label>
+                                <label>{{getLanguageValue('Sell_Price')}} :</label>
                             </div>
                             <div class="col-md-6">
                                 <span>{{transaction.CheckOutPrice}}</span> 
@@ -543,7 +543,7 @@
                     <div class="col-md-6">
                         <div class="row" >
                             <div class="form-group col-md-6">
-                                <label>Askıdan Alma Tarihi :</label>
+                                <label>{{getLanguageValue('Undo_Suspend_Date')}} :</label>
                             </div>
                             <div class="col-md-6">
                                 <span>{{transaction.UndoSuspensionDate}}</span> 

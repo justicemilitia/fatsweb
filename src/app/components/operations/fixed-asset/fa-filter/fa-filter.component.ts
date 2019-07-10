@@ -180,7 +180,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     "status",
     [
       {
-        columnDisplayName: "Demirbaş Statüsü",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Statu'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
