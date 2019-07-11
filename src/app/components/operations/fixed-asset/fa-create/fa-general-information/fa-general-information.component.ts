@@ -195,8 +195,6 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   }
 
   onSubmit(data:NgForm){
-    
-    //data.resetForm();
 
     this.fixedAsset.FixedAssetCardCategory = this.selectedCategory;
 
@@ -206,10 +204,10 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
 
     this.fixedAsset.FixedAssetCard = this.selectedCard;
 
-    this.faCreate.addFaGeneralInformation(this.fixedAsset);
+    this.faCreate.addFaGeneralInformation(this.fixedAsset,data,this.selectedCategory);
   }
 
-  resetForm(){
+   resetForm(){
 
     this.reset.emit();
     

@@ -19,15 +19,22 @@ import { ErrorService } from "src/app/services/error-service/error.service";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { BaseService } from "../base.service";
 import { FixedAsset } from "src/app/models/FixedAsset";
+import { NgForm } from '@angular/forms';
+
 
 @Injectable({
   providedIn: "root"
 })
 export class FixedAssetCreateService {
+
+  data:NgForm;
+
   constructor(
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService
   ) {}
+
+  
 
   isBarcodeUnique(barcode: string, success, failed) {
     this.httpClient
@@ -119,7 +126,6 @@ export class FixedAssetCreateService {
       });
   }
 
-  FixedAssetImage() {}
 
-  AddFixedAssetFile() {}
+ 
 }

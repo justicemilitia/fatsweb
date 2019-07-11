@@ -20,7 +20,7 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
 
    @Input() faCreate:FaCreateComponent; 
 
-   //@Output('reset') reset : EventEmitter<any> = new EventEmitter();
+   @Output('reset') reset : EventEmitter<any> = new EventEmitter();
 
   
     fixedassetproperty: FixedAssetCardProperty[] = [];
@@ -215,15 +215,11 @@ async isUniqueFixedAssetProperty(propertyId:number){
 }
 onSubmit(data:NgForm){
 
-  //data.resetForm();
-
   let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
   this.fixedAsset.FixedAssetPropertyDetails = propertyDetail;
 
- // this.fixedAsset.Picture=this.picture;
-
-  this.faCreate.addFaPropertyInformation(this.fixedAsset);
+  this.faCreate.addFaPropertyInformation(this.fixedAsset, data);
 
 }
 
@@ -257,7 +253,7 @@ clearFiles() {
 }
 
 resetForm(){
- // this.reset.emit();
+ this.reset.emit();
 
   this.fixedAsset = new FixedAsset();
 
@@ -265,4 +261,5 @@ resetForm(){
 
   this.imgURL = null;
 }
+
 }

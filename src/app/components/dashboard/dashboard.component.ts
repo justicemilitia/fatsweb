@@ -40,6 +40,8 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   currentUser: User = new User();
 
   countValues: any = {};
+
+  username:string = "";
   
   fixedAssets: FixedAsset[] = [];
   faComponent: FixedAssetComponent = new FixedAssetComponent(this.baseService);
@@ -94,7 +96,9 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
           /* bind result to model */
           Object.assign(this.currentUser, result);
-          
+
+          this.username = this.currentUser.FirstName + " " + this.currentUser.LastName + "!"; 
+
       },
       (error: HttpErrorResponse) => {
         /* hide spinner */

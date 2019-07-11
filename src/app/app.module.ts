@@ -85,7 +85,6 @@ import { ConsumableRequestListComponent } from './components/consumable/consumab
 import { FaGeneralInformationComponent } from './components/operations/fixed-asset/fa-create/fa-general-information/fa-general-information.component';
 import { FaPropertyInformationComponent } from './components/operations/fixed-asset/fa-create/fa-property-information/fa-property-information.component';
 import { FaFinancialInformationComponent } from './components/operations/fixed-asset/fa-create/fa-financial-information/fa-financial-information.component';
-import { FaResetFormComponent } from './components/operations/fixed-asset/fa-create/fa-reset-form/fa-reset-form.component';
 import { FaBarcodeLabelComponent } from './components/operations/fixed-asset/fa-barcode-label/fa-barcode-label.component';
 
 import { PopupComponent } from './components/popup/popup.component';
@@ -158,7 +157,6 @@ import { PopupComponent } from './components/popup/popup.component';
     FaGeneralInformationComponent,
     FaPropertyInformationComponent,
     FaFinancialInformationComponent,
-    FaResetFormComponent,
     FaBarcodeLabelComponent,
     PopupComponent
   ],

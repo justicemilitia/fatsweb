@@ -19,7 +19,6 @@ import { Agreement } from 'src/app/models/Agreement';
 export class FaFinancialInformationComponent extends BaseComponent implements OnInit {
 
  @Input() faCreate:FaCreateComponent; 
-  //@Output() reset = new EventEmitter();
   
   visibleDepreciation:boolean=false;
 
@@ -137,10 +136,5 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
       this.visibleIfrs=false;
   }
 
-  resetForm(){    
-
-    this.fixedAsset = new FixedAsset();
-
-    this.isResetForm = false;
-  }
+ 
 }
