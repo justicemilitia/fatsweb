@@ -372,6 +372,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
   ngOnInit() { }
   
     async loadFixedAssetRelationship() {
+
       /* Load all fixed asset cards to datatable */
       await this.baseService.fixedAssetService.GetFixedAssetRelationship(
         (far: FixedAssetRelationship[]) => {
@@ -400,11 +401,8 @@ export class RelationshipFixedAssetComponent extends BaseComponent
     }
   
 
-    async breakRelationship(data: NgForm) {
+    async breakRelationship() {
       this.Ids = [];
-  
-      /* Is Form Valid */
-      if (data.form.invalid == true) return;
   
       let selectedItems = <FixedAssetRelationship[]>(
         this.dataTable.TGT_getSelectedItems()
@@ -417,12 +415,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         (insertedItem: FixedAsset, message) => {
           /* Show success pop up */
           this.baseService.popupService.ShowSuccessPopup(message);
-  
-          /* Set inserted Item id to model */
-          this.fixedAsset.FixedAssetId = insertedItem.FixedAssetId;
-  
-          /* Push inserted item to Property list */
-          this.fixedAssets.push(this.fixedAsset);
+          this.popupComponent.CloseModal('#modalBreakRelationship');
           this.refreshTable();
         },
         (error: HttpErrorResponse) => {
@@ -459,19 +452,20 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       else {
         let listedItem: FixedAssetRelationship[] = [];
   
-        selectedItems.forEach(e => {
+        selectedItems.forEach((e : FixedAssetRelationship) => {
           let item = new FixedAssetRelationship();
-          // e.FixedAssetParentId = null;
+          e.FixedAssetParentId = null;
           Object.assign(item, e);
           listedItem.push(item);
         });
   
-        this.dataTableRelationship.TGT_loadData(listedItem);
         if (listedItem.length == 0) {
             this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
+        // this.dataTableRelationship.TGT_loadData(listedItem);        
         this.popupComponent.ShowModal("#modalBreakRelationship");
-        
+        this.dataTableRelationship.TGT_loadData(listedItem);        
+        listedItem = [];
         // $("#btnOpenRelationship").trigger("click");
       }
     }

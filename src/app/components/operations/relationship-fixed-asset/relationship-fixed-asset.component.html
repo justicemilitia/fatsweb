@@ -49,7 +49,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
               aria-hidden="true">&times;</span></button>
         </div>
-        <form name="form" #data="ngForm" (ngSubmit)="breakRelationship(data) && data.form.valid" novalidate>
+        <form name="form" #data="ngForm" (ngSubmit)="breakRelationship()" novalidate>
           <div class="modal-body">
               <div>
                   <p>Seçili demirbaşlarınızın ilişkileri koparılacaktır. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
@@ -62,8 +62,7 @@
   
           <!-- modal-body -->
           <div class="modal-footer">
-            <button class="btn btn-az-primary" id="btnBreakRelationship" type="submit" data-toggle="modal"
-              data-target="#modalBreakRelationship">Demirbaş ilişkisini Kopar</button>
+            <button class="btn btn-az-primary" id="btnBreakRelationship" type="submit">Demirbaş ilişkisini Kopar</button>
           </div>
         </form>
         <!-- </div> -->
@@ -90,5 +89,31 @@
         </div><!-- modal-content -->
       </div><!-- modal-dialog -->
     </div><!-- modal -->
+
+
+
+  <!-- GÜNCELLEMEK İSTEDİĞİNİZE EMİN MİSİNİZ -->    
+  <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForDebitUpdate">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+          <div class="modal-body tx-center pd-y-20 pd-x-20">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+            <h4 class="tx-warning mg-b-20">{{getLanguageValue('Warning')}}</h4>
+            <!-- <p class="mg-b-20 mg-x-20">{{getLanguageValue('Seçili demirbaşın zimmet bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?')}}</p> -->
+            <p class="mg-b-20 mg-x-20">Seçili demirbaşın zimmet bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?</p>
+            <!-- <button type="button" class="btn btn-warning pd-x-25" (click)="popupComponent.CloseModal()" style="margin-bottom:20px;">{{getLanguageValue('Ok')}}</button>
+            <button type="button" class="btn btn-warning pd-x-25" aria-label="Close" (click)="popupComponent.CloseModal()" style="margin-bottom:20px;">{{getLanguageValue('Cancel')}}</button> -->
+
+
+            <button class="btn btn-az-danger" data-dismiss="modal" data-toggle="modal" aria-label="Close">{{getLanguageValue('Cancel')}}</button>        
+            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="breakRelationship()">{{getLanguageValue('Yes')}}</button>
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div><!-- modal -->
+
 
     <app-popup [errorMessage]="errorMessage"></app-popup>

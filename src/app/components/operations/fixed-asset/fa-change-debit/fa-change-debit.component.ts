@@ -41,6 +41,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
   fixedAssetUser:FixedAssetUser=new FixedAssetUser();
   fixedAssetUsers: FixedAssetUser[] = [];
   private router: Router;  
+  IsChangeDebit: boolean = false;
 
   AllUsersWithoutDebitUser: number[] = [];
 
@@ -144,13 +145,11 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
   async ChangeDebit() {
     let insertedUserIds: number[] = [];
 
-    await this.baseService.popupService.ShowQuestionPopupForDebitUpdate(
-      (response: boolean) => {
-        if (response == true) {
           this.dataTableOldDebit.TGT_copySource().forEach(e => {
             insertedUserIds.push(e.getId());
           });
 
+          if(this.IsChangeDebit==true){
           this.baseService.spinner.show();
 
           let fixedAssetUser: FixedAssetUser = new FixedAssetUser();
@@ -170,19 +169,7 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
               for(let i=0;i<formList.length;i++){
                 this.PressDebitForm(formList[i].FixedAssetFormCode);
               }
-
-              // if(formList != null){
-              // formList[0].FixedAsset.FixedAssetForms.forEach(e => 
-              //   { 
-              //       if(e != null){
-              //         this.PressDebitForm(e.FixedAssetFormCode);                  
-              //       }
-              //   }
-              // );
-              // }
             }
-              /* Set inserted Item id to model */
-              // this.faBarcode.Barcode = cloneItem.Barcode;
               insertedUserIds.forEach(e => {
                 let user = this.users.find(x => x.UserId == e);
                 if (user) {
@@ -209,8 +196,6 @@ export class FaChangeDebitComponent extends BaseComponent implements OnInit, OnC
             }
           );
         }
-      }
-    );
   }
 
   loadUserList() {
