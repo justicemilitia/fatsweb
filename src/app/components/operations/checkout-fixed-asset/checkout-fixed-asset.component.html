@@ -101,7 +101,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Demirbaş Statüsü :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Statu')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{status}}</span>
@@ -119,7 +119,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Personel :</label>
+                  <label>{{getLanguageValue('Staff)}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{user}}</span>
@@ -174,7 +174,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Masraf Merkezi :</label>
+                  <label>{{getLanguageValue('Expense_Center')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span></span>
@@ -215,7 +215,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Aktifleştirme Tarihi :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Activation_Date')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetInfo.ActivationDate ? fixedAssetInfo.ActivationDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span>

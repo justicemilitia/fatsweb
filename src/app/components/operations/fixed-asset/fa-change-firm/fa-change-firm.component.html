@@ -115,7 +115,7 @@
     <!-- YENİ PERSONEL -->
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
-        <label>Zimmetlenecek Personel</label>
+        <label> {{getLanguageValue('Going_To_Be_Embezzle')}}</label>
         <select [(ngModel)]="fixedAsset.UserId" name="UserId"  class="form-control" #UserId="ngModel">
           <option [ngValue]="null">Yok</option>
           <option *ngFor="let user of users" value={{user.UserId}}>

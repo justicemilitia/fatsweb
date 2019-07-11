@@ -32,7 +32,7 @@
                 data-placement="bottom" title="{{getLanguageValue('Lost_Fixed_Asset')}}"><i class="fas fa-search-minus"></i></button>
               <div class="divider"></div>
               <button class="btn btn-az-primary btn-debit" (click)="doOperation(6)" data-toggle="tooltip"
-                data-placement="bottom" title="Zimmet Değiştir"><i class="fas fa-user-edit"></i></button>
+                data-placement="bottom" title="{{getLanguageValue('Change_Debit')}}"><i class="fas fa-user-edit"></i></button>
               <!-- <button class="btn btn-az-primary btn-debit" data-toggle="tooltip" data-placement="bottom"
                 title="Zimmet İptal" (click)="doOperation(7)"><i class="fas fa-user-times"></i></button> -->
               <div class="divider"></div>
@@ -228,7 +228,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Demirbaş Statüsü :</label>
+                  <label>{{getLanguageValue('Fixed_Asset_Statu')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{status}}</span>
@@ -247,7 +247,7 @@
 
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Personel :</label>
+                  <label>{{getLanguageValue('Staff)}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span>{{fixedAssetUsers}}</span>
@@ -302,7 +302,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label>Masraf Merkezi :</label>
+                  <label>{{getLanguageValue('Expense_Center')}} :</label>
                 </div>
                 <div class="col-md-6">
                   <span></span>

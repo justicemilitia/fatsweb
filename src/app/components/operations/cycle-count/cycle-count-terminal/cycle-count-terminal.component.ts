@@ -172,7 +172,7 @@ export class CycleCountTerminalComponent extends BaseComponent
     let cycleplan:CycleCountPlan=new CycleCountPlan();
     
     if(this.cyclecountplan.Barcode == null){     
-      this.errorMessage = "Barkod Okunamadı"
+      this.errorMessage = this.getLanguageValue('Barcode_could_not_read')
       return;
     }
 

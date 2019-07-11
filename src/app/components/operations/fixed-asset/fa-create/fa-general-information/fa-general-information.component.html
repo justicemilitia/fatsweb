@@ -190,7 +190,7 @@
   
 <!-- USER -->
 <div class="form-group col-md-3">
-    <label>Personel</label>
+    <label>{{getLanguageValue('Staff)}}</label>
     <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2-no-search" style="width:100%;"  #UserId="ngModel">
         <option [ngValue]="null">Personel Seçiniz</option>
         <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.RegistrationNumber ? staff.RegistrationNumber + ' - ' + staff.FirstName + ' ' + staff.LastName : staff.FirstName + ' ' + staff.LastName }}</option>

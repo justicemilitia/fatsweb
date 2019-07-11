@@ -2,7 +2,7 @@
   <div class="az-card-signin" style="height: 440px;
   box-shadow: none;
   margin-bottom: 15px;">     
-      <h2 _ngcontent-c4=""> {{ cyclecountplan.CycleCountPlanId ? 'Sayım başlatıldı.' : 'Sayım bilgilerini seçtikten sonra sayımı başlatınız.'}}
+      <h2 _ngcontent-c4=""> {{ cyclecountplan.CycleCountPlanId ? {{getLanguageValue('Counting_has_just_started')}} : {{getLanguageValue('Start_counting_after_choose_counting_informations')}}}}
       </h2>   
     <div class="az-signin-header">
       <!-- form-group -->
@@ -36,7 +36,7 @@
 
           <!-- alert -->
           <div *ngIf="isSelectedPlanOrLocation == true" class="alert alert-solid-danger alert-custom" role="alert">
-            Lütfen sayım planı ve lokasyon seçiniz!
+            {{getLanguageValue('Choose_counting_plan_and_location_please')}}
             <button type="button" class="close" data-dismiss="alert">
               <span aria-hidden="true">×</span></button>
           </div>
@@ -59,7 +59,7 @@
           <!-- alert -->
 
         <button class="btn btn-orange btn-block" id="btnFinishedCycleCount" type="button" (click)="updateCycleCountPlanStatu(cyclecountplan,true)">
-             {{ isStarted == false ? 'Sayımı Başlat' : 'Sayımı Bitir'}} 
+             {{ isStarted == false ? getLanguageValue('Start_Counting') : getLanguageValue('Finish_Counting')}} 
         </button>
 
         <button class="btn btn-orange btn-block" id="btnExit" type="button" (click)="updateCycleCountPlanStatu(cyclecountplan,false)">

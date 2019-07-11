@@ -180,7 +180,7 @@
                 <div class="flexProperty">
                   <div style="flex:1;">
                   <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
-                    <option [ngValue]="null">Özellik Değeri Seçiniz</option>
+                    <option [ngValue]="null">{{getLanguageValue('Choose_a_property_value')}}</option>
                     <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
                   </select> 
                   <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">

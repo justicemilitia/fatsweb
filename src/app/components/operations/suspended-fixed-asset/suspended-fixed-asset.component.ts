@@ -60,7 +60,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Zimmetli Personel",
+        columnDisplayName: this.getLanguageValue('Embezzled_Staff'),
         columnName: ["|FixedAssetUsers"],
         isActive: true,
         classes: [],

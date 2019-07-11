@@ -202,7 +202,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Sayım bilgilerini giriniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_counting_informations')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -247,7 +247,7 @@
           </div>          
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-                <label>Görev Adı</label>
+                <label>{{getLanguageValue('Duty_Name')}}</label>
                 <input [(ngModel)]="cycleCountPlan.TaskName" name="TaskName" type="text" trim="blur" class="form-control"
                 #TaskName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && TaskName.invalid }" required>
                 <div *ngIf="data.submitted && TaskName.invalid" class="invalid-feedback">
@@ -259,7 +259,7 @@
               <label style="margin-bottom: 0;
               font-weight: 700;" >{{getLanguageValue('Counting_Location')}}</label>                
               <div style="display:flex;">
-              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " Lokasyon seçildi" : "Seçiniz" }}</button>
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + getLanguageValue('The_Location_Selected') : "Seçiniz" }}</button>
                 <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
               </div>   
               <div *ngIf="data.submitted && !selectedLocation" style="color:red">
@@ -298,7 +298,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
 <div class="modal-header">
-  <h6 class="modal-title">Uyarı!</h6>
+  <h6 class="modal-title">{{getLanguageValue('Warning!')}}</h6>
   <button type="button" id="closePopup" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -307,7 +307,7 @@
 <form name="form" #data="ngForm" (ngSubmit)="lostFixedAsset(data)">
     <div class="modal-body">
       <div>
-        <p style="width:500px;">Seçili sayım planları iptal edilecektir. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+        <p style="width:500px;">this.getLanguageValue('Choosen_countin_ plans_are_going_to_be_canceled_Do_you_accept_this_process!')</p>
       </div>
       <br>
       <div class="property-values-table">
@@ -331,7 +331,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
 <div class="modal-header">
-  <h6 class="modal-title">Uyarı!</h6>
+  <h6 class="modal-title">{{getLanguageValue('Warning!')}}</h6>
   <button type="button" id="closeLostFixedAssetPopup" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -339,7 +339,7 @@
 <form name="form">
     <div class="modal-body">
       <div>
-        <p>Seçili demirbaşlar kayıp olarak işaretlenecektir. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+        <p>this.getLanguageValue('Choosen_fixed_assets_are_going_to_be_marked_as_lost_Do_you_accept_this_process')</p>
       </div>
       <br>
     </div>
@@ -360,7 +360,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
 <div class="modal-header">
-  <h6 class="modal-title">Uyarı!</h6>
+  <h6 class="modal-title">{{getLanguageValue('Warning!')}}</h6>
   <button type="button" id="closeDifferentLocationPopup" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>

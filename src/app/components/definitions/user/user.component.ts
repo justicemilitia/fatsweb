@@ -299,11 +299,8 @@ export class UserComponent extends BaseComponent implements OnInit {
     };
 
     this.loadUsers();
-    this.loadDropdownUsers();
-    this.loadDropdownFirms();
-    this.loadDropdownCategory();
+    this.loadDropdownList();
 
-  
     //#region DataTable Property
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
@@ -312,6 +309,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableLocation.isScrollActive = false;
     this.dataTableLocation.isSelectAllWithChildrenActive=true;
     this.dataTableLocation.isMultipleSelectedActive=true;
+    
 
     this.dataTableFixedAssetCategory.isPagingActive = false;
     this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
@@ -320,6 +318,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableFixedAssetCategory.isScrollActive = false;
     this.dataTableFixedAssetCategory.isSelectAllWithChildrenActive = true;
     this.dataTableFixedAssetCategory.isMultipleSelectedActive=true;
+    
 
     this.dataTableFirm.isPagingActive = false;
     this.dataTableFirm.isColumnOffsetActive = false;
@@ -388,23 +387,30 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
   }
 
+  loadDropdownLocations(){
+    this.baseService.locationService.GetLocations((location:Location[])=>{
+      this.locations=location;
+      this.dataTableLocation.TGT_loadData(this.locations);
+    },(error:HttpErrorResponse)=>{})
+  }
 
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset modal form then reload lists */
     data.resetForm(this.currentUser);
+    
     this.currentUserRoles = [];
 
     this.isUpdate=false;
+
+    this.dataTableFirm.TGT_clearData();
+
+    this.dataTableFixedAssetCategory.TGT_clearData();
+
+    this.dataTableLocation.TGT_clearData();
+    
+    this.dataTableUser.TGT_clearData();
     
     this.loadDropdownList();
-
-    this.loadDropdownCategory();
-
-    this.loadDropdownFirms();
-
-    this.loadDropdownUsers();
-
-    this.loadDropdownLocations();
 
     this.stepper.reset();
 
@@ -474,8 +480,6 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.refreshTable();
 
         this.checkedSystemUser = false;
-
- 
      
       },
       (error: HttpErrorResponse) => {
@@ -655,7 +659,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         /* then bind it to user model to update */
         
 
-      //  setTimeout(() => {
+       setTimeout(() => {
           /* close loading */
           this.baseService.spinner.hide();
 
@@ -671,38 +675,35 @@ export class UserComponent extends BaseComponent implements OnInit {
             let role = this.roles.find(y => y.RoleId == e.RoleId);
             if (role) this.currentUserRoles.push(role);
           });
-
+     
           let CategoryIds:number[]= [];
 
           /*get user authorized fixed asset categories from server */
          result.UserAuthorizedFixedAssetCardCategories.forEach(e=>{
                CategoryIds.push(e.FixedAssetCardCategoryId);
          });  
-         this.dataTableFixedAssetCategory.TGT_selectItemsByIds(CategoryIds);
-  
+
          let FirmIds:number[]= [];
          /*get user authorized firms from server */
          result.UserAuthorizedFirms.forEach(e=>{
            FirmIds.push(e.FirmId);
          });  
-         this.dataTableFirm.TGT_selectItemsByIds(FirmIds);
-  
+    
          let LocationIds:number[]= [];
          /*get user authorized locations from server */
          result.UserAuthorizedLocations.forEach(e=>{
          LocationIds.push(e.LocationId);
          });  
-         this.dataTableLocation.TGT_selectItemsByIds(LocationIds);          
-  
+ 
          let UserIds:number[]= [];
          /*get user authorized users from server */
          result.UserAuthorizedUsersAuthorizedUser.forEach(e=>{
            UserIds.push(e.AuthorizedUserId);
          });  
-         this.dataTableUser.TGT_selectItemsByIds(UserIds);
 
-       // }, 1000);
-       
+       this.LoadRoleAuthDropdowns(CategoryIds, FirmIds, LocationIds, UserIds);
+
+        }, 1000);       
       },
       (error: HttpErrorResponse) => {
         /* hide spinner */
@@ -714,12 +715,49 @@ export class UserComponent extends BaseComponent implements OnInit {
     );
   }
 
+  LoadRoleAuthDropdowns(CategoryIds:number[], FirmIds:number[], LocationIds:number[], UserIds:number[]){
+
+         this.baseService.userService.GetUsers(
+          (usrs: User[]) => {
+            this.dropdownUsers = usrs;
+            this.dataTableUser.TGT_loadData(this.dropdownUsers);
+           this.dataTableUser.TGT_selectItemsByIds(UserIds);
+          },
+          (error: HttpErrorResponse) => {}
+       );
+
+         this.baseService.locationService.GetLocations((location:Location[])=>{
+          this.locations=location;
+         this.dataTableLocation.TGT_loadData(this.locations);
+         this.dataTableLocation.TGT_selectItemsByIds(LocationIds); 
+        },(error:HttpErrorResponse)=>{});
+
+          this.baseService.userService.GetFirms(
+          (firms:Firm[])=>
+          {
+            this.firms=firms;
+            this.dataTableFirm.TGT_loadData(this.firms);
+            this.dataTableFirm.TGT_selectItemsByIds(FirmIds);
+          },(error: HttpErrorResponse)=>{    
+          });
+
+
+         this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
+          (faCategory:FixedAssetCardCategory[]) => {
+            this.categories=faCategory;
+            this.dataTableFixedAssetCategory.TGT_loadData(this.categories);
+           this.dataTableFixedAssetCategory.TGT_selectItemsByIds(CategoryIds);      
+          },
+          (error:HttpErrorResponse)=>{});
+  }
+
   async loadUsers() {
     /* Load just user to table */
     this.baseService.userService.GetUsers(
       (usrs: User[]) => {
         this.users = usrs;
         this.dataTable.TGT_loadData(this.users);
+     
         if(usrs.length==0){
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
@@ -730,49 +768,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async loadDropdownFirms(){
-    this.baseService.userService.GetFirms(
-      (firms:Firm[])=>
-      {
-        this.firms=firms;
-        this.dataTableFirm.TGT_loadData(this.firms);
-      },(error: HttpErrorResponse)=>{
-
-      })
-  }
-
-  loadDropdownLocations(){
-    this.baseService.locationService.GetLocations((location:Location[])=>{
-      this.locations=location;
-      this.dataTableLocation.TGT_loadData(this.locations);
-    },(error:HttpErrorResponse)=>{})
-  }
-
-  async loadDropdownUsers() {
-    /* Load just user to table */
-    this.baseService.userService.GetUsers(
-      (usrs: User[]) => {
-        this.dropdownUsers = usrs;
-        this.dataTableUser.TGT_loadData(this.dropdownUsers);
-   
-      },
-      (error: HttpErrorResponse) => {}
-    );
-  }
-
-  async loadDropdownCategory(){
-    this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
-    (faCategory:FixedAssetCardCategory[]) => {
-      this.categories=faCategory;
-      this.dataTableFixedAssetCategory.TGT_loadData(this.categories);
-    },
-    (error:HttpErrorResponse)=>{})
-  }
-
   async loadDropdownList() {
-
-    // Lokasyonların listelenmesi
-    this.loadLocationList();
 
     /* Reload users again */
     if (this.users.length == 0) {
@@ -800,24 +796,56 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.userTitles = titles;
       });
     }
+
+    //Get Fixed Asset Categories
+    this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
+      (faCategory:FixedAssetCardCategory[]) => {
+        this.categories=faCategory;
+        this.dataTableFixedAssetCategory.TGT_loadData(this.categories);
+      },
+      (error:HttpErrorResponse)=>{});
+
+    //Get Users  
+    this.baseService.userService.GetUsers(
+      (usrs: User[]) => {
+        this.dropdownUsers = usrs;
+        this.dataTableUser.TGT_loadData(this.dropdownUsers);   
+      },
+      (error: HttpErrorResponse) => {}
+    );
+
+    //Get Locations
+    this.baseService.locationService.GetLocations((location:Location[])=>{
+      this.locations=location;
+      this.dataTableLocation.TGT_loadData(this.locations);
+    },(error:HttpErrorResponse)=>{});
+
+    //Get Firms
+    this.baseService.userService.GetFirms(
+      (firms:Firm[])=>
+      {
+        this.firms=firms;
+        this.dataTableFirm.TGT_loadData(this.firms);
+      },(error: HttpErrorResponse)=>{
+
+      });
   }
 
   loadLocationList(){
+     //Get Locations
+     if(!this.locations || this.locations.length == 0)
+     {
+       this.departments = [];
 
-    if(!this.locations || this.locations.length == 0)
-    {
-      this.departments = [];
+       this.baseService.locationService.GetLocations(
+           (locations: Location[]) => {
+             this.locations = locations;
+           },
+           (error:HttpErrorResponse)=>{
 
-      this.baseService.locationService.GetLocations(
-          (locations: Location[]) => {
-            this.locations = locations;
-          },
-          (error:HttpErrorResponse)=>{
-
-          }
-      );      
-    }
-
+           }
+       );      
+     }
   }
 
   loadDepartmentByLocationId(event: any) {

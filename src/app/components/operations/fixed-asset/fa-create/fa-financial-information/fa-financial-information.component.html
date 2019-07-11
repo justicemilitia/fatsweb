@@ -46,7 +46,7 @@
             </label>                    
         </div>
         <div class="form-group col-md-3">
-            <label class="required-span">Aktifleştirme Tarihi</label>
+            <label class="required-span">{{getLanguageValue('Fixed_Asset_Activation_Date')}}</label>
             <div class="input-group">
                 <div class="input-group-append"
                 [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )">
@@ -125,9 +125,9 @@
               </div>
             </div>
             <div class="form-group col-md-3">
-                <label>Masraf Merkezi</label> 
+                <label>{{getLanguageValue('Expense_Center')}}</label> 
                 <select [(ngModel)]="fixedAsset.ExpenseCenterId" placeholder="Masraf"name="ExpenseCenterId" class="form-control select2-no-search">
-                    <option value="-1">Masraf Merkezi</option>
+                    <option value="-1">{{getLanguageValue('Expense_Center')}}</option>
                     <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
                 </select>
             </div>

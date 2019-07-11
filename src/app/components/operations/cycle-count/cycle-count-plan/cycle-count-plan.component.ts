@@ -83,7 +83,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Görev Adı",
+        columnDisplayName: "this.getLanguageValue('Duty_Name')",
         columnName: ["TaskName"],
         isActive: true,
         classes: [],
@@ -148,7 +148,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Durum",
+        columnDisplayName: this.getLanguageValue('State'),
         columnName: ["CycleCountStatus", "Name"],
         isActive: true,
         classes: [],
@@ -265,7 +265,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },    
       {
-        columnDisplayName: "Sayım Yapılan Lokasyon",
+        columnDisplayName: this.getLanguageValue('Counted_Location'),
         columnName: ["PlanLocation", "Name"],
         isActive: true,
         classes: [],
@@ -273,7 +273,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },    
       {
-        columnDisplayName: "Demirbaşın Bulunduğu Lokasyon",
+        columnDisplayName: "this.getLanguageValue('Location')",
         columnName: ["FixedAssetLocation","Name"],
         isActive: true,
         classes: [],
@@ -343,7 +343,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Görev Adı",
+        columnDisplayName: "this.getLanguageValue('Duty_Name')",
         columnName: ["TaskName"],
         isActive: true,
         classes: [],
@@ -436,7 +436,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     cycleCountResult.Page = _currentPage;
 
     if(selectedIds.length > 1){
-      this.baseService.popupService.ShowWarningPopup("Birden fazla sayım planı seçtiniz!");
+      this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('You_have_choosen_more_than_one_counting_plan'));
       return;
     }
 
@@ -504,7 +504,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     cycleCountResult.Page = _currentPage;
 
     if(selectedIds.length > 1){
-      this.baseService.popupService.ShowWarningPopup("Birden fazla sayım planı seçtiniz!");
+      this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('You_have_choosen_more_than_one_counting_plan'));
       return;
     }
 

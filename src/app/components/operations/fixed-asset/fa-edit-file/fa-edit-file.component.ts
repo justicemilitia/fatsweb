@@ -183,7 +183,7 @@ export class FaEditFileComponent extends BaseComponent
       (file: string[], message) => {
         this.baseService.spinner.hide();
 
-        this.baseService.popupService.ShowSuccessPopup("Dosya Yükleme Başarılı!");
+        this.baseService.popupService.ShowSuccessPopup( this.getLanguageValue('Addig_file_is_successfull'));
 
         this.dataTableNewFile.TGT_clearData();
         
@@ -206,7 +206,7 @@ export class FaEditFileComponent extends BaseComponent
 
     let selectedItems = this.dataTableFile.TGT_getSelectedItems();
     if(selectedItems.length==0){
-      this.baseService.popupService.ShowWarningPopup("Lütfen bir dosya seçiniz!")
+      this.baseService.popupService.ShowWarningPopup(" this.getLanguageValue('Choose_at_least_one_file')")
       return;
     }
 
@@ -215,7 +215,7 @@ export class FaEditFileComponent extends BaseComponent
     this.baseService.fileUploadService.DeleteFiles(
       itemIds,
       result => {
-        this.baseService.popupService.ShowSuccessPopup("Silme işlemi başarılı");  
+        this.baseService.popupService.ShowSuccessPopup( this.getLanguageValue('Deletion_is_succesfull'));  
 
         this.dataTableFile.TGT_removeItemsByIds(itemIds);
 

@@ -124,7 +124,7 @@
             <div class="col-md-4 form-group">
               <div>
                   <label style="margin-bottom: 0;
-                  font-weight: 700;" >Demirbaş Statüsü</label>
+                  font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Statu')}}</label>
                   <div style="display:flex;">
                   <button id="btnStatus" (click)="toggleDropdown('status')" class="dropdown-button" type="button"  >{{selectedStatus ? selectedStatus.Name : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('status')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -136,7 +136,7 @@
             </div>
 
              <!-- <div class="col-md-4 form-group">
-              <label>Demirbaş Statüsü</label>
+              <label>{{getLanguageValue('Fixed_Asset_Statu')}}</label>
               <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')" [data]="statuses" [(ngModel)]="fixedAsset.StatusId"
                 name="StatusId" [settings]="dropdownSettingsForStatus" (onSelect)="onSelectFixedAssetStatus($event)"
                 (onSelectAll)="onSelectAllFixedAssetStatus($event)">
@@ -196,7 +196,7 @@
             <div class="col-md-4 form-group">
               <div>
                   <label class="required-span" style="margin-bottom: 0;
-                  font-weight: 700;" >Personel</label>
+                  font-weight: 700;" >{{getLanguageValue('Staff)}}</label>
                   <div style="display:flex;">
                   <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button" >{{selectedUser ? selectedUser.FirstName + ' ' + selectedUser.LastName : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('user')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -217,7 +217,7 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <fieldset class="field_set">
-          <legend class="fieldset_text">Demirbaş Giriş Tarih Aralığı</legend>
+          <legend class="fieldset_text">{{getLanguageValue('Fixed_Asset_Creation_Date)}}</legend>
 
           <div class="row justify-content-center">
 
@@ -271,7 +271,7 @@
                 <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId"
                   name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()"
                   (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
-                  <option value="-1">Özellik Seçiniz</option>
+                  <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
                   <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">
                     {{property.Name}}</option>
                 </select>
@@ -285,7 +285,7 @@
                     <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId"
                       name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)"
                       class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
-                      <option [ngValue]="null">Özellik Değeri Seçiniz</option>
+                      <option [ngValue]="null">{{getLanguageValue('Choose_a_property_value')}}</option>
                       <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}
                       </option>
                     </select>
@@ -335,7 +335,7 @@
             <div class="form-group col-md-4">
               <label class="ckbox">
                 <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedDepreciation" id="IsCalculatedDepreciation"
-                  name="IsCalculatedDepreciation" /><span>Amortismanı hesaplananlar</span>
+                  name="IsCalculatedDepreciation" /><span>{{getLanguageValue('Calculating_Depreciation)}}</span>
               </label>
             </div>
 
@@ -343,7 +343,7 @@
             <div class="form-group col-md-5">
               <label class="ckbox">
                 <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedIFRSDepreciation" id="IsCalculatedIFRSDepreciation"
-                  name="IsCalculatedIFRSDepreciation" /><span>IFRS Amortismanı Hesaplananlar</span>
+                  name="IsCalculatedIFRSDepreciation" /><span>{{getLanguageValue('Calculating_IFRS)}}</span>
 
                <!-- <input type="checkbox" [(ngModel)]="fixedAsset.IsCalculatedIFRSDepreciation"  name="IsCreateSuspendForm" #IsCreateSuspendForm="ngModel" /><span>Askıya alma formu basılsın.</span> -->
                   

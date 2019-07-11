@@ -830,7 +830,7 @@ export class FaCreateComponent extends BaseComponent
         this.baseService.spinner.hide();
 
         this.baseService.popupService.ShowSuccessPopup(
-          "Dosya Yükleme Başarılı!"
+           this.getLanguageValue('Addig_file_is_successfull')
         );
 
         this.dataTableFile.TGT_clearData();
