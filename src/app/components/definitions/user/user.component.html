@@ -58,7 +58,7 @@
       
       <form #data="ngForm" (ngSubmit)="onSubmit(data) && !data.form.invalid" class="form-register">
         <mat-horizontal-stepper  [@.disabled]="true" linear #stepper>
-        <mat-step label="Kullanıcı Bilgileri" >
+        <mat-step label="{{getLanguageValue('User_Informations')}}" >
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
@@ -247,7 +247,7 @@
             <div class="modal-body">
             <div class="row justify-content-center">
               <div class="form-group col-md-6">
-                  <label class="required-span">Rol</label>
+                  <label class="required-span">{{getLanguageValue('Role')}}</label>
                   <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="getLanguageValue('Choose')"
                     [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" [ngClass]="{ 'is-invalid': data.submitted }"
                     (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUserUpdate==true ? true : undefined" required>

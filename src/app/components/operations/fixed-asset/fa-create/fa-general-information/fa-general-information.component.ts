@@ -59,6 +59,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   staffs: User[] = [];
 
   isResetForm:boolean=false;
+  prefix:string;
 
   public dataTableLocation: TreeGridTable = new TreeGridTable(
     "location",
@@ -261,6 +262,29 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       }
     );
   }
+
+  // isRFID(event: any){
+    
+  // }
+
+  // rfidBarcodeReplace(event:any){
+  //   let key:string = event.target.value;
+
+  //   key = key.toLocaleUpperCase();
+
+  //   if(key == "A" || key == "B" || key == "C" || key == "D" || key == "E" || key == "F"){
+  //     if(this.prefix != null){
+  //       this.prefix = this.prefix + key;   
+  //     }else
+  //       this.prefix = key;    
+  //   }
+  //   else{
+  //     key = "";
+  //     this.fixedAsset.Prefix = key.toString().trim();
+  //   }
+      
+  // }
+
 
    selectedLocation: Location;
   onClickLocation(item) {
