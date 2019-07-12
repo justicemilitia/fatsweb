@@ -416,6 +416,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
           /* Show success pop up */
           this.baseService.popupService.ShowSuccessPopup(message);
           this.popupComponent.CloseModal('#modalBreakRelationship');
+          this.fixedAssets = [];
           this.refreshTable();
         },
         (error: HttpErrorResponse) => {
