@@ -41,6 +41,8 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
   countValues: any = {};
 
+  countValue:string;
+
   username:string = "";
   
   fixedAssets: FixedAsset[] = [];
@@ -280,6 +282,10 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
       Object.assign(this.countValues,result);
 
+      this.countValue = (this.countValues.TOTAL && this.countValues.TOTAL.TOTAL_PREV2_ITEMS != 0 ? Math.floor(this.countValues.TOTAL.TOTAL_ITEMS / this.countValues.TOTAL.TOTAL_PREV2_ITEMS) * 100 : 0).toString();
+      console.log(this.countValue);
+      console.log(this.countValues.TOTAL.TOTAL_PREV2_ITEMS);
+      console.log(this.countValues.TOTAL.TOTAL_ITEMS);
       if (event) {
         $('.bg-primary').removeClass('primary-active');
         $(event.target).addClass('primary-active');

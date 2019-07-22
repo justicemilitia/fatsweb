@@ -14,11 +14,11 @@
           </select>       
       </div>
       <div class="form-group col-md-3">        
-          <label class="required-span">Fatura No</label>        
+          <label >Fatura No</label>        
           <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" placeholder="Fatura Numarası" class="form-control"/>  
       </div>
       <div class="form-group col-md-3">   
-      <label>Fatura Tarihi</label> 
+      <label class="required-span">Fatura Tarihi</label> 
       <div class="input-group">
           <div class="input-group-append" [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.InvoiceDate || invoiceDateModel.status == 'INVALID' )">
             <div (click)="invoiceDate.toggle()" class="input-group-text">

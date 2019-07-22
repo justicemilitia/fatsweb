@@ -23,7 +23,7 @@
                 <h6>
                   {{countValues.TOTAL ? countValues.TOTAL.TOTAL_ITEMS : 0 }}
                   <span class="tx-success">
-                    %{{countValues.TOTAL && countValues.TOTAL.TOTAL_PREV2_ITEMS != 0 ? math.floor(countValues.TOTAL.TOTAL_ITEMS / countValues.TOTAL.TOTAL_PREV2_ITEMS) * 100 : 0 }}
+                    %{{countValues.TOTAL && countValues.TOTAL.TOTAL_PREV2_ITEMS != 0 ? math.floor(((countValues.TOTAL.TOTAL_ITEMS - countValues.TOTAL.TOTAL_PREV2_ITEMS) / countValues.TOTAL.TOTAL_ITEMS) * 100) : 0 }}
                     <i class="icon ion-md-arrow-up"></i>
                   </span>
                 </h6>
@@ -44,7 +44,7 @@
               <div class="pd-x-15">
                 <h6>{{countValues.ACTIVE ? countValues.ACTIVE.TOTAL_ITEMS : 0 }}
                   <span>
-                    %{{countValues.ACTIVE && countValues.ACTIVE.TOTAL_PREV2_ITEMS != 0 ? math.floor(countValues.ACTIVE.TOTAL_ITEMS / countValues.ACTIVE.TOTAL_PREV2_ITEMS) * 100 : 0 }}
+                    %{{countValues.ACTIVE && countValues.ACTIVE.TOTAL_PREV2_ITEMS != 0 ? math.floor(((countValues.ACTIVE.TOTAL_ITEMS-countValues.ACTIVE.TOTAL_PREV2_ITEMS) / countValues.ACTIVE.TOTAL_PREV2_ITEMS) * 100) : 0 }}
                     <i class="icon ion-md-arrow-up"></i>
                   </span>
                 </h6>
