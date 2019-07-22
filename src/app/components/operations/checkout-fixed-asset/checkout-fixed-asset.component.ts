@@ -283,6 +283,7 @@ export class CheckoutFixedAssetComponent extends BaseComponent implements OnInit
 
   resetForm() {
   
+    
     this.fixedAssetInfo.FixedAssetPropertyDetails = [];
 
     this.dataTablePropertyValue.TGT_clearData();

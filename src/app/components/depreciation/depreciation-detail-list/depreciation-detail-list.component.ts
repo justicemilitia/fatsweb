@@ -566,15 +566,15 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         type: "text"
       },
       {
-        columnDisplayName: this.getLanguageValue('Staff'),
-        columnName: ["FixedAsset", "|FixedAssetUsers"],
+        columnDisplayName: this.getLanguageValue('Embezzled_Staff'),
+        columnName: ["FixedAsset", "FixedAsset", "|FixedAssetUsers"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.FixedAssetUsers.length > 0 ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
+            return value.FixedAssetUsers != null ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
           }
           else {
             return '';
