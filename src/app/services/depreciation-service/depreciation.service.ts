@@ -238,7 +238,7 @@ export class DepreciationService {
   DepreciationTotalValues(date: NgbDate, isValid: boolean, success, failed){
     
     let dep = new Depreciation();
-    dep.TargetDate = date == null ? null : convertNgbDateToDateString(date);
+    dep.TargetDate = date;
     dep.IsValid = isValid;
 
     this.httpclient
@@ -264,7 +264,7 @@ export class DepreciationService {
   DepreciationIFRSTotalValues(date: NgbDate, isValid: boolean, success, failed){
 
     let dep = new DepreciationIFRS();
-    dep.TargetDate =convertNgbDateToDateString(date);
+    dep.TargetDate = date;
     dep.IsValid= isValid;
 
     this.httpclient
