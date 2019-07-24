@@ -53,6 +53,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   minDate:NgbDate;
 
+  updatedAgreement: NgForm = null;
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
     [
@@ -171,8 +173,13 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     /* if agreement id exists means update it otherwise insert it */
     if (this.agreement.AgreementId == null) {
       this.addAgreements(data);
-    } else {
-      this.updateAgreement(data);
+    }
+     else {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForAgreement');
+      this.popupComponent.CloseModal('#modalAgreement');
+      
+      // Object.assign(this.updatedAgreement, data);
+      // this.updateAgreement(data);
     }
 
   }
@@ -310,11 +317,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     
     /* Ask for approve question if its true then update the agreement */
 
-    this.popupComponent.ShowModal("#modalShowQuestionPopupForUpdate");
+    // this.popupComponent.ShowModal("#modalShowQuestionPopupForUpdate");
     // this.baseService.popupService.ShowQuestionPopupForUpdate(
     //   (response: boolean) => {
-        if (this.popupComp.responsePopup()==true) {
-          this.popupComponent.CloseModal('#modalAgreement');
           
           this.isWaitingInsertOrUpdate = true;
 
@@ -339,10 +344,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-        else{
-          this.popupComponent.CloseModal('#modalAgreement');
-        }
+          this.popupComponent.CloseModal('#modalShowQuestionPopupForAgreement');
+        
     //   }
     // );
   }

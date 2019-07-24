@@ -31,6 +31,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
   isDetailInfo:boolean = true;
   isDetailInfoIFRS: boolean = false;
   
+  filteredData: NgForm;
   /* Is Table Exporting */
   isTableExporting:boolean = false;
   
@@ -1074,8 +1075,6 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
   }
 
   async filterDepreciation(data: NgForm){
-    /* Is Form Valid */
-    // if (data.form.invalid == true) return;
 
     this.fixedAssetFilter.IsFilter = true;
     this.fixedAssetFilter.Page = 1;
@@ -1100,7 +1099,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         this.totalPage = totalPage;
         this.TGT_calculatePages();
         this.totalDepreciationValues(cloneItem.Date, cloneItem.IsValid);
-        this.totalDepreciationIFRSValues(cloneItem.Date, cloneItem.IsValid);        
+        this.totalDepreciationIFRSValues(cloneItem.Date, cloneItem.IsValid);    
+        this.resetForm(data);            
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -1136,6 +1136,9 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         this.perInPage = 1000;
         this.totalPage = totalPage;
         this.TGT_calculatePages();
+        this.totalDepreciationValues(cloneItem.Date, cloneItem.IsValid);
+        this.totalDepreciationIFRSValues(cloneItem.Date, cloneItem.IsValid); 
+        this.resetForm(data);                    
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -1163,6 +1166,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       this.isDepreciationIFRSList=false;
       this.isDetailInfo=true;
       this.isDetailInfoIFRS=false;
+      
     } 
     else if(tabChangeEvent.index==1){
       this.totalDepreciationIFRSValues(null, true);      
@@ -1172,7 +1176,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       this.isDepreciationList=false;
       this.isDepreciationIFRSList=true;
       this.isDetailInfoIFRS=true;
-      this.isDetailInfo=false;      
+      this.isDetailInfo=false;   
     }
   }
 
@@ -1233,5 +1237,11 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     else{
       this.isValid=true;
     }
+  }
+
+  resetForm(data: NgForm){
+    data.resetForm();
+    this.fixedAssetFilter.IsValid = false;
+    this.isValid = false;
   }
 }
