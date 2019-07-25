@@ -574,7 +574,6 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     let propertyDetail = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
     );
-    console.log(propertyDetail);
     insertedItem.ConsumableLocationId=this.selectedLocation.LocationId;
 
     Object.assign(insertedItem, this.consumable);
