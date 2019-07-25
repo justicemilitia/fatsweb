@@ -10,6 +10,9 @@ export default class vGetDashboardTransactions {
         if (this.TDate) {
             if (this.TDate >= 60)
                 if(Math.floor(this.TDate) > 24){
+                    if(Math.floor((this.TDate / 60) / 24) == 0)
+                    return '1 gün önce';
+                    else
                     return Math.floor((this.TDate / 60) / 24) + ' gün önce';
                 }
                 else

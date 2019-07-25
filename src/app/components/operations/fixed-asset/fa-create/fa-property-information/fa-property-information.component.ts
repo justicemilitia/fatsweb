@@ -36,6 +36,7 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
     visible: boolean = false;
     isListSelected:boolean=false;
     sameProperty:boolean = false;
+    differentProperty:boolean = false;
     visiblePropertyName=false;
     isUniqueProperty:boolean=false;
 
@@ -134,6 +135,7 @@ async loadValuesByPropertyId(event) {
   } else {
     this.isListSelected = false;
   }
+
 }
 
 getPropertyValue(event: any) {
@@ -148,15 +150,23 @@ getPropertyValue(event: any) {
 async insertPropertyValueToArray(propertyId: any) {
   this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
-  console.log(this.propertyValue);
+  if(this.isListSelected==false) 
+  this.propertyValue = this.fixedAssetPropertyDetail.Value;
+
   this.faPropertyDetails.forEach(e=>{
+
     if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
     this.sameProperty = true;
-    else this.sameProperty = false;
   });
 
+
   if(this.sameProperty == true)
+  {
+    this.sameProperty = false;
     return;
+  }
+
+  this.isUniqueFixedAssetProperty(this.fixedAssetPropertyDetail);
 
   if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
 
@@ -196,15 +206,15 @@ async insertPropertyValueToArray(propertyId: any) {
     } 
   }
   else{
-      this.visible=true;
-      this.visiblePropertyName=true;    
+    this.visible=true;
+    
+    this.visiblePropertyName=true;    
   }
-
 }
 
-async isUniqueFixedAssetProperty(propertyId:number){
+isUniqueFixedAssetProperty(propertyDetail:FixedAssetPropertyDetails){
 
-  this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(propertyId,
+  this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(propertyDetail,
     (result)=>{
       this.isUniqueProperty=true;
 
@@ -213,6 +223,7 @@ async isUniqueFixedAssetProperty(propertyId:number){
       this.baseService.popupService.ShowErrorPopup(error);
     });
 }
+
 onSubmit(data:NgForm){
 
   let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());

@@ -53,6 +53,9 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent
   selectFixedAssetCard: boolean = false;
   selectedFirm: boolean = false;
   selectedDepartment: boolean = false;
+  visible: boolean = false;
+  sameProperty:boolean = false;
+  visiblePropertyName:boolean = false;
 
   imgURL: any;
   imageFile: any;
@@ -339,6 +342,10 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent
 
   getPropertyValue(event: any) {
     this.propertyValue = event.target.value;
+
+    this.visible = false;
+
+    this.fixedAssetPropertyDetail.Value = null;
   }
 
   async insertPropertyValueToArray(propertyId: any) {
@@ -346,20 +353,53 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent
       this.dataTablePropertyValue.TGT_copySource()
     );
 
-    this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-      (this.faPropertyDetails.length + 1) * -1;
-    let fixedasset = this.fixedassetproperty.find(
-      x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-    );
-    this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
-    if (this.isListSelected == true) {
-      this.fixedAssetPropertyDetail.Value = this.propertyValue;
+    if(this.isListSelected==false) 
+    this.propertyValue = this.fixedAssetPropertyDetail.Value;
+  
+    this.faPropertyDetails.forEach(e=>{
+  
+      if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
+      this.sameProperty = true;
+    });  
+  
+    if(this.sameProperty == true)
+    {
+      this.sameProperty = false;
+      return;
     }
-    this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
-    this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
 
-    this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-    propertyId = null;
+    if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
+
+      this.visiblePropertyName=false;
+
+      if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){
+
+        this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId = (this.faPropertyDetails.length + 1) * -1;
+
+        let fixedasset = this.fixedassetproperty.find(x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+        );
+
+        this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+
+        if (this.isListSelected == true) 
+            this.fixedAssetPropertyDetail.Value = this.propertyValue;
+
+        this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+
+        this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+
+        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+
+        propertyId = null;        
+      }
+      else{
+        this.visiblePropertyName = true;  
+      }
+    }
+    else{
+      this.visible=true;
+      this.visiblePropertyName=true;    
+    }
   }
 
   ChangeCollectiveParameter(data: NgForm) {

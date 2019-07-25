@@ -40,6 +40,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   isSelectedProperty: boolean = false;
 
+  sameProperty:boolean = false;
+
   visible: boolean = false;
 
   visiblePropertyName:boolean = false;
@@ -82,6 +84,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
 
+  
   consumableOperationEnums = {
     exitConsumableMaterial:1
   }
@@ -494,7 +497,10 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   getPropertyValue(event: any) {
     this.propertyValue = event.target.value;
+
     this.visible = false;
+    
+    this.fixedAssetPropertyDetail.Value = null;
   }
 
   async loadValuesByPropertyId(event) {
@@ -527,6 +533,21 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
     );
+
+    if(this.isListSelected==false) 
+    this.propertyValue = this.fixedAssetPropertyDetail.Value;
+
+    this.faPropertyDetails.forEach(e=>{
+
+      if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
+      this.sameProperty = true;
+    });
+  
+    if(this.sameProperty == true)
+    {
+      this.sameProperty = false;
+      return;
+    }
 
       if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
 

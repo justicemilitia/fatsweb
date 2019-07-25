@@ -380,13 +380,37 @@ export class FaCreateComponent extends BaseComponent
 
         this.barcode = Number(this.barcode) + 1;
 
+        if(this.fixedAsset.IsRFID){
+          this.isRFID();
+          fixedasset.Barcode = this.fixedAsset.Barcode;
+        }
+
         this.fixedAssets.push(fixedasset);
 
         this.isFinished = false;
       }
 
+
       this.dataTable.TGT_loadData(this.fixedAssets);
     }
+  }
+
+  isRFID(){
+    
+      let newBarcode :string;
+      let barcodeLength : number = Number(this.fixedAsset.Prefix.length) + Number(this.barcode.toString().length);
+      newBarcode = this.barcode.toString();
+
+      if(barcodeLength < 12){
+        for(let i=barcodeLength; i<12; i++){
+          newBarcode = "0" + newBarcode;
+         barcodeLength++;
+        }  
+        this.fixedAsset.Barcode = this.fixedAsset.Prefix + newBarcode;
+      }
+      else if(barcodeLength > 12)        
+        return;
+      
   }
 
   async toggleValidBarcodes() {

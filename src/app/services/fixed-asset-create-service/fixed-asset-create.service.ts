@@ -20,6 +20,7 @@ import { getAnErrorResponse } from "src/app/declarations/extends";
 import { BaseService } from "../base.service";
 import { FixedAsset } from "src/app/models/FixedAsset";
 import { NgForm } from '@angular/forms';
+import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
 
 
 @Injectable({
@@ -110,9 +111,9 @@ export class FixedAssetCreateService {
       );
   }
 
-  CheckFixedAssetPropertyUnique(propertyId: number,success,failed) {
+  CheckFixedAssetPropertyUnique(propertyDetail:FixedAssetPropertyDetails,success,failed) {
     this.httpClient
-      .get(SERVICE_URL + FIXEDASSET_PROPERTY_UNIQUE_CHECK + "/" + propertyId, {
+      .post(SERVICE_URL + FIXEDASSET_PROPERTY_UNIQUE_CHECK, propertyDetail, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result => {
