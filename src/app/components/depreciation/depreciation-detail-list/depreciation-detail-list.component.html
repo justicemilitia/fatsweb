@@ -34,7 +34,7 @@
                                 <label><b>Toplam Birikmiş Değer:</b></label>                                            
                             </div>
                             <div class="col-md-6">
-                                <span>{{ totalDepreciationMonthlyValue }}</span>
+                                <span>{{ totalAccumulatedValue }}</span>
                               </div>
                             </div>
                         </div> 
@@ -85,18 +85,27 @@
                         <div class="row">
                             <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
                               <div class="input-group">
-                                <div class="input-group-append">
+                                <div class="input-group-append"
+                                [class.is-invalid]="dataDepreciationFilter.submitted && (!fixedAssetFilter.DepreciationDate || depreciationDateModel.status == 'INVALID' )">
                                   <div (click)="depreciationDate.toggle()" class="input-group-text">
                                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                   </div>
                                 </div>
                                 <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationDate"
-                                  [(ngModel)]="fixedAsset.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel">
+                                  [(ngModel)]="fixedAssetFilter.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel" 
+                                  [class.is-invalid]="dataDepreciationFilter.submitted && (!fixedAssetFilter.DepreciationDate || depreciationDateModel.status == 'INVALID' )"
+                                  required>
+                                  <div *ngIf="dataDepreciationFilter.submitted && depreciationDateModel.invalid" class="invalid-feedback">
+                                    <div *ngIf="depreciationDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                                    <div *ngIf="!depreciationDateModel.errors.required && depreciationDateModel.status == 'INVALID'">
+                                      {{getLanguageValue('Format_is_not_valid')}}
+                                    </div>
+                                  </div>
                               </div>
                             </div>
                             <div class="col-md-4 form-group">
                               <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                                <input type="checkbox" (change)="isExitFixedAsset($event)"
+                                <input type="checkbox" [(ngModel)]="fixedAssetFilter.IsExitFixedAsset" (change)="isExitFixedAsset($event)"
                                 name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
                               </label>
                             </div>
@@ -125,12 +134,12 @@
                                   </div>
                                 </div>
                                 <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationDate"
-                                  [(ngModel)]="fixedAsset.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel">
+                                  [(ngModel)]="fixedAssetFilter.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel">
                               </div>
                             </div>
                             <div class="col-md-4 form-group">
                               <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                                <input type="checkbox" (change)="IsExitFixedAsset($event)"
+                                <input type="checkbox" (change)="isExitFixedAsset($event)"
                                 name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
                               </label>
                             </div>
@@ -186,7 +195,7 @@
   <!-- az-content -->
 
 <!-- LARGE MODAL -->
-<div id="modalFilterDepreciation" class="modal" data-backdrop="static">
+<!-- <div id="modalFilterDepreciation" class="modal" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
@@ -201,7 +210,6 @@
                         <legend>Hesaplamanın Başlayacağı Tarih Aralığı</legend>        
                     
                         <div class="row form-group">                        
-                        <!-- BAŞLANGIÇ TARİHİ -->
                         <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
                           <div class="input-group">
                             <div class="input-group-append">
@@ -236,7 +244,6 @@
                       </div>
                     </div>
           </div>
-          <!-- modal-body -->
           <div class="modal-footer">
               <button type="button" class="btn btn-danger" (click)="resetFilter()">Filtreyi Temizle</button>
             <button id="btnInsertOrUpdateFilterDepreciation" type="submit" class="btn btn-az-primary">Filtrele
@@ -245,7 +252,5 @@
         </form>
       </div>
     </div>
-    <!-- modal-dialog -->
-  </div>
-  <!-- modal -->
+   </div> -->
 

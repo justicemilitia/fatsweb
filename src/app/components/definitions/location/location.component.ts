@@ -114,7 +114,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
     if (this.location.LocationId == null) {
       this.addLocation(data);
     } else {
-      this.updateLocation(data);
+      // this.updateLocation(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForLocation');
+      this.popupComponent.CloseModal('#modalLocation');
     }
   }
 
@@ -222,19 +224,14 @@ export class LocationComponent extends BaseComponent implements OnInit {
     });
   }
 
-  async updateLocation(data: NgForm) {
+  async updateLocation() {
 
-    /* Ask for approve question if its true then update the location */
-    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
+        let willUpdateItem = new Location();
+    
+        Object.assign(willUpdateItem, this.location);
 
-        /* loading icon visible */
         this.isWaitingInsertOrUpdate = true;
-
-        /* Save parent to rollback it. Normally api says circuler error */
-        let parentLocation = this.location.ParentLocation;
-        this.location.ParentLocation = null;
-
+        
         /* if user approve question update location. */
         this.baseService.locationService.UpdateLocation(this.location, (_location, message) => {
 
@@ -259,15 +256,11 @@ export class LocationComponent extends BaseComponent implements OnInit {
           /* Close loader */
           this.isWaitingInsertOrUpdate = false;
 
-          /* Rollback the parent department */
-          this.location.ParentLocation = parentLocation;
-
           /* Show error message */
           this.baseService.popupService.ShowErrorPopup(error);
 
         });
-      }
-    });
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForLocation');
   }
 
   async loadLocations() {

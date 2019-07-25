@@ -162,98 +162,98 @@ export const routes: Routes = [
   {
     path: "fixedasset",
     component: FixedAssetComponent,
-    data: { pageKeyword: pages.MENU_FIXEDASSETOPERATIONS }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_FIXEDASSETOPERATIONS },
+    canActivate: [AuthGuard]
   },
   {
     path: "suspendedfixedasset",
     component: SuspendedFixedAssetComponent,
-    data: { pageKeyword: pages.MENU_SUSPENDEDFIXEDASSETS }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_SUSPENDEDFIXEDASSETS },
+    canActivate: [AuthGuard]
   },
   {
     path: "lostfixedasset",
     component: LostFixedAssetComponent,
-    data: { pageKeyword: pages.MENU_LOSTFIXEDASSETS }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_LOSTFIXEDASSETS },
+    canActivate: [AuthGuard]
   },
   {
     path: "checkoutfixedasset",
     component: CheckoutFixedAssetComponent,
-    data: { pageKeyword: pages.MENU_CHECKEDOUTFIXEDASSETS }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_CHECKEDOUTFIXEDASSETS },
+    canActivate: [AuthGuard]
   },
   {
     path: "relationshipfixedasset",
     component: RelationshipFixedAssetComponent,
-    data: { pageKeyword: pages.MENU_FIXEDASSETRELATIONSHIP }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_FIXEDASSETRELATIONSHIP },
+    canActivate: [AuthGuard]
   },
   {
     path: "transactionlist",
     component: TransactionListComponent,
-    data: { pageKeyword: pages.MENU_TRANSACTIONLIST }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_TRANSACTIONLIST },
+    canActivate: [AuthGuard]
   },
   {
     path: "usersettings",
-    component: UserSettingsComponent
+    component: UserSettingsComponent,
     // data: { pageKeyword: pages.MENU_TRANSACTIONLIST }
-    // //canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: "depreciation",
     component: DepreciationComponent,
-    data: { pageKeyword: pages.MENU_DEPRECIATIONOPERATION }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_DEPRECIATIONOPERATION },
+    canActivate: [AuthGuard]
   },
   {
     path: "cyclecount",
     component: CycleCountPlanComponent,
-    data: { pageKeyword: pages.MENU_CYCLECOUNTPLANING }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_CYCLECOUNTPLANING },
+    canActivate: [AuthGuard]
   },
   {
     path: "cyclecountterminal",
     component: CycleCountTerminalComponent,
-    data: { pageKeyword: pages.MENU_TERMINAL }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_TERMINAL },
+    canActivate: [AuthGuard]
   },
   {
     path: "depreciationdetaillist",
     component: DepreciationDetailListComponent,
-    data: { pageKeyword: pages.MENU_DEPRECIATIONDETAILLIST }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_DEPRECIATIONDETAILLIST },
+    canActivate: [AuthGuard]
   },
   {
     path: "consumablecard",
     component: ConsumableCardComponent,
-    data: { pageKeyword: pages.MENU_CONSUMABLECARD }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_CONSUMABLECARD },
+    canActivate: [AuthGuard]
   },
   {
     path: "consumablecategory",
     component: ConsumableCategoryComponent,
-    data: { pageKeyword: pages.MENU_CONSUMABLECATEGORY }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_CONSUMABLECATEGORY },
+    canActivate: [AuthGuard]
   },
   {
     path: "consumableunit",
     component: ConsumableUnitComponent,
-    data: { pageKeyword: pages.MENU_CONSUMABLEUNIT }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_CONSUMABLEUNIT },
+    canActivate: [AuthGuard]
   },
   { 
     path: "consumablelist",
     component: ConsumableListComponent,
-    data: { pageKeyword: pages.MENU_CONSUMABLELIST }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_CONSUMABLELIST },
+    canActivate: [AuthGuard]
   },
   { 
     path: "consumablerequestlist",
     component: ConsumableRequestListComponent,
-    data: { pageKeyword: pages.MENU_CONSUMABLEREQUESTLIST }
-    // //canActivate: [AuthGuard]
+    data: { pageKeyword: pages.MENU_CONSUMABLEREQUESTLIST },
+    canActivate: [AuthGuard]
   }
 
 ];

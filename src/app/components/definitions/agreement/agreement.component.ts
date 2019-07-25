@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from "@angular/core";
+import { Component, OnInit, NgModule, Input } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
@@ -12,6 +12,8 @@ import { Company } from "../../../models/Company";
 import { convertDateToNgbDate, convertNgbDateToDateString } from 'src/app/declarations/extends';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
+import { PopupComponent } from '../../popup/popup.component';
+import { CDK_DESCRIBEDBY_HOST_ATTRIBUTE } from '@angular/cdk/a11y';
 
 @Component({
   selector: "app-agreement",
@@ -24,6 +26,9 @@ import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
   providers: [AgreementComponent]
 })
 export class AgreementComponent extends BaseComponent implements OnInit {
+
+  @Input() response: boolean;  
+  popupComp: PopupComponent = new PopupComponent(this.baseService);
 
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
@@ -47,6 +52,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   agreementFiles: any[] = [];
 
   minDate:NgbDate;
+
+  updatedAgreement: NgForm = null;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
@@ -166,8 +173,13 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     /* if agreement id exists means update it otherwise insert it */
     if (this.agreement.AgreementId == null) {
       this.addAgreements(data);
-    } else {
-      this.updateAgreement(data);
+    }
+     else {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForAgreement');
+      this.popupComponent.CloseModal('#modalAgreement');
+      
+      // Object.assign(this.updatedAgreement, data);
+      // this.updateAgreement(data);
     }
 
   }
@@ -289,7 +301,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
     /* Convert object to new object */
     let willUpdateItem = new Agreement();
-
+    
     Object.assign(willUpdateItem, this.agreement);
 
     /* Update agreement values with valid values */
@@ -302,12 +314,13 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     if (this.agreementFiles && this.agreementFiles.length > 0) {
       willUpdateItem.AgreementFile = this.agreementFiles[0].name;
     }
-
+    
     /* Ask for approve question if its true then update the agreement */
-    this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
 
+    // this.popupComponent.ShowModal("#modalShowQuestionPopupForUpdate");
+    // this.baseService.popupService.ShowQuestionPopupForUpdate(
+    //   (response: boolean) => {
+          
           this.isWaitingInsertOrUpdate = true;
 
           this.baseService.agreementService.UpdateAgreement(
@@ -331,9 +344,10 @@ export class AgreementComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-      }
-    );
+          this.popupComponent.CloseModal('#modalShowQuestionPopupForAgreement');
+        
+    //   }
+    // );
   }
 
   async loadAgreements() {

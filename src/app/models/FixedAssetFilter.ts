@@ -41,6 +41,7 @@ export class FixedAssetFilter implements IData {
   DepreciationCalculationTypeID: number;
   IsFilter: boolean;
   IsValid: boolean;
+  IsExitFixedAsset: boolean;
   Date: NgbDate;
   RecordStatus: boolean;
 

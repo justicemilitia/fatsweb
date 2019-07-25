@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DOCUMENT } from '@angular/common'; 
 import * as $ from "jquery";
 import { HttpErrorResponse } from '@angular/common/http';
+import { AgreementComponent } from '../definitions/agreement/agreement.component';
 
 @Component({
   selector: 'app-popup',
@@ -19,9 +20,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PopupComponent extends BaseComponent implements OnInit {
 
-  @Input() errorMessage: string ;
+  @Input() errorMessage: string;
   error: string;
-  
+  response: boolean = false;
+  isUpdate: boolean=false;
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.error=this.errorMessage;
@@ -30,4 +33,18 @@ export class PopupComponent extends BaseComponent implements OnInit {
   ngOnInit() {
   }
 
+  updateOperation(isUpdateOperation: boolean){
+    if(isUpdateOperation)
+    this.isUpdate=true;
+    else
+    this.isUpdate=false;    
+  }
+
+  responsePopup(): boolean{
+   if(this.isUpdate)
+    return true;
+   else
+    return false;
+
+  }
 }

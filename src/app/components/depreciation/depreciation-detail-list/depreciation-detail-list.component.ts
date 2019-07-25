@@ -31,6 +31,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
   isDetailInfo:boolean = true;
   isDetailInfoIFRS: boolean = false;
   
+  filteredData: NgForm;
   /* Is Table Exporting */
   isTableExporting:boolean = false;
   
@@ -566,15 +567,15 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         type: "text"
       },
       {
-        columnDisplayName: this.getLanguageValue('Staff'),
-        columnName: ["FixedAsset", "|FixedAssetUsers"],
+        columnDisplayName: this.getLanguageValue('Embezzled_Staff'),
+        columnName: ["FixedAsset", "FixedAsset", "|FixedAssetUsers"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.FixedAssetUsers.length > 0 ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
+            return value.FixedAssetUsers != null ? value.FixedAssetUsers[0].User.FirstName + ' ' + value.FixedAssetUsers[0].User.LastName : '';
           }
           else {
             return '';
@@ -845,7 +846,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     this.loadDepreciationList();
     this.loadFixedAssetProperties();
 
-    this.totalDepreciationValues(this.today(), true);
+    this.totalDepreciationValues(null, true);
   }
 
   async  TGT_calculatePages() {
@@ -953,7 +954,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       cloneItem.IsFilter = true;
       cloneItem.PerPage = 1000;
       cloneItem.Page=1;      
-      cloneItem.Date =  this.today() == null ? null : convertNgbDateToDateString(this.today());
+      // cloneItem.Date =  this.today() == null ? null : convertNgbDateToDateString(this.today());
+      cloneItem.Date = null; 
       cloneItem.IsValid=true;
       cloneItem.WillDepreciationBeCalculated = true;
 
@@ -996,7 +998,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     cloneItem.IsFilter = true;  
     cloneItem.PerPage = 1000;
     cloneItem.Page=1;      
-    cloneItem.Date =  this.today() == null ? null : convertNgbDateToDateString(this.today());
+    // cloneItem.Date =  this.today() == null ? null : convertNgbDateToDateString(this.today());
+    cloneItem.Date = null;
     cloneItem.IsValid=true;
     cloneItem.WillIfrsbeCalculated = true;    
 
@@ -1072,8 +1075,6 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
   }
 
   async filterDepreciation(data: NgForm){
-    /* Is Form Valid */
-    // if (data.form.invalid == true) return;
 
     this.fixedAssetFilter.IsFilter = true;
     this.fixedAssetFilter.Page = 1;
@@ -1083,8 +1084,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     Object.assign(cloneItem, this.fixedAssetFilter);
 
     cloneItem.Date = data.value.depreciationDate == null ? null : convertNgbDateToDateString(data.value.depreciationDate);
-    cloneItem.WillDepreciationBeCalculated = data.value.WillDepreciationBeCalculated;
-    cloneItem.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
+    cloneItem.WillDepreciationBeCalculated = this.isDetailInfo;
+    cloneItem.WillIfrsbeCalculated = this.isDetailInfoIFRS;
     cloneItem.IsValid=this.isValid;
 
     await this.baseService.depreciationService.GetDepreciationFilterList(
@@ -1098,7 +1099,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         this.totalPage = totalPage;
         this.TGT_calculatePages();
         this.totalDepreciationValues(cloneItem.Date, cloneItem.IsValid);
-        this.totalDepreciationIFRSValues(cloneItem.Date, cloneItem.IsValid);        
+        this.totalDepreciationIFRSValues(cloneItem.Date, cloneItem.IsValid);    
+        this.resetForm(data);            
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -1120,8 +1122,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     Object.assign(cloneItem, this.fixedAssetFilter);
 
     cloneItem.Date = data.value.depreciationDate == null ? null : convertNgbDateToDateString(data.value.depreciationDate);
-    cloneItem.WillDepreciationBeCalculated = data.value.WillDepreciationBeCalculated;
-    cloneItem.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
+    cloneItem.WillDepreciationBeCalculated = this.isDetailInfo;
+    cloneItem.WillIfrsbeCalculated = this.isDetailInfoIFRS;
     cloneItem.IsValid=this.isValid;
 
     await this.baseService.depreciationService.GetIFRSFixedAssetDetail(
@@ -1134,6 +1136,9 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         this.perInPage = 1000;
         this.totalPage = totalPage;
         this.TGT_calculatePages();
+        this.totalDepreciationValues(cloneItem.Date, cloneItem.IsValid);
+        this.totalDepreciationIFRSValues(cloneItem.Date, cloneItem.IsValid); 
+        this.resetForm(data);                    
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -1153,7 +1158,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     let selectedItems= this.dataTable.TGT_getSelectedItems();
     
     if(tabChangeEvent.index==0){
-      this.totalDepreciationValues(this.today(), true);
+      this.totalDepreciationValues(null, true);
       this.loadDepreciationList();
       this.loadFixedAssetProperties();
       
@@ -1161,20 +1166,22 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       this.isDepreciationIFRSList=false;
       this.isDetailInfo=true;
       this.isDetailInfoIFRS=false;
+      
     } 
     else if(tabChangeEvent.index==1){
-      this.totalDepreciationIFRSValues(this.today(), true);      
+      this.totalDepreciationIFRSValues(null, true);      
       this.loadDepreciationIFRSList();
       this.loadFixedAssetPropertiesIFRS();
 
       this.isDepreciationList=false;
       this.isDepreciationIFRSList=true;
       this.isDetailInfoIFRS=true;
-      this.isDetailInfo=false;      
+      this.isDetailInfo=false;   
     }
   }
 
    totalDepreciationValues(date:NgbDate, isValid: boolean){
+     if(date != null){
      this.baseService.depreciationService.DepreciationTotalValues(date, isValid,
       (totalValues: any[],totalPage) => {
 
@@ -1190,8 +1197,16 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       }
     );
   }
+    else{
+      this.totalAccumulatedValue = null;
+      this.totalNddValue = null;
+      this.totalDepreciationMonthlyValue = null;
+      this.totalRevaluatedValue = null;
+    }
+  }
 
   totalDepreciationIFRSValues(date:NgbDate, isValid: boolean){
+    if(date != null){
     this.baseService.depreciationService.DepreciationIFRSTotalValues(date, isValid,
      (totalValues: any[],totalPage) => {
 
@@ -1205,7 +1220,14 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
        console.log(error); 
        this.baseService.popupService.ShowErrorPopup(error);
      }
-   );
+    );
+   }
+    else{
+      this.totalAccumulatedValue = null;
+      this.totalNddValue = null;
+      this.totalDepreciationMonthlyValue = null;
+      this.totalRevaluatedValue = null;
+    }
   }
 
   isExitFixedAsset(event){
@@ -1215,5 +1237,11 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     else{
       this.isValid=true;
     }
+  }
+
+  resetForm(data: NgForm){
+    data.resetForm();
+    this.fixedAssetFilter.IsValid = false;
+    this.isValid = false;
   }
 }

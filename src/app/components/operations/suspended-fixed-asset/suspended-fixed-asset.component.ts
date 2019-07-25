@@ -199,32 +199,26 @@ export class SuspendedFixedAssetComponent extends BaseComponent
     this.transactionLogSuspended.FixedAssetIds = this.selectedSuspendFa();
     this.transactionLogSuspended.UndoSuspensionDate = convertNgbDateToDateString(dataSuspend.value.undoSuspensionDate);
 
-    this.baseService.popupService.ShowQuestionPopupForOperation(
-      (response: boolean) => {
-        if (response == true) {
-          this.baseService.suspendedService.UndoSuspensionProcess(
-            this.transactionLogSuspended,
-            (formList: any[], message) => {
-              this.dataTable.TGT_removeItemsByIds(
-                this.transactionLogSuspended.FixedAssetIds
-              );
+    this.baseService.suspendedService.UndoSuspensionProcess(
+    this.transactionLogSuspended,
+    (formList: any[], message) => {
+      this.dataTable.TGT_removeItemsByIds(
+        this.transactionLogSuspended.FixedAssetIds
+      );
 
-              if(this.IsCreateUndoSuspendForm==true){
-                for(let i=0;i<formList.length;i++){
-                  this.PressUndoSuspendForm(formList[i].FixedAssetFormCode);
-                }
-              }
-
-              this.baseService.popupService.ShowSuccessPopup(message);
-            },
-            (error: HttpErrorResponse) => {
-              this.baseService.popupService.ShowErrorPopup(error);
-            }
-          );
+      if(this.IsCreateUndoSuspendForm==true){
+        for(let i=0;i<formList.length;i++){
+          this.PressUndoSuspendForm(formList[i].FixedAssetFormCode);
         }
-      this.resetForm(dataSuspend, true);        
       }
+
+      this.baseService.popupService.ShowSuccessPopup(message);
+    },
+    (error: HttpErrorResponse) => {
+      this.baseService.popupService.ShowErrorPopup(error);
+    }
     );
+      this.resetForm(dataSuspend, true);    
   }
 
   async checkOutFixedAsset(dataExit: NgForm) {
@@ -248,6 +242,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         /* Push inserted item to Property list */
         this.transactionLogs.push(this.transactionLog);
         this.loadSuspendedList();
+        this.resetForm(dataExit, true);
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

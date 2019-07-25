@@ -274,7 +274,6 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
           if( i < currentMonth + 1 && i >= currentMonth-2){
             xValues.push([y,e]);
             y=y+20;
-            console.log(xValues);
           }
         });
 
@@ -283,9 +282,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
       Object.assign(this.countValues,result);
 
       this.countValue = (this.countValues.TOTAL && this.countValues.TOTAL.TOTAL_PREV2_ITEMS != 0 ? Math.floor(this.countValues.TOTAL.TOTAL_ITEMS / this.countValues.TOTAL.TOTAL_PREV2_ITEMS) * 100 : 0).toString();
-      console.log(this.countValue);
-      console.log(this.countValues.TOTAL.TOTAL_PREV2_ITEMS);
-      console.log(this.countValues.TOTAL.TOTAL_ITEMS);
+
       if (event) {
         $('.bg-primary').removeClass('primary-active');
         $(event.target).addClass('primary-active');
@@ -442,7 +439,6 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
   today() {
     let getdate:NgbDate = getToday();
-    console.log(getToday());
     return convertNgbDateToDateString(getdate);
   }
 }

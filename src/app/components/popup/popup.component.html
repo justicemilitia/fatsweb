@@ -59,3 +59,67 @@
         </div><!-- modal-dialog -->
       </div><!-- modal -->
   
+
+      <!-- GÜNCELLEME ONAY -->
+
+      <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForUpdate">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content tx-size-sm">
+              <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+                <h4 class="mg-b-20">Bu kaydı güncellemek istediğinize emin misiniz?</h4>
+                <!-- <p class="mg-b-20 mg-x-20">{{getLanguageValue('Seçili demirbaşın zimmet bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?')}}</p> -->
+                <p class="mg-b-20 mg-x-20">Bu işlem geri alınamaz.</p>
+                <!-- <button type="button" class="btn btn-warning pd-x-25" (click)="popupComponent.CloseModal()" style="margin-bottom:20px;">{{getLanguageValue('Ok')}}</button>
+                <button type="button" class="btn btn-warning pd-x-25" aria-label="Close" (click)="popupComponent.CloseModal()" style="margin-bottom:20px;">{{getLanguageValue('Cancel')}}</button> -->
+    
+                <div class="row" style="margin-bottom:20px;">
+                  <div class="col-md-6" style="padding-right: 0px;">
+                    <button class="btn btn-az-danger" style="float:right;" data-dismiss="modal" data-toggle="modal" aria-label="Close" (click)="updateOperation(false)">{{getLanguageValue('Cancel')}}</button>        
+                  </div>
+               
+                  <div class="col-md-6">        
+                  <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="updateOperation(true)">{{getLanguageValue('Update')}}</button>
+                    </div>
+                </div>
+    
+              </div><!-- modal-body -->
+            </div><!-- modal-content -->
+          </div><!-- modal-dialog -->
+        </div><!-- modal -->
+    
+
+        <!-- GÜNCELLEME ONAY -->
+
+      <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForUpdate">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+              <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+              <!-- <p class="mg-b-20 mg-x-20">{{getLanguageValue('Seçili demirbaşın zimmet bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?')}}</p> -->
+              <p class="mg-b-20 mg-x-20">Bu işlem geri alınamaz. İşlemi onaylıyor musunuz?</p>
+              <!-- <button type="button" class="btn btn-warning pd-x-25" (click)="popupComponent.CloseModal()" style="margin-bottom:20px;">{{getLanguageValue('Ok')}}</button>
+              <button type="button" class="btn btn-warning pd-x-25" aria-label="Close" (click)="popupComponent.CloseModal()" style="margin-bottom:20px;">{{getLanguageValue('Cancel')}}</button> -->
+  
+              <div class="row" style="margin-bottom:20px;">
+                <div class="col-md-6" style="padding-right: 0px;">
+                  <button class="btn btn-az-danger" style="float:right;" data-dismiss="modal" data-toggle="modal" aria-label="Close" (click)="updateOperation(false)">{{getLanguageValue('Cancel')}}</button>        
+                </div>
+             
+                <div class="col-md-6">        
+                <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="updateOperation(true)">Onayla</button>
+                  </div>
+              </div>
+  
+            </div><!-- modal-body -->
+          </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+      </div><!-- modal -->
+  
