@@ -101,10 +101,15 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
+
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
+
     if (this.department.DepartmentId == null) {
       this.insertDepartment(data);
     } else {
-      this.updateDepartment(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForDepartment');
+      this.popupComponent.CloseModal('#modalDepartment');
     }
   }
 
@@ -254,13 +259,13 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
   }
 
   async updateDepartment(data: NgForm) {
-    /* Check model state */
-    if (data.form.invalid == true) return;
+    
+          /* loading icon visible */
+          this.isWaitingInsertOrUpdate = true;
 
-    /* Ask for approve question if its true then update the department */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
+          let willUpdateItem = new Department();
+          Object.assign(willUpdateItem, this.department);
+          
           /* Find Location for selected location */
           let location = this.locations.find(
             x => x.LocationId == this.department.LocationId
@@ -279,9 +284,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
           let parentDepartment = this.department.ParentDepartment;
           this.department.ParentDepartment = null;
 
-          /* loading icon visible */
-          this.isWaitingInsertOrUpdate = true;
-
+        
           /* if user approve question update department */
           this.baseService.departmentService.UpdateDepartment(
             this.department,
@@ -316,9 +319,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-      }
-    );
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForDepartment');          
   }
 
   async loadDropdownList() {

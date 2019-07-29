@@ -90,7 +90,8 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
     if (this.consumableCategory.ConsumableCategoryId == null) {
       this.addConsumableCategory(data);
     } else {
-      this.updateConsumableCategory(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForConsumableCategory');
+      this.popupComponent.CloseModal('#modalConsumableCategory');
     }
   }
 
@@ -168,13 +169,13 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
   }
 
   async updateConsumableCategory(data:NgForm){
-    /* Ask for approve question if its true then update the fixed asset card category */
-    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
-
+  
         /* Change button to loading */
         this.isWaitingInsertOrUpdate = true;
 
+        let willUpdateItem = new ConsumableCategory();
+        Object.assign(willUpdateItem, this.consumableCategory);
+        
         /* Update Model to database */
         this.baseService.consumableCategoryService.UpdateConsumableCategory(
           this.consumableCategory,
@@ -209,8 +210,7 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
             this.baseService.popupService.ShowErrorPopup(error);
 
           });
-      }
-    });
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForConsumableCategory');
   }
 
   async deleteConsumableCategories() {

@@ -315,12 +315,6 @@ export class AgreementComponent extends BaseComponent implements OnInit {
       willUpdateItem.AgreementFile = this.agreementFiles[0].name;
     }
     
-    /* Ask for approve question if its true then update the agreement */
-
-    // this.popupComponent.ShowModal("#modalShowQuestionPopupForUpdate");
-    // this.baseService.popupService.ShowQuestionPopupForUpdate(
-    //   (response: boolean) => {
-          
           this.isWaitingInsertOrUpdate = true;
 
           this.baseService.agreementService.UpdateAgreement(
@@ -345,9 +339,6 @@ export class AgreementComponent extends BaseComponent implements OnInit {
             }
           );
           this.popupComponent.CloseModal('#modalShowQuestionPopupForAgreement');
-        
-    //   }
-    // );
   }
 
   async loadAgreements() {

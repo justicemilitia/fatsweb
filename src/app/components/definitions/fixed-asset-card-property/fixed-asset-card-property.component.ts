@@ -155,11 +155,16 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   }
 
   onSubmit(data: NgForm) {
+
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
+
     /* if fixed asset card property id exists means update it, otherwise insert it */
     if (this.fixedAssetCardProperty.FixedAssetCardPropertyId == null) {
       this.addFixedAssetCardProperty(data);
     } else {
-      this.updateFixedAssetCardProperty(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForFixedAssetCardProperty');
+      this.popupComponent.CloseModal('#modalFixedAssetCardProperty');
     }
   }
 
@@ -286,16 +291,14 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   }
 
   async updateFixedAssetCardProperty(data: NgForm) {
-    /* Check model state */
-    if (data.form.invalid == true) return;
 
-    /* Ask for approve question if its true then update the fixed asset card Property */
-    this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
           /* Change button to loading */
           this.isWaitingInsertOrUpdate = true;
 
+          
+          let willUpdateItem = new FixedAssetCardProperty();
+          Object.assign(willUpdateItem, this.fixedAssetCardProperty);
+          
           this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
 
           this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
@@ -339,9 +342,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-      }
-    );
+          this.popupComponent.CloseModal('#modalShowQuestionPopupForFixedAssetCardProperty');      
   }
 
   async onDoubleClickItem(item: FixedAssetCardProperty) {

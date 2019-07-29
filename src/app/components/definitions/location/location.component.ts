@@ -114,7 +114,6 @@ export class LocationComponent extends BaseComponent implements OnInit {
     if (this.location.LocationId == null) {
       this.addLocation(data);
     } else {
-      // this.updateLocation(data);
       this.popupComponent.ShowModal('#modalShowQuestionPopupForLocation');
       this.popupComponent.CloseModal('#modalLocation');
     }
@@ -226,25 +225,25 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
   async updateLocation() {
 
-        let willUpdateItem = new Location();
-    
-        Object.assign(willUpdateItem, this.location);
-
         this.isWaitingInsertOrUpdate = true;
+    
+        let willUpdateItem = new Location();
+        Object.assign(willUpdateItem, this.location);
         
         /* if user approve question update location. */
         this.baseService.locationService.UpdateLocation(this.location, (_location, message) => {
+
+          /* After update succeed get parent location then update it in table. */
+          this.location.ParentLocation = this.locations.find(x => x.getId() == this.location.getParentId());
+        
+          let updatedLocation = new Location();
+          Object.assign(updatedLocation, this.location);
 
           /* Close loading icon */
           this.isWaitingInsertOrUpdate = false;
 
           this.baseService.popupService.ShowSuccessPopup(message);
-
-          /* After update succeed get parent location then update it in table. */
-          this.location.ParentLocation = this.locations.find(x => x.getId() == this.location.getParentId());
-          let updatedLocation = new Location();
-          Object.assign(updatedLocation, this.location);
-
+          
           /* Update in table */
           this.dataTable.TGT_updateData(updatedLocation);
 
@@ -260,6 +259,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowErrorPopup(error);
 
         });
+
         this.popupComponent.CloseModal('#modalShowQuestionPopupForLocation');
   }
 

@@ -78,44 +78,50 @@ export class UserSettingsComponent extends BaseComponent implements OnInit {
   ngOnInit() {}
 
   async onSubmit(data: NgForm) {
-    /* Ask for approve question if its true then update the location */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
-          let cloneItem: User = new User();
-          Object.assign(cloneItem, this.currentUser);
 
-          cloneItem.Description = data.value.Description;
-          cloneItem.FirstName = data.value.FirstName;
-          cloneItem.LastName = data.value.LastName;
-          cloneItem.Password = data.value.Password;
-          cloneItem.PhoneNumber = data.value.PhoneNumber;
-          cloneItem.UserMail = data.value.UserMail;
+    
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
 
-          this.baseService.userService.UpdateUser(
-            cloneItem,
-            (updateUser, message) => {
-              /* Show pop up*/
-              this.baseService.popupService.ShowSuccessPopup(message);
+    this.popupComponent.ShowModal('#modalShowQuestionPopupForUserSetting');
+  }
 
-              let newUser = new User();
-              Object.assign(newUser, this.currentUser);
-              this.currentUser = newUser;
-              this.isCheckedPassword = false;
-              this.OldPassword= "";
-            },
-            (error: HttpErrorResponse) => {
-              /* Close loader */
-              this.isWaitingInsertOrUpdate = false;
+  async updateUserSetting() {
 
-              /* Show error message */
-              this.baseService.popupService.ShowErrorPopup(error);
-            }
-          );
-        }
+    let cloneItem: User = new User();
+    Object.assign(cloneItem, this.currentUser);
+    
+    cloneItem.Description = this.currentUser.Description;
+    cloneItem.FirstName = this.currentUser.FirstName;
+    cloneItem.LastName = this.currentUser.LastName;
+    cloneItem.Password = this.currentUser.Password;
+    cloneItem.PhoneNumber = this.currentUser.PhoneNumber;
+    cloneItem.UserMail = this.currentUser.UserMail;
+
+    this.baseService.userService.UpdateUser(
+      cloneItem,
+      (updateUser, message) => {
+        /* Show pop up*/
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        let newUser = new User();
+        Object.assign(newUser, this.currentUser);
+        this.currentUser = newUser;
+        this.isCheckedPassword = false;
+        this.OldPassword= "";
+      },
+      (error: HttpErrorResponse) => {
+        /* Close loader */
+        this.isWaitingInsertOrUpdate = false;
+
+        /* Show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-  }
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForUserSetting');
+}
+
+
   async GetUserInfoById(item: number) {
     /* Clear Model */
     this.currentUser = new User();

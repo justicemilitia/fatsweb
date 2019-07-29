@@ -449,7 +449,9 @@ export class UserComponent extends BaseComponent implements OnInit {
       this.insertUser(data);
       this.isInsertOrUpdate = false;
     } else {
-      this.updateUser(data);
+      // this.updateUser(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForUser');
+      this.popupComponent.CloseModal('#modalUser');
       this.isInsertOrUpdate = true;
     }
   }
@@ -493,10 +495,7 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   updateUser(data: NgForm) {
-    /* Ask for approve question if its true then update the location */
-     this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
+  
           /* Object bindings to store in datatable */
           let department = this.departments.find(
             x => x.DepartmentId == this.currentUser.DepartmentId
@@ -553,9 +552,7 @@ export class UserComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-      }
-    );
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForUser');          
   }
 
  deleteUsers() {

@@ -125,7 +125,8 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
     if (this.consumableCard.ConsumableCardId == null) {
       this.addConsumableCard(data);
     } else {
-      this.updateConsumableCard(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForConsumableCard');
+      this.popupComponent.CloseModal('#modalConsumableCard');
     }
   }
 
@@ -242,12 +243,11 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
 
   async updateConsumableCard(data: NgForm) {
 
-    /* Ask for approve question if its true then update the fixed asset card */
-    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
-
         /* loading icon visible */
         this.isWaitingInsertOrUpdate = true;
+
+        let willUpdateItem = new ConsumableCard();
+        Object.assign(willUpdateItem, this.consumableCard);
 
         this.baseService.consumableCardService.UpdateConsumableCard(this.consumableCard,
           (_updatedConsumableCard, message) => {
@@ -283,8 +283,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
             this.baseService.popupService.ShowErrorPopup(error);
 
           });
-      }
-    });
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForConsumableCard');          
   }
 
   async loadConsumableCards() {

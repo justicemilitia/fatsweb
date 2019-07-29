@@ -81,7 +81,8 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
     if (this.expenseCenter.ExpenseCenterId == null) {
       this.addExpenseCenter(data);
     } else {
-      this.updateExpenseCenter(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForExpenseCenter');
+      this.popupComponent.CloseModal('#modalExpenseCenter');
     }
   }
 
@@ -182,10 +183,11 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
   async updateExpenseCenter(data: NgForm) {
 
-    if (data.form.invalid == true) return;
-
     this.isWaitingInsertOrUpdate = true;
 
+    let willUpdateItem = new ExpenseCenter();
+    Object.assign(willUpdateItem, this.expenseCenter);
+        
     await this.baseService.expenseCenterService.UpdateExpenseCenter(
       this.expenseCenter,
       (_expenseCenter, message) => {
@@ -198,6 +200,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
         this.isWaitingInsertOrUpdate = false;
       }
     );
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForExpenseCenter');    
   }
 
   async loadExpenseCenters() {

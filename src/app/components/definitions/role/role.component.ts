@@ -140,8 +140,10 @@ export class RoleComponent extends BaseComponent implements OnInit {
     if (this.role.RoleId == null) 
       this.addRole(data);
     else 
-      this.updateRole(data);
-
+    {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForRole');
+      this.popupComponent.CloseModal('#modalRoleDefinition');       
+    }
   }
 
   async addRole(data: NgForm) {
@@ -170,7 +172,6 @@ export class RoleComponent extends BaseComponent implements OnInit {
   }
 
   async updateRole(data: NgForm) {
-    if (data.form.invalid == true) return;
 
     this.isWaitingInsertOrUpdate = true;
 
@@ -188,6 +189,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
         this.isWaitingInsertOrUpdate = false;
       }
     );
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForRole');    
   }
 
   async onDoubleClickItem(item: Role) {

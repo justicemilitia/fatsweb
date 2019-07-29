@@ -83,10 +83,16 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
   onSubmit(data: NgForm) {
 
+    if (data.form.invalid == true) return;
+
     /* if id is empty means it is insert otherwise update */
     if (this.fixedAssetCardBrand.FixedAssetCardBrandId == null)
       this.addFixedAssetCardBrand(data);
-    else this.updateFixedAssetCardBrand(data);
+    else 
+    {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForFixedAssetCardBrand');
+      this.popupComponent.CloseModal('#modalFixedAssetCardBrand');
+    }
 
   }
 
@@ -202,13 +208,11 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
   async updateFixedAssetCardBrand(data: NgForm) {
 
-    if (data.form.invalid == true) return;
-
-    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
-
         /* Change button to loading */
         this.isWaitingInsertOrUpdate = true;
+
+        let willUpdateItem = new FixedAssetCardBrand();
+        Object.assign(willUpdateItem, this.fixedAssetCardBrand);
 
         this.baseService.fixedAssetCardBrandService.UpdateFixedAssetCardBrand(this.fixedAssetCardBrand, (_fixedAssetCardBrand, message) => {
 
@@ -237,9 +241,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
           this.baseService.popupService.ShowErrorPopup(error);
 
         });
-      }
-    });
-
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForFixedAssetCardBrand');    
   }
 
   async loadFixedAssetCardBrands() {
