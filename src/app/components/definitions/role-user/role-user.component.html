@@ -38,7 +38,8 @@
         </div>
         <p class="mg-b-20"></p>
         <div class="sales-overview">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTableUserRole">
+          <tree-grid-table  [dataTable]="dataTableUserRole">
+              <!-- (onDoubleClickItem)="onDoubleClickItem($event,item)" -->
           </tree-grid-table>
         </div>
       </div>
@@ -62,41 +63,41 @@
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
         <div class="modal-body">
           <div class="row justify-content-center">
-            <div class="form-group col-md-12">
-              <label class="required-span">Kullanıcı</label>
-              <div *ngIf="visible;then insertUserRole else updateUserRole"></div>
-              <ng-template #insertUserRole>
-                <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')"
-                  [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required [data]="systemUsers"
-                  [(ngModel)]="userRole.UserId" name="UserId" [settings]="dropdownSettings"
-                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-                </ng-multiselect-dropdown>
-                <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
-                  <div *ngIf="UserId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+              <div class="form-group col-md-12">
+                  <label class="required-span">Rol</label>
+                  <select [(ngModel)]="userRole.RoleId" name="RoleId" #RoleId="ngModel"
+                    class="form-control select2-no-search" required
+                    [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }">
+                    <option value="-1">Seçiniz</option>
+                    <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
+                  </select>
+                  <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
+                    <div *ngIf="RoleId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                  </div>
                 </div>
-              </ng-template>
-              <ng-template #updateUserRole>
-                <select [(ngModel)]="userRole.UserId" [disabled] name="UserId" class="form-control select2-no-search"
-                  style="width: 100%">
-                  <option value="-1">Seçiniz</option>
-                  <option *ngFor="let user of systemUsers" value={{user.UserId}}>{{user.UserMail}}</option>
-                </select>
-              </ng-template>
-            </div>
           </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Rol</label>
-              <select [(ngModel)]="userRole.RoleId" name="RoleId" #RoleId="ngModel"
-                class="form-control select2-no-search" required
-                [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }">
-                <option value="-1">Seçiniz</option>
-                <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
-              </select>
-              <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
-                <div *ngIf="RoleId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                <label class="required-span">Kullanıcı</label>
+                <div *ngIf="visible;then insertUserRole else updateUserRole"></div>
+                <ng-template #insertUserRole>
+                  <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')"
+                    [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required [data]="systemUsers"
+                    [(ngModel)]="userRole.UserId" name="UserId" [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                  </ng-multiselect-dropdown>
+                  <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
+                    <div *ngIf="UserId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                  </div>
+                </ng-template>
+                <ng-template #updateUserRole>
+                  <select [(ngModel)]="userRole.UserId" [disabled] name="UserId" class="form-control select2-no-search"
+                    style="width: 100%">
+                    <option value="-1">Seçiniz</option>
+                    <option *ngFor="let user of systemUsers" value={{user.UserId}}>{{user.UserMail}}</option>
+                  </select>
+                </ng-template>
               </div>
-            </div>
           </div>
 
         </div>

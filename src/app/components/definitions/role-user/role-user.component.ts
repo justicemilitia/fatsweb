@@ -240,36 +240,36 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     });
   }
 
-  async onDoubleClickItem(item: UserRole) {
-    this.userRole = new UserRole();
+  // async onDoubleClickItem(item: UserRole) {
+  //   this.userRole = new UserRole();
 
-    this.baseService.spinner.show();
+  //   this.baseService.spinner.show();
 
-    this.loadRoles();
+  //   this.loadRoles();
 
-    this.loadUserRole();
+  //   this.loadUserRole();
 
-    await this.baseService.roleUserService.GetUserRoleById(
-      item.UserRoleId,
-      (result: UserRole) => {
-        setTimeout(() => {
-          $("#btnEditUserRole").trigger("click");
-          this.visible = false;
-          this.userRole.RoleId = item.RoleId;
-          this.userRole.UserId = item.UserId;
-          this.userRole.UserRoleId = item.UserRoleId;
+  //   await this.baseService.roleUserService.GetUserRoleById(
+  //     item.UserRoleId,
+  //     (result: UserRole) => {
+  //       setTimeout(() => {
+  //         $("#btnEditUserRole").trigger("click");
+  //         this.visible = false;
+  //         this.userRole.RoleId = item.RoleId;
+  //         this.userRole.UserId = item.UserId;
+  //         this.userRole.UserRoleId = item.UserRoleId;
 
-          this.baseService.spinner.hide();
-          Object.assign(this.userRole, result);
-        }, 1000);
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.spinner.hide();
+  //         this.baseService.spinner.hide();
+  //         Object.assign(this.userRole, result);
+  //       }, 1000);
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       this.baseService.spinner.hide();
 
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
+  //       this.baseService.popupService.ShowErrorPopup(error);
+  //     }
+  //   );
+  // }
 
   onItemSelect(item: User) {
     this.selectedUser.push(item);

@@ -12,5 +12,6 @@ export enum FixedAssetOperations {
   lostFixedAsset = 11,
   changeRelationship = 12,
   filter = 13,
-  editFile=14
+  editFile=14,
+  printLabel = 15
 }
