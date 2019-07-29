@@ -87,8 +87,10 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
     /* if fixed asset card category id exists means update it, otherwise insert it */
     if (this.fixedAssetCardCategory.FixedAssetCardCategoryId == null) {
       this.addFixedAssetCardCategory(data);
-    } else {
-      this.updateFixedAssetCardCategory(data);
+    } 
+    else {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForFixedAssetCardCategory');
+      this.popupComponent.CloseModal('#modalFixedAssetCardCategory');
     }
   }
 
@@ -202,13 +204,12 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
   async updateFixedAssetCardCategory(data: NgForm) {
 
-    /* Ask for approve question if its true then update the fixed asset card category */
-    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
-
         /* Change button to loading */
         this.isWaitingInsertOrUpdate = true;
 
+        let willUpdateItem = new FixedAssetCardCategory();
+        Object.assign(willUpdateItem, this.fixedAssetCardCategory);
+        
         /* Update Model to database */
         this.baseService.fixedAssetCardCategoryService.UpdateFixedAssetCardCategory(
           this.fixedAssetCardCategory,
@@ -243,8 +244,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
             this.baseService.popupService.ShowErrorPopup(error);
 
           });
-      }
-    });
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForFixedAssetCardCategory');          
   }
 
   async loadFixedAssetCardCategories() {

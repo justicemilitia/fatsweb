@@ -74,10 +74,16 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) { 
+
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
+    
     if (this.suspension.CheckOutReasonId == null) {
       this.addSuspension(data);
-    } else {
-      this.updateSuspension(data);
+    } 
+    else {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForSuspension');
+      this.popupComponent.CloseModal('#modalSuspension');
     }
   }
 
@@ -130,11 +136,6 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
 
   async updateSuspension(data: NgForm) {
 
-    if (data.form.invalid == true) return;
-
-    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
-
         this.isWaitingInsertOrUpdate = true;
 
         this.baseService.checkOutReasonService.UpdateSuspension(this.suspension, (_suspension, message) => {
@@ -155,8 +156,8 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
           this.isWaitingInsertOrUpdate = false;
 
         });
-      }
-    });
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForSuspension');
+        
   }
 
   async deleteSuspension(){

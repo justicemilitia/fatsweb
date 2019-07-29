@@ -127,8 +127,19 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
-    if (this.userRole.UserRoleId == null) this.addUserRole(data);
-    else this.updateUserRole(data);
+
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
+
+    if(this.userRole.UserRoleId == null)
+    {
+      this.addUserRole(data);
+    }
+    else
+    {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForUserRole');
+      this.popupComponent.CloseModal('#modalUserRole');
+    }
   }
 
   async addUserRole(data: NgForm) {
@@ -165,11 +176,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
   }
 
   updateUserRole(data: NgForm) {
-    if (data.form.invalid == true) return;
 
-    this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
           this.isWaitingInsertOrUpdate = true;
 
           this.baseService.roleUserService.UpdateUserRole(
@@ -193,9 +200,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
               this.isWaitingInsertOrUpdate = false;
             }
           );
-        }
-      }
-    );
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForUserRole');          
   }
 
   async deleteRoleUser() {

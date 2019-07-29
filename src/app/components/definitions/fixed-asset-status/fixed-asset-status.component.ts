@@ -91,7 +91,8 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
     if (this.status.FixedAssetStatusId == null) {
       this.addStatus(data);
     } else {
-      this.updateStatus(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForStatus');
+      this.popupComponent.CloseModal('#modalStatus');
     }
 
   }
@@ -137,10 +138,10 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
 
     this.status.Color = this.selectedColor;
 
-    this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
           this.isWaitingInsertOrUpdate = true;
+
+          let updatedLocation = new FixedAssetStatus();
+          Object.assign(updatedLocation, this.status);
 
           this.baseService.fixedAssetStatusService.UpdateStatus(this.status,
             (_updatedStatus: FixedAssetStatus, message) => {
@@ -155,9 +156,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
 
               this.isWaitingInsertOrUpdate = false;
             });
-        }
-      }
-    );
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForStatus');            
   }
 
   async onDoubleClickItem(item: FixedAssetStatus) {

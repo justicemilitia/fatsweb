@@ -73,7 +73,7 @@ export class PopupService {
 
   ShowQuestionPopupForUpdate(callBack) {
     swal({
-      title: "Bu kaydı güncellemek istediğinize emin misiniz?",
+      title: "{{getLanguageValue('Are_you_sure_you_want_to_update_the_record')}}?",
       text: "Bu işlem geri alınamaz.",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -124,7 +124,7 @@ export class PopupService {
 
   ShowQuestionPopupForOperation(callBack) {
     swal({
-      title: "Bu kaydı güncellemek istediğinize emin misiniz?",
+      title: "{{getLanguageValue('Are_you_sure_you_want_to_update_the_record')}}?",
       text: "Bu işlem geri alınamaz.",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],

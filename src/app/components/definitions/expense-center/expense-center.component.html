@@ -95,3 +95,32 @@
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
+
+
+ <!-- GÜNCELLEME ONAY -->
+
+ <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForExpenseCenter" style=" overflow-y: hidden !important;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content tx-size-sm">
+      <div class="modal-body tx-center pd-y-20 pd-x-20">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+        <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+        <p class="mg-b-20 mg-x-20">{{getLanguageValue('Are_you_sure_you_want_to_update_the_record')}}?</p>
+   
+        <div class="row" style="margin-bottom:20px;">
+          <div class="col-md-6" style="padding-right: 0px;">
+            <button class="btn btn-az-danger" style="float:right;" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Cancel')}}</button>        
+          </div>
+       
+          <div class="col-md-6">        
+          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="updateExpenseCenter()">{{getLanguageValue('Update')}}</button>
+            </div>   
+        </div>
+
+      </div><!-- modal-body -->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->

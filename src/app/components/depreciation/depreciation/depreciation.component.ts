@@ -26,6 +26,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       // this.loadLostFixedAsset();
     }
   }
+  isWaitingInsertOrUpdate: boolean = false;  
   searchDescription: string = "";
   fixedAssets: FixedAsset[] = [];
   fixedAsset: FixedAsset = new FixedAsset();
@@ -53,6 +54,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   isDepreciationNull: boolean=false;
   isFixedAssetList: boolean;
   isExitList: boolean;
+
     /* Is Table Exporting */
     isTableExporting: boolean = false;
     faProperties: FixedAssetCardProperty[] = [];
@@ -490,8 +492,15 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     );
   }
 
-  onSubmitDepreciation(dataDepreciation: NgForm) {
-    this.updateAllDepreciation(dataDepreciation);
+  // onSubmitDepreciation(dataDepreciation: NgForm) {
+    onSubmitDepreciation(dataDepreciation: NgForm) {
+
+    if (dataDepreciation.form.invalid == true) return;
+      
+    /* Check model state is valid */
+
+    this.popupComponent.ShowModal('#modalShowQuestionPopupForDepreciation');
+    this.popupComponent.CloseModal('#modalUpdateDepreciation');
   }
 
   async depreciationInfo() {
@@ -551,45 +560,43 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       );
   }
 
-  async updateAllDepreciation(dataDepreciation: NgForm) {
+  async updateAllDepreciation() {
+
+    this.isWaitingInsertOrUpdate = true;
+    
     /* Convert object to new object */
     let willUpdateItem = new FixedAsset();
-
     Object.assign(willUpdateItem, this.fixedAsset);
 
     this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
       this.dataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
 
-    /* Ask for approve question if its true then update the fixed asset */
-    this.baseService.popupService.ShowQuestionPopupForUpdate(
-      (response: boolean) => {
-        if (response == true) {
-          // this.isWaitingInsertOrUpdate = true;
-
           /* Update fixed asset values with valid values */
           willUpdateItem.FixedAssetIds = this.fixedAsset.FixedAssetIds;
-          willUpdateItem.Price = dataDepreciation.value.Price ? Number(dataDepreciation.value.Price) : 0;
-          willUpdateItem.Ifrsprice = dataDepreciation.value.Ifrsprice ? Number(dataDepreciation.value.Ifrsprice) : 0;
-          willUpdateItem.CurrencyId = dataDepreciation.value.CurrencyId ? Number(dataDepreciation.value.CurrencyId) : null;
-          willUpdateItem.IFRSCurrecyId = dataDepreciation.value.IFRSCurrecyId ? Number(dataDepreciation.value.IFRSCurrecyId) : null;
-          willUpdateItem.DepreciationPeriod = dataDepreciation.value.DepreciationPeriod ? Number(dataDepreciation.value.DepreciationPeriod): null;
-          willUpdateItem.Ifrsperiod = dataDepreciation.value.Ifrsperiod ? Number(dataDepreciation.value.Ifrsperiod) : null;
-          willUpdateItem.WillDepreciationBeCalculated = dataDepreciation.value.WillDepreciationBeCalculated ? true: false;
-          willUpdateItem.WillIfrsbeCalculated = dataDepreciation.value.WillIfrsbeCalculated ? true: false;
-          willUpdateItem.HasInflationIndexation = dataDepreciation.value.HasInflationIndexation ? true : false;
+          willUpdateItem.Price = this.fixedAsset.Price ? Number(this.fixedAsset.Price) : 0;
+          willUpdateItem.Ifrsprice = this.fixedAsset.Ifrsprice ? Number(this.fixedAsset.Ifrsprice) : 0;
+          willUpdateItem.CurrencyId = this.fixedAsset.CurrencyId ? Number(this.fixedAsset.CurrencyId) : null;
+          willUpdateItem.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId ? Number(this.fixedAsset.IFRSCurrecyId) : null;
+          willUpdateItem.DepreciationPeriod = this.fixedAsset.DepreciationPeriod ? Number(this.fixedAsset.DepreciationPeriod): null;
+          willUpdateItem.Ifrsperiod = this.fixedAsset.Ifrsperiod ? Number(this.fixedAsset.Ifrsperiod) : null;
+          willUpdateItem.WillDepreciationBeCalculated = this.fixedAsset.WillDepreciationBeCalculated ? true: false;
+          willUpdateItem.WillIfrsbeCalculated = this.fixedAsset.WillIfrsbeCalculated ? true: false;
+          willUpdateItem.HasInflationIndexation = this.fixedAsset.HasInflationIndexation ? true : false;
 
           this.baseService.depreciationService.UpdateDepreciation(
             willUpdateItem,
             (_fixedAsset, message) => {
-              // this.isWaitingInsertOrUpdate = false;
+              
+              /* Close loading icon */              
+              this.isWaitingInsertOrUpdate = false;
 
               /* Show pop up then update data in datatable */
               this.baseService.popupService.ShowSuccessPopup(message);
 
               this.dataTable.TGT_updateData(willUpdateItem);
 
-              this.resetForm(dataDepreciation, true);
+              this.resetForm(this.fixedAsset, true);
               // this.loadFixedAssetDepreciations();
               this.loadFixedAsset(this.perInPage, this.currentPage);
               this.loadFixedAssetProperties();
@@ -604,9 +611,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-      }
-    );
+          this.popupComponent.CloseModal('#modalShowQuestionPopupForDepreciation');      
   }
 
 
@@ -728,8 +733,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   //   }
   // }
 
-  resetForm(data: NgForm, isNewItem: boolean) {
-    data.resetForm(this.fixedAsset);
+  resetForm(data: FixedAsset, isNewItem: boolean) {
+    // data.resetForm(this.fixedAsset);
 
     if (isNewItem == true) {
       this.selectedBarcodes = null;

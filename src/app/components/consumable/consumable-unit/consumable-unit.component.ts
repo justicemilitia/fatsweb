@@ -80,7 +80,8 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
     if (this.consumableUnit.ConsumableUnitId == null) {
       this.addConsumableUnit(data);
     } else {
-      this.updateConsumableUnit(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForConsumableUnit');
+      this.popupComponent.CloseModal('#modalConsumableUnit');
     }
   }
 
@@ -196,10 +197,12 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
   }
 
   async updateConsumableUnit(data: NgForm){
-    if (data.form.invalid == true) return;
 
     this.isWaitingInsertOrUpdate = true;
 
+    let willUpdateItem = new ConsumableUnit();
+    Object.assign(willUpdateItem, this.consumableUnit);
+    
     await this.baseService.consumableUnitService.UpdateConsumableUnit(
       this.consumableUnit,
       (_consumableUnit, message) => {
@@ -212,6 +215,7 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
         this.isWaitingInsertOrUpdate = false;
       }
     );
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForConsumableUnit');    
   }
 
   async onDoubleClickItem(item: ConsumableUnit) {

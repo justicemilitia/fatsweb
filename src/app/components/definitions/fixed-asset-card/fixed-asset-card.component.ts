@@ -107,7 +107,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
     if (this.fixedAssetCard.FixedAssetCardId == null) {
       this.addFixedAssetCard(data);
     } else {
-      this.updateFixedAssetCard(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForFixedAssetCard');
+      this.popupComponent.CloseModal('#modalFixedAssetCard');
     }
   }
 
@@ -221,12 +222,11 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   async updateFixedAssetCard(data: NgForm) {
 
-    /* Ask for approve question if its true then update the fixed asset card */
-    this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
-
         /* loading icon visible */
         this.isWaitingInsertOrUpdate = true;
+
+        let willUpdateItem = new FixedAssetCard();
+        Object.assign(willUpdateItem, this.fixedAssetCard);
 
         this.baseService.fixedAssetCardService.UpdateFixedAssetCard(this.fixedAssetCard,
           (_updatedFixedAssetCard, message) => {
@@ -259,8 +259,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
             this.baseService.popupService.ShowErrorPopup(error);
 
           });
-      }
-    });
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForFixedAssetCard');          
   }
 
   async loadFixedAssetCards() {

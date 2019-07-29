@@ -83,9 +83,17 @@ export class FixedAssetCardModelComponent extends BaseComponent
   ngOnInit() { }
 
   onSubmit(data: NgForm) {
+
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
+
     if (this.fixedAssetCardModel.FixedAssetCardModelId == null)
       this.addFixedAssetCardModel(data);
-    else this.updateFixedAssetCardModel(data);
+    else 
+    {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForFixedAssetCardModel');
+      this.popupComponent.CloseModal('#modalFixedAssetCardModel');
+    }
   }
 
   resetForm(data: NgForm, isNewItem: boolean) {
@@ -175,13 +183,6 @@ export class FixedAssetCardModelComponent extends BaseComponent
 
   async updateFixedAssetCardModel(data: NgForm) {
 
-    /* Check form validation */
-    if (data.form.invalid == true) return;
-
-    /* Update model */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
-
         /* Change button to loading */
         this.isWaitingInsertOrUpdate = true;
 
@@ -216,8 +217,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
           this.baseService.popupService.ShowErrorPopup(error);
 
         });
-      }
-    });
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForFixedAssetCardModel');    
   }
 
   async onDoubleClickItem(item: FixedAssetCardModel) {

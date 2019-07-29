@@ -168,7 +168,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     if (this.company.CompanyId == null) {
       this.addCompany(data);
     } else {
-      this.updateCompany(data);
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForCompany');
+      this.popupComponent.CloseModal('#modalCompany');
     }
 
   }
@@ -284,13 +285,12 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   async updateCompany(data: NgForm) {
 
-    /* Ask for approve question if its true then update the company */
-    await this.baseService.popupService.ShowQuestionPopupForUpdate((response: boolean) => {
-      if (response == true) {
-
         /* Say to user to wait */
         this.isWaitingInsertOrUpdate = true;
 
+        let willUpdateItem = new Company();
+        Object.assign(willUpdateItem, this.company);
+        
         this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
 
           /* city and update binding */
@@ -327,8 +327,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
           this.isWaitingInsertOrUpdate = false;
 
         });
-      }
-    });
+
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForCompany');     
   }
 
   async loadCompanies() {
