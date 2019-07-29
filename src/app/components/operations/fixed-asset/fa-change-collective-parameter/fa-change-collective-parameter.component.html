@@ -309,6 +309,9 @@
                                         <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
                                         <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                                     </select>   
+                                    <div *ngIf="visible == true" style="color:red">
+                                      <div>Bir özellik seçiniz.</div>
+                                    </div>
                                 </div>
                             
                               <div class="form-group"> 
@@ -321,6 +324,9 @@
                                      </select> 
                                      <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text"
                                     style="font-size: 13px;height: 27px;">
+                                    <div *ngIf="visiblePropertyName == true" style="color:red">
+                                      <div>Özellik değeri giriniz.</div>
+                                    </div>
                                     </div>     
                                     <div class="property-add-value">                    
                                         <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>

@@ -73,6 +73,7 @@ export class FixedAsset implements IData {
   IsLost: boolean;
   IsActive: boolean;
   IsValid: boolean;
+  IsRFID:boolean;
   Currency: Currency;
   Department: Department;
   Location: Location;

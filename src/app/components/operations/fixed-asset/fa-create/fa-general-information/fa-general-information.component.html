@@ -6,8 +6,8 @@
     <div class="row">
       <div class="form-group col-md-4">
           <label class="required-span">Barkod</label>
-          <input [(ngModel)]="fixedAsset.Prefix" name="Prefix" type="text" trim="blur" 
-          class="form-control" #Prefix="ngModel"  />   
+          <input [(ngModel)]="fixedAsset.Prefix" name="Prefix" (keyup)="rfidBarcodeReplace($event)" type="text" trim="blur" 
+          class="form-control" #Prefix="ngModel" value="{{prefix}}"/>   
       </div>
 
       <div class="form-group col-md-8">
@@ -29,7 +29,7 @@
           <div class="form-group col-md-6">  
               <label></label> 
               <label class="ckbox" style="margin-top: 23px">
-                  <input type="checkbox" [(ngModel)]="fixedAsset.IsRFID" name="IsRFID" #IsRFID="ngModel" /><span>RFID Etiketi</span>
+                  <input type="checkbox" [(ngModel)]="fixedAsset.IsRFID" name="IsRFID" (change)="isRFID($event)" #IsRFID="ngModel" /><span>RFID Etiketi</span>
               </label> 
           </div>
           <div class="form-group col-md-6">

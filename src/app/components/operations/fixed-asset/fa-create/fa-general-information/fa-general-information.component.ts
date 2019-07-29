@@ -59,7 +59,8 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   staffs: User[] = [];
 
   isResetForm:boolean=false;
-  prefix:string;
+  isRFIDBarcode:boolean = false;
+  prefix:string = "";
 
   public dataTableLocation: TreeGridTable = new TreeGridTable(
     "location",
@@ -244,6 +245,17 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
         this.errorMessage = error.statusText;
       }
     );
+
+    if(this.isRFIDBarcode){
+    
+      let barcodeLength : number = Number(this.prefix.length) + Number(this.barcode.toString().length);
+
+     if(barcodeLength > 12){
+
+        return;
+      }
+
+    }
   }
 
   getValidBarcode() {
@@ -263,30 +275,49 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     );
   }
 
-  // isRFID(event: any){
-    
-  // }
+  isRFID(event: any){
+    if (event.target.checked == true) {
+    this.isRFIDBarcode = true;
+    this.fixedAsset.Prefix = "";
+    this.barcode = null;
+    }
+    else{
+      this.isRFIDBarcode = false;
+      this.getValidBarcode();
+    }
+  }
 
-  // rfidBarcodeReplace(event:any){
-  //   let key:string = event.target.value;
+  rfidBarcodeReplace(event:any){
+    if(this.isRFIDBarcode == true){
+    let key:string = event.key;
 
-  //   key = key.toLocaleUpperCase();
+    key = key.toLocaleUpperCase();
 
-  //   if(key == "A" || key == "B" || key == "C" || key == "D" || key == "E" || key == "F"){
-  //     if(this.prefix != null){
-  //       this.prefix = this.prefix + key;   
-  //     }else
-  //       this.prefix = key;    
-  //   }
-  //   else{
-  //     key = "";
-  //     this.fixedAsset.Prefix = key.toString().trim();
-  //   }
-      
-  // }
+    let value:string = event.target.value;
+    value = value.toLocaleUpperCase();  
+
+    if(key == "A" || key == "B" || key == "C" || key == "D" || key == "E" || key == "F"){
+      if(this.prefix != null){
+        this.prefix = this.prefix + key;   
+        key = null;
+      }else
+        this.prefix = key;    
+        key = null;
+    }
+    else{
+
+      if(key.length != 1){
+        key = "";
+
+        this.prefix = this.prefix + key;
+        this.fixedAsset.Prefix = this.prefix.trim();
+      }     
+    }
+    }
+  }
 
 
-   selectedLocation: Location;
+  selectedLocation: Location;
   onClickLocation(item) {
     this.selectedLocation = item;
   }
@@ -297,7 +328,6 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   }
 
   selectedCategory:FixedAssetCardCategory;
-
   onClickFaCategory(item){
     this.selectedCategory=item;
   }
