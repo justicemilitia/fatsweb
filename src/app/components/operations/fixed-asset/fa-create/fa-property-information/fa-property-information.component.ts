@@ -115,8 +115,13 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
 }
 
 async loadValuesByPropertyId(event) {
+
   this.isSelectedProperty = true;
+
   this.visible = false;
+
+  this.isUniqueProperty = false;
+
   let fixedAssetProperty = this.fixedassetproperty.find(
     x => x.FixedAssetCardPropertyId == Number(event.target.value)
   );
@@ -147,7 +152,23 @@ getPropertyValue(event: any) {
   this.fixedAssetPropertyDetail.Value = null;
 }
 
-async insertPropertyValueToArray(propertyId: any) {
+insertPropertyValueToArray(propertyId: any) {
+
+  this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(this.fixedAssetPropertyDetail,
+    (result:boolean)=>{
+      if(!result)
+      this.isUniqueProperty=true;
+      else
+      this.isUniqueProperty=false;
+
+    },(error:HttpErrorResponse) => {
+      this.isUniqueProperty=false;
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+  
+    if(this.isUniqueProperty)
+    return;
+
   this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
   if(this.isListSelected==false) 
@@ -166,7 +187,7 @@ async insertPropertyValueToArray(propertyId: any) {
     return;
   }
 
-  this.isUniqueFixedAssetProperty(this.fixedAssetPropertyDetail);
+
 
   if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
 
@@ -212,17 +233,6 @@ async insertPropertyValueToArray(propertyId: any) {
   }
 }
 
-isUniqueFixedAssetProperty(propertyDetail:FixedAssetPropertyDetails){
-
-  this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(propertyDetail,
-    (result)=>{
-      this.isUniqueProperty=true;
-
-    },(error:HttpErrorResponse)=>{
-      this.isUniqueProperty=false;
-      this.baseService.popupService.ShowErrorPopup(error);
-    });
-}
 
 onSubmit(data:NgForm){
 

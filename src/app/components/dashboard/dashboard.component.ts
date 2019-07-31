@@ -401,8 +401,9 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   //     );
   // }
 
-  onClickGuaranteeFixedAsset() {
+  onClickGuaranteedFixedAsset() {
 
+    
     this.faComponent.dataTable.TGT_clearData();
     this.faComponent.dataTable.isLoading = true;
 
@@ -429,13 +430,13 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     );
   }
 
-  onClickGuaranteedFixedAsset() {
-    this.baseService.router.navigate(['/fixedasset'], {
-      queryParams: {
-        endDate: this.today()
-      }
-    });
-  }
+  // onClickGuaranteedFixedAsset() {
+  //   this.baseService.router.navigate(['/fixedasset'], {
+  //     queryParams: {
+  //       endDate: this.today()
+  //     }
+  //   });
+  // }
 
   today() {
     let getdate:NgbDate = getToday();

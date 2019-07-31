@@ -33,6 +33,8 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
 
     hideCheckOutReason:boolean = false;
 
+    hideOldFiedAsset:boolean = false;
+
     currentPage: number = 1;
     perInPage: number = 25;
     totalPage: number = 1;
@@ -245,52 +247,62 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
       case TransactionTypes.suspensionFa:
         this.hideFromFixedAsset=true;
         this.hideToFixedAsset=true;
-        this.hideCheckOutReason=false;
+        this.hideCheckOutReason=true;
+        this.hideOldFiedAsset=false;
         break;
       case TransactionTypes.checkoutFa:
         this.hideFromFixedAsset=true;
         this.hideToFixedAsset=true;
         this.hideCheckOutReason=false;
+        this.hideOldFiedAsset=false;
         break;
       case TransactionTypes.undoSuspensionFa:
         this.hideFromFixedAsset=true;
         this.hideToFixedAsset=true;
-        this.hideCheckOutReason=false;
+        this.hideCheckOutReason=true;
+        this.hideOldFiedAsset=false;
         break;
       case TransactionTypes.changeFirmFa:
         this.hideFromFixedAsset=false;
         this.hideToFixedAsset=false;
         this.hideCheckOutReason=true;
+        this.hideOldFiedAsset=false;
         break;
       case  TransactionTypes.createFa:
         this.hideCheckOutReason=true;
         this.hideFromFixedAsset=false;
         this.hideToFixedAsset=false;
+        this.hideOldFiedAsset=true;
         break;
       case TransactionTypes.lostFa:
-        this.hideCheckOutReason=false;
+        this.hideCheckOutReason=true;
         this.hideToFixedAsset=true;
         this.hideFromFixedAsset=true;
+        this.hideOldFiedAsset=false;
         break;
       case TransactionTypes.breakRelationship:
         this.hideCheckOutReason=true;
         this.hideFromFixedAsset=true;
         this.hideToFixedAsset=true;
+        this.hideOldFiedAsset=false;
         break;
       case TransactionTypes.changeCollectiveParameter:
         this.hideCheckOutReason=true;
         this.hideFromFixedAsset=false;
         this.hideToFixedAsset=false;
+        this.hideOldFiedAsset=false;
         break;
       case TransactionTypes.changeDebitFa:
         this.hideCheckOutReason=true;
         this.hideFromFixedAsset=false;
         this.hideToFixedAsset=false;
+        this.hideOldFiedAsset=false;
         break;
       case TransactionTypes.deleteDebitFa:
         this.hideCheckOutReason=true;
         this.hideFromFixedAsset=false;
         this.hideToFixedAsset=false;
+        this.hideOldFiedAsset=false;
         break;
       }
   }

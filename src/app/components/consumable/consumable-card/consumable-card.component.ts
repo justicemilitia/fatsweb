@@ -349,7 +349,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
           this.baseService.spinner.hide();
 
           /* Trigger to model to show it */
-         //$("#btnEditConsumableCard").trigger("click");
+         $("#btnEditConsumableCard").trigger("click");
 
           /* bind result to model */
           Object.assign(this.consumableCard, result);

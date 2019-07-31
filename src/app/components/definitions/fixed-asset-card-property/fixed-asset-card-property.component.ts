@@ -53,6 +53,8 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   // fixedAssetCardPropertyValues: string[]=[];
   id: number;
 
+  isUnique:boolean = false;
+  
   /* Data Table */
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetcardproperty",
@@ -244,6 +246,11 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   async addFixedAssetCardProperty(data: NgForm) {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
+
+    if(this.isListSelected == false && this.isUnique == true) {
+      this.isListSelected = false;
+      return;
+    }
 
     /* Close waiting loader */
     this.isWaitingInsertOrUpdate = true;
@@ -463,11 +470,29 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
   }
 
   changeValue(event) {
-    if (event.target.value == PropertyValueTypes.Liste.toLocaleString())
-      this.isListSelected = true;
+    if (event.target.value == PropertyValueTypes.Liste.toLocaleString()){
+      if(!this.fixedAssetCardProperty.IsUnique){
+        this.isListSelected = true;
+      }
+      else{
+        this.isListSelected = false;
+        this.isUnique = true;
+      }
+    }
     else {
       this.isListSelected = false;
+      this.isUnique = false;
     }
+  }
+
+  fixedAssetPropertiesIsUnique(event){
+    if(event.target.checked == true){
+      if(this.isListSelected)
+        this.isUnique = true;
+      else
+      this.isUnique = false;
+    } else
+    this.isUnique = false;
   }
 
   async refreshTable() {

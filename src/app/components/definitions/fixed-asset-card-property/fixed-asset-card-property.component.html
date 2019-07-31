@@ -105,13 +105,16 @@
                   <div *ngIf="data.submitted && FixedAssetTypeId.invalid" class="invalid-feedback">
                     <div *ngIf="FixedAssetTypeId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
-                </div>
+                </div>              
 
                 <div style="width:135px; padding-left:15px; padding-top: 5px; margin-right:0px;">
                   <label class="ckbox">
-                    <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique" name="IsUnique" /><span>{{getLanguageValue('Fixed_Asset_Card_Property_Is_Unique')}}</span>
+                    <input type="checkbox" [(ngModel)]="fixedAssetCardProperty.IsUnique" (change)="fixedAssetPropertiesIsUnique($event)" name="IsUnique" /><span>{{getLanguageValue('Fixed_Asset_Card_Property_Is_Unique')}}</span>
                   </label>
                 </div>
+              </div>
+              <div *ngIf="isUnique == true" style="color:red">
+                <div>Liste özellik tipi için tekil kullanılamaz!</div>                      
               </div>
             </div>
           </div>
