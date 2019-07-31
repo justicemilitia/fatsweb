@@ -51,6 +51,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   lostFixedAssetButton:boolean=false;
 
+  visibleCycleCountPlan:boolean = true;
+
   currentTab:number = 0;
 
   currentPage: number = 1;
@@ -343,6 +345,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
+
         columnDisplayName: this.getLanguageValue('Duty_Name'),
         columnName: ["TaskName"],
         isActive: true,
@@ -714,27 +717,32 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     this.currentTab = tabChangeEvent.index; 
-    if (tabChangeEvent.index == 0) {      
+    if (tabChangeEvent.index == 0) {   
+      this.visibleCycleCountPlan=true;   
       this.lostFixedAssetButton=false;
       this.locationButton=false;
       this.loadCycleCountPlanList();
     } 
     else if (tabChangeEvent.index == 1) {
+      this.visibleCycleCountPlan=false;   
       this.lostFixedAssetButton=false;
       this.locationButton=false;
       this.loadCycleCountResult(this.perInPage,this.currentPage,1);
     }
     else if(tabChangeEvent.index == 2){
+      this.visibleCycleCountPlan=false;   
       this.lostFixedAssetButton=true;
       this.locationButton=false;
       this.loadCycleCountResultNotFoundFixedAsset(this.perInPage,this.currentPage);
     }
     else if(tabChangeEvent.index == 3){
+      this.visibleCycleCountPlan=false;   
       this.lostFixedAssetButton=false;
       this.locationButton=true;
       this.loadCycleCountResult(this.perInPage,this.currentPage,3);
     }
     else if(tabChangeEvent.index == 4){
+      this.visibleCycleCountPlan=false;   
       this.lostFixedAssetButton=false;
       this.locationButton=false;
       this.loadCycleCountResult(this.perInPage,this.currentPage,4);

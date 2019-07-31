@@ -24,12 +24,12 @@
               </div>
 
                <div>
-              <button class="btn btn-az-primary btn-create-assets" (click)="resetForm(data,true)" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
+              <button *ngIf="visibleCycleCountPlan == true" class="btn btn-az-primary btn-create-assets" (click)="resetForm(data,true)" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
               data-target="#modalCycleCountPlan"><i class="fas fa-plus-circle"></i></button>
               </div>
 
               <div>
-                <button class="btn btn-danger btn-exit-assets" (click)="doOperation(1)" style="margin-right:10px" title="Sayımı İptal Et"><i
+                <button *ngIf="visibleCycleCountPlan == true" class="btn btn-danger btn-exit-assets" (click)="doOperation(1)" style="margin-right:10px" title="Sayımı İptal Et"><i
                 class="fas fa-minus-circle"></i></button>
 
                 <button class="btn btn-danger btn-exit-assets" id="btnCanceledCycleCountPlan" style="display:none; margin-right:10px" data-toggle="modal"
