@@ -83,7 +83,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "this.getLanguageValue('Duty_Name')",
+        columnDisplayName:this.getLanguageValue('Duty_Name'),
         columnName: ["TaskName"],
         isActive: true,
         classes: [],
@@ -273,7 +273,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },    
       {
-        columnDisplayName: "this.getLanguageValue('Location')",
+        columnDisplayName: this.getLanguageValue('Location'),
         columnName: ["FixedAssetLocation","Name"],
         isActive: true,
         classes: [],
@@ -343,7 +343,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "this.getLanguageValue('Duty_Name')",
+        columnDisplayName: this.getLanguageValue('Duty_Name'),
         columnName: ["TaskName"],
         isActive: true,
         classes: [],
