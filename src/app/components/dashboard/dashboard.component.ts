@@ -28,6 +28,8 @@ import { User } from 'src/app/models/User';
 })
 export class DashboardComponent extends BaseComponent implements OnInit, DoCheck {
 
+  private router: Router;
+
   prevStateOfFirm: Firm = null;
 
   assetValues: vDashboardFixedAssets = new vDashboardFixedAssets();
@@ -44,9 +46,11 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   countValue:string;
 
   username:string = "";
-  
+
+  isGuaranteeFa: boolean = false;
+
   fixedAssets: FixedAsset[] = [];
-  faComponent: FixedAssetComponent = new FixedAssetComponent(this.baseService);
+  // faComponent: FixedAssetComponent = new FixedAssetComponent(this.baseService);
   currentPage: number = 1;
   perInPage: number = 25;
   totalPage: number = 1;
@@ -79,7 +83,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     Week: 3
   }
 
-  constructor(public baseService: BaseService, private router: Router) {
+  constructor(public baseService: BaseService) {
     super(baseService);
 
     this.GetUserInfoById(
@@ -386,55 +390,43 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     });
   }
 
-  // onClickGuaranteeFixedAsset(){
-  //     /* Load all fixed asset cards to datatable */
-  //      this.baseService.fixedAssetService.GetGuaranteeFixedAssetList(
-  //       (fa: FixedAsset[]) => {
-  //         this.fixedAssets = fa;
-  //         fa.forEach((element: FixedAsset) => {
+  // onClickGuaranteeFixedAsset() {
+
+  //   this.faComponent.dataTable.TGT_clearData();
+  //   this.faComponent.dataTable.isLoading = true;
+
+  //   this.baseService.fixedAssetService.GetGuaranteeFixedAssetList(
+  //     (fa: FixedAsset[], message: string) => {
+  //       this.fixedAssets = fa;
+
+  //       fa.forEach(e => {
+  //         e.FixedAssetPropertyDetails.forEach(p => {
+  //           if (p.FixedAssetCardPropertyId) {
+  //             e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+  //           }
   //         });
-  //         this.faComponent.dataTable.TGT_loadData(this.fixedAssets);
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         this.baseService.popupService.ShowErrorPopup(error);
-  //       }
-  //     );
+  //       });
+
+  //       this.router.navigate(["fixedasset"]);
+
+  //       this.faComponent.dataTable.TGT_loadData(fa);
+  //       this.faComponent.TGT_calculatePages();
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       this.baseService.popupService.ShowErrorPopup(error);
+  //     }
+  //   );
   // }
-
-  onClickGuaranteeFixedAsset() {
-
-    this.faComponent.dataTable.TGT_clearData();
-    this.faComponent.dataTable.isLoading = true;
-
-    this.baseService.fixedAssetService.GetGuaranteeFixedAssetList(
-      (fa: FixedAsset[], message: string) => {
-        this.fixedAssets = fa;
-
-        fa.forEach(e => {
-          e.FixedAssetPropertyDetails.forEach(p => {
-            if (p.FixedAssetCardPropertyId) {
-              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
-            }
-          });
-        });
-
-        this.router.navigate(["fixedasset"]);
-
-        this.faComponent.dataTable.TGT_loadData(fa);
-        this.faComponent.TGT_calculatePages();
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
 
   onClickGuaranteedFixedAsset() {
     this.baseService.router.navigate(['/fixedasset'], {
       queryParams: {
-        endDate: this.today()
+        isGuaranteeFa: true
       }
     });
+    //this.isGuaranteeFa = true;
+    //this.baseService.router.navigate(['/fixedasset']);    
+    // this.faComponent.guaranteeFixedAsset();
   }
 
   today() {

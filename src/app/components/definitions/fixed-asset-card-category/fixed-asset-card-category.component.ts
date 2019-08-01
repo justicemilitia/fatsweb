@@ -105,7 +105,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
     }
 
     /* Show Question Message */
-    this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    // this.baseService.popupService.ShowQuestionPopupForDelete(() => {
 
       /* Activate the loading spinner */
       this.baseService.spinner.show();
@@ -156,7 +156,8 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
         this.baseService.popupService.ShowErrorPopup(error);
 
       });
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForFixedAssetCardCategory');      
+    // });
   }
 
   async addFixedAssetCardCategory(data: NgForm) {

@@ -96,7 +96,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       this.baseService.spinner.show();
 
       let itemIds: number[] = selectedItems.map(x => x.getId());
@@ -153,7 +153,8 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForExpenseCenter');      
+    // });
   }
 
   async addExpenseCenter(data: NgForm) {

@@ -96,7 +96,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
 
   }
 
-  async deleteFixedAssetCardBrand() {
+  async deleteFixedAssetCardBrands() {
 
     /* Get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
@@ -110,7 +110,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
 
       /* Activate the loading spinner */
       this.baseService.spinner.show();
@@ -161,8 +161,8 @@ export class FixedAssetCardBrandComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
 
       });
-
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForFixedAssetCardBrand');
+    // });
   }
 
   async addFixedAssetCardBrand(data: NgForm) {

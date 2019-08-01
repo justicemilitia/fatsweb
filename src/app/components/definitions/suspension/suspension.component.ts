@@ -170,7 +170,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
       return;
     }
 
-      this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+      // this.baseService.popupService.ShowQuestionPopupForDelete(() => {
 
         this.baseService.spinner.show();
   
@@ -180,7 +180,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
           () => {
             this.baseService.spinner.hide();  
             if (itemIds.length == 1)
-              this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Delete_operation_successful'));
+              this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
             else
               this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('All_records_deleted'));
   
@@ -218,8 +218,8 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
     
           }
         );
-      });
-      
+        this.popupComponent.CloseModal('#modalShowDeletePopupForSuspension');
+        // });      
     }  
 
   async onDoubleClickItem(item: CheckOutReason) {
