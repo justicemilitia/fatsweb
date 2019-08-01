@@ -390,43 +390,12 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     });
   }
 
-  // onClickGuaranteeFixedAsset() {
-
-  //   this.faComponent.dataTable.TGT_clearData();
-  //   this.faComponent.dataTable.isLoading = true;
-
-  //   this.baseService.fixedAssetService.GetGuaranteeFixedAssetList(
-  //     (fa: FixedAsset[], message: string) => {
-  //       this.fixedAssets = fa;
-
-  //       fa.forEach(e => {
-  //         e.FixedAssetPropertyDetails.forEach(p => {
-  //           if (p.FixedAssetCardPropertyId) {
-  //             e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
-  //           }
-  //         });
-  //       });
-
-  //       this.router.navigate(["fixedasset"]);
-
-  //       this.faComponent.dataTable.TGT_loadData(fa);
-  //       this.faComponent.TGT_calculatePages();
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       this.baseService.popupService.ShowErrorPopup(error);
-  //     }
-  //   );
-  // }
-
   onClickGuaranteedFixedAsset() {
     this.baseService.router.navigate(['/fixedasset'], {
       queryParams: {
         isGuaranteeFa: true
       }
     });
-    //this.isGuaranteeFa = true;
-    //this.baseService.router.navigate(['/fixedasset']);    
-    // this.faComponent.guaranteeFixedAsset();
   }
 
   today() {

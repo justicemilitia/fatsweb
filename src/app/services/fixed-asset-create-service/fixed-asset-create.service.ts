@@ -118,9 +118,9 @@ export class FixedAssetCreateService {
       })
       .subscribe(result => {
         let response:Response=<Response>result;
-        if (response.ResultStatus == true) {
-          success(response.ResultObject,response.LanguageKeyword);
-        }
+
+        success(response.ResultStatus,response.LanguageKeyword);
+        
       },
       (error:HttpErrorResponse)=>{
         failed(error);

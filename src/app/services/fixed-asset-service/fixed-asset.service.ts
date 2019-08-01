@@ -26,7 +26,8 @@ import {
   GET_FIXEDASSET_DEBIT_FORM,
   UPDATE_DEPRECIATION,
   GET_DEPRECIATIONTYPE_LIST,
-  GET_DASHBOARD_GUARANTEE_FIXED_ASSET_LIST
+  GET_DASHBOARD_GUARANTEE_FIXED_ASSET_LIST,
+  ADD_LABELS_TO_BE_PRINTED
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { AuthenticationService } from "../authenticationService/authentication.service";
@@ -41,6 +42,7 @@ import { FixedAssetFilter } from '../../models/FixedAssetFilter';
 import { User } from 'src/app/models/LoginUser';
 import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
 import { Depreciation } from '../../models/Depreciation';
+import { getMatIconFailedToSanitizeLiteralError } from '@angular/material';
 
 @Injectable({
   providedIn: "root"
@@ -614,12 +616,23 @@ export class FixedAssetService {
       headers: GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(
       result => {
-        let response: Response = <Response>result
+        let response: Response = <Response>result;
         let forms: FixedAssetForm[] = [];
         Object.assign(forms, response.ResultObject);
         success(forms, response.LanguageKeyword);
       }, (error: HttpErrorResponse) => {
         failed(error);
       })
+  }
+
+  LabelsToBePrinted(barcodes: any[],success,failed){
+    this.httpclient.post(SERVICE_URL + ADD_LABELS_TO_BE_PRINTED, barcodes, { headers: GET_HEADERS(this.authenticationService.getToken())}).subscribe(
+      result => {
+        let response: Response = <Response>result;
+        success(response.ResultObject,response.LanguageKeyword);
+      },(error:HttpErrorResponse)=>{
+        failed(error);
+      }
+    );
   }
 }

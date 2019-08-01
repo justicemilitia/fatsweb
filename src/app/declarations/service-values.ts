@@ -1,4 +1,5 @@
 import { HttpHeaders } from "@angular/common/http";
+//import service from "../../assets/service/service.json";
 
 
 // export const SERVICE_URL = "http://localhost:5000/api/";
@@ -10,7 +11,7 @@ export const FORGET_PASSWORD = "Auth/forgotpassword"
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
 
-export const IMAGE_URL = "http://dev.fatsapi.com/";
+export const IMAGE_URL =  "http://dev.fatsapi.com/";
 export const CRYPTO_KEY = "xOPecpi5elDQenHT";
 
 //#region Departments
@@ -82,6 +83,7 @@ export const FIXEDASSET_PROPERTY_UNIQUE_CHECK = "FixedAsset/GetFixedAssetDetailU
 export const UPDATE_DEPRECIATION = "Depreciation/UpdateDepreciation";
 export const CALCULATE_DEPRECIATION = "Depreciation/CalculateFixedAssetDepreciationValues";
 export const CALCULATE_IFRSDEPRECIATION = "DepreciationIFRS/CalculateFixedAssetDepreciationIFRSValues";
+export const ADD_LABELS_TO_BE_PRINTED ="LabelsToBePrinted/AddLabelsToBePrintedByArray";
 //#endregion
 
 //#region Depreciations

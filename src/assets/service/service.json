@@ -1,0 +1,18 @@
+[
+    {
+       "Keyword" : "SERVICE_URL",
+       "Service" : "http://dev.fatsapi.com/api/"
+    },
+    {
+        "Keyword" : "DOCUMENT_URL",
+        "Service" : "http://dev.fatsapi.com/Documents/"
+    },
+    {
+        "Keyword" : "LANGUAGE_URL",
+        "Service" : "http://dev.fatsapi.com/Language/language.json"
+    },
+    {
+        "Keyword" : "IMAGE_URL",
+        "Service" : "http://dev.fatsapi.com/"
+    }   
+]

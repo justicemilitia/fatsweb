@@ -330,35 +330,35 @@ export class RoleAuthorizationComponent extends BaseComponent
       
     }  
 
-  async onDoubleClickItem(item: RoleAuthorization) {
+  // async onDoubleClickItem(item: RoleAuthorization) {
 
-    this.baseService.spinner.show();
+  //   this.baseService.spinner.show();
 
-    this.roleAuthorization.RoleId = item.RoleId;
+  //   this.roleAuthorization.RoleId = item.RoleId;
 
-    this.loadRole();
-    this.loadRoleAuth();
+  //   this.loadRole();
+  //   this.loadRoleAuth();
 
-    this.baseService.roleAuthorizationService.GetRoleAuthListById(item.RoleId,
-      (result: RoleAuthorization[]) => {
-        setTimeout(() => {
+  //   this.baseService.roleAuthorizationService.GetRoleAuthListById(item.RoleId,
+  //     (result: RoleAuthorization[]) => {
+  //       setTimeout(() => {
 
-          $("#btnEditRoleAuth").trigger("click");
+  //         $("#btnEditRoleAuth").trigger("click");
 
-          this.baseService.spinner.hide();
+  //         this.baseService.spinner.hide();
 
-          this.updateRoleAuth(result);
+  //         this.updateRoleAuth(result);
 
-          this.dataTableRoleAuth.TGT_loadData(this.roleAuthorizations);
+  //         this.dataTableRoleAuth.TGT_loadData(this.roleAuthorizations);
           
-        }, 1000);
-      },(error: HttpErrorResponse) => {
+  //       }, 1000);
+  //     },(error: HttpErrorResponse) => {
 
-        this.baseService.spinner.hide();
+  //       this.baseService.spinner.hide();
 
-        this.baseService.popupService.ShowErrorPopup(error);
-      });
-  } 
+  //       this.baseService.popupService.ShowErrorPopup(error);
+  //     });
+  // } 
 
   onChange(item){
 

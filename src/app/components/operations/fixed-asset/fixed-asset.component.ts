@@ -1259,6 +1259,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       case FixedAssetOperations.editFile:
         this.EditFile();
         break;
+
+      case FixedAssetOperations.printLabel:
+        this.ChoosePrintLabels();
+        break;  
     }
   }
 
@@ -1686,7 +1690,38 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
       this.dataTableFixedAssetFile.TGT_clearData();
     }
- 
+
+
+
+    ChoosePrintLabels(){
+
+      let selectedItems = this.dataTable.TGT_getSelectedItems();
+
+      if (!selectedItems || selectedItems.length == 0) {
+        this.baseService.popupService.ShowAlertPopup(
+          "Lütfen en az bir demirbaş seçiniz"
+        );
+        return;
+      }
+      this.fixedAssets = <FixedAsset[]>selectedItems;
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForBarcode');
+    } 
+
+    LabelsToBePrinted(){
+      let Barcodes:any[] =[];
+
+      this.fixedAssets.forEach(e=>{        
+        Barcodes.push(e.Barcode)
+      });
+
+      this.baseService.fixedAssetService.LabelsToBePrinted(Barcodes,
+      (result)=>{
+
+      },(error:HttpErrorResponse)=>{
+        this.baseService.popupService.ShowErrorPopup(error);
+      });
+    }
+
   }
 
 
