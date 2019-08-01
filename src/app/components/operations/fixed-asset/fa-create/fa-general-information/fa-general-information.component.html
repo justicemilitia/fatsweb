@@ -7,7 +7,7 @@
       <div class="form-group col-md-4">
           <label class="required-span">Barkod</label>
           <input [(ngModel)]="fixedAsset.Prefix" name="Prefix" (keyup)="rfidBarcodeReplace($event)" type="text" trim="blur" 
-          class="form-control" #Prefix="ngModel" value="{{prefix}}"/>   
+          class="form-control" #Prefix="ngModel"/>   
       </div>
 
       <div class="form-group col-md-8">
