@@ -1,6 +1,6 @@
 
 <div class="modal-header">
-  <h6 class="modal-title" style="margin-top: 5px;">Demirbaş giriş işlemi için bilgileri giriniz.</h6>
+  <h6 class="modal-title" style="margin-top: 5px;">{{getLanguageValue('Enter_fixed_asset_informations')}}</h6>
   <button id="CloseModal" type="button" class="close" (click)="resetForm(data,true)" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -8,7 +8,7 @@
 
 <mat-horizontal-stepper  [@.disabled]="true" linear #stepper>   
 
-  <mat-step label="Genel Bilgiler"  [editable]="editable">
+  <mat-step label="{{getLanguageValue('General_Informations')}}" [editable]="editable">
     <app-fa-general-information  [faCreate]="this" ></app-fa-general-information> 
   </mat-step>
 

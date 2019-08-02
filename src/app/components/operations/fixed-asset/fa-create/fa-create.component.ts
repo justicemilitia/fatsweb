@@ -154,7 +154,7 @@ export class FaCreateComponent extends BaseComponent
     "fixedasset",
     [
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["Barcode"],
         isActive: true,
         classes: [],
@@ -163,7 +163,7 @@ export class FaCreateComponent extends BaseComponent
         isEditable: true
       },
       {
-        columnDisplayName: "Demirbaş Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
@@ -171,7 +171,7 @@ export class FaCreateComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Departman Adı",
+        columnDisplayName: this.getLanguageValue('Department_Name'),
         columnName: ["Department", "Name"],
         isActive: true,
         classes: [],
@@ -179,7 +179,7 @@ export class FaCreateComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon Adı",
+        columnDisplayName: this.getLanguageValue('Location_Name'),
         columnName: ["Location", "Name"],
         isActive: true,
         classes: [],
@@ -187,7 +187,7 @@ export class FaCreateComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Fiyat",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Price'),
         columnName: ["Price"],
         isActive: true,
         classes: [],
@@ -205,7 +205,7 @@ export class FaCreateComponent extends BaseComponent
     "fixedassetfile",
     [
       {
-        columnDisplayName: "Dosya adı",
+        columnDisplayName: this.getLanguageValue('File'),
         columnName: ["FileName"],
         isActive: true,
         classes: [],
@@ -611,7 +611,7 @@ export class FaCreateComponent extends BaseComponent
     );
 
     if (this.fixedAssetFiles.length == 0) {
-      this.baseService.popupService.ShowWarningPopup("Dosya Seçiniz!");
+      this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Choose_File'));
       return;
     }
 
