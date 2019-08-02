@@ -12,15 +12,15 @@
     <app-fa-general-information  [faCreate]="this" ></app-fa-general-information> 
   </mat-step>
 
-  <mat-step label="Özellik Bilgileri" [editable]="editable">  
+  <mat-step label="{{getLanguageValue('Property_Informations')}}" [editable]="editable">  
     <app-fa-property-information [faCreate]="this" ></app-fa-property-information>
   </mat-step>
 
-  <mat-step label="Finansal Bilgiler" [editable]="editable">  
+  <mat-step label="{{getLanguageValue('Financial_Informations')}}" [editable]="editable">  
     <app-fa-financial-information [faCreate]="this" ></app-fa-financial-information>         
   </mat-step>
   
-  <mat-step label="Demirbaş Listesi" [editable]="editable">
+  <mat-step label="{{getLanguageValue('Financial_Informations')}}" [editable]="editable">
     <div class="property-values-table">
     <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
     </div>
