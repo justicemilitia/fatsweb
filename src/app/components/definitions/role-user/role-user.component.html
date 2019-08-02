@@ -64,18 +64,18 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Kullanıcı</label>
-              <div *ngIf="visible;then insertUserRole else updateUserRole"></div>
-              <ng-template #insertUserRole>
-                <ng-multiselect-dropdown [placeholder]="getLanguageValue('Choose')"
-                  [ngClass]="{ 'is-invalid': data.submitted && UserId.invalid }" required [data]="systemUsers"
-                  [(ngModel)]="userRole.UserId" name="UserId" [settings]="dropdownSettings" #UserId="ngModel"
-                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-                </ng-multiselect-dropdown>
-                <div *ngIf="data.submitted && UserId.invalid" class="invalid-feedback">
-                  <div *ngIf="UserId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                </div>
+              <label class="required-span">Rol</label>
+              <select [(ngModel)]="userRole.RoleId" name="RoleId" #RoleId="ngModel"
+              class="form-control select2-no-search" required
+              [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }">
+              <option value="-1">Seçiniz</option>
+              <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
+            </select>
+            <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
+              <div *ngIf="RoleId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+            </div>
           </div>
+        </div>
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
                 <label class="required-span">Kullanıcı</label>
@@ -99,7 +99,6 @@
                 </ng-template>
               </div>
           </div>
-
         </div>
         <div class="modal-footer">
           <button id="btnAddRole" type="submit" class="btn btn-az-primary" data-toggle="modal"

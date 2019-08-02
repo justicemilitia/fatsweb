@@ -20,23 +20,23 @@
     <app-fa-financial-information [faCreate]="this" ></app-fa-financial-information>         
   </mat-step>
   
-  <mat-step label="{{getLanguageValue('Financial_Informations')}}" [editable]="editable">
+  <mat-step label="{{getLanguageValue('Fixed_Asset_List')}}" [editable]="editable">
     <div class="property-values-table">
     <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
     </div>
     <div class="row" style="margin-right: 0px; margin-left: 0px;">
         <div class="grp-btn-action-left">
-          <button mat-button matStepperPrevious type="button" class="btn btn-orange" style="border-radius:0px; background-color: #e67300; margin-right:10px; color: white;">Geri</button>
+          <button mat-button matStepperPrevious type="button" class="btn btn-orange" style="border-radius:0px; background-color: #e67300; margin-right:10px; color: white;">{{getLanguageValue('Back_Button')}}</button>
           <button *ngIf="validBarcode" (click)="toggleValidBarcodes()" type="button" class="btn btn-orange" style="border-radius:0px; background-color: #e67300; color: white">İncele</button>
           <div *ngIf="validBarcode" style="color:red; margin-left: 10px">Eklemek istediğiniz barkod sistemde bulunmaktadır!</div>
         </div>
         <div class="grp-btn-action">
           <div *ngIf="visibleInsertButton;then insertFile else insertFixedAsset"></div>
          <ng-template #insertFixedAsset>
-          <button  class="btn btn-orange" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white;">Kaydet</button>
+          <button  class="btn btn-orange" type="button" (click)="addFixedAsset()" style="border-radius:0px; background-color: #e67300; color: white;">{{getLanguageValue('Save')}}</button>
         </ng-template>
         <ng-template #insertFile>
-          <button mat-button matStepperNext  class="btn btn-orange" type="button" style="border-radius:0px; background-color: #e67300; color: white;">İleri</button>
+          <button mat-button matStepperNext  class="btn btn-orange" type="button" style="border-radius:0px; background-color: #e67300; color: white;">{{getLanguageValue('Next_Button')}}</button>
         </ng-template>
         </div>
     </div>
@@ -44,7 +44,7 @@
 
   </mat-step>
 
-  <mat-step label="Dosya">      
+  <mat-step label="{{getLanguageValue('File')}}">      
 
     <div>
       <div class="row justify-content-center">
@@ -58,7 +58,7 @@
             <input #fixedAssetFiles name="FixedAssetFiles" id="FixedAssetFiles" type="file" multiple (change)="onFileSelected($event)" style="display:none"/>
             <label for="FixedAssetFiles" class="custom-files">
               <label class="custom-file-text" for="FixedAssetFiles" style="margin-left: 450px; margin-top: 35px;">
-                Dosya eklemek için tıklayınız.
+                {{getLanguageValue('Click_here_to_upload_file')}}
               </label>  
             </label>  
             </div>
@@ -76,7 +76,7 @@
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="grp-btn-action">
               <button class="btn btn-orange" (click)="insertFiles()" id="btnAddAgreement">
-               Dosya Ekle
+                {{getLanguageValue('Add_File')}}
               </button>
             </div>
         </div>
