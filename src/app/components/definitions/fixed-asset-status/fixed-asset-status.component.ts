@@ -196,7 +196,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
 
       /* Activate the loading spinner */
       this.baseService.spinner.show();
@@ -247,8 +247,8 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
 
       });
-
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForStatus');
+    // });
   }
 
 

@@ -76,7 +76,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    // this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -108,7 +108,8 @@ export class RoleComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Records_couldnt_delete_cause_theyre_related'));
         }
       );
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForRole');      
+    // });
   }
 
   async loadRoles() {

@@ -183,7 +183,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -219,28 +219,29 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
           let barcode:FixedAssetCardProperty;
 
           let notDeletedCode : string[]=[];
-  
+
           let faCardProperties = <FixedAssetCardProperty[]>this.dataTable.TGT_copySource();
-          
+
           /* Deactive the spinner */
           this.baseService.spinner.hide();
 
           itemIds.forEach((e:NotDeletedItem) => {
             for(let i=0; i<itemIds.length; i++){
           barcode = faCardProperties.find(x=>x.FixedAssetCardPropertyId == e[i].Id);
-          }     
+          }
             notDeletedCode.push(barcode.FixedAssetCardPropertyCode);
           });
-  
+
           /* Show error message */
           if(itemIds.length>0)
           this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
           else
           this.baseService.popupService.ShowErrorPopup(error);
-  
+
         }
       );
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForFixedAssetCardProperty');      
+    // });
   }
 
   async addFixedAssetCardProperty(data: NgForm) {
@@ -302,10 +303,10 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
           /* Change button to loading */
           this.isWaitingInsertOrUpdate = true;
 
-          
+
           let willUpdateItem = new FixedAssetCardProperty();
           Object.assign(willUpdateItem, this.fixedAssetCardProperty);
-          
+
           this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
 
           this.fixedAssetCardProperty.FixedAssetPropertyValues = this.fixedAssetCardPropertyValues;
@@ -349,7 +350,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-          this.popupComponent.CloseModal('#modalShowQuestionPopupForFixedAssetCardProperty');      
+          this.popupComponent.CloseModal('#modalShowQuestionPopupForFixedAssetCardProperty');
   }
 
   async onDoubleClickItem(item: FixedAssetCardProperty) {
@@ -430,7 +431,7 @@ export class FixedAssetCardPropertyComponent extends BaseComponent
 
   async insertPropertyValueToArray(value: any) {
     value.value = value.value.trim();
-  
+
     this.fixedAssetCardPropertyValues = <FixedAssetCardPropertyValue[]>this.dataTablePropertyValue.TGT_copySource();
 
     if (

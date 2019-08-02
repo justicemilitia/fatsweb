@@ -51,16 +51,19 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit(data: NgForm) {
-    this.exitFixedAsset(data);
+    if (data.form.invalid == true) return;
+    this.popupComponent.ShowModal('#modalShowDeletePopupForFaExit');    
+    // this.exitFixedAsset(data);
+    this.popupComponent.CloseModal('#modalExitFixedAsset');    
+    
   }
 
-  async exitFixedAsset(data: NgForm) {
+  async exitFixedAsset() {
     /* Is Form Valid */
-    if (data.form.invalid == true) return;
 
-    await this.baseService.popupService.ShowQuestionPopupForDeleteWithoutUndo(
-      (response: boolean) => {
-        if (response == true) {
+    // await this.baseService.popupService.ShowQuestionPopupForDeleteWithoutUndo(
+    //  (response: boolean) => {
+        // if (response == true) {
           this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
             this.faDataTable.TGT_getSelectedItems()
           )).map(x => x.FixedAssetId);
@@ -87,10 +90,11 @@ export class FaExitComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-          this.resetForm(data, true);
-        }
-      }
-    );
+          this.popupComponent.CloseModal('#modalShowDeletePopupForFaExit');          
+          // this.resetForm(data, true);
+        // }
+    //   }
+    // );
   }
 
   async LoadDropdownList() {

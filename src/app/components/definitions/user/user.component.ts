@@ -158,7 +158,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: this.getLanguageValue('email'),
+        columnDisplayName: this.getLanguageValue('eMail'),
         columnName: ["UserMail"],
         isActive: true,
         classes: [],
@@ -568,7 +568,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
 
     /* Show Question Message */
-     this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    //  this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       /* Activate the loading spinner */
       this.baseService.spinner.show();
 
@@ -624,7 +624,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   
         }
       );
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForUser');      
+    // });
   }
 
   onDoubleClickItem(item: User) {   

@@ -95,7 +95,7 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       this.baseService.spinner.show();
 
       let itemIds: number[] = selectedItems.map(x => x.getId());
@@ -152,7 +152,8 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForConsumableUnit');      
+    // });
   }
 
   async loadConsumableUnits(){

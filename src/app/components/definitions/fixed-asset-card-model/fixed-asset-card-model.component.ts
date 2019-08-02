@@ -260,7 +260,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
     );
   }
 
-  async deleteFixedAssetCardModel() {
+  async deleteFixedAssetCardModels() {
 
     /* get selected items from table */
     let selectedItems = this.dataTableModel.TGT_getSelectedItems();
@@ -272,7 +272,7 @@ export class FixedAssetCardModelComponent extends BaseComponent
     }
 
     /* Show Question Message */
-    await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
+    // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
 
       /* Activate the loading spinner */
       this.baseService.spinner.show();
@@ -323,7 +323,8 @@ export class FixedAssetCardModelComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
 
       });
-    });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForFixedAssetCardModel');      
+    // });
   }
 
   async refreshTable() {
