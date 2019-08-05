@@ -233,6 +233,7 @@ export class FaCreateComponent extends BaseComponent
     this.dataTable.isColumnOffsetActive = false;
     this.dataTable.isDeleteable = true;
     this.dataTable.isTableEditable = true;
+    
 
     this.dataTableFile.isPagingActive = false;
     this.dataTableFile.isColumnOffsetActive = false;
@@ -390,7 +391,7 @@ export class FaCreateComponent extends BaseComponent
         this.isFinished = false;
       }
 
-
+      this.dataTable.dataFilters.willDisplay = false;
       this.dataTable.TGT_loadData(this.fixedAssets);
     }
   }
