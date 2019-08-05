@@ -225,19 +225,28 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
   async loadDropdownList() {
     /* Load firms to firm dropdown */
-    await this.baseService.userService.GetFirms(
-      firms => {
-        this.firms = firms;
-      },
-      (error: HttpErrorResponse) => {
-        /* Show alert message */
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+    // await this.baseService.userService.GetFirms(
+    //   firms => {
+    //     this.firms = firms;
+    //   },
+    //   (error: HttpErrorResponse) => {
+    //     /* Show alert message */
+    //     this.baseService.popupService.ShowErrorPopup(error);
+    //   }
+    // );
 
     this.baseService.firmService.GetUserFirmList(
       (firms: Firm[]) => {
         this.userFirms = firms;
+        let currentFirm: Firm = this.baseService.authenticationService.currentFirm;
+        this.userFirms.forEach(e => {
+          if(e.FirmId != currentFirm.FirmId)
+            {
+              let firm:Firm;
+              firm = e;
+              this.firms.push(firm);
+            }
+        });       
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

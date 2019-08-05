@@ -30,7 +30,7 @@
         <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" (change)="getFirmId($event)" #FirmId="ngModel"
           [ngClass]="{ 'is-invalid': data.submitted && FirmId.invalid }" required>
           <option [ngValue]="null">Yok</option>
-          <option *ngFor="let firm of userFirms" value={{firm.FirmId}}>
+          <option *ngFor="let firm of firms" value={{firm.FirmId}}>
             {{ firm.Name }}
           </option>
         </select>
