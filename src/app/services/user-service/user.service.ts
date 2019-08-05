@@ -305,14 +305,15 @@ export class UserService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if ((<[]>response.ResultObject).length == 0) {
+          if ((<[]>response.ResultObject).length == 0)
             success(response.ResultObject, response.LanguageKeyword);
-          } else if(response.LanguageKeyword == "You_are_not_allowed_to_delete_records_found_that_releated"){
+          
+          else(response.LanguageKeyword == "You_are_not_allowed_to_delete_records_found_that_releated!")
             failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
-          }
-          else{
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
+          // }
+          // else{
+          //   failed(getAnErrorResponse(response.LanguageKeyword));
+          // }
         },
         error => {
           failed(error);

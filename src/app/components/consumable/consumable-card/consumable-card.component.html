@@ -8,7 +8,7 @@
       </div>
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Malzeme Kartları</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Consumable_Cards')}}</h2>
           <div class="grp-btn-action">
 
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
@@ -27,10 +27,10 @@
               <i class="fas fa-trash"></i></button>
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddConsumableCard"
-              data-toggle="modal" data-target="#modalConsumableCard" (click)="resetForm(data,true)">Malzeme Kartı Ekle</button>
+              data-toggle="modal" data-target="#modalConsumableCard" (click)="resetForm(data,true)">{{getLanguageValue('Add_Consumable_Card')}}</button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditConsumableCard" data-toggle="modal"
-              data-target="#modalConsumableCard" (click)="resetForm(data,false)">Malzeme Kartı Düzenle</button>
+              data-target="#modalConsumableCard" (click)="resetForm(data,false)">{{getLanguageValue('Update_Consumable_Card')}}</button>
           </div>
         </div>
         <div class="sales-overview">
@@ -50,8 +50,7 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title">  {{
-          consumableCard.ConsumableCardId ?  'Malzeme kartını güncellemek için bilgileri giriniz.' : 'Yeni malzeme kartı eklemek için bilgileri giriniz.'
-        }}</h6>
+          consumableCard.ConsumableCardId ?  getLanguageValue('Enter_information_about_updating_consumable_card') : getLanguageValue('Yeni malzeme kartı eklemek için bilgileri giriniz.')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -60,65 +59,65 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Malzeme Kodu</label>
+              <label class="required-span">{{getLanguageValue('Consumable_Card_Code')}}</label>
               <input type="text" trim="blur" [(ngModel)]="consumableCard.ConsumableCardCode"
                 #ConsumableCardCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardCode.invalid }"
                 name="ConsumableCardCode" required maxlength="50" class="form-control" />
               <div *ngIf="data.submitted && ConsumableCardCode.invalid" class="invalid-feedback">
-                <div *ngIf="ConsumableCardCode.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="ConsumableCardCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="ConsumableCardCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Malzeme Adı</label>
+              <label class="required-span">{{getLanguageValue('Consumable_Card_Name')}}</label>
               <input [(ngModel)]="consumableCard.ConsumableCardName" name="ConsumableCardName" type="text" trim="blur" class="form-control"
                 #ConsumableCardName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardName.invalid }" maxlength="50" required />
               <div *ngIf="data.submitted && ConsumableCardName.invalid" class="invalid-feedback">
-                <div *ngIf="ConsumableCardName.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="ConsumableCardName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 <div *ngIf="ConsumableCardName.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Malzeme Kategorisi</label>
+              <label class="required-span">{{getLanguageValue('Consumable_Category')}}</label>
               <select [(ngModel)]="consumableCard.ConsumableCategoryId" name="ConsumableCategoryId"
                 [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryId.invalid }" class="form-control"
                 (click)="loadDropdownList()" #ConsumableCategoryId="ngModel" required>
-                <option [ngValue]="null">Yok</option>
+                <option [ngValue]="null">{{getLanguageValue('None')}}</option>
                 <option *ngFor="let consumableCategory of consumableCategories"
                   value={{consumableCategory.ConsumableCategoryId}}>{{consumableCategory.ConsumableCategoryName}}</option>
               </select>
               <div *ngIf="data.submitted && ConsumableCategoryId.invalid" class="invalid-feedback">
-                <div *ngIf="ConsumableCategoryId.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="ConsumableCategoryId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-md-6 form-group">
-              <label class="required-span">Birim</label>
+              <label class="required-span">{{getLanguageValue('Consumable_Unit_Name')}}</label>
               <select [(ngModel)]="consumableCard.ConsumableUnitId" name="ConsumableUnitId" class="form-control"
               [ngClass]="{ 'is-invalid': data.submitted && ConsumableUnitId.invalid }"
               (click)="loadConsumableUnits()" #ConsumableUnitId="ngModel" required>
-                <option [ngValue]="null">Yok</option>
+                <option [ngValue]="null">{{getLanguageValue('None')}}</option>
                 <option *ngFor="let consumableUnit of consumableUnits"
                   value={{consumableUnit.ConsumableUnitId}}>{{consumableUnit.ConsumableUnitName}}</option>
               </select>
               <div *ngIf="data.submitted && ConsumableUnitId.invalid" class="invalid-feedback">
-                <div *ngIf="ConsumableUnitId.errors.required">Bu alan zorunludur.</div>
+                <div *ngIf="ConsumableUnitId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
             </div>
             <div class="col-md-6 form-group">
-              <label>Minimum Stok Seviyesi</label>
+              <label>{{getLanguageValue('Consumable_Min_Stock_Level')}}</label>
               <input [(ngModel)]="consumableCard.MinimumStockLevel" name="MinimumStockLevel" type="text" trim="blur" class="form-control"
                 #MinimumStockLevel="ngModel" maxlength="50" />
             </div>
           </div>
           <div class="row justify-content-center">
            <div class="col-md-12 form-group">
-            <label>Açıklama</label>
+            <label>{{getLanguageValue('Description')}}</label>
             <textarea [(ngModel)]="consumableCard.Description" name="Description" style="resize:none" rows="2"
               #Description="ngModel" class="form-control" type="text" maxlength="150"></textarea>
           </div>
@@ -129,7 +128,7 @@
         <div class="modal-footer justify-content-center">
           <button id="btnInsertOrUpdateConsumableCard" type="submit" class="btn btn-az-primary" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false"
-            data-target="#modalInsertConsumableCard">{{consumableCard.ConsumableCardId ? 'Malzeme Güncelle' : 'Malzeme Oluştur'}}</button>
+            data-target="#modalInsertConsumableCard">{{consumableCard.ConsumableCardId ? getLanguageValue('Update_Consumable_Card') : getLanguageValue('Add_Consumable_Card')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
@@ -187,7 +186,7 @@
           </div>
        
           <div class="col-md-6">        
-          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="deleteConsumableCards()">{{getLanguageValue('Delete')}}</button>
+          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px; padding-left: 37px;padding-right: 37px;" (click)="deleteConsumableCards()">{{getLanguageValue('Delete')}}</button>
             </div>   
         </div>
 

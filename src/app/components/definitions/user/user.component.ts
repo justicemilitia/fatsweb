@@ -94,6 +94,8 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   isUpdate:boolean=false;
 
+  errorMessage: string = '';
+
 
   @ViewChild("stepper") stepper: MatStepper;
 
@@ -618,10 +620,13 @@ export class UserComponent extends BaseComponent implements OnInit {
   
           /* Show error message */
           if(itemIds.length>0)
-          this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          {
+          // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          Object.assign(this.errorMessage, error);
+          }
           else
           this.baseService.popupService.ShowErrorPopup(error);
-  
+          this.popupComponent.CloseModal('#modalShowDeletePopupForUser');
         }
       );
       this.popupComponent.CloseModal('#modalShowDeletePopupForUser');      
