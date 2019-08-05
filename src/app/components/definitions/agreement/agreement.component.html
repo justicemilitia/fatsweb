@@ -30,7 +30,7 @@
 
             <button class="btn btn-az-primary" (click)="resetForm(data,true)" id="btnAddAgreement" data-toggle="modal"
               data-target="#modalAgreement" *ngIf="IsAuthForInsert==true">
-              {{getLanguageValue('Add_Aggreement')}}
+              <i class="fa fa-plus-circle fa-plus-circle-add"></i>{{getLanguageValue('Add_Aggreement')}}
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
