@@ -206,6 +206,10 @@ export const UPDATE_CONSUMABLE_CARD = "ConsumableCards/UpdateConsumableCard";
 export const DELETE_CONSUMABLE_CARD = "ConsumableCards/RemoveByIdList";
 //#endregion
 
+//#region ConsumableTransactionList
+export const GET_CONSUMABLE_TRANSACTION_LIST = "TransactionLog/TransactionLogsList";
+export const GET_CONSUMABLE_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";
+//#endregion
 
 //#region FixedAssetCardBrands
 export const GET_FIXEDASSETCARDBRAND_LIST =
@@ -359,6 +363,7 @@ export const UPDATE_NOTFOUND_FIXEDASSET = "CycleCountingResults/UpdateNotFoundDu
 export const GET_TRANSACTION_LIST = "TransactionLog/TransactionLogsList";
 export const GET_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";
 //#endregion
+
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
 

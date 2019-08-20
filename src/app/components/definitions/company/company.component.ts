@@ -45,6 +45,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   /* Current company */
   company: Company = new Company();
 
+  notDeletedBarcode: string = '';
+  
   public dataTable: TreeGridTable = new TreeGridTable(
     "company",
     [
@@ -215,7 +217,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
         let barcode:Company;
 
-        let notDeletedCode : string[]=[];
+        let notDeletedCodes : string[]=[];
 
         let companies = <Company[]>this.dataTable.TGT_copySource();
         
@@ -226,14 +228,23 @@ export class CompanyComponent extends BaseComponent implements OnInit {
           for(let i=0; i<itemIds.length; i++){
         barcode = companies.find(x=>x.CompanyId == e[i].Id);
         }     
-        notDeletedCode.push(barcode.CompanyCode);
+        notDeletedCodes.push(barcode.CompanyCode);
         });
 
          /* Show error message */
          if(itemIds.length>0)
-         this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
-         else
-         this.baseService.popupService.ShowErrorPopup(error);
+         {
+        //  this.baseService.popupService.ShowDeletePopup(error,notDeletedCodes);
+
+        notDeletedCodes.forEach((e, i) => {
+          this.notDeletedBarcode +=
+            e + (i == selectedItems.length - 1 ? "" : ", ");
+        });
+
+         this.popupComponent.ShowModal('#modalShowErrorPopup');     
+        }
+        else
+        this.baseService.popupService.ShowErrorPopup(error);
 
       });
       this.popupComponent.CloseModal('#modalShowDeletePopupForCompany');      

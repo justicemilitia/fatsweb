@@ -55,6 +55,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   updatedAgreement: NgForm = null;
 
+  notDeletedCode: string = '';
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
     [
@@ -228,7 +230,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
           
           let barcode:Agreement;
 
-          let notDeletedCode : string[]=[];
+          let notDeletedCodes : string[]=[];
 
           let agreements = <Agreement[]>this.dataTable.TGT_copySource();
           
@@ -239,12 +241,20 @@ export class AgreementComponent extends BaseComponent implements OnInit {
             for(let i=0; i<itemIds.length; i++){
           barcode = agreements.find(x=>x.AgreementId == e[i].Id);
           }     
-          notDeletedCode.push(barcode.AgreementCode);
+          notDeletedCodes.push(barcode.AgreementCode);
           });
   
             /* Show error message */
             if(itemIds.length>0)
-            this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+            {
+              // this.baseService.popupService.ShowDeletePopup(error,notDeletedCodes);
+              notDeletedCodes.forEach((e, i) => {
+                this.notDeletedCode +=
+                  e + (i == selectedItems.length - 1 ? "" : ", ");
+              });
+
+              this.popupComponent.ShowModal('#modalShowErrorPopup');
+            }                      
             else
             this.baseService.popupService.ShowErrorPopup(error);
   

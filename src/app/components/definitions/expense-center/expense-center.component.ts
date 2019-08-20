@@ -33,6 +33,8 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
   expenseCenter: ExpenseCenter = new ExpenseCenter();
 
+  notDeletedBarcode: string = '';  
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "expensecenter",
     [
@@ -148,7 +150,14 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
           /* Show error message */
           if(failedItems.length>0)
-          this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          {
+          // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          notDeletedCode.forEach((e, i) => {
+            this.notDeletedBarcode +=
+              e + (i == selectedItems.length - 1 ? "" : ", ");
+          });
+           this.popupComponent.ShowModal('#modalShowErrorPopup');        
+        }
           else
           this.baseService.popupService.ShowErrorPopup(error);
         }

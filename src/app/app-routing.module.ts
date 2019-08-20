@@ -38,6 +38,7 @@ import { ConsumableCategoryComponent } from './components/consumable/consumable-
 import { ConsumableUnitComponent } from './components/consumable/consumable-unit/consumable-unit.component';
 import { ConsumableListComponent } from './components/consumable/consumable-list/consumable-list.component';
 import { ConsumableRequestListComponent } from './components/consumable/consumable-request-list/consumable-request-list.component';
+import { ConsumableTransactionListComponent } from './components/consumable/consumable-transaction-list/consumable-transaction-list.component';
 
 export const routes: Routes = [
   {
@@ -253,6 +254,12 @@ export const routes: Routes = [
     path: "consumablerequestlist",
     component: ConsumableRequestListComponent,
     data: { pageKeyword: pages.MENU_CONSUMABLEREQUESTLIST },
+    canActivate: [AuthGuard]
+  },
+  { 
+    path: "consumabletransactionlist",
+    component: ConsumableTransactionListComponent,
+    data: { pageKeyword: pages.MENU_CONSUMABLETRANSACTIONLIST },
     canActivate: [AuthGuard]
   }
 

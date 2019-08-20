@@ -40,6 +40,8 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
    /* Store the current fixed asset card */
    consumableCard: ConsumableCard = new ConsumableCard();
 
+  notDeletedBarcode: string = '';
+   
    public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
    [
      {
@@ -134,6 +136,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
 
     /* Get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
+    this.notDeletedBarcode = '';
 
     /* If count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
@@ -188,7 +191,16 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
 
         /* Show error message */
         if(itemIds.length>0)
-        this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        {
+          // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          
+          notDeletedCode.forEach((e, i) => {
+            this.notDeletedBarcode +=
+              e + (i == selectedItems.length - 1 ? "" : ", ");
+          });
+
+           this.popupComponent.ShowModal('#modalShowErrorPopup');          
+          }
         else
         this.baseService.popupService.ShowErrorPopup(error);
 

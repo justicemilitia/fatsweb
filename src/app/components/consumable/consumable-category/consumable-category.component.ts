@@ -36,6 +36,8 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
    /* Current Fixed Asset Category */
    consumableCategory: ConsumableCategory = new ConsumableCategory();
  
+  notDeletedBarcode: string = '';
+   
    /* Data Table */
    public dataTable: TreeGridTable = new TreeGridTable(
      "fixedassetcardcategory",
@@ -216,6 +218,7 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
   async deleteConsumableCategories() {
     /* get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
+    this.notDeletedBarcode = '';
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
@@ -270,7 +273,16 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
 
         /* Show error message */
         if(itemIds.length>0)
-        this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        {
+          // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          
+          notDeletedCode.forEach((e, i) => {
+            this.notDeletedBarcode +=
+              e + (i == selectedItems.length - 1 ? "" : ", ");
+          });
+
+           this.popupComponent.ShowModal('#modalShowErrorPopup');          
+          }
         else
         this.baseService.popupService.ShowErrorPopup(error);
 
