@@ -42,6 +42,7 @@ import { ConsumableCard } from '../models/ConsumableCard';
 import { ConsumableCardService } from './consumable-card-service/consumable-card.service';
 import { ConsumableUnitService } from './consumable-unit-service/consumable-unit.service';
 import { ConsumableService } from './consumable-service/consumable.service';
+import { ConsumableRequestListService } from './consumable-request-list-service/consumable-request-list.service';
 
 @Injectable({
   providedIn: "root"
@@ -64,6 +65,7 @@ export class BaseService {
     public consumableCardService: ConsumableCardService,
     public consumableUnitService: ConsumableUnitService,
     public consumableService: ConsumableService,
+    public consumableRequestListService: ConsumableRequestListService,
     public popupService: PopupService,
     public errorService: ErrorService,
     public expenseCenterService: ExpenseCenterService,

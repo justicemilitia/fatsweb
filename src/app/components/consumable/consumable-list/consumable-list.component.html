@@ -50,7 +50,7 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title">
-      
+          Malzeme bilgilerini giriniz.
         </h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -202,8 +202,9 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title">     
+          Çıkış yapılacak malzeme bilgilerini giriniz.
         </h6>
-        <button id="CloseExitModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button id="CloseExitModal" type="button" class="close" (click)="resetForm(data,true)" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -238,11 +239,12 @@
           </div>
 
           <div class="row justify-content-center">
-              <div class="form-group col-md-6">              
+              <div class="form-group col-md-6">  
+                  <label style="margin-bottom: 0;
+                  font-weight: 700;" class="required-span">Gönderilecek Departman</label>               
                   <div class="" style="display: flex;
                   flex-direction: column;">
-                  <label style="margin-bottom: 0;
-                  font-weight: 700;">Gönderilecek Departman</label>
+                           
                        <div style="display:flex;">
                           <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="exitData.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
                             <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -256,7 +258,7 @@
                       </div>           
               </div>  
               <div class="form-group col-md-6">
-                <label>Gönderilecek Kişi</label>
+                <label class="required-span">Gönderilecek Kişi</label>
                 <select [(ngModel)]="exitconsumable.ReceivedUserId" name="ReceivedUserId" style="width:100%;"  class="form-control select2-no-search"  [ngClass]="{ 'is-invalid': exitData.submitted && ReceivedUserId.invalid }" #ReceivedUserId="ngModel" required>
                   <option [ngValue]="null">Seçiniz</option>
                   <option *ngFor="let user of users" value="{{user.UserId}}">{{user.FirstName + ' ' + user.LastName }}</option>
@@ -275,7 +277,7 @@
 
           <div class="row justify-content-center">            
               <div class="form-group col-md-6">
-                  <label>Miktar</label>
+                  <label class="required-span">Miktar</label>
                   <input [(ngModel)]="consumable.FreeExitAmount" name="FreeExitAmount" class="form-control" type="text"
                   [ngClass]="{ 'is-invalid': exitData.submitted && FreeExitAmount.invalid }" #FreeExitAmount="ngModel" required/>
                   <div *ngIf="exitData.submitted && FreeExitAmount.invalid" class="invalid-feedback">
@@ -284,7 +286,7 @@
               </div>  
               <div class="form-group col-md-6">
                     <label>Birim</label>
-                    <input name="ConsumableUnits"  value="{{consumable.ConsumableUnit == null ? '' : consumable.ConsumableUnit.ConsumableUnitName}}" class="form-control" type="text" disabled/>
+                    <input name="ConsumableUnits"  value="{{consumableUnit == null ? '' : consumableUnit}}" class="form-control" type="text" disabled/>
               </div>            
           </div>
           <div class="row justify-content-center">

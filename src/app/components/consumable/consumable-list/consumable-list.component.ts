@@ -82,9 +82,12 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   users: User[]=[];
 
+  consumableUnit:string;
+
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
 
-  
+  insertedProperty:FixedAssetPropertyDetails[]= [];
+
   consumableOperationEnums = {
     exitConsumableMaterial:1
   }
@@ -479,6 +482,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   getConsumableMaterialById(consumableId:number){
 
+    this.insertedProperty = [];
+
     $("#btnExitConsumable").trigger("click");
 
     this.baseService.consumableService.GetConsumableMaterialById(consumableId,
@@ -486,9 +491,22 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
         Object.assign(this.consumable, consumable[0]);
 
+        this.consumableUnit = this.consumable.ConsumableCard.ConsumableUnit.ConsumableUnitName;
+
         let property:FixedAssetPropertyDetails[] =  consumable[0].FixedAssetPropertyDetails;
 
+        property.forEach(e=>{
 
+        let propertydetails: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
+
+        propertydetails.FixedAssetPropertyDetailId = e.FixedAssetPropertyDetailId;
+        propertydetails.FixedAssetCardProperty = e.FixedAssetCardProperty;
+        propertydetails.Value = e.Value;
+
+        this.insertedProperty.push(propertydetails);
+        });
+
+        this.dataTablePropertyValue.TGT_loadData(this.insertedProperty);
       },
       (error:HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -602,22 +620,22 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
     this.baseService.consumableService.InsertConsumableMaterial(
       insertedItem,
-      (consumableItem:Consumable,message) => {
+      (consumableItem:Consumable, message) => {
         this.isWaitingInsertOrUpdate = false;
 
         this.baseService.popupService.ShowSuccessPopup(message);
 
         insertedItem.ConsumableId = consumableItem.ConsumableId;
 
-        $('refreshTable').trigger('click');
+        this.refreshTable();
+        
       
-        //Apiyi düzelttir! Yanlış nesne dönüyor.
+        //Api düzelttirilecek! Yanlış nesne dönüyor.
 
-        // this.consumables.push(insertedItem);
+        //this.consumables.push(insertedItem);
 
-        // this.dataTable.TGT_loadData(this.consumables);
+        //this.dataTable.TGT_loadData(this.consumables);
 
-        this.resetForm(data, true);
       },
       (error:HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -649,7 +667,13 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
         exitItem.ConsumableId = consumableItem.ConsumableId;
 
-        $('refreshTable').trigger('click');
+        //$('refreshTable').trigger('click');
+
+        this.dataTablePropertyValue.TGT_clearData();      
+
+        this.selectedDepartment=null;
+
+        this.refreshTable();
 
         this.resetForm(data, true);
       },
@@ -685,6 +709,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       this.consumable = new Consumable();   
     }
     data.reset();
+    
     data.resetForm(this.consumable);
 
     this.selectedLocation = null;

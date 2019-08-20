@@ -28,10 +28,10 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i></button>
 
             <button id="btnAddUserRole" *ngIf="IsAuthForInsert==true" class="btn btn-az-primary" data-toggle="modal"
-              data-target="#modalUserRoleDefinition" (click)="resetForm(data,true)">{{getLanguageValue('Add_User_To_Role')}}</button>
+              data-target="#modalUserRoleDefinition" (click)="resetForm(data,true)">{{getLanguageValue('Edit_Role')}}</button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditUserRole" data-toggle="modal"
-              data-target="#modalUserRoleDefinition" (click)="resetForm(data,false)">Role Kullanıcı Ata Düzenle
+              data-target="#modalUserRoleDefinition" (click)="resetForm(data,false)">{{getLanguageValue('Edit_Role')}}
             </button>
 
           </div>

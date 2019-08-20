@@ -27,7 +27,7 @@
               <i class="fas fa-trash"></i></button>
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" (click)="resetForm(data,true)"
-              id="btnAddFixedAssetCardBrand" data-toggle="modal" data-target="#modalFixedAssetCardBrand">{{getLanguageValue('Add_Fixed_Asset_Brand')}}
+              id="btnAddFixedAssetCardBrand" data-toggle="modal" data-target="#modalFixedAssetCardBrand"><i class="fa fa-plus-circle fa-plus-circle-add"></i>{{getLanguageValue('Add_Fixed_Asset_Brand')}}
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
@@ -83,7 +83,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateBrand" class="btn btn-az-primary" type="submit" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false"
-            data-target="#modalInsertFixedAssetCardBrand">{{fixedAssetCardBrand.FixedAssetCardBrandId ? getLanguageValue('Update_Fixed_Asset_Brand') : getLanguageValue('Add_Fixed_Asset_Brand')}}</button>
+            data-target="#modalInsertFixedAssetCardBrand">{{fixedAssetCardBrand.FixedAssetCardBrandId ? getLanguageValue('Update_Fixed_Asset_Brands') : getLanguageValue('Add_Fixed_Asset_Brand')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

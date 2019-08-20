@@ -28,7 +28,7 @@
             </button>
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddExpenseCenter"
-              (click)="resetForm(data,true)" data-toggle="modal" data-target="#modalExpenseCenter">{{getLanguageValue('Add_Expense_Center')}}
+              (click)="resetForm(data,true)" data-toggle="modal" data-target="#modalExpenseCenter"><i class="fa fa-plus-circle fa-plus-circle-add"></i>{{getLanguageValue('Add_Expense_Center')}}
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
@@ -86,7 +86,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateExpenseCenter" type="submit" class="btn btn-az-primary" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false"
-            data-target="#modalInsertExpenseCenter">{{expenseCenter.ExpenseCenterId ? 'Masraf Yerini Güncelle' : getLanguageValue('Add_Expense_Center')}}</button>
+            data-target="#modalInsertExpenseCenter">{{expenseCenter.ExpenseCenterId ? getLanguageValue('Update_Expense_Center') : getLanguageValue('Add_Expense_Center')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

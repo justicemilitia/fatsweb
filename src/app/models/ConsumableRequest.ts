@@ -1,5 +1,6 @@
 import { ConsumableCard } from './ConsumableCard';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+import { FixedAssetPropertyDetails } from './FixedAssetPropertyDetails';
 
 export class ConsumableRequest  implements IData{
 
@@ -50,4 +51,6 @@ export class ConsumableRequest  implements IData{
      TotalCount: number;
      IsValid: boolean;
      ReceivedUserId: number;
+
+     FixedAssetPropertyDetails: FixedAssetPropertyDetails;
 }

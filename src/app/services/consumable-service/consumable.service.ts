@@ -31,7 +31,7 @@ export class ConsumableService {
       .subscribe(
         result => {
           let response: Response = <Response>result;
-          if ((response.ResultStatus = true)) {
+          if (response.ResultStatus = true) {
             let consumables: Consumable[] = [];
             (<Consumable[]>response.ResultObject).forEach(e => {
               let consumable: Consumable = new Consumable();

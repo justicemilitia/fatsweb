@@ -18,11 +18,15 @@ import { Firm } from 'src/app/models/Firm';
 import { Response } from 'src/app/models/Response';
 import { getAnErrorResponse } from 'src/app/declarations/extends';
 import { encryptUsingAES256, decryptUsingAES256 } from 'src/app/declarations/crypto';
+import { Service } from 'src/app/models/Service';
+
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthenticationService {
+
+  url:string;
   constructor(private httpClient: HttpClient, private router: Router) {
 
     if (this.getToken() != "") {
@@ -38,7 +42,9 @@ export class AuthenticationService {
   currentFirm: Firm = null;
   TOKEN_KEY = "token";
   ROLE_KEY = "role";
-  FIRM_KEY = "firm"
+  FIRM_KEY = "firm";
+  JSON:any[]=[];
+
 
   Login(user: User, success, failed) {
     this.httpClient
@@ -217,4 +223,19 @@ export class AuthenticationService {
     })
   }
 
+  // ServiceJSON(){
+  //   let httpClient:HttpClient;
+  //   httpClient.get("../../assets/service/service.json").map(data=>data.json() as Service[]).subscribe((data)=>{
+  //     let service:Service[] =<Service[]>data;
+  //     service.forEach(e=>{
+  //       if(e.Keyword == "SERVICE_URL"){
+  //         this.url = JSON.stringify(e.Service);            
+  //       }
+  //     }); 
+  //   }) 
+  //   return this.url;
+  //  }
+
 }
+
+

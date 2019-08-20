@@ -66,7 +66,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     "location",
     [
       {
-        columnDisplayName: "Lokasyon",
+        columnDisplayName: this.getLanguageValue('Location'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -84,7 +84,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     "department",
     [
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -102,7 +102,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     "fixedassetcategory",
     [
       {
-        columnDisplayName: "Demirbaş Kategorisi",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],

@@ -27,7 +27,7 @@
               <i class="fas fa-trash"></i></button>
 
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddFixedAssetCard"
-              data-toggle="modal" data-target="#modalFixedAssetCard" (click)="resetForm(data,true)">{{getLanguageValue('Add_Fixed_Asset_Card')}}</button>
+              data-toggle="modal" data-target="#modalFixedAssetCard" (click)="resetForm(data,true)"><i class="fa fa-plus-circle fa-plus-circle-add"></i>{{getLanguageValue('Add_Fixed_Asset_Card')}}</button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditFixedAssetCard" data-toggle="modal"
               data-target="#modalFixedAssetCard" (click)="resetForm(data,false)">{{getLanguageValue('Readit_Fixed_Asset_Card')}}</button>

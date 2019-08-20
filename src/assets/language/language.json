@@ -1274,7 +1274,7 @@
   {
     "LanguageId": 1258,
     "LanguageKeyword": "Role_Authorization",
-    "Tr": "Rol Yetkilendirmeleri",
+    "Tr": "Rol Yetkileri",
     "En": "Role Authorization"
   },
   {
@@ -1346,7 +1346,7 @@
   {
     "LanguageId": 1270,
     "LanguageKeyword": "Consumable_Definitions",
-    "Tr": "Sarf Malzeme Tanımarı",
+    "Tr": "Sarf Malzeme Tanımları",
     "En": "Consumable Definitions"
   },
   {
@@ -1838,8 +1838,8 @@
   {
     "LanguageId": 1367,
     "LanguageKeyword": "Add_User_To_Role",
-    "Tr": "Role Kullanıcı Ata",
-    "En": "Add User To Role"
+    "Tr": "Rol - Kullanıcı Listesi",
+    "En": "Role - User List"
   },
   {
     "LanguageId": 1368,
@@ -2204,8 +2204,8 @@
   {
     "LanguageId": 1430,
     "LanguageKeyword": "Enter_your_email",
-    "Tr": "E-posta adesinizi ya da sicil numaranızı giriniz.",
-    "En": "Enter your e-mail address or registration number."
+    "Tr": "E-posta ya da sicil no giriniz.",
+    "En": "Enter your e-mail or registration number."
   },
   {
     "LanguageId": 1431,
@@ -2798,7 +2798,7 @@
   {
     "LanguageId": 1532,
     "LanguageKeyword": "Role_and_Authorizations",
-    "Tr": "Role ve Yetkiler",
+    "Tr": "Rol ve Yetkiler",
     "En": "Role and Authorizations"
   },
   {
@@ -3329,7 +3329,7 @@
   {
     "LanguageId": 1630,
     "LanguageKeyword": "Reedit_Role_Authorization",
-    "Tr": "Role Yetkisi Düzenle",
+    "Tr": "Rol Yetkisi Düzenle",
     "En": "Reedit Role Authorization"
   },
   {
@@ -3482,7 +3482,7 @@
   {
     "LanguageId": 1658,
     "LanguageKeyword": "Reedit_Suspend_Reason",
-    "Tr": "Askıya Alma Sepebini Güncelle",
+    "Tr": "Askıya Alma Sebebini Güncelle",
     "En": "Update Suspend Reason"
   },
   {
@@ -3916,5 +3916,65 @@
     "LanguageKeyword": "This_operation_can_not_be_undone",
     "Tr": "Bu işlem geri alınamaz.",
     "En": "This operation can not be undone"
+  },
+  {
+    "LanguageId": 3656,
+    "LanguageKeyword": "Enter_information_about_updating_consumable_card",
+    "Tr": "Malzeme kartını güncellemek için bilgileri giriniz.",
+    "En": "Enter information about updating consumable card."
+  },
+  {
+    "LanguageId": 3658,
+    "LanguageKeyword": "Consumable_Card_Code",
+    "Tr": "Malzeme Kodu",
+    "En": "Consumable Code"
+  },
+  {
+    "LanguageId": 3660,
+    "LanguageKeyword": "Consumable_Card_Code",
+    "Tr": "Malzeme Kodu",
+    "En": "Consumable Code"
+  },
+  {
+    "LanguageId": 3661,
+    "LanguageKeyword": "Update_Consumable_Card",
+    "Tr": "Malzeme Kartını Güncelle",
+    "En": "Update Consumable Card"
+  },
+  {
+    "LanguageId": 3662,
+    "LanguageKeyword": "Role_List",
+    "Tr": "Rol Listesi",
+    "En": "Role List"
+  },
+  {
+    "LanguageId": 3663,
+    "LanguageKeyword": "Edit_Role",
+    "Tr": "Role Kullanıcı Ata",
+    "En": "Add User To Role"
+  },
+  {
+    "LanguageId": 3664,
+    "LanguageKeyword": "Update_Expense_Center",
+    "Tr": "Masraf Merkezini Güncelle",
+    "En": "Update Expense Center"
+  },
+  {
+    "LanguageId": 3665,
+    "LanguageKeyword": "Code_can_not_be_deleted_because_it_uses_in_the_system",
+    "Tr": "kodu sistemde kullanıldığı için silinemez!",
+    "En": "can not be deleted because it uses in the system!"
+  },
+  {
+    "LanguageId": 3666,
+    "LanguageKeyword": "Codes_can_not_be_deleted_because_it_uses_in_the_system",
+    "Tr": "kodları sistemde kullanıldığı için silinemez!",
+    "En": "can not be deleted because it uses in the system!"
+  },
+  {
+    "LanguageId": 3667,
+    "LanguageKeyword": "Update_Fixed_Asset_Status",
+    "Tr": "Statüyü Güncelle",
+    "En": "Update Statu"
   }
 ]
