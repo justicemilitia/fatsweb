@@ -16,7 +16,8 @@ export class AppComponent extends BaseComponent implements AfterViewInit {
 
 
   constructor(public baseService: BaseService) {
-    super(baseService);
+    super(baseService);  
+    
   }
 
   title = "fats-web-spa";

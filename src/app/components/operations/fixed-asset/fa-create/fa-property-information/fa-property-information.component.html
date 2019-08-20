@@ -6,18 +6,18 @@
       <div style="display:flex; justify-content: flex-start;">
           <div style="flex:1">
                   <div class="form-group">
-                    <label>Özellik Adı</label>
+                    <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
                       <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search">
                           <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
                           <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
                       </select>   
                       <div *ngIf="visible == true" style="color:red">
-                        <div>Bir özellik seçiniz.</div>
+                        <div>{{getLanguageValue('Choose_a_property')}}</div>
                       </div>
                   </div>
                 
                 <div class="form-group"> 
-                    <label>Özellik Değeri</label>    
+                    <label>{{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>    
                      <div class="flexProperty">        
                       <div style="flex:1;">            
                        <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
@@ -49,7 +49,7 @@
   <div class="form-group col-md-3">
       <div style="display:flex;justify-content: space-between; flex-direction: column;"> 
           <div class="form-group">
-              <label>Demirbaş Resmi</label>
+              <label>{{getLanguageValue('Fixed_Asset_Picture')}}</label>
           </div>
           <div class="row justify-content-center" style="margin-top: -9px">  
             <div class="form-group well my-drop-zone-image" *ngIf="!imgURL">                          
@@ -78,11 +78,11 @@
 </div>
 <div class="row" style="margin-right: 0px; margin-left: 0px;">
   <div class="grp-btn-action-left">
-    <button mat-button type="button" (click)="previousTab()"  class="btn btn-orange" >Geri</button>
+    <button mat-button type="button" (click)="previousTab()"  class="btn btn-orange" >{{getLanguageValue('Back_Button')}}</button>
   </div>
   <div class="grp-btn-action">
     <button mat-raised-button  class="btn btn-orange" type="submit" (click)="nextTab()" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
-    margin-bottom: 0px;">İleri</button>
+    margin-bottom: 0px;">{{getLanguageValue('Next_Button')}}</button>
   </div>
 </div>
 </form>

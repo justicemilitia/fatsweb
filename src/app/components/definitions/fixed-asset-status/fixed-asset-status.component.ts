@@ -205,7 +205,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
       let itemIds: number[] = selectedItems.map(x => x.getId());
 
       /* Delete all */
-      this.baseService.fixedAssetStatusService.DeleteLocations(itemIds, () => {
+      this.baseService.fixedAssetStatusService.DeleteStatus(itemIds, () => {
 
         /* Deactive the spinner */
         this.baseService.spinner.hide();

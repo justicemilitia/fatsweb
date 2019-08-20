@@ -53,7 +53,7 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
       "fixedassetcardpropertyvalue",
       [
         {
-          columnDisplayName: "Özellik Adı",
+          columnDisplayName:  this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
           columnName: ["FixedAssetCardProperty", "Name"],
           isActive: true,
           classes: [],
@@ -61,7 +61,7 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
           type: "text"
         },
         {
-          columnDisplayName: "Özellik Değeri",
+          columnDisplayName:  this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
           columnName: ["Value"],
           isActive: true,
           classes: [],

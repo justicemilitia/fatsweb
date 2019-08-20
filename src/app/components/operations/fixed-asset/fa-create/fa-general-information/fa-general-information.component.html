@@ -5,7 +5,7 @@
   <div class="form-group col-md-3">   
     <div class="row">
       <div class="form-group col-md-4">
-          <label class="required-span">Barkod</label>
+          <label class="required-span">{{getLanguageValue('Barcode')}}</label>
           <input [(ngModel)]="fixedAsset.Prefix" name="Prefix" (keyup)="rfidBarcodeReplace($event)" type="text" trim="blur" 
           class="form-control" #Prefix="ngModel"/>   
       </div>
@@ -17,7 +17,7 @@
           [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" style="margin-top: 19px; margin-left: -20px; width: 150px;" required/>
           <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>
           <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
-            <div *ngIf="Barcode.errors.required">Bu alan zorunludur.</div>
+            <div *ngIf="Barcode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
           </div>
         </div>
     </div>
@@ -41,15 +41,15 @@
   
   <!--SERIAL NUMBER-->
   <div class="form-group col-md-3">
-      <label>Seri Numarası</label>
+      <label>{{getLanguageValue('Serial_Number')}}</label>
     <input [(ngModel)]="fixedAsset.SerialNumber"name="SerialNumber" type="text"  class="form-control"/>
   </div>
 
   <!--COMPANY-->
   <div class="form-group col-md-3">
-      <label>Tedarikçi</label>
+      <label>{{getLanguageValue('Supplier')}}</label>
       <select [(ngModel)]="fixedAsset.CompanyId" name="CompanyId" style="width:100%;" class="form-control select2-no-search">
-          <option value="0" >Tedarikçi Seçiniz</option>
+          <option value="0" >{{getLanguageValue('Choose')}}</option>
           <option *ngFor="let company of companies" value="{{company.CompanyId}}">{{company.Name}}</option>
       </select>              
   </div>
@@ -62,13 +62,13 @@
   
     <div>
         <label class="required-span" style="margin-bottom: 0;
-        font-weight: 700;" >Demirbaş Kategorisi</label>        
+        font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>        
       <div style="display:flex;">
       <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedCategory"  required>{{selectedCategory ? selectedCategory.Name : getLanguageValue('Choose') }}</button>
         <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
       </div>
       <div *ngIf="data.submitted && !selectedCategory" style="color:red">
-        <div *ngIf="!selectedCategory">Bu alan zorunludur.</div>
+        <div *ngIf="!selectedCategory">{{getLanguageValue('This_value_is_required')}}</div>
       </div>
   </div>
   <div class="custom-dropdown" *ngIf="isFaCardCategoryDropdownOpen==true">
@@ -79,7 +79,7 @@
         <option *ngFor="let category of fixedassetcategories" value="{{category.FixedAssetCardCategoryId}}">{{category.Name}}</option>
     </select> 
     <div *ngIf="data.submitted && FixedAssetCardCategoryId.invalid" class="invalid-feedback">
-        <div *ngIf="FixedAssetCardCategoryId.errors.required">Bu alan zorunludur.</div>
+        <div *ngIf="FixedAssetCardCategoryId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
     </div>   -->
 </div>
 
@@ -93,7 +93,7 @@
         <span class="span-dropdown"  (click)="resetDropdown('card')" class="typcn icon-default typcn-times span-dropdown"></span>
       </div>
       <div *ngIf="data.submitted && !selectedCard" style="color:red">
-        <div *ngIf="!selectedCard">Bu alan zorunludur.</div>
+        <div *ngIf="!selectedCard">{{getLanguageValue('This_value_is_required')}}</div>
       </div>
     </div>
     <div class="custom-dropdown" *ngIf="isFaCardDropdownOpen==true">
@@ -104,25 +104,25 @@
         <option *ngFor="let fa of fixedassetcards" value="{{fa.FixedAssetCardId}}">{{fa.Name}}</option>
     </select>  -->
     <!-- <div *ngIf="data.submitted && FixedAssetCardId.invalid" class="invalid-feedback">
-          <div *ngIf="FixedAssetCardId.errors.required">Bu alan zorunludur.</div>
+          <div *ngIf="FixedAssetCardId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
     </div>         -->
 </div>
 
 <!--FIXED ASSET BRAND -->
 <div class="form-group col-md-3">
-    <label>Marka</label>
+    <label>{{getLanguageValue('Fixed_Asset_Brand_Name')}}</label>
     <select [(ngModel)]="fixedAsset.FixedAssetCardBrandId" name="FixedAssetCardBrandId" style="width:100%;" class="form-control select2-no-search" 
      (change)="loadModelByBrandId($event)">
-      <option [ngValue]="null">Marka Seçiniz</option>
+      <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
       <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
     </select> 
 </div>
 
  <!-- FIXED ASSET MODEL -->
  <div class="form-group col-md-3">
-    <label>Model</label>
+    <label>{{getLanguageValue('Fixed_Asset_Model_Name')}}</label>
     <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" style="width:100%;"  class="form-control select2-no-search">
-        <option [ngValue]="null" >Model Seçiniz</option>
+        <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
         <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
     </select> 
 </div>
@@ -144,14 +144,14 @@
         <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
       </div>
       <div *ngIf="data.submitted && !selectedLocation" style="color:red">
-        <div *ngIf="!selectedLocation">Bu alan zorunludur.</div>
+        <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
       </div>
   </div>
   <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
           <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
   </div>
       <!-- <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
-          <div *ngIf="LocationId.errors.required">Bu alan zorunludur.</div>
+          <div *ngIf="LocationId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
       </div>   -->
   </div>
 
@@ -160,7 +160,7 @@
       <div class="" style="display: flex;
       flex-direction: column;">
       <label style="margin-bottom: 0;
-      font-weight: 700;">Departman</label>
+      font-weight: 700;">{{getLanguageValue('Department')}}</label>
            <div style="display:flex;">
               <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  [class.is-invalid]="data.submitted && !selectedDepartment">{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -178,13 +178,13 @@
 
   <!-- FIXED ASSET STATUS-->
   <div class="form-group col-md-3">
-      <label class="required-span">Statü</label>
+      <label class="required-span">{{getLanguageValue('Fixed_Asset_Statu')}}</label>
       <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
-          <option value="-1">Demirbaş Statüsü Seçiniz</option>
+          <option value="-1">{{getLanguageValue('Choose')}}</option>
           <option *ngFor="let statu of statuses" value="{{statu.FixedAssetStatusId}}">{{statu.Name}}</option>
       </select>
       <div *ngIf="data.submitted && StatusId.invalid" class="invalid-feedback">
-        <div *ngIf="StatusId.errors.required">Bu alan zorunludur.</div>
+        <div *ngIf="StatusId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
       </div>        
   </div>    
   
@@ -192,21 +192,21 @@
 <div class="form-group col-md-3">
     <label>{{getLanguageValue('Staff')}}</label>
     <select [(ngModel)]="fixedAsset.UserId" name="UserId" class="form-control select2-no-search" style="width:100%;"  #UserId="ngModel">
-        <option [ngValue]="null">Personel Seçiniz</option>
+        <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
         <option *ngFor="let staff of staffs" value="{{staff.UserId}}">{{staff.RegistrationNumber ? staff.RegistrationNumber + ' - ' + staff.FirstName + ' ' + staff.LastName : staff.FirstName + ' ' + staff.LastName }}</option>
     </select>             
 </div> 
 </div>
 <div class="row justify-content-center">
 <div class="form-group col-md-9">
-  <label>Demirbaş Açıklaması</label>
+  <label>{{getLanguageValue('Description')}}</label>
   <textarea [(ngModel)]="fixedAsset.Description" name="Description" style="resize:none; height:27px" rows="1"
   class="form-control" type="text" maxlength="150" #Description="ngModel"></textarea>
 </div>
 <div class="form-group col-md-3">
   <div class="grp-btn-action" style="margin-top: 13px;">
     <!-- [disabled]="!data.form.valid ? true : null" -->
-    <button mat-raised-button  class="btn btn-orange" (click)="nextTab()" type="submit" style="border-radius:0px; background-color: #e67300; color: white">İleri</button>
+    <button mat-raised-button  class="btn btn-orange" (click)="nextTab()" type="submit" style="border-radius:0px; background-color: #e67300; color: white">{{getLanguageValue('Next_Button')}}</button>
 </div>  
 </div>
 </div>

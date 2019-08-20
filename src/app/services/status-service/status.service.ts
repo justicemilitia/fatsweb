@@ -113,7 +113,7 @@ export class StatusService {
       );
   }
 
-  DeleteLocations(itemIds: number[], success, failed): any {
+  DeleteStatus(itemIds: number[], success, failed): any {
     this.httpClient
       .post(SERVICE_URL + DELETE_STATUS, { "FixedAssetStatusIds": itemIds }, { headers: GET_HEADERS(this.aService.getToken()) })
       .subscribe(

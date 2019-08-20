@@ -1,10 +1,25 @@
-import { HttpHeaders } from "@angular/common/http";
-//import service from "../../assets/service/service.json";
-
+import { HttpHeaders, HttpClient } from "@angular/common/http";
+import {AuthenticationService} from "../services/authenticationService/authentication.service";
+import { Service } from '../models/Service';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 // export const SERVICE_URL = "http://localhost:5000/api/";
 // export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/";
+export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
+
+// export const SERVICE_URL = (url:string) => {
+//   let httpClient:HttpClient;
+//   httpClient.get("../../assets/service/service.json").map(data=>data.json() as Service[]).subscribe((data)=>{
+//     let service:Service[] =<Service[]>data;
+//     service.forEach(e=>{
+//       if(e.Keyword == "SERVICE_URL"){
+//         this.url = e.Service;            
+//       }
+//     }); 
+//   }) 
+//   return this.url;
+// } 
+
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword"
@@ -173,6 +188,7 @@ export const INSERT_CONSUMABLE_CATEGORY = "ConsumableCategories/AddConsumableCat
 export const UPDATE_CONSUMABLE_CATEGORY = "ConsumableCategories/UpdateConsumableCategory";
 export const DELETE_CONSUMABLE_CATEGORY = "ConsumableCategories/RemoveByIdList";
 export const INSERT_CONSUMABLE_MATERIAL = "Consumable/AddRequestedMaterial";
+
 //#endregion
 
 //#region Consumable Unit
@@ -204,6 +220,12 @@ export const GET_CONSUMABLE_CARD_BY_ID = "ConsumableCards/GetConsumableCardById"
 export const INSERT_CONSUMABLE_CARD = "ConsumableCards/AddConsumableCard";
 export const UPDATE_CONSUMABLE_CARD = "ConsumableCards/UpdateConsumableCard";
 export const DELETE_CONSUMABLE_CARD = "ConsumableCards/RemoveByIdList";
+//#endregion
+
+//#region Consumable Request List
+export const GET_CONSUMABLE_REQUEST_LIST = "Consumable/GetConsumabledMaterialRequestList";
+export const REQUEST_CONSUMABLE_MATERIAL = "Consumable/MakeConsumabledMaterialRequest";
+
 //#endregion
 
 
