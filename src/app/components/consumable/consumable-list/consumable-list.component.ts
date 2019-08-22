@@ -482,7 +482,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   getConsumableMaterialById(consumableId:number){
 
-    this.insertedProperty = [];
+    //this.insertedProperty = [];
 
     $("#btnExitConsumable").trigger("click");
 

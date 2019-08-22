@@ -1,6 +1,10 @@
 import { ConsumableCard } from './ConsumableCard';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { FixedAssetPropertyDetails } from './FixedAssetPropertyDetails';
+import { Consumable } from './Consumable';
+import { User } from './User';
+import { ConsumableCategory } from './ConsumableCategory';
+import { Location } from './Location';
 
 export class ConsumableRequest  implements IData{
 
@@ -52,5 +56,10 @@ export class ConsumableRequest  implements IData{
      IsValid: boolean;
      ReceivedUserId: number;
 
-     FixedAssetPropertyDetails: FixedAssetPropertyDetails;
+     User:User;
+     FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
+     Consumable:Consumable;
+     ConsumableCategory:ConsumableCategory;
+     ConsumableCard:ConsumableCard;
+     ConsumableLocation:Location;
 }
