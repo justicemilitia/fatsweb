@@ -29,6 +29,8 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
 
   selectedColor: string;
 
+  notDeletedBarcode: string = '';
+  
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetstatus",
     [
@@ -188,6 +190,7 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
 
     /* get selected items from table */
     let selectedItems = this.dataTable.TGT_getSelectedItems();
+    this.notDeletedBarcode = '';
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
@@ -242,7 +245,16 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
 
         /* Show error message */
         if(itemIds.length>0)
-        this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        {
+          // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          
+          notDeletedCode.forEach((e, i) => {
+            this.notDeletedBarcode +=
+              e + (i == selectedItems.length - 1 ? "" : ", ");
+          });
+
+           this.popupComponent.ShowModal('#modalShowErrorPopup');          
+          }
         else
         this.baseService.popupService.ShowErrorPopup(error);
 

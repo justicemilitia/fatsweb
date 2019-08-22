@@ -611,10 +611,13 @@ export class FixedAssetService {
     );
   }
 
-  GetFixedAssetDebitForms(fixedAssetId: number, success, failed) {
-    this.httpclient.post(SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, fixedAssetId, {
-      headers: GET_HEADERS(this.authenticationService.getToken())
-    }).subscribe(
+  GetFixedAssetDebitForms(FixedAssetId: number, success, failed) {
+    this.httpclient
+    .post(
+      SERVICE_URL + GET_FIXEDASSET_DEBIT_FORM, {FixedAssetId:FixedAssetId}
+      , 
+      {headers: GET_HEADERS(this.authenticationService.getToken())})
+    .subscribe(
       result => {
         let response: Response = <Response>result;
         let forms: FixedAssetForm[] = [];

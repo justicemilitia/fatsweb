@@ -1641,7 +1641,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   }
 
   downloadDebitForm() {
-    let fixedAssetId: number;
+    let FixedAssetId: number;
 
     let selectedItems = this.dataTable.TGT_getSelectedItems();
 
@@ -1653,8 +1653,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     }
 
     let itemId: number[] = selectedItems.map(x => x.getId());
-    fixedAssetId = itemId[0];
-    this.baseService.fixedAssetService.GetFixedAssetDebitForms(fixedAssetId,
+    FixedAssetId = itemId[0];
+    this.baseService.fixedAssetService.GetFixedAssetDebitForms(FixedAssetId,
       (faForms: any[]) => {
 
         let formName: string[] = [];

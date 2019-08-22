@@ -39,6 +39,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   /* Store the current fixed asset card */
   fixedAssetCard: FixedAssetCard = new FixedAssetCard();
 
+  notDeletedBarcode: string = '';
+  
   public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
     [
       {
@@ -169,8 +171,15 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
         });
 
         /* Show error message */
-        if(itemIds.length>0)
-        this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        if(itemIds.length>0){
+        // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        notDeletedCode.forEach((e, i) => {
+          this.notDeletedBarcode +=
+            e + (i == selectedItems.length - 1 ? "" : ", ");
+        });
+
+         this.popupComponent.ShowModal('#modalShowErrorPopup');   
+        }
         else
         this.baseService.popupService.ShowErrorPopup(error);
 

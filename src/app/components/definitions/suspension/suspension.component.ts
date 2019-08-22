@@ -25,6 +25,8 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
   suspension:CheckOutReason=new CheckOutReason();
   suspensions:CheckOutReason[]=[];  
 
+  notDeletedBarcode: string = '';  
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "suspension",
     [
@@ -162,6 +164,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
 
   async deleteSuspension(){
     let selectedItems = this.dataTable.TGT_getSelectedItems();
+    this.notDeletedBarcode = '';    
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
@@ -211,8 +214,16 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
             });
     
             /* Show error message */
-            if(itemIds.length>0)
-            this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+            if(itemIds.length>0){
+            // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+            
+            notDeletedCode.forEach((e, i) => {
+              this.notDeletedBarcode +=
+                e + (i == selectedItems.length - 1 ? "" : ", ");
+            });
+  
+             this.popupComponent.ShowModal('#modalShowErrorPopup');
+            }
             else
             this.baseService.popupService.ShowErrorPopup(error);
     

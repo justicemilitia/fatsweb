@@ -82,6 +82,7 @@ import { ConsumableCategoryComponent } from './components/consumable/consumable-
 import { ConsumableUnitComponent } from './components/consumable/consumable-unit/consumable-unit.component';
 import { ConsumableListComponent } from './components/consumable/consumable-list/consumable-list.component';
 import { ConsumableRequestListComponent } from './components/consumable/consumable-request-list/consumable-request-list.component';
+import { ConsumableTransactionListComponent } from './components/consumable/consumable-transaction-list/consumable-transaction-list.component';
 import { FaGeneralInformationComponent } from './components/operations/fixed-asset/fa-create/fa-general-information/fa-general-information.component';
 import { FaPropertyInformationComponent } from './components/operations/fixed-asset/fa-create/fa-property-information/fa-property-information.component';
 import { FaFinancialInformationComponent } from './components/operations/fixed-asset/fa-create/fa-financial-information/fa-financial-information.component';
@@ -154,6 +155,7 @@ import { PopupComponent } from './components/popup/popup.component';
     ConsumableUnitComponent,
     ConsumableListComponent,
     ConsumableRequestListComponent,
+    ConsumableTransactionListComponent,
     FaGeneralInformationComponent,
     FaPropertyInformationComponent,
     FaFinancialInformationComponent,

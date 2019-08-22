@@ -40,5 +40,7 @@ export const MENU_CONSUMABLECATEGORY = "Menu_ConsumableCategory";
 export const MENU_CONSUMABLEUNIT = "Menu_ConsumableUnit";
 export const MENU_CONSUMABLELIST = "Menu_ConsumableList";
 export const MENU_CONSUMABLEREQUESTLIST = "Menu_ConsumableRequestList";
+export const MENU_CONSUMABLETRANSACTIONLIST = "Menu_ConsumableTransactionList";
+
 
 

@@ -176,3 +176,27 @@
     </div><!-- modal-content -->
   </div><!-- modal-dialog -->
 </div><!-- modal -->
+
+
+
+<!-- SİLEMEME UYARI -->
+<div class="modal" data-backdrop="static" id="modalShowErrorPopup" style=" overflow-y: hidden !important;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content tx-size-sm">
+        <div class="modal-body tx-center pd-y-20 pd-x-20">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+          <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+          <p class="mg-b-20 mg-x-20">{{ notDeletedBarcode }} {{getLanguageValue('Code_can_not_be_deleted_because_it_uses_in_the_system')}}</p>
+     
+          <div class="row justify-content-center" style="margin-bottom:20px;">
+              <button class="btn btn-az-primary" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Okay')}}</button>        
+          </div>
+  
+        </div><!-- modal-body -->
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->
+  

@@ -37,6 +37,8 @@ export class FixedAssetCardBrandComponent extends BaseComponent
   /* Current brand */
   fixedAssetCardBrand: FixedAssetCardBrand = new FixedAssetCardBrand();
 
+  notDeletedBarcode: string = '';
+  
   /* Tables */
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetcardbrand",
@@ -155,8 +157,15 @@ export class FixedAssetCardBrandComponent extends BaseComponent
         });
 
         /* Show error message */
-        if(itemIds.length>0)
-        this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        if(itemIds.length>0){
+        // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+        notDeletedCode.forEach((e, i) => {
+          this.notDeletedBarcode +=
+            e + (i == selectedItems.length - 1 ? "" : ", ");
+        });
+
+         this.popupComponent.ShowModal('#modalShowErrorPopup');   
+        }
         else
         this.baseService.popupService.ShowErrorPopup(error);
 

@@ -32,6 +32,8 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
 
   consumableUnit: ConsumableUnit = new ConsumableUnit();
 
+  notDeletedBarcode: string = '';
+  
   public dataTable: TreeGridTable = new TreeGridTable(
     "consumableunit",
     [
@@ -86,7 +88,9 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
   }
 
   async deleteConsumableUnits() {
+    /* Get selected items from table */    
     let selectedItems = this.dataTable.TGT_getSelectedItems();
+    this.notDeletedBarcode = '';
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
@@ -147,7 +151,16 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
 
           /* Show error message */
           if(failedItems.length>0)
-          this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          {
+            // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+            
+            notDeletedCode.forEach((e, i) => {
+              this.notDeletedBarcode +=
+                e + (i == selectedItems.length - 1 ? "" : ", ");
+            });
+  
+             this.popupComponent.ShowModal('#modalShowErrorPopup');          
+            }
           else
           this.baseService.popupService.ShowErrorPopup(error);
         }

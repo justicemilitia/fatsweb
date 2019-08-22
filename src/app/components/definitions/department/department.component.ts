@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from "@angular/core";
+import { Component, OnInit, NgModule, OnChanges, SimpleChanges } from "@angular/core";
 import { ReactiveFormsModule, NgForm } from "@angular/forms";
 import { Department } from "../../../models/Department";
 import { Location } from "../../../models/Location";
@@ -19,7 +19,12 @@ import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
   declarations: [DepartmentComponent],
   providers: [DepartmentComponent]
 })
-export class DepartmentComponent extends BaseComponent implements OnInit {
+export class DepartmentComponent extends BaseComponent implements OnInit, OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["selectedItems"]) {
+      this.notDeletedBarcode= '';
+    }
+  }
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
 
@@ -42,6 +47,9 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
   /* Current Edit Department */
   department: Department = new Department();
+
+  notDeletedBarcode: string = '';
+  selectedItems:any[]=[];
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "department",
@@ -121,10 +129,10 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
   async deleteDepartments() {
     /* get selected items from table */
-    let selectedItems = this.dataTable.TGT_getSelectedItems();
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
 
     /* if count of items equals 0 show message for no selected item */
-    if (!selectedItems || selectedItems.length == 0) {
+    if (!this.selectedItems || this.selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
         "Lütfen en az bir departman seçiniz"
       );
@@ -137,7 +145,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
       this.baseService.spinner.show();
 
       /* Convert items to ids */
-      let itemIds: number[] = selectedItems.map(x => x.getId());
+      let itemIds: number[] = this.selectedItems.map(x => x.getId());
 
       /* Delete all */
       this.baseService.departmentService.DeleteDepartments(
@@ -166,7 +174,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
         
         let barcode:Department;
 
-        let notDeletedCode : string[]=[];
+        let notDeletedCodes : string[]=[];
 
         let departments = <Department[]>this.dataTable.TGT_copySource();
         
@@ -177,12 +185,20 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
             for(let i=0; i<itemIds.length; i++){
           barcode = departments.find(x=>x.DepartmentId == e[i].Id);
           }     
-            notDeletedCode.push(barcode.DepartmentCode);
+            notDeletedCodes.push(barcode.DepartmentCode);
           });
 
           /* Show error message */
           if(itemIds.length>0)
-          this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
+          {
+          // this.baseService.popupService.ShowDeletePopup(error,notDeletedCodes);
+          
+          notDeletedCodes.forEach((e, i) => {
+            this.notDeletedBarcode +=
+              e + (i == this.selectedItems.length - 1 ? "" : ", ");
+          });
+           this.popupComponent.ShowModal('#modalShowErrorPopup');     
+          }
           else
           this.baseService.popupService.ShowErrorPopup(error);
         }
