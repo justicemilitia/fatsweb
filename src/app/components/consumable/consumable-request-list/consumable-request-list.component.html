@@ -15,46 +15,31 @@
   
               
               <div>
-                  <button class="btn btn-az-primary" id="btnAddRequest" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" data-toggle="modal" data-target="#modalAddConsumable">Talep Oluştur</button>
+                  <button class="btn btn-az-primary" id="btnAddRequest" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" data-toggle="modal" data-target="#modalRequestConsumable">Talep Oluştur</button>
               </div>       
               <div>
-                  <button class="btn btn-az-primary" id="btnCancelRequest" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="cancelRequest()">Talebi İptal Et</button>
+                  <button class="btn btn-az-primary"  style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="selectedRequestConsumableMaterial()">Talebi Değerlendir</button>
+
+                  <button style="display: none"  data-toggle="modal" data-target="#modalCancelRequestConsumable" class="btn btn-az-primary" id="btnCancelRequest" >Talebi Değerlendir</button>
               </div>
               <div>  
                 <button class="btn btn-az-primary" id="btnFilterConsumableRequest" data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:20px;" (click)="filterConsumableRequest()"> <i class="fas fa-filter"></i></button>
               </div>
-              <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
-                        data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px; min-height: 37px;">
-                        <i [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
-              </button>
+              <div>                
+                <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                  [class.btn-refresh-loader]="isTableExporting == true"></i>
+                </button>
+              </div>
+              <div>
+                <button type="button" (click)="refreshTable()"  id="refreshTable" class="btn btn-success btn-refresh-custom" style="margin-right:10px"><i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
+                </button>
+              </div>
           </div>
-
-
-            <button class="btn btn-az-primary" id="btnAddConsumable"
-              data-toggle="modal" data-target="#modalAddConsumable" (click)="resetForm(data,true)" style="margin-right:10px"><i
-              class="fas fa-plus-circle"></i>
-            </button>
-
-            <button style="display: none" id="btnExitConsumable" data-toggle="modal" data-target="#modalExitConsumable" class="btn btn-danger btn-exit-assets"><i class="fas fa-minus-circle"></i></button>
-
-            <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
-            data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
-              [ngClass]="{'far fa-file-excel':isTableExporting == false}"
-              [class.btn-refresh-loader]="isTableExporting == true"></i>
-          </button>
-
-            <button type="button" (click)="refreshTable()"  id="refreshTable"
-              class="btn btn-success btn-refresh-custom" style="margin-right:10px">
-              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
-                [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
-            </button>
-
           </div>
         </div>
-        <div class="sales-overview">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
-          </tree-grid-table>
-        </div>
+            <div class="sales-overview">
+              <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+            </div>
       </div>
       <!-- az-content-body -->
     </div>
@@ -62,8 +47,8 @@
 </div>
 
 
-<!-- ADD CONSUMABLE MATERIAL MODAL -->
-<div id="modalAddConsumable" class="modal" data-backdrop="static">
+<!-- REQUEST CONSUMABLE MATERIAL MODAL -->
+<div id="modalRequestConsumable" class="modal" data-backdrop="static">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
@@ -74,18 +59,184 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
+      <form #data="ngForm" (ngSubmit)="requestConsumableMaterial(data)" class="form-register">
         <div class="modal-body">
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label class="required-span">Malzeme Kategorisi</label>
+              <select [(ngModel)]="consumable.ConsumableCategoryId" name="ConsumableCategoryId" class="form-control select2-no-search" (change)="loadConsumableCardByCategoryId($event)"
+              [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryId.invalid }" #ConsumableCategoryId="ngModel" required>
+              <option [ngValue]="null">Seçiniz</option>
+              <option *ngFor="let categories of consumableCategories" value="{{categories.ConsumableCategoryId}}">{{categories.ConsumableCategoryName}}</option>
+            </select>  
+            <div *ngIf="data.submitted && ConsumableCategoryId.invalid" class="invalid-feedback">
+              <div *ngIf="ConsumableCategoryId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+            </div>             
+          </div>
+          <div class="form-group col-md-6">
+            <label class="required-span">Malzeme Adı</label>
+            <select [(ngModel)]="consumable.ConsumableCardId"
+            name="ConsumableCardId" class="form-control select2-no-search" (change)="loadConsumableUnitByCardId($event)"
+            [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardId.invalid }" #ConsumableCardId="ngModel" required>
+            <option [ngValue]="null">Seçiniz</option>
+            <option *ngFor="let card of consumableCards"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
+          </select>   
+          <div *ngIf="data.submitted && ConsumableCardId.invalid" class="invalid-feedback">
+            <div *ngIf="ConsumableCardId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+          </div>           
+        </div>        
+          </div>
 
- 
-       
+          <div class="row justify-content-center">            
+            <div class="form-group col-md-6">
+                <label class="required-span">Miktar</label>
+                <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"
+                [ngClass]="{ 'is-invalid': data.submitted && ConsumableAmount.invalid }" #ConsumableAmount="ngModel" required/>
+                <div *ngIf="data.submitted && ConsumableAmount.invalid" class="invalid-feedback">
+                  <div *ngIf="ConsumableAmount.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                </div>
+            </div>  
+            <div class="form-group col-md-6">
+                  <label>Birim</label>
+                  <input name="ConsumableUnits"  value="{{consumableCard.ConsumableUnit == null ? '' : consumableCard.ConsumableUnit.ConsumableUnitName}}" class="form-control" type="text" disabled/>
+            </div>            
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="form-group col-md-6">
+            <label>Özellik Adı</label>
+            <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
+              <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
+              <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+            </select> 
+            <div *ngIf="visible == true" style="color:red">
+                <div>Bir {{getLanguageValue('Choose_a_property')}}.</div>
+              </div> 
+          </div>
+          <div class="form-group col-md-6">
+              <label>Özellik Değeri</label>   
+              <div class="flexProperty">
+                <div style="flex:1;">
+                <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
+                  <option [ngValue]="null">{{getLanguageValue('Choose_a_property_value')}}</option>
+                  <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
+                </select> 
+                <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
+                <div *ngIf="visiblePropertyName == true" style="color:red">
+                    <div>Özellik değeri giriniz.</div>
+                  </div>
+                  <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     
+                </div>
+                <div class="property-add-value">                    
+                  <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
+                </div>    
+              </div>
+          </div>
+        </div>   
+
+        <div class="row justify-content-center">
+          <div class="form-group col-md-12">   
+                  <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+          </div>   
+      </div>   
+
+      <div class="row justify-content-center">
+        <div class="form-group col-md-12">   
+          <label class="required-span">Açıklama</label>
+                <input [(ngModel)]="consumable.Description" name="Description" class="form-control" type="text"/>
+        </div>   
+    </div>   
+        
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit"
-            data-toggle="modal" data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
+          <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit" *ngIf="isWaitingInsertOrUpdate == false">
             Talep Oluştur
           </button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
+
+<!-- CANCEL REQUEST CONSUMABLE MATERIAL MODAL -->
+<div id="modalCancelRequestConsumable" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">
+          
+        </h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #dataCancel="ngForm" (ngSubmit)="cancelRequestConsumableMaterial(dataCancel)" class="form-register">
+        <div class="modal-body">
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>Malzeme Kategorisi</label>
+              <input name="ConsumableCategoryId" value="{{consumableRequest.ConsumableCategory == null ? '' : consumableRequest.ConsumableCategory.ConsumableCategoryName}}" class="form-control" type="text" disabled/>               
+            </div>
+            <div class="form-group col-md-6">
+              <label>Malzeme Adı</label>
+              <input name="ConsumableCardId" value="{{consumableRequest.ConsumableCard == null ? '' : consumableRequest.ConsumableCard.ConsumableCardName}}"  class="form-control" type="text" disabled/>         
+          </div>        
+        </div>
+
+          <div class="row justify-content-center">            
+            <div class="form-group col-md-6">
+                <label>Talep Eden Kişi</label>
+                <input name="Username" value="{{requestedUser == null ? '' : requestedUser}}" class="form-control" type="text" disabled/>              
+            </div>  
+            <div class="form-group col-md-6">
+                  <label>Talep Lokasyonu</label>
+                  <input name="ConsumableLocation"  value="{{consumableRequest.ConsumableLocation == null ? '' : consumableRequest.ConsumableLocation.Name}}" class="form-control" type="text" disabled/>
+            </div>            
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+                <label>Talep Miktarı</label>
+                <input name="ConsumableAmount" value="{{consumableRequest.RequestedAmount == null ? '' : consumableRequest.RequestedAmount}}" class="form-control" type="text" disabled/>              
+            </div>  
+            <div class="form-group col-md-6">
+                  <label class="required-span">Karşılanacak Miktar</label>
+                  <input [(ngModel)]="receiveConsumableMaterial.RecievedAmount" name="RecievedAmount"  class="form-control" type="text" required/>
+            </div>   
+        </div>   
+        <div class="row justify-content-center">
+          <div class="form-group col-md-12">   
+              <tree-grid-table [dataTable]="dataTableRequestPropertyValue"></tree-grid-table>
+          </div>   
+        </div>  
+        
+        <div class="row justify-content-center">
+          <div class="form-group col-md-12">   
+          <label>Talep Açıklaması</label>
+            <input value="{{consumableRequest.Description == null ? '' : consumableRequest.Description}}" name="Description" class="form-control" type="text" disabled/>
+          </div>   
+        </div> 
+
+        <div class="row justify-content-center">
+          <div class="form-group col-md-12">   
+          <label>Açıklama</label>
+            <input [(ngModel)]="receiveConsumableMaterial.Description" name="Description" class="form-control" type="text"/>
+          </div>   
+        </div>   
+        
+        </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button class="btn btn-az-primary" id="btnReceivedConsumableMaterial" type="button" >
+            Talebi Karşıla
+          </button>
+          <button class="btn btn-az-primary" id="btnCancelConsumableMaterial" type="button" >
+              Talebi İptal Et
+            </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

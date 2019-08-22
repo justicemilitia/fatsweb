@@ -3,7 +3,7 @@ import {AuthenticationService} from "../services/authenticationService/authentic
 import { Service } from '../models/Service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
-// export const SERVICE_URL = "http://localhost:5000/api/";
+ //export const SERVICE_URL = "http://localhost:5000/api/";
 // export const SERVICE_URL = "http://localhost:11889/api/";
 export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
 
@@ -229,7 +229,7 @@ export const GET_CONSUMABLE_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsL
 //#region Consumable Request List
 export const GET_CONSUMABLE_REQUEST_LIST = "Consumable/GetConsumabledMaterialRequestList";
 export const REQUEST_CONSUMABLE_MATERIAL = "Consumable/MakeConsumabledMaterialRequest";
-
+export const GET_CONSUMABLE_MATERIAL_REQUESTLIST_BY_ID = "Consumable/GetConsumabledMaterialRequestListById";
 //#endregion
 
 

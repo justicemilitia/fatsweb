@@ -5,7 +5,8 @@ import {
   SERVICE_URL,
   GET_HEADERS,
   GET_CONSUMABLE_REQUEST_LIST,
-  REQUEST_CONSUMABLE_MATERIAL
+  REQUEST_CONSUMABLE_MATERIAL,
+  GET_CONSUMABLE_MATERIAL_REQUESTLIST_BY_ID
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { Consumable } from "src/app/models/Consumable";
@@ -56,14 +57,50 @@ export class ConsumableRequestListService {
 
   RequestConsumableMaterial(consumable: ConsumableRequest, success, failed) {
     this.httpclient
-      .post(SERVICE_URL + REQUEST_CONSUMABLE_MATERIAL, {
+      .post(SERVICE_URL + REQUEST_CONSUMABLE_MATERIAL, consumable, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result => {
-        
+        let response: Response = <Response>result;
+        if(response.ResultStatus == true){
+          let consumableRequestList: ConsumableRequest[] = [];
+          (<ConsumableRequest[]>response.ResultObject).forEach(e => {
+            let consumable: ConsumableRequest = new ConsumableRequest();
+            Object.assign(consumable, e);
+            consumableRequestList.push(consumable);
+          });
+          success(consumableRequestList, response.LanguageKeyword);
+        }
+        else{
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
       }),
       (error: HttpErrorResponse) => {
         failed(error);
       };
+  }
+
+  GetRequestConsumableMaterial(consumableId: number,success,failed){
+
+    let consumableRequest:ConsumableRequest = new ConsumableRequest();
+    consumableRequest.ConsumableLogId = consumableId;
+
+    this.httpclient.post(SERVICE_URL + GET_CONSUMABLE_MATERIAL_REQUESTLIST_BY_ID, consumableRequest, {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result => {
+      let response: Response = <Response>result;
+      if(response.ResultStatus == true){
+        let requestConsumable: ConsumableRequest=new ConsumableRequest();
+        requestConsumable = <ConsumableRequest>response.ResultObject;
+        success(requestConsumable,response.LanguageKeyword);
+      }else
+        failed(getAnErrorResponse(response.LanguageKeyword));      
+    }),(error:HttpErrorResponse)=>{
+      failed(error);
+    };
+  }
+
+  onDoubleClickItem(){
+
   }
 }
