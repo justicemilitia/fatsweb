@@ -195,9 +195,10 @@ export class SuspendedFixedAssetComponent extends BaseComponent
   undoSuspendedFixedAsset(dataSuspend: NgForm) {
     if (dataSuspend.form.invalid == true) return;
 
-    this.transactionLogSuspended =new TransactionLog();
+    //this.transactionLogSuspended =new TransactionLog();
     this.transactionLogSuspended.FixedAssetIds = this.selectedSuspendFa();
     this.transactionLogSuspended.UndoSuspensionDate = convertNgbDateToDateString(dataSuspend.value.undoSuspensionDate);
+
 
     this.baseService.suspendedService.UndoSuspensionProcess(
     this.transactionLogSuspended,

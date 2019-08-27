@@ -39,6 +39,7 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
     differentProperty:boolean = false;
     visiblePropertyName=false;
     isUniqueProperty:boolean=false;
+    result:boolean=false;
 
 
     propertyValue: string;
@@ -155,19 +156,20 @@ getPropertyValue(event: any) {
 insertPropertyValueToArray(propertyId: any) {
 
   this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(this.fixedAssetPropertyDetail,
-    (result:boolean)=>{
-      if(!result)
+    (result:boolean)=>{    
+      if(!result){  
+      this.isUniqueProperty=false;
+      this.isUniquePropertyControl(propertyId);   
+    }
+    else
       this.isUniqueProperty=true;
-      else
-      this.isUniqueProperty=false;
-
-    },(error:HttpErrorResponse) => {
-      this.isUniqueProperty=false;
+    },(error:HttpErrorResponse) => {  
       this.baseService.popupService.ShowErrorPopup(error);
+      this.isUniqueProperty=true;
     });
-  
-    if(this.isUniqueProperty)
-    return;
+}
+
+isUniquePropertyControl(propertyId:any){
 
   this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
@@ -178,59 +180,60 @@ insertPropertyValueToArray(propertyId: any) {
 
     if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
     this.sameProperty = true;
+    else
+    this.sameProperty = false;
   });
 
+if(this.sameProperty == true)
+{
+  this.sameProperty = false;
+  return;
+}
 
-  if(this.sameProperty == true)
-  {
-    this.sameProperty = false;
-    return;
-  }
+if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
 
+  this.visiblePropertyName=false;
 
-
-  if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
-
-    this.visiblePropertyName=false;
-
-    if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){
-    
-        let fixedasset = this.fixedassetproperty.find(
-          x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-        );
+  if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){
   
-        this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-          (this.faPropertyDetails.length + 1) * -1;
-  
-        this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
-  
-        if (this.isListSelected == true)
-          this.fixedAssetPropertyDetail.Value = this.propertyValue;
+      let fixedasset = this.fixedassetproperty.find(
+        x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+      );
 
-        this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
-  
-        this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
-  
-        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+        (this.faPropertyDetails.length + 1) * -1;
 
-        this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+      this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
 
-        propertyId = null;
-        
-        this.visible = false;
+      if (this.isListSelected == true)
+        this.fixedAssetPropertyDetail.Value = this.propertyValue;
 
-        this.isSelectedProperty = false;
+      this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
 
-    }
-    else{
-      this.visiblePropertyName=true;    
-    } 
+      this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+
+      this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+
+      this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+
+      propertyId = null;
+      
+      this.visible = false;
+
+      this.isSelectedProperty = false;
+
   }
   else{
-    this.visible=true;
-    
     this.visiblePropertyName=true;    
-  }
+  } 
+}
+else{
+  this.visible=true;
+  
+  this.visiblePropertyName=true;    
+}
+
+
 }
 
 
@@ -281,6 +284,8 @@ resetForm(){
   this.dataTablePropertyValue.TGT_clearData();
 
   this.imgURL = null;
+
+  this.sameProperty=false;
 }
 
 }

@@ -51,7 +51,7 @@ export class RoleAuthorizationComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Rol",
+        columnDisplayName: this.getLanguageValue('Role'),
         columnName: ["Role", "Name"],
         isActive: true,
         type: "text"
@@ -71,7 +71,7 @@ export class RoleAuthorizationComponent extends BaseComponent
         isEditable: true
       },
       {
-        columnDisplayName: this.getLanguageValue('Out_Insert'),
+        columnDisplayName: this.getLanguageValue('Out_Edit'),
         columnName: ["OutUpdate"],
         isActive: true,
         classes: ["table-checkbox"],
@@ -122,7 +122,7 @@ export class RoleAuthorizationComponent extends BaseComponent
         isEditable: true
       },
       {
-        columnDisplayName: "Düzenleyebilir",
+        columnDisplayName: this.getLanguageValue('Out_Edit'),
         columnName: ["OutUpdate"],
         isActive: true,
         type: "checkbox",

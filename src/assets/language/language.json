@@ -883,7 +883,7 @@
   },
   {
     "LanguageId": 154,
-    "LanguageKeyword": "This_company_name_has_been_used_before",
+    "LanguageKeyword": "This_company_code_has_been_used_before!",
     "Tr": "Şirket kodu daha önce kullanılmış.",
     "En": "This company name has been used before."
   },
@@ -1454,7 +1454,7 @@
   {
     "LanguageId": 1291,
     "LanguageKeyword": "Consumable_Consumption",
-    "Tr": "Malzeme Tüketimi",
+    "Tr": "Malzeme Hareketleri",
     "En": "Consumable Consumption"
   },
   {
@@ -3976,5 +3976,47 @@
     "LanguageKeyword": "Update_Fixed_Asset_Status",
     "Tr": "Statüyü Güncelle",
     "En": "Update Statu"
+  },
+  {
+    "LanguageId": 3668,
+    "LanguageKeyword": "Consumable_Transaction_List",
+    "Tr": "Malzeme Hareket Listesi",
+    "En": "Consumable TransactionList"
+  },
+  {
+    "LanguageId": 3669,
+    "LanguageKeyword": "Received_User",
+    "Tr": "Talebi Karşılayan Kişi",
+    "En": "Received User"
+  },
+  {
+    "LanguageId": 3670,
+    "LanguageKeyword": "Requested_User",
+    "Tr": "Talep Eden Kişi",
+    "En": "Requested User"
+  },
+  {
+    "LanguageId": 3671,
+    "LanguageKeyword": "Quantity_Unit",
+    "Tr": "Miktar - Birim",
+    "En": "Quantity - Unit"
+  },
+  {
+    "LanguageId": 3672,
+    "LanguageKeyword": "No_suitable_material_was_found_for_this_request!",
+    "Tr": "Bu talep için uygun özellikte material bulunamadı!",
+    "En": "No suitable material was found for this request!"
+  },
+  {
+    "LanguageId": 3673,
+    "LanguageKeyword": "Department_code_used_before!",
+    "Tr": "Department Kodu daha önce kullanılmış!",
+    "En": "Department code used before!"
+  },
+  {
+    "LanguageId": 3674,
+    "LanguageKeyword": "This_statu_name or_statu_name_have_been_used_before!",
+    "Tr": "Girdiğiniz statu adı veya statu kodu daha önceden kullanılmış!",
+    "En": "This statu name or statu name have been used before!"
   }
 ]

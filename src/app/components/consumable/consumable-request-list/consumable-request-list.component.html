@@ -25,15 +25,17 @@
               <div>  
                 <button class="btn btn-az-primary" id="btnFilterConsumableRequest" data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:20px;" (click)="filterConsumableRequest()"> <i class="fas fa-filter"></i></button>
               </div>
-              <div>                
-                <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
-                  [class.btn-refresh-loader]="isTableExporting == true"></i>
-                </button>
-              </div>
-              <div>
-                <button type="button" (click)="refreshTable()"  id="refreshTable" class="btn btn-success btn-refresh-custom" style="margin-right:10px"><i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
-                </button>
-              </div>
+      
+          </div>
+
+          <div>                
+            <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+              [class.btn-refresh-loader]="isTableExporting == true"></i>
+            </button>
+          </div>
+          <div>
+            <button type="button" (click)="refreshTable()"  id="refreshTable" class="btn btn-success btn-refresh-custom" style="margin-right:10px"><i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
+            </button>
           </div>
           </div>
         </div>

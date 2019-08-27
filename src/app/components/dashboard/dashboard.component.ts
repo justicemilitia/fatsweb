@@ -20,6 +20,7 @@ import { Page } from '../../extends/TreeGridTable/models/Page';
 import { Router } from '@angular/router';
 import { vGetDashboardFixedAssetCounts } from 'src/app/models/vGetDashboardFixedAssetCounts';
 import { User } from 'src/app/models/User';
+import { FixedAssetRelationship } from 'src/app/models/FixedAssetRelationship';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +34,8 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   prevStateOfFirm: Firm = null;
 
   assetValues: vDashboardFixedAssets = new vDashboardFixedAssets();
+
+  relationshipValue:number;
 
   transactions: vGetDashboardTransactions[] = [];
 
@@ -89,6 +92,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
     this.GetUserInfoById(
       this.baseService.authenticationService.getCurrentUserId()
     );
+    this.getRelationshipFixedAssetCount();
   }
 
   async GetUserInfoById(item: number) {
@@ -242,6 +246,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   async loadValues() {
     this.baseService.dashboardService.GetDashboardFixedAssetsInfo((result) => {
       this.assetValues = (<vDashboardFixedAssets>result);
+    
     }, (result) => {
       // Error
     })
@@ -401,5 +406,18 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   today() {
     let getdate:NgbDate = getToday();
     return convertNgbDateToDateString(getdate);
+  }
+
+ async getRelationshipFixedAssetCount(){
+    await this.baseService.fixedAssetService.GetFixedAssetRelationship(
+      (far: FixedAssetRelationship[]) => {
+
+        this.relationshipValue = far.length;
+
+      },
+      (error: HttpErrorResponse) => {
+  
+      }
+    );
   }
 }

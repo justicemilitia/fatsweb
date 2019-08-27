@@ -233,6 +233,7 @@ export class FaCreateComponent extends BaseComponent
     this.dataTable.isColumnOffsetActive = false;
     this.dataTable.isDeleteable = true;
     this.dataTable.isTableEditable = true;
+   //this.dataTable.isTableEditable = false;
     
 
     this.dataTableFile.isPagingActive = false;
@@ -526,11 +527,13 @@ export class FaCreateComponent extends BaseComponent
           this.baseService.spinner.hide();
           this.baseService.popupService.ShowSuccessPopup(message);
           this.faComponent.loadFixedAsset();
+          this.validBarcode = false;
         } else {
           this.validBarcode = true;
+          this.dataTable.isTableEditable = true;
           this.doAllVisible();
           this.doItemsHidden(barcodes);
-          this.editable = false;
+          this.editable = true;
           this.visibleInsertButton = false;
           this.baseService.spinner.hide();
           this.baseService.popupService.ShowErrorPopup(message);
@@ -585,12 +588,23 @@ export class FaCreateComponent extends BaseComponent
   }
 
   public onFileSelected(event) {
+    this.dataTableFile.TGT_clearData();
+
     for (var i = 0; i < event.target.files.length; i++) {
       let files: FixedAssetFile = new FixedAssetFile();
 
       files.FileName = event.target.files[i].name;
       files.FixedAssetFileId = (this.fixedAssetFilesDataTable.length + 1) * -1;
-      this.fixedAssetFilesDataTable.push(files);
+      if(this.fixedAssetFilesDataTable.length < 0){
+        this.fixedAssetFilesDataTable.push(files);   
+    }
+    else{
+      this.fixedAssetFilesDataTable.forEach(e=>{
+        if(e.FileName != files.FileName){
+          this.fixedAssetFilesDataTable.push(files);
+        } 
+      });   
+    }   
 
       this.fixedAssetFiles.push(event.target.files[i]);
     }

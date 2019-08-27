@@ -3,9 +3,9 @@ import {AuthenticationService} from "../services/authenticationService/authentic
 import { Service } from '../models/Service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
- //export const SERVICE_URL = "http://localhost:5000/api/";
+ export const SERVICE_URL = "http://localhost:5000/api/";
 // export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
+//export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
 
 // export const SERVICE_URL = (url:string) => {
 //   let httpClient:HttpClient;
@@ -22,11 +22,13 @@ export const SERVICE_URL = "http://dev.fatsapi.com/api/";
 
 export const LOGIN = "Auth/token";
 
-export const FORGET_PASSWORD = "Auth/forgotpassword"
+export const FORGET_PASSWORD = "Auth/forgotpassword";
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
 
 export const IMAGE_URL =  "http://dev.fatsapi.com/";
+//export const IMAGE_URL =  "http://localhost:5000/";
+
 export const CRYPTO_KEY = "xOPecpi5elDQenHT";
 
 //#region Departments
@@ -129,12 +131,10 @@ export const GET_VALID_BARCODE_LAST_NUMBER = "FixedAsset/GetValidBarcodeLastNumb
 export const ADD_FIXED_ASSET = "FixedAsset/AddFixedAssetWithPieces";
 //#endregion
 
-
 //#region ExitFixedAssets
 export const EXIT_FIXEDASSET = "FixedAsset/ExitFixedAsset";
 export const GET_EXITFIXEDASSETLIST = "FixedAsset/GetExitFixedAssetList";
 //#endregion
-
 
 //#region SuspendedFixedAsset
 export const GET_SUSPENDED_LIST = "FixedAsset/GetFixedAssetsSuspendedList";

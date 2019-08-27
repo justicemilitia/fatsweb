@@ -10,6 +10,8 @@ import { ExpenseCenter } from 'src/app/models/ExpenseCenter';
 import { Currency } from 'src/app/models/Currency';
 import { Depreciation } from 'src/app/models/Depreciation';
 import { Agreement } from 'src/app/models/Agreement';
+import { AuthenticationService } from 'src/app/services/authenticationService/authentication.service';
+import * as pages from "../../../../../declarations/page-values";
 
 @Component({
   selector: 'app-fa-financial-information',
@@ -34,17 +36,28 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
   currencies: Currency[] = [];
   depreciationTypes: Depreciation[] = [];
   agreements: Agreement[] = [];
+  roleControl:boolean=true;
 
-  constructor(protected baseService: BaseService) {
+  constructor(protected baseService: BaseService, private authentication: AuthenticationService,) {
 
     super(baseService);
 
     this.loadDropdown();
-    
+
+    this.depreciationRoleControl(); 
    }
 
   ngOnInit() {
   }
+
+  depreciationRoleControl(){
+    let role = this.authentication.roles.forEach(
+      x => {
+        if(x.MenuCaption == pages.MENU_DEPRECIATION)
+          this.roleControl = false;
+      }
+    );
+  };
 
   async loadDropdown() {
     this.baseService.companyService.GetCompanies(
