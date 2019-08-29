@@ -108,13 +108,18 @@ export class FaChangeDepartmentComponent extends BaseComponent
     }
   }
 
-  async ChangeDepartment(data: NgForm) {
-    /* Is Form Valid */
-    if (this.selectedDepartment != null) return;
+  onSubmit(data: NgForm) {
 
-    await this.baseService.popupService.ShowQuestionPopupForDepartmentUpdate(
-      (response: boolean) => {
-        if (response == true) {
+    if (this.selectedDepartment != null) 
+    this.popupComponent.ShowModal('#modalShowQuestionPopupForChangeDepartment');
+    
+    else
+    return;
+
+  }
+
+  async ChangeDepartment(data: NgForm) {
+
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
 
@@ -136,11 +141,10 @@ export class FaChangeDepartmentComponent extends BaseComponent
               /* Set inserted Item id to model */
               this.faBarcode.DepartmentId = cloneItem.DepartmentId;
               this.faBarcode.Department = cloneItem.Department;
-              
+              this.faBarcode.Department.Name = cloneItem.Department.Name;
               // this.resetForm(data, true);
               
               this.faComponent.loadFixedAsset();
-
               this.resetDropdown('department');
               
             },
@@ -150,18 +154,14 @@ export class FaChangeDepartmentComponent extends BaseComponent
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-      }
-    );
+          this.popupComponent.CloseModal('#modalShowQuestionPopupForChangeDepartment');
+          this.popupComponent.ShowModal('#modalChangeDepartment');    
+          this.resetForm(data);
   }
 
-  resetForm(data: NgForm, isNewItem: boolean) {
-    if (isNewItem == true) {
-      this.faBarcode = new FixedAsset();
-    }
-    data.reset();
-    data.resetForm(this.faBarcode);    
-    // this.newDepartmentId = null;
+  resetForm(data: NgForm) {
+    data.resetForm();
+    this.selectedDepartment = null;  
   }
 
   resetDropdown(key:string){
@@ -170,6 +170,10 @@ export class FaChangeDepartmentComponent extends BaseComponent
       this.selectedDepartment = null;      
       break;
     }
+  }
+
+  closeChangeDepartmentPopup(){
+    this.popupComponent.CloseModal("#modalShowQuestionPopupForChangeDepartment");
   }
 
   // async loadDropdownList() {

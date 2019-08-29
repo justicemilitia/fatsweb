@@ -224,7 +224,7 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button id="btnInsertOrUpdateAgreement" *ngIf="isWaitingInsertOrUpdate == false" type="submit"
-            class="btn btn-az-primary" type="submit" >
+            class="btn btn-az-primary" >
             {{agreement.AgreementId ? getLanguageValue('Reedit_Agreement') : getLanguageValue('Add_Aggreement')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

@@ -1124,6 +1124,13 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
             columnDisplayName: e.Name,
             isActive: true,
             type: "text"
+            // ,
+            // formatter: value => {
+            //   if (value) {
+            //     return value.RegistrationNumber == null ? value.FirstName + " " + value.LastName : value.RegistrationNumber + " - " + value.FirstName + " " + value.LastName;
+            //   } else {
+            //     return "";
+            //   }}
           });
         });
         this.dataTable.TGT_bindActiveColumns();
@@ -1721,6 +1728,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         this.baseService.popupService.ShowErrorPopup(error);
       });
     }
+
+    CloseOperationPopup(){
+      this.popupComponent.CloseModal('#modalOperation');
+  }
+
 
   }
 

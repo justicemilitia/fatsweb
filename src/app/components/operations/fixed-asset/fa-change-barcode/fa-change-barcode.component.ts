@@ -38,13 +38,15 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
     this.newBarcode = null;
   }
 
+  onSubmit(data: NgForm) {
+
+    if (data.form.invalid == true) return;
+
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForChangeBarcode');
+  }
+
   async ChangeBarcode(data: NgForm) {
     /* Is Form Valid */
-if (data.form.invalid == true) return;
-
-    await this.baseService.popupService.ShowQuestionPopupForBarcodeUpdate(
-      (response: boolean) => {
-        if (response == true) {
           
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
@@ -77,9 +79,8 @@ if (data.form.invalid == true) return;
               this.isWaitingInsertOrUpdate = false;
             }
           );
+          this.popupComponent.CloseModal('#modalShowQuestionPopupForChangeBarcode');      
+          this.popupComponent.ShowModal('#modalChangeBarcode');              
         }
-      }
-    );
-  }
 
 }

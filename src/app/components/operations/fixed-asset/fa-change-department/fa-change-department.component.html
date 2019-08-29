@@ -5,7 +5,7 @@
   </button>
 </div>
 
-<form name="form" #data="ngForm" (ngSubmit)="ChangeDepartment(data)">
+<form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)" novalidate>
   <div class="modal-body">
     <!-- BARKOD -->
     <div class="row justify-content-center">
@@ -27,31 +27,10 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>{{getLanguageValue('Department')}}</label>
-        <input name="DepartmentName" value="{{ faBarcode.Department == null ? null : faBarcode.FixedAssetCard.Name }}" type="text" class="form-control"
+        <input name="DepartmentName" value="{{ faBarcode.Department == null ? null : faBarcode.Department.Name }}" type="text" class="form-control"
           disabled />
       </div>
     </div>
-
-    <!-- YENİ DEPARTMAN -->
-    <!-- <div class="row justify-content-center">
-      <div class="col-md-12 form-group"> -->
-      <!-- <div style="display: flex; flex-direction: column;"> -->
-      <!-- <label class="required-span" style="margin-bottom: 0;font-weight: 700;">Departman</label>
-           <div style="display:flex;">
-              <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  
-              [class.dropdown-button-valid]="data.submitted && !selectedDepartment" required>{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
-                <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
-              </div> -->
-      <!-- </div> -->
-      <!-- <div *ngIf="data.submitted && !selectedDepartment" style="color:red">
-        <div *ngIf="!selectedDepartment">{{getLanguageValue('This_value_is_required')}}</div>
-      </div>
-        <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
-            <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
-          </div>
-        </div>
-      </div>  -->
-
 
       <div class="row justify-content-center">
         <div class="col-md-12 form-group">
@@ -79,10 +58,39 @@
 
   <!-- modal-body -->
   <div class="modal-footer">
-    <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-orange" id="btnChangeDepartment" type="submit"
-      data-toggle="modal" data-target="#modalChangeDepartment">
+    <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-orange" id="btnChangeDepartment" type="submit">
       {{getLanguageValue('Save')}}
     </button>
     <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
   </div>
 </form>
+
+ <!-- GÜNCELLEME ONAY -->
+
+ <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForChangeDepartment" style=" overflow-y: hidden !important;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content tx-size-sm">
+        <div class="modal-body tx-center pd-y-20 pd-x-20">
+              <button type="button" class="close" (click)="closeChangeDepartmentPopup()">
+           <span aria-hidden="true">&times;</span>
+          </button>
+          <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+          <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+          <p class="mg-b-20 mg-x-20">{{getLanguageValue('Selected_department_will_be_changed')}}</p>
+     
+          <div class="row" style="margin-bottom:20px;">
+            <div class="col-md-6" style="padding-right: 0px;">
+                <button class="btn btn-az-danger" style="float:right;" (click)="closeChangeDepartmentPopup()" >{{getLanguageValue('Cancel')}}</button>        
+             
+              <!-- <button class="btn btn-az-danger" (click)="closeChangeLocationPopup()"  style="float:right; padding-left:32px; padding-right:32px;" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Cancel')}}</button>         -->
+            </div>
+         
+            <div class="col-md-6">        
+            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="ChangeDepartment(data)">{{getLanguageValue('Update')}}</button>
+              </div>   
+          </div>
+  
+        </div><!-- modal-body -->
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->
