@@ -521,11 +521,15 @@ export class UserComponent extends BaseComponent implements OnInit {
           /* loading icon visible */
           this.isWaitingInsertOrUpdate = true;
 
+          this.baseService.spinner.show();
+
           this.baseService.userService.UpdateUser(
             this.currentUser,
             (updateUser, message) => {
               /* Close loading icon */
               this.isWaitingInsertOrUpdate = false;
+
+              this.baseService.spinner.hide();
 
               /* Show pop up*/
               this.baseService.popupService.ShowSuccessPopup(message);
@@ -551,6 +555,8 @@ export class UserComponent extends BaseComponent implements OnInit {
 
               /* Show error message */
               this.baseService.popupService.ShowErrorPopup(error);
+
+              this.baseService.spinner.hide();
             }
           );
         this.popupComponent.CloseModal('#modalShowQuestionPopupForUser');          
