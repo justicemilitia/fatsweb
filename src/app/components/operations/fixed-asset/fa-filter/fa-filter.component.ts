@@ -365,7 +365,22 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
         this.isListSelected = false;
         this.propertyValue = null;
 
+        this.IsPassive = false;
+        this.IsActive = false;
+
         //Dropdown Selected Items
+        this.selectedUser = null; 
+        this.selectedCategory = null;
+        this.selectedBrand=null;
+        this.selectedCard=null;
+        this.selectedDepartment=null;
+        this.selectedModel=null;
+        this.selectedLocation=null;
+        this.selectedUser=null;
+        this.selectedStatus = null;
+
+        this.loadDropdownList();
+
         this.selectedFixedAssetCards = [];
         this.selectedFixedAssetCardCategories = [];
         this.selectedDepartments = [];
@@ -663,17 +678,14 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     );
 
     //Brand
-    if (this.fixedassetbrands && this.fixedassetbrands.length == 0) {
-      this.fixedassetbrands = [];
 
-      this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
+    this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
         (brands: FixedAssetCardBrand[]) => {
           this.fixedassetbrands = brands;
           this.dataTableBrand.TGT_loadData(this.fixedassetbrands);          
         },
         (error: HttpErrorResponse) => { }
       );
-    }
 
     //Model
     this.baseService.fixedAssetCardModelService.GetFixedAssetCardModels(
@@ -780,7 +792,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    this.fixedAsset.Barcodes = [];
+    this. fixedAsset.Barcodes = [];
     let propertyDetail = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
     );
@@ -862,7 +874,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
         this.fixedAssetComponent.perInPage = 1000;
         this.fixedAssetComponent.totalPage = totalPage;
         this.fixedAssetComponent.TGT_calculatePages();
-        this.loadFixedAssetProperties();
+        
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -871,25 +883,25 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   }
 
 
-  async loadFixedAssetProperties() {
-    this.baseService.fixedAssetService.GetFixedAssetProperties(
-      (faProperties: FixedAssetCardProperty[]) => {
-        this.fixedassetproperty = faProperties;
-        this.fixedassetproperty.forEach(e => {
-          this.filterDataTable.dataColumns.push({
-            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
-            columnDisplayName: e.Name,
-            isActive: true,
-            type: "text"
-          });
-        });
-        this.filterDataTable.TGT_bindActiveColumns();
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
+  // async loadFixedAssetProperties() {
+  //   this.baseService.fixedAssetService.GetFixedAssetProperties(
+  //     (faProperties: FixedAssetCardProperty[]) => {
+  //       this.fixedassetproperty = faProperties;
+  //       this.fixedassetproperty.forEach(e => {
+  //         this.filterDataTable.dataColumns.push({
+  //           columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
+  //           columnDisplayName: e.Name,
+  //           isActive: true,
+  //           type: "text"
+  //         });
+  //       });
+  //       this.filterDataTable.TGT_bindActiveColumns();
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       this.baseService.popupService.ShowErrorPopup(error);
+  //     }
+  //   );
+  // }
 
   /* Selected Fixed Asset Cards */
   // onSelectFixedAssetCard(item: FixedAssetCard) {

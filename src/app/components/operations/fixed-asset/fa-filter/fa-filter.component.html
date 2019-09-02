@@ -32,7 +32,7 @@
 
             <div class="col-md-4 form-group">
               <div>
-                <label class="required-span" style="margin-bottom: 0;
+                <label style="margin-bottom: 0;
                 font-weight: 700;">{{getLanguageValue('Fixed_Asset_Card')}}</label>
                 <div style="display:flex;">
                   <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" >{{selectedCard ? selectedCard.Name : getLanguageValue('Choose') }}</button>
@@ -56,7 +56,7 @@
 
             <div class="col-md-4 form-group">
               <div>
-                <label class="required-span" style="margin-bottom: 0;
+                <label style="margin-bottom: 0;
                 font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>        
               <div style="display:flex;">
               <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  >{{selectedCategory ? selectedCategory.Name : getLanguageValue('Choose') }}</button>
@@ -195,7 +195,7 @@
             <!-- PERSONEL -->
             <div class="col-md-4 form-group">
               <div>
-                  <label class="required-span" style="margin-bottom: 0;
+                  <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Staff')}}</label>
                   <div style="display:flex;">
                   <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button" >{{selectedUser ? selectedUser.FirstName + ' ' + selectedUser.LastName : getLanguageValue('Choose') }}</button>
