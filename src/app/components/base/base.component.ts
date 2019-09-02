@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { NgModule, Component, OnInit } from "@angular/core";
 import { BaseService } from "../../services/base.service";
 import * as pages from "../../declarations/page-values";
 import { SystemLanguage } from 'src/app/models/SystemLanguage';
@@ -6,6 +6,10 @@ import * as XLSX from 'xlsx';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as PopUp from 'src/assets/js/popup';
+
+@NgModule({
+
+})
 
 @Component({
   selector: "app-base",

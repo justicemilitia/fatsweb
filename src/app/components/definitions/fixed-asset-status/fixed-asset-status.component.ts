@@ -236,10 +236,10 @@ export class FixedAssetStatusComponent extends BaseComponent implements OnInit {
         /* Hide spinner then show error message */
         this.baseService.spinner.hide();
 
-        itemIds.forEach((e:NotDeletedItem) => {
-          for(let i=0; i<itemIds.length; i++){
-        barcode = faStatus.find(x=>x.FixedAssetStatusId == e[i].Id);
-        }     
+        itemIds.forEach((e:any) => {       
+
+        barcode = faStatus.find(x=>x.FixedAssetStatusId == e);
+  
           notDeletedCode.push(barcode.FixedAssetStatuCode);
         });
 

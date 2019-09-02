@@ -139,6 +139,8 @@ export class FaEditFileComponent extends BaseComponent
 
     this.faBarcode.forEach(e => { 
 
+      let selectedFiles = this.dataTableNewFile.TGT_copySource();      
+
         for (var i = 0; i < event.target.files.length; i++) {
         let files: FixedAssetFile = new FixedAssetFile();
 
@@ -146,11 +148,9 @@ export class FaEditFileComponent extends BaseComponent
         files.FixedAssetFileId = (this.fixedAssetFilesDataTable.length + 1) * -1;
         files.FileName = event.target.files[i].name;
         
-        this.fixedAssetFilesDataTable.push(files);
+        selectedFiles.push(files);   
         }   
-           
-        this.dataTableNewFile.TGT_loadData(this.fixedAssetFilesDataTable);
-
+          this.dataTableNewFile.TGT_loadData(selectedFiles);
     });
 
     for (var i = 0; i < event.target.files.length; i++) {
@@ -236,6 +236,10 @@ export class FaEditFileComponent extends BaseComponent
     this.fixedAssetFile = [];
 
     this.fixedAssetFiles = [];
+
+    this.fixedAssetFilesDataTable=[];
+
+    
 
     this.faComponent.loadFixedAsset();
   }

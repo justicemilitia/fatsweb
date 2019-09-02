@@ -15,6 +15,7 @@ import {
 } from "@angular/material";
 
 import { LoginComponent } from "./components/login/login.component";
+
 import { HeaderComponent } from "./components/layout/header/header.component";
 import { FooterComponent } from "./components/layout/footer/footer.component";
 import { CompanyComponent } from "./components/definitions/company/company.component";
@@ -89,6 +90,7 @@ import { FaFinancialInformationComponent } from './components/operations/fixed-a
 import { FaBarcodeLabelComponent } from './components/operations/fixed-asset/fa-barcode-label/fa-barcode-label.component';
 
 import { PopupComponent } from './components/popup/popup.component';
+import { BaseComponent } from './components/base/base.component';
 
 
 @NgModule({
@@ -160,7 +162,7 @@ import { PopupComponent } from './components/popup/popup.component';
     FaPropertyInformationComponent,
     FaFinancialInformationComponent,
     FaBarcodeLabelComponent,
-    PopupComponent
+    PopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -182,7 +184,8 @@ import { PopupComponent } from './components/popup/popup.component';
     ReactiveFormsModule,
     InputTrimModule,
     NgxMaskModule.forRoot(),
-    MatTabsModule
+    MatTabsModule,
+
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

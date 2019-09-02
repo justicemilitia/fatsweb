@@ -217,6 +217,20 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
 
     this.fixedAsset.Prefix = null;
 
+    this.fixedAsset.FixedAssetCardModelId = null; 
+
+    this.fixedAsset.FixedAssetCardBrandId = null;
+
+    this.fixedAsset.SerialNumber= null;
+
+    this.fixedAsset.InsuranceCompanyId = null;
+
+    this.fixedAsset.UserId=null;
+
+    this.fixedAsset.Quantity = 1;
+
+    this.fixedAsset.Description=null;
+
     this.selectedCard = null;
 
     this.selectedCategory = null;

@@ -332,6 +332,7 @@ export class FaCreateComponent extends BaseComponent
     this.dataProperty = data;
 
     Object.assign(this.faPropertyInformation, fixedasset);
+    
   }
 
   addToFixedAssetList(data: NgForm) {
@@ -440,76 +441,27 @@ export class FaCreateComponent extends BaseComponent
 
     this.insertedFixedAsset = this.fixedAssets[0];
 
-    this.insertedFixedAsset.CurrencyId =
-      this.fixedAsset.CurrencyId == null
-        ? null
-        : Number(this.fixedAsset.CurrencyId);
-    this.insertedFixedAsset.DepartmentId =
-      this.fixedAsset.Department == null
-        ? null
-        : Number(this.fixedAsset.Department.DepartmentId);
-    this.insertedFixedAsset.LocationId = Number(
-      this.fixedAsset.Location.LocationId
-    );
-    this.insertedFixedAsset.FixedAssetCardId = Number(
-      this.fixedAsset.FixedAssetCard.FixedAssetCardId
-    );
-    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(
-      this.fixedAsset.FixedAssetCardCategory.FixedAssetCardCategoryId
-    );
-    this.insertedFixedAsset.CompanyId =
-      this.fixedAsset.CompanyId == null
-        ? null
-        : Number(this.fixedAsset.CompanyId);
-    this.insertedFixedAsset.DepreciationCalculationTypeID =
-      this.fixedAsset.DepreciationCalculationTypeID == null
-        ? null
-        : Number(this.fixedAsset.DepreciationCalculationTypeID);
-    this.insertedFixedAsset.ExpenseCenterId =
-      this.fixedAsset.ExpenseCenterId == null
-        ? null
-        : Number(this.fixedAsset.ExpenseCenterId);
-    this.insertedFixedAsset.StatusId =
-      this.fixedAsset.StatusId == null
-        ? null
-        : Number(this.fixedAsset.StatusId);
-    this.insertedFixedAsset.IFRSCurrecyId =
-      this.fixedAsset.IFRSCurrecyId == null
-        ? null
-        : Number(this.fixedAsset.IFRSCurrecyId);
-    this.insertedFixedAsset.UserId =
-      this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
-    this.insertedFixedAsset.ActivationDate =
-      this.fixedAsset.ActivationDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
-    this.insertedFixedAsset.InvoiceDate =
-      this.fixedAsset.InvoiceDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
-    this.insertedFixedAsset.ReceiptDate =
-      this.fixedAsset.ReceiptDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
-    this.insertedFixedAsset.GuaranteeEndDate =
-      this.fixedAsset.GuaranteeEndDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
-    this.insertedFixedAsset.GuaranteeStartDate =
-      this.fixedAsset.GuaranteeStartDate == null
-        ? null
-        : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
+    this.insertedFixedAsset.CurrencyId = this.fixedAsset.CurrencyId == null ? null : Number(this.fixedAsset.CurrencyId);
+    this.insertedFixedAsset.DepartmentId = this.fixedAsset.Department == null ? null : Number(this.fixedAsset.Department.DepartmentId);
+    this.insertedFixedAsset.LocationId = Number(this.fixedAsset.Location.LocationId);
+    this.insertedFixedAsset.FixedAssetCardId = Number(this.fixedAsset.FixedAssetCard.FixedAssetCardId);
+    this.insertedFixedAsset.FixedAssetCardCategoryId = Number(this.fixedAsset.FixedAssetCardCategory.FixedAssetCardCategoryId);
+    this.insertedFixedAsset.CompanyId = this.fixedAsset.CompanyId == null ? null : Number(this.fixedAsset.CompanyId);
+    this.insertedFixedAsset.DepreciationCalculationTypeID = this.fixedAsset.DepreciationCalculationTypeID == null ? null : Number(this.fixedAsset.DepreciationCalculationTypeID);
+    this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null : Number(this.fixedAsset.ExpenseCenterId);
+    this.insertedFixedAsset.StatusId = this.fixedAsset.StatusId == null ? null : Number(this.fixedAsset.StatusId);
+    this.insertedFixedAsset.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId == null ? null : Number(this.fixedAsset.IFRSCurrecyId);
+    this.insertedFixedAsset.UserId = this.fixedAsset.UserId == null ? null : Number(this.fixedAsset.UserId);
+    this.insertedFixedAsset.ActivationDate = this.fixedAsset.ActivationDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ActivationDate);
+    this.insertedFixedAsset.InvoiceDate = this.fixedAsset.InvoiceDate == null? null: convertNgbDateToDateString(this.fixedAsset.InvoiceDate);
+    this.insertedFixedAsset.ReceiptDate = this.fixedAsset.ReceiptDate == null ? null : convertNgbDateToDateString(this.fixedAsset.ReceiptDate);
+    this.insertedFixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeEndDate);
+    this.insertedFixedAsset.GuaranteeStartDate = this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(this.fixedAsset.GuaranteeStartDate);
     this.insertedFixedAsset.IsActive = this.fixedAsset.IsActive;
-    this.insertedFixedAsset.FixedAssetCardBrandId =
-      this.fixedAsset.FixedAssetCardBrandId == null
-        ? null
-        : Number(this.fixedAsset.FixedAssetCardBrandId);
-    this.insertedFixedAsset.FixedAssetCardModelId =
-      this.fixedAsset.FixedAssetCardModelId == null
-        ? null
-        : Number(this.fixedAsset.FixedAssetCardModelId);
+    this.insertedFixedAsset.FixedAssetCardBrandId = this.fixedAsset.FixedAssetCardBrandId == null ? null : Number(this.fixedAsset.FixedAssetCardBrandId);
+    this.insertedFixedAsset.FixedAssetCardModelId = this.fixedAsset.FixedAssetCardModelId == null ? null : Number(this.fixedAsset.FixedAssetCardModelId);
 
-    this.insertedFixedAsset.Picture = this.picture;
+    this.insertedFixedAsset.Picture = this.fixedAsset.Picture;
 
     let barcodes = this.fixedAssets.map(x => x.Barcode);
     this.insertedFixedAsset.BarcodeIds = <[]>barcodes;
@@ -572,6 +524,8 @@ export class FaCreateComponent extends BaseComponent
     this.visibleInsertButton = false;
 
     this.validBarcode = false;
+
+    this.fixedAssetFilesDataTable=[];
   }
 
   // #region FILE UPLOAD
@@ -588,28 +542,21 @@ export class FaCreateComponent extends BaseComponent
   }
 
   public onFileSelected(event) {
-    this.dataTableFile.TGT_clearData();
+
+    let selectedFiles = this.dataTableFile.TGT_copySource();      
 
     for (var i = 0; i < event.target.files.length; i++) {
       let files: FixedAssetFile = new FixedAssetFile();
 
       files.FileName = event.target.files[i].name;
       files.FixedAssetFileId = (this.fixedAssetFilesDataTable.length + 1) * -1;
-      if(this.fixedAssetFilesDataTable.length < 0){
-        this.fixedAssetFilesDataTable.push(files);   
-    }
-    else{
-      this.fixedAssetFilesDataTable.forEach(e=>{
-        if(e.FileName != files.FileName){
-          this.fixedAssetFilesDataTable.push(files);
-        } 
-      });   
-    }   
 
+      //this.fixedAssetFilesDataTable.push(files);   
+      selectedFiles.push(files);   
       this.fixedAssetFiles.push(event.target.files[i]);
     }
 
-    this.dataTableFile.TGT_loadData(this.fixedAssetFilesDataTable);
+    this.dataTableFile.TGT_loadData(selectedFiles);
 
     this.fixedAsset = new FixedAsset();
   }

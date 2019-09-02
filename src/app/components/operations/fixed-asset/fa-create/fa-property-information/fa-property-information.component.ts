@@ -40,6 +40,7 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
     visiblePropertyName=false;
     isUniqueProperty:boolean=false;
     result:boolean=false;
+    FixedAssetPicture:string;
 
 
     propertyValue: string;
@@ -243,6 +244,8 @@ onSubmit(data:NgForm){
 
   this.fixedAsset.FixedAssetPropertyDetails = propertyDetail;
 
+  this.fixedAsset.Picture = this.FixedAssetPicture;
+
   this.faCreate.addFaPropertyInformation(this.fixedAsset, data);
 
 }
@@ -256,11 +259,13 @@ previousTab(){
 }
 
 async addImageFile(imageFile) {
+
   this.baseService.fileUploadService.ImageUpload(
     imageFile,
     result => {
-      //this.picture = result;
+      this.FixedAssetPicture = result;
       //console.log(this.picture);
+      console.log(this.FixedAssetPicture);
     },
     (error: HttpErrorResponse) => {
       this.baseService.popupService.ShowErrorPopup(error);

@@ -1686,6 +1686,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
       this.fixedAssetInfo.FixedAssetFiles=[];
 
+      this.imagePath = null;
+
       this.dataTablePropertyValue.TGT_clearData();
 
       this.dataTableFixedAssetFile.TGT_clearData();
