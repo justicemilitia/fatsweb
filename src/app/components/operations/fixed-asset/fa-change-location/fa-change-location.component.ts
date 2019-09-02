@@ -131,14 +131,17 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
     this.selectedDepartment = item;
   }
 
+  
+  onSubmit(data: NgForm) {
+    if (this.selectedLocation != null) 
+    this.popupComponent.ShowModal('#modalShowQuestionPopupForChangeLocation');
+
+    else
+    return;
+  }
 
   async ChangeLocation(data: NgForm) {
-    /* Is Form Valid */
-    if (data.form.invalid == true) return;
-
-    this.baseService.popupService.ShowQuestionPopupForLocationUpdate(
-      (response: boolean) => {
-        if (response == true) {
+   
           let cloneItem = new FixedAsset();
           Object.assign(cloneItem, this.faBarcode);
 
@@ -161,9 +164,11 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
               /* Set inserted Item id to model */
               this.faBarcode.LocationId = cloneItem.LocationId;
               this.faBarcode.Location = cloneItem.Location;
+              this.faBarcode.Location.Name = cloneItem.Location.Name;
+
               this.faBarcode.Department = cloneItem.Department;
               this.faBarcode.DepartmentId = cloneItem.DepartmentId;
-              data.resetForm();
+              this.faBarcode.Department.Name = cloneItem.Department.Name;
               this.faComponent.loadFixedAsset();
             },
             (error: HttpErrorResponse) => {
@@ -172,9 +177,9 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-        }
-      }
-    );
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForChangeLocation');
+    this.popupComponent.ShowModal('#modalChangeLocation');    
+    this.resetForm(data);
   }
 
   resetForm(data: NgForm) {
@@ -183,9 +188,19 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
     this.selectedDepartment = null;
   }
 
-  
-  resetDepartment(){
-    this.selectedDepartment=null;
+  resetDropdown(key:string){
+    switch(key){
+      case "location":
+      this.selectedLocation = null;
+      break;
+      case "department":
+      this.selectedDepartment = null;      
+      break;
+    }
+  }
+
+  closeChangeLocationPopup(){
+    this.popupComponent.CloseModal("#modalShowQuestionPopupForChangeLocation");
   }
 
   async loadDropdownList() {

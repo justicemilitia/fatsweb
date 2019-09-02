@@ -121,6 +121,23 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     }
   }
 
+  onDelete(){
+    
+     /* get selected items from table */
+     this.selectedItems = this.dataTable.TGT_getSelectedItems();
+
+     /* if count of items equals 0 show message for no selected item */
+     if (!this.selectedItems || this.selectedItems.length == 0) {
+       this.baseService.popupService.ShowAlertPopup(
+         "Lütfen en az bir departman seçiniz"
+       );
+       return;
+     }
+    else
+    this.popupComponent.ShowModal('#modalShowDeletePopupForDepartment');
+    
+  }
+  
   get getDepartmentsWithoutCurrent() {
     return this.departments.filter(
       x => x.DepartmentId != this.department.DepartmentId
@@ -128,16 +145,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
   }
 
   async deleteDepartments() {
-    /* get selected items from table */
-    this.selectedItems = this.dataTable.TGT_getSelectedItems();
-
-    /* if count of items equals 0 show message for no selected item */
-    if (!this.selectedItems || this.selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir departman seçiniz"
-      );
-      return;
-    }
 
     /* Show Question Message */
     // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {

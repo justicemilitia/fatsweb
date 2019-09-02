@@ -1,11 +1,11 @@
 <div class="modal-header">
   <h6 class="modal-title">{{getLanguageValue('Enter_information_about_changing_firm')}}</h6>
-  <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <button id="CloseModal" (click)="resetForm(data)" type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
-<form name="form" #data="ngForm" (ngSubmit)="ChangeFirm(data)">
+<form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
   <div class="modal-body">
     <!-- BARKOD -->
     <div class="row justify-content-center">
@@ -24,7 +24,7 @@
     </div>
 
     <!-- YENİ FİRMA -->
-    <div class="row justify-content-center">
+    <!-- <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label class="required-span">{{getLanguageValue('New_Firm')}}</label>
         <select [(ngModel)]="fixedAsset.FirmId" name="FirmId" class="form-control" (change)="getFirmId($event)" #FirmId="ngModel"
@@ -38,34 +38,34 @@
           <div *ngIf="FirmId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
         </div>
       </div>
+    </div> -->
+
+    <!-- YENİ FİRMA -->
+    <div class="row justify-content-center">
+        <div class="col-md-12 form-group">
+            <div>
+                <label class="required-span" style="margin-bottom: 0;
+                font-weight: 700;" >{{getLanguageValue('Firm')}}</label>
+                <div style="display:flex;">
+                <button id="btnFirm" (click)="toggleDropdown('firm')" class="dropdown-button" type="button"  
+                [class.dropdown-button-valid]="data.submitted && !selectedFirm"  required>{{selectedFirm ? selectedFirm.Name : getLanguageValue('Choose') }}</button>
+                  <span class="span-dropdown"  (click)="resetDropdown('firm')" class="typcn icon-default typcn-times span-dropdown"></span>
+                </div>
+                <div *ngIf="data.submitted && !selectedFirm" style="color:red">
+                  <div *ngIf="!selectedFirm">{{getLanguageValue('This_value_is_required')}}</div>
+                </div>
+            </div>
+            <div class="custom-dropdown" *ngIf="isFirmDropdownOpen==true">
+                    <tree-grid-table (onClickItem)="onClickFirm($event,item)" [dataTable]="dataTableFirm"></tree-grid-table>
+            </div>
     </div>
-    
-    <!-- YENİ LOKASYON -->
-    <!-- <div class="row justify-content-center">
-      <div class="col-md-12 form-group">
-        <label>Yeni Lokasyon</label>
-        <select [(ngModel)]="fixedAsset.LocationId" name="LocationId"  (change)="getLocationId($event)" class="form-control" #LocationId="ngModel"
-          [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
-          <option [ngValue]="null">Yok</option>
-          <option *ngFor="let loc of locations" value={{loc.LocationId}}>
-            {{ loc.Name }}
-          </option>
-        </select>
-        <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
-          <div *ngIf="LocationId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-        </div>
-      </div>
-    </div>     -->
+  </div>   
 
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <div>
             <label class="required-span" style="margin-bottom: 0;
             font-weight: 700;" >Lokasyon</label>
-            <!-- <select [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control select2-no-search" style="width:100%;" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" #LocationId="ngModel" required (change)="loadDepartmentByLocationId($event)">
-                <option value="">{{getLanguageValue('Location')}} Seçiniz</option>
-                <option *ngFor="let location of locations" value="{{location.LocationId}}">{{location.Name}}</option>
-            </select>       -->
             <div style="display:flex;">
             <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  
             [class.dropdown-button-valid]="data.submitted && !selectedLocation"  required>{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
@@ -81,19 +81,6 @@
   </div>
 </div>    
 
-    <!-- YENİ DEPARTMAN -->
-    <!-- <div class="row justify-content-center">
-      <div class="col-md-12 form-group">
-        <label>Yeni Departman</label>
-        <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId"  class="form-control" #DepartmentId="ngModel">
-          <option [ngValue]="null">Yok</option>
-          <option *ngFor="let dep of departments" value={{dep.DepartmentId}}>
-            {{ dep.Name }}
-          </option>
-        </select>  
-      </div>
-    </div> -->
-    
     <div class="row justify-content-center">
         <div class="col-md-12 form-group">
         <div class="" style="display: flex;
@@ -113,7 +100,7 @@
 
 
     <!-- YENİ PERSONEL -->
-    <div class="row justify-content-center">
+    <!-- <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label> {{getLanguageValue('Going_To_Be_Embezzle')}}</label>
         <select [(ngModel)]="fixedAsset.UserId" name="UserId"  class="form-control" #UserId="ngModel">
@@ -123,15 +110,83 @@
           </option>
         </select>
       </div>
-    </div>
+    </div> -->
+
+
+  <!-- PERSONEL -->
+  <!-- <div class="row justify-content-center">
+      <div class="col-md-12 form-group">
+      <div class="" style="display: flex;
+      flex-direction: column;">
+      <label style="margin-bottom: 0;
+      font-weight: 700;">{{getLanguageValue('User')}}</label>
+          <div style="display:flex;">
+              <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button">{{selectedUser ? selectedUser.Name : getLanguageValue('Choose') }}</button>
+                <span class="span-dropdown"  (click)="resetDropdown('user')" class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+      </div>
+        <div class="custom-dropdown" *ngIf="isUserDropdownOpen==true">
+            <tree-grid-table (onClickItem)="onClickUser($event,item)" [dataTable]="dataTableUser"></tree-grid-table>
+          </div>
+        </div>
+      </div>  -->
+
+
+      <div class="row justify-content-center">
+          <div class="col-md-12 form-group">
+          <div class="" style="display: flex;
+          flex-direction: column;">
+          <label style="margin-bottom: 0;
+          font-weight: 700;">{{getLanguageValue('User')}}</label>
+               <div style="display:flex;">
+                  <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button">{{selectedUser ? selectedUser.Name : getLanguageValue('Choose') }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('user')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>
+          </div>
+            <div class="custom-dropdown" *ngIf="isUserDropdownOpen==true">
+                <tree-grid-table (onClickItem)="onClickUser($event,item)" [dataTable]="dataTableUser"></tree-grid-table>
+              </div>
+            </div>
+          </div> 
+
+
    </div>
 
   <!-- modal-body -->
   <div class="modal-footer">
-    <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-az-primary" id="btnChangeFirm" type="submit"
-      data-toggle="modal" data-target="#modalChangeFirm">
+    <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-az-primary" id="btnChangeFirm" type="submit">
       {{getLanguageValue('Save')}}
     </button>
     <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
   </div>
 </form>
+
+
+
+ <!-- GÜNCELLEME ONAY -->
+
+ <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForChangeFirm" style=" overflow-y: hidden !important;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content tx-size-sm">
+        <div class="modal-body tx-center pd-y-20 pd-x-20">
+          <button type="button" class="close" (click)="closeChangeFirmPopup()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+          <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+          <p class="mg-b-20 mg-x-20">{{getLanguageValue('Selected_firm_will_be_changed')}}</p>
+     
+          <div class="row" style="margin-bottom:40px;">
+            <div class="col-md-6" style="padding-right: 0px;">
+              <button class="btn btn-az-danger" style="float:right;" (click)="closeChangeFirmPopup()" >{{getLanguageValue('Cancel')}}</button>        
+            </div>
+         
+            <div class="col-md-6">        
+            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="ChangeFirm(data)">{{getLanguageValue('Update')}}</button>
+              </div>   
+          </div>
+  
+        </div><!-- modal-body -->
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->

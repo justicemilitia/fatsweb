@@ -393,8 +393,10 @@ export class RelationshipFixedAssetComponent extends BaseComponent
           /* if error show pop up */
   
           /* Show error message */
-          this.errorMessage = this.getLanguageValue(error.statusText);
-          this.popupComponent.ShowModal("#modalShowErrorMessage");                    
+          // this.errorMessage = this.getLanguageValue(error.statusText);
+          // this.popupComponent.ShowModal("#modalShowErrorMessage");      
+        this.baseService.popupService.ShowErrorPopup(error);
+                        
           // this.baseService.popupService.ShowErrorPopup(error);
         }
       );
