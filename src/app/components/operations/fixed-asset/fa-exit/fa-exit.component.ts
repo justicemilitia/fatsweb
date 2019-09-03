@@ -58,14 +58,14 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     
   }
 
-  async exitFixedAsset() {
+  async exitFixedAsset(data:NgForm) {
     /* Is Form Valid */
 
     // await this.baseService.popupService.ShowQuestionPopupForDeleteWithoutUndo(
     //  (response: boolean) => {
         // if (response == true) {
           this.transactionLog.FixedAssetIds = [];
-          
+
           this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
             this.faDataTable.TGT_getSelectedItems()
           )).map(x => x.FixedAssetId);
@@ -85,15 +85,21 @@ export class FaExitComponent extends BaseComponent implements OnInit {
               
               /* Push inserted item to Property list */
               this.transactionLogs.push(this.transactionLog);
+
               this.faComponent.loadFixedAsset();
+
+              this.resetForm(data, true);
+
+
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-          this.popupComponent.CloseModal('#modalShowDeletePopupForFaExit');          
-          // this.resetForm(data, true);
+          this.popupComponent.CloseModal('#modalShowDeletePopupForFaExit');      
+          
+          this.popupComponent.CloseModal('#modalDeletePopupForFaExit');    
         // }
     //   }
     // );
