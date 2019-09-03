@@ -38,7 +38,7 @@
     <div class="row justify-content-center">
       <div class="col-md-6 form-group">
         <label>{{getLanguageValue('Fixed_Asset_Price')}}</label>
-        <input [(ngModel)]="transactionLog.CheckoutPrice" name="CheckoutPrice" class="form-control" type="text"
+        <input [(ngModel)]="transactionLog.CheckoutPrice" name="CheckoutPrice" class="form-control" type="number" trim="blur"
           #CheckoutPrice="ngModel">
       </div>
 
