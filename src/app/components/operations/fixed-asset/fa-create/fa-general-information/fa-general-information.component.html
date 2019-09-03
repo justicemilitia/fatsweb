@@ -29,11 +29,11 @@
           <div class="form-group col-md-6">  
               <label></label> 
               <label class="ckbox" style="margin-top: 23px">
-                  <input type="checkbox" [(ngModel)]="fixedAsset.IsRFID" name="IsRFID" (change)="isRFID($event)" #IsRFID="ngModel" /><span>RFID Etiketi</span>
+                  <input type="checkbox" [(ngModel)]="fixedAsset.IsRFID" name="IsRFID" (change)="isRFID($event)" #IsRFID="ngModel" /><span>{{getLanguageValue('RFID_Tag')}}</span>
               </label> 
           </div>
           <div class="form-group col-md-6">
-              <label>Adet</label>
+              <label>{{getLanguageValue('Amount')}}</label>
               <input type="number" [(ngModel)]="fixedAsset.Quantity" name="Quantity" placeholder="1" min="1" max="100" class="form-control"/>    
           </div>
       </div>

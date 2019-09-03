@@ -36,7 +36,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
     "role",
     [
       {
-        columnDisplayName: "Rol",
+        columnDisplayName: this.getLanguageValue('Role'),
         columnName: ["Name"],
         isActive: true,
         classes: [],

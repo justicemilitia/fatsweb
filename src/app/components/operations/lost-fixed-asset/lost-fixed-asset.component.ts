@@ -73,7 +73,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon",
+        columnDisplayName: this.getLanguageValue('Location'),
         columnName: ["Location", "Name"],
         isActive: true,
         classes: [],

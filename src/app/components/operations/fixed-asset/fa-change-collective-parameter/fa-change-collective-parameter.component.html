@@ -242,7 +242,7 @@
 
                 <!-- MASRAF YERİ -->
                 <div class="form-group col-md-3">
-                    <label>Masraf Yeri</label>                
+                    <label>{{getLanguageValue('Expense_Center')}}</label>                
                       <select [(ngModel)]="fixedAsset.ExpenseCenterId" name="ExpenseCenterId" class="form-control select2-no-search" #ExpenseCenterId="ngModel">
                           <option value="-1" >Seçiniz</option>
                           <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>

@@ -64,7 +64,7 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
-              <label class="required-span">Rol</label>
+              <label class="required-span">{{getLanguageValue('Role')}}</label>
               <select [(ngModel)]="userRole.RoleId" name="RoleId" #RoleId="ngModel"
               class="form-control select2-no-search" required
               [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }">

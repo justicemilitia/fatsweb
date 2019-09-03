@@ -121,7 +121,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon",
+        columnDisplayName: this.getLanguageValue('Location'),
         columnName: ["ConsumableLocation", "Name"],
         isActive: true,
         classes: [],
@@ -173,7 +173,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     "location",
     [
       {
-        columnDisplayName: "Lokasyon",
+        columnDisplayName: this.getLanguageValue('Location'),
         columnName: ["Name"],
         isActive: true,
         classes: [],

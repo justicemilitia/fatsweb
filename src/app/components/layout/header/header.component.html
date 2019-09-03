@@ -10,7 +10,7 @@
     <!-- az-header-left -->
     <div class="az-header-center">
       <input type="search" (keyup)="onDescriptionKeyUp($event)" [(ngModel)]="searchDescription" class="form-control"
-        placeholder="Demirbaş barkodu ya da demirbaş açıklaması ara…" />
+        placeholder="{{getLanguageValue('Search_fixed_asset_barcode_or_fixed_asset_description')}}" />
       <button (click)="onClickSearch()" class="btn"><i class="fas fa-search"></i></button>
     </div>
     <div class="az-header-center">
@@ -222,7 +222,7 @@
 
         <li class="drop-right nav-item">
             <a href="#" onclick="return false" class="nav-link with-sub">
-              <i class="typcn typcn-tabs-outline"></i>Sarf Malzeme Yönetimi</a>
+              <i class="typcn typcn-tabs-outline"></i>{{getLanguageValue('Consumable_Management')}}</a>
             <ul class="nav-link-item-ul">
               <li class="nav-link-item-parent">
                   <a class="nav-link-item-link" routerLinkActive="active" routerLink="/consumablelist">

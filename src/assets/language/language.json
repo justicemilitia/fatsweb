@@ -774,12 +774,6 @@
     "En": "Record Added'"
   },
   {
-    "LanguageId": 136,
-    "LanguageKeyword": "UserMail_Geçerli_değil",
-    "Tr": "E-posta adresi geçerli değil!",
-    "En": "UserMail Geçerli değil!"
-  },
-  {
     "LanguageId": 137,
     "LanguageKeyword": "FixedAssetPictureId_is_can_not_be_0_or_null",
     "Tr": "FixedAssetPictureId null veya 0 olamaz!",
@@ -1015,7 +1009,7 @@
   },
   {
     "LanguageId": 193,
-    "LanguageKeyword": "UserMail_Geçerli_değil",
+    "LanguageKeyword": "Email_not_found!",
     "Tr": "E-posta bulunamadı.",
     "En": "Email not found."
   },
@@ -1461,7 +1455,7 @@
     "LanguageId": 1292,
     "LanguageKeyword": "Search_fixed_asset_barcode_or_fixed_asset_description",
     "Tr": "Demirbaş barkodu ya da demirbaş açıklaması ara...",
-    "En": "Search fixed asset barcode or fixed asset description..."
+    "En": "Search fixed asset's barcode or fixed asset's description..."
   },
   {
     "LanguageId": 1293,
@@ -1654,12 +1648,6 @@
     "En": "Description"
   },
   {
-    "LanguageId": 1334,
-    "LanguageKeyword": "Save",
-    "Tr": "Kaydet",
-    "En": "Save"
-  },
-  {
     "LanguageId": 1335,
     "LanguageKeyword": "Reset",
     "Tr": "Sıfırla",
@@ -1789,13 +1777,13 @@
     "LanguageId": 1357,
     "LanguageKeyword": "System_User",
     "Tr": "Sistem Kullanıcısı",
-    "En": "System Kullanıcısı"
+    "En": "System User"
   },
   {
     "LanguageId": 1358,
     "LanguageKeyword": "Role_User_List",
     "Tr": "Rol - Kullanıcı Listesi",
-    "En": "Role - User Listesi"
+    "En": "Role - User List"
   },
   {
     "LanguageId": 1359,
@@ -1834,12 +1822,6 @@
     "LanguageKeyword": "User",
     "Tr": "Kullanıcı",
     "En": "User"
-  },
-  {
-    "LanguageId": 1367,
-    "LanguageKeyword": "Add_User_To_Role",
-    "Tr": "Rol - Kullanıcı Listesi",
-    "En": "Role - User List"
   },
   {
     "LanguageId": 1368,
@@ -3039,7 +3021,7 @@
   {
     "LanguageId": 1577,
     "LanguageKeyword": "Passive",
-    "Tr": "Pasif",
+    "Tr": "Atıl",
     "En": "Passive"
   },
   {
@@ -4054,5 +4036,144 @@
     "LanguageKeyword": "The_Staff_Selected",
     "Tr": "Personel Seçildi",
     "En": "The staff selected"
+  },
+  {
+    "LanguageId": 3681,
+    "LanguageKeyword": "January",
+    "Tr": "Ocak",
+    "En": "January"
+  },
+  {
+    "LanguageId": 3682,
+    "LanguageKeyword": "February",
+    "Tr": "Şubat",
+    "En": "February"
+  },
+  {
+    "LanguageId": 3683,
+    "LanguageKeyword": "March",
+    "Tr": "Mart",
+    "En": "March"
+  },
+  {
+    "LanguageId": 3684,
+    "LanguageKeyword": "April",
+    "Tr": "Nisan",
+    "En": "April"
+  },
+  { "LanguageId": 3685, "LanguageKeyword": "May", "Tr": "Mayıs", "En": "May" },
+  {
+    "LanguageId": 3686,
+    "LanguageKeyword": "June",
+    "Tr": "Haziran",
+    "En": "June"
+  },
+  {
+    "LanguageId": 3687,
+    "LanguageKeyword": "July",
+    "Tr": "Temmuz",
+    "En": "July"
+  },
+  {
+    "LanguageId": 3688,
+    "LanguageKeyword": "Agust",
+    "Tr": "Ağustos",
+    "En": "Agust"
+  },
+  {
+    "LanguageId": 3689,
+    "LanguageKeyword": "September",
+    "Tr": "Eylül",
+    "En": "September"
+  },
+  {
+    "LanguageId": 3690,
+    "LanguageKeyword": "October",
+    "Tr": "Ekim",
+    "En": "October"
+  },
+  {
+    "LanguageId": 3691,
+    "LanguageKeyword": "November",
+    "Tr": "Kasım",
+    "En": "November"
+  },
+  {
+    "LanguageId": 3692,
+    "LanguageKeyword": "December",
+    "Tr": "Aralık",
+    "En": "December"
+  },
+  {
+    "LanguageId": 3693,
+    "LanguageKeyword": "Monday",
+    "Tr": "Pazartesi",
+    "En": "Monday"
+  },
+  {
+    "LanguageId": 3694,
+    "LanguageKeyword": "Tuesday",
+    "Tr": "Salı",
+    "En": "Tuesday"
+  },
+  {
+    "LanguageId": 3695,
+    "LanguageKeyword": "Wednesday",
+    "Tr": "Çarşamba",
+    "En": "Wednesday"
+  },
+  {
+    "LanguageId": 3696,
+    "LanguageKeyword": "Thursday",
+    "Tr": "Perşembe",
+    "En": "Thursday"
+  },
+  {
+    "LanguageId": 3697,
+    "LanguageKeyword": "Friday",
+    "Tr": "Cuma",
+    "En": "Friday"
+  },
+  {
+    "LanguageId": 3698,
+    "LanguageKeyword": "Saturday",
+    "Tr": "Cumartesi",
+    "En": "Saturday"
+  },
+  {
+    "LanguageId": 3699,
+    "LanguageKeyword": "Sunday",
+    "Tr": "Pazar",
+    "En": "Sunday"
+  },
+  {
+    "LanguageId": 3700,
+    "LanguageKeyword": "Choose_at_least_one_fixed_asset",
+    "Tr": "En az bir demirbaş seçiniz.",
+    "En": "Choose at least one fixed asset."
+  },
+  {
+    "LanguageId": 3701,
+    "LanguageKeyword": "You_dont_have_any_authorization_to_see_this_menu!",
+    "Tr": "Menüyü görüntülemek için yetkiniz bulunmamaktadır!",
+    "En": "You dont have any authorization to see this menu!"
+  },
+  {
+    "LanguageId": 3702,
+    "LanguageKeyword": "records shown.",
+    "Tr": "kayıt gösteriliyor.",
+    "En": "records shown."
+  },
+  {
+    "LanguageId": 3703,
+    "LanguageKeyword": "Amount",
+    "Tr": "Adet",
+    "En": "Amount"
+  },
+  {
+    "LanguageId": 3704,
+    "LanguageKeyword": "RFID_Tag",
+    "Tr": "RFID Etiketi",
+    "En": "RFID Tag"
   }
 ]

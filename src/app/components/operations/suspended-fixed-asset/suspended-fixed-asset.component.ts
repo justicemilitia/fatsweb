@@ -84,7 +84,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Lokasyon",
+        columnDisplayName: this.getLanguageValue('Location'),
         columnName: ["Location", "Name"],
         isActive: true,
         classes: [],

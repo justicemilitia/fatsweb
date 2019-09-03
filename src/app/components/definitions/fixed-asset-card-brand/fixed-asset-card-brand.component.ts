@@ -44,7 +44,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
     "fixedassetcardbrand",
     [
       {
-        columnDisplayName: "Kod",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Brand_Code'),
         columnName: ["FixedAssetCardBrandCode"],
         isActive: true,
         classes: [],
@@ -52,7 +52,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Marka",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Brand_Name'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -106,7 +106,7 @@ export class FixedAssetCardBrandComponent extends BaseComponent
     /* If count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir marka seçiniz"
+        this.getLanguageValue('Please_choose_at_least_one_record')
       );
       return;
     }

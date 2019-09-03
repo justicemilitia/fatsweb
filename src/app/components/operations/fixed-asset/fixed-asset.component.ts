@@ -476,7 +476,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "checkbox"
       }
       // {
-      //   columnDisplayName: "Masraf Yeri",
+      //   columnDisplayName: this.getLanguageValue('Expense_Center'),
       //   columnName: ["ExpenseCenter", "Name"],
       //   isActive: true,
       //   classes: [],
@@ -904,7 +904,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         type: "checkbox"
       }
       // {
-      //   columnDisplayName: "Masraf Yeri",
+      //   columnDisplayName: this.getLanguageValue('Expense_Center'),
       //   columnName: ["ExpenseCenter", "Name"],
       //   isActive: true,
       //   classes: [],

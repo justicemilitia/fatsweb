@@ -38,7 +38,7 @@
         <div class="col-sm-6 col-lg-4 mg-t-20 mg-sm-t-0">
           <div class="card card-dashboard-twentysix card-dark-one">
             <div class="card-header">
-              <h6 class="card-title">AKTİF DEMİRBAŞLAR</h6>
+              <h6 class="card-title">{{getLanguageValue('Active_Fixed_Assets')}}</h6>
             </div><!-- card-header -->
             <div class="card-body">
               <div class="pd-x-15">
@@ -59,7 +59,7 @@
         <div class="col-lg-4 mg-t-20 mg-lg-t-0">
           <div class="card card-dashboard-twentysix card-dark-two">
             <div class="card-header">
-              <h6 class="card-title">ATIL DEMİRBAŞLAR</h6>
+              <h6 class="card-title">{{getLanguageValue('Passive_Fixed_Assets')}}</h6>
             </div><!-- card-header -->
             <div class="card-body">
               <div class="pd-x-15">
@@ -217,7 +217,7 @@
               {{getLanguageValue('No_movement_yet')}}
             </div>
           </div><!-- az-media-list-activity -->
-          <a routerLink="/transactionlist" class="btn btn-outline-light btn-block">Tüm Hareketler</a>
+          <a routerLink="/transactionlist" class="btn btn-outline-light btn-block">{{getLanguageValue('All_Transactions')}}</a>
         </div>
       </div><!-- az-content-body -->
     </div>

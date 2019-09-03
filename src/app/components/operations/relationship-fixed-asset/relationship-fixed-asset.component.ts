@@ -315,7 +315,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Masraf Yeri",
+        columnDisplayName: this.getLanguageValue('Expense_Center'),
         columnName: ["ExpenseCenter", "Name"],
         isActive: true,
         classes: [],

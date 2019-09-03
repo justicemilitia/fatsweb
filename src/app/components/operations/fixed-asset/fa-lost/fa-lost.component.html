@@ -8,7 +8,7 @@
   <form name="form" #data="ngForm" (ngSubmit)="lostFixedAsset(data)">
       <div class="modal-body">
         <div>
-          <p style="width:500px;">Seçili demirbaşlarınız kayıp olarak işaretlenecek ve "Kayıp Demirbaşlar" listesine taşınacaktır. İşlemi gerçekleştirmek istediğinizden emin misiniz?</p>
+          <p style="width:500px;">{{getLanguageValue('Choosen_fixed_assets_are_going_to_marked_as_lost_and_move_to_the_Lost_Fixed_List') + " " +getLanguageValue('Are_you_sure_you_want_to_perform_the_operation')}} </p>
         </div>
         <br>
         <div class="property-values-table">

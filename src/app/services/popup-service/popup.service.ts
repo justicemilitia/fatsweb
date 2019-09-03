@@ -23,7 +23,7 @@ export class PopupService {
   }
 
   ShowWarningPopup(message: string) {
-    this.alertSerivce.pushWarning(this.languageService.getValue(message), "Uyarı!");
+    this.alertSerivce.pushWarning(this.languageService.getValue(message), this.languageService.getValue("Warning!"));
   }
 
   ShowSuccessPopup(message: string) {

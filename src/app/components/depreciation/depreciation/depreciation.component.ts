@@ -128,7 +128,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         }
       },
       {
-        columnDisplayName: "Masraf Yeri",
+        columnDisplayName: this.getLanguageValue('Expense_Center'),
         columnName: ["ExpenseCenter", "Name"],
         isActive: true,
         classes: [],

@@ -44,7 +44,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
     "transactionloglist",
     [   
       {
-        columnDisplayName: "Hareket Tipi",
+        columnDisplayName: this.getLanguageValue('Transaction_Type'),
         columnName: ["TransactionTypeName"],
         isActive: true,
         classes: [],
@@ -52,7 +52,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Barkod",
+        columnDisplayName: this.getLanguageValue('Transaction_Type'),
         columnName: ["NewBarcode"],
         isActive: true,
         classes: [],
@@ -60,7 +60,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "İşlemi Gerçekleştiren Kullanıcı",
+        columnDisplayName: this.getLanguageValue('Transaction_User'),
         columnName: ["UserName"],
         isActive: true,
         classes: [],
@@ -68,7 +68,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "İşlemin Gerçekleştirildiği Tarih",
+        columnDisplayName: this.getLanguageValue('Transaction_Date'),
         columnName: ["TransactionDate"],
         isActive: true,
         classes: [],
@@ -79,7 +79,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
         }
       },
       {
-        columnDisplayName: "Açıklama",
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
