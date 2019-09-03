@@ -180,7 +180,7 @@
   <div class="form-group col-md-3">
       <label class="required-span">{{getLanguageValue('Fixed_Asset_Statu')}}</label>
       <select [(ngModel)]="fixedAsset.StatusId" name="StatusId" class="form-control select2-no-search" style="width:100%"  [ngClass]="{ 'is-invalid': data.submitted && StatusId.invalid }" #StatusId="ngModel" required>
-          <option value="-1">{{getLanguageValue('Choose')}}</option>
+          <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
           <option *ngFor="let statu of statuses" value="{{statu.FixedAssetStatusId}}">{{statu.Name}}</option>
       </select>
       <div *ngIf="data.submitted && StatusId.invalid" class="invalid-feedback">

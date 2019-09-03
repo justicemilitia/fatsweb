@@ -177,7 +177,8 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
         $(e.target).closest(".custom-dropdown").length == 0 && 
         $(e.target).closest("#btnFirm").length == 0 &&
         $(e.target).closest("#btnLocation").length == 0 && 
-        $(e.target).closest("#btnDepartment").length == 0 
+        $(e.target).closest("#btnDepartment").length == 0 &&
+        $(e.target).closest('#btnUser').length == 0
       ) {
         this.isFirmDropdownOpen=false;
         this.isLocationDropdownOpen = false;

@@ -89,7 +89,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["NewBarcode"]
+      column: ["TransactionDate"]
     }
   );
 

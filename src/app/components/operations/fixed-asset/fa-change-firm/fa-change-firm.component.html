@@ -139,7 +139,7 @@
           <label style="margin-bottom: 0;
           font-weight: 700;">{{getLanguageValue('User')}}</label>
                <div style="display:flex;">
-                  <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button">{{selectedUser ? selectedUser.Name : getLanguageValue('Choose') }}</button>
+                  <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button">{{selectedUser ? selectedUser.FirstName + " " +selectedUser.LastName : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('user')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
           </div>

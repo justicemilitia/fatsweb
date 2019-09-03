@@ -725,7 +725,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.ReceiptDate ? value.ReceiptDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.ReceiptDate ? value.ReceiptDate.replace("T"," ").substring(0,16): "";
         }
       },
       {
@@ -744,7 +744,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.InvoiceDate ? value.InvoiceDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.InvoiceDate ? value.InvoiceDate.replace("T"," ").substring(0,16): "";
         }
       },
       {
@@ -811,7 +811,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.GuaranteeStartDate ? value.GuaranteeStartDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.GuaranteeStartDate ? value.GuaranteeStartDate.replace("T"," ").substring(0,16): "";
         }
       },
       {
@@ -822,7 +822,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.GuaranteeEndDate ? value.GuaranteeEndDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.GuaranteeEndDate ? value.GuaranteeEndDate.replace("T"," ").substring(0,16): "";
         }
       },
       {
@@ -833,7 +833,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.CreationDate ? value.CreationDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.CreationDate ? value.CreationDate.replace("T"," ").substring(0,16): "";
         }
       },
       {
@@ -844,7 +844,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.ActivationDate ? value.ActivationDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.ActivationDate ? value.ActivationDate.replace("T"," ").substring(0,16): "";
         }
       },
       {
@@ -914,7 +914,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     ],
     {
       isDesc: false,
-      column: ["Barcode"]
+      column: ["CreationDate"]
     }
   );
 

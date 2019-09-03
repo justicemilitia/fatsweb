@@ -536,7 +536,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       this.selectedCategory != null &&
       this.selectedLocation != null &&
       this.fixedAsset.StatusId != null &&
-      this.fixedAsset.Barcode != null
+      this.fixedAsset.Barcode != ""
     ) {
      this.faCreate.nextTab();
     } else return;

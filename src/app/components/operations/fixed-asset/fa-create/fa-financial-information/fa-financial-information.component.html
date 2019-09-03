@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
       <div class="form-group col-md-3">
           <label>{{getLanguageValue('Fixed_Asset_Price')}}</label>
-          <input [(ngModel)]="fixedAsset.Price" name="Price" type="text" placeholder="Fiyat" class="form-control"/>               
+          <input [(ngModel)]="fixedAsset.Price" name="Price" type="number" trim="blur" placeholder="Fiyat" class="form-control"/>               
       </div>
       <div class="form-group col-md-3"> 
           <label>{{getLanguageValue('Currency')}}</label>
@@ -177,7 +177,7 @@
             <div class="row justify-content-center">
                 <div class="form-group col-md-6" *ngIf="visibleIfrs==true">
                     <label>{{getLanguageValue('IFRS_Price')}}</label> 
-                    <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="text" placeholder="IFRS Fiyat" class="form-control"/>   
+                    <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="number" placeholder="IFRS Fiyat" class="form-control"/>   
                 </div>
                 <div class="form-group col-md-6" *ngIf="visibleIfrs==true">
                     <label>{{getLanguageValue('Currency')}}</label> 

@@ -155,6 +155,7 @@ getPropertyValue(event: any) {
 }
 
 insertPropertyValueToArray(propertyId: any) {
+  this.fixedassetpropertyvalues = [];
 
   this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(this.fixedAssetPropertyDetail,
     (result:boolean)=>{    

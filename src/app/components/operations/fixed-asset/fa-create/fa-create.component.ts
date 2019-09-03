@@ -351,20 +351,17 @@ export class FaCreateComponent extends BaseComponent
     this.quantity = this.fixedAsset.Quantity;
 
     this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
-
-    let expensecenter = this.expensecenters.find(
-      x => x.ExpenseCenterId == Number(data.value.ExpenseCenterId)
-    );
-
+    this.fixedAsset.CurrencyId = Number(data.value.CurrencyId);
     this.fixedAsset.IsActive = Boolean(data.value.IsActive);
     this.fixedAsset.ActivationDate = data.value.activationDate;
-    this.fixedAsset.ExpenseCenter = expensecenter;
+    this.fixedAsset.ExpenseCenterId = Number(data.value.ExpenseCenterId);
     this.fixedAsset.Price = data.value.Price;
     this.fixedAsset.GuaranteeStartDate = data.value.guaranteeStartDate;
     this.fixedAsset.GuaranteeEndDate = data.value.guaranteeEndDate;
     this.fixedAsset.InvoiceDate = data.value.invoiceDate;
     this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
     this.fixedAsset.ReceiptDate = data.value.receiptDate;
+    this.fixedAsset.IFRSCurrecyId = Number(data.value.IFRSCurrecyId);
 
     if (this.isFinished == true) {
       for (let i = 0; i < this.fixedAsset.Quantity; i++) {
