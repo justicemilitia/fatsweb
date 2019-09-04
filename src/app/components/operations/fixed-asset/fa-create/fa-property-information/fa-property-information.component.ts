@@ -159,7 +159,7 @@ insertPropertyValueToArray(propertyId: any) {
 
   this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(this.fixedAssetPropertyDetail,
     (result:boolean)=>{    
-      if(!result){  
+      if(result){  
       this.isUniqueProperty=false;
       this.isUniquePropertyControl(propertyId);   
     }

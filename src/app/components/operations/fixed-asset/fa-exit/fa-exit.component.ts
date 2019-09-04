@@ -86,20 +86,20 @@ export class FaExitComponent extends BaseComponent implements OnInit {
               /* Push inserted item to Property list */
               this.transactionLogs.push(this.transactionLog);
 
-              this.faComponent.loadFixedAsset();
+              this.faComponent.loadFixedAsset();  
 
-              this.resetForm(data, true);
+              $("#CloseModalExit").trigger("click");
 
-
+              this.resetForm(data,true);
+            
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
-          this.popupComponent.CloseModal('#modalShowDeletePopupForFaExit');      
-          
-          this.popupComponent.CloseModal('#modalDeletePopupForFaExit');    
+         
+
         // }
     //   }
     // );

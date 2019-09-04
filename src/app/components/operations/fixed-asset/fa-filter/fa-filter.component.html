@@ -35,7 +35,7 @@
                 <label style="margin-bottom: 0;
                 font-weight: 700;">{{getLanguageValue('Fixed_Asset_Card')}}</label>
                 <div style="display:flex;">
-                  <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" >{{selectedCard ? selectedCard.Name : getLanguageValue('Choose') }}</button>
+                  <button id="btnFaCard" (click)="toggleDropdown('card')" class="dropdown-button" type="button" >{{dataTableFixedAssetCard.TGT_getSelectedItems().length > 0 ? dataTableFixedAssetCard.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Card_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('card')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
                 </div>
@@ -59,7 +59,7 @@
                 <label style="margin-bottom: 0;
                 font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>        
               <div style="display:flex;">
-              <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  >{{selectedCategory ? selectedCategory.Name : getLanguageValue('Choose') }}</button>
+              <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button"  >{{dataTableFixedAssetCategory.TGT_getSelectedItems().length > 0 ? dataTableFixedAssetCategory.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Category_Selected')  : getLanguageValue('Choose') }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
               </div>
           </div>
@@ -87,7 +87,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Department')}}</label>
                   <div style="display:flex;">
-                  <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  >{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
+                  <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button"  >{{dataTableDepartment.TGT_getSelectedItems().length > 0 ? dataTableDepartment.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Department_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -111,7 +111,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Brand_Name')}}</label>
                   <div style="display:flex;">
-                  <button id="btnBrand" (click)="toggleDropdown('brand')" class="dropdown-button" type="button"  >{{selectedBrand ? selectedBrand.Name : getLanguageValue('Choose') }}</button>
+                  <button id="btnBrand" (click)="toggleDropdown('brand')" class="dropdown-button" type="button"  >{{dataTableBrand.TGT_getSelectedItems().length > 0 ? dataTableBrand.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Brand_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('brand')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -126,7 +126,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Statu')}}</label>
                   <div style="display:flex;">
-                  <button id="btnStatus" (click)="toggleDropdown('status')" class="dropdown-button" type="button"  >{{selectedStatus ? selectedStatus.Name : getLanguageValue('Choose') }}</button>
+                  <button id="btnStatus" (click)="toggleDropdown('status')" class="dropdown-button" type="button"  >{{dataTableStatus.TGT_getSelectedItems().length > 0 ? dataTableStatus.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Status_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('status')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -160,7 +160,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Location')}}</label>
                   <div style="display:flex;">
-                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  >{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
+                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  >{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -183,7 +183,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Model_Name')}}</label>
                   <div style="display:flex;">
-                  <button id="btnModel" (click)="toggleDropdown('model')" class="dropdown-button" type="button" >{{selectedModel ? selectedModel.Name : getLanguageValue('Choose') }}</button>
+                  <button id="btnModel" (click)="toggleDropdown('model')" class="dropdown-button" type="button" >{{dataTableModel.TGT_getSelectedItems().length > 0 ? dataTableModel.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Modal_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('model')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>
@@ -198,7 +198,7 @@
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Staff')}}</label>
                   <div style="display:flex;">
-                  <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button" >{{selectedUser ? selectedUser.FirstName + ' ' + selectedUser.LastName : getLanguageValue('Choose') }}</button>
+                  <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button" >{{dataTableUser.TGT_getSelectedItems().length > 0 ? dataTableUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Staff_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('user')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>
               </div>

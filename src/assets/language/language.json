@@ -769,9 +769,9 @@
   },
   {
     "LanguageId": 135,
-    "LanguageKeyword": "Record_Added",
+    "LanguageKeyword": "Record_Added!",
     "Tr": "Yeni kayıt eklendi.",
-    "En": "Record Added'"
+    "En": "Record Added."
   },
   {
     "LanguageId": 137,
@@ -823,7 +823,7 @@
   },
   {
     "LanguageId": 145,
-    "LanguageKeyword": "Code_area_has_been_used_before",
+    "LanguageKeyword": "Code_area_has_been_used_before!",
     "Tr": "Bu kod alanı daha önce kullanılmış.",
     "En": "Code area has been used before."
   },
@@ -907,7 +907,7 @@
   },
   {
     "LanguageId": 161,
-    "LanguageKeyword": "Operation_is_successful",
+    "LanguageKeyword": "Operation_is_successful!",
     "Tr": "İşlem başarılı.",
     "En": "Operation is successful."
   },
@@ -4035,7 +4035,7 @@
     "LanguageId": 3680,
     "LanguageKeyword": "The_Staff_Selected",
     "Tr": "Personel Seçildi",
-    "En": "The staff selected"
+    "En": "The staffs selected"
   },
   {
     "LanguageId": 3681,
@@ -4175,5 +4175,35 @@
     "LanguageKeyword": "RFID_Tag",
     "Tr": "RFID Etiketi",
     "En": "RFID Tag"
+  },
+  {
+    "LanguageId": 3705,
+    "LanguageKeyword": "The_Card_Selected",
+    "Tr": "Kart Seçildi",
+    "En": "Cards Selected"
+  },
+  {
+    "LanguageId": 3706,
+    "LanguageKeyword": "The_Department_Selected",
+    "Tr": "Demirbaş Seçildi",
+    "En": "Departments Selected"
+  },
+  {
+    "LanguageId": 3707,
+    "LanguageKeyword": "The_Brand_Selected",
+    "Tr": "Marka Seçildi",
+    "En": "Brands Selected"
+  },
+  {
+    "LanguageId": 3708,
+    "LanguageKeyword": "The_Statu_Selected",
+    "Tr": "Statü Seçildi",
+    "En": "Status Selected"
+  },
+  {
+    "LanguageId": 3709,
+    "LanguageKeyword": "The_Modal_Selected",
+    "Tr": "Model Seçildi",
+    "En": "Modals Selected"
   }
 ]
