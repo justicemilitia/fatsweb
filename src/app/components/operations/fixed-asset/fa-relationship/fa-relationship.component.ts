@@ -41,12 +41,18 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
     // this.ChangeRelationship(data);
     if (data.form.invalid == true) return;
 
+    this.popupComponent.ShowModal('#modalShowQuestionPopupForRelationship');
+
     // Object.assign(this.fixedAsset, data);
+
     
   }
 
   async ChangeRelationship(data: NgForm) {
     /* Is Form Valid */
+
+    if(data.form.invalid == true)return;    
+
 
     this.fixedAsset.Barcode=data.value.newBarcodes;
     this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
