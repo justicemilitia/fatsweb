@@ -442,22 +442,12 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent
     this.fixedAsset.CompanyId =
       this.fixedAsset.CompanyId == null ? null : Number(data.value.CompanyId);
     this.fixedAsset.ExpenseCenterId =
-      this.fixedAsset.ExpenseCenterId == null
-        ? null
-        : Number(data.value.ExpenseCenterId);
-    this.fixedAsset.InvoiceDate =
-      this.fixedAsset.InvoiceDate == null
-        ? null
-        : convertNgbDateToDateString(data.value.InvoiceDate);
+      this.fixedAsset.ExpenseCenterId == null ? null : Number(data.value.ExpenseCenterId);
+    this.fixedAsset.InvoiceDate = this.fixedAsset.InvoiceDate == null ? null : convertNgbDateToDateString(data.value.invoiceDate);
     this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
     this.fixedAsset.GuaranteeStartDate =
-      this.fixedAsset.GuaranteeStartDate == null
-        ? null
-        : convertNgbDateToDateString(data.value.guaranteeStartDate);
-    this.fixedAsset.GuaranteeEndDate =
-      this.fixedAsset.GuaranteeEndDate == null
-        ? null
-        : convertNgbDateToDateString(data.value.guaranteeEndDate);
+      this.fixedAsset.GuaranteeStartDate == null ? null : convertNgbDateToDateString(data.value.guaranteeStartDate);
+    this.fixedAsset.GuaranteeEndDate = this.fixedAsset.GuaranteeEndDate == null ? null : convertNgbDateToDateString(data.value.guaranteeEndDate);
     this.fixedAsset.StatusId =
       this.fixedAsset.StatusId == null ? null : Number(data.value.StatusId);
     this.fixedAsset.FixedAssetCardCategoryId =

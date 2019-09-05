@@ -108,7 +108,7 @@
               <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none"
                 class="form-control" type="text">
                 <option [ngValue]="null">Yok</option>
-                <option *ngFor="let department of ddlDepartments" value={{department.DepartmentId}}>
+                <option *ngFor="let department of ddlDepartments" value={{department.ParentDepartmentId}}>
                   {{department.Name}}
                 </option>
               </select>

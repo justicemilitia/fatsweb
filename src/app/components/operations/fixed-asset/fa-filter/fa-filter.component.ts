@@ -1052,7 +1052,6 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   }
 
   IsPassiveFa(event){
-
     if(event.target.checked == true)
       this.IsPassive= true;
     
@@ -1063,8 +1062,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
 
   IsActiveFa(event){
     if(event.target.checked == true)
-      this.IsActive= true;
-    
+      this.IsActive= true;    
     else
       this.IsActive=false;
   }

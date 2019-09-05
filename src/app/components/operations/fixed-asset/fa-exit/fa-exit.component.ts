@@ -43,6 +43,8 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   @Input() faComponent: FixedAssetComponent;
   IsCreateExitForm: boolean = false;
 
+  fixedAssetPrice:boolean = false;
+
   constructor(baseService: BaseService) {
     super(baseService);
     this.LoadDropdownList();
@@ -52,8 +54,12 @@ export class FaExitComponent extends BaseComponent implements OnInit {
 
   onSubmit(data: NgForm) {
     if (data.form.invalid == true) return;
+
+    if(this.fixedAssetPrice == true) return;
+   
+
     this.popupComponent.ShowModal('#modalShowDeletePopupForFaExit');    
-    // this.exitFixedAsset(data);
+    
     this.popupComponent.CloseModal('#modalExitFixedAsset');    
     
   }
@@ -70,12 +76,16 @@ export class FaExitComponent extends BaseComponent implements OnInit {
             this.faDataTable.TGT_getSelectedItems()
           )).map(x => x.FixedAssetId);
 
+          this.baseService.spinner.show();
+
           this.baseService.fixedAssetService.ExitFixedAsset(
             this.transactionLog,
             (formList: any[], message) => {
               /* Show success pop up */
 
               this.baseService.popupService.ShowSuccessPopup(message);
+
+              this.baseService.spinner.hide();
 
               if(this.IsCreateExitForm==true){
                 for(let i=0;i<formList.length;i++){
@@ -96,6 +106,8 @@ export class FaExitComponent extends BaseComponent implements OnInit {
             (error: HttpErrorResponse) => {
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
+
+              this.baseService.spinner.hide();
             }
           );
          
@@ -159,5 +171,22 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     url=DOCUMENT_URL + formName + ".pdf";
     // this.router.navigate([url]); 
     window.open(url,"_blank");    
+  }
+
+  checkCheckOutPrice(event:any){
+   let price:string = (event.target.value);
+
+   if(price == "")
+   this.fixedAssetPrice = false;
+   else
+   this.fixedAssetPrice = true;
+  }
+
+  selectCurrency(event:any){
+    if(event.target.value != null && event.target.selectedIndex != 0){
+      this.fixedAssetPrice =false;
+    }
+    else
+    this.fixedAssetPrice =true;
   }
 }

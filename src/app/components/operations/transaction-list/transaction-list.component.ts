@@ -52,7 +52,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: this.getLanguageValue('Transaction_Type'),
+        columnDisplayName: this.getLanguageValue('Barcode'),
         columnName: ["NewBarcode"],
         isActive: true,
         classes: [],

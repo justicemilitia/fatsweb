@@ -28,6 +28,11 @@ export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
 
 export const IMAGE_URL =  "http://dev.fatsapi.com/";
+
+// export const DOCUMENT_URL = "http://213.74.216.245:8080/Documents/";
+// export const LANGUAGE_URL = "http://213.74.216.245:8080/Language/language.json";
+
+// export const IMAGE_URL =  "http://213.74.216.245:8080/";
 //export const IMAGE_URL =  "http://localhost:5000/";
 
 export const CRYPTO_KEY = "xOPecpi5elDQenHT";

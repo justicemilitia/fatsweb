@@ -358,7 +358,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     switch (key) {
       case "location":
-    this.loadDropdownLocations();
+    //this.loadDropdownLocations();
     this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
     this.isFaCardCategoryDropdownOpen = false;
     this.isFirmDropdownOpen=false;
@@ -712,7 +712,7 @@ export class UserComponent extends BaseComponent implements OnInit {
          let UserIds:number[]= [];
          /*get user authorized users from server */
          result.UserAuthorizedUsersAuthorizedUser.forEach(e=>{
-           UserIds.push(e.AuthorizedUserId);
+           UserIds.push(e.UserId);
          });  
 
        this.LoadRoleAuthDropdowns(CategoryIds, FirmIds, LocationIds, UserIds);

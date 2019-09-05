@@ -218,8 +218,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     this.ddlDepartments = [];
 
     if (!event.target.value || event.target.value == "") {
-      this.department.DepartmentId = null;
-      this.department = new Department();
+      this.department.ParentDepartmentId = null;      
       return;
     }
 

@@ -33,6 +33,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   /* Is Table Exporting */
   isTableExporting:boolean = false;
 
+  selectedCountry:boolean = false;
+
   /* List of countries */
   countries: Country[] = [];
 
@@ -254,6 +256,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   async addCompany(data: NgForm) {
 
+    if(this.selectedCountry==true) return;
     /* Bind Cities and Countries to table model note: ngModels return string so we have to cast them to number */
     if (this.company.CityId) {
       this.company.CityId = Number(this.company.CityId);
@@ -287,6 +290,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       /* Reset Forms and make company empty to use new */
       this.resetForm(data, true);
 
+      $('#btnRefresh').trigger('click');
+
     }, (error: HttpErrorResponse) => {
 
       /* Show alert message */
@@ -298,6 +303,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   async updateCompany(data: NgForm) {
 
+      if(this.selectedCountry==true) return;
         /* Say to user to wait */
         this.isWaitingInsertOrUpdate = true;
 
@@ -385,8 +391,13 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   async loadCityByCountryId(event: any) {
     this.cities = [];
 
+    if(event.target.selectedIndex == 0)
+      this.selectedCountry =false;
+    else
+      this.selectedCountry=true;
+
     /* if value is empty return to prevent error */
-    if (!event.target.value || event.target.value == '') {
+    if (!event.target.value || event.target.value == '' || event.target.selectedIndex == 0) {
       this.company.CityId = null;
       this.company.City = new City();
       return;
