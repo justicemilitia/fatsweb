@@ -71,6 +71,14 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         type: "text"
       },
       {
+        columnDisplayName: this.getLanguageValue('Location'),
+        columnName: ["ConsumableLocation", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
         columnDisplayName: this.getLanguageValue('Requested_User'),
         columnName: ["RequestedUser"],
         isActive: true,

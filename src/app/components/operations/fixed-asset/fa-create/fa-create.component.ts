@@ -106,6 +106,7 @@ export class FaCreateComponent extends BaseComponent
   fixedAsset: FixedAsset = new FixedAsset();
   faGeneralInformation: FixedAsset = new FixedAsset();
   faPropertyInformation: FixedAsset = new FixedAsset();
+  faFinancialInformation: FixedAsset = new FixedAsset();
   fixedAssetProperty: FixedAssetCardProperty = new FixedAssetCardProperty();
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
@@ -139,6 +140,8 @@ export class FaCreateComponent extends BaseComponent
   resetGeneral: FaGeneralInformationComponent;
   @ViewChild(FaPropertyInformationComponent)
   resetProperty: FaPropertyInformationComponent;
+  @ViewChild(FaFinancialInformationComponent)
+  resetFinancial: FaFinancialInformationComponent;
  
 
   public imagePath;
@@ -335,6 +338,13 @@ export class FaCreateComponent extends BaseComponent
     
   }
 
+  addFaFinancialInformation(fixedasset: FixedAsset, data:NgForm) {
+    this.dataFinancial = data;
+
+    Object.assign(this.faFinancialInformation, fixedasset);
+    
+  }
+
   addToFixedAssetList(data: NgForm) {
 
     this.dataFinancial = data;
@@ -343,6 +353,18 @@ export class FaCreateComponent extends BaseComponent
 
     this.fixedAsset.FixedAssetPropertyDetails = this.faPropertyInformation.FixedAssetPropertyDetails;
     this.fixedAsset.Picture = this.faPropertyInformation.Picture;
+
+
+    // this.fixedAsset.IFRSCurrecyId = Number(this.faFinancialInformation.IFRSCurrecyId);
+    // this.fixedAsset.Price = Number(this.faFinancialInformation.Price);
+    // this.fixedAsset.Ifrsprice = Number(this.faFinancialInformation.Ifrsprice);
+    // this.fixedAsset.DepreciationPeriod = Number(this.faFinancialInformation.DepreciationPeriod);
+    // this.fixedAsset.Ifrsperiod = Number(this.faFinancialInformation.Ifrsperiod);
+    // this.fixedAsset.DepreciationCalculationTypeID = Number(this.faFinancialInformation.DepreciationCalculationTypeID);
+    // this.fixedAsset.WillDepreciationBeCalculated = this.faFinancialInformation.WillDepreciationBeCalculated;
+    // this.fixedAsset.WillIfrsbeCalculated = this.faFinancialInformation.WillIfrsbeCalculated;
+    // this.fixedAsset.CurrencyId = Number(this.faFinancialInformation.CurrencyId);
+
 
     this.dataTable.TGT_clearData();
 
@@ -362,6 +384,13 @@ export class FaCreateComponent extends BaseComponent
     this.fixedAsset.InvoiceNo = data.value.InvoiceNo;
     this.fixedAsset.ReceiptDate = data.value.receiptDate;
     this.fixedAsset.IFRSCurrecyId = Number(data.value.IFRSCurrecyId);
+    this.fixedAsset.Price = Number(data.value.Price);
+    this.fixedAsset.Ifrsprice = Number(data.value.Ifrsprice);
+    this.fixedAsset.DepreciationPeriod = Number(data.value.DepreciationPeriod);
+    this.fixedAsset.Ifrsperiod = Number(data.value.Ifrsperiod);
+    this.fixedAsset.DepreciationCalculationTypeID = Number(data.value.DepreciationCalculationTypeID);
+    this.fixedAsset.WillDepreciationBeCalculated = data.value.WillDepreciationBeCalculated;
+    this.fixedAsset.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
 
     if (this.isFinished == true) {
       for (let i = 0; i < this.fixedAsset.Quantity; i++) {

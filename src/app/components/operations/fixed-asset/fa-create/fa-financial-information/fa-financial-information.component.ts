@@ -36,7 +36,7 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
   currencies: Currency[] = [];
   depreciationTypes: Depreciation[] = [];
   agreements: Agreement[] = [];
-  roleControl:boolean=true;
+  roleControl:boolean=false;
 
   constructor(protected baseService: BaseService, private authentication: AuthenticationService,) {
 
@@ -54,7 +54,7 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
     let role = this.authentication.roles.forEach(
       x => {
         if(x.MenuCaption == pages.MENU_DEPRECIATION)
-          this.roleControl = false;
+          this.roleControl = true;
       }
     );
   };
