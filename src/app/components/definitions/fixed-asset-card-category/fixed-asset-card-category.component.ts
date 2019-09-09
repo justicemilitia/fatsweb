@@ -37,6 +37,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
   notDeletedBarcode: string = '';
   
+  selectedItems:any[]=[];
   /* Data Table */
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetcardcategory",
@@ -95,15 +96,29 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
       this.popupComponent.CloseModal('#modalFixedAssetCardCategory');
     }
   }
+  
+
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+   
+     /* if count of items equals 0 show message for no selected item */
+     if (!this.selectedItems || this.selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Choose_at_least_one_category'));
+      return;
+    }
+   else
+   this.popupComponent.ShowModal('#modalShowDeletePopupForFixedAssetCardCategory');
+   
+ }
 
   async deleteFixedAssetCardCategories() {
-    /* get selected items from table */
-    let selectedItems = this.dataTable.TGT_getSelectedItems();
 
     this.notDeletedBarcode = '';    
 
     /* if count of items equals 0 show message for no selected item */
-    if (!selectedItems || selectedItems.length == 0) {
+    if (!this.selectedItems || this.selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Choose_at_least_one_category'));
       return;
     }
@@ -115,7 +130,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
       this.baseService.spinner.show();
 
       /* Convert items to ids */
-      let itemIds: number[] = selectedItems.map(x => x.getId());
+      let itemIds: number[] = this.selectedItems.map(x => x.getId());
 
       /* Delete all */
       this.baseService.fixedAssetCardCategoryService.DeleteFixedAssetCardCategories(itemIds, () => {
@@ -148,9 +163,16 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
 
         itemIds.forEach((e:NotDeletedItem) => {
           for(let i=0; i<itemIds.length; i++){
-        barcode = faCategories.find(x=>x.FixedAssetCardCategoryId == e[i].Id);
+            let id:NotDeletedItem = e;
+            let ids:NotDeletedItem[]=[];
+            ids.push(id);
+
+            ids.forEach(t=>{
+              for(let j=0; j<ids.length; j++)
+              barcode= faCategories.find(x=>x.FixedAssetCardCategoryId == t[j].Id);
+            });        
         }     
-          notDeletedCode.push(barcode.FixedAssetCardCategoryCode);
+        notDeletedCode.push(barcode.FixedAssetCardCategoryCode);
         });
 
         /* Show error message */
@@ -160,7 +182,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
           
           notDeletedCode.forEach((e, i) => {
             this.notDeletedBarcode +=
-              e + (i == selectedItems.length - 1 ? "" : ", ");
+              e + (i == this.selectedItems.length - 1 ? "" : ", ");
           });
 
            this.popupComponent.ShowModal('#modalShowErrorPopup');          

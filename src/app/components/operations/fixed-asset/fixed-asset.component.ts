@@ -28,7 +28,14 @@ import { DashboardComponent } from '../../dashboard/dashboard.component';
 export class FixedAssetComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   searchDescription: string = '';
+
+  faFilter:FixedAsset[]=[];
+
   isGuaranteeFixedAsset: boolean;
+
+  isFilterDataTable:boolean=false;
+
+  
   dashboardComponent: DashboardComponent = new DashboardComponent(this.baseService); 
 // = new DashboardComponent(this.baseService);
 
@@ -52,6 +59,14 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         // this.guaranteeFixedAsset();
          
     });
+  }
+
+  loadDatatable(_perInPage: number = 25, _currentPage: number = 1){
+    if(this.isFilterDataTable)
+    this.loadFixedAssetForFilter(_perInPage,_currentPage,this.totalPage,this.fixedAssets);
+    else
+    this.loadFixedAsset(_perInPage,_currentPage);
+
   }
 
   isWaitingValidBarcode: boolean = false;
@@ -104,6 +119,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   perInPage: number = 25;
   totalPage: number = 1;
   pages: Page[] = [];
+
+  //#region DataTable
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -918,6 +935,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     }
   );
 
+  //#endregion
+
 
   imageToShow: any;
   page: number;
@@ -1080,6 +1099,31 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         this.TGT_calculatePages();
       }
     );
+  }
+
+  loadFixedAssetForFilter(perInPage: number = 1000, _currentPage: number = 1, totalPage:number, fa:FixedAsset[]){
+
+    this.isFilterDataTable=true;
+    this.dataTable.TGT_clearData();
+    this.dataTable.isLoading = true;
+
+    this.perInPage = perInPage;
+    this.currentPage = _currentPage;
+    this.dataTable.perInPage = perInPage;
+    this.faFilter = fa;
+    this.totalPage = Math.floor(fa.length/this.perInPage);
+
+    
+    fa.forEach(e => {
+      e.FixedAssetPropertyDetails.forEach(p => {
+        if (p.FixedAssetCardPropertyId) {
+          e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+        }
+      });
+    });
+
+    this.dataTable.TGT_loadData(this.faFilter);
+    this.TGT_calculatePages();
   }
 
   async loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {

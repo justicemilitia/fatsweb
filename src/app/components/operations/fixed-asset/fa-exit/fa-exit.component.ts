@@ -94,11 +94,12 @@ export class FaExitComponent extends BaseComponent implements OnInit {
               }
               
               /* Push inserted item to Property list */
+
               this.transactionLogs.push(this.transactionLog);
 
               this.faComponent.loadFixedAsset();  
 
-              $("#CloseModalExit").trigger("click");
+             $("#CloseModal").trigger("click");
 
               this.resetForm(data,true);
             
@@ -111,7 +112,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
             }
           );
          
-
+          this.popupComponent.CloseModal("#modalShowDeletePopupForFaExit");
         // }
     //   }
     // );
@@ -188,5 +189,9 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     }
     else
     this.fixedAssetPrice =true;
+  }
+
+  closeFaExit(){
+    this.popupComponent.CloseModal("#modalShowDeletePopupForFaExit");
   }
 }

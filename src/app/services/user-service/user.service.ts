@@ -306,14 +306,10 @@ export class UserService {
         result => {
           let response: Response = <Response>result;
           if ((<[]>response.ResultObject).length == 0)
-            success(response.ResultObject, response.LanguageKeyword);
-          
-          else(response.LanguageKeyword == "You_are_not_allowed_to_delete_records_found_that_releated!")
+            success(response.ResultObject, response.LanguageKeyword);          
+          else
             failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
-          // }
-          // else{
-          //   failed(getAnErrorResponse(response.LanguageKeyword));
-          // }
+ 
         },
         error => {
           failed(error);

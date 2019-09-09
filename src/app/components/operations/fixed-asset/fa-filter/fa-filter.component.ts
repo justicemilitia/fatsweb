@@ -92,6 +92,9 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   dropdownSettingsForUser = {};
 
   /* Fixed Asset Card Property Value Data Table */
+
+  //#region DataTables
+
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetcardpropertyvalue",
     [
@@ -269,10 +272,13 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     }
   );
 
-
-  constructor(protected baseService: BaseService) {
+//#endregion
+  
+constructor(protected baseService: BaseService) {
     super(baseService);
     this.loadDropdownList();
+
+    //#region DataTable Settings
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
@@ -338,6 +344,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     this.dataTableStatus.isHeaderVisible = false;
     this.dataTableStatus.isScrollActive = false;
 
+    //#endregion
+
     $(document).on("click", e => {
       if (
         $(e.target).closest(".custom-dropdown").length == 0 &&
@@ -396,79 +404,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.dropdownSettingsForCard = {
-    //   singleSelection: false,
-    //   idField: "FixedAssetCardId",
-    //   textField: "Name",
-    //   selectAllText: this.getLanguageValue('Select_All'),
-    //   unSelectAllText: this.getLanguageValue('Clear'),
-    //   itemsShowLimit: 10,
-    //   allowSearchFilter: true
-    // };
-
-    // this.dropdownSettingsForDepartment = {
-    //   singleSelection: false,
-    //   idField: "DepartmentId",
-    //   textField: "Name",
-    //   selectAllText: this.getLanguageValue('Select_All'),
-    //   unSelectAllText: this.getLanguageValue('Clear'),
-    //   itemsShowLimit: 10,
-    //   allowSearchFilter: true
-    // };
-    // this.dropdownSettingsForLocation = {
-    //   singleSelection: false,
-    //   idField: "LocationId",
-    //   textField: "Name",
-    //   selectAllText: this.getLanguageValue('Select_All'),
-    //   unSelectAllText: this.getLanguageValue('Clear'),
-    //   itemsShowLimit: 10,
-    //   allowSearchFilter: true
-    // };
-    // this.dropdownSettingsForCategory = {
-    //   singleSelection: false,
-    //   idField: "FixedAssetCardCategoryId",
-    //   textField: "Name",
-    //   selectAllText: this.getLanguageValue('Select_All'),
-    //   unSelectAllText: this.getLanguageValue('Clear'),
-    //   itemsShowLimit: 10,
-    //   allowSearchFilter: true
-    // };
-    // this.dropdownSettingsForStatus = {
-    //   singleSelection: false,
-    //   idField: "FixedAssetStatusId",
-    //   textField: "Name",
-    //   selectAllText: this.getLanguageValue('Select_All'),
-    //   unSelectAllText: this.getLanguageValue('Clear'),
-    //   itemsShowLimit: 10,
-    //   allowSearchFilter: true
-    // };
-    // this.dropdownSettingsForBrand = {
-    //   singleSelection: false,
-    //   idField: "FixedAssetCardBrandId",
-    //   textField: "Name",
-    //   selectAllText: this.getLanguageValue('Select_All'),
-    //   unSelectAllText: this.getLanguageValue('Clear'),
-    //   itemsShowLimit: 10,
-    //   allowSearchFilter: true
-    // };
-    // this.dropdownSettingsForModel = {
-    //   singleSelection: false,
-    //   idField: "FixedAssetCardModelId",
-    //   textField: "Name",
-    //   selectAllText: this.getLanguageValue('Select_All'),
-    //   unSelectAllText: this.getLanguageValue('Clear'),
-    //   itemsShowLimit: 10,
-    //   allowSearchFilter: true
-    // };
-    // this.dropdownSettingsForUser = {
-    //   singleSelection: false,
-    //   idField: "UserId",
-    //   textField: "FirstName + ' ' + Last Name",
-    //   selectAllText: this.getLanguageValue('Select_All'),
-    //   unSelectAllText: this.getLanguageValue('Clear'),
-    //   itemsShowLimit: 10,
-    //   allowSearchFilter: true
-    // };
+   
   }
 
   toggleDropdown(key:string) {
@@ -799,7 +735,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
 
     this.fixedAsset.IsSearchRequest = true;
     this.fixedAsset.Page = 1;
-    this.fixedAsset.PerPage = 1000;
+    this.fixedAsset.PerPage = 100000;
 
     if (data.value.Barcode)
       this.fixedAsset.Barcodes.push(data.value.Barcode);
@@ -841,14 +777,16 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
         /* Show success pop up */
         // this.baseService.popupService.ShowSuccessPopup(message);
 
-        this.fixedAssetFilterList = fixedAssets;
-        this.filterDataTable.TGT_loadData(this.fixedAssetFilterList);
-        this.fixedAssetComponent.currentPage = 1;
-        this.fixedAssetComponent.perInPage = 1000;
-        this.fixedAssetComponent.totalPage = totalPage;
-        this.fixedAssetComponent.TGT_calculatePages();
-        this.loadFixedAssetPropertyList();
-        $("#CloseModal").trigger("click");
+        this.fixedAssetComponent.loadFixedAssetForFilter(25,1,totalPage,fixedAssets);
+
+        // this.fixedAssetFilterList = fixedAssets;
+        // this.filterDataTable.TGT_loadData(this.fixedAssetFilterList);
+        // this.fixedAssetComponent.currentPage = 1;
+        // this.fixedAssetComponent.perInPage = 1000;
+        // this.fixedAssetComponent.totalPage = totalPage;
+        // this.fixedAssetComponent.TGT_calculatePages();
+        // this.loadFixedAssetPropertyList();
+        // $("#CloseModal").trigger("click");
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

@@ -66,6 +66,7 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
           this.baseService.fixedAssetService.ChangeRelationship(
             this.fixedAsset,
             (insertedItem: FixedAsset, message) => {
+
               this.baseService.spinner.hide();
 
               /* Show success pop up */
@@ -81,6 +82,9 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
               this.resetForm(data);
               
               this.faComponent.loadFixedAsset();
+
+              $('#CloseModal').trigger('click');
+
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
@@ -91,7 +95,6 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
           );
 
           this.popupComponent.CloseModal('#modalShowQuestionPopupForRelationship');
-          
         // }
     //   }
     // );

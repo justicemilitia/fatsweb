@@ -56,6 +56,8 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
   async suspendFixedAsset(data: NgForm) {
     if (data.form.invalid == true) return;
 
+    this.baseService.spinner.show();
+
     this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
@@ -71,6 +73,8 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
         /* Show success pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
 
+        this.baseService.spinner.hide();
+
         if(this.IsCreateSuspendForm==true){
           for(let i=0;i<formList.length;i++){
             this.PressSuspendForm(formList[i].FixedAssetFormCode);
@@ -82,11 +86,15 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
 
         this.faComponent.loadFixedAsset();
 
+        $('#CloseModal').trigger('click');
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
-        this.IsCreateSuspendForm==false;
+
+        this.baseService.spinner.hide();
+
+        this.IsCreateSuspendForm == false;
         // this.resetForm(data, true);
       }
     );

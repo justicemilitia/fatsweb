@@ -40,6 +40,9 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   fixedAssetCard: FixedAssetCard = new FixedAssetCard();
 
   notDeletedBarcode: string = '';
+
+  selectedItems:any[]=[];
+
   
   public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
     [
@@ -114,16 +117,23 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
     }
   }
 
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+   
+      /* If count of items equals 0 show message for no selected item */
+      if (!this.selectedItems || this.selectedItems.length == 0) {
+        this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Choose_at_least_one_Fixed_Asset_Card'));
+        return;
+      }
+   else
+   this.popupComponent.ShowModal('#modalShowDeletePopupForFixedAssetCard');   
+ }
+
   async deleteFixedAssetCards() {
 
-    /* Get selected items from table */
-    let selectedItems = this.dataTable.TGT_getSelectedItems();
-
-    /* If count of items equals 0 show message for no selected item */
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Choose_at_least_one_Fixed_Asset_Card'));
-      return;
-    }
+    this.notDeletedBarcode = '';
 
     /* Show Question Message */
     // this.baseService.popupService.ShowQuestionPopupForDelete(() => {
@@ -132,7 +142,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
       this.baseService.spinner.show();
 
       /* Convert items to ids */
-      let itemIds: number[] = selectedItems.map(x => x.getId());
+      let itemIds: number[] = this.selectedItems.map(x => x.getId());
 
       /* Delete all */
       this.baseService.fixedAssetCardService.DeleteFixedAssetCards(itemIds, (notDeletedItemIds: number[]) => {
@@ -168,14 +178,14 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
         barcode = faCards.find(x=>x.FixedAssetCardId == e[i].Id);
         }     
           notDeletedCode.push(barcode.FixedAssetCardCode);
-        });
+        });        
 
         /* Show error message */
         if(itemIds.length>0){
         // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
         notDeletedCode.forEach((e, i) => {
           this.notDeletedBarcode +=
-            e + (i == selectedItems.length - 1 ? "" : ", ");
+            e + (i == this.selectedItems.length - 1 ? "" : ", ");
         });
 
          this.popupComponent.ShowModal('#modalShowErrorPopup');   

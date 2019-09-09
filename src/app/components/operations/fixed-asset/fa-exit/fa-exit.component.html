@@ -92,20 +92,20 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content tx-size-sm">
       <div class="modal-body tx-center pd-y-20 pd-x-20">
-        <button id="CloseModalExit" type="button" class="close" (click)="resetForm(data,true)" data-dismiss="modal" aria-label="Close">
+        <button id="CloseModalExit" type="button" class="close" (click)="closeFaExit()">
           <span aria-hidden="true">&times;</span>
         </button>
         <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
-        <h4 class="mg-b-20">{{getLanguageValue('Are_you_sure_you_want_to_delete')}}</h4>
+        <h4 class="mg-b-20">{{getLanguageValue('Are_you_sure_you_want_to_perform_the_operation')}}</h4>
         <p class="mg-b-20 mg-x-20">{{getLanguageValue('This_operation_can_not_be_undone')}}</p>
    
         <div class="row" style="margin-bottom:20px;">
           <div class="col-md-6" style="padding-right: 0px;">
-            <button class="btn btn-az-danger" style="float:right; padding-left:32px; padding-right:32px;" (click)="resetForm(data,true)"  data-dismiss="modal" aria-label="Close">{{getLanguageValue('Cancel')}}</button>        
+            <button class="btn btn-az-danger" style="float:right; padding-left:32px; padding-right:32px;" (click)="closeFaExit()">{{getLanguageValue('No')}}</button>        
           </div>
        
           <div class="col-md-6">        
-            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="exitFixedAsset(data)">{{getLanguageValue('Delete')}}</button>
+            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="exitFixedAsset(data)">{{getLanguageValue('Yes')}}</button>
           </div>   
         </div>
 

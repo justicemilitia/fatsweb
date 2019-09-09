@@ -106,7 +106,7 @@
               <ul class="pagination">
                 <ng-container *ngFor="let page of pages">
                   <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
-                      (click)="loadFixedAsset(perInPage,page.value)" class="page-link">{{page.display}}</button>
+                      (click)="loadDatatable(perInPage,page.value)" class="page-link">{{page.display}}</button>
                   </li>
                 </ng-container>
               </ul>

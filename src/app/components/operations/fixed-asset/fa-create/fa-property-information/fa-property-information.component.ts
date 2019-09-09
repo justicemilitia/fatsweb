@@ -117,6 +117,7 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
 }
 
 async loadValuesByPropertyId(event) {
+  this.fixedAssetPropertyDetail.Value=null;
 
   this.isSelectedProperty = true;
 
@@ -147,36 +148,27 @@ async loadValuesByPropertyId(event) {
 
 getPropertyValue(event: any) {
 
-  this.propertyValue = event.target.value;
-
   this.visible = false;
 
-  this.fixedAssetPropertyDetail.Value = null;
+  this.fixedAssetPropertyDetail.Value = event.target.value;;
 }
 
 insertPropertyValueToArray(propertyId: any) {
-  this.fixedassetpropertyvalues = [];
 
-  this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(this.fixedAssetPropertyDetail,
-    (result:boolean)=>{    
-      if(result){  
-      this.isUniqueProperty=false;
-      this.isUniquePropertyControl(propertyId);   
-    }
-    else
-      this.isUniqueProperty=true;
-    },(error:HttpErrorResponse) => {  
-      this.baseService.popupService.ShowErrorPopup(error);
-      this.isUniqueProperty=true;
-    });
-}
 
-isUniquePropertyControl(propertyId:any){
+  if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId == null)
+    this.fixedassetpropertyvalues = [];
 
   this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
   if(this.isListSelected==false) 
   this.propertyValue = this.fixedAssetPropertyDetail.Value;
+
+  if(this.sameProperty == true)
+  {
+  this.sameProperty = false;
+  return;
+  }
 
   this.faPropertyDetails.forEach(e=>{
 
@@ -186,58 +178,66 @@ isUniquePropertyControl(propertyId:any){
     this.sameProperty = false;
   });
 
-if(this.sameProperty == true)
-{
-  this.sameProperty = false;
-  return;
-}
+  if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
+    this.visiblePropertyName=false;
 
-if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
-
-  this.visiblePropertyName=false;
-
-  if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){
-  
-      let fixedasset = this.fixedassetproperty.find(
-        x => x.FixedAssetCardPropertyId == Number(propertyId.value)
-      );
-
-      this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
-        (this.faPropertyDetails.length + 1) * -1;
-
-      this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
-
-      if (this.isListSelected == true)
-        this.fixedAssetPropertyDetail.Value = this.propertyValue;
-
-      this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
-
-      this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
-
-      this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-
-      this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
-
-      propertyId = null;
+    if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){
       
-      this.visible = false;
 
-      this.isSelectedProperty = false;
+      if(!this.isUniqueProperty){
 
-  }
-  else{
-    this.visiblePropertyName=true;    
-  } 
-}
-else{
-  this.visible=true;
+        let fixedasset = this.fixedassetproperty.find(
+          x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+        );
   
-  this.visiblePropertyName=true;    
+        this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+          (this.faPropertyDetails.length + 1) * -1;
+  
+        this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+  
+        if (this.isListSelected == true)
+          this.fixedAssetPropertyDetail.Value = this.propertyValue;
+  
+        this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+  
+        this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+  
+        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+  
+        this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+  
+        propertyId = null;
+        
+        this.visible = false;
+  
+        this.isSelectedProperty = false;
+      }
+      else return;
+    }
+    else{
+      this.visiblePropertyName=true;  
+    }
+  }else{
+    this.visible=true;
+  
+    this.visiblePropertyName=true;    
+  }
 }
 
-
+insertPropertyValueToArrayUniqueControl(propertyId: any){
+  this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(this.fixedAssetPropertyDetail,
+    (result:boolean)=>{    
+      if(result){  
+      this.isUniqueProperty=false;    
+      this.insertPropertyValueToArray(propertyId);  
+    }
+    else
+      this.isUniqueProperty=true;
+    },(error:HttpErrorResponse) => {  
+      this.baseService.popupService.ShowErrorPopup(error);
+      this.isUniqueProperty=true;
+    });
 }
-
 
 onSubmit(data:NgForm){
 

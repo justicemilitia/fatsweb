@@ -124,7 +124,7 @@
             <div class="form-group col-md-6">
               <label>{{getLanguageValue('City')}}</label>
               <select [(ngModel)]="company.CityId" [attr.disabled]="cities.length > 0 ? null :'disabled'" name="CityId" 
-                class="form-control select2-no-search" [attr.required] = "selectedCountry == true ? true : undefined" >
+                class="form-control select2-no-search">
                 <option [ngValue]="null">{{getLanguageValue('None')}}</option>
                 <option *ngFor="let city of cities" value="{{city.CityId}}">{{city.Name}}</option>
               </select>

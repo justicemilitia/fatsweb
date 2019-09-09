@@ -423,7 +423,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
           this.agreement.StartDate = convertDateToNgbDate(this.agreement.StartDate);
 
-          this.agreement.EndDate = convertDateToNgbDate(this.agreement.EndDate);
+          this.agreement.EndDate = convertDateToNgbDate(this.agreement.EndDate);          
 
         }, 1000);
       },
@@ -439,6 +439,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   clearFiles() {
     this.agreementFiles = [];
+
+    this.agreement.AgreementFile = null;
   }
 
   changeFile(event) {

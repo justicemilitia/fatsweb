@@ -93,11 +93,15 @@ export class FaLostComponent extends BaseComponent
             this.faDataTable.TGT_getSelectedItems()
           )).map(x => x.FixedAssetId);
 
+          this.baseService.spinner.show();
+
             await this.baseService.fixedAssetService.LostFixedAsset(
             this.transactionLog,
             (insertedItem: TransactionLog, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
+
+              this.baseService.spinner.hide();
 
               /* Set inserted Item id to model */
               this.transactionLog.TransactionLogId =
@@ -106,10 +110,14 @@ export class FaLostComponent extends BaseComponent
               /* Push inserted item to Property list */
               this.transactionLogs.push(this.transactionLog);
               this.faComponent.loadFixedAsset();
+              
+              $('#CloseModal').trigger('click');
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
+            
+              this.baseService.spinner.hide();
             }
           );
           this.faBarcode=[];

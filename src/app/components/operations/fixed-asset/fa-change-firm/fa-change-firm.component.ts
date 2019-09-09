@@ -281,12 +281,14 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
           this.isWaitingInsertOrUpdate = true;
 
+          this.baseService.spinner.show();
           this.baseService.fixedAssetService.ChangeFirm(
             cloneItem,
             (insertedItem: FixedAsset, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
 
+              this.baseService.spinner.hide();
               this.isWaitingInsertOrUpdate = false;
 
               /* Set inserted Item id to model */
@@ -304,6 +306,9 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowErrorPopup(error);
 
               this.isWaitingInsertOrUpdate = false;
+              
+              this.baseService.spinner.hide();
+
             }
           );
     this.popupComponent.CloseModal('#modalShowQuestionPopupForChangeFirm');
@@ -313,14 +318,18 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
 
 
   resetForm(data: NgForm) {
+
     data.resetForm();
+
     this.selectedDepartment = null;
     this.selectedLocation = null;
     this.selectedFirm = null;
+    this.selectedUser=null;
 
     this.dataTableLocation.TGT_clearData();
     this.dataTableDepartment.TGT_clearData();
     this.dataTableUser.TGT_clearData();
+    this.dataTableFirm.TGT_clearData();
   }
 
 
@@ -340,7 +349,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
       break;
     }
   }
-  closeChangeLocationPopup(){
+  closeChangeFirmPopup(){
     this.popupComponent.CloseModal("#modalShowQuestionPopupForChangeFirm");
   }
 

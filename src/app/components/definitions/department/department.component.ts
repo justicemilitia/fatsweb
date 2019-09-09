@@ -49,6 +49,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
   department: Department = new Department();
 
   notDeletedBarcode: string = '';
+  
   selectedItems:any[]=[];
 
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -125,7 +126,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     
      /* get selected items from table */
      this.selectedItems = this.dataTable.TGT_getSelectedItems();
-
+    
      /* if count of items equals 0 show message for no selected item */
      if (!this.selectedItems || this.selectedItems.length == 0) {
        this.baseService.popupService.ShowAlertPopup(
@@ -145,6 +146,8 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
   }
 
   async deleteDepartments() {
+
+      this.notDeletedBarcode = '';
 
     /* Show Question Message */
     // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
@@ -190,11 +193,17 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
 
           itemIds.forEach((e:NotDeletedItem) => {
             for(let i=0; i<itemIds.length; i++){
-          barcode = departments.find(x=>x.DepartmentId == e[i].Id);
+              let id:NotDeletedItem = e;
+              let ids:NotDeletedItem[]=[];
+              ids.push(id);
+
+              ids.forEach(t=>{
+                for(let j=0; j<ids.length; j++)
+                barcode= departments.find(x=>x.DepartmentId == t[j].Id);
+              });        
           }     
             notDeletedCodes.push(barcode.DepartmentCode);
           });
-
           /* Show error message */
           if(itemIds.length>0)
           {
@@ -208,9 +217,12 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
           }
           else
           this.baseService.popupService.ShowErrorPopup(error);
+
+
         }
       );
       this.popupComponent.CloseModal('#modalShowDeletePopupForDepartment');      
+
     // });
   }
 

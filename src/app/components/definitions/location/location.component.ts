@@ -35,6 +35,8 @@ export class LocationComponent extends BaseComponent implements OnInit {
   /* Current edit location */
   location: Location = new Location();
 
+  selectedItems:any[]=[];
+
   notDeletedBarcode: string = '';
   
   public dataTable: TreeGridTable = new TreeGridTable(
@@ -125,17 +127,25 @@ export class LocationComponent extends BaseComponent implements OnInit {
     return this.locations.filter(x => x.LocationId != this.location.LocationId);
   }
 
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+   
+    /* if count of items equals 0 show message for no selected item */
+      /* if count of items equals 0 show message for no selected item */
+      if (!this.selectedItems || this.selectedItems.length == 0) {
+        this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Choose_at_least_one_location'));
+        return;
+      }
+   else
+
+   this.popupComponent.ShowModal('#modalShowDeletePopupForLocation');   
+ }
+
   async deleteLocations() {
 
-    /* get selected items from table */
-    let selectedItems = this.dataTable.TGT_getSelectedItems();
     this.notDeletedBarcode = '';
-
-    /* if count of items equals 0 show message for no selected item */
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Choose_at_least_one_location'));
-      return;
-    }
 
     /* Show Question Message */
     // this.baseService.popupService.ShowQuestionPopupForDelete(() => {
@@ -144,7 +154,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
       this.baseService.spinner.show();
 
       /* Convert items to ids */
-      let itemIds: number[] = selectedItems.map(x => x.getId());
+      let itemIds: number[] = this.selectedItems.map(x => x.getId());
 
       /* Delete all */
       this.baseService.locationService.DeleteLocations(itemIds, () => {
@@ -172,35 +182,41 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
         let locations = <Location[]>this.dataTable.TGT_copySource();
         
+        
         /* Hide spinner then show error message */
         this.baseService.spinner.hide();
 
-        itemIds.forEach((e:NotDeletedItem) => {
+        itemIds.forEach((e:NotDeletedItem) => {         
           for(let i=0; i<itemIds.length; i++){
-        barcode = locations.find(x=>x.LocationId == e[i].Id);
-        }     
+            let id:NotDeletedItem = e;
+            let ids:NotDeletedItem[]=[];
+            ids.push(id);
+            
+            ids.forEach(t=>{
+            for(let j=0; j<ids.length; j++)
+            barcode= locations.find(x=>x.LocationId == t[j].Id);
+          });
+          }  
           notDeletedCode.push(barcode.Barcode);
         });
 
         /* Show error message */
         if(itemIds.length>0)
-        {
-          // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
-          
+        {          
           notDeletedCode.forEach((e, i) => {
             this.notDeletedBarcode +=
-              e + (i == selectedItems.length - 1 ? "" : ", ");
+              e + (i == this.selectedItems.length - 1 ? "" : ", ");
           });
 
            this.popupComponent.ShowModal('#modalShowErrorPopup');          
-          }
-        
+          }        
         else
         this.baseService.popupService.ShowErrorPopup(error);
 
       });
-      this.popupComponent.CloseModal('#modalShowDeletePopupForLocation');
     // });
+    this.popupComponent.CloseModal('#modalShowDeletePopupForLocation');
+
   }
 
   async addLocation(data: NgForm) {

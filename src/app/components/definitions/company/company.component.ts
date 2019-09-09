@@ -155,7 +155,11 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   ngOnInit() { }
 
   resetForm(data: NgForm, isNewItem: boolean) {
+    
+    this.selectedCountry=false;
+
     data.resetForm(this.company);
+
     this.loadCountryList();
     if (isNewItem == true) {
       this.cities = [];
@@ -256,7 +260,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   async addCompany(data: NgForm) {
 
-    if(this.selectedCountry==true) return;
+    if(this.selectedCountry==true){
+      if(data.value.CityId == null)
+      return;      
+    } 
     /* Bind Cities and Countries to table model note: ngModels return string so we have to cast them to number */
     if (this.company.CityId) {
       this.company.CityId = Number(this.company.CityId);
@@ -291,6 +298,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.resetForm(data, true);
 
       $('#btnRefresh').trigger('click');
+
+      this.selectedCountry=false;
 
     }, (error: HttpErrorResponse) => {
 

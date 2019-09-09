@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, ViewChild } from "@angular/core";
+import { Component, OnInit, NgModule, ViewChild, SimpleChanges } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
@@ -27,6 +27,7 @@ import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 })
 export class UserComponent extends BaseComponent implements OnInit {
 
+  
   isLocationDropdownOpen: boolean = false;
 
   isUserDropdownOpen:boolean = false;
@@ -95,6 +96,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   isUpdate:boolean=false;
   
   notDeletedBarcode: string = '';
+
+  selectedItems:User[]=[];
 
   @ViewChild("stepper") stepper: MatStepper;
 
@@ -562,18 +565,26 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.popupComponent.CloseModal('#modalShowQuestionPopupForUser');          
   }
 
- deleteUsers() {
-    /* Get selected items from table */
-    let selectedItems = this.dataTable.TGT_getSelectedItems();
-    this.notDeletedBarcode = '';
-
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = <User[]>this.dataTable.TGT_getSelectedItems();
+   
     /* if count of items equals 0 show message for no selected item */
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-         this.getLanguageValue('Please_choose_at_least_one_record')
-      );
-      return;
-    }
+      if (!this.selectedItems || this.selectedItems.length == 0) {
+        this.baseService.popupService.ShowAlertPopup(
+           this.getLanguageValue('Please_choose_at_least_one_record')
+        );
+        return;
+      }
+   else
+   this.popupComponent.ShowModal('#modalShowDeletePopupForUser');
+   
+ }
+
+ deleteUsers() {
+
+    this.notDeletedBarcode = '';
 
     /* Show Question Message */
     //  this.baseService.popupService.ShowQuestionPopupForDelete(() => {
@@ -581,7 +592,7 @@ export class UserComponent extends BaseComponent implements OnInit {
       this.baseService.spinner.show();
 
       /* Convert items to ids */
-      let itemIds: number[] = selectedItems.map(x => x.getId());
+      let itemIds: number[] = this.selectedItems.map(x => x.getId());
 
       /* Delete all */
       this.baseService.userService.DeleteUsers(
@@ -615,15 +626,22 @@ export class UserComponent extends BaseComponent implements OnInit {
           let users = <User[]>this.dataTable.TGT_copySource();
           
           /* Hide spinner then show error message */
-          this.baseService.spinner.hide();
+          this.baseService.spinner.hide(); 
+    
   
           itemIds.forEach((e:NotDeletedItem) => {
             for(let i=0; i<itemIds.length; i++){
-          barcode = users.find(x=>x.UserId == e[i].Id);
+              let id:NotDeletedItem = e;
+              let ids:NotDeletedItem[]=[];
+              ids.push(id);
+
+              ids.forEach(t=>{
+                for(let j=0; j<ids.length; j++)
+                barcode= users.find(x=>x.UserId == t[j].Id);
+              });        
           }     
-            notDeletedCode.push(barcode.UserCode);
+          notDeletedCode.push(barcode.UserCode);
           });
-  
           /* Show error message */
           if(itemIds.length>0)
           {
@@ -631,7 +649,7 @@ export class UserComponent extends BaseComponent implements OnInit {
           
           notDeletedCode.forEach((e, i) => {
             this.notDeletedBarcode +=
-              e + (i == selectedItems.length - 1 ? "" : ", ");
+              e + (i == this.selectedItems.length - 1 ? "" : ", ");
           });
 
            this.popupComponent.ShowModal('#modalShowErrorPopup');          
