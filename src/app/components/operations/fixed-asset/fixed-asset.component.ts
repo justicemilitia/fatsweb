@@ -17,13 +17,17 @@ import { FixedAssetForm } from 'src/app/models/FixedAssetForm';
 import { FixedAssetFile } from 'src/app/models/FixedAssetFile';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 
-
+export enum LoadDataTypes {
+  SearchFixedAsset = 1,
+  FilterFixedAsset = 2,
+}
 
 @Component({
   selector: "app-fixed-asset",
   templateUrl: "./fixed-asset.component.html",
   styleUrls: ["./fixed-asset.component.css"]
 })
+
 
 export class FixedAssetComponent extends BaseComponent implements OnInit, AfterViewInit {
 
@@ -33,8 +37,16 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   isGuaranteeFixedAsset: boolean;
 
-  isFilterDataTable:boolean=false;
+  isFilter:boolean=false;
 
+  isSearch:boolean=false;
+
+  key:number;
+
+  faNewFilter:FixedAsset[]=[];
+
+  faNewSearch:FixedAsset[]=[];
+  
   
   dashboardComponent: DashboardComponent = new DashboardComponent(this.baseService); 
 // = new DashboardComponent(this.baseService);
@@ -48,7 +60,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         search = search.trimEnd();
         if (search != this.searchDescription) {
           this.searchDescription = search; // --> Name must match wanted parameter
-          this.loadFixedAssetForDescription(this.perInPage, this.currentPage);
+          this.key = LoadDataTypes.SearchFixedAsset;
+          this.loadDatatable(this.perInPage, this.currentPage);
         }
       } else if (this.searchDescription) {
         this.loadFixedAsset(this.perInPage, this.currentPage);
@@ -62,11 +75,16 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   }
 
   loadDatatable(_perInPage: number = 25, _currentPage: number = 1){
-    if(this.isFilterDataTable)
-    this.loadFixedAssetForFilter(_perInPage,_currentPage,this.totalPage,this.fixedAssets);
-    else
-    this.loadFixedAsset(_perInPage,_currentPage);
-
+    switch(this.key){
+      case LoadDataTypes.SearchFixedAsset:
+      this.loadFixedAssetForDescription(_perInPage, _currentPage);
+      break;
+      case LoadDataTypes.FilterFixedAsset:
+      this.loadFixedAssetForFilter(_perInPage,_currentPage,this.totalPage,this.faFilter);
+      break;
+      default:
+      this.loadFixedAsset(_perInPage,_currentPage);
+    }
   }
 
   isWaitingValidBarcode: boolean = false;
@@ -1056,16 +1074,21 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   async refreshTable() {
     this.isTableRefreshing = true;
 
+    this.key=null;
+
     this.dataTable.isLoading = true;
 
     this.dataTable.TGT_clearData();
 
     this.perInPage = 25;
+
     this.currentPage = 1;
 
     await this.loadFixedAsset(this.perInPage, this.currentPage);
 
     this.isTableRefreshing = false;
+
+    this.isFilter=false;
   }
 
 
@@ -1082,7 +1105,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         this.currentPage = _currentPage;
         this.dataTable.perInPage = _perInPage;
         this.fixedAssets = fa;
-        this.totalPage = totalPage ? totalPage : 1;
+   
+        this.totalPage = Math.round(Math.floor(fa.length)/this.perInPage);
+
+        this.TGT_calculatePages();
 
         fa.forEach(e => {
           e.FixedAssetPropertyDetails.forEach(p => {
@@ -1091,8 +1117,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
             }
           });
         });
-        this.dataTable.TGT_loadData(this.fixedAssets);
-        this.TGT_calculatePages();
+
+        this.calculateDatatable(this.perInPage,this.currentPage,fa);
+
+        this.dataTable.TGT_loadData(this.faNewSearch);
+
       },
       (error: HttpErrorResponse) => {
         this.totalPage = 0;
@@ -1101,18 +1130,19 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     );
   }
 
-  loadFixedAssetForFilter(perInPage: number = 1000, _currentPage: number = 1, totalPage:number, fa:FixedAsset[]){
+  async loadFixedAssetForFilter(perInPage: number = 1000, _currentPage: number = 1, totalPage:number, fa:FixedAsset[]){
 
-    this.isFilterDataTable=true;
+    this.isFilter=true;
     this.dataTable.TGT_clearData();
-    this.dataTable.isLoading = true;
-
+    this.key = LoadDataTypes.FilterFixedAsset;
     this.perInPage = perInPage;
     this.currentPage = _currentPage;
-    this.dataTable.perInPage = perInPage;
     this.faFilter = fa;
-    this.totalPage = Math.floor(fa.length/this.perInPage);
+    this.dataTable.perInPage = perInPage;
 
+    this.totalPage = Math.round(fa.length/this.perInPage);
+
+    this.TGT_calculatePages();
     
     fa.forEach(e => {
       e.FixedAssetPropertyDetails.forEach(p => {
@@ -1122,8 +1152,56 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       });
     });
 
-    this.dataTable.TGT_loadData(this.faFilter);
-    this.TGT_calculatePages();
+    this.calculateDatatable(this.perInPage,this.currentPage,fa);
+
+    this.dataTable.TGT_loadData(this.faNewFilter);
+   
+  }
+
+  async calculateDatatable(perInPage:number = 1000, _currentPage:number = 1, fa:FixedAsset[] ){
+    let startIndex = _currentPage * perInPage - perInPage;
+    let counter = 0;
+    let fixedAssetCalculate:FixedAsset[]=[];
+
+    for (let ii = 0; ii < fa.length; ii++) {
+      if (fixedAssetCalculate.length > 0) {
+        if (fa[ii].getParentId()) {
+          fixedAssetCalculate.push(fa[ii]);
+            continue;
+        }
+    }
+
+    /* Eğer eklediğimiz miktar ekleyeceğimiz sayıya ulaştıysa döngüden çıkıyoruz */
+      if (counter == startIndex + perInPage)
+         break;
+     /* Eğer miktar az ise ve parenti yok ise sayacı bir arttırıyoruz. Amacı childları saymayı önlemek */
+     if (counter < startIndex){
+         if (!fa[ii].getParentId()) {
+             counter++;
+             continue;
+         } else
+            continue;
+         /* Parent idsi olmayanları atarken sayacı 1 arttırıyoruz. Childları basarken ise sayacı arttırmıyoruz. */
+     } else if (counter < startIndex + perInPage){
+         if (fa[ii].getParentId())
+             continue;
+             fixedAssetCalculate.push(fa[ii]);
+         if (!fa[ii].getParentId())
+             counter++;
+         continue;
+     }
+    }
+
+    switch(this.key){
+      case LoadDataTypes.SearchFixedAsset:
+      Object.assign(this.faNewSearch,fixedAssetCalculate);
+      break;
+      case LoadDataTypes.FilterFixedAsset:
+      Object.assign(this.faNewFilter,fixedAssetCalculate);
+      break;
+      default:
+      Object.assign(this.fixedAssets, fixedAssetCalculate);
+    }   
   }
 
   async loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {

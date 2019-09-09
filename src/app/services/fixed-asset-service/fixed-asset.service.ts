@@ -85,6 +85,9 @@ export class FixedAssetService {
   }
 
   GetFixedAssetForDescription(_perInPage, _currentPage, _description: string, success, failed) {
+
+    _perInPage = 100000;
+    _currentPage =1 ;
     this.httpclient
       .post(
         SERVICE_URL + GET_FIXED_ASSET_DESCRIPTION,
