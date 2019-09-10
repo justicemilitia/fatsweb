@@ -8,6 +8,7 @@ import * as $ from "jquery";
 import { NotDeletedItem } from "src/app/models/NotDeletedItem";
 import { ConsumableRequest } from "../../../models/ConsumableRequest";
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
+import { MatTabChangeEvent } from '@angular/material';
 
 @Component({
   selector: 'app-consumable-transaction-list',
@@ -266,6 +267,18 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   filterConsumable(data: NgForm){
     
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent) {
+    let selectedItems= this.dataTable.TGT_getSelectedItems();
+    
+    if(tabChangeEvent.index==0){
+      this.loadConsumableTransactionList(); 
+
+    } 
+    else if(tabChangeEvent.index==1){
+      this.loadConsumableTransactionList(); 
+    }
   }
 
 }

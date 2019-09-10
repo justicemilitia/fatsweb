@@ -23,7 +23,7 @@
         <label class="required-span">{{getLanguageValue('Exit_Type')}}</label>
         <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
           #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
-          <option>Yok</option>
+          <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
           <option *ngFor="let checkedOutReason of checkedOutReasons" value={{checkedOutReason.CheckOutReasonId}}>
             {{checkedOutReason.Name}}
           </option>
@@ -97,7 +97,7 @@
         </button>
         <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
         <h4 class="mg-b-20">{{getLanguageValue('Are_you_sure_you_want_to_perform_the_operation')}}</h4>
-        <p class="mg-b-20 mg-x-20">{{getLanguageValue('This_operation_can_not_be_undone')}}</p>
+        <p class="mg-b-20 mg-x-20" style="margin-bottom:20px;">{{getLanguageValue('This_operation_can_not_be_undone')}}</p>
    
         <div class="row" style="margin-bottom:20px;">
           <div class="col-md-6" style="padding-right: 0px;">

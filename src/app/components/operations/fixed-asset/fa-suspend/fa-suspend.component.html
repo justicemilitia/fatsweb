@@ -24,7 +24,7 @@
           <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
             #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }"
             required>
-            <option>Yok</option>
+            <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>            
             <option *ngFor="let suspension of suspensions" value={{suspension.CheckOutReasonId}}>
               {{suspension.Name}}
             </option>

@@ -30,10 +30,40 @@
       
                 </div>
               </div>
-          <div class="sales-overview">
+          <!-- <div class="sales-overview">
             <tree-grid-table [dataTable]="dataTable">
             </tree-grid-table>
-          </div>
+          </div> -->
+
+
+          <div class="card-body" style="padding-top:0px; margin-left:20px; margin-right:20px;">
+            <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
+            
+                <!-- AMORTİSMAN BİLGİLERİ -->
+                <mat-tab>
+                  <ng-template mat-tab-label>
+                    Malzeme Girişi
+                  </ng-template>
+                  <div class="sales-overview" style="flex-direction:column; margin-top:20px; padding-left:0px;">
+                      <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+                    </div>
+                </mat-tab>
+                
+                <!-- IFRS BİLGİLERİ -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                      Malzeme Çıkışı
+                    </ng-template>
+                    <div class="sales-overview" style="flex-direction:column; margin-top:20px; padding-left:0px;">
+                        <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+                      </div>
+                </mat-tab>
+
+                </mat-tab-group>
+
+       </div>
+
+
         </div>
         <!-- az-content-body -->
       </div>

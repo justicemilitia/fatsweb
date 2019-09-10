@@ -251,7 +251,7 @@
 
 
 <!-- SİLEMEME UYARI -->
-<div class="modal" data-backdrop="static" id="modalShowErrorPopup" style=" overflow-y: hidden !important;">
+<div class="modal" data-backdrop="static" id="modalShowWarningPopup" style=" overflow-y: hidden !important;">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content tx-size-sm">
       <div class="modal-body tx-center pd-y-20 pd-x-20">
@@ -264,6 +264,30 @@
    
         <div class="row justify-content-center" style="margin-bottom:20px;">
             <button class="btn btn-az-primary" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Okay')}}</button>        
+        </div>
+
+      </div><!-- modal-body -->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+
+<!-- HATA MESAJI -->
+<div class="modal" data-backdrop="static" id="modalShowErrorPopup" style=" overflow-y: hidden !important;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content tx-size-sm">
+      <div class="modal-body tx-center pd-y-20 pd-x-20">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+        <h4 class="mg-b-20">{{getLanguageValue('Error')}}</h4>
+        <p class="mg-b-20 mg-x-20">{{ errorMessage }}</p>
+   
+        <div class="row justify-content-center" style="margin-bottom:20px;">
+          <button type="button" class="btn btn-danger pd-x-25" aria-label="Close" style="margin-bottom:20px;" (click)="closeModal()">{{getLanguageValue('Okay')}}</button>           
+          
+          <!-- <button class="btn btn-az-danger pd-x-25" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Okay')}}</button>         -->
         </div>
 
       </div><!-- modal-body -->

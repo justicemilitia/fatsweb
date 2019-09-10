@@ -515,7 +515,7 @@ export class UserComponent extends BaseComponent implements OnInit {
           this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x=>x.getId());
           this.currentUser.FixedassetCardCategoryIds=<[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x=>x.getId());
           this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x=>x.getId());
-
+         
           if (this.checkedSystemUser == true){
             this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
             }          
