@@ -70,13 +70,15 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     // await this.baseService.popupService.ShowQuestionPopupForDeleteWithoutUndo(
     //  (response: boolean) => {
         // if (response == true) {
+          this.baseService.spinner.show();
+
+
           this.transactionLog.FixedAssetIds = [];
 
           this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
             this.faDataTable.TGT_getSelectedItems()
           )).map(x => x.FixedAssetId);
 
-          this.baseService.spinner.show();
 
           this.baseService.fixedAssetService.ExitFixedAsset(
             this.transactionLog,

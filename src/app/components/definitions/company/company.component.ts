@@ -48,6 +48,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   company: Company = new Company();
 
   notDeletedBarcode: string = '';
+  errorMessage: string = '';
   
   public dataTable: TreeGridTable = new TreeGridTable(
     "company",
@@ -247,10 +248,14 @@ export class CompanyComponent extends BaseComponent implements OnInit {
             e + (i == selectedItems.length - 1 ? "" : ", ");
         });
 
-         this.popupComponent.ShowModal('#modalShowErrorPopup');     
+         this.popupComponent.ShowModal('#modalShowWarningPopup');     
         }
-        else
-        this.baseService.popupService.ShowErrorPopup(error);
+        else{
+        //  this.baseService.popupService.ShowErrorPopup(error);
+         this.errorMessage=error.message;
+         this.popupComponent.ShowModal('#modalShowErrorPopup');     
+          
+        }
 
       });
       this.popupComponent.CloseModal('#modalShowDeletePopupForCompany');      
@@ -349,7 +354,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         }, (error: HttpErrorResponse) => {
 
           /* Show error message */
-          this.baseService.popupService.ShowErrorPopup(error);
+          // this.baseService.popupService.ShowErrorPopup(error);
+
+          this.errorMessage=this.getLanguageValue(error.statusText);
+          this.popupComponent.ShowModal('#modalShowErrorPopup');  
 
           /* say user no more wait */
           this.isWaitingInsertOrUpdate = false;
@@ -488,5 +496,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
     this.isTableRefreshing = false;
 
+  }
+
+  closeModal(){
+    this.popupComponent.CloseModal('#modalShowErrorPopup');
   }
 }

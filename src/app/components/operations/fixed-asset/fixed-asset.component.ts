@@ -1101,6 +1101,13 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     this.baseService.fixedAssetService.GetFixedAssetForDescription(_perInPage, _currentPage, this.searchDescription,
       (fa: FixedAsset[], totalPage: number, message: string) => {
 
+        if(fa.length==0){
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+          this.dataTable.isLoading = false;
+          this.dataTable.isPagingActive = false;
+          this.totalPage = 0;          
+        }
+        else{
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTable.perInPage = _perInPage;
@@ -1121,7 +1128,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         this.calculateDatatable(this.perInPage,this.currentPage,fa);
 
         this.dataTable.TGT_loadData(this.faNewSearch);
-
+      }
       },
       (error: HttpErrorResponse) => {
         this.totalPage = 0;
@@ -1249,7 +1256,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
             // ,
             // formatter: value => {
             //   if (value) {
-            //     return value.RegistrationNumber == null ? value.FirstName + " " + value.LastName : value.RegistrationNumber + " - " + value.FirstName + " " + value.LastName;
+            //     if(e.FixedAssetCardPropertyId){
+
+            //     }
+            //     return value;
             //   } else {
             //     return "";
             //   }}
