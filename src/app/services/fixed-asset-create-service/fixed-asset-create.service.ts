@@ -117,10 +117,8 @@ export class FixedAssetCreateService {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result => {
-        let response:Response=<Response>result;
-
-        success(response.ResultStatus,response.LanguageKeyword);
-        
+        let response:Response=<Response>result;      
+        success(response.ResultStatus,response.ResultObject);
       },
       (error:HttpErrorResponse)=>{
         failed(error);

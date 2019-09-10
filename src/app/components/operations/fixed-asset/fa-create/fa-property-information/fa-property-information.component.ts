@@ -38,6 +38,7 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
     sameProperty:boolean = false;
     differentProperty:boolean = false;
     visiblePropertyName=false;
+    isUniquePropertyValue:boolean=false;
     isUniqueProperty:boolean=false;
     result:boolean=false;
     FixedAssetPicture:string;
@@ -119,11 +120,13 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
 async loadValuesByPropertyId(event) {
   this.fixedAssetPropertyDetail.Value=null;
 
+  this.propertyValue=null;
+
   this.isSelectedProperty = true;
 
   this.visible = false;
 
-  this.isUniqueProperty = false;
+  this.isUniquePropertyValue = false;
 
   let fixedAssetProperty = this.fixedassetproperty.find(
     x => x.FixedAssetCardPropertyId == Number(event.target.value)
@@ -150,41 +153,49 @@ getPropertyValue(event: any) {
 
   this.visible = false;
 
-  this.fixedAssetPropertyDetail.Value = event.target.value;;
+  this.propertyValue=event.target.value;
+
+  this.fixedAssetPropertyDetail.Value = event.target.value;
 }
 
 insertPropertyValueToArray(propertyId: any) {
+  let counter:number = 0;
 
+  this.visiblePropertyName = false;
 
   if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId == null)
     this.fixedassetpropertyvalues = [];
 
   this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
 
-  if(this.isListSelected==false) 
+  if(this.isListSelected == false) 
   this.propertyValue = this.fixedAssetPropertyDetail.Value;
 
-  if(this.sameProperty == true)
+  this.faPropertyDetails.forEach(e=>{
+
+    if(this.isUniqueProperty){
+      if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId)  {
+        this.isUniquePropertyValue = true;
+        counter++;
+      }     
+    }
+    else{
+      if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
+      counter++;
+    }
+  });
+
+  if(counter > 0)
   {
   this.sameProperty = false;
   return;
   }
 
-  this.faPropertyDetails.forEach(e=>{
-
-    if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
-    this.sameProperty = true;
-    else
-    this.sameProperty = false;
-  });
-
   if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
     this.visiblePropertyName=false;
 
-    if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){
-      
+    if(this.fixedAssetPropertyDetail.Value != null || this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null){     
 
-      if(!this.isUniqueProperty){
 
         let fixedasset = this.fixedassetproperty.find(
           x => x.FixedAssetCardPropertyId == Number(propertyId.value)
@@ -211,8 +222,7 @@ insertPropertyValueToArray(propertyId: any) {
         this.visible = false;
   
         this.isSelectedProperty = false;
-      }
-      else return;
+
     }
     else{
       this.visiblePropertyName=true;  
@@ -225,17 +235,33 @@ insertPropertyValueToArray(propertyId: any) {
 }
 
 insertPropertyValueToArrayUniqueControl(propertyId: any){
+
+if(this.fixedAssetPropertyDetail.Value == null || this.fixedAssetPropertyDetail.Value == " " || this.fixedAssetPropertyDetail.FixedAssetCardPropertyId == null){
+  this.visiblePropertyName = true;
+  return;
+}
+
   this.baseService.fixedAssetCreateService.CheckFixedAssetPropertyUnique(this.fixedAssetPropertyDetail,
-    (result:boolean)=>{    
-      if(result){  
-      this.isUniqueProperty=false;    
+    (isUnique:boolean,result:boolean)=>{    
+      if(isUnique){   
+      this.isUniqueProperty=false;       
+      this.isUniquePropertyValue=false;    
       this.insertPropertyValueToArray(propertyId);  
     }
     else
+    {
       this.isUniqueProperty=true;
+      if(result)
+      {
+        this.isUniquePropertyValue=true;
+      }
+      else{
+        this.insertPropertyValueToArray(propertyId);  
+        this.isUniquePropertyValue=false;
+      }
+    }
     },(error:HttpErrorResponse) => {  
       this.baseService.popupService.ShowErrorPopup(error);
-      this.isUniqueProperty=true;
     });
 }
 
