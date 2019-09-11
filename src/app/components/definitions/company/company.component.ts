@@ -265,6 +265,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   async addCompany(data: NgForm) {
 
+    /* Activate the loading spinner */
+    this.baseService.spinner.show();
+    
     if(this.selectedCountry==true){
       if(data.value.CityId == null)
       return;      
@@ -287,6 +290,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Insert Company service */
     await this.baseService.companyService.InsertCompany(this.company, (insertedItem: Company, message) => {
 
+     /* Deactive the spinner */
+     this.baseService.spinner.hide();
+
       /* close loading bar */
       this.isWaitingInsertOrUpdate = false;
 
@@ -307,6 +313,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
       this.selectedCountry=false;
 
     }, (error: HttpErrorResponse) => {
+      
+      /* Deactive the spinner */
+      this.baseService.spinner.hide();
 
       /* Show alert message */
       this.baseService.popupService.ShowErrorPopup(error);
@@ -317,6 +326,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   async updateCompany(data: NgForm) {
 
+      /* Activate the loading spinner */
+      this.baseService.spinner.show();
+      
       if(this.selectedCountry==true) return;
         /* Say to user to wait */
         this.isWaitingInsertOrUpdate = true;
@@ -325,6 +337,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         Object.assign(willUpdateItem, this.company);
         
         this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
+
+          /* Deactive the spinner */
+          this.baseService.spinner.hide();
 
           /* city and update binding */
           if (this.company.CityId) {
@@ -353,8 +368,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
         }, (error: HttpErrorResponse) => {
 
-          /* Show error message */
-          // this.baseService.popupService.ShowErrorPopup(error);
+         /* Deactive the spinner */
+         this.baseService.spinner.hide();
 
           this.errorMessage=this.getLanguageValue(error.statusText);
           this.popupComponent.ShowModal('#modalShowErrorPopup');  

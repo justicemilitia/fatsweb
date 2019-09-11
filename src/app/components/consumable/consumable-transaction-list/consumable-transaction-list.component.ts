@@ -36,8 +36,8 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
    isTableExporting: boolean = false;
 
   /* Data Table */
-  public dataTable: TreeGridTable = new TreeGridTable(
-    "consumablematerial",
+  public dataTableConsumableMaterialIn: TreeGridTable = new TreeGridTable(
+    "consumableMaterialIn",
     [
       {
         columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
@@ -88,7 +88,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value != null ? value.FirstName + ' ' + value.LastName : '';
+            return value.RequestedUser != null ? value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName : '';
           }
           else {
             return '';
@@ -104,7 +104,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value != null ? value.FirstName + ' ' + value.LastName : '';
+            return value.ReceivedUser != null ? value.ReceivedUser.FirstName + ' ' + value.ReceivedUser.LastName : '';
           }
           else {
             return '';
@@ -113,7 +113,129 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       },
       {
         columnDisplayName: this.getLanguageValue('Quantity_Unit'),
-        columnName: ["RecievedAmount"],
+        columnName: ["FreeEnterAmount"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Transaction_Date'),
+        columnName: ["ConsumableLogDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.ConsumableLogDate ? value.ConsumableLogDate.substring(0, 10).split("-").reverse().join("-") : "";
+        }
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["ConsumableCard", "ConsumableCardName"]
+    }
+  );
+
+  
+  /* Data Table */
+  public dataTableConsumableMaterialOut: TreeGridTable = new TreeGridTable(
+    "consumableMaterialOut",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
+        columnName: ["ConsumableCard", "ConsumableCardCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
+        columnName: ["ConsumableCard","ConsumableCardName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Consumable_Category'),
+        columnName: ["ConsumableCategory","ConsumableCategoryName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Department'),
+        columnName: ["ReceivedDepartment", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Location'),
+        columnName: ["ConsumableLocation", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Requested_User'),
+        columnName: ["RequestedUser"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.RequestedUser != null ? value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Received_User'),
+        columnName: ["ReceivedUser"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.ReceivedUser != null ? value.ReceivedUser.FirstName + ' ' + value.ReceivedUser.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
+      },
+      {
+        columnDisplayName: "Serbest Çıkış Miktarı",
+        // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
+        columnName: ["FreeExitAmount"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Talep Edilen Miktar",
+        // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
+        columnName: ["RequestedAmount"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Karşılanan Miktar",
+        // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
+        columnName: ["RecievedAmount                                                                                           "],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -141,7 +263,6 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     super(baseService);
     this.loadConsumableTransactionList();
 
-    this.dataTable.isPagingActive = false;
   }
 
   ngOnInit() {}
@@ -230,18 +351,38 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   }
 
-  loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1) {
+  loadConsumableMaterialInList(_perInPage: number = 25, _currentPage: number = 1) {
     this.baseService.consumableRequestListService.GetConsumableRequestList(
       _perInPage,
       _currentPage,
       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
-        this.dataTable.perInPage = _perInPage;
+        this.dataTableConsumableMaterialIn.perInPage = _perInPage;
         this.transactionList = transactionList;
         this.totalPage = totalPage ? totalPage : 1;
 
-        this.dataTable.TGT_loadData(this.transactionList);
+        this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
+        this.TGT_calculatePages();
+      },
+      (error:HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  loadConsumableMaterialOutList(_perInPage: number = 25, _currentPage: number = 1) {
+    this.baseService.consumableRequestListService.GetConsumableRequestList(
+      _perInPage,
+      _currentPage,
+      (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
+        this.perInPage = _perInPage;
+        this.currentPage = _currentPage;
+        this.dataTableConsumableMaterialOut.perInPage = _perInPage;
+        this.transactionList = transactionList;
+        this.totalPage = totalPage ? totalPage : 1;
+
+        this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
         this.TGT_calculatePages();
       },
       (error:HttpErrorResponse) => {
@@ -253,9 +394,9 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   async refreshTable() {
     this.isTableRefreshing = true;
 
-    this.dataTable.isLoading = true;
+    this.dataTableConsumableMaterialIn.isLoading = true;
 
-    this.dataTable.TGT_clearData();
+    this.dataTableConsumableMaterialIn.TGT_clearData();
 
     this.perInPage = 25;
     this.currentPage = 1;
@@ -270,7 +411,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    let selectedItems= this.dataTable.TGT_getSelectedItems();
+    let selectedItems= this.dataTableConsumableMaterialIn.TGT_getSelectedItems();
     
     if(tabChangeEvent.index==0){
       this.loadConsumableTransactionList(); 

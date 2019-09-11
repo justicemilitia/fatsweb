@@ -213,6 +213,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
             this.notDeletedBarcode +=
               e + (i == this.selectedItems.length - 1 ? "" : ", ");
           });
+          console.log(this.notDeletedBarcode.length);
            this.popupComponent.ShowModal('#modalShowErrorPopup');     
           }
           else
@@ -248,6 +249,10 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
   }
 
   async insertDepartment(data: NgForm) {
+
+    /* Activate the loading spinner */
+    this.baseService.spinner.show();
+
     /* Check model state is valid */
     if (data.form.invalid == true) return;
 
@@ -271,6 +276,10 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     await this.baseService.departmentService.InsertDepartment(
       this.department,
       (insertedItem: Department, message) => {
+
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
+
         /* Close waiting loader */
         this.isWaitingInsertOrUpdate = false;
 
@@ -286,6 +295,10 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
         this.resetForm(data, true);
       },
       (error: HttpErrorResponse) => {
+
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
+        
         /* Show alert message */
         this.isWaitingInsertOrUpdate = false;
         this.baseService.popupService.ShowErrorPopup(error);
@@ -294,7 +307,10 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
   }
 
   async updateDepartment(data: NgForm) {
-    
+
+          /* Activate the loading spinner */
+          this.baseService.spinner.show();
+      
           /* loading icon visible */
           this.isWaitingInsertOrUpdate = true;
 
@@ -324,6 +340,10 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
           this.baseService.departmentService.UpdateDepartment(
             this.department,
             (_department, message) => {
+
+              /* Deactive the spinner */
+              this.baseService.spinner.hide();
+
               /* Close loading icon */
               this.isWaitingInsertOrUpdate = false;
 
@@ -344,6 +364,10 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
               this.departments = <Department[]>this.dataTable.TGT_copySource();
             },
             (error: HttpErrorResponse) => {
+
+              /* Deactive the spinner */
+              this.baseService.spinner.hide();
+
               /* Close loader */
               this.isWaitingInsertOrUpdate = false;
 
