@@ -351,6 +351,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   }
 
+<<<<<<< HEAD
   loadConsumableMaterialInList(_perInPage: number = 25, _currentPage: number = 1) {
     this.baseService.consumableRequestListService.GetConsumableRequestList(
       _perInPage,
@@ -373,6 +374,10 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   loadConsumableMaterialOutList(_perInPage: number = 25, _currentPage: number = 1) {
     this.baseService.consumableRequestListService.GetConsumableRequestList(
+=======
+  loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1) {
+    this.baseService.consumableRequestListService.GetConsumableTransactionList(
+>>>>>>> bff340114f80fa3d501c43f4970d284c1e910156
       _perInPage,
       _currentPage,
       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {

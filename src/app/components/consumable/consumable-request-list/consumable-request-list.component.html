@@ -15,33 +15,123 @@
   
               
               <div>
-                  <button class="btn btn-az-primary" id="btnAddRequest" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" data-toggle="modal" data-target="#modalRequestConsumable">Talep Oluştur</button>
+                  <button *ngIf="visibleConsumableButton==true" class="btn btn-az-primary" id="btnAddRequest" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" data-toggle="modal" data-target="#modalRequestConsumable">Talep Oluştur</button>
               </div>       
               <div>
-                  <button class="btn btn-az-primary"  style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="selectedRequestConsumableMaterial()">Talebi Değerlendir</button>
+                  <button *ngIf="visibleConsumableButton==true" class="btn btn-az-primary"  style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="selectedRequestConsumableMaterial()">Talebi Değerlendir</button>
 
                   <button style="display: none"  data-toggle="modal" data-target="#modalCancelRequestConsumable" class="btn btn-az-primary" id="btnCancelRequest" >Talebi Değerlendir</button>
               </div>
               <div>  
                 <button class="btn btn-az-primary" id="btnFilterConsumableRequest" data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:20px;" (click)="filterConsumableRequest()"> <i class="fas fa-filter"></i></button>
               </div>
-      
-          </div>
 
-          <div>                
-            <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
-              [class.btn-refresh-loader]="isTableExporting == true"></i>
-            </button>
+              <div>                
+                <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                  [class.btn-refresh-loader]="isTableExporting == true"></i>
+                </button>
+              </div>
+
+              <div>
+                <button type="button" (click)="refreshTable()"  id="refreshTable" class="btn btn-success btn-refresh-custom" style="margin-right:10px"><i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
+                </button>
+              </div>      
           </div>
-          <div>
-            <button type="button" (click)="refreshTable()"  id="refreshTable" class="btn btn-success btn-refresh-custom" style="margin-right:10px"><i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
-            </button>
-          </div>
+         
           </div>
         </div>
-            <div class="sales-overview">
-              <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
+        <div class="card-body">
+        <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
+          <mat-tab>
+            <ng-template mat-tab-label>
+               {{getLanguageValue('Request_List')}}
+             </ng-template>  
+            <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+              <tree-grid-table [dataTable]="dataTableRequestedList"></tree-grid-table>
+                 <!-- Pagination Side -->
+                 <div class="table-pagination">
+                    <!-- Per In Page Select area -->
+                    <select class="table-pagination-select" (change)="loadConsumableRequestList(perInPage,1,1)" [(ngModel)]="perInPage">
+                      <option *ngFor="let perIn of dataTableRequestedList.perInPages" value="{{perIn}}">{{perIn}}</option>
+                      <option value="1000">{{getLanguageValue('All')}}</option>
+                    </select>
+                    <!-- END Per In Page Select area END -->
+                    <!-- Paginations -->
+                    <nav class="pagination-nav">
+                      <ul class="pagination">
+                        <ng-container *ngFor="let page of pages">
+                          <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                              (click)="loadConsumableRequestList(perInPage,page.value,1)" class="page-link">{{page.display}}</button>
+                          </li>
+                        </ng-container>
+                      </ul>
+                    </nav>
+                    <!-- END Paginations END -->
+                  </div>
+                  <!-- END Pagination Side END -->
             </div>
+          </mat-tab>
+          
+          <mat-tab>
+              <ng-template mat-tab-label>
+                  {{getLanguageValue('Closed_Request')}}
+               </ng-template>  
+               <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                <tree-grid-table [dataTable]="dataTableClosedRequestList"></tree-grid-table>
+                 <!-- Pagination Side -->
+                 <div class="table-pagination">
+                  <!-- Per In Page Select area -->
+                  <select class="table-pagination-select" (change)="loadConsumableRequestList(perInPage,1,2)" [(ngModel)]="perInPage">
+                    <option *ngFor="let perIn of dataTableClosedRequestList.perInPages" value="{{perIn}}">{{perIn}}</option>
+                    <option value="1000">{{getLanguageValue('All')}}</option>
+                  </select>
+                  <!-- END Per In Page Select area END -->
+                  <!-- Paginations -->
+                  <nav class="pagination-nav">
+                    <ul class="pagination">
+                      <ng-container *ngFor="let page of pages">
+                        <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                            (click)="loadConsumableRequestList(perInPage,page.value,2)" class="page-link">{{page.display}}</button>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </nav>
+                  <!-- END Paginations END -->
+                </div>
+                <!-- END Pagination Side END -->
+              </div>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    {{getLanguageValue('Canceled_Request')}}
+                 </ng-template>  
+                 <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                  <tree-grid-table [dataTable]="dataTableCanceledList"></tree-grid-table>
+                   <!-- Pagination Side -->
+                   <div class="table-pagination">
+                    <!-- Per In Page Select area -->
+                    <select class="table-pagination-select" (change)="loadConsumableRequestList(perInPage,1,3)" [(ngModel)]="perInPage">
+                      <option *ngFor="let perIn of dataTableCanceledList.perInPages" value="{{perIn}}">{{perIn}}</option>
+                      <option value="1000">{{getLanguageValue('All')}}</option>
+                    </select>
+                    <!-- END Per In Page Select area END -->
+                    <!-- Paginations -->
+                    <nav class="pagination-nav">
+                      <ul class="pagination">
+                        <ng-container *ngFor="let page of pages">
+                          <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                              (click)="loadConsumableRequestList(perInPage,page.value,3)" class="page-link">{{page.display}}</button>
+                          </li>
+                        </ng-container>
+                      </ul>
+                    </nav>
+                    <!-- END Paginations END -->
+                  </div>
+                  <!-- END Pagination Side END -->
+                </div>           
+              </mat-tab>
+        </mat-tab-group>
+      </div>
       </div>
       <!-- az-content-body -->
     </div>
@@ -92,10 +182,10 @@
           <div class="row justify-content-center">            
             <div class="form-group col-md-6">
                 <label class="required-span">Miktar</label>
-                <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"
-                [ngClass]="{ 'is-invalid': data.submitted && ConsumableAmount.invalid }" #ConsumableAmount="ngModel" required/>
-                <div *ngIf="data.submitted && ConsumableAmount.invalid" class="invalid-feedback">
-                  <div *ngIf="ConsumableAmount.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                <input [(ngModel)]="consumable.RequestedAmount" name="RequestedAmount" class="form-control" type="text"
+                [ngClass]="{ 'is-invalid': data.submitted && RequestedAmount.invalid }" #RequestedAmount="ngModel" required/>
+                <div *ngIf="data.submitted && RequestedAmount.invalid" class="invalid-feedback">
+                  <div *ngIf="RequestedAmount.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                 </div>
             </div>  
             <div class="form-group col-md-6">
@@ -176,7 +266,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #dataCancel="ngForm" (ngSubmit)="cancelRequestConsumableMaterial(dataCancel)" class="form-register">
+      <form #dataCancel="ngForm" class="form-register">
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
@@ -233,10 +323,10 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button class="btn btn-az-primary" id="btnReceivedConsumableMaterial" type="button" >
+          <button class="btn btn-az-primary" id="btnReceivedConsumableMaterial" type="button"  >
             Talebi Karşıla
           </button>
-          <button class="btn btn-az-primary" id="btnCancelConsumableMaterial" type="button" >
+          <button class="btn btn-az-primary" id="btnCancelConsumableMaterial" type="button" (click)="cancelRequestConsumableMaterial()" >
               Talebi İptal Et
             </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

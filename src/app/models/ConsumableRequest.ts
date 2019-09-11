@@ -15,7 +15,7 @@ export class ConsumableRequest  implements IData{
         return [];
     }
     getId(): number {
-       return this.ConsumableUnitId;
+       return this.ConsumableLogId;
     }
     childIndex: number;
     isExtended: boolean;
