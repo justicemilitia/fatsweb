@@ -24,6 +24,7 @@ import * as $ from "jquery";
   styleUrls: ["./cycle-count-plan.component.css"]
 })
 
+
 export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   cycleCountPlans: CycleCountPlan[] = [];
 
@@ -72,6 +73,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     lostFixedAsset:2,
     updateLocation:3
   }
+
+
   
   public dataTable: TreeGridTable = new TreeGridTable(
     "cyclecount",

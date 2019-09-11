@@ -15,6 +15,7 @@ import { Consumable } from "src/app/models/Consumable";
 import { ConsumableUnit } from "src/app/models/ConsumableUnit";
 import { FixedAssetPropertyDetails } from "src/app/models/FixedAssetPropertyDetails";
 import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardPropertyValue";
+import { ConsumableLogTypes } from 'src/app/declarations/consumable-log-types';
 
 @Component({
   selector: "app-consumable-request-list",
@@ -77,9 +78,12 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   requestedUser : string;
 
+  selectedLogId:number[] = [];
+
+
   /* Data Table */
-  public dataTable: TreeGridTable = new TreeGridTable(
-    "consumablematerial",
+  public dataTableRequestedList: TreeGridTable = new TreeGridTable(
+    "requestlist",
     [
       {
         columnDisplayName: "Talep Numarası",
@@ -152,6 +156,155 @@ export class ConsumableRequestListComponent extends BaseComponent
     }
   );
 
+  // public dataTableClosedRequestList: TreeGridTable = new TreeGridTable(
+  //   "closedrequestlist",
+  //   [
+  //     {
+  //       columnDisplayName: "Talep Numarası",
+  //       columnName: ["Number"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Malzeme Kodu",
+  //       columnName: ["ConsumableCard", "ConsumableCardCode"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Malzeme Kategorisi",
+  //       columnName: ["ConsumableCategory", "ConsumableCategoryName"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Malzeme Adı",
+  //       columnName: ["ConsumableCard", "ConsumableCardName"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Talep Açıklaması",
+  //       columnName: ["Description"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Talep Edilen Miktar",
+  //       columnName: ["RequestedAmount"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Karşılanan Miktar - Birim",
+  //       columnName: ["RecievedAmount"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Talep Karşılama Açıklaması",
+  //       columnName: ["ConsumableLogTypeDescription"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     }
+  //   ],
+  //   {
+  //     isDesc: false,
+  //     column: ["ConsumableCard", "ConsumableCardName"]
+  //   }
+  // );
+
+  
+  // public dataTableCanceledRequestList: TreeGridTable = new TreeGridTable(
+  //   "canceledrequestlist",
+  //   [
+  //     {
+  //       columnDisplayName: "Talep Numarası",
+  //       columnName: ["Number"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Malzeme Kodu",
+  //       columnName: ["ConsumableCard", "ConsumableCardCode"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Malzeme Kategorisi",
+  //       columnName: ["ConsumableCategory", "ConsumableCategoryName"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Malzeme Adı",
+  //       columnName: ["ConsumableCard", "ConsumableCardName"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Talep Açıklaması",
+  //       columnName: ["Description"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Talep Edilen Miktar",
+  //       columnName: ["RequestedAmount"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Karşılanan Miktar - Birim",
+  //       columnName: ["RecievedAmount"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     },
+  //     {
+  //       columnDisplayName: "Talep Karşılama Açıklaması",
+  //       columnName: ["ConsumableLogTypeDescription"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text"
+  //     }
+  //   ],
+  //   {
+  //     isDesc: false,
+  //     column: ["ConsumableCard", "ConsumableCardName"]
+  //   }
+  // );
+
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetpropertyvalue",
     [
@@ -206,7 +359,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   constructor(public baseService: BaseService) {
     super(baseService);
-    this.loadConsumableRequestList();
+    this.loadConsumableRequestList(this.perInPage,this.currentPage,1);
     this.loadFixedAssetProperties();
     this.loadDropdown();
 
@@ -225,10 +378,11 @@ export class ConsumableRequestListComponent extends BaseComponent
     this.dataTableRequestPropertyValue.isMultipleSelectedActive = false;
     this.dataTableRequestPropertyValue.isFilterActive = false;
     this.dataTableRequestPropertyValue.isLoading = false;
-    this.dataTableRequestPropertyValue.isScrollActive = false;
-    this.dataTableRequestPropertyValue.isDeleteable = true;
+    this.dataTableRequestPropertyValue.isScrollActive = false;    
 
-    this.dataTable.isPagingActive = false;
+    this.dataTableRequestedList.isPagingActive = false;
+    // this.dataTableClosedRequestList.isPagingActive=false;
+    // this.dataTableCanceledRequestList.isPagingActive=false;
   }
 
   ngOnInit() {}
@@ -356,12 +510,6 @@ export class ConsumableRequestListComponent extends BaseComponent
   async loadConsumableUnitByCardId(event: any) {
     this.consumableCard = new ConsumableCard();
 
-    // if (!event.target.value || event.target.value == "") {
-    //   this.consumable.ConsumableUnits.ConsumableUnitId = null;
-    //   this.consumable.ConsumableUnits = new ConsumableUnit();
-    //   return;
-    // }
-
     this.baseService.consumableService.GetConsumableCardUnitByCardId(
       <number>event.target.value,
       (consumablecard: ConsumableCard) => {
@@ -373,21 +521,29 @@ export class ConsumableRequestListComponent extends BaseComponent
     );
   }
 
-  async loadConsumableRequestList(
-    _perInPage: number = 25,
-    _currentPage: number = 1
-  ) {
-    this.baseService.consumableRequestListService.GetConsumableRequestList(
-      _perInPage,
-      _currentPage,
-      (
+  async loadConsumableRequestList(_perInPage: number = 25,_currentPage: number = 1,tabIndex:number) {
+    let consumableLogType:number;
+
+    switch(tabIndex){
+      case 1:
+      consumableLogType = ConsumableLogTypes.CONSUMABLE_MATERIAL_REQUEST;
+      break; 
+      case 2:
+      consumableLogType = ConsumableLogTypes.CONSUMABLE_MATERIAL_RECEIVED;
+      break;
+      case 3:
+      consumableLogType = ConsumableLogTypes.CONSUMABLE_MATERIAL_REQUEST_CANCEL;      
+      break;
+    }
+
+    this.baseService.consumableRequestListService.GetConsumableRequestList(_perInPage, _currentPage, consumableLogType, (
         requestList: ConsumableRequest[],
         totalPage: number,
         message: string
       ) => {
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
-        this.dataTable.perInPage = _perInPage;
+        this.dataTableRequestedList.perInPage = _perInPage;
         this.requestList = requestList;
         this.totalPage = totalPage ? totalPage : 1;
         let faProperties: FixedAssetCardProperty[] = [];
@@ -398,7 +554,7 @@ export class ConsumableRequestListComponent extends BaseComponent
             }
           });
         });
-        this.dataTable.TGT_loadData(this.requestList);
+        this.dataTableRequestedList.TGT_loadData(this.requestList);
         this.TGT_calculatePages();
       },
       (error: HttpErrorResponse) => {
@@ -407,19 +563,21 @@ export class ConsumableRequestListComponent extends BaseComponent
     );
   }
 
+
+
   async loadFixedAssetProperties() {
     this.baseService.fixedAssetService.GetFixedAssetProperties(
       (faProperties: FixedAssetCardProperty[]) => {
         this.faProperties = faProperties;
         this.faProperties.forEach(e => {
-          this.dataTable.dataColumns.push({
+          this.dataTableRequestedList.dataColumns.push({
             columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
             columnDisplayName: e.Name,
             isActive: true,
             type: "text"
           });
         });
-        this.dataTable.TGT_bindActiveColumns();
+        this.dataTableRequestedList.TGT_bindActiveColumns();
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -495,12 +653,12 @@ export class ConsumableRequestListComponent extends BaseComponent
     );
 
     Object.assign(insertedItem, this.consumable);
-    insertedItem.ConsumableCategoryId = <number>(
-      this.consumable.ConsumableCategoryId
-    );
-    insertedItem.FixedAssetPropertyDetails = propertyDetail;
+    insertedItem.ConsumableCategoryId = Number(this.consumable.ConsumableCategoryId);
+    insertedItem.ConsumableCardId=Number(this.consumable.ConsumableCardId);
+    insertedItem.RequestedAmount=Number(this.consumable.RequestedAmount)
 
-    console.log(insertedItem);
+    insertedItem.ConsumableUnitId=this.consumableCard.ConsumableUnitId;
+    insertedItem.FixedAssetPropertyDetails = propertyDetail;
 
     this.baseService.consumableRequestListService.RequestConsumableMaterial(
       insertedItem,
@@ -515,7 +673,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   selectedRequestConsumableMaterial() {
     let selectedItems = <ConsumableRequest[]>(
-      this.dataTable.TGT_getSelectedItems()
+      this.dataTableRequestedList.TGT_getSelectedItems()
     );
 
     if (!selectedItems || selectedItems.length == 0) {
@@ -535,12 +693,14 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     let selectedId: number = selectedItems[0].ConsumableLogId;
 
-    this.cancelRequestConsumableMaterial(selectedId);
+    this.getRequestConsumableMaterial(selectedId);
   }
 
-  cancelRequestConsumableMaterial(selectedLogId: number) {
+ async getRequestConsumableMaterial(selectedLogId: number) {
 
     $("#btnCancelRequest").trigger("click");
+
+    this.selectedLogId.push(selectedLogId);
 
     this.baseService.consumableRequestListService.GetRequestConsumableMaterial(
       selectedLogId,
@@ -566,5 +726,16 @@ export class ConsumableRequestListComponent extends BaseComponent
       },
       (error: HttpErrorResponse) => {}
     );
+  }
+
+  cancelRequestConsumableMaterial(){
+
+    this.baseService.consumableRequestListService.CancelRequestConsumableMaterial(this.selectedLogId,
+      (result:any)=>{
+        
+      },
+      (error:HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      });
   }
 }

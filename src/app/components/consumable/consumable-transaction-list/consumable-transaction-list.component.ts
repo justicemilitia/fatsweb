@@ -231,7 +231,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   }
 
   loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1) {
-    this.baseService.consumableRequestListService.GetConsumableRequestList(
+    this.baseService.consumableRequestListService.GetConsumableTransactionList(
       _perInPage,
       _currentPage,
       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
