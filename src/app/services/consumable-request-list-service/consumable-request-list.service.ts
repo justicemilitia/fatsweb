@@ -25,14 +25,14 @@ export class ConsumableRequestListService {
 
   GetConsumableRequestList(
     _perInPage: number = 25,
-    _currentPage: number = 1, consumableLogType:number,
+    _currentPage: number = 1, consumableLogType:number[],
     success,
     failed
   ) {
     this.httpclient
       .post(
         SERVICE_URL + GET_CONSUMABLE_REQUEST_LIST,
-        { Page: _currentPage, PerPage: _perInPage, ConsumableLogTypeId: consumableLogType },
+        { Page: _currentPage, PerPage: _perInPage, ConsumableLogTypeIds: consumableLogType },
         { headers: GET_HEADERS(this.authenticationService.getToken()) }
       )
       .subscribe(
@@ -134,8 +134,8 @@ export class ConsumableRequestListService {
     };
   }
 
-  CancelRequestConsumableMaterial(consumableIds:number[],success,failed){
-    this.httpclient.post(SERVICE_URL + CANCEL_REQUEST_CONSUMABLE_MATERIAL,{Numbers:consumableIds},{
+  CancelRequestConsumableMaterial(consumableIds:number,success,failed){
+    this.httpclient.post(SERVICE_URL + CANCEL_REQUEST_CONSUMABLE_MATERIAL,{ConsumableLogId:consumableIds},{
       headers:GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(result =>{
       let response:Response =<Response>result;
