@@ -14,11 +14,12 @@
           <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
           value="{{barcode}}" name="Barcode" type="number" trim="blur" 
           class="form-control"
-          [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" style="margin-top: 19px; margin-left: -20px; width: 150px;" required/>
+          [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" style="margin-top: 19px; margin-left: -20px; width: 150px;" maxlength="50" required/>
           <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>
           <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
             <div *ngIf="Barcode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-          </div>
+            <div *ngIf="Barcode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>        
+        </div>
         </div>
     </div>
   </div>     
@@ -42,8 +43,11 @@
   <!--SERIAL NUMBER-->
   <div class="form-group col-md-3">
       <label>{{getLanguageValue('Serial_Number')}}</label>
-    <input [(ngModel)]="fixedAsset.SerialNumber" name="SerialNumber" type="text"  class="form-control"/>
-  </div>
+    <input [(ngModel)]="fixedAsset.SerialNumber" name="SerialNumber" type="text" trim="blur" class="form-control" #SerialNumber="ngModel" [ngClass]="{ 'is-invalid': data.submitted && SerialNumber.invalid }" maxlength="20"/>
+    <div *ngIf="data.submitted && SerialNumber.invalid" class="invalid-feedback">
+        <div *ngIf="SerialNumber.errors.maxlength">{{getLanguageValue('Only_can_enter_max_20_character')}}</div>
+      </div>
+</div>
 
   <!--COMPANY-->
   <div class="form-group col-md-3">
@@ -202,6 +206,9 @@
   <label>{{getLanguageValue('Description')}}</label>
   <textarea [(ngModel)]="fixedAsset.Description" name="Description" style="resize:none; height:27px" rows="1"
   class="form-control" type="text" maxlength="150" #Description="ngModel"></textarea>
+  <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+    <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_150_character')}}</div>
+  </div>
 </div>
 <div class="form-group col-md-3">
   <div class="grp-btn-action" style="margin-top: 13px;">

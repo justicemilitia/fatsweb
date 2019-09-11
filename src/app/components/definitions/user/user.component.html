@@ -73,7 +73,10 @@
             </div>
             <div class="form-group col-md-6">
               <label>{{getLanguageValue('User_Registration_Number')}}</label>
-              <input type="text" trim="blur" [(ngModel)]="currentUser.RegistrationNumber" autocomplete="off" class="form-control" name="RegistrationNumber"/>        
+              <input type="text" trim="blur" [(ngModel)]="currentUser.RegistrationNumber" autocomplete="off" class="form-control" name="RegistrationNumber" maxlength="50"/>        
+              <div *ngIf="data.submitted && RegistrationNumber.invalid" class="invalid-feedback">
+                <div *ngIf="RegistrationNumber.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
+              </div>
             </div>
           </div>
           <div class="row justify-content-center">
@@ -161,7 +164,10 @@
             <div class="form-group col-md-6">
               <label>{{getLanguageValue('Phone')}}</label>
               <input type="number" autocomplete="off" name="PhoneNumber" class="form-control"
-                [(ngModel)]="currentUser.PhoneNumber" />
+                [(ngModel)]="currentUser.PhoneNumber" maxlength="50"/>
+                <div *ngIf="data.submitted && PhoneNumber.invalid" class="invalid-feedback">
+                  <div *ngIf="PhoneNumber.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
+                </div>
             </div>      
 
             <div class="form-group col-md-6">

@@ -265,6 +265,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   async addAgreements(data: NgForm) {
 
+    /* Activate the loading spinner */
+    this.baseService.spinner.show();
+    
     let willInsertItem = new Agreement();
 
     Object.assign(willInsertItem, this.agreement);
@@ -285,6 +288,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     this.baseService.agreementService.InsertAgreement(willInsertItem, this.agreementFiles,
       (insertedItem: Agreement, message) => {
 
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
+
         this.isWaitingInsertOrUpdate = false;
 
         /* Show pop up, get inserted agreement then set it agreement id, then load data. */
@@ -301,6 +307,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
       }, (error: HttpErrorResponse) => {
 
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
+
         this.isWaitingInsertOrUpdate = false;
 
         /* Show alert message */
@@ -309,6 +318,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   }
 
   async updateAgreement(data: NgForm) {
+
+     /* Activate the loading spinner */
+     this.baseService.spinner.show();
 
     /* Convert object to new object */
     let willUpdateItem = new Agreement();
@@ -344,12 +356,19 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
             },
             (error: HttpErrorResponse) => {
+              /* Deactive the spinner */
+              this.baseService.spinner.hide();
+
               this.isWaitingInsertOrUpdate = false;
               /* Show error message */
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
           this.popupComponent.CloseModal('#modalShowQuestionPopupForAgreement');
+                    
+          /* Deactive the spinner */
+          this.baseService.spinner.hide();
+
   }
 
   async loadAgreements() {

@@ -139,10 +139,10 @@
                 <div class="form-group col-md-12">
                   <label class="required-span">{{getLanguageValue('Phone')}}</label>
                   <input type="number" autocomplete="off" name="Phone" [(ngModel)]="company.Phone" class="form-control"
-                    #Phone="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" required />
+                    #Phone="ngModel" [ngClass]="{ 'is-invalid': data.submitted && Phone.invalid }" maxlength="50" required />
                   <div *ngIf="data.submitted && Phone.invalid" class="invalid-feedback">
                     <div *ngIf="Phone.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                    <div *ngIf="Phone.errors.maxlength">Maksimum 11 karakter giriniz.</div>
+                    <div *ngIf="Phone.errors.maxlength">Maksimum 50 karakter giriniz.</div>
                   </div>
                 </div>
               </div>
@@ -161,9 +161,10 @@
               <label class="required-span">{{getLanguageValue('Address')}}</label>
               <textarea type="text" [(ngModel)]="company.Address" name="Address" #Address="ngModel"
                 style="resize:none;height: 80px;" rows="3" class="form-control"
-                [ngClass]="{ 'is-invalid': data.submitted && Address.invalid }" required></textarea>
+                [ngClass]="{ 'is-invalid': data.submitted && Address.invalid }" maxlength="200" required></textarea>
               <div *ngIf="data.submitted && Address.invalid" class="invalid-feedback">
                 <div *ngIf="Address.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                <div *ngIf="Address.errors.maxlength">{{getLanguageValue('Only_can_enter_max_200_character')}}</div>             
               </div>
             </div>
           </div>
@@ -171,7 +172,7 @@
             <div class="form-group col-md-12">
               <label>{{getLanguageValue('Description')}}</label>
               <input [(ngModel)]="company.Description" name="Description" #Description="ngModel" class="form-control"
-                type="text" />
+                type="text" maxlength="150"/>
               <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
                 <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_150_character')}}</div>
               </div>

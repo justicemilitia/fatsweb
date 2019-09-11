@@ -99,6 +99,7 @@
                 [ngClass]="{ 'is-invalid': data.submitted && formSelectedColor.invalid }" />
               <div *ngIf="data.submitted && formSelectedColor.invalid" class="invalid-feedback">
                 <div *ngIf="formSelectedColor.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                <div *ngIf="formSelectedColor.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>             
               </div>
             </div>
           </div>
