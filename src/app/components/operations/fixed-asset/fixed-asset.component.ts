@@ -1855,12 +1855,21 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         Barcodes.push(e.Barcode)
       });
 
+      this.isWaitingInsertOrUpdate = true;
+      
       this.baseService.fixedAssetService.LabelsToBePrinted(Barcodes,
-      (result)=>{
+      (_barcodes, message)=>{
 
+        this.isWaitingInsertOrUpdate = false;
+        this.baseService.popupService.ShowSuccessPopup(message);        
+        
       },(error:HttpErrorResponse)=>{
         this.baseService.popupService.ShowErrorPopup(error);
+        this.isWaitingInsertOrUpdate = false;        
       });
+
+      this.popupComponent.CloseModal('#modalShowQuestionPopupForBarcode');
+      
     }
 
     CloseOperationPopup(){

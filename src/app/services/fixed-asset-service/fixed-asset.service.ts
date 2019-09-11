@@ -632,10 +632,14 @@ export class FixedAssetService {
   }
 
   LabelsToBePrinted(barcodes: any[],success,failed){
-    this.httpclient.post(SERVICE_URL + ADD_LABELS_TO_BE_PRINTED, barcodes, { headers: GET_HEADERS(this.authenticationService.getToken())}).subscribe(
+    this.httpclient.post(SERVICE_URL + ADD_LABELS_TO_BE_PRINTED, { Barcodes : barcodes}, { headers: GET_HEADERS(this.authenticationService.getToken())}).subscribe(
       result => {
         let response: Response = <Response>result;
-        success(response.ResultObject,response.LanguageKeyword);
+        if (response.ResultStatus == true) {
+          success(response.ResultObject, response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
       },(error:HttpErrorResponse)=>{
         failed(error);
       }

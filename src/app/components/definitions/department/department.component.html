@@ -119,6 +119,9 @@
               <label>{{getLanguageValue('Department_Description')}}</label>
               <textarea [(ngModel)]="department.Description" name="Description" style="resize:none" rows="3"
                 class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
+                <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                  <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_100_character')}}</div>
+                </div>
             </div>
           </div>
         </div>

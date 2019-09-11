@@ -150,7 +150,10 @@
                   <div class="form-group col-md-4">
                     <label>{{getLanguageValue('Phone')}}</label>
                     <input type="text" mask="(000) 000-0000" [showMaskTyped] = "true" autocomplete="off" name="PhoneNumber" class="form-control"
-                      [(ngModel)]="currentUser.PhoneNumber" />
+                      [(ngModel)]="currentUser.PhoneNumber" maxlength="50"/>
+                      <div *ngIf="data.submitted && PhoneNumber.invalid" class="invalid-feedback">
+                        <div *ngIf="PhoneNumber.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
+                      </div>
                   </div>
 
                   <!-- BAĞLI OLDUĞU KİŞİ -->
