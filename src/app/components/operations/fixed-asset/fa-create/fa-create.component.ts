@@ -623,6 +623,9 @@ export class FaCreateComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+
+    this.faComponent.refreshTable();
+
   }
 
   //#endregion
