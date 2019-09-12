@@ -343,7 +343,10 @@ export class AgreementComponent extends BaseComponent implements OnInit {
           this.baseService.agreementService.UpdateAgreement(
             willUpdateItem, this.agreementFiles,
             (_agreement, message) => {
-
+              
+              /* Deactive the spinner */
+              this.baseService.spinner.hide();
+              
               this.isWaitingInsertOrUpdate = false;
 
               /* Show pop up then update data in datatable */
@@ -356,8 +359,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
             },
             (error: HttpErrorResponse) => {
-              /* Deactive the spinner */
-              this.baseService.spinner.hide();
+              // /* Deactive the spinner */
+              // this.baseService.spinner.hide();
 
               this.isWaitingInsertOrUpdate = false;
               /* Show error message */
@@ -365,9 +368,6 @@ export class AgreementComponent extends BaseComponent implements OnInit {
             }
           );
           this.popupComponent.CloseModal('#modalShowQuestionPopupForAgreement');
-                    
-          /* Deactive the spinner */
-          this.baseService.spinner.hide();
 
   }
 
