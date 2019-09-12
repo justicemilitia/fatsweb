@@ -62,9 +62,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
         /* if 401 error say user username or password is wrong otherwise just show error message*/
         if (error.status == 401)
-          this.errorMessage = "Kullanıcı adı veya şifre hatalı";
+          this.errorMessage = this.getLanguageValue("Username_or_Password_Incorrect");
         else {
-          this.errorMessage = "Bağlantı Hatası!";
+          this.errorMessage = this.getLanguageValue("Unknown_Error");
         }
 
       }
@@ -93,7 +93,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
       }, (error: HttpErrorResponse) => {
         /* if any error show on screen and stop getting firms */
-        this.errorMessage = getAnErrorResponse(error.statusText).statusText;
+        let errorType:string = getAnErrorResponse(error.statusText).statusText;
+        this.errorMessage = this.getLanguageValue(errorType);
+        
         this.firms = [];
         this.isUserFirmsGetting = false;
 

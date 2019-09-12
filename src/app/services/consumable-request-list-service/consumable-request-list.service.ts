@@ -91,7 +91,7 @@ export class ConsumableRequestListService {
 
   RequestConsumableMaterial(consumable: ConsumableRequest, success, failed) {
     this.httpclient
-      .post(SERVICE_URL + REQUEST_CONSUMABLE_MATERIAL, consumable, {
+      .post(SERVICE_URL + REQUEST_CONSUMABLE_MATERIAL, {ConsumableId:consumable.ConsumableId, RequestedAmount:consumable.RequestedAmount, Description:consumable.Description}, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(result => {

@@ -25,6 +25,9 @@ import { MatTabChangeEvent } from '@angular/material';
 })
 export class ConsumableRequestListComponent extends BaseComponent
   implements OnInit {
+
+  consumables: Consumable[] = [];
+
   consumable: ConsumableRequest = new ConsumableRequest();
 
   consumableRequest: ConsumableRequest = new ConsumableRequest();
@@ -87,8 +90,54 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   visibleConsumableButton:boolean=true;
 
+  consumableUnit:string;
+
+  selectedConsumableId:number;
+
    //#region DataTable 
   /* Data Table */
+  public dataTableConsumableList: TreeGridTable = new TreeGridTable(
+    "consumablematerial",
+    [
+      {
+        columnDisplayName: "Malzeme Kodu",
+        columnName: ["ConsumableCard","ConsumableCardCode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Kategori Adı",
+        columnName: ["ConsumableCard","ConsumableCategory","ConsumableCategoryName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Malzeme Adı",
+        columnName: ["ConsumableCard","ConsumableCardName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Location'),
+        columnName: ["ConsumableLocation", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }   
+    ],
+    {
+      isDesc: false,
+      column: ["ConsumableCard","ConsumableCardName"]
+    }
+  );
+
   public dataTableRequestedList: TreeGridTable = new TreeGridTable(
     "requestlist",
     [
@@ -370,6 +419,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     super(baseService);
     this.loadConsumableRequestList(this.perInPage,this.currentPage,1);
     this.loadFixedAssetProperties();
+    this.loadConsumableList();
     this.loadDropdown();
 
     this.dataTablePropertyValue.isPagingActive = false;
@@ -379,7 +429,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     this.dataTablePropertyValue.isFilterActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isScrollActive = false;
-    this.dataTablePropertyValue.isDeleteable = true;
+    this.dataTablePropertyValue.isDeleteable = false;
 
     this.dataTableRequestPropertyValue.isPagingActive = false;
     this.dataTableRequestPropertyValue.isColumnOffsetActive = false;
@@ -502,6 +552,29 @@ export class ConsumableRequestListComponent extends BaseComponent
     );
   }
 
+  async loadConsumableList() {
+    /* Load all consumables to datatable */
+    this.baseService.consumableService.GetConsumableList(
+      (consumables: Consumable[]) => {
+        this.consumables = consumables;
+        this.dataTableConsumableList.TGT_loadData(this.consumables);
+        consumables.forEach(e=>{
+          e.FixedAssetPropertyDetails.forEach(p=>{
+            if(p.FixedAssetCardPropertyId){
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+            }
+          });
+        });  
+        if (this.consumables.length == 0) {
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+        }
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
   async loadConsumableCardByCategoryId(event: any) {
     this.consumableCards = [];
     this.consumableCard.ConsumableUnit = null;
@@ -603,12 +676,85 @@ export class ConsumableRequestListComponent extends BaseComponent
           });
         });
         this.dataTableRequestedList.TGT_bindActiveColumns();
+
+        this.faProperties.forEach(e => {
+          this.dataTableConsumableList.dataColumns.push({
+            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
+            columnDisplayName: e.Name,
+            isActive: true,
+            type: "text"
+          });
+        });
+        this.dataTableConsumableList.TGT_bindActiveColumns();
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
+
+  selectedConsumableMaterial(){
+
+    let selectedItems = <Consumable[]>this.dataTableConsumableList.TGT_getSelectedItems();
+
+      if(!selectedItems || selectedItems.length == 0){
+        this.baseService.popupService.ShowAlertPopup(
+          "Lütfen en az bir sarf malzeme seçiniz!"
+        );
+        return;
+      }
+
+      if (selectedItems.length > 1) {
+        this.baseService.popupService.ShowAlertPopup(
+          "Birden fazla sarf malzeme seçtiniz!"
+        );
+
+        return;
+      }
+
+      if(selectedItems[0].ConsumableParentId == null){
+        this.baseService.popupService.ShowAlertPopup("Lütfen malzeme kartının altında bulunan bir sarf malzeme seçiniz!");
+        return;
+      }
+      let selectedId:number = selectedItems[0].ConsumableId;
+
+      this.selectedConsumableId = selectedId;
+
+      this.getConsumableMaterialById(selectedId);
+  }
+
+    getConsumableMaterialById(consumableId:number){
+
+      //this.insertedProperty = [];
+
+      $("#btnAddRequest").trigger("click");
+
+      this.baseService.consumableService.GetConsumableMaterialById(consumableId,
+        (consumable:Consumable[])=>{
+
+          Object.assign(this.consumable, consumable[0]);
+
+          this.consumableUnit = this.consumable.ConsumableCard.ConsumableUnit.ConsumableUnitName;
+
+          let property:FixedAssetPropertyDetails[] =  consumable[0].FixedAssetPropertyDetails;
+
+          property.forEach(e=>{
+
+          let propertydetails: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
+
+          propertydetails.FixedAssetPropertyDetailId = e.FixedAssetPropertyDetailId;
+          propertydetails.FixedAssetCardProperty = e.FixedAssetCardProperty;
+          propertydetails.Value = e.Value;
+
+          this.insertedProperty.push(propertydetails);
+          });
+
+          this.dataTablePropertyValue.TGT_loadData(this.insertedProperty);
+        },
+        (error:HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        });
+    } 
 
   insertPropertyValueToArray(propertyId: any) {
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
@@ -672,13 +818,18 @@ export class ConsumableRequestListComponent extends BaseComponent
     this.currentTab = tabChangeEvent.index; 
     if (tabChangeEvent.index == 0) {   
       this.visibleConsumableButton = true;
-      this.loadConsumableRequestList(this.perInPage,this.currentPage,1);
+      this.loadConsumableList();
     } 
     else if (tabChangeEvent.index == 1) {
+      this.visibleConsumableButton = true;
+      this.loadConsumableRequestList(this.perInPage,this.currentPage,1);
+    }
+    else if(tabChangeEvent.index == 2){
+
       this.visibleConsumableButton = false;
       this.loadConsumableRequestList(this.perInPage,this.currentPage,2);
     }
-    else if(tabChangeEvent.index == 2){
+    else if(tabChangeEvent.index == 3){
 
       this.visibleConsumableButton = false;
       this.loadConsumableRequestList(this.perInPage,this.currentPage,3);
@@ -694,20 +845,11 @@ export class ConsumableRequestListComponent extends BaseComponent
       this.dataTablePropertyValue.TGT_copySource()
     );
 
-    if(propertyDetail.length == 0){
-      this.visibleProperty = true;
-      return;
-    }
-    else
-      this.visibleProperty = false;
-
     Object.assign(insertedItem, this.consumable);
-    insertedItem.ConsumableCategoryId = Number(this.consumable.ConsumableCategoryId);
-    insertedItem.ConsumableCardId=Number(this.consumable.ConsumableCardId);
-    insertedItem.RequestedAmount=Number(this.consumable.RequestedAmount)
 
-    insertedItem.ConsumableUnitId=this.consumableCard.ConsumableUnitId;
-    insertedItem.FixedAssetPropertyDetails = propertyDetail;
+    insertedItem.RequestedAmount=Number(this.consumable.RequestedAmount);
+    insertedItem.ConsumableId = this.selectedConsumableId;
+    insertedItem.Description = this.consumable.Description;
 
     this.baseService.consumableRequestListService.RequestConsumableMaterial(
       insertedItem,
@@ -814,20 +956,26 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     switch(currentTabIndex){
       case 0:     
-        this.dataTableRequestedList.isLoading = true;
-        this.dataTableRequestedList.TGT_clearData();     
-        this.loadConsumableRequestList(this.perInPage, this.currentPage,1);
+      this.dataTableConsumableList.isLoading = true;
+      this.dataTableConsumableList.TGT_clearData();
+      this.dataTablePropertyValue.TGT_clearData();
+      this.loadConsumableList();
       break;
       case 1:
+      this.dataTableRequestedList.isLoading = true;
+      this.dataTableRequestedList.TGT_clearData();     
+      this.loadConsumableRequestList(this.perInPage, this.currentPage,1);
+      break;
+      case 2:
       this.dataTableClosedRequestList.isLoading = true;
       this.dataTableClosedRequestList.TGT_clearData();  
       this.loadConsumableRequestList(this.perInPage, this.currentPage,2);
-      break;
-      case 2:
-        this.dataTableCanceledList.isLoading=true;
-        this.dataTableCanceledList.TGT_clearData();
-        this.loadConsumableRequestList(this.perInPage, this.currentPage,3);
-      break;     
+      break;   
+      case 3:
+      this.dataTableCanceledList.isLoading=true;
+      this.dataTableCanceledList.TGT_clearData();
+      this.loadConsumableRequestList(this.perInPage, this.currentPage,3);
+      break;  
     }    
 
     this.isTableRefreshing = false;
