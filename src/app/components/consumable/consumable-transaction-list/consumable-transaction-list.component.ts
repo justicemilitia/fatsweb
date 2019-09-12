@@ -261,7 +261,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   constructor(public baseService: BaseService) {
     super(baseService);
-    this.loadConsumableTransactionList();
+   // this.loadConsumableTransactionList();
 
   }
 
@@ -351,50 +351,50 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   }
 
-<<<<<<< HEAD
-  loadConsumableMaterialInList(_perInPage: number = 25, _currentPage: number = 1) {
-    this.baseService.consumableRequestListService.GetConsumableRequestList(
-      _perInPage,
-      _currentPage,
-      (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
-        this.perInPage = _perInPage;
-        this.currentPage = _currentPage;
-        this.dataTableConsumableMaterialIn.perInPage = _perInPage;
-        this.transactionList = transactionList;
-        this.totalPage = totalPage ? totalPage : 1;
+// <<<<<<< HEAD
+//   loadConsumableMaterialInList(_perInPage: number = 25, _currentPage: number = 1) {
+//     this.baseService.consumableRequestListService.GetConsumableRequestList(
+//       _perInPage,
+//       _currentPage,
+//       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
+//         this.perInPage = _perInPage;
+//         this.currentPage = _currentPage;
+//         this.dataTableConsumableMaterialIn.perInPage = _perInPage;
+//         this.transactionList = transactionList;
+//         this.totalPage = totalPage ? totalPage : 1;
 
-        this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
-        this.TGT_calculatePages();
-      },
-      (error:HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
+//         this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
+//         this.TGT_calculatePages();
+//       },
+//       (error:HttpErrorResponse) => {
+//         this.baseService.popupService.ShowErrorPopup(error);
+//       }
+//     );
+//   }
 
-  loadConsumableMaterialOutList(_perInPage: number = 25, _currentPage: number = 1) {
-    this.baseService.consumableRequestListService.GetConsumableRequestList(
-=======
-  loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1) {
-    this.baseService.consumableRequestListService.GetConsumableTransactionList(
->>>>>>> bff340114f80fa3d501c43f4970d284c1e910156
-      _perInPage,
-      _currentPage,
-      (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
-        this.perInPage = _perInPage;
-        this.currentPage = _currentPage;
-        this.dataTableConsumableMaterialOut.perInPage = _perInPage;
-        this.transactionList = transactionList;
-        this.totalPage = totalPage ? totalPage : 1;
+//   loadConsumableMaterialOutList(_perInPage: number = 25, _currentPage: number = 1) {
+//     this.baseService.consumableRequestListService.GetConsumableRequestList(
+// =======
+//   loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1) {
+//     this.baseService.consumableRequestListService.GetConsumableTransactionList(
+// >>>>>>> bff340114f80fa3d501c43f4970d284c1e910156
+//       _perInPage,
+//       _currentPage,
+//       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
+//         this.perInPage = _perInPage;
+//         this.currentPage = _currentPage;
+//         this.dataTableConsumableMaterialOut.perInPage = _perInPage;
+//         this.transactionList = transactionList;
+//         this.totalPage = totalPage ? totalPage : 1;
 
-        this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
-        this.TGT_calculatePages();
-      },
-      (error:HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
+//         this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
+//         this.TGT_calculatePages();
+//       },
+//       (error:HttpErrorResponse) => {
+//         this.baseService.popupService.ShowErrorPopup(error);
+//       }
+//     );
+//   }
 
   async refreshTable() {
     this.isTableRefreshing = true;
@@ -406,7 +406,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.perInPage = 25;
     this.currentPage = 1;
 
-    await this.loadConsumableTransactionList(this.perInPage, this.currentPage);
+   // await this.loadConsumableTransactionList(this.perInPage, this.currentPage);
 
     this.isTableRefreshing = false;
   }
@@ -419,11 +419,11 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     let selectedItems= this.dataTableConsumableMaterialIn.TGT_getSelectedItems();
     
     if(tabChangeEvent.index==0){
-      this.loadConsumableTransactionList(); 
+    //  this.loadConsumableTransactionList(); 
 
     } 
     else if(tabChangeEvent.index==1){
-      this.loadConsumableTransactionList(); 
+    //  this.loadConsumableTransactionList(); 
     }
   }
 
