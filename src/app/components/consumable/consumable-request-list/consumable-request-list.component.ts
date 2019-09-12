@@ -67,6 +67,8 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   visiblePropertyName: boolean = false;
 
+  visibleProperty:boolean=false;
+
   isSelectedProperty: boolean = false;
 
   visible: boolean = false;
@@ -148,7 +150,7 @@ export class ConsumableRequestListComponent extends BaseComponent
       },
       {
         columnDisplayName: "Talep Karşılama Açıklaması",
-        columnName: ["ConsumableLogTypeDescription"],
+        columnName: ["ConsumableLogType", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -222,7 +224,7 @@ export class ConsumableRequestListComponent extends BaseComponent
       },
       {
         columnDisplayName: "Talep Karşılama Açıklaması",
-        columnName: ["ConsumableLogTypeDescription"],
+        columnName: ["ConsumableLogType", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -297,7 +299,7 @@ export class ConsumableRequestListComponent extends BaseComponent
       },
       {
         columnDisplayName: "Talep Karşılama Açıklaması",
-        columnName: ["ConsumableLogTypeDescription"],
+        columnName: ["ConsumableLogType", "Description"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -583,12 +585,10 @@ export class ConsumableRequestListComponent extends BaseComponent
         this.TGT_calculatePages();
       },
       (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
+      //  this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
-
-
 
   async loadFixedAssetProperties() {
     this.baseService.fixedAssetService.GetFixedAssetProperties(
@@ -694,6 +694,13 @@ export class ConsumableRequestListComponent extends BaseComponent
       this.dataTablePropertyValue.TGT_copySource()
     );
 
+    if(propertyDetail.length == 0){
+      this.visibleProperty = true;
+      return;
+    }
+    else
+      this.visibleProperty = false;
+
     Object.assign(insertedItem, this.consumable);
     insertedItem.ConsumableCategoryId = Number(this.consumable.ConsumableCategoryId);
     insertedItem.ConsumableCardId=Number(this.consumable.ConsumableCardId);
@@ -770,30 +777,63 @@ export class ConsumableRequestListComponent extends BaseComponent
     );
   }
 
+  onSubmit(){
+    this.popupComponent.ShowModal('#modalShowQuestionPopupForCancelRequest');
+  }
+
   cancelRequestConsumableMaterial(){
 
+    this.baseService.spinner.show();
+
     this.baseService.consumableRequestListService.CancelRequestConsumableMaterial(this.selectedLogId,
-      (result:any)=>{
-        
+      (result:any,message:string)=>{
+
+        this.baseService.spinner.hide();
+
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        this.refreshTable();
+
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForCancelRequest');
+
+        $('#CloseModal').trigger('click');
+
       },
       (error:HttpErrorResponse) => {
+        this.baseService.spinner.show();
+
         this.baseService.popupService.ShowErrorPopup(error);
       });
   }
 
   async refreshTable() {
+
+    let currentTabIndex:number = this.currentTab;
+
     this.isTableRefreshing = true;
 
-    this.dataTableRequestedList.isLoading = true;
-
-    this.dataTableRequestedList.TGT_clearData();
-
-    this.perInPage = 25;
-
-    this.currentPage = 1;
-
-    await this.loadConsumableRequestList(this.perInPage, this.currentPage,1);
+    switch(currentTabIndex){
+      case 0:     
+        this.dataTableRequestedList.isLoading = true;
+        this.dataTableRequestedList.TGT_clearData();     
+        this.loadConsumableRequestList(this.perInPage, this.currentPage,1);
+      break;
+      case 1:
+      this.dataTableClosedRequestList.isLoading = true;
+      this.dataTableClosedRequestList.TGT_clearData();  
+      this.loadConsumableRequestList(this.perInPage, this.currentPage,2);
+      break;
+      case 2:
+        this.dataTableCanceledList.isLoading=true;
+        this.dataTableCanceledList.TGT_clearData();
+        this.loadConsumableRequestList(this.perInPage, this.currentPage,3);
+      break;     
+    }    
 
     this.isTableRefreshing = false;
+  }
+
+  closeQuestionPopup(){
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForCancelRequest');
   }
 }
