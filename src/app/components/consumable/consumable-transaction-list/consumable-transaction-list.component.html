@@ -22,7 +22,7 @@
                       [class.btn-refresh-loader]="isTableExporting == true"></i>
                   </button>          
 
-                  <button type="button" (click)="refreshTable()" style="margin-right:0" 
+                  <button type="button" (click)="refreshTable()" style="margin-right:20px" 
                     class="btn btn-success btn-refresh-custom">
                     <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                       [class.btn-refresh-loader]="isTableRefreshing == true"></i>
@@ -37,30 +37,67 @@
 
 
           <div class="card-body" style="padding-top:0px; margin-left:20px; margin-right:20px;">
-            <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
-            
-                <!-- MALZEME GİRİŞİ -->
-                <mat-tab>
-                  <ng-template mat-tab-label>
-                    Malzeme Girişi
-                  </ng-template>
-                  <div class="sales-overview" style="flex-direction:column; margin-top:20px; padding-left:0px;">
-                      <tree-grid-table [dataTable]="dataTableConsumableMaterialIn"></tree-grid-table>
-                    </div>
-                </mat-tab>
-                
-                <!-- MALZEME ÇIKIŞI -->
-                <mat-tab>
+                <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
+                  <mat-tab>
                     <ng-template mat-tab-label>
-                      Malzeme Çıkışı
-                    </ng-template>
-                    <div class="sales-overview" style="flex-direction:column; margin-top:20px; padding-left:0px;">
+                       {{getLanguageValue('Add_Consumable')}}
+                     </ng-template>  
+                    <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                      <tree-grid-table [dataTable]="dataTableConsumableMaterialIn"></tree-grid-table>
+                         <!-- Pagination Side -->
+                         <div class="table-pagination">
+                            <!-- Per In Page Select area -->
+                            <select class="table-pagination-select" (change)="dataTableConsumableMaterialIn(perInPage,1,1)" [(ngModel)]="perInPage">
+                              <option *ngFor="let perIn of dataTableConsumableMaterialIn.perInPages" value="{{perIn}}">{{perIn}}</option>
+                              <option value="1000">{{getLanguageValue('All')}}</option>
+                            </select>
+                            <!-- END Per In Page Select area END -->
+                            <!-- Paginations -->
+                            <nav class="pagination-nav">
+                              <ul class="pagination">
+                                <ng-container *ngFor="let page of pages">
+                                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                      (click)="dataTableConsumableMaterialIn(perInPage,page.value,1)" class="page-link">{{page.display}}</button>
+                                  </li>
+                                </ng-container>
+                              </ul>
+                            </nav>
+                            <!-- END Paginations END -->
+                          </div>
+                          <!-- END Pagination Side END -->
+                    </div>
+                  </mat-tab>
+                  
+                  <mat-tab>
+                      <ng-template mat-tab-label>
+                          {{getLanguageValue('Exit_Consumable')}}
+                       </ng-template>  
+                       <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                         <tree-grid-table [dataTable]="dataTableConsumableMaterialOut"></tree-grid-table>
+                         <!-- Pagination Side -->
+                         <div class="table-pagination">
+                          <!-- Per In Page Select area -->
+                          <select class="table-pagination-select" (change)="loadConsumableRequestList(perInPage,1,2)" [(ngModel)]="perInPage">
+                            <option *ngFor="let perIn of dataTableConsumableMaterialOut.perInPages" value="{{perIn}}">{{perIn}}</option>
+                            <option value="1000">{{getLanguageValue('All')}}</option>
+                          </select>
+                          <!-- END Per In Page Select area END -->
+                          <!-- Paginations -->
+                          <nav class="pagination-nav">
+                            <ul class="pagination">
+                              <ng-container *ngFor="let page of pages">
+                                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                    (click)="loadConsumableRequestList(perInPage,page.value,2)" class="page-link">{{page.display}}</button>
+                                </li>
+                              </ng-container>
+                            </ul>
+                          </nav>
+                          <!-- END Paginations END -->
+                        </div>
+                        <!-- END Pagination Side END -->
                       </div>
-                </mat-tab>
-
+                    </mat-tab>
                 </mat-tab-group>
-
        </div>
 
 
@@ -71,6 +108,7 @@
   </div>
   
   
+
   <!-- FILTER CONSUMABLE MATERIAL MODAL -->
 <div id="modalFilterConsumable" class="modal" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -84,7 +122,7 @@
         <form #data="ngForm" (ngSubmit)="filterConsumable(data)" class="form-register">
           <div class="modal-body">
             
-            <!-- <div class="row justify-content-center"> -->
+            <div class="row justify-content-center">
   
               <!-- MALZEME KODU -->
               <!-- <div class="form-group col-md-6">          
@@ -94,7 +132,7 @@
               </div> -->
   
               <!-- DEPARTMAN -->                         
-              <!-- <div class="form-group col-md-6">
+              <div class="form-group col-md-6">
                   <div>
                       <label style="margin-bottom: 0;
                       font-weight: 700;" >{{getLanguageValue('Department')}}</label>
@@ -110,20 +148,20 @@
 
             </div>
   
-            <div class="row justify-content-center"> -->
+            <div class="row justify-content-center">
               
               <!-- MALZEME ADI -->
-              <!-- <div class="form-group col-md-6">
+              <div class="form-group col-md-6">
                   <label>{{getLanguageValue('Consumable_Card_Name')}}</label>
                   <select [(ngModel)]="consumable.ConsumableCardId"
                   name="ConsumableCardId" class="form-control select2-no-search" (change)="loadConsumableUnitByCardId($event)" #ConsumableCardId="ngModel">
                   <option [ngValue]="null">Seçiniz</option>
                   <option *ngFor="let consumableCard of consumableCards"  value="{{consumableCard.ConsumableCardId}}">{{consumableCard.ConsumableCardName}} </option>
                 </select>         
-              </div> -->
+              </div>
 
               <!-- MALZEME KATEGORİSİ -->
-              <!-- <div class="form-group col-md-6">
+              <div class="form-group col-md-6">
                   <label>{{getLanguageValue('Consumable_Category')}}</label>
                   <select [(ngModel)]="consumable.ConsumableCardId"
                   name="ConsumableCardId" class="form-control select2-no-search" (change)="loadConsumableUnitByCardId($event)" #ConsumableCardId="ngModel">
@@ -134,21 +172,19 @@
 
             </div>
   
-            <div class="row justify-content-center">  -->
+            <div class="row justify-content-center"> 
               
                 <!-- MİKTAR - BİRİM -->
-                <!-- <div class="form-group col-md-6">
-                    <label class="required-span">Miktar</label>
-                    <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"
-                    [ngClass]="{ 'is-invalid': data.submitted && ConsumableAmount.invalid }" #ConsumableAmount="ngModel" required/>
-                    <div *ngIf="data.submitted && ConsumableAmount.invalid" class="invalid-feedback">
-                      <div *ngIf="ConsumableAmount.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                    </div>
-                </div>  
                 <div class="form-group col-md-6">
+                    <label>Miktar</label>
+                    <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text" #ConsumableAmount="ngModel"/>
+                    
+                    <input name="ConsumableAmount" value="{{consumable.RequestedAmount == null ? '' : consumable.RequestedAmount}}" class="form-control" type="text" disabled/>             
+                  </div>  
+                <!-- <div class="form-group col-md-6">
                       <label>Birim</label>
                       <input name="ConsumableUnits"  value="{{consumableCard.ConsumableUnit == null ? '' : consumableCard.ConsumableUnit.ConsumableUnitName}}" class="form-control" type="text" disabled/>
-                </div>            
+                </div>             -->
             </div>
   
             <div class="row justify-content-center">
@@ -185,7 +221,7 @@
                 <div class="form-group col-md-12">   
                         <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
                 </div>   
-            </div>    -->
+            </div>   
           </div>
           <!-- modal-body -->
           <div class="modal-footer">
