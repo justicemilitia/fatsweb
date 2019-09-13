@@ -3,27 +3,26 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>MALZEME TALEP LİSTESİ</span>
+        <span>{{getLanguageValue('Consumable_Request_List')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
-        <div class="card-header">
-          <h2 class="az-content-title">Malzeme Talep Listesi</h2>
-          <div class="grp-btn-action">
+        <div class="card-header" style="padding-bottom:0px;">
+          <h2 class="az-content-title" style="margin-left:20px;">{{getLanguageValue('Consumable_Request_List')}}</h2>
+          <div class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
 
-            <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
-  
-              
               <div>
-                  <button *ngIf="visibleConsumableButton==true" class="btn btn-az-primary" id="btnAddRequest" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" data-toggle="modal" data-target="#modalRequestConsumable">Talep Oluştur</button>
+                  <button *ngIf="visibleConsumableButton==true" class="btn btn-az-primary" style="margin-right:10px" (click)="selectedConsumableMaterial()">Talep Oluştur</button>
+
+                  <button style="display:none" id="btnAddRequest" data-toggle="modal" data-target="#modalRequestConsumable">Talep Oluştur</button>
               </div>       
               <div>
-                  <button *ngIf="visibleConsumableButton==true" class="btn btn-az-primary"  style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="selectedRequestConsumableMaterial()">Talebi Değerlendir</button>
+                  <button *ngIf="visibleConsumableButton==true" class="btn btn-az-primary" style="margin-right:10px" (click)="selectedRequestConsumableMaterial()">Talebi Değerlendir</button>
 
                   <button style="display: none"  data-toggle="modal" data-target="#modalCancelRequestConsumable" class="btn btn-az-primary" id="btnCancelRequest" >Talebi Değerlendir</button>
               </div>
               <div>  
-                <button class="btn btn-az-primary" id="btnFilterConsumableRequest" data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:20px;" (click)="filterConsumableRequest()"> <i class="fas fa-filter"></i></button>
+                <button class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-dismiss="modal" (click)="filterConsumableRequest()"> <i class="fas fa-filter"></i></button>
               </div>
 
               <div>                
@@ -35,13 +34,21 @@
               <div>
                 <button type="button" (click)="refreshTable()"  id="refreshTable" class="btn btn-success btn-refresh-custom" style="margin-right:10px"><i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}" [class.btn-refresh-loader]="isTableRefreshing == true" ></i>
                 </button>
-              </div>      
-          </div>
-         
+              </div>       
           </div>
         </div>
         <div class="card-body">
         <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
+          <mat-tab>
+            <ng-template mat-tab-label>
+               {{getLanguageValue('Consumable_List')}}
+             </ng-template>  
+             <div class="sales-overview">
+              <tree-grid-table [dataTable]="dataTableConsumableList">
+              </tree-grid-table>
+            </div>
+          </mat-tab>
+
           <mat-tab>
             <ng-template mat-tab-label>
                {{getLanguageValue('Request_List')}}
@@ -144,10 +151,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">
-      
-        </h6>
-        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h6 class="modal-title"></h6>
+        <button id="CloseModal" type="button" class="close" (click)="refreshTable()" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -156,18 +161,22 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label class="required-span">Malzeme Kategorisi</label>
-              <select [(ngModel)]="consumable.ConsumableCategoryId" name="ConsumableCategoryId" class="form-control select2-no-search" (change)="loadConsumableCardByCategoryId($event)"
+              <input  name="ConsumableCardCode"  value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardCode}}" class="form-control" type="text" disabled/>
+
+              <!-- <select [(ngModel)]="consumable.ConsumableCategoryId" name="ConsumableCategoryId" class="form-control select2-no-search" (change)="loadConsumableCardByCategoryId($event)"
               [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryId.invalid }" #ConsumableCategoryId="ngModel" required>
               <option [ngValue]="null">Seçiniz</option>
               <option *ngFor="let categories of consumableCategories" value="{{categories.ConsumableCategoryId}}">{{categories.ConsumableCategoryName}}</option>
-            </select>  
-            <div *ngIf="data.submitted && ConsumableCategoryId.invalid" class="invalid-feedback">
+            </select>   -->
+            <!-- <div *ngIf="data.submitted && ConsumableCategoryId.invalid" class="invalid-feedback">
               <div *ngIf="ConsumableCategoryId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-            </div>             
+            </div>              -->
           </div>
           <div class="form-group col-md-6">
             <label class="required-span">Malzeme Adı</label>
-            <select [(ngModel)]="consumable.ConsumableCardId"
+            <input name="ConsumableCardId"  value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardName}}" class="form-control" type="text" disabled/>
+
+            <!-- <select [(ngModel)]="consumable.ConsumableCardId"
             name="ConsumableCardId" class="form-control select2-no-search" (change)="loadConsumableUnitByCardId($event)"
             [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardId.invalid }" #ConsumableCardId="ngModel" required>
             <option [ngValue]="null">Seçiniz</option>
@@ -175,7 +184,7 @@
           </select>   
           <div *ngIf="data.submitted && ConsumableCardId.invalid" class="invalid-feedback">
             <div *ngIf="ConsumableCardId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-          </div>           
+          </div>            -->
         </div>        
           </div>
 
@@ -190,46 +199,19 @@
             </div>  
             <div class="form-group col-md-6">
                   <label>Birim</label>
-                  <input name="ConsumableUnits"  value="{{consumableCard.ConsumableUnit == null ? '' : consumableCard.ConsumableUnit.ConsumableUnitName}}" class="form-control" type="text" disabled/>
+                  <input name="ConsumableUnits"  value="{{consumableUnit == null ? '' : consumableUnit}}" class="form-control" type="text" disabled/>
+
+                  <!-- <input name="ConsumableUnits"  value="{{consumableCard.ConsumableUnit == null ? '' : consumableCard.ConsumableUnit.ConsumableUnitName}}" class="form-control" type="text" disabled/> -->
             </div>            
         </div>
-
-        <div class="row justify-content-center">
-          <div class="form-group col-md-6">
-            <label>Özellik Adı</label>
-            <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
-              <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
-              <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
-            </select> 
-            <div *ngIf="visible == true" style="color:red">
-                <div>Bir {{getLanguageValue('Choose_a_property')}}.</div>
-              </div> 
-          </div>
-          <div class="form-group col-md-6">
-              <label>Özellik Değeri</label>   
-              <div class="flexProperty">
-                <div style="flex:1;">
-                <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
-                  <option [ngValue]="null">{{getLanguageValue('Choose_a_property_value')}}</option>
-                  <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
-                </select> 
-                <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
-                <div *ngIf="visiblePropertyName == true" style="color:red">
-                    <div>Özellik değeri giriniz.</div>
-                  </div>
-                  <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     
-                </div>
-                <div class="property-add-value">                    
-                  <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
-                </div>    
-              </div>
-          </div>
-        </div>   
 
         <div class="row justify-content-center">
           <div class="form-group col-md-12">   
                   <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
           </div>   
+          <div *ngIf="visibleProperty == true" style="color:red">
+            <div>Lütfen en az bir özellik seçiniz.</div>
+          </div> 
       </div>   
 
       <div class="row justify-content-center">
@@ -326,7 +308,7 @@
           <button class="btn btn-az-primary" id="btnReceivedConsumableMaterial" type="button"  >
             Talebi Karşıla
           </button>
-          <button class="btn btn-az-primary" id="btnCancelConsumableMaterial" type="button" (click)="cancelRequestConsumableMaterial()" >
+          <button class="btn btn-az-primary" id="btnCancelConsumableMaterial" type="button" (click)="onSubmit()" >
               Talebi İptal Et
             </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
@@ -337,6 +319,34 @@
   <!-- modal-dialog -->
 </div>
 <!-- modal -->
+
+ <!-- TALEP İPTALİ ONAY -->
+
+ <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForCancelRequest" style=" overflow-y: hidden !important;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content tx-size-sm">
+      <div class="modal-body tx-center pd-y-20 pd-x-20">
+          <button type="button" class="close" (click)="closeQuestionPopup()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+        <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+        <p class="mg-b-20 mg-x-20">Talep iptal edilsin mi ?</p>
+   
+        <div class="row" style="margin-bottom:20px;">
+            <div class="col-md-6" style="padding-right: 0px;">
+                <button class="btn btn-az-danger" style="float:right;" (click)="closeQuestionPopup()" >{{getLanguageValue('No')}}</button>        
+              </div>
+       
+          <div class="col-md-6">          
+            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="cancelRequestConsumableMaterial()" >{{getLanguageValue('Yes')}}</button>
+          </div>   
+        </div>
+
+      </div><!-- modal-body -->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
 
 
 

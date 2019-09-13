@@ -1287,7 +1287,7 @@
     "LanguageId": 1261,
     "LanguageKeyword": "Suspention_Reasons",
     "Tr": "Askıya Alma Sebepleri",
-    "En": "Suspention Reasons"
+    "En": "Check Out Reasons"
   },
   {
     "LanguageId": 1262,
@@ -1377,7 +1377,7 @@
     "LanguageId": 1276,
     "LanguageKeyword": "Suspended_Fixed_Assets",
     "Tr": "Askıdaki Demirbaşlar",
-    "En": "Suspended Fixed Assets"
+    "En": "Check Out Fixed Assets"
   },
   {
     "LanguageId": 1277,
@@ -1851,19 +1851,19 @@
     "LanguageId": 1372,
     "LanguageKeyword": "Suspension_Reason",
     "Tr": "Askıya Alma Sebebi",
-    "En": "Suspension Reason"
+    "En": "Checked Out Reason"
   },
   {
     "LanguageId": 1373,
     "LanguageKeyword": "Add_Suspension_Reason",
     "Tr": "Askıya Alma Sebebi Ekle",
-    "En": "Add Suspension Reason"
+    "En": "Add Check Out Reason"
   },
   {
     "LanguageId": 1374,
     "LanguageKeyword": "Suspension_Code",
     "Tr": "Askıya Alma Kodu",
-    "En": "Suspension Reason Code"
+    "En": "Check Out Reason Code"
   },
   {
     "LanguageId": 1375,
@@ -2397,7 +2397,7 @@
     "LanguageId": 1467,
     "LanguageKeyword": "Suspend_Fixed_Asset",
     "Tr": "Askıya Al",
-    "En": "Suspend Fixed Asset"
+    "En": "Check Out Fixed Asset"
   },
   {
     "LanguageId": 1468,
@@ -2451,13 +2451,13 @@
     "LanguageId": 1476,
     "LanguageKeyword": "Undo_Suspend",
     "Tr": "Askıdan Al",
-    "En": "Undo Suspend"
+    "En": "Check In "
   },
   {
     "LanguageId": 1477,
     "LanguageKeyword": "Suspended_Date",
     "Tr": "Askıya Alma Tarihi",
-    "En": "Suspended Date"
+    "En": "Check Out Date"
   },
   {
     "LanguageId": 1478,
@@ -2895,7 +2895,7 @@
   {
     "LanguageId": 1556,
     "LanguageKeyword": "Financial_Informations",
-    "Tr": "Finanasal Bilgiler",
+    "Tr": "Finansal Bilgiler",
     "En": "Financial Informations"
   },
   {
@@ -2956,13 +2956,13 @@
     "LanguageId": 1566,
     "LanguageKeyword": "Enter_information_about_suspend_process",
     "Tr": "Askıya alma bilgilerini giriniz.",
-    "En": "Enter information about suspend process."
+    "En": "Enter information about check out process."
   },
   {
     "LanguageId": 1567,
     "LanguageKeyword": "Create_suspend_form",
     "Tr": "Askıya alma formu oluşturulsun.",
-    "En": "Create suspend form."
+    "En": "Create check out form."
   },
   {
     "LanguageId": 1568,
@@ -3040,13 +3040,13 @@
     "LanguageId": 1580,
     "LanguageKeyword": "Create_undo_suspend_form",
     "Tr": "Askıdan alma formu oluşturulsun.",
-    "En": "Create undo suspend form."
+    "En": "Create check in form."
   },
   {
     "LanguageId": 1581,
     "LanguageKeyword": "Enter_undo_suspend_informations",
     "Tr": "Askıdan alma bilgilerini giriniz.",
-    "En": "Enter undo suspend informations."
+    "En": "Enter check in informations."
   },
   {
     "LanguageId": 1582,
@@ -3411,7 +3411,7 @@
     "LanguageId": 1649,
     "LanguageKeyword": "Undo_Suspend_Date",
     "Tr": "Askıdan Alma Tarihi",
-    "En": "Undo Suspend Date"
+    "En": "Check In Date"
   },
   {
     "LanguageId": 1650,
@@ -3465,7 +3465,7 @@
     "LanguageId": 1658,
     "LanguageKeyword": "Reedit_Suspend_Reason",
     "Tr": "Askıya Alma Sebebini Güncelle",
-    "En": "Update Suspend Reason"
+    "En": "Update Check Out Reason"
   },
   {
     "LanguageId": 1659,
@@ -3583,7 +3583,7 @@
   },
   {
     "LanguageId": 2604,
-    "LanguageKeyword": "Addig_file_is_successfull.",
+    "LanguageKeyword": "Addig_file_is_successfull",
     "Tr": "Dosya ekleme başarılı.",
     "En": "Adding file is succesful."
   },
@@ -3789,7 +3789,7 @@
     "LanguageId": 2642,
     "LanguageKeyword": "Undo_Suspend_Price",
     "Tr": "Askıdan Alma Bedeli",
-    "En": "Undo Suspend Price"
+    "En": "Check In Price"
   },
   {
     "LanguageId": 2644,
@@ -4205,5 +4205,191 @@
     "LanguageKeyword": "The_Modal_Selected",
     "Tr": "Model Seçildi",
     "En": "Modals Selected"
+  },
+  {
+    "LanguageId": 3710,
+    "LanguageKeyword": "Price",
+    "Tr": "Fiyat",
+    "En": "Price"
+  },
+  {
+    "LanguageId": 3711,
+    "LanguageKeyword": "A_department_cannot_be_the_department_itself!",
+    "Tr": "Bir departmanın bağlı olduğu departman kendisi olamaz!.",
+    "En": "A department cannot be the department itself !."
+  },
+  {
+    "LanguageId": 3712,
+    "LanguageKeyword": "Request_Closed",
+    "Tr": "Talep karşılandı.",
+    "En": "Request closed."
+  },
+  {
+    "LanguageId": 3713,
+    "LanguageKeyword": "Request_List",
+    "Tr": "Talep Listesi",
+    "En": "Request List"
+  },
+  {
+    "LanguageId": 3714,
+    "LanguageKeyword": "Closed_Request",
+    "Tr": "Karşılanan Talepler",
+    "En": "Closed Request"
+  },
+  {
+    "LanguageId": 3715,
+    "LanguageKeyword": "Canceled_Request",
+    "Tr": "İptal Edilen Talepler",
+    "En": "Canceled Request"
+  },
+  {
+    "LanguageId": 3716,
+    "LanguageKeyword": "Request_Canceled",
+    "Tr": "Talep iptal edildi.",
+    "En": "Request canceled."
+  },
+  {
+    "LanguageId": 3717,
+    "LanguageKeyword": "New_request_created.",
+    "Tr": "Yeni talep oluşturuldu.",
+    "En": "New request created."
+  },
+  {
+    "LanguageId": 3718,
+    "LanguageKeyword": "Request_Cancel_Description",
+    "Tr": "İptal Açıklaması",
+    "En": "Cancel Description"
+  },
+  {
+    "LanguageId": 3719,
+    "LanguageKeyword": "Fixed_asset_suspended",
+    "Tr": "Askıya alındı.",
+    "En": "Fixed asset checked out."
+  },
+  {
+    "LanguageId": 3720,
+    "LanguageKeyword": "Fixed_asset_undo_suspend",
+    "Tr": "Askıdan alındı.",
+    "En": "Fixed asset checked in."
+  },
+  {
+    "LanguageId": 3721,
+    "LanguageKeyword": "Exit_fixed_asset",
+    "Tr": "Demirbaş çıkışı yapıldı.",
+    "En": "Exit fixed asset."
+  },
+  {
+    "LanguageId": 3722,
+    "LanguageKeyword": "Marked_as_lost",
+    "Tr": "Kayıp olarak işaretlendi.",
+    "En": "Marked_as_lost."
+  },
+  {
+    "LanguageId": 3723,
+    "LanguageKeyword": "Company_changed.",
+    "Tr": "Firma değiştirildi.",
+    "En": "Company changed."
+  },
+  {
+    "LanguageId": 3724,
+    "LanguageKeyword": "Fixed_asset_find_out",
+    "Tr": "Demirbaş bulundu.",
+    "En": "Fixed asset find out."
+  },
+  {
+    "LanguageId": 3725,
+    "LanguageKeyword": "Location changed.",
+    "Tr": "Lokasyon değiştirildi.",
+    "En": "Location_changed."
+  },
+  {
+    "LanguageId": 3727,
+    "LanguageKeyword": "Department_changed",
+    "Tr": "Departman değiştirildi.",
+    "En": "Department changed."
+  },
+  {
+    "LanguageId": 3728,
+    "LanguageKeyword": "Status_changed",
+    "Tr": "\r\nStatü değiştirildi.",
+    "En": "Status changed."
+  },
+  {
+    "LanguageId": 3729,
+    "LanguageKeyword": "Debit_canceled",
+    "Tr": "Zimmet iptal edildi.",
+    "En": "Debit canceled."
+  },
+  {
+    "LanguageId": 3730,
+    "LanguageKeyword": "New_debit_process_is_done",
+    "Tr": "Yeni zimmet yapıldı.",
+    "En": "New debit process is done."
+  },
+  {
+    "LanguageId": 3731,
+    "LanguageKeyword": "Barcode_changed",
+    "Tr": "Barkod değiştirildi.",
+    "En": "Barcode changed."
+  },
+  {
+    "LanguageId": 3735,
+    "LanguageKeyword": "New_fixed_asset_added",
+    "Tr": "Yeni demirbaş girişi yapıldı.",
+    "En": "New fixed asset added."
+  },
+  {
+    "LanguageId": 3736,
+    "LanguageKeyword": "Fixed_asset_linked",
+    "Tr": "\r\nDemirbaş ilişkilendirildi.",
+    "En": "Fixed asset linked."
+  },
+  {
+    "LanguageId": 3737,
+    "LanguageKeyword": "Fixed_aseet_activated.",
+    "Tr": "Demirbaş aktif edildi.",
+    "En": "Fixed asset activated."
+  },
+  {
+    "LanguageId": 3739,
+    "LanguageKeyword": "Fixed_asset_link_broke",
+    "Tr": "Demirbaş ilişkisi kopartıldı.",
+    "En": "Fixed asset link broke."
+  },
+  {
+    "LanguageId": 3740,
+    "LanguageKeyword": "Collactive_changing",
+    "Tr": "Toplu değişiklik yapıldı.",
+    "En": ""
+  },
+  {
+    "LanguageId": 3741,
+    "LanguageKeyword": "Depreciation_infos_updated",
+    "Tr": "\r\nAmortisman bilgileri güncellendi.",
+    "En": "Depreciation info updated."
+  },
+  {
+    "LanguageId": 3742,
+    "LanguageKeyword": "Update_my_info",
+    "Tr": "Bilgilerimi Güncelle",
+    "En": "Update My Info"
+  },
+  {
+    "LanguageId": 3743,
+    "LanguageKeyword": "Current_password",
+    "Tr": "Mevcut Şifre",
+    "En": "Current Password"
+  },
+  {
+    "LanguageId": 3744,
+    "LanguageKeyword": "Request_has_already_been_canceled",
+    "Tr": "Talep zaten iptal edilmiş!",
+    "En": "Request has already been canceled!"
+  },
+  {
+    "LanguageId": 3746,
+    "LanguageKeyword": "This_request_has_been_met_before._Cannot_be_canceled",
+    "Tr": "Bu talep daha önce karşılanmış. İptal edilemez",
+    "En": "This request has been met before. Cannot be canceled"
   }
 ]

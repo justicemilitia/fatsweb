@@ -320,6 +320,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   constructor(public baseService: BaseService) {
     super(baseService);
+<<<<<<< HEAD
     this.loadConsumableTransactionList(this.perInPage,this.currentPage,1);
     this.loadConsumableInProperties();
 
@@ -337,6 +338,9 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
     this.dataTableConsumableMaterialOut.isPagingActive=false;
     this.dataTableConsumableMaterialOut.isLoading = false;
+=======
+   // this.loadConsumableTransactionList();
+>>>>>>> 8fb7f0878d3e9c850f806db382d18e983cb8a2b9
 
   }
 
@@ -441,6 +445,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       break;
     }
 
+<<<<<<< HEAD
     this.baseService.consumableRequestListService.GetConsumableRequestList(
       _perInPage,
       _currentPage,
@@ -591,6 +596,52 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       }
     );
   }
+=======
+// <<<<<<< HEAD
+//   loadConsumableMaterialInList(_perInPage: number = 25, _currentPage: number = 1) {
+//     this.baseService.consumableRequestListService.GetConsumableRequestList(
+//       _perInPage,
+//       _currentPage,
+//       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
+//         this.perInPage = _perInPage;
+//         this.currentPage = _currentPage;
+//         this.dataTableConsumableMaterialIn.perInPage = _perInPage;
+//         this.transactionList = transactionList;
+//         this.totalPage = totalPage ? totalPage : 1;
+
+//         this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
+//         this.TGT_calculatePages();
+//       },
+//       (error:HttpErrorResponse) => {
+//         this.baseService.popupService.ShowErrorPopup(error);
+//       }
+//     );
+//   }
+
+//   loadConsumableMaterialOutList(_perInPage: number = 25, _currentPage: number = 1) {
+//     this.baseService.consumableRequestListService.GetConsumableRequestList(
+// =======
+//   loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1) {
+//     this.baseService.consumableRequestListService.GetConsumableTransactionList(
+// >>>>>>> bff340114f80fa3d501c43f4970d284c1e910156
+//       _perInPage,
+//       _currentPage,
+//       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
+//         this.perInPage = _perInPage;
+//         this.currentPage = _currentPage;
+//         this.dataTableConsumableMaterialOut.perInPage = _perInPage;
+//         this.transactionList = transactionList;
+//         this.totalPage = totalPage ? totalPage : 1;
+
+//         this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
+//         this.TGT_calculatePages();
+//       },
+//       (error:HttpErrorResponse) => {
+//         this.baseService.popupService.ShowErrorPopup(error);
+//       }
+//     );
+//   }
+>>>>>>> 8fb7f0878d3e9c850f806db382d18e983cb8a2b9
 
   async refreshTable() {
     this.isTableRefreshing = true;
@@ -602,7 +653,11 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.perInPage = 25;
     this.currentPage = 1;
 
+<<<<<<< HEAD
     await this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1);
+=======
+   // await this.loadConsumableTransactionList(this.perInPage, this.currentPage);
+>>>>>>> 8fb7f0878d3e9c850f806db382d18e983cb8a2b9
 
     this.isTableRefreshing = false;
   }
@@ -635,12 +690,23 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
+<<<<<<< HEAD
     this.currentTab = tabChangeEvent.index; 
     if (tabChangeEvent.index == 0) {   
       this.loadConsumableTransactionList(this.perInPage,this.currentPage,1);
     } 
     else if (tabChangeEvent.index == 1) {
       this.loadConsumableTransactionList(this.perInPage,this.currentPage,2);
+=======
+    let selectedItems= this.dataTableConsumableMaterialIn.TGT_getSelectedItems();
+    
+    if(tabChangeEvent.index==0){
+    //  this.loadConsumableTransactionList(); 
+
+    } 
+    else if(tabChangeEvent.index==1){
+    //  this.loadConsumableTransactionList(); 
+>>>>>>> 8fb7f0878d3e9c850f806db382d18e983cb8a2b9
     }
   }
 
