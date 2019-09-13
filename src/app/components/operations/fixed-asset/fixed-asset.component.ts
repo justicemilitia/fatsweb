@@ -47,7 +47,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   faNewSearch:FixedAsset[]=[];
   
-  
   dashboardComponent: DashboardComponent = new DashboardComponent(this.baseService); 
 // = new DashboardComponent(this.baseService);
 
@@ -108,7 +107,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   filter: FixedAsset = new FixedAsset();
 
-  faProperties: FixedAssetCardProperty[] = [];
+  fixedAssetCardProperties: FixedAssetCardProperty[] = [];
 
   fixedAssetIds: number[] = [];
   fixedAssetBarcodes: string;
@@ -1086,6 +1085,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     await this.loadFixedAsset(this.perInPage, this.currentPage);
 
+    this.loadFixedAssetProperties();
+    
     this.isTableRefreshing = false;
 
     this.isFilter=false;
@@ -1245,24 +1246,26 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   async loadFixedAssetProperties() {
     this.baseService.fixedAssetService.GetFixedAssetProperties(
-      (faProperties: FixedAssetCardProperty[]) => {
-        this.faProperties = faProperties;
-        this.faProperties.forEach(e => {
+      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
+        this.fixedAssetCardProperties = fixedAssetCardProperties;
+
+        this.fixedAssetCardProperties.forEach(e => {
+
+          // e.FixedAssetPropertyValues.forEach((p, i) => {
+          // e.FixedAssetAsDisplay += p.Value + (i < e.FixedAssetPropertyValues.length - 1 ? "|" : "");
+          // });
+
           this.dataTable.dataColumns.push({
+            columnDisplayName: e.Name,            
             columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
-            columnDisplayName: e.Name,
             isActive: true,
             type: "text"
-            // ,
-            // formatter: value => {
-            //   if (value) {
-            //     if(e.FixedAssetCardPropertyId){
-
-            //     }
-            //     return value;
-            //   } else {
-            //     return "";
-            //   }}
+            ,
+            formatter: value => {
+              if (value) {
+                return e.FixedAssetAsDisplay;
+              }
+            }
           });
         });
         this.dataTable.TGT_bindActiveColumns();

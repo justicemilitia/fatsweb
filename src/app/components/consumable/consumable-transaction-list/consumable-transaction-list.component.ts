@@ -9,6 +9,11 @@ import { NotDeletedItem } from "src/app/models/NotDeletedItem";
 import { ConsumableRequest } from "../../../models/ConsumableRequest";
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 import { MatTabChangeEvent } from '@angular/material';
+import { ConsumableLogTypes } from '../../../declarations/consumable-log-types';
+import { FixedAssetCardProperty } from '../../../models/FixedAssetCardProperty';
+import { FixedAssetPropertyDetails } from '../../../models/FixedAssetPropertyDetails';
+import { FixedAssetCardPropertyValue } from '../../../models/FixedAssetCardPropertyValue';
+import { ConsumableCard } from '../../../models/ConsumableCard';
 
 @Component({
   selector: 'app-consumable-transaction-list',
@@ -18,6 +23,8 @@ import { MatTabChangeEvent } from '@angular/material';
 export class ConsumableTransactionListComponent extends BaseComponent implements OnInit {
 
   consumable: ConsumableRequest = new ConsumableRequest();
+
+  consumableCard: ConsumableCard = new ConsumableCard();  
 
   transactionList:ConsumableRequest[]=[];
 
@@ -29,6 +36,32 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   pages: Page[] = [];
 
+  currentTab:number = 0;
+  
+  propertyValue: string;
+
+  isListSelected: boolean = false;
+
+  sameProperty: boolean = false;
+  
+  visiblePropertyName: boolean = false;
+
+  isSelectedProperty: boolean = false;
+
+  visible: boolean = false;
+  
+  faPropertyDetails: FixedAssetPropertyDetails[] = [];  
+
+  fixedassetproperty: FixedAssetCardProperty[] = [];  
+
+  fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
+  
+  fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+  
+  faProperties: FixedAssetCardProperty[] = [];
+
+  isWaitingInsertOrUpdate: boolean = false;  
+  
   /* Is Table Refreshing */
   isTableRefreshing: boolean = false;
 
@@ -259,9 +292,51 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     }
   );
 
+  public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalue",
+    [
+      {
+        columnDisplayName: "Özellik Adı",
+        columnName: ["FixedAssetCardProperty", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["FixedAssetCardProperty", "Name"]
+    }
+  );
+
   constructor(public baseService: BaseService) {
     super(baseService);
-    this.loadConsumableTransactionList();
+    this.loadConsumableTransactionList(this.perInPage,this.currentPage,1);
+    this.loadConsumableInProperties();
+
+    this.dataTablePropertyValue.isPagingActive = false;
+    this.dataTablePropertyValue.isColumnOffsetActive = false;
+    this.dataTablePropertyValue.isTableEditable = true;
+    this.dataTablePropertyValue.isMultipleSelectedActive = false;
+    this.dataTablePropertyValue.isFilterActive = false;
+    this.dataTablePropertyValue.isLoading = false;
+    this.dataTablePropertyValue.isScrollActive = false;
+    this.dataTablePropertyValue.isDeleteable = true;
+
+    this.dataTableConsumableMaterialIn.isPagingActive = false;
+    this.dataTableConsumableMaterialIn.isLoading = false;
+
+    this.dataTableConsumableMaterialOut.isPagingActive=false;
+    this.dataTableConsumableMaterialOut.isLoading = false;
 
   }
 
@@ -350,20 +425,42 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.pages = items;
 
   }
+  
 
-<<<<<<< HEAD
-  loadConsumableMaterialInList(_perInPage: number = 25, _currentPage: number = 1) {
+  loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1, tabIndex:number) {
+
+    let consumableLogType:number[]=[];
+
+    switch(tabIndex){
+      case 1:
+      consumableLogType.push(ConsumableLogTypes.CONSUMABLE_MATERIAL_IN);
+      break; 
+      case 2:
+      consumableLogType.push(ConsumableLogTypes.FREE_CONSUMABLE_MATERIAL_OUT);
+      consumableLogType.push(ConsumableLogTypes.CONSUMABLE_MATERIAL_RECEIVED);
+      break;
+    }
+
     this.baseService.consumableRequestListService.GetConsumableRequestList(
       _perInPage,
       _currentPage,
+      consumableLogType,
       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
-        this.dataTableConsumableMaterialIn.perInPage = _perInPage;
+        this.dataTableConsumableMaterialOut.perInPage = _perInPage;
         this.transactionList = transactionList;
         this.totalPage = totalPage ? totalPage : 1;
 
-        this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
+        switch(tabIndex){
+          case 1:
+          this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
+          break; 
+          case 2:
+          this.dataTableConsumableMaterialOut.TGT_loadData(this.transactionList);
+          break;
+        }
+
         this.TGT_calculatePages();
       },
       (error:HttpErrorResponse) => {
@@ -372,25 +469,124 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     );
   }
 
-  loadConsumableMaterialOutList(_perInPage: number = 25, _currentPage: number = 1) {
-    this.baseService.consumableRequestListService.GetConsumableRequestList(
-=======
-  loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1) {
-    this.baseService.consumableRequestListService.GetConsumableTransactionList(
->>>>>>> bff340114f80fa3d501c43f4970d284c1e910156
-      _perInPage,
-      _currentPage,
-      (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
-        this.perInPage = _perInPage;
-        this.currentPage = _currentPage;
-        this.dataTableConsumableMaterialOut.perInPage = _perInPage;
-        this.transactionList = transactionList;
-        this.totalPage = totalPage ? totalPage : 1;
+  insertPropertyValueToArray(propertyId: any) {
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
 
-        this.dataTableConsumableMaterialIn.TGT_loadData(this.transactionList);
-        this.TGT_calculatePages();
+    if (this.isListSelected == false)
+      this.propertyValue = this.fixedAssetPropertyDetail.Value;
+
+    this.faPropertyDetails.forEach(e => {
+      if (
+        e.FixedAssetCardPropertyId ==
+          this.fixedAssetPropertyDetail.FixedAssetCardPropertyId &&
+        e.Value == this.propertyValue
+      )
+        this.sameProperty = true;
+    });
+
+    if (this.sameProperty == true) {
+      this.sameProperty = false;
+      return;
+    }
+
+    if (this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null) {
+      this.visiblePropertyName = false;
+
+      if (
+        this.fixedAssetPropertyDetail.Value != null ||
+        this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId != null
+      ) {
+        let fixedasset = this.fixedassetproperty.find(
+          x => x.FixedAssetCardPropertyId == Number(propertyId.value)
+        );
+
+        this.fixedAssetPropertyDetail.FixedAssetPropertyDetailId =
+          (this.faPropertyDetails.length + 1) * -1;
+
+        this.fixedAssetPropertyDetail.FixedAssetCardProperty = fixedasset;
+
+        if (this.isListSelected == true)
+          this.fixedAssetPropertyDetail.Value = this.propertyValue;
+        this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
+
+        this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
+
+        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+        this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+        propertyId = null;
+        this.visible = false;
+        this.isSelectedProperty = false;
+      } else {
+        this.visiblePropertyName = true;
+      }
+    } else {
+      this.visible = true;
+      this.visiblePropertyName = true;
+    }
+  }
+
+  async loadConsumableUnitByCardId(event: any) {
+    this.consumableCard = new ConsumableCard();
+
+    this.baseService.consumableService.GetConsumableCardUnitByCardId(
+      <number>event.target.value,
+      (consumablecard: ConsumableCard) => {
+        this.consumableCard = consumablecard;
       },
-      (error:HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+
+  async loadConsumableInProperties() {
+
+
+
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+        this.faProperties = faProperties;
+
+        this.faProperties.forEach(e => {
+          e.FixedAssetPropertyValues.forEach((p, i) => {
+            e.FixedAssetAsDisplay += p.Value + (i < e.FixedAssetPropertyValues.length - 1 ? "|" : "");
+          });
+        });
+
+        this.faProperties.forEach(e => {
+          this.dataTableConsumableMaterialIn.dataColumns.push({
+            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
+            columnDisplayName: e.FixedAssetAsDisplay,
+            isActive: true,
+            type: "text"
+          });
+        });
+        this.dataTableConsumableMaterialIn.TGT_bindActiveColumns();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  async loadConsumableOutProperties() {
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+        this.faProperties = faProperties;
+        this.faProperties.forEach(e => {
+          this.dataTableConsumableMaterialOut.dataColumns.push({
+            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
+            columnDisplayName: e.Name,
+            isActive: true,
+            type: "text"
+          });
+        });
+        this.dataTableConsumableMaterialOut.TGT_bindActiveColumns();
+      },
+      (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
@@ -406,24 +602,45 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.perInPage = 25;
     this.currentPage = 1;
 
-    await this.loadConsumableTransactionList(this.perInPage, this.currentPage);
+    await this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1);
 
     this.isTableRefreshing = false;
   }
 
   filterConsumable(data: NgForm){
-    
+    if (data.form.invalid == true) return;
+
+    let insertedItem: ConsumableRequest = new ConsumableRequest();
+
+    let propertyDetail = <FixedAssetPropertyDetails[]>(
+      this.dataTablePropertyValue.TGT_copySource()
+    );
+
+    Object.assign(insertedItem, this.consumable);
+    insertedItem.ConsumableCategoryId = Number(this.consumable.ConsumableCategoryId);
+    insertedItem.ConsumableCardId=Number(this.consumable.ConsumableCardId);
+    insertedItem.FreeEnterAmount=Number(this.consumable.FreeEnterAmount)
+
+    insertedItem.FixedAssetPropertyDetails = propertyDetail;
+
+    this.baseService.consumableRequestListService.RequestConsumableMaterial(
+      insertedItem,
+      (requestItem: ConsumableRequest) => {
+        this.isWaitingInsertOrUpdate = false;
+
+        insertedItem.ConsumableId = requestItem.ConsumableId;
+      },
+      (error: HttpErrorResponse) => {}
+    );
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    let selectedItems= this.dataTableConsumableMaterialIn.TGT_getSelectedItems();
-    
-    if(tabChangeEvent.index==0){
-      this.loadConsumableTransactionList(); 
-
+    this.currentTab = tabChangeEvent.index; 
+    if (tabChangeEvent.index == 0) {   
+      this.loadConsumableTransactionList(this.perInPage,this.currentPage,1);
     } 
-    else if(tabChangeEvent.index==1){
-      this.loadConsumableTransactionList(); 
+    else if (tabChangeEvent.index == 1) {
+      this.loadConsumableTransactionList(this.perInPage,this.currentPage,2);
     }
   }
 

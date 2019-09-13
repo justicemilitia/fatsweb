@@ -56,39 +56,6 @@ export class ConsumableRequestListService {
       );
   }
 
-  GetConsumableTransactionList(
-    _perInPage: number = 25,
-    _currentPage: number = 1, 
-    success,
-    failed
-  ) {
-    this.httpclient
-      .post(
-        SERVICE_URL + GET_CONSUMABLE_REQUEST_LIST,
-        { Page: _currentPage, PerPage: _perInPage },
-        { headers: GET_HEADERS(this.authenticationService.getToken()) }
-      )
-      .subscribe(
-        result => {
-          let response: Response = <Response>result;
-          if (response.ResultStatus == true) {
-            let consumableRequestList: ConsumableRequest[] = [];
-            (<ConsumableRequest[]>response.ResultObject).forEach(e => {
-              let consumable: ConsumableRequest = new ConsumableRequest();
-              Object.assign(consumable, e);
-              consumableRequestList.push(consumable);
-            });
-            success(consumableRequestList, response.LanguageKeyword);
-          } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
-          }
-        },
-        (error: HttpErrorResponse) => {
-          failed(error);
-        }
-      );
-  }
-
   RequestConsumableMaterial(consumable: ConsumableRequest, success, failed) {
     this.httpclient
       .post(SERVICE_URL + REQUEST_CONSUMABLE_MATERIAL, consumable, {
