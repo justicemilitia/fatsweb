@@ -102,6 +102,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   @ViewChild("stepper") stepper: MatStepper;
 
   /* Data Table instance */
+
+  //#region DataTable
   public dataTable: TreeGridTable = new TreeGridTable(
     "user",
     [
@@ -288,6 +290,8 @@ export class UserComponent extends BaseComponent implements OnInit {
       column: ["Name"]
     }
   );
+
+  //#endregion
 
   constructor(public baseService: BaseService) {
     super(baseService);

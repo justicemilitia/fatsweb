@@ -564,9 +564,17 @@ export class TreeGridTable {
         this.dataSource.forEach(e => {
             if (ids.findIndex(x => x == e.getId()) > -1) {
                 e.isChecked = true;
-                if (this.isSelectAllWithChildrenActive == true) {
-                    this.TGT_doToggleSelectInChildren(e.getChildren(), true);
-                }
+
+                let childIds:IData[]=e.getChildren();
+                childIds.forEach(t=>{
+                    let id:number = t.getId();
+                    childIds = e.getChildren().filter(t=>t.getId() == id);
+                    if(ids.findIndex(x=>x == id) > -1){
+                        this.TGT_doToggleSelectInChildren(childIds, true);
+                    }
+                    else
+                        this.TGT_doToggleSelectInChildren(childIds, false);
+                });           
             }
         });
     }

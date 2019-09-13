@@ -16,7 +16,7 @@
       <div class="form-group col-md-3">        
           <label >{{getLanguageValue('Invoice_No')}}</label>        
           <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" placeholder="Fatura Numarası" class="form-control"/>  
-          <div *ngIf="data.submitted && InvoiceNo.invalid" class="invalid-feedback" maxlength="20">
+          <div *ngIf="dataFinancial.submitted && InvoiceNo.invalid" class="invalid-feedback" maxlength="20">
             <div *ngIf="InvoiceNo.errors.maxlength">{{getLanguageValue('Only_can_enter_max_20_character')}}</div>
           </div>
         </div>
