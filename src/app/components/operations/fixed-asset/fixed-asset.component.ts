@@ -1086,7 +1086,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     await this.loadFixedAsset(this.perInPage, this.currentPage);
 
     this.loadFixedAssetProperties();
-    
+
     this.isTableRefreshing = false;
 
     this.isFilter=false;
@@ -1222,6 +1222,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     this.baseService.fixedAssetService.GetFixedAsset(_perInPage, _currentPage, false,
       (fa: FixedAsset[], totalPage: number, message: string) => {
 
+        let valueA: string = '';
+        
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTable.perInPage = _perInPage;
@@ -1231,8 +1233,16 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         fa.forEach(e => {
           e.FixedAssetPropertyDetails.forEach(p => {
             if (p.FixedAssetCardPropertyId) {
-              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+              // e.FixedAssetPropertyDetails.length>1
+              for (let i = 0; i < e.FixedAssetPropertyDetails.length; i++) {
+                valueA+= e.FixedAssetPropertyDetails[i].Value + ( e.FixedAssetPropertyDetails.length - i == 1 ? "" : "|");                                  
+              }
+  
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = valueA;
+              console.log(valueA);
+                // e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
             }
+            valueA='';            
           });
         });
         this.dataTable.TGT_loadData(this.fixedAssets);
@@ -1251,21 +1261,17 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
         this.fixedAssetCardProperties.forEach(e => {
 
-          // e.FixedAssetPropertyValues.forEach((p, i) => {
-          // e.FixedAssetAsDisplay += p.Value + (i < e.FixedAssetPropertyValues.length - 1 ? "|" : "");
-          // });
-
           this.dataTable.dataColumns.push({
             columnDisplayName: e.Name,            
             columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
             isActive: true,
             type: "text"
-            ,
-            formatter: value => {
-              if (value) {
-                return e.FixedAssetAsDisplay;
-              }
-            }
+            // ,
+            // formatter: value => {
+            //   if (value) {
+            //     return e.FixedAssetAsDisplay;
+            //   }
+            // }
           });
         });
         this.dataTable.TGT_bindActiveColumns();
