@@ -237,6 +237,7 @@ export const GET_CONSUMABLE_REQUEST_LIST = "Consumable/GetConsumabledMaterialReq
 export const REQUEST_CONSUMABLE_MATERIAL = "Consumable/MakeConsumabledMaterialRequest";
 export const GET_CONSUMABLE_MATERIAL_REQUESTLIST_BY_ID = "Consumable/GetConsumabledMaterialRequestListById";
 export const CANCEL_REQUEST_CONSUMABLE_MATERIAL ="Consumable/CancelConsumeMaterialRequest";
+export const RECEIVED_CONSUMABLE_MATERIAL ="Consumable/AddReceivedConsumabledMaterial";
 //#endregion
 
 

@@ -88,7 +88,9 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   currentTab:number = 0;
 
-  visibleConsumableButton:boolean=true;
+  visibleConsumableButton:boolean=false;
+
+  visibleRequestButton:boolean=true;
 
   consumableUnit:string;
 
@@ -716,6 +718,11 @@ export class ConsumableRequestListComponent extends BaseComponent
         this.baseService.popupService.ShowAlertPopup("Lütfen malzeme kartının altında bulunan bir sarf malzeme seçiniz!");
         return;
       }
+
+      this.dataTablePropertyValue.TGT_clearData();
+
+      this.insertedProperty = [];
+      
       let selectedId:number = selectedItems[0].ConsumableId;
 
       this.selectedConsumableId = selectedId;
@@ -817,20 +824,22 @@ export class ConsumableRequestListComponent extends BaseComponent
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     this.currentTab = tabChangeEvent.index; 
     if (tabChangeEvent.index == 0) {   
-      this.visibleConsumableButton = true;
+      this.visibleRequestButton = true;
+      this.visibleConsumableButton = false;
       this.loadConsumableList();
     } 
     else if (tabChangeEvent.index == 1) {
+      this.visibleRequestButton = false;
       this.visibleConsumableButton = true;
       this.loadConsumableRequestList(this.perInPage,this.currentPage,1);
     }
     else if(tabChangeEvent.index == 2){
-
+      this.visibleRequestButton = false;
       this.visibleConsumableButton = false;
       this.loadConsumableRequestList(this.perInPage,this.currentPage,2);
     }
     else if(tabChangeEvent.index == 3){
-
+      this.visibleRequestButton = false;
       this.visibleConsumableButton = false;
       this.loadConsumableRequestList(this.perInPage,this.currentPage,3);
     }
@@ -841,10 +850,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     let insertedItem: ConsumableRequest = new ConsumableRequest();
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
-
+ 
     Object.assign(insertedItem, this.consumable);
 
     insertedItem.RequestedAmount=Number(this.consumable.RequestedAmount);
@@ -853,16 +859,24 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     this.baseService.consumableRequestListService.RequestConsumableMaterial(
       insertedItem,
-      (requestItem: ConsumableRequest) => {
+      (requestItem: ConsumableRequest,message) => {
         this.isWaitingInsertOrUpdate = false;
 
-        insertedItem.ConsumableId = requestItem.ConsumableId;
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        this.popupComponent.CloseModal('#modalRequestConsumable');
+
+        this.resetForm(data, true);
+
+        this.refreshTable();        
+
       },
       (error: HttpErrorResponse) => {}
     );
   }
 
   selectedRequestConsumableMaterial() {
+
     let selectedItems = <ConsumableRequest[]>(
       this.dataTableRequestedList.TGT_getSelectedItems()
     );
@@ -881,6 +895,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
       return;
     }
+    this.insertedProperty=[];
 
     let selectedId: number = selectedItems[0].ConsumableLogId;
 
@@ -897,8 +912,9 @@ export class ConsumableRequestListComponent extends BaseComponent
       selectedLogId,
       (consumableRequest:ConsumableRequest) => {
         Object.assign(this.consumableRequest, consumableRequest[0]);
-        console.log(this.consumableRequest);
-        this.requestedUser = this.consumableRequest.User.FirstName + " " +this.consumableRequest.User.LastName; 
+    
+        if(this.consumable.User != null)
+        this.requestedUser = this.consumableRequest.User.FirstName  + " " +this.consumableRequest.User.LastName; 
 
         let property:FixedAssetPropertyDetails[] =  this.consumableRequest.Consumable.FixedAssetPropertyDetails;
 
@@ -938,7 +954,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
         this.popupComponent.CloseModal('#modalShowQuestionPopupForCancelRequest');
 
-        $('#CloseModal').trigger('click');
+        $('#CloseCancelModal').trigger('click');
 
       },
       (error:HttpErrorResponse) => {
@@ -946,6 +962,39 @@ export class ConsumableRequestListComponent extends BaseComponent
 
         this.baseService.popupService.ShowErrorPopup(error);
       });
+  }
+
+  receivedConsumableMaterial(data:NgForm){
+    if (data.form.invalid == true) return;
+
+    this.baseService.spinner.show();
+
+    let receivedItem: ConsumableRequest = new ConsumableRequest();
+
+    Object.assign(receivedItem,this.consumableRequest);
+
+    receivedItem.RecievedAmount = this.receiveConsumableMaterial.RecievedAmount;
+    receivedItem.Description = this.receiveConsumableMaterial.Description;
+
+    this.baseService.consumableRequestListService.ReceivedConsumableMaterial(receivedItem,(result:any)=>{
+      this.baseService.spinner.hide();
+    },
+    (error:HttpErrorResponse)=>{
+      this.baseService.spinner.hide();
+
+      this.baseService.popupService.ShowErrorPopup(error);
+    })
+
+  }
+
+  resetForm(data: NgForm, isNewItem: boolean) {
+    if (isNewItem == true) {
+      this.consumable = new ConsumableRequest(); 
+      this.dataTablePropertyValue.TGT_clearData();
+    }
+    data.reset();
+    data.resetForm(this.consumable);
+
   }
 
   async refreshTable() {
@@ -959,6 +1008,7 @@ export class ConsumableRequestListComponent extends BaseComponent
       this.dataTableConsumableList.isLoading = true;
       this.dataTableConsumableList.TGT_clearData();
       this.dataTablePropertyValue.TGT_clearData();
+      
       this.loadConsumableList();
       break;
       case 1:

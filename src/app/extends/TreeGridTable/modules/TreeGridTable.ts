@@ -568,16 +568,45 @@ export class TreeGridTable {
                 let childIds:IData[]=e.getChildren();
                 childIds.forEach(t=>{
                     let id:number = t.getId();
-                    childIds = e.getChildren().filter(t=>t.getId() == id);
+                    childIds = e.getChildren().filter(x=>x.getId()==id);
+               
                     if(ids.findIndex(x=>x == id) > -1){
-                        this.TGT_doToggleSelectInChildren(childIds, true);
+                        this.TGT_doToggleSelectInChildrenCaseAuth(childIds, ids, true);
                     }
-                    else
-                        this.TGT_doToggleSelectInChildren(childIds, false);
+                    // else
+                    //     this.TGT_doToggleSelectInChildrenCaseAuth(childIds,ids, false);
                 });           
             }
         });
     }
+
+        /**
+     * Do toggle select for each item and their children
+     * @param _datasource The treesource of children.
+     * @param selectState The state of select or deselect
+     */
+    public TGT_doToggleSelectInChildrenCaseAuth(_datasource: IData[], ids:number[], selectState: boolean) {
+
+        /* Do toggle select for all children */
+        if (_datasource && _datasource.length > 0) {
+            _datasource.forEach(e => {
+                e.isChecked = selectState;
+                if (e.getChildren().length > 0) {
+                    let childIds:IData[] = e.getChildren();
+                    childIds.forEach(t=>{
+                        let id:number = t.getId();
+                        if(ids.findIndex(x=>x == id)>-1){
+                            this.TGT_doToggleSelectInChildrenCaseAuth(childIds, ids, true);
+                        }
+                        else
+                            this.TGT_doToggleSelectInChildrenCaseAuth(childIds, ids, false);
+                    });
+                }
+            });
+        }
+
+    }
+
 
     /**
      * Get selected items
@@ -1315,6 +1344,7 @@ export class TreeGridTable {
             _datasource.forEach(e => {
                 e.isChecked = selectState;
                 if (e.getChildren().length > 0) {
+
                     this.TGT_doToggleSelectInChildren(e.getChildren(), selectState);
                 }
             });

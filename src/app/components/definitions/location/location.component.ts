@@ -6,6 +6,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Location } from "../../../models/Location";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
+import { Xliff } from '@angular/compiler';
 
 @Component({
   selector: "app-location",
@@ -124,6 +125,7 @@ export class LocationComponent extends BaseComponent implements OnInit {
   }
 
   get getLocationsWithoutCurrent() {
+  
     return this.locations.filter(x => x.LocationId != this.location.LocationId);
   }
 
