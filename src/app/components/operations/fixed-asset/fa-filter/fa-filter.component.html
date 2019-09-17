@@ -269,7 +269,7 @@
               <div class="col-md-12 form-group">
                 <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
                 <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId"
-                  name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()"
+                  name="FixedAssetCardPropertyId"
                   (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" style="width:100%">
                   <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
                   <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">

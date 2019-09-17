@@ -14,6 +14,11 @@ import { FixedAssetCardProperty } from '../../../models/FixedAssetCardProperty';
 import { FixedAssetPropertyDetails } from '../../../models/FixedAssetPropertyDetails';
 import { FixedAssetCardPropertyValue } from '../../../models/FixedAssetCardPropertyValue';
 import { ConsumableCard } from '../../../models/ConsumableCard';
+import { Department } from '../../../models/Department';
+import { User } from '../../../models/User';
+import { Location } from '../../../models/Location';
+import { ConsumableCategory } from '../../../models/ConsumableCategory';
+import { PropertyValueTypes } from '../../../declarations/property-value-types.enum';
 
 @Component({
   selector: 'app-consumable-transaction-list',
@@ -48,6 +53,8 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
   isSelectedProperty: boolean = false;
 
+  fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
+  
   visible: boolean = false;
   
   faPropertyDetails: FixedAssetPropertyDetails[] = [];  
@@ -61,7 +68,20 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   faProperties: FixedAssetCardProperty[] = [];
 
   isWaitingInsertOrUpdate: boolean = false;  
+
+  isConsumableCardDropdownOpen: boolean = false;
+  isConsumableCategoryDropdownOpen: boolean = false;  
+  isDepartmentDropdownOpen:boolean = false;
+  isLocationDropdownOpen: boolean = false;
+  isRequestedUserDropdownOpen: boolean = false;
+  isReceivedUserDropdownOpen: boolean = false;
   
+  consumableCards: ConsumableCard[] = [];  
+  consumableCategories: ConsumableCategory[] = [];  
+  locations: Location[] = [];  
+  departments: Department[] = [];
+  users: User[]=[];
+
   /* Is Table Refreshing */
   isTableRefreshing: boolean = false;
 
@@ -318,10 +338,101 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     }
   );
 
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "location",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Location'),
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableDepartment: TreeGridTable = new TreeGridTable(
+    "department",
+    [
+      {
+        columnDisplayName: "Departman",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableUser: TreeGridTable = new TreeGridTable(
+    "user",
+    [
+      {
+        columnDisplayName: "User_name",
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableConsumableCard: TreeGridTable = new TreeGridTable(
+    "consumableCard",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableConsumableCategory: TreeGridTable = new TreeGridTable(
+    "consumableCategory",
+    [
+      {
+        columnDisplayName: "Consumable_Category",
+        columnName: ["ConsumableCategoryName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["ConsumableCategoryName"]
+    }
+  );
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadConsumableTransactionList(this.perInPage,this.currentPage,1);
     this.loadConsumableInProperties();
+    this.loadDropdown();
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
@@ -337,6 +448,46 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
     this.dataTableConsumableMaterialOut.isPagingActive=false;
     this.dataTableConsumableMaterialOut.isLoading = false;
+
+    this.dataTableLocation.isPagingActive = false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isMultipleSelectedActive = false;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isHeaderVisible = false;
+    this.dataTableLocation.isScrollActive = false;
+
+    this.dataTableDepartment.isPagingActive = false;
+    this.dataTableDepartment.isColumnOffsetActive = false;
+    this.dataTableDepartment.isDeleteable = false;
+    this.dataTableDepartment.isMultipleSelectedActive = false;
+    this.dataTableDepartment.isLoading = false;
+    this.dataTableDepartment.isHeaderVisible = false;
+    this.dataTableDepartment.isScrollActive = false;
+
+    this.dataTableUser.isPagingActive = false;
+    this.dataTableUser.isColumnOffsetActive = false;
+    this.dataTableUser.isDeleteable = false;
+    this.dataTableUser.isMultipleSelectedActive = false;
+    this.dataTableUser.isLoading = false;
+    this.dataTableUser.isHeaderVisible = false;
+    this.dataTableUser.isScrollActive = false;
+
+    this.dataTableConsumableCard.isPagingActive = false;
+    this.dataTableConsumableCard.isColumnOffsetActive = false;
+    this.dataTableConsumableCard.isDeleteable = false;
+    this.dataTableConsumableCard.isMultipleSelectedActive = false;
+    this.dataTableConsumableCard.isLoading = false;
+    this.dataTableConsumableCard.isHeaderVisible = false;
+    this.dataTableConsumableCard.isScrollActive = false;
+
+    this.dataTableConsumableCategory.isPagingActive = false;
+    this.dataTableConsumableCategory.isColumnOffsetActive = false;
+    this.dataTableConsumableCategory.isDeleteable = false;
+    this.dataTableConsumableCategory.isMultipleSelectedActive = false;
+    this.dataTableConsumableCategory.isLoading = false;
+    this.dataTableConsumableCategory.isHeaderVisible = false;
+    this.dataTableConsumableCategory.isScrollActive = false;
 
   }
 
@@ -469,6 +620,33 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     );
   }
 
+
+  async loadValuesByPropertyId(event) {
+
+    this.isSelectedProperty = true;
+
+    this.visible = false;
+
+    let fixedAssetProperty = this.fixedassetproperty.find(
+      x => x.FixedAssetCardPropertyId == Number(event.target.value)
+    );
+
+    if (fixedAssetProperty.FixedAssetTypeId == PropertyValueTypes.Liste) {
+      this.isListSelected = true;
+      this.baseService.fixedAssetCardPropertyService.GetFixedAssetPropertyValueByPropertyId(
+        <number>event.target.value,
+        (propertyValues: FixedAssetCardPropertyValue[]) => {
+          this.fixedassetpropertyvalues = propertyValues;
+        },
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+    } else {
+      this.isListSelected = false;
+    }
+  }
+
   insertPropertyValueToArray(propertyId: any) {
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
@@ -527,24 +705,15 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     }
   }
 
-  async loadConsumableUnitByCardId(event: any) {
-    this.consumableCard = new ConsumableCard();
+  getPropertyValue(event: any) {
+    this.propertyValue = event.target.value;
 
-    this.baseService.consumableService.GetConsumableCardUnitByCardId(
-      <number>event.target.value,
-      (consumablecard: ConsumableCard) => {
-        this.consumableCard = consumablecard;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+    this.visible = false;
+    
+    this.fixedAssetPropertyDetail.Value = null;
   }
 
-
   async loadConsumableInProperties() {
-
-
 
     this.baseService.fixedAssetService.GetFixedAssetProperties(
       (faProperties: FixedAssetCardProperty[]) => {
@@ -642,6 +811,226 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     else if (tabChangeEvent.index == 1) {
       this.loadConsumableTransactionList(this.perInPage,this.currentPage,2);
     }
+  }
+
+  async loadDropdown() {
+    this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
+      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
+        this.fixedassetproperty = fixedAssetCardProperties;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.baseService.consumableCategoryService.GetConsumableCategories(
+      (categories: ConsumableCategory[]) => {
+        this.consumableCategories = categories;
+        this.dataTableConsumableCategory.TGT_loadData(this.consumableCategories);        
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.baseService.locationService.GetLocations(
+      (locations: Location[]) => {
+        this.locations = locations;
+        this.dataTableLocation.TGT_loadData(this.locations);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.baseService.userService.GetUsers(
+      (users: User[]) => {
+        this.users = users;
+        this.dataTableUser.TGT_loadData(this.users);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+    
+    this.baseService.departmentService.GetDepartments(
+      (departments: Department[]) => {
+        this.departments = departments;
+        this.dataTableDepartment.TGT_loadData(this.departments);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+
+  }
+
+  async loadConsumableCardByCategoryId(categoryId: number) {
+    this.consumableCards = [];
+    this.consumableCard.ConsumableUnit = null;    
+
+    if (!categoryId || categoryId == 0) {
+      this.consumable.ConsumableCardId = null;
+      this.consumable.ConsumableCard = new ConsumableCard();
+      return;
+    }
+    if (categoryId) {
+      this.baseService.consumableCardService.GetConsumableCardsByCategoryId(
+        categoryId,
+        (consumableCards: ConsumableCard[]) => {
+          this.consumableCards = consumableCards;
+          this.dataTableConsumableCard.TGT_loadData(this.consumableCards);          
+        },
+        (error: HttpErrorResponse) => {
+         
+        }
+      );
+    }
+  }
+
+  
+  selectedLocation: Location;
+  onClickLocation(item) {
+    this.selectedLocation = item;
+  }
+
+  selectedDepartment: Department;
+  onClickDepartment(item) {
+    this.selectedDepartment = item;
+  }
+
+  selectedRequestedUser: User;
+  onClickUser(item) {
+    this.selectedRequestedUser = item;
+  }
+
+  selectedReceivedUser: User;
+  onClickReceivedUser(item) {
+    this.selectedReceivedUser = item;
+  }
+
+  selectedConsumableCard: ConsumableCard;
+  onClickConsumableCard(item) {
+    this.selectedConsumableCard = item;
+  }
+
+  selectedConsumableCategory: ConsumableCategory;
+  onClickConsumableCategory(item) {
+    this.selectedConsumableCategory = item;
+    this.loadConsumableCardByCategoryId(this.selectedConsumableCategory.ConsumableCategoryId);    
+  }
+
+  toggleDropdown(key: string) {
+    switch (key) {
+      case "location":
+        this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+        this.isDepartmentDropdownOpen=false;
+        this.isConsumableCardDropdownOpen=false;
+        this.isConsumableCategoryDropdownOpen=false;
+        this.isReceivedUserDropdownOpen=false;
+        this.isRequestedUserDropdownOpen=false;
+        // this.loadDepartmentByLocationId(this.selectedLocation.LocationId);        
+        break;
+
+        case "department":
+        this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen; 
+        this.isLocationDropdownOpen = false;
+        this.isConsumableCardDropdownOpen=false;
+        this.isConsumableCategoryDropdownOpen=false;
+        this.isReceivedUserDropdownOpen=false;
+        this.isRequestedUserDropdownOpen=false;
+        break;
+
+        case "consumableCard":
+        this.isConsumableCardDropdownOpen=!this.isConsumableCardDropdownOpen; 
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen=false;
+        this.isConsumableCategoryDropdownOpen=false;
+        this.isReceivedUserDropdownOpen=false;
+        this.isRequestedUserDropdownOpen=false;
+        break;
+
+        case "consumableCategory":
+        this.isConsumableCategoryDropdownOpen=!this.isConsumableCategoryDropdownOpen;
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen=false; 
+        this.isConsumableCardDropdownOpen=false;
+        this.isReceivedUserDropdownOpen=false;
+        this.isRequestedUserDropdownOpen=false;
+        break;
+
+        case "requestedUser":
+        this.isReceivedUserDropdownOpen=!this.isReceivedUserDropdownOpen; 
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen=false;
+        this.isConsumableCardDropdownOpen=false;
+        this.isConsumableCategoryDropdownOpen=false;
+        this.isReceivedUserDropdownOpen=false;
+        break;
+        
+        case "receivedUser":
+        this.isRequestedUserDropdownOpen=!this.isRequestedUserDropdownOpen; 
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen=false;
+        this.isConsumableCardDropdownOpen=false;
+        this.isConsumableCategoryDropdownOpen=false;
+        this.isRequestedUserDropdownOpen=false;
+        break;
+    }
+  }
+
+   
+  resetDropdown(key:string){
+    switch(key){
+      case "location":
+      this.selectedLocation = null;
+      break;
+      case "department":
+      this.selectedDepartment = null;      
+      break;
+      case "consumableCard":
+      this.selectedConsumableCard = null;
+      break;
+      case "consumableCategory":
+      this.selectedConsumableCategory = null;      
+      break;
+      case "receivedUser":
+      this.selectedReceivedUser = null;
+      break;
+      case "requestedUser":
+      this.selectedRequestedUser = null;      
+      break;
+    }
+  }
+
+  async resetFilter() {
+
+        this.dataTablePropertyValue.TGT_clearData();
+
+        this.consumable = new ConsumableRequest();
+        this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+        this.isListSelected = false;
+        this.propertyValue = null;
+
+        //Dropdown Selected Items
+        this.selectedConsumableCard = null; 
+        this.selectedConsumableCategory = null;
+        this.selectedDepartment=null;
+        this.selectedLocation=null;
+        this.selectedReceivedUser=null;
+        this.selectedRequestedUser=null;
+
+        this.loadDropdown();
+
+        this.consumableCards = [];
+        this.consumableCategories = [];
+        this.users = [];
+        this.locations = [];
+        this.departments = [];
+        this.loadConsumableTransactionList(this.perInPage,this.currentPage,1);
+
   }
 
 }
