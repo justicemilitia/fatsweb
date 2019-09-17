@@ -781,6 +781,8 @@ constructor(protected baseService: BaseService) {
 
         this.fixedAssetComponent.loadFixedAssetForFilter(25,1,totalPage,fixedAssets);
 
+       $('#CloseModal').trigger('click');
+
         // this.fixedAssetFilterList = fixedAssets;
         // this.filterDataTable.TGT_loadData(this.fixedAssetFilterList);
         // this.fixedAssetComponent.currentPage = 1;

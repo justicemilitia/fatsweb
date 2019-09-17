@@ -1180,8 +1180,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     this.TGT_calculatePages();
 
-    // this.dataTable.TGT_loadData(this.faNewFilter);
-    this.dataTable.TGT_loadData(this.faFilter);
+    this.dataTable.TGT_loadData(this.faNewFilter);
+    //this.dataTable.TGT_loadData(this.faFilter);
    
   }
 
