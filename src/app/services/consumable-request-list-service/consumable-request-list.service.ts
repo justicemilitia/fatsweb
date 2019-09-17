@@ -7,7 +7,8 @@ import {
   GET_CONSUMABLE_REQUEST_LIST,
   REQUEST_CONSUMABLE_MATERIAL,
   GET_CONSUMABLE_MATERIAL_REQUESTLIST_BY_ID,
-  CANCEL_REQUEST_CONSUMABLE_MATERIAL
+  CANCEL_REQUEST_CONSUMABLE_MATERIAL,
+  RECEIVED_CONSUMABLE_MATERIAL
 } from "../../declarations/service-values";
 import { Response } from "src/app/models/Response";
 import { Consumable } from "src/app/models/Consumable";
@@ -65,11 +66,9 @@ export class ConsumableRequestListService {
         let response: Response = <Response>result;
         if(response.ResultStatus == true){
           let consumableRequestList: ConsumableRequest[] = [];
-          (<ConsumableRequest[]>response.ResultObject).forEach(e => {
-            let consumable: ConsumableRequest = new ConsumableRequest();
-            Object.assign(consumable, e);
-            consumableRequestList.push(consumable);
-          });
+
+          Object.assign(consumableRequestList,response.ResultObject);
+
           success(consumableRequestList, response.LanguageKeyword);
         }
         else{
@@ -113,6 +112,19 @@ export class ConsumableRequestListService {
     }),(error:HttpErrorResponse)=>{
       failed(error);
     };
+  }
+
+  ReceivedConsumableMaterial(receivedConsumable:ConsumableRequest,success,failed){
+    this.httpclient.post(SERVICE_URL + RECEIVED_CONSUMABLE_MATERIAL, receivedConsumable, {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result => {
+      let response: Response = <Response>result;
+      if(response.ResultStatus == true){
+        success(response.LanguageKeyword);
+      }
+    }),(error:HttpErrorResponse) =>{
+      failed(error);
+    }
   }
 
 }
