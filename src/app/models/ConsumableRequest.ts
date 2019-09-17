@@ -55,9 +55,17 @@ export class ConsumableRequest  implements IData{
      TotalCount: number;
      IsValid: boolean;
      ReceivedUserId: number;
+     ConsumableNumber:number;
+     Page:Number;
+     PerPage:Number;
+
+     ConsumableCategoryIds:number[];
+     ConsumableCardIds:number[];
+     ConsumableLogTypeIds:number[];
 
      User:User;
      FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
+     FixedAssetPropertyArray: FixedAssetPropertyDetails[];
      Consumable:Consumable;
      ConsumableCategory:ConsumableCategory;
      ConsumableCard:ConsumableCard;

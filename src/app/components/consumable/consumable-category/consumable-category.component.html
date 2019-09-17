@@ -66,17 +66,7 @@
         </div>
         <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
           <div class="modal-body">
-            <div class="row justify-content-center">
-              <!-- <div class="form-group col-md-6">
-                <label class="required-span">Kategori Kodu</label>
-                <input [(ngModel)]="consumableCategory.ConsumableCategoryCode" name="ConsumableCategoryCode"
-                  type="text" trim="blur" class="form-control"
-                  [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryCode.invalid }"
-                  #ConsumableCategoryCode="ngModel" required maxlength="" />
-                <div *ngIf="data.submitted && ConsumableCategoryCode.invalid" class="invalid-feedback">
-                  <div *ngIf="ConsumableCategoryCode.errors.required">Bu alan zorunludur.</div>
-                </div>
-              </div> -->
+            <div class="row justify-content-center"> 
               <div class="form-group col-md-6">
                 <label class="required-span">Kategori Kodu</label>
                 <input [(ngModel)]="consumableCategory.ConsumableCategoryCode" name="ConsumableCategoryCode" type="text" trim="blur" class="form-control"

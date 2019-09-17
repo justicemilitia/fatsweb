@@ -57,6 +57,33 @@ export class ConsumableRequestListService {
       );
   }
 
+  GetConsumableRequestListWithFilter(consumableFilter:ConsumableRequest, success, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + GET_CONSUMABLE_REQUEST_LIST, consumableFilter,
+        { headers: GET_HEADERS(this.authenticationService.getToken()) }
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let consumableRequestList: ConsumableRequest[] = [];
+            (<ConsumableRequest[]>response.ResultObject).forEach(e => {
+              let consumable: ConsumableRequest = new ConsumableRequest();
+              Object.assign(consumable, e);
+              consumableRequestList.push(consumable);
+            });
+            success(consumableRequestList, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
   RequestConsumableMaterial(consumable: ConsumableRequest, success, failed) {
     this.httpclient
       .post(SERVICE_URL + REQUEST_CONSUMABLE_MATERIAL, {ConsumableId:consumable.ConsumableId, RequestedAmount:consumable.RequestedAmount, Description:consumable.Description}, {
@@ -120,7 +147,7 @@ export class ConsumableRequestListService {
     }).subscribe(result => {
       let response: Response = <Response>result;
       if(response.ResultStatus == true){
-        success(response.LanguageKeyword);
+        success(response.ResultStatus,response.LanguageKeyword);
       }
     }),(error:HttpErrorResponse) =>{
       failed(error);
