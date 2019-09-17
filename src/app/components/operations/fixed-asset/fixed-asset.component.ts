@@ -1085,7 +1085,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     await this.loadFixedAsset(this.perInPage, this.currentPage);
 
-    this.loadFixedAssetProperties();
+    // this.loadFixedAssetProperties();
 
     this.isTableRefreshing = false;
 
@@ -1149,20 +1149,39 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     this.dataTable.perInPage = perInPage;
 
     this.totalPage = Math.round(fa.length/this.perInPage);
-
-    this.TGT_calculatePages();
     
+    // fa.forEach(e => {
+    //   e.FixedAssetPropertyDetails.forEach(p => {
+    //     if (p.FixedAssetCardPropertyId) {
+    //       e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+    //     }
+    //   });
+    // });
+
+    let valueA: string = '';
+        
     fa.forEach(e => {
       e.FixedAssetPropertyDetails.forEach(p => {
         if (p.FixedAssetCardPropertyId) {
-          e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+          // e.FixedAssetPropertyDetails.length>1
+          for (let i = 0; i < e.FixedAssetPropertyDetails.length; i++) {
+            valueA+= e.FixedAssetPropertyDetails[i].Value + ( e.FixedAssetPropertyDetails.length - i == 1 ? "" : "|");                                  
+          }
+
+          e["PROP_" + p.FixedAssetCardPropertyId.toString()] = valueA;
+          console.log(valueA);
+            // e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
         }
+        valueA='';            
       });
     });
 
     this.calculateDatatable(this.perInPage,this.currentPage,fa);
 
-    this.dataTable.TGT_loadData(this.faNewFilter);
+    this.TGT_calculatePages();
+
+    // this.dataTable.TGT_loadData(this.faNewFilter);
+    this.dataTable.TGT_loadData(this.faFilter);
    
   }
 
@@ -1682,7 +1701,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   //#region Create Fixed Asset Operation
   CreateFixedAssetOperation() {
     $("#showModal").trigger("click");
-  }
+  } 
   //#endregion
 
   //#region Edit Fixed Asset File

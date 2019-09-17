@@ -412,7 +412,7 @@ constructor(protected baseService: BaseService) {
     switch (key) {
       case "user":
       this.isUserDropdownOpen = !this.isUserDropdownOpen;
-      this.isLocationDropdownOpen = false;;
+      this.isLocationDropdownOpen = false;
       this.isDepartmentDropdownOpen=false;
       this.isFaCardDropdownOpen=false;
       this.isFaCardCategoryDropdownOpen = false;
@@ -737,6 +737,8 @@ constructor(protected baseService: BaseService) {
     this.fixedAsset.Page = 1;
     this.fixedAsset.PerPage = 100000;
 
+    Object.assign(this.fixedAsset.FixedAssetPropertyArray, propertyDetail);
+    
     if (data.value.Barcode)
       this.fixedAsset.Barcodes.push(data.value.Barcode);
 
@@ -821,25 +823,25 @@ constructor(protected baseService: BaseService) {
   }
 
 
-  // async loadFixedAssetProperties() {
-  //   this.baseService.fixedAssetService.GetFixedAssetProperties(
-  //     (faProperties: FixedAssetCardProperty[]) => {
-  //       this.fixedassetproperty = faProperties;
-  //       this.fixedassetproperty.forEach(e => {
-  //         this.filterDataTable.dataColumns.push({
-  //           columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
-  //           columnDisplayName: e.Name,
-  //           isActive: true,
-  //           type: "text"
-  //         });
-  //       });
-  //       this.filterDataTable.TGT_bindActiveColumns();
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       this.baseService.popupService.ShowErrorPopup(error);
-  //     }
-  //   );
-  // }
+  async loadFixedAssetProperties() {
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+        this.fixedassetproperty = faProperties;
+        this.fixedassetproperty.forEach(e => {
+          this.filterDataTable.dataColumns.push({
+            columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
+            columnDisplayName: e.Name,
+            isActive: true,
+            type: "text"
+          });
+        });
+        this.filterDataTable.TGT_bindActiveColumns();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
 
   /* Selected Fixed Asset Cards */
   // onSelectFixedAssetCard(item: FixedAssetCard) {
