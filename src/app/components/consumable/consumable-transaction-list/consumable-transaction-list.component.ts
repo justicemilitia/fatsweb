@@ -13,7 +13,7 @@ import { ConsumableLogTypes } from '../../../declarations/consumable-log-types';
 import { FixedAssetCardProperty } from '../../../models/FixedAssetCardProperty';
 import { FixedAssetPropertyDetails } from '../../../models/FixedAssetPropertyDetails';
 import { FixedAssetCardPropertyValue } from '../../../models/FixedAssetCardPropertyValue';
-import { ConsumableCard } from '../../../models/ConsumableCard';
+import { ConsumableCard } from "src/app/models/ConsumableCard";
 import { Department } from '../../../models/Department';
 import { User } from '../../../models/User';
 import { Location } from '../../../models/Location';
@@ -180,7 +180,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.ConsumableLogDate ? value.ConsumableLogDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.ConsumableLogDate ? value.ConsumableLogDate.replace("T"," ").substring(0,16): "";
         }
       }
     ],
@@ -302,7 +302,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.ConsumableLogDate ? value.ConsumableLogDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.ConsumableLogDate ? value.ConsumableLogDate.replace("T"," ").substring(0,16): "";
         }
       }
     ],
@@ -379,16 +379,24 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     [
       {
         columnDisplayName: "User_name",
-        columnName: ["Name"],
+        columnName: ["|FirstName"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value != null ? value.FirstName + ' ' + value.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
       }
     ],
     {
       isDesc: false,
-      column: ["Name"]
+      column: ["|FirstName"]
     }
   );
 
@@ -452,7 +460,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
     this.dataTableLocation.isDeleteable = false;
-    this.dataTableLocation.isMultipleSelectedActive = false;
+    // this.dataTableLocation.isMultipleSelectedActive = false;
     this.dataTableLocation.isLoading = false;
     this.dataTableLocation.isHeaderVisible = false;
     this.dataTableLocation.isScrollActive = false;
@@ -460,7 +468,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableDepartment.isPagingActive = false;
     this.dataTableDepartment.isColumnOffsetActive = false;
     this.dataTableDepartment.isDeleteable = false;
-    this.dataTableDepartment.isMultipleSelectedActive = false;
+    // this.dataTableDepartment.isMultipleSelectedActive = false;
     this.dataTableDepartment.isLoading = false;
     this.dataTableDepartment.isHeaderVisible = false;
     this.dataTableDepartment.isScrollActive = false;
@@ -468,7 +476,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableUser.isPagingActive = false;
     this.dataTableUser.isColumnOffsetActive = false;
     this.dataTableUser.isDeleteable = false;
-    this.dataTableUser.isMultipleSelectedActive = false;
+    // this.dataTableUser.isMultipleSelectedActive = false;
     this.dataTableUser.isLoading = false;
     this.dataTableUser.isHeaderVisible = false;
     this.dataTableUser.isScrollActive = false;
@@ -476,7 +484,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableConsumableCard.isPagingActive = false;
     this.dataTableConsumableCard.isColumnOffsetActive = false;
     this.dataTableConsumableCard.isDeleteable = false;
-    this.dataTableConsumableCard.isMultipleSelectedActive = false;
+    // this.dataTableConsumableCard.isMultipleSelectedActive = false;
     this.dataTableConsumableCard.isLoading = false;
     this.dataTableConsumableCard.isHeaderVisible = false;
     this.dataTableConsumableCard.isScrollActive = false;
@@ -484,7 +492,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableConsumableCategory.isPagingActive = false;
     this.dataTableConsumableCategory.isColumnOffsetActive = false;
     this.dataTableConsumableCategory.isDeleteable = false;
-    this.dataTableConsumableCategory.isMultipleSelectedActive = false;
+    // this.dataTableConsumableCategory.isMultipleSelectedActive = false;
     this.dataTableConsumableCategory.isLoading = false;
     this.dataTableConsumableCategory.isHeaderVisible = false;
     this.dataTableConsumableCategory.isScrollActive = false;
@@ -597,11 +605,30 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       _currentPage,
       consumableLogType,
       (transactionList:ConsumableRequest[], totalPage:number,message:string) => {
+       
+        let valueA: string = '';       
+
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTableConsumableMaterialOut.perInPage = _perInPage;
         this.transactionList = transactionList;
         this.totalPage = totalPage ? totalPage : 1;
+
+        // transactionList.forEach(e => {
+        // if(e.ConsumableP.length>0){
+        //   e.ConsumablePropertyLogs.forEach(p => {
+        //     if (p.FixedAssetCardPropertyId) {
+        //       // e.FixedAssetPropertyDetails.length>1
+        //       for (let i = 0; i < e.FixedAssetPropertyDetails.length; i++) {
+        //         valueA+= e.FixedAssetPropertyDetails[i].Value + ( e.FixedAssetPropertyDetails.length - i == 1 ? "" : "|");                                  
+        //       }
+  
+        //       e["PROP_" + p.FixedAssetCardPropertyId.toString()] = valueA;
+        //     }
+        //     valueA='';            
+        //   });
+        // }
+        // });
 
         switch(tabIndex){
           case 1:
@@ -719,16 +746,16 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       (faProperties: FixedAssetCardProperty[]) => {
         this.faProperties = faProperties;
 
-        this.faProperties.forEach(e => {
-          e.FixedAssetPropertyValues.forEach((p, i) => {
-            e.FixedAssetAsDisplay += p.Value + (i < e.FixedAssetPropertyValues.length - 1 ? "|" : "");
-          });
-        });
+        // this.faProperties.forEach(e => {
+        //   e.FixedAssetPropertyValues.forEach((p, i) => {
+        //     e.FixedAssetAsDisplay += p.Value + (i < e.FixedAssetPropertyValues.length - 1 ? "|" : "");
+        //   });
+        // });
 
         this.faProperties.forEach(e => {
           this.dataTableConsumableMaterialIn.dataColumns.push({
+            columnDisplayName: e.Name,                        
             columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
-            columnDisplayName: e.FixedAssetAsDisplay,
             isActive: true,
             type: "text"
           });
@@ -785,10 +812,19 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       this.dataTablePropertyValue.TGT_copySource()
     );
 
+    let locationIds = this.dataTableLocation.TGT_getSelectedItems().map(x => x.getId());
+
     Object.assign(insertedItem, this.consumable);
-    insertedItem.ConsumableCategoryId = Number(this.consumable.ConsumableCategoryId);
-    insertedItem.ConsumableCardId=Number(this.consumable.ConsumableCardId);
+
     insertedItem.FreeEnterAmount=Number(this.consumable.FreeEnterAmount)
+    
+    // insertedItem.ConsumableCategoryIds = Number(this.selectedConsumableCategory == null ? null : this.selectedConsumableCategory.ConsumableCategoryId); 
+    // insertedItem.ConsumableCardIds = Number(this.selectedConsumableCard == null ? null : this.selectedConsumableCard.ConsumableCardId);
+    // insertedItem.ConsumableLocationIds = Number(this.selectedLocation == null ? null : this.selectedLocation.LocationId);       
+    insertedItem.ConsumableLocationIds = locationIds;
+    // insertedItem.ReceivedDepartmentIds = Number(this.selectedDepartment == null ? null : this.selectedDepartment.DepartmentId);
+    // insertedItem.ReceivedUserIds = Number(this.selectedReceivedUser == null ? null : this.selectedReceivedUser.UserId);    
+    // insertedItem.RequestedUserIds = Number(this.selectedReceivedUser == null ? null : this.selectedReceivedUser.UserId);
 
     insertedItem.FixedAssetPropertyDetails = propertyDetail;
 
@@ -901,7 +937,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   }
 
   selectedRequestedUser: User;
-  onClickUser(item) {
+  onClickRequestedUser(item) {
     this.selectedRequestedUser = item;
   }
 
@@ -958,10 +994,11 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         this.isConsumableCardDropdownOpen=false;
         this.isReceivedUserDropdownOpen=false;
         this.isRequestedUserDropdownOpen=false;
+        // this.loadConsumableCardByCategoryId(this.selectedConsumableCategory.ConsumableCategoryId);
         break;
 
         case "requestedUser":
-        this.isReceivedUserDropdownOpen=!this.isReceivedUserDropdownOpen; 
+        this.isRequestedUserDropdownOpen=!this.isRequestedUserDropdownOpen;         
         this.isLocationDropdownOpen = false;
         this.isDepartmentDropdownOpen=false;
         this.isConsumableCardDropdownOpen=false;
@@ -970,7 +1007,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         break;
         
         case "receivedUser":
-        this.isRequestedUserDropdownOpen=!this.isRequestedUserDropdownOpen; 
+        this.isReceivedUserDropdownOpen=!this.isReceivedUserDropdownOpen; 
         this.isLocationDropdownOpen = false;
         this.isDepartmentDropdownOpen=false;
         this.isConsumableCardDropdownOpen=false;
