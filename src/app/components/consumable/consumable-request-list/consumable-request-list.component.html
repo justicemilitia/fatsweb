@@ -175,7 +175,7 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title"></h6>
-        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button id="CloseModal" type="button" class="close" (click)="resetForm(data,true)" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -246,7 +246,7 @@
         <h6 class="modal-title">
           {{consumableRequest.Number}} numaralı talebi görüntülüyorsunuz.
         </h6>
-        <button id="CloseCancelModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button id="CloseCancelModal" type="button" class="close" (click)="resetRequestForm(dataCancel,true)" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

@@ -20,6 +20,7 @@ import * as $ from "jquery";
 import { Department } from 'src/app/models/Department';
 import { User } from 'src/app/models/User';
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
+import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: "app-consumable-list",
@@ -50,6 +51,10 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   visible: boolean = false;
 
   visiblePropertyName:boolean = false;
+
+  visibleRequiredProperty:boolean=false;
+
+  eda:boolean=false;
 
   propertyValue: string;
 
@@ -102,6 +107,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   isFilter:boolean=false;
 
   pages: Page[] = [];
+
+  requiredProperty:boolean=false;
 
   consumableOperationEnums = {
     exitConsumableMaterial:1
@@ -186,6 +193,24 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   public dataTableLocation: TreeGridTable = new TreeGridTable(
     "location",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Location'),
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableLocationFilter: TreeGridTable = new TreeGridTable(
+    "locationfilter",
     [
       {
         columnDisplayName: this.getLanguageValue('Location'),
@@ -295,6 +320,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.loadDropdown();
     this.loadConsumableList(this.perInPage,this.currentPage,false);
 
+
+    //#region DataTable Property
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
@@ -328,6 +355,16 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.dataTableCategory.isHeaderVisible = false;
     this.dataTableCategory.isScrollActive = false;
 
+
+    this.dataTableLocationFilter.isPagingActive = false;
+    this.dataTableLocationFilter.isColumnOffsetActive = false;
+    this.dataTableLocationFilter.isDeleteable = false;
+    this.dataTableLocationFilter.isMultipleSelectedActive = true;
+    this.dataTableLocationFilter.isLoading = false;
+    this.dataTableLocationFilter.isHeaderVisible = false;
+    this.dataTableLocationFilter.isScrollActive = false;
+
+
     this.dataTableConsumableMaterial.isPagingActive = false;
     this.dataTableConsumableMaterial.isColumnOffsetActive = false;
     this.dataTableConsumableMaterial.isDeleteable = false;
@@ -347,6 +384,9 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
     this.dataTable.isPagingActive = false;
 
+
+    //#endregion
+   
     $(document).on("click", e => {
       if (
         $(e.target).closest(".custom-dropdown").length == 0 &&
@@ -654,7 +694,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.baseService.locationService.GetLocations(
       (locations: Location[]) => {
         this.locations = locations;
-        this.dataTableLocation.TGT_loadData(this.locations);
+        this.dataTableLocationFilter.TGT_loadData(this.locations);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -670,7 +710,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     if(isFilter){
       consumableList.ConsumableCategoryIds = (<Consumable[]>this.dataTableCategory.TGT_getSelectedItems()).map(x=>x.getId());
       consumableList.ConsumableCardIds = (<Consumable[]>this.dataTableConsumableMaterial.TGT_getSelectedItems()).map(x=>x.getId());
-      consumableList.ConsumableLocationIds =(<Consumable[]>this.dataTableLocation.TGT_getSelectedItems()).map(x=>x.getId());    
+      consumableList.ConsumableLocationIds =(<Consumable[]>this.dataTableLocationFilter.TGT_getSelectedItems()).map(x=>x.getId());    
       consumableList.FixedAssetPropertyArray = propertyDetail;
     }
     consumableList.Page = _currentPage;
@@ -705,6 +745,9 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+
+    this.popupComponent.CloseModal('#modalFilterForConsumableList'); 
+
   }
 
   selectedConsumableMaterial(){
@@ -733,6 +776,10 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
 
       let selectedId:number = selectedItems[0].ConsumableId;
+
+      this.dataTablePropertyValue.TGT_clearData();
+
+      this.insertedProperty=[];
 
       this.getConsumableMaterialById(selectedId);
   }
@@ -863,13 +910,28 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   }
 
   addConsumableMaterial(data: NgForm) {
-    /* Check model state is valid */
-    if (data.form.invalid == true) return;
 
-    let insertedItem: Consumable = new Consumable();
     let propertyDetail = <FixedAssetPropertyDetails[]>(
       this.dataTablePropertyValue.TGT_copySource()
     );
+
+    /* Check model state is valid */
+    if (data.form.invalid == true && propertyDetail.length == 0){
+      this.visibleRequiredProperty=true;
+      return;  
+    } 
+
+    let insertedItem: Consumable = new Consumable();
+
+
+    if(propertyDetail.length == 0){    
+      this.visibleRequiredProperty=true;
+      return;
+    }
+    else
+    this.visibleRequiredProperty=false;
+
+
     insertedItem.ConsumableLocationId=this.selectedLocation.LocationId;
 
     Object.assign(insertedItem, this.consumable);
@@ -885,6 +947,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         insertedItem.ConsumableId = consumableItem.ConsumableId;
 
         this.refreshTable();
+
+        this.resetForm(data,true);
         
       
         //Api düzelttirilecek! Yanlış nesne dönüyor.
@@ -940,12 +1004,18 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     );
   }
 
+  isFilterConsumableList(isFilter:boolean){
+
+    this.loadConsumableList(this.perInPage,this.currentPage,isFilter);
+  }
+
   toggleDropdown(key: string) {
     switch (key) {
       case "location":
         this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
         this.isCardDropdownOpen = false;
         this.isCategoryDropdownOpen = false;
+        this.loadConsumableLocationDropdown();
         break;
         case "department":
         this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen; 
@@ -970,6 +1040,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     switch(operationType){
       case this.consumableOperationEnums.exitConsumableMaterial:
       this.selectedConsumableMaterial();
+      this.dataTablePropertyValue.isDeleteable=false;
       break;
     }
   }
@@ -987,6 +1058,28 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.dataTablePropertyValue.TGT_clearData();
 
     this.consumableCard = new ConsumableCard();
+
+    this.visibleRequiredProperty=false;
+  }
+
+  resetExitForm(data: NgForm, isNewItem: boolean){
+    if (isNewItem == true) {
+      this.exitconsumable = new Consumable();   
+    }
+
+    this.dataTablePropertyValue.TGT_clearData();
+
+    this.dataTablePropertyValue.isDeleteable = true;
+
+    data.reset();
+    
+    data.resetForm(this.exitconsumable);
+
+    this.selectedLocation = null;
+
+
+    this.consumableCard = new ConsumableCard();
+
   }
 
   
@@ -995,6 +1088,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       case "location":
       this.selectedLocation = null;
       this.dataTableLocation.TGT_clearData();
+      this.dataTableLocationFilter.TGT_clearData();
       this.loadConsumableLocationDropdown();
       this.loadDropdown();
       break;
@@ -1022,6 +1116,9 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     await this.loadConsumableList(this.perInPage,this.currentPage,false);
 
     this.isTableRefreshing = false;
+
+    this.visibleRequiredProperty=false;
+
   }
 
   clearFilterConsumableList(){
@@ -1030,7 +1127,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
     this.dataTableConsumableMaterial.TGT_clearData();
 
-    this.dataTableLocation.TGT_clearData();
+    this.dataTableLocationFilter.TGT_clearData();
 
     this.loadConsumableCardDropdown();
 
