@@ -38,6 +38,8 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
  
   notDeletedBarcode: string = '';
    
+  selectedItems:any[]=[];
+  
    /* Data Table */
    public dataTable: TreeGridTable = new TreeGridTable(
      "fixedassetcardcategory",
@@ -97,6 +99,22 @@ export class ConsumableCategoryComponent extends BaseComponent implements OnInit
     }
   }
 
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+   
+    /* if count of items equals 0 show message for no selected item */
+    if (!this.selectedItems || this.selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir kategori seçiniz"
+      );
+      return;
+    }
+   else
+   this.popupComponent.ShowModal('#modalShowDeletePopupForConsumableCategory');
+   
+ }
   async loadConsumableCategories(){
          
     /* Load all fixed asset card cateogories to datatable */

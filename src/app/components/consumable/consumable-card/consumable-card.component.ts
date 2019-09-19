@@ -41,6 +41,8 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
    consumableCard: ConsumableCard = new ConsumableCard();
 
   notDeletedBarcode: string = '';
+
+  selectedItems:any[]=[];  
    
    public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
    [
@@ -131,6 +133,24 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
       this.popupComponent.CloseModal('#modalConsumableCard');
     }
   }
+
+  
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+   
+    /* if count of items equals 0 show message for no selected item */
+    if (!this.selectedItems || this.selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir malzeme kartı seçiniz"
+      );
+      return;
+    }
+   else
+   this.popupComponent.ShowModal('#modalShowDeletePopupForConsumableCard');
+   
+ }
 
   async deleteConsumableCards() {
 
@@ -298,6 +318,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
           });
         this.popupComponent.CloseModal('#modalShowQuestionPopupForConsumableCard');          
   }
+
 
   async loadConsumableCards() {
     /* Load all fixed asset cards to datatable */
