@@ -1258,8 +1258,6 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
               }
   
               e["PROP_" + p.FixedAssetCardPropertyId.toString()] = valueA;
-              console.log(valueA);
-                // e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
             }
             valueA='';            
           });

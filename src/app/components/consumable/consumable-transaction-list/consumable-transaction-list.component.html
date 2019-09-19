@@ -122,44 +122,61 @@
         <form #data="ngForm" (ngSubmit)="filterConsumable(data)" class="form-register">
           <div class="modal-body">
             
-            <div class="row justify-content-center">
+            <div class="row justify-content-center">           
 
-            <!-- MALZEME KATEGORİSİ -->
-            <div class="form-group col-md-6">
-              <div>
-                  <label style="margin-bottom: 0; font-weight: 700;" >{{getLanguageValue('Consumable_Category')}}</label>
-                  <div style="display:flex;">
-                  <button id="btnConsumableCategory" (click)="toggleDropdown('consumableCategory')" class="dropdown-button" type="button">{{selectedConsumableCategory ? selectedConsumableCategory.ConsumableCategoryName : getLanguageValue('Choose') }}</button>
-                    <span class="span-dropdown"  (click)="resetDropdown('consumableCategory')" class="typcn icon-default typcn-times span-dropdown"></span>
-                  </div>
+              <!-- MALZEME KATEGORİSİ -->
+              <div class="form-group col-md-6">
+                <div>
+                    <label style="margin-bottom: 0; font-weight: 700;" >{{getLanguageValue('Consumable_Category')}}</label>
+                    <div style="display:flex;">
+                    <button id="btnConsumableCategory" (click)="toggleDropdown('consumableCategory')" class="dropdown-button" type="button">{{selectedConsumableCategory ? selectedConsumableCategory.ConsumableCategoryName : getLanguageValue('Choose') }}</button>
+                      <span class="span-dropdown"  (click)="resetDropdown('consumableCategory')" class="typcn icon-default typcn-times span-dropdown"></span>
+                    </div>
+                </div>
+                <div class="custom-dropdown" *ngIf="isConsumableCategoryDropdownOpen==true">
+                        <tree-grid-table (onClickItem)="onClickConsumableCategory($event,item)" [dataTable]="dataTableConsumableCategory"></tree-grid-table>
+                </div>
               </div>
-              <div class="custom-dropdown" *ngIf="isConsumableCategoryDropdownOpen==true">
-                      <tree-grid-table (onClickItem)="onClickConsumableCategory($event,item)" [dataTable]="dataTableConsumableCategory"></tree-grid-table>
-              </div>
-            </div>
 
-            <!-- MALZEME ADI -->            
-            <div class="form-group col-md-6">
-              <div>
-                  <label style="margin-bottom: 0; font-weight: 700;" >{{getLanguageValue('Consumable_Card_Name')}}</label>
-                  <div style="display:flex;">
-                  <button id="btnConsumableCard" (click)="toggleDropdown('consumableCard')" class="dropdown-button" type="button">{{selectedConsumableCard ? selectedConsumableCard.Name : getLanguageValue('Choose') }}</button>
-                    <span class="span-dropdown"  (click)="resetDropdown('consumableCard')" class="typcn icon-default typcn-times span-dropdown"></span>
-                  </div>
+              <!-- MALZEME ADI -->            
+              <div class="form-group col-md-6">
+                <div>
+                    <label style="margin-bottom: 0; font-weight: 700;" >{{getLanguageValue('Consumable_Card_Name')}}</label>
+                    <div style="display:flex;">
+                    <button id="btnConsumableCard" (click)="toggleDropdown('consumableCard')" class="dropdown-button" type="button">{{selectedConsumableCard ? selectedConsumableCard.Name : getLanguageValue('Choose') }}</button>
+                      <span class="span-dropdown"  (click)="resetDropdown('consumableCard')" class="typcn icon-default typcn-times span-dropdown"></span>
+                    </div>
+                </div>
+                <div class="custom-dropdown" *ngIf="isConsumableCardDropdownOpen==true">
+                        <tree-grid-table (onClickItem)="onClickConsumableCard($event,item)" [dataTable]="dataTableConsumableCard"></tree-grid-table>
+                </div>
               </div>
-              <div class="custom-dropdown" *ngIf="isConsumableCardDropdownOpen==true">
-                      <tree-grid-table (onClickItem)="onClickConsumableCard($event,item)" [dataTable]="dataTableConsumableCard"></tree-grid-table>
-              </div>
-            </div>
-
 
             </div>
   
+            <div class="row justify-content-center">
+
+                <!-- MALZEME KODU -->
+              <div class="form-group col-md-6">
+                <label>Malzeme Kodu</label>
+                <input  name="ConsumableCardCode"  value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardCode}}" class="form-control" type="text"/>
+              </div>
+
+              <!-- MİKTAR - BİRİM -->
+              <div class="form-group col-md-6">
+                <label>Miktar</label>
+                <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text" #ConsumableAmount="ngModel"/>
+                
+                <!-- <input name="ConsumableAmount" value="{{consumable.RequestedAmount == null ? '' : consumable.RequestedAmount}}" class="form-control" type="text" disabled/>              -->
+              </div>  
+
+            </div>
 
             <div class="row justify-content-center">
             
+              <!-- LOKASYON -->
               <div class="form-group col-md-6">
-                <label class="required-span">{{getLanguageValue('Location')}}</label>
+                <label>{{getLanguageValue('Location')}}</label>
                 <div style="display:flex;">
                   <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -167,38 +184,52 @@
                   <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
                     <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
                   </div>
-            </div>
-
-            <div class="form-group col-md-6">  
-              <label style="margin-bottom: 0; font-weight: 700;">{{getLanguageValue('Department')}}</label>               
-              <div class="" style="display: flex;
-              flex-direction: column;">
-                       
-                   <div style="display:flex;">
-                      <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button">{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
-                        <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
-                      </div>
               </div>
-                <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
-                    <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
-                  </div>           
-          </div>  
+
+              <!-- DEPARTMAN -->
+              <div class="form-group col-md-6">  
+                <label style="margin-bottom: 0; font-weight: 700;">{{getLanguageValue('Department')}}</label>               
+                <div class="" style="display: flex;
+                flex-direction: column;">
+                        
+                    <div style="display:flex;">
+                        <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button">{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
+                          <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
+                        </div>
+                </div>
+                  <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+                      <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
+                    </div>           
+              </div>  
 
             </div>            
   
             <div class="row justify-content-center"> 
-              
-                <!-- MİKTAR - BİRİM -->
-                <div class="form-group col-md-6">
-                    <label>Miktar</label>
-                    <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text" #ConsumableAmount="ngModel"/>
-                    
-                    <input name="ConsumableAmount" value="{{consumable.RequestedAmount == null ? '' : consumable.RequestedAmount}}" class="form-control" type="text" disabled/>             
-                  </div>  
-                <!-- <div class="form-group col-md-6">
-                      <label>Birim</label>
-                      <input name="ConsumableUnits"  value="{{consumableCard.ConsumableUnit == null ? '' : consumableCard.ConsumableUnit.ConsumableUnitName}}" class="form-control" type="text" disabled/>
-                </div>             -->
+           
+              <!-- TALEP EDEN KİŞİ -->
+              <div class="form-group col-md-6">
+                <label>{{getLanguageValue('Requested_User')}}</label>
+                <div style="display:flex;">
+                  <button id="btnLocation" (click)="toggleDropdown('requestedUser')" class="dropdown-button" type="button">{{selectedRequestedUser ? selectedRequestedUser.FirstName + ' ' + selectedRequestedUser.LastName : getLanguageValue('Choose') }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('requestedUser')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div>   
+                  <div class="custom-dropdown" *ngIf="isRequestedUserDropdownOpen==true">
+                    <tree-grid-table (onClickItem)="onClickRequestedUser($event,item)" [dataTable]="dataTableUser"></tree-grid-table>
+                  </div>
+              </div>
+
+            <!-- TALEBİ KARŞILAYAN KİŞİ -->
+            <div class="form-group col-md-6">
+              <label>{{getLanguageValue('Received_User')}}</label>
+              <div style="display:flex;">
+                <button id="btnLocation" (click)="toggleDropdown('receivedUser')" class="dropdown-button" type="button">{{selectedReceivedUser ? selectedReceivedUser.FirstName  + ' ' + selectedReceivedUser.LastName : getLanguageValue('Choose') }}</button>
+                  <span class="span-dropdown"  (click)="resetDropdown('receivedUser')" class="typcn icon-default typcn-times span-dropdown"></span>
+                </div>   
+                <div class="custom-dropdown" *ngIf="isReceivedUserDropdownOpen==true">
+                  <tree-grid-table (onClickItem)="onClickReceivedUser($event,item)" [dataTable]="dataTableUser"></tree-grid-table>
+                </div>
+            </div>
+
             </div>
   
             <div class="row justify-content-center">

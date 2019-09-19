@@ -4,9 +4,7 @@ import { FixedAssetCardProperty } from './FixedAssetCardProperty';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 
 export class FixedAssetCard implements IData {
-    childIndex: number;
-    isChecked: boolean;
-    isVisible: boolean;
+   
     getParentId(): number {
         return null;
     }
@@ -16,7 +14,12 @@ export class FixedAssetCard implements IData {
     getId(): number {
         return this.FixedAssetCardId;
     }
+
+    childIndex: number;
+    isChecked: boolean;
+    isVisible: boolean;
     isExtended: boolean;
+    
     FixedAssetCardId: number;
     FixedAssetCardCode: string;
     Name: string;
