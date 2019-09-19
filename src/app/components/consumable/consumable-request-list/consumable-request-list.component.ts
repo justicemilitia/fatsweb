@@ -18,6 +18,7 @@ import { FixedAssetCardPropertyValue } from "src/app/models/FixedAssetCardProper
 import { ConsumableLogTypes } from 'src/app/declarations/consumable-log-types';
 import { MatTabChangeEvent } from '@angular/material';
 import { PropertyValueTypes } from 'src/app/declarations/property-value-types.enum';
+import { Location } from 'src/app/models/Location';
 
 @Component({
   selector: "app-consumable-request-list",
@@ -37,6 +38,8 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   requestList: ConsumableRequest[] = [];
 
+  requestListFilter: ConsumableRequest[] = [];
+
   consumableCard: ConsumableCard = new ConsumableCard();
 
   consumableCards: ConsumableCard[] = [];
@@ -44,6 +47,8 @@ export class ConsumableRequestListComponent extends BaseComponent
   consumableCategories: ConsumableCategory[] = [];
 
   fixedassetproperty: FixedAssetCardProperty[] = [];
+
+  locations:Location[]=[];
 
   faPropertyDetails: FixedAssetPropertyDetails[] = [];
 
@@ -103,10 +108,15 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   isCardDropdownOpen:boolean = false;
 
+  isLocationDropdownOpen:boolean = false;
+
   filterRequestList:ConsumableRequest=new ConsumableRequest();
 
   isFilter:boolean=false;
-  
+
+  isConsumableFilter:boolean=false;
+
+  key:number;  
 
    //#region DataTable 
   /* Data Table */
@@ -427,6 +437,32 @@ export class ConsumableRequestListComponent extends BaseComponent
     }
   );
 
+  public dataTablePropertyValueForConsumableListFilter: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalueforfilter",
+    [
+      {
+        columnDisplayName: "Özellik Adı",
+        columnName: ["FixedAssetCardProperty", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["FixedAssetCardProperty", "Name"]
+    }
+  );
+
   public dataTableRequestPropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetpropertyvalue",
     [
@@ -471,6 +507,24 @@ export class ConsumableRequestListComponent extends BaseComponent
     }
   );
 
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "location",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Location'),
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
   public dataTableConsumableMaterial: TreeGridTable = new TreeGridTable("fixedassetcard",
   [
     {
@@ -501,10 +555,11 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   constructor(public baseService: BaseService) {
     super(baseService);
-    this.loadConsumableRequestList(this.perInPage,this.currentPage,1,false);
     this.loadFixedAssetProperties();
-    this.loadConsumableList();
+    this.loadConsumableList(this.perInPage,this.currentPage,false);
     this.loadDropdown();
+
+    //#region DataTable Properties
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
@@ -524,6 +579,15 @@ export class ConsumableRequestListComponent extends BaseComponent
     this.dataTablePropertyValueForFilter.isLoading = false;
     this.dataTablePropertyValueForFilter.isScrollActive = false;
     this.dataTablePropertyValueForFilter.isDeleteable = true;
+
+    this.dataTablePropertyValueForConsumableListFilter.isPagingActive = false;
+    this.dataTablePropertyValueForConsumableListFilter.isColumnOffsetActive = false;
+    this.dataTablePropertyValueForConsumableListFilter.isTableEditable = true;
+    this.dataTablePropertyValueForConsumableListFilter.isMultipleSelectedActive = false;
+    this.dataTablePropertyValueForConsumableListFilter.isFilterActive = false;
+    this.dataTablePropertyValueForConsumableListFilter.isLoading = false;
+    this.dataTablePropertyValueForConsumableListFilter.isScrollActive = false;
+    this.dataTablePropertyValueForConsumableListFilter.isDeleteable = true;
 
     this.dataTableRequestPropertyValue.isPagingActive = false;
     this.dataTableRequestPropertyValue.isColumnOffsetActive = false;
@@ -558,13 +622,27 @@ export class ConsumableRequestListComponent extends BaseComponent
     this.dataTableConsumableMaterial.isHeaderVisible = false;
     this.dataTableConsumableMaterial.isScrollActive = false;
 
+    this.dataTableLocation.isPagingActive = false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isMultipleSelectedActive = true;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isHeaderVisible = false;
+    this.dataTableLocation.isScrollActive = false;
+
+    this.dataTableConsumableList.isPagingActive=false;
+
+    //#endregion
+
     $(document).on("click", e => {
       if (
         $(e.target).closest(".custom-dropdown").length == 0 &&
         $(e.target).closest("#btnConsumableCategory").length == 0 && $(e.target).closest("#btnConsumableMaterial").length == 0
+        && $(e.target).closest("#btnLocation").length == 0
       ) {
         this.isCategoryDropdownOpen = false;   
         this.isCardDropdownOpen = false;
+        this.isLocationDropdownOpen = false;
       }
     });
   }
@@ -656,35 +734,40 @@ export class ConsumableRequestListComponent extends BaseComponent
     switch (key) {
       case "category":
         this.isCategoryDropdownOpen = !this.isCategoryDropdownOpen;      
+        this.isCardDropdownOpen = false;
+        this.isLocationDropdownOpen = false;
       break;
       case "card":
       this.isCardDropdownOpen = !this.isCardDropdownOpen;
+      this.isCategoryDropdownOpen = false;
+      this.isLocationDropdownOpen = false;
+      break;
+      case "location":
+      this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+      this.isCategoryDropdownOpen = false;
+      this.isCardDropdownOpen = false;
       break;
     }
   }
-
 
   resetDropdown(key:string){
     switch(key){
       case "category":
       this.dataTableCategory.TGT_clearData();
+      this.loadConsumableCategoryDropdown();
       break;
       case "card":
       this.dataTableConsumableMaterial.TGT_clearData();
+      this.loadConsumableCardDropdown();
+      break;
+      case "location":
+      this.dataTableLocation.TGT_clearData();
+      this.loadConsumableLocationDropdown();
       break;
     }
   }
 
-  async loadDropdown() {
-    await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
-      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
-        this.fixedassetproperty = fixedAssetCardProperties;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-
+  async loadConsumableCategoryDropdown(){
     await this.baseService.consumableCategoryService.GetConsumableCategories(
       (categories: ConsumableCategory[]) => {
         this.consumableCategories = categories;
@@ -697,7 +780,9 @@ export class ConsumableRequestListComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
 
+  async loadConsumableCardDropdown(){
     await this.baseService.consumableCardService.GetConsumableCards(
       (consumableCards: ConsumableCard[]) => {
         this.consumableCards = consumableCards;
@@ -711,14 +796,72 @@ export class ConsumableRequestListComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-
   }
 
-  async loadConsumableList() {
+  async loadConsumableLocationDropdown(){
+    this.baseService.locationService.GetLocations(
+      (locations: Location[]) => {
+        this.locations = locations;
+        this.dataTableLocation.TGT_loadData(this.locations);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  async loadDropdown() {
+    await this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
+      (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
+        this.fixedassetproperty = fixedAssetCardProperties;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.loadConsumableCategoryDropdown();
+
+    this.loadConsumableCardDropdown();
+
+    this.loadConsumableLocationDropdown();
+  }
+
+  isFilterConsumableList(isFilter:boolean){
+
+    this.isConsumableFilter = true;
+
+    this.loadConsumableList(this.perInPage,this.currentPage,isFilter);
+  }
+
+  async loadConsumableList(_perInPage: number = 25,_currentPage: number = 1, isFilter:boolean){
+
+    this.isConsumableFilter=isFilter;
+
+    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
+
+    let consumableList:Consumable=new Consumable();
+
+    if(isFilter){
+      consumableList.ConsumableCategoryIds = (<Consumable[]>this.dataTableCategory.TGT_getSelectedItems()).map(x=>x.getId());
+      consumableList.ConsumableCardIds = (<Consumable[]>this.dataTableConsumableMaterial.TGT_getSelectedItems()).map(x=>x.getId());
+      consumableList.ConsumableLocationIds =(<Consumable[]>this.dataTableLocation.TGT_getSelectedItems()).map(x=>x.getId());    
+      consumableList.FixedAssetPropertyArray = propertyDetail;
+    }
+    consumableList.Page = _currentPage;
+    consumableList.PerPage = _perInPage; 
+
     /* Load all consumables to datatable */
-    this.baseService.consumableService.GetConsumableList(
-      (consumables: Consumable[]) => {
+    this.baseService.consumableService.GetConsumableList(consumableList,
+      (consumables: Consumable[], totalPage: number,
+        message: string) => {
+
+        this.perInPage = _perInPage;
+        this.currentPage = _currentPage;
+        this.dataTableConsumableList.perInPage = _perInPage;
         this.consumables = consumables;
+        this.totalPage = totalPage ? totalPage : 1;       
+
         this.dataTableConsumableList.TGT_loadData(this.consumables);
         consumables.forEach(e=>{
           e.FixedAssetPropertyDetails.forEach(p=>{
@@ -730,11 +873,15 @@ export class ConsumableRequestListComponent extends BaseComponent
         if (this.consumables.length == 0) {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
+
+        this.TGT_calculatePages();
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+
+    this.popupComponent.CloseModal('#modalFilterForConsumableList');
   }
 
   async loadConsumableCardByCategoryId(event: any) {
@@ -770,73 +917,19 @@ export class ConsumableRequestListComponent extends BaseComponent
       }
     );
   }
-
   
+  isFilterRequestList(isFilter:boolean){    
+
+    this.isFilter=true;
+
+    this.loadConsumableRequestList(this.perInPage,this.currentPage,this.currentPage,isFilter);
+  }
+
   async loadConsumableRequestList(_perInPage: number = 25,_currentPage: number = 1,tabIndex:number,isFilter:boolean) {
 
-    if(!isFilter)
-    this.loadConsumableRequestListWithoutFilter(_perInPage,_currentPage ,tabIndex);
-    else
-    this.loadConsumableRequestListWithFilter(_perInPage,_currentPage ,tabIndex); 
-  }
-
-  async loadConsumableRequestListWithoutFilter(_perInPage: number = 25,_currentPage: number = 1,tabIndex:number){
     let consumableLogType:number[]=[];
 
-    switch(tabIndex){
-      case 1:
-      consumableLogType.push(ConsumableLogTypes.CONSUMABLE_MATERIAL_REQUEST);
-      break; 
-      case 2:
-      consumableLogType.push(ConsumableLogTypes.CONSUMABLE_MATERIAL_RECEIVED);
-      break;
-      case 3:
-      consumableLogType.push(ConsumableLogTypes.CONSUMABLE_MATERIAL_REQUEST_CANCEL);      
-      break;
-    }
-
-    this.baseService.consumableRequestListService.GetConsumableRequestList(_perInPage, _currentPage, consumableLogType, (
-      requestList: ConsumableRequest[],
-      totalPage: number,
-      message: string
-    ) => {
-      this.perInPage = _perInPage;
-      this.currentPage = _currentPage;
-      this.dataTableRequestedList.perInPage = _perInPage;
-      this.requestList = requestList;
-      this.totalPage = totalPage ? totalPage : 1;
-     
-      this.requestList.forEach(e => {
-        e.Consumable.FixedAssetPropertyDetails.forEach(p => {
-          if (p.FixedAssetCardPropertyId) {
-            e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
-          }
-        });
-      });
-
-      switch(tabIndex){
-        case 1:
-        this.dataTableRequestedList.TGT_loadData(this.requestList);
-        break; 
-        case 2:
-        this.dataTableClosedRequestList.TGT_loadData(this.requestList);
-        break;
-        case 3:
-        this.dataTableCanceledList.TGT_loadData(this.requestList);  
-        break;
-      }
-
-      this.TGT_calculatePages();
-    },
-    (error: HttpErrorResponse) => {
-    //  this.baseService.popupService.ShowErrorPopup(error);
-    }
-  );
-  }
-
-  async loadConsumableRequestListWithFilter(_perInPage: number = 25,_currentPage: number = 1,tabIndex:number){
-
-    let consumableLogType:number[]=[];
+    tabIndex = this.currentTab;
 
     let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
 
@@ -856,25 +949,30 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     Object.assign(filterRequestList,this.filterRequestList);
     
-    filterRequestList.ConsumableCategoryIds = (<ConsumableRequest[]>this.dataTableCategory.TGT_getSelectedItems()).map(x=>x.getId());
-    filterRequestList.ConsumableCardIds = (<ConsumableRequest[]>this.dataTableConsumableMaterial.TGT_getSelectedItems()).map(x=>x.getId());
-    filterRequestList.FixedAssetPropertyArray = propertyDetail;
+    if(isFilter){
+      filterRequestList.ConsumableCategoryIds = (<ConsumableRequest[]>this.dataTableCategory.TGT_getSelectedItems()).map(x=>x.getId());
+      filterRequestList.ConsumableCardIds = (<ConsumableRequest[]>this.dataTableConsumableMaterial.TGT_getSelectedItems()).map(x=>x.getId());
+      filterRequestList.FixedAssetPropertyArray = propertyDetail;
+      filterRequestList.ConsumableNumber = Number(this.filterRequestList.ConsumableNumber);
+    }
+
     filterRequestList.Page = _currentPage;
     filterRequestList.PerPage = _perInPage;
     filterRequestList.ConsumableLogTypeIds = consumableLogType;
-    filterRequestList.ConsumableNumber = Number(this.filterRequestList.ConsumableNumber);
 
     this.baseService.consumableRequestListService.GetConsumableRequestListWithFilter(filterRequestList,
     (requestList: ConsumableRequest[],
       totalPage: number,
       message: string)=>{
+ 
+
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTableRequestedList.perInPage = _perInPage;
-        this.requestList = requestList;
+        this.requestListFilter = requestList;
         this.totalPage = totalPage ? totalPage : 1;
        
-        this.requestList.forEach(e => {
+        this.requestListFilter.forEach(e => {
           e.Consumable.FixedAssetPropertyDetails.forEach(p => {
             if (p.FixedAssetCardPropertyId) {
               e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
@@ -884,23 +982,25 @@ export class ConsumableRequestListComponent extends BaseComponent
 
         switch(tabIndex){
           case 1:
-          this.dataTableRequestedList.TGT_loadData(this.requestList);
+          this.dataTableRequestedList.TGT_loadData(this.requestListFilter);
           break; 
           case 2:
-          this.dataTableClosedRequestList.TGT_loadData(this.requestList);
+          this.dataTableClosedRequestList.TGT_loadData(this.requestListFilter);
           break;
           case 3:
-          this.dataTableCanceledList.TGT_loadData(this.requestList);  
+          this.dataTableCanceledList.TGT_loadData(this.requestListFilter);  
           break;
         }
 
         this.TGT_calculatePages();
+
+        this.popupComponent.CloseModal('#modalFilterForRequestList');
     },
     (error:HttpErrorResponse) => {
       this.baseService.popupService.ShowErrorPopup(error);
-    })
-  }
 
+    })  
+  }
 
   async loadFixedAssetProperties() {
     this.baseService.fixedAssetService.GetFixedAssetProperties(
@@ -998,6 +1098,15 @@ export class ConsumableRequestListComponent extends BaseComponent
       this.getConsumableMaterialById(selectedId);
   }
 
+  getPropertyValue(event: any) {
+
+    this.visible = false;
+  
+    this.propertyValue=event.target.value;
+  
+    this.fixedAssetPropertyDetail.Value = event.target.value;
+  }
+
   getConsumableMaterialById(consumableId:number){
 
       //this.insertedProperty = [];
@@ -1033,19 +1142,18 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   insertPropertyValueToArray(propertyId: any) {
 
-    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValueForFilter.TGT_copySource()
-    );
+    this.visiblePropertyName = false;
+
+    if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId == null)
+    this.fixedassetpropertyvalues = [];
+
+    this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
 
     if (this.isListSelected == false)
       this.propertyValue = this.fixedAssetPropertyDetail.Value;
 
     this.faPropertyDetails.forEach(e => {
-      if (
-        e.FixedAssetCardPropertyId ==
-          this.fixedAssetPropertyDetail.FixedAssetCardPropertyId &&
-        e.Value == this.propertyValue
-      )
+      if (e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)
         this.sameProperty = true;
     });
 
@@ -1069,20 +1177,26 @@ export class ConsumableRequestListComponent extends BaseComponent
 
         if (this.isListSelected == true)
           this.fixedAssetPropertyDetail.Value = this.propertyValue;
+
         this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
 
         this.dataTablePropertyValueForFilter.TGT_loadData(this.faPropertyDetails);
 
         this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+
         this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+
         propertyId = null;
+
         this.visible = false;
+
         this.isSelectedProperty = false;
       } else {
         this.visiblePropertyName = true;
       }
     } else {
       this.visible = true;
+
       this.visiblePropertyName = true;
     }
   }
@@ -1114,11 +1228,32 @@ export class ConsumableRequestListComponent extends BaseComponent
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
+
+    this.isFilter=false;
+
+    this.isConsumableFilter=false;
+
     this.currentTab = tabChangeEvent.index; 
+
+    this.dataTableCategory.TGT_clearData();
+
+    this.dataTableConsumableMaterial.TGT_clearData();
+
+    this.dataTableLocation.TGT_clearData();
+
+    this.dataTablePropertyValueForFilter.TGT_clearData()
+
+    this.loadConsumableCardDropdown();
+
+    this.loadConsumableCategoryDropdown();
+
+    this.loadConsumableLocationDropdown();
+
     if (tabChangeEvent.index == 0) {   
       this.visibleRequestButton = true;
       this.visibleConsumableButton = false;
-      this.loadConsumableList();
+
+      this.loadConsumableList(this.perInPage,this.currentPage,false);
     } 
     else if (tabChangeEvent.index == 1) {
       this.visibleRequestButton = false;
@@ -1292,11 +1427,14 @@ export class ConsumableRequestListComponent extends BaseComponent
     }
     data.reset();
     data.resetForm(this.consumable);
-
   }
 
   async refreshTable() {
 
+    this.isFilter = false;
+
+    this.isConsumableFilter = false;
+    
     let currentTabIndex:number = this.currentTab;
 
     this.isTableRefreshing = true;
@@ -1305,9 +1443,8 @@ export class ConsumableRequestListComponent extends BaseComponent
       case 0:     
       this.dataTableConsumableList.isLoading = true;
       this.dataTableConsumableList.TGT_clearData();
-      this.dataTablePropertyValue.TGT_clearData();
-      
-      this.loadConsumableList();
+      this.dataTablePropertyValue.TGT_clearData();      
+      this.loadConsumableList(this.perInPage,this.currentPage,false);
       break;
       case 1:
       this.dataTableRequestedList.isLoading = true;
@@ -1331,9 +1468,10 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   filter(){
     let currentTabIndex:number = this.currentTab;
+    
     if(currentTabIndex == 0)
     {
-      this.popupComponent.ShowModal('#modalFilterForRequestList');
+     this.popupComponent.ShowModal('#modalFilterForConsumableList');
     }
     else
     {      
@@ -1341,8 +1479,66 @@ export class ConsumableRequestListComponent extends BaseComponent
     }
   }
 
+  clearFilter(){
+    
+    this.filterRequestList = new ConsumableRequest();
+
+    this.dataTableCategory.TGT_clearData();
+
+    this.dataTableConsumableMaterial.TGT_clearData();
+
+    this.dataTablePropertyValueForFilter.TGT_clearData();
+
+    this.loadConsumableCardDropdown();
+
+    this.loadConsumableCategoryDropdown();
+
+    this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+
+    this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+  }
+
+  clearFilterConsumableList(){
+
+    this.dataTableCategory.TGT_clearData();
+
+    this.dataTableConsumableMaterial.TGT_clearData();
+
+    this.dataTableLocation.TGT_clearData();
+
+    this.loadConsumableCardDropdown();
+
+    this.loadConsumableCategoryDropdown();
+
+    this.loadConsumableLocationDropdown();
+
+    this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+
+    this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+
+  }
 
   closeQuestionPopup(){
     this.popupComponent.CloseModal('#modalShowQuestionPopupForCancelRequest');
   }
+
+  exportExcel(){
+    switch(this.currentTab){
+      case 0:
+      this.exportAsExcelFile(this.dataTableConsumableList);
+      break;
+      case 1:
+      this.exportAsExcelFile(this.dataTableRequestedList);
+      break; 
+      case 2:
+      this.exportAsExcelFile(this.dataTableClosedRequestList);
+      break;
+      case 3:
+      this.exportAsExcelFile(this.dataTableCanceledList);
+      break;
+    }
+  }
+
+ 
+  
 }

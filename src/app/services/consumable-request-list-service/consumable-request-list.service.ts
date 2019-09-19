@@ -37,7 +37,7 @@ export class ConsumableRequestListService {
         { headers: GET_HEADERS(this.authenticationService.getToken()) }
       )
       .subscribe(
-        result => {
+        (result:any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let consumableRequestList: ConsumableRequest[] = [];
@@ -46,7 +46,7 @@ export class ConsumableRequestListService {
               Object.assign(consumable, e);
               consumableRequestList.push(consumable);
             });
-            success(consumableRequestList, response.LanguageKeyword);
+            success(consumableRequestList, result.TotalPage, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -64,7 +64,7 @@ export class ConsumableRequestListService {
         { headers: GET_HEADERS(this.authenticationService.getToken()) }
       )
       .subscribe(
-        result => {
+        (result:any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let consumableRequestList: ConsumableRequest[] = [];
@@ -73,7 +73,7 @@ export class ConsumableRequestListService {
               Object.assign(consumable, e);
               consumableRequestList.push(consumable);
             });
-            success(consumableRequestList, response.LanguageKeyword);
+            success(consumableRequestList, result.TotalPage, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

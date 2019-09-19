@@ -23,13 +23,13 @@ export class ConsumableService {
     private authenticationService: AuthenticationService
   ) {}
 
-  GetConsumableList(success, failed) {
+  GetConsumableList( consumableList:Consumable, success, failed) {
     this.httpclient
-      .get(SERVICE_URL + GET_CONSUMABLE_LIST, {
+      .post(SERVICE_URL + GET_CONSUMABLE_LIST, consumableList, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(
-        result => {
+        (result:any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus = true) {
             let consumables: Consumable[] = [];
@@ -38,7 +38,7 @@ export class ConsumableService {
               Object.assign(consumable, e);
               consumables.push(consumable);
             });
-            success(consumables, response.LanguageKeyword);
+            success(consumables, result.TotalPage, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

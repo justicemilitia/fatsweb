@@ -199,8 +199,7 @@ export const routes: Routes = [
   {
     path: "usersettings",
     component: UserSettingsComponent,
-    // data: { pageKeyword: pages.MENU_TRANSACTIONLIST }
-    canActivate: [AuthGuard]
+
   },
   {
     path: "depreciation",

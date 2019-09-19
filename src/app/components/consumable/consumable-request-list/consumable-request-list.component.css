@@ -89,3 +89,9 @@ border: 1px solid red;
   font-size: 13px;
   padding-top: 3px;
 }
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+} 

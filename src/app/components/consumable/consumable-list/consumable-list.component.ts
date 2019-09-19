@@ -19,6 +19,7 @@ import { ConsumableUnit } from 'src/app/models/ConsumableUnit';
 import * as $ from "jquery";
 import { Department } from 'src/app/models/Department';
 import { User } from 'src/app/models/User';
+import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 
 @Component({
   selector: "app-consumable-list",
@@ -35,6 +36,10 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   isLocationDropdownOpen: boolean = false;
 
   isDepartmentDropdownOpen:boolean = false;
+
+  isCategoryDropdownOpen:boolean=false;
+
+  isCardDropdownOpen:boolean=false;
 
   isWaitingInsertOrUpdate: boolean = false;
 
@@ -82,11 +87,21 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   users: User[]=[];
 
+  currentPage: number = 1;
+
+  perInPage: number = 25;
+
+  totalPage: number = 1;
+
   consumableUnit:string;
 
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
 
   insertedProperty:FixedAssetPropertyDetails[]= [];
+
+  isFilter:boolean=false;
+
+  pages: Page[] = [];
 
   consumableOperationEnums = {
     exitConsumableMaterial:1
@@ -205,11 +220,80 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     }
   );
 
+  public dataTableConsumableMaterial: TreeGridTable = new TreeGridTable("fixedassetcard",
+  [
+    {
+      columnDisplayName: "Malzeme Kodu",
+      columnName: ["ConsumableCardCode"],
+      isActive: true,
+      classes: [],
+      placeholder: "",
+      type: "text"
+    },
+    {
+      columnDisplayName: "Malzeme Adı",
+      columnName: ["ConsumableCardName"],
+      isActive: true,
+      classes: [],
+      placeholder: "",
+      type: "text"
+    }
+  ],
+  {
+    isDesc: false,
+    column: ["ConsumableCardName"]
+  }
+ );
+
+  public dataTableCategory: TreeGridTable = new TreeGridTable(
+    "category",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Consumable_Category'),
+        columnName: ["ConsumableCategoryName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["ConsumableCategoryName"]
+    }
+  );
+
+  public dataTablePropertyValueForFilter: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalueforfilter",
+    [
+      {
+        columnDisplayName: "Özellik Adı",
+        columnName: ["FixedAssetCardProperty", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Özellik Değeri",
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["FixedAssetCardProperty", "Name"]
+    }
+  );
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadFixedAssetProperties();
     this.loadDropdown();
-    this.loadConsumableList();
+    this.loadConsumableList(this.perInPage,this.currentPage,false);
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
@@ -235,6 +319,33 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.dataTableDepartment.isLoading = false;
     this.dataTableDepartment.isHeaderVisible = false;
     this.dataTableDepartment.isScrollActive = false;
+
+    this.dataTableCategory.isPagingActive = false;
+    this.dataTableCategory.isColumnOffsetActive = false;
+    this.dataTableCategory.isDeleteable = false;
+    this.dataTableCategory.isMultipleSelectedActive = true;
+    this.dataTableCategory.isLoading = false;
+    this.dataTableCategory.isHeaderVisible = false;
+    this.dataTableCategory.isScrollActive = false;
+
+    this.dataTableConsumableMaterial.isPagingActive = false;
+    this.dataTableConsumableMaterial.isColumnOffsetActive = false;
+    this.dataTableConsumableMaterial.isDeleteable = false;
+    this.dataTableConsumableMaterial.isMultipleSelectedActive = true;
+    this.dataTableConsumableMaterial.isLoading = false;
+    this.dataTableConsumableMaterial.isHeaderVisible = false;
+    this.dataTableConsumableMaterial.isScrollActive = false;
+
+    this.dataTablePropertyValueForFilter.isPagingActive = false;
+    this.dataTablePropertyValueForFilter.isColumnOffsetActive = false;
+    this.dataTablePropertyValueForFilter.isTableEditable = true;
+    this.dataTablePropertyValueForFilter.isMultipleSelectedActive = false;
+    this.dataTablePropertyValueForFilter.isFilterActive = false;
+    this.dataTablePropertyValueForFilter.isLoading = false;
+    this.dataTablePropertyValueForFilter.isScrollActive = false;
+    this.dataTablePropertyValueForFilter.isDeleteable = true;
+
+    this.dataTable.isPagingActive = false;
 
     $(document).on("click", e => {
       if (
@@ -264,6 +375,87 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   selectedDepartment: Department;
   onClickDepartment(item) {
     this.selectedDepartment = item;
+  }
+
+  async TGT_calculatePages() {
+    let items: Page[] = [];
+    let totalPage = this.totalPage;
+
+    /* if user in a diffrent page we will render throw the first page */
+    if (this.currentPage > totalPage) this.currentPage = 1;
+    else if (this.currentPage < 1) this.currentPage = 1;
+
+    /* We will always put first page in to pagination items */
+    items.push({
+      value: 1,
+      display: "1",
+      isDisabled: false,
+      isActive: this.currentPage == 1 ? true : false
+    });
+
+    /* if the total page is 1 return the items no more need calculation */
+    if (totalPage <= 1) {
+      this.pages = items;
+      return;
+    }
+
+    /* we will store the last inserted item */
+    let lastInsertedItem = this.currentPage - 3;
+
+    /* if current user far enough page we will show ... (you passed many page) */
+    if (lastInsertedItem > 2) {
+      items.push({
+        value: 0,
+        display: "...",
+        isDisabled: true,
+        isActive: false
+      });
+    }
+
+    /* We loop all pages to add pagination items */
+    for (let ii = this.currentPage - 3; ii < totalPage; ii++) {
+      lastInsertedItem = ii;
+
+      /* first pages ii may be minus so we should check ii is bigger 1 */
+      if (ii > 1) {
+        /* Insert pagination item */
+        items.push({
+          value: ii,
+          display: ii.toString(),
+          isDisabled: false,
+          isActive: this.currentPage == ii ? true : false
+        });
+      }
+
+      /* maximum item we will show is 7 */
+      if (items.length > 7) {
+        ii = totalPage;
+        break;
+      }
+    }
+
+    /* After calculation if we still far from totalpage we insert ... page item */
+    if (lastInsertedItem < totalPage - 1 && lastInsertedItem > 0) {
+      items.push({
+        value: 0,
+        display: "...",
+        isDisabled: true,
+        isActive: false
+      });
+    }
+
+    /* We always push the last page to the pagination items */
+    if (!items.find(x => x.value == totalPage)) {
+      items.push({
+        value: totalPage,
+        display: totalPage.toString(),
+        isDisabled: false,
+        isActive: this.currentPage == totalPage ? true : false
+      });
+    }
+
+    /* We set pages to new pagination items. */
+    this.pages = items;
   }
 
   async loadDropdown() {
@@ -427,11 +619,73 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async loadConsumableList() {
+  async loadConsumableCategoryDropdown(){
+    await this.baseService.consumableCategoryService.GetConsumableCategories(
+      (categories: ConsumableCategory[]) => {
+        this.consumableCategories = categories;
+
+        /* Load data to table */
+        this.dataTableCategory.TGT_loadData(this.consumableCategories);
+
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  async loadConsumableCardDropdown(){
+    await this.baseService.consumableCardService.GetConsumableCards(
+      (consumableCards: ConsumableCard[]) => {
+        this.consumableCards = consumableCards;
+        this.dataTableConsumableMaterial.TGT_loadData(this.consumableCards);
+        if(consumableCards.length==0){
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+        }
+      },
+      (error: HttpErrorResponse) => {
+        /* if error show pop up */
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  async loadConsumableLocationDropdown(){
+    this.baseService.locationService.GetLocations(
+      (locations: Location[]) => {
+        this.locations = locations;
+        this.dataTableLocation.TGT_loadData(this.locations);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  async loadConsumableList(_perInPage:number=25,_currentPage:number=1,isFilter:boolean) {
+    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
+
+    let consumableList:Consumable=new Consumable();
+
+    if(isFilter){
+      consumableList.ConsumableCategoryIds = (<Consumable[]>this.dataTableCategory.TGT_getSelectedItems()).map(x=>x.getId());
+      consumableList.ConsumableCardIds = (<Consumable[]>this.dataTableConsumableMaterial.TGT_getSelectedItems()).map(x=>x.getId());
+      consumableList.ConsumableLocationIds =(<Consumable[]>this.dataTableLocation.TGT_getSelectedItems()).map(x=>x.getId());    
+      consumableList.FixedAssetPropertyArray = propertyDetail;
+    }
+    consumableList.Page = _currentPage;
+    consumableList.PerPage = _perInPage; 
+
     /* Load all consumables to datatable */
-    this.baseService.consumableService.GetConsumableList(
-      (consumables: Consumable[]) => {
+    this.baseService.consumableService.GetConsumableList(consumableList,
+      (consumables: Consumable[], totalPage: number,
+        message: string) => {
+        this.perInPage = _perInPage;
+        this.currentPage = _currentPage;
+        this.dataTable.perInPage = _perInPage;
         this.consumables = consumables;
+        this.totalPage = totalPage ? totalPage : 1;
+        
         this.dataTable.TGT_loadData(this.consumables);
         consumables.forEach(e=>{
           e.FixedAssetPropertyDetails.forEach(p=>{
@@ -443,6 +697,9 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         if (this.consumables.length == 0) {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
+
+        this.TGT_calculatePages();
+
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -687,11 +944,24 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     switch (key) {
       case "location":
         this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+        this.isCardDropdownOpen = false;
+        this.isCategoryDropdownOpen = false;
         break;
         case "department":
         this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen; 
-        this.loadUserByDepartmentId(this.selectedDepartment.DepartmentId);
-    
+        this.loadUserByDepartmentId(this.selectedDepartment.DepartmentId);    
+        break;
+        case "category":
+        this.isCategoryDropdownOpen = !this.isCategoryDropdownOpen;      
+        this.isCardDropdownOpen = false;
+        this.isLocationDropdownOpen = false;
+        this.loadConsumableCategoryDropdown();
+        break;
+        case "card":
+        this.isCardDropdownOpen = !this.isCardDropdownOpen;
+        this.isCategoryDropdownOpen = false;
+        this.isLocationDropdownOpen = false;
+        this.loadConsumableCardDropdown();
         break;
     }
   }
@@ -724,9 +994,20 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     switch(key){
       case "location":
       this.selectedLocation = null;
+      this.dataTableLocation.TGT_clearData();
+      this.loadConsumableLocationDropdown();
+      this.loadDropdown();
       break;
       case "department":
       this.selectedDepartment = null;      
+      break;
+      case "category":
+      this.dataTableCategory.TGT_clearData();
+      this.loadConsumableCategoryDropdown();
+      break;
+      case "card":
+      this.dataTableConsumableMaterial.TGT_clearData();
+      this.loadConsumableCardDropdown();
       break;
     }
   }
@@ -738,9 +1019,32 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
     this.dataTable.TGT_clearData();
 
-    await this.loadConsumableList();
+    await this.loadConsumableList(this.perInPage,this.currentPage,false);
 
     this.isTableRefreshing = false;
   }
 
+  clearFilterConsumableList(){
+
+    this.dataTableCategory.TGT_clearData();
+
+    this.dataTableConsumableMaterial.TGT_clearData();
+
+    this.dataTableLocation.TGT_clearData();
+
+    this.loadConsumableCardDropdown();
+
+    this.loadConsumableCategoryDropdown();
+
+    this.loadConsumableLocationDropdown();
+
+    this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
+
+    this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+
+  }
+
+  filter(){
+     this.popupComponent.ShowModal('#modalFilterForConsumableList'); 
+  }
 }
