@@ -228,6 +228,22 @@ export class ConsumableRequestListComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
+      },      
+      {
+        columnDisplayName: "Talep Eden Personel",
+        columnName: ["RequestedUser"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.RequestedUser != null ? value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
       }
     ],
     {
@@ -286,22 +302,38 @@ export class ConsumableRequestListComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
-      },
+      },      
       {
-        columnDisplayName: "Karşılanan Miktar - Birim",
-        columnName: ["RecievedAmount"],
+        columnDisplayName: "Talep Eden Personel",
+        columnName: ["RequestedUser"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.RequestedUser != null ? value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
       },
       {
-        columnDisplayName: "Talep Karşılama Açıklaması",
-        columnName: ["ConsumableLogType", "Description"],
+        columnDisplayName: "Talebi Karşılayan Personel",
+        columnName: ["ReceivedUser"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.ReceivedUser != null ? value.ReceivedUser.FirstName + ' ' + value.ReceivedUser.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
       }
     ],
     {
@@ -377,6 +409,22 @@ export class ConsumableRequestListComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
+      },      
+      {
+        columnDisplayName: "Talep Eden Personel",
+        columnName: ["RequestedUser"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.RequestedUser != null ? value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
       }
     ],
     {
@@ -767,6 +815,8 @@ export class ConsumableRequestListComponent extends BaseComponent
     }
   }
 
+  //#region LoadDropdowns
+
   async loadConsumableCategoryDropdown(){
     await this.baseService.consumableCategoryService.GetConsumableCategories(
       (categories: ConsumableCategory[]) => {
@@ -827,6 +877,42 @@ export class ConsumableRequestListComponent extends BaseComponent
     this.loadConsumableLocationDropdown();
   }
 
+  async loadConsumableCardByCategoryId(event: any) {
+    this.consumableCards = [];
+    this.consumableCard.ConsumableUnit = null;
+
+    if (!event.target.value || event.target.value == "") {
+      this.consumable.ConsumableCardId = null;
+      //  this.consumable.ConsumableCard = new ConsumableCard();
+      return;
+    }
+    if (event.target.value) {
+      this.baseService.consumableCardService.GetConsumableCardsByCategoryId(
+        <number>event.target.value,
+        (consumableCards: ConsumableCard[]) => {
+          this.consumableCards = consumableCards;
+        },
+        (error: HttpErrorResponse) => {}
+      );
+    }
+  }
+
+  async loadConsumableUnitByCardId(event: any) {
+    this.consumableCard = new ConsumableCard();
+
+    this.baseService.consumableService.GetConsumableCardUnitByCardId(
+      <number>event.target.value,
+      (consumablecard: ConsumableCard) => {
+        this.consumableCard = consumablecard;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  //#endregion
+
   isFilterConsumableList(isFilter:boolean){
 
     this.isConsumableFilter = true;
@@ -883,40 +969,6 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     this.popupComponent.CloseModal('#modalFilterForConsumableList');
   }
-
-  async loadConsumableCardByCategoryId(event: any) {
-    this.consumableCards = [];
-    this.consumableCard.ConsumableUnit = null;
-
-    if (!event.target.value || event.target.value == "") {
-      this.consumable.ConsumableCardId = null;
-      //  this.consumable.ConsumableCard = new ConsumableCard();
-      return;
-    }
-    if (event.target.value) {
-      this.baseService.consumableCardService.GetConsumableCardsByCategoryId(
-        <number>event.target.value,
-        (consumableCards: ConsumableCard[]) => {
-          this.consumableCards = consumableCards;
-        },
-        (error: HttpErrorResponse) => {}
-      );
-    }
-  }
-
-  async loadConsumableUnitByCardId(event: any) {
-    this.consumableCard = new ConsumableCard();
-
-    this.baseService.consumableService.GetConsumableCardUnitByCardId(
-      <number>event.target.value,
-      (consumablecard: ConsumableCard) => {
-        this.consumableCard = consumablecard;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-  }
   
   isFilterRequestList(isFilter:boolean){    
 
@@ -964,8 +1016,6 @@ export class ConsumableRequestListComponent extends BaseComponent
     (requestList: ConsumableRequest[],
       totalPage: number,
       message: string)=>{
- 
-
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTableRequestedList.perInPage = _perInPage;
@@ -1410,19 +1460,38 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     this.baseService.consumableRequestListService.ReceivedConsumableMaterial(receivedItem,(result:any,message)=>{
       this.baseService.spinner.hide();
-      this.baseService.popupService.ShowSuccessPopup(message)
+
+      this.baseService.popupService.ShowSuccessPopup(message);
+
+      this.refreshTable();
+
+      this.resetRequestForm(data,true);
+
+      
     },
     (error:HttpErrorResponse)=>{
       this.baseService.spinner.hide();
 
       this.baseService.popupService.ShowErrorPopup(error);
-    })
+    });
+
+
 
   }
 
+  resetRequestForm(data: NgForm, isNewItem: boolean) {
+    if (isNewItem == true) {
+      this.consumableRequest = new ConsumableRequest();
+      this.dataTablePropertyValue.TGT_clearData();
+    }
+    data.reset();
+    data.resetForm(this.consumableRequest);
+  }
+
+
   resetForm(data: NgForm, isNewItem: boolean) {
     if (isNewItem == true) {
-      this.consumable = new ConsumableRequest(); 
+      this.consumable = new ConsumableRequest();      
       this.dataTablePropertyValue.TGT_clearData();
     }
     data.reset();

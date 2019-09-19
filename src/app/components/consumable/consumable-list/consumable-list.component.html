@@ -135,24 +135,6 @@
             </div>
           </div>
 
-          <!-- <div class="row justify-content-center">
-              <div class="form-group col-md-6">
-                  <label>Marka</label>
-                  <select 
-                  name="ConsumableBrandId" class="form-control select2-no-search" (change)="loadModelByBrandId($event)">
-                  <option [ngValue]="null">Seçiniz</option>
-                  <option *ngFor="let brand of brands" value="{{brand.FixedAssetCardBrandId}}">{{brand.Name}}</option>
-                </select>            
-              </div>  
-              <div class="form-group col-md-6">
-                <label>Model</label>
-                <select [(ngModel)]="consumable.ConsumableModelId" name="ConsumableModelId" style="width:100%;"  class="form-control select2-no-search">
-                  <option [ngValue]="null">Seçiniz</option>
-                  <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
-                </select>            
-              </div>            
-          </div> -->
-
           <div class="row justify-content-center">            
               <div class="form-group col-md-6">
                   <label class="required-span">Miktar</label>
@@ -191,7 +173,7 @@
                   <div *ngIf="visiblePropertyName == true" style="color:red">
                       <div>Özellik değeri giriniz.</div>
                     </div>
-                    <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     
+                                    
                   </div>
                   <div class="property-add-value">                    
                     <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
@@ -203,7 +185,10 @@
               <div class="form-group col-md-12">   
                       <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
               </div>   
-          </div>   
+          </div>            
+          <div *ngIf="visibleRequiredProperty" style="color:red">              
+              <div>Lütfen en az bir özellik giriniz.</div>                    
+            </div> 
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
@@ -228,7 +213,7 @@
         <h6 class="modal-title">     
           Çıkış yapılacak malzeme bilgilerini giriniz.
         </h6>
-        <button id="CloseExitModal" type="button" class="close" (click)="resetForm(data,true)" data-dismiss="modal" aria-label="Close">
+        <button id="CloseExitModal" type="button" class="close" (click)="resetExitForm(data,true)" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -378,14 +363,14 @@
           <div class="form-group col-md-6">
             <label>{{getLanguageValue('Location')}}</label>
             <div style="display:flex;">
-              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }}</button>
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation">{{dataTableLocationFilter.TGT_getSelectedItems().length > 0 ? dataTableLocationFilter.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
               </div>
               <div *ngIf="data.submitted && !selectedLocation" style="color:red">
                 <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
               </div>    
               <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
-                <tree-grid-table [dataTable]="dataTableLocation"></tree-grid-table>
+                <tree-grid-table [dataTable]="dataTableLocationFilter"></tree-grid-table>
               </div>
         </div> 
         <div class="form-group col-md-6">              
@@ -415,7 +400,7 @@
                   <div *ngIf="visiblePropertyName == true" style="color:red">
                       <div>Özellik değeri giriniz.</div>
                     </div>
-                    <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     
+                
                   </div>
                   <div class="property-add-value">                    
                     <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
@@ -427,12 +412,13 @@
         <div class="row justify-content-center">
           <div class="form-group col-md-12">   
               <tree-grid-table [dataTable]="dataTablePropertyValueForFilter"></tree-grid-table>
-          </div>   
+          </div>  
+        
         </div> 
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button class="btn btn-az-primary" type="button" (click)="clearFilter()">
+          <button class="btn btn-az-primary" type="button" (click)="clearFilterConsumableList()">
             Filtre Temizle
           </button>         
           <button class="btn btn-az-primary" type="button" (click)="isFilterConsumableList(true)" >
