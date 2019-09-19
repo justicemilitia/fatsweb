@@ -37,7 +37,7 @@ export class ConsumableRequestListService {
         { headers: GET_HEADERS(this.authenticationService.getToken()) }
       )
       .subscribe(
-        result => {
+        (result:any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let consumableRequestList: ConsumableRequest[] = [];
@@ -46,7 +46,34 @@ export class ConsumableRequestListService {
               Object.assign(consumable, e);
               consumableRequestList.push(consumable);
             });
-            success(consumableRequestList, response.LanguageKeyword);
+            success(consumableRequestList, result.TotalPage, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  GetConsumableRequestListWithFilter(consumableFilter:ConsumableRequest, success, failed) {
+    this.httpclient
+      .post(
+        SERVICE_URL + GET_CONSUMABLE_REQUEST_LIST, consumableFilter,
+        { headers: GET_HEADERS(this.authenticationService.getToken()) }
+      )
+      .subscribe(
+        (result:any) => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let consumableRequestList: ConsumableRequest[] = [];
+            (<ConsumableRequest[]>response.ResultObject).forEach(e => {
+              let consumable: ConsumableRequest = new ConsumableRequest();
+              Object.assign(consumable, e);
+              consumableRequestList.push(consumable);
+            });
+            success(consumableRequestList, result.TotalPage, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -120,7 +147,7 @@ export class ConsumableRequestListService {
     }).subscribe(result => {
       let response: Response = <Response>result;
       if(response.ResultStatus == true){
-        success(response.LanguageKeyword);
+        success(response.ResultStatus,response.LanguageKeyword);
       }
     }),(error:HttpErrorResponse) =>{
       failed(error);

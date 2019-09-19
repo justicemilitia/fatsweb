@@ -20,6 +20,9 @@
 
             <button (click)="doOperation(1)" class="btn btn-danger btn-exit-assets"  style="margin-right:10px"><i class="fas fa-minus-circle"></i></button>
 
+            <button  class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-dismiss="modal" (click)="filter()"> <i class="fas fa-filter"></i></button>
+
+
             <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
             data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
               [ngClass]="{'far fa-file-excel':isTableExporting == false}"
@@ -34,9 +37,30 @@
 
           </div>
         </div>
-        <div class="sales-overview">
+        <div class="sales-overview" style="flex-direction:column">
           <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
           </tree-grid-table>
+           <!-- Pagination Side -->
+           <div class="table-pagination">
+            <!-- Per In Page Select area -->
+            <select class="table-pagination-select" (change)="loadConsumableList(perInPage,1,isFilter)" [(ngModel)]="perInPage">
+              <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
+              <option value="1000">{{getLanguageValue('All')}}</option>
+            </select>
+            <!-- END Per In Page Select area END -->
+            <!-- Paginations -->
+            <nav class="pagination-nav">
+              <ul class="pagination">
+                <ng-container *ngFor="let page of pages">
+                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                      (click)="loadConsumableList(perInPage,page.value,isFilter)" class="page-link">{{page.display}}</button>
+                  </li>
+                </ng-container>
+              </ul>
+            </nav>
+            <!-- END Paginations END -->
+          </div>
+          <!-- END Pagination Side END -->
         </div>
       </div>
       <!-- az-content-body -->
@@ -303,6 +327,117 @@
             Sarf Malzeme Çıkışı
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
+
+
+<!-- FILTER MODAL FOR CONSUMABLE LIST-->
+<div id="modalFilterForConsumableList" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">
+          {{getLanguageValue('Identify_filter_values')}}
+        </h6>
+        <button id="CloseFilterModal" type="button" (click)="clearFilterConsumableList()" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #dataFilter="ngForm" class="form-register">
+        <div class="modal-body">    
+
+          <div class="row justify-content-center"> 
+              <div class="form-group col-md-6">
+                  <label>Malzeme Kategorisi</label>
+                  <div style="display:flex;">
+                      <button id="btnConsumableCategory" (click)="toggleDropdown('category')" class="dropdown-button" type="button">{{dataTableCategory.TGT_getSelectedItems().length > 0 ? dataTableCategory.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Category_Selected')  : getLanguageValue('Choose') }}</button>
+                        <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
+                    </div> 
+                    <div class="custom-dropdown" *ngIf="isCategoryDropdownOpen==true">
+                        <tree-grid-table [dataTable]="dataTableCategory"></tree-grid-table>
+                      </div>             
+                </div>   
+            <div class="form-group col-md-6">
+              <label>Malzeme Adı</label>
+              <div style="display:flex;">
+                  <button id="btnConsumableMaterial" (click)="toggleDropdown('card')" class="dropdown-button" type="button">{{dataTableConsumableMaterial.TGT_getSelectedItems().length > 0 ? dataTableConsumableMaterial.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Card_Selected')  : getLanguageValue('Choose') }}</button>
+                    <span class="span-dropdown"  (click)="resetDropdown('card')" class="typcn icon-default typcn-times span-dropdown"></span>
+                </div> 
+                <div class="custom-dropdown" *ngIf="isCardDropdownOpen==true">
+                    <tree-grid-table  [dataTable]="dataTableConsumableMaterial"></tree-grid-table>
+                  </div>           
+          </div>  
+        </div>
+
+        <div class="row justify-content-center"> 
+          <div class="form-group col-md-6">
+            <label>{{getLanguageValue('Location')}}</label>
+            <div style="display:flex;">
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }}</button>
+                <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+              <div *ngIf="data.submitted && !selectedLocation" style="color:red">
+                <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
+              </div>    
+              <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                <tree-grid-table [dataTable]="dataTableLocation"></tree-grid-table>
+              </div>
+        </div> 
+        <div class="form-group col-md-6">              
+      </div>  
+    </div>
+        
+        <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>Özellik Adı</label>
+              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
+                <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
+                <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
+              </select> 
+              <div *ngIf="visible == true" style="color:red">
+                  <div>Bir {{getLanguageValue('Choose_a_property')}}.</div>
+                </div> 
+            </div>
+            <div class="form-group col-md-6">
+                <label>Özellik Değeri</label>   
+                <div class="flexProperty">
+                  <div style="flex:1;">
+                  <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
+                    <option [ngValue]="null">{{getLanguageValue('Choose_a_property_value')}}</option>
+                    <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
+                  </select> 
+                  <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
+                  <div *ngIf="visiblePropertyName == true" style="color:red">
+                      <div>Özellik değeri giriniz.</div>
+                    </div>
+                    <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     
+                  </div>
+                  <div class="property-add-value">                    
+                    <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
+                  </div>    
+                </div>
+            </div>
+          </div> 
+ 
+        <div class="row justify-content-center">
+          <div class="form-group col-md-12">   
+              <tree-grid-table [dataTable]="dataTablePropertyValueForFilter"></tree-grid-table>
+          </div>   
+        </div> 
+        </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button class="btn btn-az-primary" type="button" (click)="clearFilter()">
+            Filtre Temizle
+          </button>         
+          <button class="btn btn-az-primary" type="button" (click)="isFilterConsumableList(true)" >
+             Filtrele
+            </button>   
         </div>
       </form>
     </div>

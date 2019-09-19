@@ -733,8 +733,8 @@ export class UserComponent extends BaseComponent implements OnInit {
  
          let UserIds:number[]= [];
          /*get user authorized users from server */
-         result.UserAuthorizedUsersAuthorizedUser.forEach(e=>{
-           UserIds.push(e.UserId);
+         result.UserAuthorizedUsersUser.forEach(e=>{
+           UserIds.push(e.AuthorizedUserId);
          });  
 
        this.LoadRoleAuthDropdowns(CategoryIds, FirmIds, LocationIds, UserIds);

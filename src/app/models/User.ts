@@ -55,7 +55,7 @@ export class User implements IData {
     UserAuthorizedLocations:UserAuthorizedLocations[];
     UserAuthorizedFixedAssetCardCategories:UserAuthorizedFixedAssetCardCategories[];
     UserAuthorizedUsers:UserAuthorizedUsers[];
-    UserAuthorizedUsersAuthorizedUser:UserAuthorizedUsers[];
+    UserAuthorizedUsersUser:UserAuthorizedUsers[];
 
 
     constructor() {

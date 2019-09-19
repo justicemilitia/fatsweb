@@ -321,7 +321,6 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
     this.baseService.consumableCategoryService.GetConsumableCategories((consumableCategories: ConsumableCategory[]) => {
 
       this.consumableCategories = consumableCategories;
-      this.dataTable.TGT_loadData(this.consumableCards);
     },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -330,8 +329,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
     
      this.baseService.consumableUnitService.GetConsumableUnits((consumableUnits: ConsumableUnit[]) => {
 
-        this.consumableUnits = consumableUnits;
-        this.dataTable.TGT_loadData(this.consumableUnits);
+        this.consumableUnits = consumableUnits;     
       },
         (error: HttpErrorResponse) => {
           this.baseService.popupService.ShowErrorPopup(error);
