@@ -254,7 +254,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       {
         columnDisplayName: "Karşılanan Miktar",
         // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
-        columnName: ["RecievedAmount"],
+        columnName: ["ReceivedAmount"],
         isActive: true,
         classes: [],
         placeholder: "",
