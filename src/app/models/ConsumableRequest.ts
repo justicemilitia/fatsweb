@@ -36,7 +36,7 @@ export class ConsumableRequest  implements IData{
      CompanyId: number;
      OldAmount: number;
      RequestedAmount: number;
-     ReceivedAmount: number;
+     RecievedAmount: number;
      FreeEnterAmount: number;
      FreeExitAmount: number;
      NewAmount:  number;

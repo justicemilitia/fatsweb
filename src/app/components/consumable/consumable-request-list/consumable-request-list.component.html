@@ -27,6 +27,15 @@
                 <button *ngIf="currentTab == 0" class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-dismiss="modal" (click)="filter()"> <i class="fas fa-filter"></i></button>
               </div>
 
+              <div>
+                <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom" style="margin-right:10px" 
+                title="{{getLanguageValue('Reset_Filter')}}" (click)="refreshTable()">
+                <i class="fas fa-filter"></i>
+                <i class="fas fa-times"
+                  style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
+              </button>
+              </div>
+
               <div>                
                 <button class="btn btn-success btn-excel-custom" (click)="exportExcel(dataTable)" data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                   [class.btn-refresh-loader]="isTableExporting == true"></i>
@@ -39,7 +48,8 @@
               </div>       
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding-top:0px;">
+        <div class="card-body" style="padding-top:0px;">
         <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
           <mat-tab>
             <ng-template mat-tab-label>
@@ -162,6 +172,7 @@
               </mat-tab>
         </mat-tab-group>
       </div>
+    </div>
       </div>
       <!-- az-content-body -->
     </div>
@@ -311,7 +322,7 @@
             Talebi Karşıla
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-          <button class="btn btn-az-primary" id="btnCancelConsumableMaterial" type="button" (click)="cancelRequestConsumableMaterial()" >
+          <button class="btn btn-danger"  id="btnCancelConsumableMaterial" type="button" (click)="cancelRequestConsumableMaterial()" >
               Talebi İptal Et
             </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
@@ -435,7 +446,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button class="btn btn-az-primary" id="btnReceivedConsumableMaterial" type="button" (click)="clearFilter()">
+          <button class="btn btn-danger"  id="btnReceivedConsumableMaterial" type="button" (click)="clearFilter()">
             Filtre Temizle
           </button>         
           <button class="btn btn-az-primary" id="btnCancelConsumableMaterial" type="button" (click)="isFilterRequestList(true)" >
@@ -546,7 +557,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button class="btn btn-az-primary" type="button" (click)="clearFilter()">
+          <button class="btn btn-danger"  type="button" (click)="clearFilter()">
             Filtre Temizle
           </button>         
           <button class="btn btn-az-primary" type="button" (click)="isFilterConsumableList(true)" >

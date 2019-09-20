@@ -20,8 +20,14 @@
 
             <button (click)="doOperation(1)" class="btn btn-danger btn-exit-assets"  style="margin-right:10px"><i class="fas fa-minus-circle"></i></button>
 
-            <button  class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-dismiss="modal" (click)="filter()"> <i class="fas fa-filter"></i></button>
+            <button  class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-dismiss="modal" (click)="filter()"> <i class="fas fa-filter"></i></button>          
 
+            <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip"  style="margin-right:10px" data-placement="bottom"
+            title="{{getLanguageValue('Reset_Filter')}}" (click)="refreshTable()">
+            <i class="fas fa-filter"></i>
+            <i class="fas fa-times"
+              style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
+          </button>
 
             <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
             data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
@@ -418,7 +424,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button class="btn btn-az-primary" type="button" (click)="clearFilterConsumableList()">
+          <button class="btn btn-danger"  type="button" (click)="clearFilterConsumableList()">
             Filtre Temizle
           </button>         
           <button class="btn btn-az-primary" type="button" (click)="isFilterConsumableList(true)" >

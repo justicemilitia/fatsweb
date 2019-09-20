@@ -1462,8 +1462,9 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     Object.assign(receivedItem,this.consumableRequest);
 
-    receivedItem.ReceivedAmount = this.receiveConsumableMaterial.ReceivedAmount;
+    receivedItem.RecievedAmount = this.receiveConsumableMaterial.RecievedAmount;
     receivedItem.Description = this.receiveConsumableMaterial.Description;
+    receivedItem.ConsumableCategoryId = this.receiveConsumableMaterial.ConsumableCategoryId;
 
     this.baseService.consumableRequestListService.ReceivedConsumableMaterial(receivedItem,(result:any,message)=>{
       this.baseService.spinner.hide();
