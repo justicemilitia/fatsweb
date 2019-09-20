@@ -34,7 +34,7 @@
                   <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px">
                     <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                       [class.btn-refresh-loader]="isTableExporting == true"></i>
-                  </button>          
+                  </button>           
 
                   <button type="button" *ngIf="tabIndex == 1" (click)="refreshTableMaterialIn()" style="margin-right:20px" 
                     class="btn btn-success btn-refresh-custom">
