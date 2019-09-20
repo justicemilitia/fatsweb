@@ -868,7 +868,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
     insertedItem.FixedAssetPropertyDetails = propertyDetail;
 
-    this.baseService.consumableRequestListService.RequestConsumableMaterial(
+    this.baseService.consumableRequestListService.GetConsumableRequestListWithFilter(
       insertedItem,
       (requestItem: ConsumableRequest) => {
         this.isWaitingInsertOrUpdate = false;
