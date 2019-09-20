@@ -22,11 +22,17 @@
                       [class.btn-refresh-loader]="isTableExporting == true"></i>
                   </button>          
 
-                  <button type="button" (click)="refreshTable()" style="margin-right:20px" 
+                  <button type="button" *ngIf="tabIndex == 1" (click)="refreshTableMaterialIn()" style="margin-right:20px" 
                     class="btn btn-success btn-refresh-custom">
                     <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                       [class.btn-refresh-loader]="isTableRefreshing == true"></i>
                   </button>
+
+                  <button type="button" *ngIf="tabIndex == 2" (click)="refreshTableMaterialOut()" style="margin-right:20px" 
+                  class="btn btn-success btn-refresh-custom">
+                  <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                    [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+                </button>
       
                 </div>
               </div>
@@ -170,18 +176,39 @@
                 <!-- MALZEME KODU -->
               <div class="form-group col-md-6">
                 <label>Malzeme Kodu</label>
-                <input  name="ConsumableCardCode"  value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardCode}}" class="form-control" type="text"/>
+                <input  name="ConsumableCardCode" [(ngModel)]="consumable.ConsumableCardCode" #ConsumableCardCode="ngModel" value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardCode}}" class="form-control" type="text"/>
               </div>
 
-              <!-- MİKTAR - BİRİM -->
-              <div class="form-group col-md-6">
-                <label>Miktar</label>
-                <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text" #ConsumableAmount="ngModel"/>
-                
-                <!-- <input name="ConsumableAmount" value="{{consumable.RequestedAmount == null ? '' : consumable.RequestedAmount}}" class="form-control" type="text" disabled/>              -->
-              </div>  
+              <!-- SERBEST GİRİŞ MİKTARI -->
+              <div class="form-group col-md-6" *ngIf="tabIndex == 1">
+                <label>Serbest Giriş Miktarı</label>
+                <input [(ngModel)]="consumable.FreeEnterAmount" name="FreeEnterAmount" class="form-control" type="text" #FreeEnterAmount="ngModel"/>
+              </div> 
+              
+               <!-- SERBEST ÇIKIŞ MİKTARI -->
+               <div class="form-group col-md-6" *ngIf="tabIndex == 2" >
+                <label>Serbest Çıkış Miktarı</label>
+                <input [(ngModel)]="consumable.FreeExitAmount" name="FreeExitAmount" class="form-control" type="text" #FreeExitAmount="ngModel"/>
+              </div> 
 
             </div>
+
+            <div class="row justify-content-center" *ngIf="tabIndex == 2">
+
+              <!-- TALEP EDİLEN MİKTAR -->
+            <div class="form-group col-md-6">
+              <label>Talep Edilen Miktar</label>
+              <input [(ngModel)]="consumable.RequestedAmount" name="RequestedAmount" class="form-control" type="text" #RequestedAmount="ngModel"/>
+          
+            </div>
+
+            <!-- KARŞILANAN MİKTAR-->
+            <div class="form-group col-md-6">
+              <label>Karşılanan Miktar</label>
+              <input [(ngModel)]="consumable.RecievedAmount" name="RecievedAmount" class="form-control" type="text" #RecievedAmount="ngModel"/>
+            </div>  
+
+          </div>
 
             <div class="row justify-content-center">
             
@@ -189,7 +216,7 @@
               <div class="form-group col-md-6">
                 <label>{{getLanguageValue('Location')}}</label>
                 <div style="display:flex;">
-                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"> </button>
+                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"> {{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }} </button>
                     <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>   
                   <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
@@ -243,6 +270,37 @@
 
             </div>
   
+            <div class="row justify-content-center">
+
+              <!-- GİRİŞ TARİHİ -->
+              <div class="form-group col-md-6">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <div (click)="startDate.toggle()" class="input-group-text">
+                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                    </div>
+                  </div>
+                  <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
+                    [(ngModel)]="consumable.StartDate" ngbDatepicker #startDate="ngbDatepicker"
+                    #startDateModel="ngModel" />
+                </div>
+              </div>
+  
+              <!-- BİTİŞ TARİHİ -->
+              <div class="form-group col-md-6">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <div (click)="endDate.toggle()" class="input-group-text">
+                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                    </div>
+                  </div>
+                  <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                    [minDate]="consumable.StartDate" [(ngModel)]="consumable.EndDate" ngbDatepicker
+                    #endDate="ngbDatepicker" #endDateModel="ngModel" />
+                </div>
+              </div>
+            </div>
+
             <div class="row justify-content-center">
               <div class="form-group col-md-6">
                 <label>Özellik Adı</label>
