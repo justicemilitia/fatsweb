@@ -19,6 +19,7 @@ import { User } from '../../../models/User';
 import { Location } from '../../../models/Location';
 import { ConsumableCategory } from '../../../models/ConsumableCategory';
 import { PropertyValueTypes } from '../../../declarations/property-value-types.enum';
+import { convertNgbDateToDateString } from '../../../declarations/extends';
 
 @Component({
   selector: 'app-consumable-transaction-list',
@@ -81,6 +82,8 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   locations: Location[] = [];  
   departments: Department[] = [];
   users: User[]=[];
+
+  tabIndex: number;
 
   /* Is Table Refreshing */
   isTableRefreshing: boolean = false;
@@ -394,7 +397,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     [
       {
         columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
-        columnName: ["Name"],
+        columnName: ["ConsumableCardName"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -403,7 +406,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     ],
     {
       isDesc: false,
-      column: ["Name"]
+      column: ["ConsumableCardName"]
     }
   );
 
@@ -430,6 +433,8 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.loadConsumableTransactionList(this.perInPage,this.currentPage,1);
     this.loadConsumableInProperties();
     this.loadDropdown();
+
+    this.tabIndex = 1;
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
@@ -601,9 +606,11 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
     switch(tabIndex){
       case 1:
+      this.tabIndex = 1;
       consumableLogType.push(ConsumableLogTypes.CONSUMABLE_MATERIAL_IN);
       break; 
       case 2:
+      this.tabIndex = 2;
       consumableLogType.push(ConsumableLogTypes.FREE_CONSUMABLE_MATERIAL_OUT);
       consumableLogType.push(ConsumableLogTypes.CONSUMABLE_MATERIAL_RECEIVED);
       break;
@@ -623,21 +630,20 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         this.transactionList = transactionList;
         this.totalPage = totalPage ? totalPage : 1;
 
-        // transactionList.forEach(e => {
-        // if(e.ConsumableP.length>0){
-        //   e.ConsumablePropertyLogs.forEach(p => {
-        //     if (p.FixedAssetCardPropertyId) {
-        //       // e.FixedAssetPropertyDetails.length>1
-        //       for (let i = 0; i < e.FixedAssetPropertyDetails.length; i++) {
-        //         valueA+= e.FixedAssetPropertyDetails[i].Value + ( e.FixedAssetPropertyDetails.length - i == 1 ? "" : "|");                                  
-        //       }
+        transactionList.forEach(e => {
+        if(e.Consumable.FixedAssetPropertyDetails.length > 0){
+          e.Consumable.FixedAssetPropertyDetails.forEach(p => {
+
+              for (let i = 0; i < e.Consumable.FixedAssetPropertyDetails.length; i++) {
+                valueA+= e.Consumable.FixedAssetPropertyDetails[i].Value + ( e.Consumable.FixedAssetPropertyDetails.length - i == 1 ? "" : "|");                                  
+              }
   
-        //       e["PROP_" + p.FixedAssetCardPropertyId.toString()] = valueA;
-        //     }
-        //     valueA='';            
-        //   });
-        // }
-        // });
+              e["PROP_" + p.FixedAssetCardPropertyId.toString()] = valueA;
+              
+            valueA='';            
+          });
+        }
+        });
 
         switch(tabIndex){
           case 1:
@@ -645,6 +651,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
           break; 
           case 2:
           this.dataTableConsumableMaterialOut.TGT_loadData(this.transactionList);
+          this.loadConsumableOutProperties();
           break;
         }
 
@@ -778,13 +785,15 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   }
 
   async loadConsumableOutProperties() {
+
     this.baseService.fixedAssetService.GetFixedAssetProperties(
       (faProperties: FixedAssetCardProperty[]) => {
         this.faProperties = faProperties;
+
         this.faProperties.forEach(e => {
           this.dataTableConsumableMaterialOut.dataColumns.push({
+            columnDisplayName: e.Name,                        
             columnName: ["PROP_" + e.FixedAssetCardPropertyId.toString()],
-            columnDisplayName: e.Name,
             isActive: true,
             type: "text"
           });
@@ -797,7 +806,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     );
   }
 
-  async refreshTable() {
+  async refreshTableMaterialIn() {
     this.isTableRefreshing = true;
 
     this.dataTableConsumableMaterialIn.isLoading = true;
@@ -807,7 +816,22 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.perInPage = 25;
     this.currentPage = 1;
 
-    // await this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1);
+    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1);
+
+    this.isTableRefreshing = false;
+  }
+
+  refreshTableMaterialOut(){
+    this.isTableRefreshing = true;
+
+    this.dataTableConsumableMaterialOut.isLoading = true;
+
+    this.dataTableConsumableMaterialOut.TGT_clearData();
+
+    this.perInPage = 25;
+    this.currentPage = 1;
+
+    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 2);
 
     this.isTableRefreshing = false;
   }
@@ -838,6 +862,9 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     insertedItem.ReceivedDepartmentIds = departmentIds;
     insertedItem.ReceivedUserIds = receivedUserIds;
     insertedItem.RequestedUserIds = requestedUserIds;
+
+    insertedItem.StartDate = this.consumable.StartDate == null ? null : convertNgbDateToDateString(data.value.startDate);
+    insertedItem.EndDate = this.consumable.EndDate == null ? null : convertNgbDateToDateString(data.value.endDate);
 
     insertedItem.FixedAssetPropertyDetails = propertyDetail;
 
@@ -906,6 +933,16 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       (users: User[]) => {
         this.users = users;
         this.dataTableReceivedUser.TGT_loadData(this.users);
+        // this.dataTableRequestedUser.TGT_loadData(this.users);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+    this.baseService.userService.GetUsers(
+      (users: User[]) => {
+        this.users = users;
         this.dataTableRequestedUser.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
@@ -936,7 +973,6 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         this.isConsumableCategoryDropdownOpen=false;
         this.isReceivedUserDropdownOpen=false;
         this.isRequestedUserDropdownOpen=false;
-        // this.loadDepartmentByLocationId(this.selectedLocation.LocationId);        
         break;
 
         case "department":
@@ -991,7 +1027,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   resetDropdown(key:string){
     switch(key){
       case "location":
-      this.dataTableConsumableCategory.TGT_clearData();
+      this.dataTableLocation.TGT_clearData();
       this.loadDropdown();
       break;
       case "department":
@@ -999,19 +1035,19 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       this.loadDropdown();      
       break;
       case "consumableCard":
-      this.dataTableDepartment.TGT_clearData();    
+      this.dataTableConsumableCard.TGT_clearData();    
       this.loadDropdown();      
       break;
       case "consumableCategory":
-      this.dataTableDepartment.TGT_clearData();      
+      this.dataTableConsumableCategory.TGT_clearData();      
       this.loadDropdown();
       break;
       case "receivedUser":
-      this.dataTableDepartment.TGT_clearData();      
+      this.dataTableReceivedUser.TGT_clearData();      
       this.loadDropdown();      
       break;
       case "requestedUser":
-      this.dataTableDepartment.TGT_clearData(); 
+      this.dataTableRequestedUser.TGT_clearData(); 
       this.loadDropdown();
       break;
     }

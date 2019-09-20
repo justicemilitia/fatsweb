@@ -5,6 +5,7 @@ import { Consumable } from './Consumable';
 import { User } from './User';
 import { ConsumableCategory } from './ConsumableCategory';
 import { Location } from './Location';
+import { ConsumablePropertyLog } from './ConsumablePropertyLog';
 
 export class ConsumableRequest  implements IData{
 
@@ -63,12 +64,14 @@ export class ConsumableRequest  implements IData{
      ConsumableLocationIds: number[];
      RequestedUserIds: number[];
      ReceivedUserIds: number[];
-     ConsumableNumber:number;
-     Page:Number;
-     PerPage:Number;
+     ConsumableNumber: number;
+     Page: Number;
+     PerPage: Number;
+     StartDate: string;
+     EndDate: string;
 
      ConsumableLogTypeIds:number[];
-
+     ConsumablePropertyLogs: ConsumablePropertyLog[];
      User:User;
      FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
      FixedAssetPropertyArray: FixedAssetPropertyDetails[];
