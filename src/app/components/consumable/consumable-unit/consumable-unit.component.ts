@@ -33,6 +33,8 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
   consumableUnit: ConsumableUnit = new ConsumableUnit();
 
   notDeletedBarcode: string = '';
+
+  selectedItems:any[]=[];  
   
   public dataTable: TreeGridTable = new TreeGridTable(
     "consumableunit",
@@ -87,6 +89,23 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
     }
   }
 
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+   
+    /* if count of items equals 0 show message for no selected item */
+    if (!this.selectedItems || this.selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir departman seçiniz"
+      );
+      return;
+    }
+   else
+   this.popupComponent.ShowModal('#modalShowDeletePopupForConsumableUnit');
+   
+ }
+  
   async deleteConsumableUnits() {
     /* Get selected items from table */    
     let selectedItems = this.dataTable.TGT_getSelectedItems();

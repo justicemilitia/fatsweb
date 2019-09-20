@@ -21,7 +21,7 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" data-target="#modalShowDeletePopupForConsumableUnit"
+            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" (click)="onDelete()"
               class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i>
@@ -63,7 +63,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label class="required-span">Adı</label>
-              <input [(ngModel)]="consumableUnit.ConsumableUnitName" name="ConsumableUnitName" type="text" trim="blur"
+              <input [(ngModel)]="consumableUnit.ConsumableUnitName" name="ConsumableUnitName" type="text" maxlength="50" trim="blur"
                 class="form-control" #ConsumableUnitName="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && ConsumableUnitName.invalid }" required />
               <div *ngIf="data.submitted && ConsumableUnitName.invalid" class="invalid-feedback">
@@ -74,7 +74,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label>Kısaltması</label>
-              <input [(ngModel)]="consumableUnit.ConsumableUnitShortName" name="ConsumableUnitShortName" type="text" trim="blur" class="form-control" #ConsumableUnitShortName="ngModel"/>
+              <input [(ngModel)]="consumableUnit.ConsumableUnitShortName" name="ConsumableUnitShortName" type="text" maxlength="50" trim="blur" class="form-control" #ConsumableUnitShortName="ngModel"/>
             </div>
           </div>
         </div>

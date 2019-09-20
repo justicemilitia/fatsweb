@@ -23,7 +23,7 @@
                   [class.btn-refresh-loader]="isTableRefreshing == true"></i>
               </button>
   
-              <button type="button" data-toggle="modal" data-target="#modalShowDeletePopupForConsumableCategory" class="btn btn-danger btn-delete-custom">
+              <button type="button" data-toggle="modal" (click)="onDelete()" class="btn btn-danger btn-delete-custom">
                 {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
                 <i class="fas fa-trash"></i></button>
 
@@ -69,7 +69,7 @@
             <div class="row justify-content-center"> 
               <div class="form-group col-md-6">
                 <label class="required-span">Kategori Kodu</label>
-                <input [(ngModel)]="consumableCategory.ConsumableCategoryCode" name="ConsumableCategoryCode" type="text" trim="blur" class="form-control"
+                <input [(ngModel)]="consumableCategory.ConsumableCategoryCode" name="ConsumableCategoryCode" type="text" maxlength="50" trim="blur" class="form-control"
                   #ConsumableCategoryCode="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryCode.invalid }" required />
                 <div *ngIf="data.submitted && ConsumableCategoryCode.invalid" class="invalid-feedback">
                   <div *ngIf="ConsumableCategoryCode.errors.required">Bu alan zorunludur.</div>
@@ -77,7 +77,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label class="required-span">Kategori Adı</label>
-                <input [(ngModel)]="consumableCategory.ConsumableCategoryName" name="ConsumableCategoryName" type="text" trim="blur" class="form-control"
+                <input [(ngModel)]="consumableCategory.ConsumableCategoryName" name="ConsumableCategoryName" type="text" maxlength="50" trim="blur" class="form-control"
                   #ConsumableCategoryName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryName.invalid }" required />
                 <div *ngIf="data.submitted && ConsumableCategoryName.invalid" class="invalid-feedback">
                   <div *ngIf="ConsumableCategoryName.errors.required">Bu alan zorunludur.</div>
@@ -102,7 +102,7 @@
           <div class="modal-footer">
             <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit"
               data-toggle="modal" data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
-              {{consumableCategory.ConsumableCategoryId ?  getLanguageValue('Reedit_Fixed_Asset_Card_Category') : getLanguageValue('Enter_brand_informations')}}
+              {{consumableCategory.ConsumableCategoryId ?  getLanguageValue('Update_Consumable_Category') : getLanguageValue('Add_Consumable_Category')}}
             </button>
             <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
           </div>

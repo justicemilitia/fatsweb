@@ -3,7 +3,7 @@
       <div class="media-body">
         <!-- Bread Crumb -->
         <div class="az-content-breadcrumb">
-          <span>MALZEME TALEP LİSTESİ</span>
+          <span>MALZEME HAREKET LİSTESİ</span>
         </div>
         <!-- END Bread Crumb END -->
         <div class="card card-dashboard-twelve mg-b-20">
@@ -125,7 +125,7 @@
             <div class="row justify-content-center">           
 
               <!-- MALZEME KATEGORİSİ -->
-              <div class="form-group col-md-6">
+              <!-- <div class="form-group col-md-6">
                 <div>
                     <label style="margin-bottom: 0; font-weight: 700;" >{{getLanguageValue('Consumable_Category')}}</label>
                     <div style="display:flex;">
@@ -134,21 +134,32 @@
                     </div>
                 </div>
                 <div class="custom-dropdown" *ngIf="isConsumableCategoryDropdownOpen==true">
-                        <tree-grid-table (onClickItem)="onClickConsumableCategory($event,item)" [dataTable]="dataTableConsumableCategory"></tree-grid-table>
+                        <tree-grid-table [dataTable]="dataTableConsumableCategory"></tree-grid-table>
                 </div>
-              </div>
+              </div> -->
+
+              <div class="form-group col-md-6">
+                <label>{{getLanguageValue('Consumable_Category')}}</label>
+                <div style="display:flex;">
+                    <button id="btnConsumableCategory" (click)="toggleDropdown('consumableCategory')" class="dropdown-button" type="button">{{dataTableConsumableCategory.TGT_getSelectedItems().length > 0 ? dataTableConsumableCategory.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Category_Selected')  : getLanguageValue('Choose') }}</button>
+                      <span class="span-dropdown"  (click)="resetDropdown('consumableCategory')" class="typcn icon-default typcn-times span-dropdown"></span>
+                  </div> 
+                  <div class="custom-dropdown" *ngIf="isConsumableCategoryDropdownOpen==true">
+                      <tree-grid-table [dataTable]="dataTableConsumableCategory"></tree-grid-table>
+                    </div>             
+              </div>   
 
               <!-- MALZEME ADI -->            
               <div class="form-group col-md-6">
                 <div>
                     <label style="margin-bottom: 0; font-weight: 700;" >{{getLanguageValue('Consumable_Card_Name')}}</label>
                     <div style="display:flex;">
-                    <button id="btnConsumableCard" (click)="toggleDropdown('consumableCard')" class="dropdown-button" type="button">{{selectedConsumableCard ? selectedConsumableCard.Name : getLanguageValue('Choose') }}</button>
+                    <button id="btnConsumableCard" (click)="toggleDropdown('consumableCard')" class="dropdown-button" type="button">{{dataTableConsumableCard.TGT_getSelectedItems().length > 0 ? dataTableConsumableCard.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Card_Selected')  : getLanguageValue('Choose') }}</button>
                       <span class="span-dropdown"  (click)="resetDropdown('consumableCard')" class="typcn icon-default typcn-times span-dropdown"></span>
                     </div>
                 </div>
                 <div class="custom-dropdown" *ngIf="isConsumableCardDropdownOpen==true">
-                        <tree-grid-table (onClickItem)="onClickConsumableCard($event,item)" [dataTable]="dataTableConsumableCard"></tree-grid-table>
+                        <tree-grid-table [dataTable]="dataTableConsumableCard"></tree-grid-table>
                 </div>
               </div>
 
@@ -178,11 +189,11 @@
               <div class="form-group col-md-6">
                 <label>{{getLanguageValue('Location')}}</label>
                 <div style="display:flex;">
-                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
+                  <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"> </button>
                     <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>   
                   <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
-                    <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
+                    <tree-grid-table [dataTable]="dataTableLocation"></tree-grid-table>
                   </div>
               </div>
 
@@ -193,12 +204,12 @@
                 flex-direction: column;">
                         
                     <div style="display:flex;">
-                        <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button">{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
+                        <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button">{{dataTableDepartment.TGT_getSelectedItems().length > 0 ? dataTableDepartment.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Department_Selected')  : getLanguageValue('Choose') }}</button>
                           <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
                         </div>
                 </div>
                   <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
-                      <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
+                      <tree-grid-table [dataTable]="dataTableDepartment"></tree-grid-table>
                     </div>           
               </div>  
 
@@ -210,11 +221,11 @@
               <div class="form-group col-md-6">
                 <label>{{getLanguageValue('Requested_User')}}</label>
                 <div style="display:flex;">
-                  <button id="btnLocation" (click)="toggleDropdown('requestedUser')" class="dropdown-button" type="button">{{selectedRequestedUser ? selectedRequestedUser.FirstName + ' ' + selectedRequestedUser.LastName : getLanguageValue('Choose') }}</button>
+                  <button id="btnRequestedUser" (click)="toggleDropdown('requestedUser')" class="dropdown-button" type="button">{{dataTableRequestedUser.TGT_getSelectedItems().length > 0 ? dataTableRequestedUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_User_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('requestedUser')" class="typcn icon-default typcn-times span-dropdown"></span>
                   </div>   
                   <div class="custom-dropdown" *ngIf="isRequestedUserDropdownOpen==true">
-                    <tree-grid-table (onClickItem)="onClickRequestedUser($event,item)" [dataTable]="dataTableUser"></tree-grid-table>
+                    <tree-grid-table [dataTable]="dataTableRequestedUser"></tree-grid-table>
                   </div>
               </div>
 
@@ -222,11 +233,11 @@
             <div class="form-group col-md-6">
               <label>{{getLanguageValue('Received_User')}}</label>
               <div style="display:flex;">
-                <button id="btnLocation" (click)="toggleDropdown('receivedUser')" class="dropdown-button" type="button">{{selectedReceivedUser ? selectedReceivedUser.FirstName  + ' ' + selectedReceivedUser.LastName : getLanguageValue('Choose') }}</button>
+                <button id="btnReceivedUser" (click)="toggleDropdown('receivedUser')" class="dropdown-button" type="button">{{dataTableReceivedUser.TGT_getSelectedItems().length > 0 ? dataTableReceivedUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_User_Selected')  : getLanguageValue('Choose') }}</button>
                   <span class="span-dropdown"  (click)="resetDropdown('receivedUser')" class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>   
                 <div class="custom-dropdown" *ngIf="isReceivedUserDropdownOpen==true">
-                  <tree-grid-table (onClickItem)="onClickReceivedUser($event,item)" [dataTable]="dataTableUser"></tree-grid-table>
+                  <tree-grid-table [dataTable]="dataTableReceivedUser"></tree-grid-table>
                 </div>
             </div>
 

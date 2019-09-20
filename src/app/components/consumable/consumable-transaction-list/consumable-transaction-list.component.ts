@@ -125,52 +125,15 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         type: "text"
       },
       {
-        columnDisplayName: this.getLanguageValue('Location'),
-        columnName: ["ConsumableLocation", "Name"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: this.getLanguageValue('Requested_User'),
-        columnName: ["RequestedUser"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text",
-        formatter: (value) => {
-          if (value) {
-            return value.RequestedUser != null ? value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName : '';
-          }
-          else {
-            return '';
-          }
-        }
-      },
-      {
-        columnDisplayName: this.getLanguageValue('Received_User'),
-        columnName: ["ReceivedUser"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text",
-        formatter: (value) => {
-          if (value) {
-            return value.ReceivedUser != null ? value.ReceivedUser.FirstName + ' ' + value.ReceivedUser.LastName : '';
-          }
-          else {
-            return '';
-          }
-        }
-      },
-      {
         columnDisplayName: this.getLanguageValue('Quantity_Unit'),
         columnName: ["FreeEnterAmount"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.FreeEnterAmount + ' ' + (value.ConsumableUnit == null ? "" :value.ConsumableUnit.ConsumableUnitName);
+        }
       },
       {
         columnDisplayName: this.getLanguageValue('Transaction_Date'),
@@ -288,7 +251,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       {
         columnDisplayName: "Karşılanan Miktar",
         // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
-        columnName: ["RecievedAmount                                                                                           "],
+        columnName: ["RecievedAmount"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -374,8 +337,34 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     }
   );
 
-  public dataTableUser: TreeGridTable = new TreeGridTable(
-    "user",
+  public dataTableReceivedUser: TreeGridTable = new TreeGridTable(
+    "receivedUser",
+    [
+      {
+        columnDisplayName: "User_name",
+        columnName: ["|FirstName"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value != null ? value.FirstName + ' ' + value.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["|FirstName"]
+    }
+  );
+
+  public dataTableRequestedUser: TreeGridTable = new TreeGridTable(
+    "requestedUser",
     [
       {
         columnDisplayName: "User_name",
@@ -445,7 +434,6 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isColumnOffsetActive = false;
     this.dataTablePropertyValue.isTableEditable = true;
-    this.dataTablePropertyValue.isMultipleSelectedActive = false;
     this.dataTablePropertyValue.isFilterActive = false;
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isScrollActive = false;
@@ -460,7 +448,6 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
     this.dataTableLocation.isDeleteable = false;
-    // this.dataTableLocation.isMultipleSelectedActive = false;
     this.dataTableLocation.isLoading = false;
     this.dataTableLocation.isHeaderVisible = false;
     this.dataTableLocation.isScrollActive = false;
@@ -468,23 +455,27 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableDepartment.isPagingActive = false;
     this.dataTableDepartment.isColumnOffsetActive = false;
     this.dataTableDepartment.isDeleteable = false;
-    // this.dataTableDepartment.isMultipleSelectedActive = false;
     this.dataTableDepartment.isLoading = false;
     this.dataTableDepartment.isHeaderVisible = false;
     this.dataTableDepartment.isScrollActive = false;
 
-    this.dataTableUser.isPagingActive = false;
-    this.dataTableUser.isColumnOffsetActive = false;
-    this.dataTableUser.isDeleteable = false;
-    // this.dataTableUser.isMultipleSelectedActive = false;
-    this.dataTableUser.isLoading = false;
-    this.dataTableUser.isHeaderVisible = false;
-    this.dataTableUser.isScrollActive = false;
+    this.dataTableReceivedUser.isPagingActive = false;
+    this.dataTableReceivedUser.isColumnOffsetActive = false;
+    this.dataTableReceivedUser.isDeleteable = false;
+    this.dataTableReceivedUser.isLoading = false;
+    this.dataTableReceivedUser.isHeaderVisible = false;
+    this.dataTableReceivedUser.isScrollActive = false;
+
+    this.dataTableRequestedUser.isPagingActive = false;
+    this.dataTableRequestedUser.isColumnOffsetActive = false;
+    this.dataTableRequestedUser.isDeleteable = false;
+    this.dataTableRequestedUser.isLoading = false;
+    this.dataTableRequestedUser.isHeaderVisible = false;
+    this.dataTableRequestedUser.isScrollActive = false;
 
     this.dataTableConsumableCard.isPagingActive = false;
     this.dataTableConsumableCard.isColumnOffsetActive = false;
     this.dataTableConsumableCard.isDeleteable = false;
-    // this.dataTableConsumableCard.isMultipleSelectedActive = false;
     this.dataTableConsumableCard.isLoading = false;
     this.dataTableConsumableCard.isHeaderVisible = false;
     this.dataTableConsumableCard.isScrollActive = false;
@@ -492,11 +483,29 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableConsumableCategory.isPagingActive = false;
     this.dataTableConsumableCategory.isColumnOffsetActive = false;
     this.dataTableConsumableCategory.isDeleteable = false;
-    // this.dataTableConsumableCategory.isMultipleSelectedActive = false;
     this.dataTableConsumableCategory.isLoading = false;
     this.dataTableConsumableCategory.isHeaderVisible = false;
     this.dataTableConsumableCategory.isScrollActive = false;
 
+    
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnConsumableCategory").length == 0 && 
+        $(e.target).closest("#btnConsumableCard").length == 0 &&
+        $(e.target).closest("#btnLocation").length == 0 &&
+        $(e.target).closest("#btnDepartment").length == 0 &&
+        $(e.target).closest("#btnRequestedUser").length == 0 &&
+        $(e.target).closest("#btnReceivedUser").length == 0
+      ) {
+        this.isConsumableCardDropdownOpen = false;   
+        this.isConsumableCategoryDropdownOpen = false;
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen = false;
+        this.isReceivedUserDropdownOpen = false;
+        this.isRequestedUserDropdownOpen = false;
+      }
+    });
   }
 
   ngOnInit() {}
@@ -798,7 +807,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.perInPage = 25;
     this.currentPage = 1;
 
-    await this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1);
+    // await this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1);
 
     this.isTableRefreshing = false;
   }
@@ -813,18 +822,22 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     );
 
     let locationIds = this.dataTableLocation.TGT_getSelectedItems().map(x => x.getId());
+    let departmentIds = this.dataTableDepartment.TGT_getSelectedItems().map(x => x.getId());
+    let consumableCardIds = this.dataTableConsumableCard.TGT_getSelectedItems().map(x => x.getId());
+    let consumableCategoryIds = this.dataTableConsumableCategory.TGT_getSelectedItems().map(x => x.getId());
+    let receivedUserIds = this.dataTableReceivedUser.TGT_getSelectedItems().map(x => x.getId());
+    let requestedUserIds = this.dataTableRequestedUser.TGT_getSelectedItems().map(x => x.getId());
 
     Object.assign(insertedItem, this.consumable);
 
     insertedItem.FreeEnterAmount=Number(this.consumable.FreeEnterAmount)
     
-    // insertedItem.ConsumableCategoryIds = Number(this.selectedConsumableCategory == null ? null : this.selectedConsumableCategory.ConsumableCategoryId); 
-    // insertedItem.ConsumableCardIds = Number(this.selectedConsumableCard == null ? null : this.selectedConsumableCard.ConsumableCardId);
-    // insertedItem.ConsumableLocationIds = Number(this.selectedLocation == null ? null : this.selectedLocation.LocationId);       
+    insertedItem.ConsumableCategoryIds = consumableCategoryIds;
+    insertedItem.ConsumableCardIds = consumableCardIds;
     insertedItem.ConsumableLocationIds = locationIds;
-    // insertedItem.ReceivedDepartmentIds = Number(this.selectedDepartment == null ? null : this.selectedDepartment.DepartmentId);
-    // insertedItem.ReceivedUserIds = Number(this.selectedReceivedUser == null ? null : this.selectedReceivedUser.UserId);    
-    // insertedItem.RequestedUserIds = Number(this.selectedReceivedUser == null ? null : this.selectedReceivedUser.UserId);
+    insertedItem.ReceivedDepartmentIds = departmentIds;
+    insertedItem.ReceivedUserIds = receivedUserIds;
+    insertedItem.RequestedUserIds = requestedUserIds;
 
     insertedItem.FixedAssetPropertyDetails = propertyDetail;
 
@@ -869,6 +882,16 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       }
     );
 
+    this.baseService.consumableCardService.GetConsumableCards(
+      (cards: ConsumableCard[]) => {
+        this.consumableCards = cards;
+        this.dataTableConsumableCard.TGT_loadData(this.consumableCards);        
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
     this.baseService.locationService.GetLocations(
       (locations: Location[]) => {
         this.locations = locations;
@@ -882,7 +905,8 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.baseService.userService.GetUsers(
       (users: User[]) => {
         this.users = users;
-        this.dataTableUser.TGT_loadData(this.users);
+        this.dataTableReceivedUser.TGT_loadData(this.users);
+        this.dataTableRequestedUser.TGT_loadData(this.users);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -901,61 +925,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
 
   }
-
-  async loadConsumableCardByCategoryId(categoryId: number) {
-    this.consumableCards = [];
-    this.consumableCard.ConsumableUnit = null;    
-
-    if (!categoryId || categoryId == 0) {
-      this.consumable.ConsumableCardId = null;
-      this.consumable.ConsumableCard = new ConsumableCard();
-      return;
-    }
-    if (categoryId) {
-      this.baseService.consumableCardService.GetConsumableCardsByCategoryId(
-        categoryId,
-        (consumableCards: ConsumableCard[]) => {
-          this.consumableCards = consumableCards;
-          this.dataTableConsumableCard.TGT_loadData(this.consumableCards);          
-        },
-        (error: HttpErrorResponse) => {
-         
-        }
-      );
-    }
-  }
-
   
-  selectedLocation: Location;
-  onClickLocation(item) {
-    this.selectedLocation = item;
-  }
-
-  selectedDepartment: Department;
-  onClickDepartment(item) {
-    this.selectedDepartment = item;
-  }
-
-  selectedRequestedUser: User;
-  onClickRequestedUser(item) {
-    this.selectedRequestedUser = item;
-  }
-
-  selectedReceivedUser: User;
-  onClickReceivedUser(item) {
-    this.selectedReceivedUser = item;
-  }
-
-  selectedConsumableCard: ConsumableCard;
-  onClickConsumableCard(item) {
-    this.selectedConsumableCard = item;
-  }
-
-  selectedConsumableCategory: ConsumableCategory;
-  onClickConsumableCategory(item) {
-    this.selectedConsumableCategory = item;
-    this.loadConsumableCardByCategoryId(this.selectedConsumableCategory.ConsumableCategoryId);    
-  }
 
   toggleDropdown(key: string) {
     switch (key) {
@@ -1021,53 +991,31 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
   resetDropdown(key:string){
     switch(key){
       case "location":
-      this.selectedLocation = null;
+      this.dataTableConsumableCategory.TGT_clearData();
+      this.loadDropdown();
       break;
       case "department":
-      this.selectedDepartment = null;      
+      this.dataTableDepartment.TGT_clearData();     
+      this.loadDropdown();      
       break;
       case "consumableCard":
-      this.selectedConsumableCard = null;
+      this.dataTableDepartment.TGT_clearData();    
+      this.loadDropdown();      
       break;
       case "consumableCategory":
-      this.selectedConsumableCategory = null;      
+      this.dataTableDepartment.TGT_clearData();      
+      this.loadDropdown();
       break;
       case "receivedUser":
-      this.selectedReceivedUser = null;
+      this.dataTableDepartment.TGT_clearData();      
+      this.loadDropdown();      
       break;
       case "requestedUser":
-      this.selectedRequestedUser = null;      
+      this.dataTableDepartment.TGT_clearData(); 
+      this.loadDropdown();
       break;
     }
   }
 
-  async resetFilter() {
-
-        this.dataTablePropertyValue.TGT_clearData();
-
-        this.consumable = new ConsumableRequest();
-        this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
-        this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-        this.isListSelected = false;
-        this.propertyValue = null;
-
-        //Dropdown Selected Items
-        this.selectedConsumableCard = null; 
-        this.selectedConsumableCategory = null;
-        this.selectedDepartment=null;
-        this.selectedLocation=null;
-        this.selectedReceivedUser=null;
-        this.selectedRequestedUser=null;
-
-        this.loadDropdown();
-
-        this.consumableCards = [];
-        this.consumableCategories = [];
-        this.users = [];
-        this.locations = [];
-        this.departments = [];
-        this.loadConsumableTransactionList(this.perInPage,this.currentPage,1);
-
-  }
 
 }
