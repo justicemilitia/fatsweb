@@ -1468,6 +1468,9 @@ export class ConsumableRequestListComponent extends BaseComponent
     receivedItem.ConsumableParentId = this.consumableRequest.ConsumableParentId;
 
     this.baseService.consumableRequestListService.ReceivedConsumableMaterial(receivedItem,(result:any,message)=>{
+
+      console.log(result);
+      
       this.baseService.spinner.hide();
 
       this.baseService.popupService.ShowSuccessPopup(message);

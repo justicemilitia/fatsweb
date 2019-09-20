@@ -149,6 +149,8 @@ export class ConsumableRequestListService {
       if(response.ResultStatus == true){
         success(response.ResultStatus,response.LanguageKeyword);
       }
+      else
+        failed(getAnErrorResponse(response.LanguageKeyword));
     }),(error:HttpErrorResponse) =>{
       failed(error);
     }
