@@ -113,7 +113,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset modal form then reload lists */
     data.resetForm(this.consumableCard);
-    this.loadConsumableCards();
+
     this.loadDropdownList();
     if (isNewItem == true) {
       this.consumableCard = new ConsumableCard();

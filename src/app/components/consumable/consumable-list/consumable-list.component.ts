@@ -1002,7 +1002,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     exitItem.ReceivedDepartmentId = this.selectedDepartment.DepartmentId;
     exitItem.FreeExitAmount = Number(this.exitconsumable.FreeExitAmount);
     exitItem.ReceivedUserId = Number(this.exitconsumable.ReceivedUserId); 
-    exitItem.ConsumableCategoryId = Number(this.consumable.ConsumableCategoryId);  
+    exitItem.ConsumableCategoryId = Number(this.consumable.ConsumableCard.ConsumableCategoryId);  
+
 
     this.baseService.consumableService.ExitConsumableMaterial(
       exitItem,

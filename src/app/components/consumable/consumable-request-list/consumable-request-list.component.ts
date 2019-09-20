@@ -1464,6 +1464,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     receivedItem.ReceivedAmount = this.receiveConsumableMaterial.ReceivedAmount;
     receivedItem.Description = this.receiveConsumableMaterial.Description;
+    receivedItem.ConsumableCategoryId = this.receiveConsumableMaterial.ConsumableCategoryId;
 
     this.baseService.consumableRequestListService.ReceivedConsumableMaterial(receivedItem,(result:any,message)=>{
       this.baseService.spinner.hide();

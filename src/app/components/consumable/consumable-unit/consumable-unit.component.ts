@@ -97,7 +97,7 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
     /* if count of items equals 0 show message for no selected item */
     if (!this.selectedItems || this.selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir departman seçiniz"
+        this.getLanguageValue("Choose_at_least_one_unit")
       );
       return;
     }
@@ -111,12 +111,12 @@ export class ConsumableUnitComponent extends BaseComponent implements OnInit {
     let selectedItems = this.dataTable.TGT_getSelectedItems();
     this.notDeletedBarcode = '';
 
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        this.getLanguageValue('Choose_at_least_one_expense_center')
-      );
-      return;
-    }
+    // if (!selectedItems || selectedItems.length == 0) {
+    //   this.baseService.popupService.ShowAlertPopup(
+    //     this.getLanguageValue('Choose_at_least_one_unit')
+    //   );
+    //   return;
+    // }
 
     // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       this.baseService.spinner.show();

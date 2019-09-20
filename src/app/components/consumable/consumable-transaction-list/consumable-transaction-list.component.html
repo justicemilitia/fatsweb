@@ -12,20 +12,20 @@
                 <div class="grp-btn-action">
                     
 
-                    <button class="btn btn-az-primary btn-filter-button" data-toggle="modal" data-target="#modalFilterConsumable"
+                    <button class="btn btn-az-primary btn-filter-button" data-toggle="modal" data-target="#modalFilterTransaction"
                     title="{{getLanguageValue('Filter')}}" style="margin-right:10px">
                     <i class="fas fa-filter"></i>
                   </button>
 
                   <button class="btn btn-az-primary btn-filter-button" *ngIf="tabIndex == 1" data-toggle="tooltip" data-placement="bottom"
-                  title="{{getLanguageValue('Reset_Filter')}}" (click)="refreshTableMaterialIn()" style="margin-right:10px">
+                  title="{{getLanguageValue('Reset_Filter')}}" (click)="loadConsumableTransactionList(this.perInPage, this.currentPage, 1, false)" style="margin-right:10px">
                   <i class="fas fa-filter"></i>
                   <i class="fas fa-times"
                     style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
                 </button>
 
                 <button class="btn btn-az-primary btn-filter-button" *ngIf="tabIndex == 2" data-toggle="tooltip" data-placement="bottom"
-                title="{{getLanguageValue('Reset_Filter')}}" (click)="refreshTableMaterialOut()" style="margin-right:10px">
+                title="{{getLanguageValue('Reset_Filter')}}" (click)="loadConsumableTransactionList(this.perInPage, this.currentPage, 2, false)" style="margin-right:10px">
                 <i class="fas fa-filter"></i>
                 <i class="fas fa-times"
                   style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
@@ -130,7 +130,7 @@
   
 
   <!-- FILTER CONSUMABLE MATERIAL MODAL -->
-<div id="modalFilterConsumable" class="modal" data-backdrop="static">
+<div id="modalFilterTransaction" class="modal" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
@@ -307,11 +307,11 @@
               <label>Karşılanan Miktar</label>
                   <div class="row justify-content-center">                                                 
                   <div class="form-group col-md-6" style="padding-right: 7px;">
-                      <input [(ngModel)]="consumable.RecievedAmountMin" name="RecievedAmountMin" class="form-control" type="text" #RecievedAmountMin="ngModel" placeholder="Min"/>
+                      <input [(ngModel)]="consumable.ReceivedAmountMin" name="ReceivedAmountMin" class="form-control" type="text" #ReceivedAmountMin="ngModel" placeholder="Min"/>
                         </div>
       
                     <div class="form-group col-md-6" style="padding-left: 7px;">
-                      <input [(ngModel)]="consumable.RecievedAmountMax" name="RecievedAmountMax" class="form-control" type="text" #RecievedAmountMax="ngModel" placeholder="Max"/>  
+                      <input [(ngModel)]="consumable.ReceivedAmountMax" name="ReceivedAmountMax" class="form-control" type="text" #ReceivedAmountMax="ngModel" placeholder="Max"/>  
                   </div>
                 </div>
             </div>  
@@ -406,7 +406,10 @@
           </div>
           <!-- modal-body -->
           <div class="modal-footer">
-            <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit"
+                <button class="btn btn-danger" id="btnResetFilter" type="button" (click)="clearFilter()">
+                    Filtre Temizle
+                  </button>  
+            <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="button" (click)="isFilterTransactionList(data, true)"
               data-toggle="modal" data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
               {{getLanguageValue('Filter')}}
             </button>
