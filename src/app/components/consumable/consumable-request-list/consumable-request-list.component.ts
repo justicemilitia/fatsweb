@@ -30,6 +30,8 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   consumables: Consumable[] = [];
 
+  newConsumableList:Consumable[]=[];
+
   consumable: ConsumableRequest = new ConsumableRequest();
 
   consumableRequest: ConsumableRequest = new ConsumableRequest();
@@ -212,23 +214,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
-      },
-      {
-        columnDisplayName: "Karşılanan Miktar - Birim",
-        columnName: ["RecievedAmount"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: "Talep Karşılama Açıklaması",
-        columnName: ["ConsumableLogType", "Description"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },      
+      },  
       {
         columnDisplayName: "Talep Eden Personel",
         columnName: ["RequestedUser"],
@@ -287,14 +273,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         placeholder: "",
         type: "text"
       },
-      {
-        columnDisplayName: "Talep Açıklaması",
-        columnName: ["Description"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
+    
       {
         columnDisplayName: "Talep Edilen Miktar",
         columnName: ["RequestedAmount"],
@@ -303,6 +282,14 @@ export class ConsumableRequestListComponent extends BaseComponent
         placeholder: "",
         type: "text"
       },      
+      {
+        columnDisplayName: "Karşılanan Miktar - Birim",
+        columnName: ["ReceivedAmount"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }, 
       {
         columnDisplayName: "Talep Eden Personel",
         columnName: ["RequestedUser"],
@@ -334,7 +321,23 @@ export class ConsumableRequestListComponent extends BaseComponent
             return '';
           }
         }
-      }
+      },   
+      {
+        columnDisplayName: "Talep Açıklaması",
+        columnName: ["Description"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Talep Karşılama Açıklaması",
+        columnName: ["ConsumableLogType", "Description"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },   
     ],
     {
       isDesc: false,
@@ -379,14 +382,6 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Talep Açıklaması",
-        columnName: ["Description"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
         columnDisplayName: "Talep Edilen Miktar",
         columnName: ["RequestedAmount"],
         isActive: true,
@@ -396,14 +391,22 @@ export class ConsumableRequestListComponent extends BaseComponent
       },
       {
         columnDisplayName: "Karşılanan Miktar - Birim",
-        columnName: ["RecievedAmount"],
+        columnName: ["ReceivedAmount"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },      
+      {
+        columnDisplayName: "Talep Karşılama Açıklaması",
+        columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
       },
       {
-        columnDisplayName: "Talep Karşılama Açıklaması",
+        columnDisplayName: "Talep Açıklaması",
         columnName: ["ConsumableLogType", "Description"],
         isActive: true,
         classes: [],
@@ -948,8 +951,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         this.consumables = consumables;
         this.totalPage = totalPage ? totalPage : 1;       
 
-        this.dataTableConsumableList.TGT_loadData(this.consumables);
-        consumables.forEach(e=>{
+        this.consumables.forEach(e=>{
           e.FixedAssetPropertyDetails.forEach(p=>{
             if(p.FixedAssetCardPropertyId){
               e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
@@ -960,7 +962,13 @@ export class ConsumableRequestListComponent extends BaseComponent
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
 
-        this.TGT_calculatePages();
+        this.TGT_calculatePages();       
+
+        Object.assign(this.newConsumableList,consumables);
+
+        this.dataTableConsumableList.TGT_clearData();
+
+        this.dataTableConsumableList.TGT_loadData(this.consumables);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -1048,8 +1056,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     },
     (error:HttpErrorResponse) => {
       this.baseService.popupService.ShowErrorPopup(error);
-
-    })  
+    });  
   }
 
   async loadFixedAssetProperties() {
@@ -1455,7 +1462,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     Object.assign(receivedItem,this.consumableRequest);
 
-    receivedItem.RecievedAmount = this.receiveConsumableMaterial.RecievedAmount;
+    receivedItem.ReceivedAmount = this.receiveConsumableMaterial.ReceivedAmount;
     receivedItem.Description = this.receiveConsumableMaterial.Description;
 
     this.baseService.consumableRequestListService.ReceivedConsumableMaterial(receivedItem,(result:any,message)=>{
