@@ -51,7 +51,9 @@ export class ConsumableRequest  implements IData{
      ConsumableLogDate: Date;
      IsSendMail: boolean;
      Description: string;
+     DescriptionArray:string;
      ConsumableLogTypeDescription: string;
+     DescriptionCanceledArray:string;     
      ConsumableCardName: string;
      DepartmentName: string;
      UserMail: string;
@@ -75,7 +77,6 @@ export class ConsumableRequest  implements IData{
      PerPage: Number;
      StartDate: string;
      EndDate: string;
-
      ConsumableLogTypeIds:number[];
      ConsumablePropertyLogs: ConsumablePropertyLog[];
      User:User;

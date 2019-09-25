@@ -332,7 +332,7 @@ export class ConsumableRequestListComponent extends BaseComponent
       },
       {
         columnDisplayName: "Talep Karşılama Açıklaması",
-        columnName: ["ConsumableLogType", "Description"],
+        columnName: ["DescriptionArray"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -396,23 +396,23 @@ export class ConsumableRequestListComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
-      },      
+      },  
       {
-        columnDisplayName: "Talep Karşılama Açıklaması",
+        columnDisplayName: "Talep Açıklaması",
         columnName: ["Description"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      },
+      }, 
       {
-        columnDisplayName: "Talep Açıklaması",
-        columnName: ["ConsumableLogType", "Description"],
+        columnDisplayName: "Talep İptal Açıklaması",
+        columnName: ["DescriptionCanceledArray"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      },      
+      },     
       {
         columnDisplayName: "Talep Eden Personel",
         columnName: ["RequestedUser"],

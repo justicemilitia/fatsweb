@@ -54,6 +54,7 @@ export const INSERT_LOCATION = "Locations/AddLocation";
 export const UPDATE_LOCATION = "Locations/UpdateLocation";
 export const DELETE_LOCATION = "Locations/RemoveByIdList";
 export const GET_LOCATIONS_BY_FIRM_ID = "Locations/GetLocationsByFirmId";
+export const GET_LOCATIONS_SELF_PARENTLESS_BY_ID = "Locations/GetLocationsSelfParentlessById";
 //#endregion
 
 //#region Currency
