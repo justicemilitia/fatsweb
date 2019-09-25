@@ -22,7 +22,7 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" data-toggle="modal" data-target="#modalShowDeletePopupForRole" *ngIf="IsAuthForDelete==true" style="margin-right:10px"
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="onDelete()" style="margin-right:10px"
               class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>

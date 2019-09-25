@@ -41,6 +41,8 @@ export class RoleAuthorizationComponent extends BaseComponent
 
   tableRoleAuthorization :RoleAuthorization[] = [];
 
+  selectedItems:any[]=[];
+  
   public dataTable: TreeGridTable = new TreeGridTable(
     "roleauthorization",
     [
@@ -160,6 +162,23 @@ export class RoleAuthorizationComponent extends BaseComponent
   }
 
   ngOnInit() {}
+
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+   
+    /* if count of items equals 0 show message for no selected item */
+    if (!this.selectedItems || this.selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir rol yetkisi seçiniz"
+      );
+      return;
+    }
+   else
+   this.popupComponent.ShowModal('#modalShowDeletePopupForRoleAuthorization');
+   
+ }
 
   resetForm(data: NgForm, isNewItem: boolean) {
     data.resetForm(this.roleAuthorization);
