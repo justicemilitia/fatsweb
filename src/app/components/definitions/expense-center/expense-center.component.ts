@@ -35,6 +35,8 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
 
   notDeletedBarcode: string = '';  
 
+  selectedItems:any[]=[];
+  
   public dataTable: TreeGridTable = new TreeGridTable(
     "expensecenter",
     [
@@ -86,6 +88,25 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
       this.popupComponent.ShowModal('#modalShowQuestionPopupForExpenseCenter');
       this.popupComponent.CloseModal('#modalExpenseCenter');
     }
+  }
+
+  onDelete(){
+       
+     /* get selected items from table */
+     this.selectedItems = this.dataTable.TGT_getSelectedItems();
+    
+     /* if count of items equals 0 show message for no selected item */
+     if (!this.selectedItems || this.selectedItems.length == 0) {
+       this.baseService.popupService.ShowAlertPopup(
+         "Lütfen en az bir masraf merkezi seçiniz"
+       );
+       return;
+     }
+    else
+    this.popupComponent.ShowModal('#modalShowDeletePopupForExpenseCenter');
+    
+    
+
   }
 
   async deleteExpenseCenters() {

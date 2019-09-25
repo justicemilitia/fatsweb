@@ -413,4 +413,6 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
 
   }
 
+  
+
 }

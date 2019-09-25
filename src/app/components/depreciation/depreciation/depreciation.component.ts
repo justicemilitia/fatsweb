@@ -36,7 +36,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   path: string;
   currentPage: number = 1;
-  perInPage: number = 25;
+  perInPage: number = 10000;
   totalPage: number = 1;
   pages: Page[] = [];
   fixedAssetIds: number[] = [];
@@ -261,6 +261,14 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       {
         columnDisplayName: "Amortisman Tarihi",
         columnName: ["EndDate"],
+        isActive: false,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Amortisman Tarihi",
+        columnName: ["|EndDateIfrs"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -702,6 +710,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       this.ifrsDepreciationBeCalculated = true;
     } else {
       this.ifrsDepreciationBeCalculated = false;
+      this.fixedAsset.Ifrsperiod = null;
+      this.fixedAsset.Ifrsprice = null;
+      this.fixedAsset.IFRSCurrecyId = null;    
     }
   }
 
@@ -709,7 +720,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     if (event.target.checked == true) {
       this.depreciationBeCalculated = true;
     } else {
-      this.depreciationBeCalculated = false;
+      this.depreciationBeCalculated = false;      
+      this.fixedAsset.DepreciationCalculationTypeID = null;
+      this.fixedAsset.DepreciationPeriod = null;
     }
   }
 
@@ -744,7 +757,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     let selectedItems= this.dataTable.TGT_getSelectedItems();
-
+  
     if(tabChangeEvent.index==0){
       this.isDetailInfo=false;
       // this.loadFixedAssetDepreciations();
@@ -839,6 +852,11 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     this.fixedAssetFilter.WillDepreciationBeCalculated=false;
     this.fixedAssetFilter.WillIfrsbeCalculated=false;
     this.isExitList=false;
+  }
+
+  selectedFixedAsset: FixedAsset;
+  onClickDepreciation(item) {
+    this.selectedFixedAsset=item;
   }
 
 }

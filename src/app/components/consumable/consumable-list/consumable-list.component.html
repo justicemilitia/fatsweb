@@ -128,7 +128,7 @@
                   <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
                 </div>    
                 <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
-                  <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
+                  <tree-grid-table (onClickItem)="onClickDepreciation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
                 </div>
           </div>
           <div class="form-group col-md-6">

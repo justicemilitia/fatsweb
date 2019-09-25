@@ -27,6 +27,8 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
 
   notDeletedBarcode: string = '';  
 
+  selectedItems:any[]=[];
+  
   public dataTable: TreeGridTable = new TreeGridTable(
     "suspension",
     [
@@ -88,6 +90,23 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
       this.popupComponent.CloseModal('#modalSuspension');
     }
   }
+
+  onDelete(){
+    
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+   
+    /* if count of items equals 0 show message for no selected item */
+    if (!this.selectedItems || this.selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir askıya alma sebebi seçiniz"
+      );
+      return;
+    }
+   else
+   this.popupComponent.ShowModal('#modalShowDeletePopupForSuspension');
+   
+ }
 
   loadSuspension() {
     this.baseService.checkOutReasonService.GetSuspensions(

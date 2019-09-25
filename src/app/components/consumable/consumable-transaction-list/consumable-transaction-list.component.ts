@@ -637,10 +637,8 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
 
     let insertedItem: ConsumableRequest = new ConsumableRequest();
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(
-      this.dataTablePropertyValue.TGT_copySource()
-    );
 
+    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValue.TGT_copySource());
     let locationIds = this.dataTableLocation.TGT_getSelectedItems().map(x => x.getId());
     let departmentIds = this.dataTableDepartment.TGT_getSelectedItems().map(x => x.getId());
     let consumableCardIds = this.dataTableConsumableCard.TGT_getSelectedItems().map(x => x.getId());
@@ -659,7 +657,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     insertedItem.ReceivedDepartmentIds = departmentIds;
     insertedItem.ReceivedUserIds = receivedUserIds;
     insertedItem.RequestedUserIds = requestedUserIds;
-    insertedItem.FixedAssetPropertyDetails = propertyDetail;
+    insertedItem.FixedAssetPropertyArray = propertyDetail;
     insertedItem.ConsumableLogTypeIds = consumableLogType;
 
     this.baseService.consumableRequestListService.GetConsumableRequestListWithFilter(
@@ -863,7 +861,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.perInPage = 25;
     this.currentPage = 1;
 
-    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1, this.isFilter);
+    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1, false);
 
     this.isTableRefreshing = false;
   }
@@ -879,7 +877,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.perInPage = 25;
     this.currentPage = 1
 
-    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 2,  this.isFilter);
+    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 2,  false);
 
     this.isTableRefreshing = false;
   }
@@ -1109,7 +1107,8 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.dataTableDepartment.TGT_clearData();
     this.dataTableLocation.TGT_clearData();
     this.dataTableReceivedUser.TGT_clearData();    
-    this.dataTableRequestedUser.TGT_clearData();    
+    this.dataTableRequestedUser.TGT_clearData(); 
+    this.dataTablePropertyValue.TGT_clearData();   
 
     this.loadDropdown();
 
