@@ -721,7 +721,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       this.depreciationBeCalculated = true;
     } else {
       this.depreciationBeCalculated = false;      
-      this.fixedAsset.DepreciationCalculationTypeID = null;
+      this.fixedAsset.DepreciationCalculationTypeId = null;
       this.fixedAsset.DepreciationPeriod = null;
     }
   }

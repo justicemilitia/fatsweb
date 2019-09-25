@@ -260,9 +260,9 @@
                     <!-- AMORTİSMAN YÖNTEMİ -->
                     <div class="form-group col-md-6">
                         <label>Amortisman Yöntemi</label> 
-                        <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeID" [disabled]="depreciationBeCalculated==false" name="DepreciationCalculationTypeID"  class="form-control select2-no-search">
+                        <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" [disabled]="depreciationBeCalculated==false" name="DepreciationCalculationTypeId"  class="form-control select2-no-search">
                             <option value="-1" >Seçiniz</option>
-                            <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeID}}">{{types.DepreciationCalculationTypeDescription}}</option>
+                            <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
                         </select>   
                     </div>
 
