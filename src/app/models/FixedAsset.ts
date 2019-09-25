@@ -53,7 +53,7 @@ export class FixedAsset implements IData {
   InvoiceNo: string;
   InvoiceDate: NgbDate;
   WillDepreciationBeCalculated: boolean;
-  DepreciationCalculationTypeID: number;
+  DepreciationCalculationTypeId: number;
   DepreciationPeriod: number;
   Ifrsprice: number;
   WillIfrsbeCalculated: boolean;

@@ -5,8 +5,8 @@ import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 //  export const SERVICE_URL = "http://localhost:5000/api/";
 // export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
-// export const SERVICE_URL = "http://213.74.216.245:8080/api/"; 
+ export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
+//export const SERVICE_URL = "http://213.74.216.245:8080/api/"; 
 
 // export const SERVICE_URL = (url:string) => {
 //   let httpClient:HttpClient;

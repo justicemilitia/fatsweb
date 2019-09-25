@@ -15,10 +15,10 @@
       </div>
       <div class="form-group col-md-3">        
           <label >{{getLanguageValue('Invoice_No')}}</label>        
-          <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" placeholder="Fatura Numarası" class="form-control"/>  
-          <div *ngIf="dataFinancial.submitted && InvoiceNo.invalid" class="invalid-feedback" maxlength="20">
+          <input [(ngModel)]="fixedAsset.InvoiceNo" name="InvoiceNo" type="text" placeholder="Fatura Numarası" class="form-control" maxlength="20"/>  
+          <!-- <div *ngIf="dataFinancial.submitted && InvoiceNo.invalid" class="invalid-feedback" >
             <div *ngIf="InvoiceNo.errors.maxlength">{{getLanguageValue('Only_can_enter_max_20_character')}}</div>
-          </div>
+          </div> -->
         </div>
       <div class="form-group col-md-3">   
       <label class="required-span">{{getLanguageValue('Invoice_Date')}}</label> 
@@ -149,19 +149,20 @@
             </div>
             <div class="form-group col-md-6">
                 <label  *ngIf="visibleDepreciation==true">{{getLanguageValue('Depreciation_Period')}}</label> 
-                <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod"  *ngIf="visibleDepreciation==true" type="text" placeholder="Amortisman Periyodu" class="form-control"/>
+                <input [(ngModel)]="fixedAsset.DepreciationPeriod" name="DepreciationPeriod"  [class.is-invalid]="dataFinancial.submitted && fixedAsset.WillDepreciationBeCalculated == true && fixedAsset.DepreciationPeriod == null" *ngIf="visibleDepreciation==true" type="number" placeholder="Amortisman Periyodu" class="form-control"/>
             </div>
           </div>
           <div class="row justify-content-center">
               <div class="form-group col-md-6" *ngIf="visibleDepreciation==true">
                   <label>{{getLanguageValue('Depreciation_Method')}}</label> 
-                  <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" name="DepreciationCalculationTypeId" class="form-control select2-no-search">
+                  <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" name="DepreciationCalculationTypeId" [class.is-invalid]="dataFinancial.submitted && fixedAsset.WillDepreciationBeCalculated == true && fixedAsset.DepreciationCalculationTypeId == null" class="form-control select2-no-search">
                       <option value="-1" >{{getLanguageValue('Choose')}}</option>
                       <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
                   </select>   
               </div>
               <div class="col-md-6"></div>
           </div>
+  
           </div>
           <div class="col-md-6">
             <div class="row justify-content-center">
@@ -174,17 +175,17 @@
               </div>
               <div class="form-group col-md-6">
                   <label *ngIf="visibleIfrs==true">{{getLanguageValue('IFRS_Period')}}</label> 
-                  <input *ngIf="visibleIfrs==true" [(ngModel)]="fixedAsset.Ifrsperiod" name="Ifrsperiod" type="text" placeholder="IFRS Periyodu" class="form-control"/>
+                  <input *ngIf="visibleIfrs==true" [(ngModel)]="fixedAsset.Ifrsperiod" name="Ifrsperiod" type="number" [class.is-invalid]="dataFinancial.submitted && fixedAsset.WillIfrsbeCalculated == true && fixedAsset.Ifrsperiod == null" placeholder="IFRS Periyodu" class="form-control"/>
               </div>
             </div>
             <div class="row justify-content-center">
                 <div class="form-group col-md-6" *ngIf="visibleIfrs==true">
                     <label>{{getLanguageValue('IFRS_Price')}}</label> 
-                    <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="number" placeholder="IFRS Fiyat" class="form-control"/>   
+                    <input [(ngModel)]="fixedAsset.Ifrsprice" name="Ifrsprice" type="number" [class.is-invalid]="dataFinancial.submitted && fixedAsset.WillIfrsbeCalculated == true && fixedAsset.Ifrsprice == null" placeholder="IFRS Fiyat" class="form-control"/>   
                 </div>
                 <div class="form-group col-md-6" *ngIf="visibleIfrs==true">
                     <label>{{getLanguageValue('Currency')}}</label> 
-                    <select [(ngModel)]="fixedAsset.IFRSCurrecyId" name="IFRSCurrecyId" class="form-control select2-no-search">
+                    <select [(ngModel)]="fixedAsset.IFRSCurrecyId" name="IFRSCurrecyId" [class.is-invalid]="dataFinancial.submitted && fixedAsset.WillIfrsbeCalculated == true && fixedAsset.IFRSCurrecyId == null" class="form-control select2-no-search">
                         <option value="-1">{{getLanguageValue('Choose')}}</option>
                         <option *ngFor="let currency of ifrscurrencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
                     </select> 
@@ -192,6 +193,18 @@
             </div>
           </div>
         </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-md-6" >
+                <div style="display:block" *ngIf="dataFinancial.submitted" class="invalid-feedback">
+                    <div *ngIf="requiredDepreciation==true && visibleDepreciation==true"> Amortisman bilgilerini tamamlayınız.</div>
+                  </div>
+            </div>
+            <div class="form-group col-md-6" >
+              <div style="display:block" *ngIf="dataFinancial.submitted" class="invalid-feedback">
+                  <div *ngIf="requiredDepreciation==true && visibleIfrs==true"> IFRS bilgilerini tamamlayınız.</div>
+                </div>
+          </div>      
+          </div>
   </fieldset>  
   <div class="row" style="margin-right: 0px; margin-left: 0px; margin-top:10px">
       <div class="grp-btn-action-left">

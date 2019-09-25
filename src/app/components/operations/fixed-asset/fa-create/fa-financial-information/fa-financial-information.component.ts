@@ -13,6 +13,7 @@ import { Agreement } from 'src/app/models/Agreement';
 import { AuthenticationService } from 'src/app/services/authenticationService/authentication.service';
 import * as pages from "../../../../../declarations/page-values";
 
+
 @Component({
   selector: 'app-fa-financial-information',
   templateUrl: './fa-financial-information.component.html',
@@ -21,6 +22,8 @@ import * as pages from "../../../../../declarations/page-values";
 export class FaFinancialInformationComponent extends BaseComponent implements OnInit {
 
  @Input() faCreate:FaCreateComponent; 
+
+ @Output('reset') reset : EventEmitter<any> = new EventEmitter();
   
   visibleDepreciation:boolean=false;
 
@@ -28,6 +31,10 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
   
   isResetForm:boolean=false;
 
+  requiredDepreciation:boolean = false;
+
+  requiredIFRS:boolean = true;
+  
   fixedAsset:FixedAsset=new FixedAsset();
   
   companies: Company[] = [];
@@ -126,28 +133,64 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
   }
 
   nextTab(data:NgForm){
-    if(this.fixedAsset.ActivationDate != null && this.fixedAsset.InvoiceDate !=null)
-      this.faCreate.nextFixedAssetList();
+    this.requiredDepreciation = this.checkRequiredDepreciationField();
+    
+    if(this.fixedAsset.ActivationDate != null && this.fixedAsset.InvoiceDate !=null && !this.requiredDepreciation){      
+        this.faCreate.nextFixedAssetList();
+    }
     else return;
   }
+
+  checkRequiredDepreciationField():boolean{  
+      if(this.visibleDepreciation == true && (this.fixedAsset.DepreciationPeriod == null || this.fixedAsset.DepreciationCalculationTypeId == null)){           
+        return true;
+      } 
+      else
+        if(this.visibleIfrs == true && (this.fixedAsset.Ifrsperiod == null || this.fixedAsset.IFRSCurrecyId ==null || this.fixedAsset.Ifrsprice == null)){
+          return true;
+        }
+
+     return false;        
+  } 
 
   previousTab(){
   this.faCreate.previous();
   }
 
   WillDepreciationBeCalculated(event){
-    if(event.target.checked==true)
-      this.visibleDepreciation=true;
-    else
+    if(event.target.checked==true){
+      this.visibleDepreciation=true;      
+    }
+    else{
       this.visibleDepreciation=false;
+      this.fixedAsset.DepreciationPeriod = null;
+      this.fixedAsset.DepreciationCalculationTypeId = null;
+      this.requiredDepreciation=false;
+    }
   }
 
    WillIfrsbeCalculated(event){
-    if(event.target.checked == true)
+    if(event.target.checked == true){
       this.visibleIfrs=true;
+    }
     else
+    {
       this.visibleIfrs=false;
+      this.fixedAsset.Ifrsperiod = null;
+      this.fixedAsset.IFRSCurrecyId =null;
+      this.fixedAsset.Ifrsprice = null;
+      this.requiredDepreciation=false;
+    }
   }
 
+  resetForm(){
+    this.reset.emit();
+    
+    this.fixedAsset = new FixedAsset();  
+
+    this.visibleDepreciation = false;
+
+    this.visibleIfrs = false;
+   }
  
 }
