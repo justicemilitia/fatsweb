@@ -41,6 +41,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
       return;
 
     if (this.loginUser.FirmId == -1) {
+      this.GetUserFirms(this.loginUser.UserMail);
       this.errorMessage = "Lütfen firma seçiniz!";
       return;
     }

@@ -388,7 +388,7 @@ export class FaCreateComponent extends BaseComponent
     this.fixedAsset.Ifrsprice = Number(data.value.Ifrsprice);
     this.fixedAsset.DepreciationPeriod = Number(data.value.DepreciationPeriod);
     this.fixedAsset.Ifrsperiod = Number(data.value.Ifrsperiod);
-    this.fixedAsset.DepreciationCalculationTypeID = Number(data.value.DepreciationCalculationTypeID);
+    this.fixedAsset.DepreciationCalculationTypeId = Number(data.value.DepreciationCalculationTypeId);
     this.fixedAsset.WillDepreciationBeCalculated = data.value.WillDepreciationBeCalculated;
     this.fixedAsset.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
 
@@ -473,7 +473,7 @@ export class FaCreateComponent extends BaseComponent
     this.insertedFixedAsset.FixedAssetCardId = Number(this.fixedAsset.FixedAssetCard.FixedAssetCardId);
     this.insertedFixedAsset.FixedAssetCardCategoryId = Number(this.fixedAsset.FixedAssetCardCategory.FixedAssetCardCategoryId);
     this.insertedFixedAsset.CompanyId = this.fixedAsset.CompanyId == null ? null : Number(this.fixedAsset.CompanyId);
-    this.insertedFixedAsset.DepreciationCalculationTypeID = this.fixedAsset.DepreciationCalculationTypeID == null ? null : Number(this.fixedAsset.DepreciationCalculationTypeID);
+    this.insertedFixedAsset.DepreciationCalculationTypeId = this.fixedAsset.DepreciationCalculationTypeId == null ? null : Number(this.fixedAsset.DepreciationCalculationTypeId);
     this.insertedFixedAsset.ExpenseCenterId = this.fixedAsset.ExpenseCenterId == null ? null : Number(this.fixedAsset.ExpenseCenterId);
     this.insertedFixedAsset.StatusId = this.fixedAsset.StatusId == null ? null : Number(this.fixedAsset.StatusId);
     this.insertedFixedAsset.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId == null ? null : Number(this.fixedAsset.IFRSCurrecyId);
@@ -526,6 +526,7 @@ export class FaCreateComponent extends BaseComponent
   resetForm(data: NgForm) {
 
     this.editable = true;  
+
     if(this.dataFinancial)
     this.dataFinancial.resetForm();
 
@@ -538,6 +539,8 @@ export class FaCreateComponent extends BaseComponent
     this.resetGeneral.resetForm();
 
     this.resetProperty.resetForm();
+
+    this.resetFinancial.resetForm();
 
     this.stepper.reset();
 
