@@ -17,7 +17,7 @@
             <button type="button" routerLink="/role" class="btn btn-danger btn-back-custom">
               <i class="fas fa-arrow-left"></i></button>
 
-            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" data-target="#modalShowDeletePopupForRoleUser"
+            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" data-target="#modalShowDeletePopupForRoleUser" data-placement="bottom" title="{{getLanguageValue('Delete')}}"
               class="btn btn-danger btn-delete-custom">
               {{dataTableUserRole.TGT_getSelectedItems().length > 0 ? dataTableUserRole.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>

@@ -12,7 +12,7 @@
           <h2 class="az-content-title">{{getLanguageValue('Exit_Fixed_Assets')}}</h2>
           <div class="grp-btn-action">
 
-            <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px">
+            <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>

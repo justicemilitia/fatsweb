@@ -11,7 +11,7 @@
           <h2 class="az-content-title">{{getLanguageValue('Consumable_Cards')}}</h2>
           <div class="grp-btn-action">
 
-            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" data-toggle="tooltip" data-placement="bottom" title="Excel">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
@@ -22,7 +22,7 @@
             </button>
 
             <button type="button" data-toggle="modal" *ngIf="IsAuthForDelete==true" (click)="onDelete()"
-              class="btn btn-danger btn-delete-custom">
+              class="btn btn-danger btn-delete-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Delete')}}">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
 

@@ -16,7 +16,7 @@
              
                 <!-- <button data-target="#modalBreakRelationship" data-toggle="modal" id="btnOpenRelationship" style="display:none;"></button>              -->
 
-              <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px">
+              <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
                 <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                   [class.btn-refresh-loader]="isTableExporting == true"></i>
               </button>

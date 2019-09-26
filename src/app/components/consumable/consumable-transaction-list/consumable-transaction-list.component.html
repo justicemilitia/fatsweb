@@ -31,7 +31,7 @@
                   style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
               </button>
 
-                  <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px">
+                  <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
                     <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                       [class.btn-refresh-loader]="isTableExporting == true"></i>
                   </button>           

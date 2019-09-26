@@ -13,7 +13,7 @@
           <h2 class="az-content-title">{{getLanguageValue('Fixed_Asset_Card_Properties')}}</h2>
           <div class="grp-btn-action">
 
-            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom">
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" data-toggle="tooltip" data-placement="bottom" title="Excel">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
@@ -23,7 +23,7 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" data-target="#modalShowDeletePopupForFixedAssetCardProperty"
+            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" data-target="#modalShowDeletePopupForFixedAssetCardProperty" data-placement="bottom" title="{{getLanguageValue('Delete')}}"
               class="btn btn-danger btn-delete-custom">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>

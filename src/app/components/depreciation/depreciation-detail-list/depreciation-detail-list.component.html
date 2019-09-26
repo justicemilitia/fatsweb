@@ -10,13 +10,13 @@
           <div class="card-header" style="padding-bottom:0px;">
             <h2 class="az-content-title" style="margin-left:20px;">Detaylı Amortisman Listesi</h2>
             <div *ngIf="isDetailInfo == true">          
-                <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" style="margin-right:20px;">
+                <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" style="margin-right:20px;" data-toggle="tooltip" data-placement="bottom" title="Excel">
                     <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                       [class.btn-refresh-loader]="isTableExporting == true"></i>
                   </button>
               </div>
               <div *ngIf="isDetailInfoIFRS == true">          
-                  <button type="button" (click)="exportAsExcelFile(dataTableIFRS)" class="btn btn-success btn-excel-custom" style="margin-right:20px;">
+                  <button type="button" (click)="exportAsExcelFile(dataTableIFRS)" class="btn btn-success btn-excel-custom" style="margin-right:20px;" data-toggle="tooltip" data-placement="bottom" title="Excel">
                       <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                         [class.btn-refresh-loader]="isTableExporting == true"></i>
                     </button>
