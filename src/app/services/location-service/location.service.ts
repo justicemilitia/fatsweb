@@ -9,7 +9,8 @@ import {
   UPDATE_LOCATION,
   GET_LOCATION_BY_ID,
   DELETE_LOCATION,
-  GET_LOCATIONS_BY_FIRM_ID
+  GET_LOCATIONS_BY_FIRM_ID,
+  GET_LOCATIONS_SELF_PARENTLESS_BY_ID
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "src/app/models/Response";
@@ -160,5 +161,28 @@ export class LocationService {
           failed(error);
         }
       );
+  }
+
+  GetLocationsSelfParentlessById(locationId:number,success,failed){
+    this.httpClient.get(SERVICE_URL + GET_LOCATIONS_SELF_PARENTLESS_BY_ID + "/" + locationId, {
+      headers:GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(
+      result =>{
+        let response: Response = <Response>result;
+        if (response.ResultStatus == true) {
+          let locations:Location[]=[];
+          (<Location[]>response.ResultObject).forEach(e=>{
+            let location:Location=new Location();
+            Object.assign(location,e);
+            locations.push(location);
+          });
+          success(locations,response.LanguageKeyword);
+        } else {
+          failed(getAnErrorResponse(response.LanguageKeyword));
+        }
+      },(error:HttpErrorResponse) => {
+        failed(error);
+      }
+    );
   }
 }

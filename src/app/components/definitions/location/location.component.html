@@ -94,13 +94,26 @@
             </div>
             <div class="form-group col-md-6">
               <label>{{getLanguageValue('Parent_Location')}}</label>
-              <select [(ngModel)]="location.ParentLocationId" name="ParentLocationId" class="form-control"
+              <div *ngIf="visible;then insertLocation else updateLocation"></div>
+              <ng-template #insertLocation>
+                 <select [(ngModel)]="location.ParentLocationId" name="ParentLocationId" class="form-control"
                 #ParentLocationId="ngModel">
                 <option [ngValue]="null">{{getLanguageValue('None')}}</option>
                 <option *ngFor="let location of getLocationsWithoutCurrent" value={{location.LocationId}}>
                   {{location.Name}}
                 </option>
               </select>
+              </ng-template>
+
+              <ng-template #updateLocation>
+                <select [(ngModel)]="location.ParentLocationId" name="ParentLocationId" class="form-control"
+                #ParentLocationId="ngModel">
+                <option [ngValue]="null">{{getLanguageValue('None')}}</option>
+                <option *ngFor="let location of locationsWithoutChild" value={{location.LocationId}}>
+                  {{location.Name}}
+                </option>
+              </select>
+              </ng-template>             
             </div>
           </div>
           <div class="row justify-content-center">

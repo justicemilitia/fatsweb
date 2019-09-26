@@ -33,12 +33,17 @@ export class LocationComponent extends BaseComponent implements OnInit {
   /* Location list */
   locations: Location[] = [];
 
+  /**Location List Without Child Location */
+  locationsWithoutChild:Location[]=[];
+
   /* Current edit location */
   location: Location = new Location();
 
   selectedItems:any[]=[];
 
   notDeletedBarcode: string = '';
+
+  visible: boolean = true;
   
   public dataTable: TreeGridTable = new TreeGridTable(
     "location",
@@ -106,6 +111,9 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
   resetForm(data: NgForm, isNewItem: boolean) {
     data.resetForm(this.location);
+    
+    this.visible = true;
+
     if (isNewItem == true) {
       this.location = new Location();
     }
@@ -315,10 +323,20 @@ export class LocationComponent extends BaseComponent implements OnInit {
     );
   }
 
+  async loadLocationsWithoutChild(locationId:number){
+    await this.baseService.locationService.GetLocationsSelfParentlessById(locationId,(locations:Location[]) => {
+        Object.assign(this.locationsWithoutChild,locations);
+    },(error:HttpErrorResponse) => {
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+  }
+
   async onDoubleClickItem(item: any) {
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
+    this.loadLocationsWithoutChild(item.LocationId);
+    
     /* get location information from server */
     await this.baseService.locationService.GetLocationById(item.LocationId, (result: Location) => {
       /* then bind it to location model to update */
@@ -326,6 +344,10 @@ export class LocationComponent extends BaseComponent implements OnInit {
 
         /* Trigger to model to show it */
         $("#btnEditLocation").trigger("click");
+
+       
+
+        this.visible = false;
 
         /* Close Loading */
         this.baseService.spinner.hide();

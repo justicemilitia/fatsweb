@@ -15,13 +15,20 @@ import { getAnErrorResponse } from 'src/app/declarations/extends';
 export class LoginComponent extends BaseComponent implements OnInit {
 
   loginUser: UserLogin = new UserLogin();
+
   firms: Firm[] = [];
+
   isUserFirmsGetting: boolean = false;
+
   isLoggining: boolean = false;
+  
   errorMessage: string = '';
 
   isWaitingForResetPassword: boolean = false;
+
   resetPasswordSucceed: boolean = false;
+
+  visible: boolean = true;
 
   constructor(protected baseService: BaseService) {
     super(baseService);

@@ -183,7 +183,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateCompany" type="submit" class="btn btn-az-primary" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false"
-            data-target="#modalInsertCompany">{{company.CompanyId ? 'Şirketi Güncelle' : getLanguageValue('Add_Company')}}</button>
+            data-target="#modalInsertCompany">{{company.CompanyId ? getLanguageValue('Readit_Company') : getLanguageValue('Add_Company')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
