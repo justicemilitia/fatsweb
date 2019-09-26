@@ -97,7 +97,7 @@
           <div class="modal-footer">
             <button id="btnInsertOrUpdateModel" type="submit" class="btn btn-az-primary" data-toggle="modal"
               *ngIf="isWaitingInsertOrUpdate == false"
-              data-target="#modalInsertFixedAssetCardModel">{{fixedAssetCardModel.FixedAssetCardModelId ? 'Modeli Güncelle' : getLanguageValue('Add_Fixed_Asset_Model')}}</button>
+              data-target="#modalInsertFixedAssetCardModel">fixedAssetCardModel.FixedAssetCardModelId ? getLanguageValue('Reedit_Model') : getLanguageValue('Add_Fixed_Asset_Model')}}</button>
             <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
           </div>
         </form>

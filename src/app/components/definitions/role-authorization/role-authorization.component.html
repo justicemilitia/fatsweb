@@ -62,12 +62,12 @@
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
-              <label class="required-span">Rol</label>
+              <label class="required-span">{{getLanguageValue('Role')}}</label>
               <select [ngModel]="roleAuthorization.RoleId" name="RoleId" #RoleId="ngModel"
                 (change)="onChange($event,roleAuthorization)"
                 [ngClass]="{ 'is-invalid': data.submitted && RoleId.invalid }" required
                 class="form-control select2-no-search">
-                <option [ngValue]="null">Seçiniz</option>
+                <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
                 <option *ngFor="let role of roles" value={{role.RoleId}}>{{role.Name}}</option>
               </select>
               <div *ngIf="data.submitted && RoleId.invalid" class="invalid-feedback">
@@ -84,7 +84,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-az-primary"
             *ngIf="isWaitingInsertOrUpdate == false" data-toggle="modal"
-            data-target="#modalAddRole">Yetkilendir</button>
+            data-target="#modalAddRole">{{getLanguageValue('Authorized')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

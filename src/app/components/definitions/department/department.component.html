@@ -33,8 +33,8 @@
             </button>
 
             <button style="display:none" *ngIf="IsAuthForEdit==true" (click)="resetForm(data,false)"
-              id="btnEditDepartment" data-toggle="modal" data-target="#modalDepartment">Departman Düzenle
-            </button>
+              id="btnEditDepartment" data-toggle="modal" data-target="#modalDepartment">{{getLanguageValue('Reedit_Department')}}
+            </button>  
 
           </div>
         </div>
@@ -129,7 +129,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateDepartment" type="submit" class="btn btn-az-primary"
             *ngIf="isWaitingInsertOrUpdate == false" data-toggle="modal"
-            data-target="#modalInsertDepartment">{{department.DepartmentId ?  'Departmanı Güncelle' : getLanguageValue('Add_Department')}}</button>
+            data-target="#modalInsertDepartment">{{department.DepartmentId ?  getLanguageValue('Update_Department') : getLanguageValue('Add_Department')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

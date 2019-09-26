@@ -235,7 +235,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         }
       },
       {
-        columnDisplayName: "Serbest Çıkış Miktarı",
+        columnDisplayName: this.getLanguageValue('Free_Exit_Amount'),
         // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
         columnName: ["FreeExitAmount"],
         isActive: true,
@@ -244,7 +244,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         type: "text"
       },
       {
-        columnDisplayName: "Talep Edilen Miktar",
+        columnDisplayName: this.getLanguageValue('Requested_Amount_Unit'),
         // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
         columnName: ["RequestedAmount"],
         isActive: true,
@@ -253,7 +253,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         type: "text"
       },
       {
-        columnDisplayName: "Karşılanan Miktar",
+        columnDisplayName: this.getLanguageValue('Received_Amount_Unit'),
         // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
         columnName: ["ReceivedAmount"],
         isActive: true,

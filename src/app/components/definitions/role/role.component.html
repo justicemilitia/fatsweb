@@ -37,7 +37,7 @@
             </button>
             <button style="display:none" id="btnEditRoleAuth" *ngIf="IsAuthForEdit==true" data-toggle="modal"
               data-target="#modalRoleDefinition">
-              Rol Düzenle
+              {{getLanguageValue('Reedit_Role')}}
             </button>
           </div>
         </div>
@@ -88,7 +88,7 @@
         <div class="modal-footer">
           <button id="btnInsertOrUpdateRole" type="submit" class="btn btn-az-primary" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false" data-target="#modalAddRole">
-            {{role.RoleId ? 'Rolü Güncelle' : getLanguageValue('Add_Role')}}</button>
+            {{role.RoleId ? getLanguageValue('Update_Role') : getLanguageValue('Add_Role')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

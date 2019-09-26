@@ -135,7 +135,7 @@
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnCreateLocation" type="submit" data-toggle="modal"
             data-target="#modalInsertLocation"
-            *ngIf="isWaitingInsertOrUpdate == false">{{location.LocationId > 0 ?  'Lokasyonu Güncelle' : getLanguageValue('Add_Location')}}</button>
+            *ngIf="isWaitingInsertOrUpdate == false">{{location.LocationId > 0 ? getLanguageValue('Update_Location') : getLanguageValue('Add_Location')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

@@ -9,10 +9,17 @@
         <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header" style="padding-bottom:0px;">
             <h2 class="az-content-title" style="margin-left:20px;">Detaylı Amortisman Listesi</h2>
-            <div *ngIf="isDetailInfo == true">          
+
+            <div class="grp-btn-action">
+
+              <div *ngIf="isDetailInfo == true">          
                 <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" style="margin-right:20px;">
                     <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                       [class.btn-refresh-loader]="isTableExporting == true"></i>
+                  </button>
+                  <button type="button" (click)="refreshTable()" id="btnRefresh" class="btn btn-success btn-refresh-custom">
+                    <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                      [class.btn-refresh-loader]="isTableRefreshing == true"></i>
                   </button>
               </div>
               <div *ngIf="isDetailInfoIFRS == true">          
@@ -20,7 +27,12 @@
                       <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                         [class.btn-refresh-loader]="isTableExporting == true"></i>
                     </button>
-                </div>
+                    <button type="button" (click)="refreshTableIFRS()" id="btnRefresh" class="btn btn-success btn-refresh-custom">
+                      <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                        [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+                    </button>
+                </div>  
+            </div>
           </div>   
 
           <div class="row">
