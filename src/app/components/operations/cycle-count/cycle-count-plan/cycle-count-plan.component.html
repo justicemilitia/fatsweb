@@ -38,7 +38,7 @@
               </div>
 
               <div>
-                  <button type="button" (click)="refreshTable()" id="refreshTable" class="btn btn-success btn-refresh-custom">
+                  <button type="button" (click)="refreshTable()" id="refreshTable" class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
                       <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                         [class.btn-refresh-loader]="isTableRefreshing == true"></i>
                     </button>

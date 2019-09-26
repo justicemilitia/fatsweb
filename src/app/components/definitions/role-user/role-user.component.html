@@ -23,7 +23,7 @@
               <i class="fas fa-trash"></i></button>
 
             <button id="refreshUserRole" type="button" (click)="refreshTable()"
-              class="btn btn-success btn-refresh-custom">
+              class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i></button>
 
