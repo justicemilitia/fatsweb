@@ -110,7 +110,7 @@
         <div class="modal-footer ustify-content-center">
           <button id="btnInsertOrUpdateFixedAssetCard" type="submit" class="btn btn-az-primary" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false"
-            data-target="#modalInsertFixedAssetCard">{{fixedAssetCard.FixedAssetCardId ? 'Demirbaş Kartı Güncelle' : getLanguageValue('Add_Fixed_Asset_Card')}}</button>
+            data-target="#modalInsertFixedAssetCard">{{fixedAssetCard.FixedAssetCardId ? getLanguageValue('Readit_Fixed_Asset_Card') : getLanguageValue('Add_Fixed_Asset_Card')}}</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>

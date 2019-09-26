@@ -49,7 +49,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     if (this.loginUser.FirmId == -1) {
       this.GetUserFirms(this.loginUser.UserMail);
-      this.errorMessage = "Lütfen firma seçiniz!";
+      this.errorMessage = this.getLanguageValue("Chose_firm_please");
       return;
     }
 

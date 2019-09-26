@@ -45,6 +45,9 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
   totalNddValue: number;
   totalDepreciationMonthlyValue: number;
   totalRevaluatedValue: number;
+  
+  /* Is Table Refreshing */
+  isTableRefreshing:boolean = false;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -75,7 +78,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       { 
         columnDisplayName: "Amortisman Yöntemi",
-        columnName: ["FixedAsset", "DepreciationCalculationType","Name"],
+        columnName: ["FixedAsset", "DepreciationCalculationType","DepreciationCalculationTypeDescription"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -90,7 +93,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
         type: "text"
       },
       {
-        columnDisplayName: "Aktif Demirbaş Değeri",
+        columnDisplayName: "Para Birimi",
         columnName: ["FixedAsset", "Currency", "Name"],
         isActive: true,
         classes: [],
@@ -1242,6 +1245,30 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
   resetForm(data: NgForm){
     data.resetForm();
     this.fixedAssetFilter.IsValid = false;
-    this.isValid = false;
+    this.isValid = true;
+  }
+
+  async refreshTable() {
+    this.isTableRefreshing = true;
+
+    this.dataTable.isLoading = true;
+
+    this.dataTable.TGT_clearData();
+
+    await this.loadDepreciationList();
+
+    this.isTableRefreshing = false;
+  }
+
+  async refreshTableIFRS() {
+    this.isTableRefreshing = true;
+
+    this.dataTableIFRS.isLoading = true;
+
+    this.dataTableIFRS.TGT_clearData();
+
+    await this.loadDepreciationIFRSList();
+
+    this.isTableRefreshing = false;
   }
 }
