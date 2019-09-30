@@ -290,7 +290,7 @@
 
               <!-- TALEP EDİLEN MİKTAR -->
             <div class="form-group col-md-6">
-              <label>Talep Edilen Miktar</label>
+              <label>{{getLanguageValue('Requested_Amount_Unit')}}</label>
               <div class="row justify-content-center">                                   
                <div class="form-group col-md-6" style="padding-right: 7px;">
                   <input [(ngModel)]="consumable.RequestedAmountMin" name="RequestedAmountMin" class="form-control" type="text" #RequestedAmountMin="ngModel" placeholder="Min"/>
@@ -370,7 +370,7 @@
 
             <div class="row justify-content-center">
               <div class="form-group col-md-6">
-                <label>Özellik Adı</label>
+                <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
                 <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
                   <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
                   <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
@@ -380,7 +380,7 @@
                   </div> 
               </div>
               <div class="form-group col-md-6">
-                  <label>Özellik Değeri</label>   
+                  <label>{{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>   
                   <div class="flexProperty">
                     <div style="flex:1;">
                     <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">

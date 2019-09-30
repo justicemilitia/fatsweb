@@ -119,7 +119,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     "consumablematerial",
     [
       {
-        columnDisplayName: "Malzeme Kodu",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
         columnName: ["ConsumableCard","ConsumableCardCode"],
         isActive: true,
         classes: [],
@@ -127,7 +127,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Kategori Adı",
+        columnDisplayName: this.getLanguageValue('Consumable_Category'),
         columnName: ["ConsumableCard","ConsumableCategory","ConsumableCategoryName"],
         isActive: true,
         classes: [],
@@ -135,7 +135,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Adı",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
         columnName: ["ConsumableCard","ConsumableCardName"],
         isActive: true,
         classes: [],
@@ -151,7 +151,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Toplam Miktar",
+        columnDisplayName: this.getLanguageValue('Consumables_Total_Amount'),
         columnName: ["ConsumableAmount"],
         isActive: true,
         classes: [],
@@ -169,7 +169,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     "fixedassetpropertyvalue",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -177,7 +177,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -231,7 +231,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     "department",
     [
       {
-        columnDisplayName: "Departman",
+        columnDisplayName: this.getLanguageValue('Department'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -248,7 +248,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   public dataTableConsumableMaterial: TreeGridTable = new TreeGridTable("fixedassetcard",
   [
     {
-      columnDisplayName: "Malzeme Kodu",
+      columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
       columnName: ["ConsumableCardCode"],
       isActive: true,
       classes: [],
@@ -256,7 +256,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       type: "text"
     },
     {
-      columnDisplayName: "Malzeme Adı",
+      columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
       columnName: ["ConsumableCardName"],
       isActive: true,
       classes: [],
@@ -292,7 +292,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     "fixedassetpropertyvalueforfilter",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -300,7 +300,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName:  this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -415,6 +415,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   selectedDepartment: Department;
   onClickDepartment(item) {
     this.selectedDepartment = item;
+    this.loadUserByDepartmentId(this.selectedDepartment.DepartmentId);
   }
 
   async TGT_calculatePages() {
@@ -773,7 +774,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
       if(!selectedItems || selectedItems.length == 0){
         this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir sarf malzeme seçiniz!"
+          this.getLanguageValue('Choose_at_least_one_consumable')
         );
         return;
       }
@@ -1046,7 +1047,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         break;
         case "department":
         this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen; 
-        this.loadUserByDepartmentId(this.selectedDepartment.DepartmentId);    
+    
         break;
         case "category":
         this.isCategoryDropdownOpen = !this.isCategoryDropdownOpen;      

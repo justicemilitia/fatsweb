@@ -128,7 +128,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     "consumablematerial",
     [
       {
-        columnDisplayName: "Malzeme Kodu",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
         columnName: ["ConsumableCard","ConsumableCardCode"],
         isActive: true,
         classes: [],
@@ -144,7 +144,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Adı",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
         columnName: ["ConsumableCard","ConsumableCardName"],
         isActive: true,
         classes: [],
@@ -178,7 +178,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Kodu",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
         columnName: ["ConsumableCard", "ConsumableCardCode"],
         isActive: true,
         classes: [],
@@ -186,7 +186,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Kategorisi",
+        columnDisplayName: this.getLanguageValue('Consumable_Category'),
         columnName: ["ConsumableCategory", "ConsumableCategoryName"],
         isActive: true,
         classes: [],
@@ -194,7 +194,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Adı",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
         columnName: ["ConsumableCard", "ConsumableCardName"],
         isActive: true,
         classes: [],
@@ -252,7 +252,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Kodu",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
         columnName: ["ConsumableCard", "ConsumableCardCode"],
         isActive: true,
         classes: [],
@@ -260,7 +260,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Kategorisi",
+        columnDisplayName: this.getLanguageValue('Consumable_Category'),
         columnName: ["ConsumableCategory", "ConsumableCategoryName"],
         isActive: true,
         classes: [],
@@ -268,7 +268,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Adı",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
         columnName: ["ConsumableCard", "ConsumableCardName"],
         isActive: true,
         classes: [],
@@ -333,7 +333,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Talep Karşılama Açıklaması",
+        columnDisplayName: this.getLanguageValue('Received_Description'),
         columnName: ["DescriptionArray"],
         isActive: true,
         classes: [],
@@ -360,7 +360,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Kodu",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
         columnName: ["ConsumableCard", "ConsumableCardCode"],
         isActive: true,
         classes: [],
@@ -368,7 +368,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Kategorisi",
+        columnDisplayName: this.getLanguageValue('Consumable_Category'),
         columnName: ["ConsumableCategory", "ConsumableCategoryName"],
         isActive: true,
         classes: [],
@@ -376,7 +376,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Malzeme Adı",
+        columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
         columnName: ["ConsumableCard", "ConsumableCardName"],
         isActive: true,
         classes: [],
@@ -450,7 +450,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     "fixedassetpropertyvalue",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -458,7 +458,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -476,7 +476,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     "fixedassetpropertyvalueforfilter",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -484,7 +484,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -502,7 +502,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     "fixedassetpropertyvalueforfilter",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -510,7 +510,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -528,7 +528,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     "fixedassetpropertyvalue",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -536,7 +536,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],
@@ -589,7 +589,7 @@ export class ConsumableRequestListComponent extends BaseComponent
   public dataTableConsumableMaterial: TreeGridTable = new TreeGridTable("fixedassetcard",
   [
     {
-      columnDisplayName: "Malzeme Kodu",
+      columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
       columnName: ["ConsumableCardCode"],
       isActive: true,
       classes: [],
@@ -597,7 +597,7 @@ export class ConsumableRequestListComponent extends BaseComponent
       type: "text"
     },
     {
-      columnDisplayName: "Malzeme Adı",
+      columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
       columnName: ["ConsumableCardName"],
       isActive: true,
       classes: [],
@@ -1136,7 +1136,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
       if(!selectedItems || selectedItems.length == 0){
         this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir sarf malzeme seçiniz!"
+          this.getLanguageValue('Choose_at_least_one_consumable')
         );
         return;
       }

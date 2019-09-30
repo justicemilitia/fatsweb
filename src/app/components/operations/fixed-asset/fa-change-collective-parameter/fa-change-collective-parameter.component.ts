@@ -480,16 +480,23 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent
     let cloneItem = new FixedAsset();
     Object.assign(cloneItem, this.fixedAsset);
 
+    this.baseService.spinner.show();
+
     this.baseService.fixedAssetService.ChangeCollectiveParameter(
       cloneItem,
       (insertedItem: FixedAsset, message) => {
         /* Show success pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
+
+        this.baseService.spinner.hide();
+
         this.faComponent.loadFixedAsset();
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
-        console.log(error);
+ 
+        this.baseService.spinner.hide();
+
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );

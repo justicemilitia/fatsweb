@@ -55,11 +55,15 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
 
           this.isWaitingInsertOrUpdate = true;
 
+          this.baseService.spinner.show();
+
           this.baseService.fixedAssetService.ChangeBarcode(
             cloneItem,
             (insertedItem: FixedAsset, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
+
+              this.baseService.spinner.hide();
 
               /* Set inserted Item id to model */
               this.faBarcode.Barcode = cloneItem.Barcode;
@@ -75,6 +79,8 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
               this.errorMessage=error;
 
               this.popupComponent.ShowModal("#modalShowErrorMessage");
+
+              this.baseService.spinner.hide();
               
               this.isWaitingInsertOrUpdate = false;
             }

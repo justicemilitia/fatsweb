@@ -3,12 +3,12 @@
     <div class="media-body">
       <!-- Bread Crumb -->
       <div class="az-content-breadcrumb">
-        <span>MALZEME LİSTESİ</span>
+        <span>{{getLanguageValue('Consumable_List')}}</span>
       </div>
       <!-- END Bread Crumb END -->
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
-          <h2 class="az-content-title">Malzeme Listesi</h2>
+          <h2 class="az-content-title">{{getLanguageValue('Consumable_List')}}</h2>
           <div class="grp-btn-action">
             <span  data-toggle="modal" data-target="#modalAddConsumable">
             <button class="btn btn-az-primary" id="btnAddConsumable"
@@ -82,7 +82,7 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title">
-          Malzeme bilgilerini giriniz.
+          {{getLanguageValue('Enter_consumable_card_informations')}}
         </h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -93,10 +93,10 @@
           <div class="row justify-content-center">
 
             <div class="form-group col-md-6">
-                <label class="required-span">Malzeme Kategorisi</label>
+                <label class="required-span">{{getLanguageValue('Consumable_Category')}}</label>
                 <select [(ngModel)]="consumable.ConsumableCategoryId" name="ConsumableCategoryId" class="form-control select2-no-search" (change)="loadConsumableCardByCategoryId($event)"
                 [ngClass]="{ 'is-invalid': data.submitted && ConsumableCategoryId.invalid }" #ConsumableCategoryId="ngModel" required>
-                <option [ngValue]="null">Seçiniz</option>
+                <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
                 <option *ngFor="let categories of consumableCategories" value="{{categories.ConsumableCategoryId}}">{{categories.ConsumableCategoryName}}</option>
               </select>  
               <div *ngIf="data.submitted && ConsumableCategoryId.invalid" class="invalid-feedback">
@@ -105,11 +105,11 @@
             </div>
 
             <div class="form-group col-md-6">
-                <label class="required-span">Malzeme Adı</label>
+                <label class="required-span">{{getLanguageValue('Consumable_Card_Name')}}</label>
                 <select [(ngModel)]="consumable.ConsumableCardId"
                 name="ConsumableCardId" class="form-control select2-no-search" (change)="loadConsumableUnitByCardId($event)"
                 [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardId.invalid }" #ConsumableCardId="ngModel" required>
-                <option [ngValue]="null">Seçiniz</option>
+                <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
                 <option *ngFor="let card of consumableCards"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
               </select>   
               <div *ngIf="data.submitted && ConsumableCardId.invalid" class="invalid-feedback">
@@ -134,10 +134,10 @@
                 </div>
           </div>
           <div class="form-group col-md-6">
-              <label>Tedarikçi</label>
+              <label>{{getLanguageValue('Supplier')}}</label>
               <select [(ngModel)]="consumable.CompanyId"
                 name="CompanyId" class="form-control select2-no-search">
-                <option [ngValue]="null">Seçiniz</option>
+                <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
                 <option *ngFor="let company of companies" value="{{company.CompanyId}}">{{company.Name}}</option>
               </select>            
             </div>
@@ -145,7 +145,7 @@
 
           <div class="row justify-content-center">            
               <div class="form-group col-md-6">
-                  <label class="required-span">Miktar</label>
+                  <label class="required-span">{{getLanguageValue('Amount')}}</label>
                   <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"
                   [ngClass]="{ 'is-invalid': data.submitted && ConsumableAmount.invalid }" #ConsumableAmount="ngModel" required/>
                   <div *ngIf="data.submitted && ConsumableAmount.invalid" class="invalid-feedback">
@@ -153,14 +153,14 @@
                   </div>
               </div>  
               <div class="form-group col-md-6">
-                    <label>Birim</label>
+                    <label>{{getLanguageValue('Consumable_Unit')}}</label>
                     <input name="ConsumableUnits"  value="{{consumableCard.ConsumableUnit == null ? '' : consumableCard.ConsumableUnit.ConsumableUnitName}}" class="form-control" type="text" disabled/>
               </div>            
           </div>
 
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label>Özellik Adı</label>
+              <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
               <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
                 <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
                 <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
@@ -170,7 +170,7 @@
                 </div> 
             </div>
             <div class="form-group col-md-6">
-                <label>Özellik Değeri</label>   
+                <label>{{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>   
                 <div class="flexProperty">
                   <div style="flex:1;">
                   <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
@@ -202,7 +202,7 @@
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit"
             data-toggle="modal" data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
-            Ekle
+            {{getLanguageValue('Add_Consumable_Card')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
@@ -230,12 +230,12 @@
           <div class="row justify-content-center">
 
             <div class="form-group col-md-6">
-              <label>Malzeme Kodu</label>
+              <label>{{getLanguageValue('Consumable_Card_Code')}}</label>
               <input  name="ConsumableCardCode"  value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardCode}}" class="form-control" type="text" disabled/>
             </div>
 
             <div class="form-group col-md-6">
-                <label>Malzeme Adı</label>
+                <label>{{getLanguageValue('Consumable_Card_Name')}}</label>
                 <input name="ConsumableCardId"  value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardName}}" class="form-control" type="text" disabled/>
            </div>
 
@@ -249,7 +249,7 @@
           </div>
 
           <div class="form-group col-md-6">
-            <label>Malzeme Kategorisi</label>
+            <label>{{getLanguageValue('Consumable_Category')}}</label>
             <input name="ConsumableCategoryId"  value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCategory.ConsumableCategoryName}}" class="form-control" type="text" disabled/>
           </div>       
           </div>
@@ -294,7 +294,7 @@
 
           <div class="row justify-content-center">            
               <div class="form-group col-md-6">
-                  <label class="required-span">Miktar</label>
+                  <label class="required-span">{{getLanguageValue('Amount')}}</label>
                   <input [(ngModel)]="exitconsumable.FreeExitAmount" name="FreeExitAmount" class="form-control" type="text"
                   [ngClass]="{ 'is-invalid': exitData.submitted && FreeExitAmount.invalid }" #FreeExitAmount="ngModel" required/>
                   <div *ngIf="exitData.submitted && FreeExitAmount.invalid" class="invalid-feedback">
@@ -302,13 +302,13 @@
                   </div>
               </div>  
               <div class="form-group col-md-6">
-                    <label>Birim</label>
+                    <label>{{getLanguageValue('Consumable_Unit')}}</label>
                     <input name="ConsumableUnits"  value="{{consumableUnit == null ? '' : consumableUnit}}" class="form-control" type="text" disabled/>
               </div>            
           </div>
           <div class="row justify-content-center">
               <div class="form-group col-md-12">
-                  <label>Açıklama</label>
+                  <label>{{getLanguageValue('Description')}}</label>
                   <input  [(ngModel)]="exitconsumable.Description" name="Description" class="form-control" type="text"/>
             </div>
           </div>
@@ -317,7 +317,7 @@
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit"
             data-toggle="modal" data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
-            Sarf Malzeme Çıkışı
+            {{getLanguageValue('Exit_Consumable')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
@@ -346,7 +346,7 @@
 
           <div class="row justify-content-center"> 
               <div class="form-group col-md-6">
-                  <label>Malzeme Kategorisi</label>
+                  <label>{{getLanguageValue('Consumable_Category')}}</label>
                   <div style="display:flex;">
                       <button id="btnConsumableCategory" (click)="toggleDropdown('category')" class="dropdown-button" type="button">{{dataTableCategory.TGT_getSelectedItems().length > 0 ? dataTableCategory.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Category_Selected')  : getLanguageValue('Choose') }}</button>
                         <span class="span-dropdown"  (click)="resetDropdown('category')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -356,7 +356,7 @@
                       </div>             
                 </div>   
             <div class="form-group col-md-6">
-              <label>Malzeme Adı</label>
+              <label>{{getLanguageValue('Consumable_Card_Name')}}</label>
               <div style="display:flex;">
                   <button id="btnConsumableMaterial" (click)="toggleDropdown('card')" class="dropdown-button" type="button">{{dataTableConsumableMaterial.TGT_getSelectedItems().length > 0 ? dataTableConsumableMaterial.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Card_Selected')  : getLanguageValue('Choose') }}</button>
                     <span class="span-dropdown"  (click)="resetDropdown('card')" class="typcn icon-default typcn-times span-dropdown"></span>
@@ -387,7 +387,7 @@
         
         <div class="row justify-content-center">
             <div class="form-group col-md-6">
-              <label>Özellik Adı</label>
+              <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
               <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
                 <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
                 <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
@@ -397,7 +397,7 @@
                 </div> 
             </div>
             <div class="form-group col-md-6">
-                <label>Özellik Değeri</label>   
+                <label>{{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>   
                 <div class="flexProperty">
                   <div style="flex:1;">
                   <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
@@ -427,10 +427,10 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button class="btn btn-danger"  type="button" (click)="clearFilterConsumableList()">
-            Filtre Temizle
+            {{getLanguageValue('Reset_Filter')}} 
           </button>         
           <button class="btn btn-az-primary" type="button" (click)="isFilterConsumableList(true)" >
-             Filtrele
+            {{getLanguageValue('Filter')}} 
             </button>   
         </div>
       </form>

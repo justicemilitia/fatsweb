@@ -47,7 +47,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
    public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
    [
      {
-       columnDisplayName: "Malzeme Kodu",
+       columnDisplayName: this.getLanguageValue('Consumable_Card_Code'),
        columnName: ["ConsumableCardCode"],
        isActive: true,
        classes: [],
@@ -55,7 +55,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
        type: "text"
      },
      {
-       columnDisplayName: "Malzeme Adı",
+       columnDisplayName: this.getLanguageValue('Consumable_Card_Name'),
        columnName: ["ConsumableCardName"],
        isActive: true,
        classes: [],
@@ -63,7 +63,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
        type: "text"
      },
      {
-       columnDisplayName: "Malzeme Kategorisi",
+       columnDisplayName: this.getLanguageValue('Consumable_Category'),
        columnName: ["ConsumableCategory", "ConsumableCategoryName"],
        isActive: true,
        classes: [],
@@ -79,7 +79,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
     //    type: "text"
     //  },
      {
-       columnDisplayName: "Birim",
+       columnDisplayName: this.getLanguageValue('Consumable_Unit'),
        columnName: ["ConsumableUnit", "ConsumableUnitName"],
        isActive: true,
        classes: [],
