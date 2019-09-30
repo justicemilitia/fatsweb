@@ -10,17 +10,19 @@
         <div class="card-header">
           <h2 class="az-content-title">Malzeme Listesi</h2>
           <div class="grp-btn-action">
-
+            <span  data-toggle="modal" data-target="#modalAddConsumable">
             <button class="btn btn-az-primary" id="btnAddConsumable"
-              data-toggle="modal" data-target="#modalAddConsumable" (click)="resetForm(data,true)" style="margin-right:10px"><i
+            (click)="resetForm(data,true)"   data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Create_Request')}}"  style="margin-right:10px"><i
               class="fas fa-plus-circle"></i>
             </button>
-
+          </span>
+            
             <button style="display: none" id="btnExitConsumable" data-toggle="modal" data-target="#modalExitConsumable" class="btn btn-danger btn-exit-assets"><i class="fas fa-minus-circle"></i></button>
 
-            <button (click)="doOperation(1)" class="btn btn-danger btn-exit-assets"  style="margin-right:10px"><i class="fas fa-minus-circle"></i></button>
+            <button (click)="doOperation(1)"  data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Exit_Consumable')}}" class="btn btn-danger btn-exit-assets"  style="margin-right:10px"><i class="fas fa-minus-circle"></i></button>
 
-            <button  class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-dismiss="modal" (click)="filter()"> <i class="fas fa-filter"></i></button>          
+            <button  class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom"
+            title="{{getLanguageValue('Filter')}}" data-dismiss="modal" (click)="filter()"> <i class="fas fa-filter"></i></button>          
 
             <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip"  style="margin-right:10px" data-placement="bottom"
             title="{{getLanguageValue('Reset_Filter')}}" (click)="refreshTable()">
@@ -128,7 +130,7 @@
                   <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
                 </div>    
                 <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
-                  <tree-grid-table (onClickItem)="onClickDepreciation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
+                  <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
                 </div>
           </div>
           <div class="form-group col-md-6">

@@ -92,6 +92,8 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   isTableExporting: boolean = false;
 
+  submitDescription:boolean=false;
+
   requestedUser : string;
 
   selectedLogId:number;
@@ -390,14 +392,6 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Karşılanan Miktar - Birim",
-        columnName: ["ReceivedAmount"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },  
-      {
         columnDisplayName: "Talep Açıklaması",
         columnName: ["Description"],
         isActive: true,
@@ -423,6 +417,22 @@ export class ConsumableRequestListComponent extends BaseComponent
         formatter: (value) => {
           if (value) {
             return value.RequestedUser != null ? value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName : '';
+          }
+          else {
+            return '';
+          }
+        }
+      },     
+      {
+        columnDisplayName: "İptal Eden Personel",
+        columnName: ["User"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: (value) => {
+          if (value) {
+            return value.User != null ? value.User.FirstName + ' ' + value.User.LastName : '';
           }
           else {
             return '';
@@ -1428,7 +1438,14 @@ export class ConsumableRequestListComponent extends BaseComponent
     this.popupComponent.ShowModal('#modalShowQuestionPopupForCancelRequest');
   }
 
-  cancelRequestConsumableMaterial(){
+  cancelRequestConsumableMaterial(data:NgForm){
+
+    data.resetForm(data);
+
+    if(this.receiveConsumableMaterial.Description == null || this.receiveConsumableMaterial.Description == '') {
+      this.submitDescription = true;
+      return;
+    }
 
     this.baseService.spinner.show();
 
@@ -1454,6 +1471,8 @@ export class ConsumableRequestListComponent extends BaseComponent
   }
 
   receivedConsumableMaterial(data:NgForm){
+    this.submitDescription = false;
+
     if (data.form.invalid == true) return;
 
     this.baseService.spinner.show();

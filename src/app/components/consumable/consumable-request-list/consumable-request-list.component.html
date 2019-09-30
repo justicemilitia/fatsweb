@@ -12,7 +12,7 @@
           <div class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
 
               <div>
-                  <button *ngIf="visibleRequestButton==true" class="btn btn-az-primary" style="margin-right:10px" (click)="selectedConsumableMaterial()">Talep Oluştur</button>
+                  <button *ngIf="visibleRequestButton==true" class="btn btn-az-primary" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Create_Request')}}" style="margin-right:10px" (click)="selectedConsumableMaterial()">Talep Oluştur</button>
 
                   <button style="display:none" id="btnAddRequest" data-toggle="modal" data-target="#modalRequestConsumable">Talep Oluştur</button>
               </div>       
@@ -22,9 +22,9 @@
                   <button style="display: none"  data-toggle="modal" data-target="#modalCancelRequestConsumable" class="btn btn-az-primary" id="btnCancelRequest" >Talebi Değerlendir</button>
               </div>
               <div>  
-                <button  *ngIf="currentTab != 0" class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-dismiss="modal" (click)="filter()"> <i class="fas fa-filter"></i></button>
+                <button  *ngIf="currentTab != 0" class="btn btn-az-primary" id="btnFilterConsumableRequest" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Filter')}}" style="margin-right:10px" (click)="filter()"> <i class="fas fa-filter"></i></button>
 
-                <button *ngIf="currentTab == 0" class="btn btn-az-primary" id="btnFilterConsumableRequest" style="margin-right:10px" data-dismiss="modal" (click)="filter()"> <i class="fas fa-filter"></i></button>
+                <button *ngIf="currentTab == 0" class="btn btn-az-primary" id="btnFilterConsumableRequest" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Filter')}}" style="margin-right:10px" (click)="filter()"> <i class="fas fa-filter"></i></button>
               </div>
 
               <div>
@@ -261,7 +261,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #dataCancel="ngForm" class="form-register">
+      <form #dataCancel="ngForm" class="form-register" >
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
@@ -288,12 +288,15 @@
         <div class="row justify-content-center">
             <div class="form-group col-md-6">
                 <label>Talep Miktarı</label>
-                <input name="ConsumableAmount" value="{{consumableRequest.RequestedAmount == null ? '' : consumableRequest.RequestedAmount}}" class="form-control" type="text" disabled/>              
+                <input name="ConsumableAmount"  value="{{consumableRequest.RequestedAmount == null ? '' : consumableRequest.RequestedAmount}}" class="form-control" type="text" disabled/>              
             </div>  
             <div class="form-group col-md-6">
                   <label class="required-span">Karşılanacak Miktar</label>
-                  <input [(ngModel)]="receiveConsumableMaterial.ReceivedAmount" name="ReceivedAmount"  class="form-control" type="text" required/>
-            </div>   
+                  <input [(ngModel)]="receiveConsumableMaterial.ReceivedAmount" [class.is-invalid]="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" name="ReceivedAmount"  class="form-control" type="text" required/>
+                  <div *ngIf="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" class="invalid-feedback">
+                    <div>{{getLanguageValue('This_value_is_required')}}</div>
+                  </div>
+                </div>   
         </div>   
         <div class="row justify-content-center">
           <div class="form-group col-md-12">   
@@ -311,18 +314,21 @@
         <div class="row justify-content-center">
           <div class="form-group col-md-12">   
           <label>Açıklama</label>
-            <input [(ngModel)]="receiveConsumableMaterial.Description" name="Description" class="form-control" type="text"/>
+            <input [(ngModel)]="receiveConsumableMaterial.Description" [class.is-invalid]="receiveConsumableMaterial.Description == null && submitDescription == true" name="Description" class="form-control" type="text"/>
+            <div *ngIf="receiveConsumableMaterial.Description == null && submitDescription == true">
+              <div style="color:red">{{getLanguageValue('This_value_is_required')}}</div>
+            </div>
           </div>   
         </div>   
         
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button class="btn btn-az-primary" id="btnReceivedConsumableMaterial" type="button" (click)="receivedConsumableMaterial(dataCancel)" >
+          <button class="btn btn-az-primary" id="btnReceivedConsumableMaterial" type="submit" (click)="receivedConsumableMaterial(dataCancel)" >
             Talebi Karşıla
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-          <button class="btn btn-danger"  id="btnCancelConsumableMaterial" type="button" (click)="cancelRequestConsumableMaterial()" >
+          <button class="btn btn-danger"  id="btnCancelConsumableMaterial" type="button"  (click)="cancelRequestConsumableMaterial(dataCancel)" >
               Talebi İptal Et
             </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

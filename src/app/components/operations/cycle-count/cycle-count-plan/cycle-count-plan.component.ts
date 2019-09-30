@@ -518,14 +518,14 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     cycleCountResult.ShowDifferentLocationsFixedAssets=false;
 
     this.baseService.cycleCountService.GetCycleCountResultNotFoundFixedAsset(cycleCountResult,
-      (fixedAssets:FixedAsset[],totalPage:number)=>{
+      (cycleCountResults:CycleCountResults[],totalPage:number)=>{
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTableCycleCountDetail.perInPage = _perInPage;
-        this.fixedAssets = fixedAssets;
+        this.cycleCountResult = cycleCountResults;
         this.totalPage = totalPage ? totalPage : 1;
 
-        this.dataTableNotFoundFixedAsset.TGT_loadData(this.fixedAssets); 
+        this.dataTableNotFoundFixedAsset.TGT_loadData(this.cycleCountResult); 
         this.TGT_calculatePages();
         this.dataTableNotFoundFixedAsset.isLoading = false;
       },

@@ -98,13 +98,13 @@ export class CycleCountService {
         (result: any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let fixedAssets: FixedAsset[] = [];
+            let cycleCountResults: CycleCountResults[] = [];
             (<FixedAsset[]>response.ResultObject).forEach(e => {
-              let fixedAsset: FixedAsset = new FixedAsset();
-              Object.assign(fixedAsset, e);
-              fixedAssets.push(fixedAsset);
+              let cycleCountResult: CycleCountResults = new CycleCountResults();
+              Object.assign(cycleCountResult, e);
+              cycleCountResults.push(cycleCountResult);
             });
-            success(fixedAssets, result.TotalPage);
+            success(cycleCountResults, result.TotalPage);
           }
         },
         (error: HttpErrorResponse) => {

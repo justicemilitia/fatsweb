@@ -22,14 +22,14 @@
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button class="btn btn-az-primary" (click)="openPopup()" style="margin-right:10px">
+            <button class="btn btn-az-primary" (click)="openPopup()" style="margin-right:10px"  data-toggle="tooltip" data-placement="bottom" title="Demirbaş Listesine Ekle">
               <i class="fas fa-search-plus"></i></button>
 
             <button style="display:none" class="btn btn-az-primary">
               <i class="fas fa-search-plus"></i></button>
 
             <button type="button" class="btn btn-danger btn-delete-custom" style="margin-right:0"
-              (click)="selectedExitBarcodes()">
+              (click)="selectedExitBarcodes()"  data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Exit_Fixed_Asset')}}"> 
               <i class="fas fa-minus-circle"></i></button>
 
             <button style="display:none" type="button" data-toggle="modal" id="btnExitFa" data-target="#modalExitFa">

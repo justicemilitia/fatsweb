@@ -758,6 +758,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
       },
       (error: HttpErrorResponse) => {
+        this.dataTable.isLoading=false;
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );

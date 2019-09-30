@@ -115,6 +115,9 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
 
   logout() {
     this.baseService.authenticationService.logOut();
+
+    this.baseService.languageService.setCulture("tr");
+
     this.baseService.router.navigateByUrl("/login");
   }
 

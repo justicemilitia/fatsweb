@@ -31,7 +31,7 @@ export class ConsumableService {
       .subscribe(
         (result:any) => {
           let response: Response = <Response>result;
-          if (response.ResultStatus = true) {
+          if (response.ResultStatus == true) {
             let consumables: Consumable[] = [];
             (<Consumable[]>response.ResultObject).forEach(e => {
               let consumable: Consumable = new Consumable();
@@ -39,7 +39,7 @@ export class ConsumableService {
               consumables.push(consumable);
             });
             success(consumables, result.TotalPage, response.LanguageKeyword);
-          } else {
+          } else {          
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
         },
