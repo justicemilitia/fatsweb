@@ -772,7 +772,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
       if(!selectedItems || selectedItems.length == 0){
         this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir sarf malzeme seçiniz!"
+          this.getLanguageValue("Choose_at_least_one_consumable")
         );
         return;
       }

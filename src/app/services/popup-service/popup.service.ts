@@ -73,7 +73,7 @@ export class PopupService {
 
   ShowQuestionPopupForUpdate(callBack) {
     swal({
-      title: "{{getLanguageValue('Are_you_sure_you_want_to_update_the_record')}}?",
+      title: "{{getLanguageValue('Are_you_sure_you_want_to_update_the_record')}}",
       text: "Bu işlem geri alınamaz.",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -124,7 +124,7 @@ export class PopupService {
 
   ShowQuestionPopupForOperation(callBack) {
     swal({
-      title: "{{getLanguageValue('Are_you_sure_you_want_to_update_the_record')}}?",
+      title: "{{getLanguageValue('Are_you_sure_you_want_to_update_the_record')}}",
       text: "Bu işlem geri alınamaz.",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -158,7 +158,7 @@ export class PopupService {
 
   ShowQuestionPopupForLocationUpdate(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Seçili demirbaşın lokasyon bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -175,7 +175,7 @@ export class PopupService {
 
   ShowQuestionPopupForDepartmentUpdate(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Seçili demirbaşın departman bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -192,7 +192,7 @@ export class PopupService {
 
   ShowQuestionPopupForFirmUpdate(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Seçili demirbaşın şirket bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -209,7 +209,7 @@ export class PopupService {
 
   ShowQuestionPopupForBarcodeUpdate(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Seçili demirbaşın barkod bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -226,7 +226,7 @@ export class PopupService {
 
   ShowQuestionPopupForDebitUpdate(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Seçili demirbaşın zimmet bilgisi değiştirilecektir. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -243,7 +243,7 @@ export class PopupService {
 
   ShowQuestionPopupForDebitDelete(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Seçili demirbaşın zimmet bilgisi silinecektir. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -260,7 +260,7 @@ export class PopupService {
 
   ShowQuestionPopupForDeleteWithoutUndo(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Bu işlem geri alınamaz. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -277,7 +277,7 @@ export class PopupService {
 
   ShowQuestionPopupForChangeRelationhip(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Seçimi yapılan demirbaşlar ilgili demirbaş ile ilişkilendirilecektir. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -294,7 +294,7 @@ export class PopupService {
 
   ShowQuestionPopupForBreakRelationship(callBack) {
     swal({
-      title: "Uyarı!",
+      title: this.languageService.getValue("Warning!"),
       text: "Seçimi yapılan demirbaşların ilişkisi koparılacaktır. İşlemi onaylıyor musunuz?",
       icon: "warning",
       buttons: ['Vazgeç', 'Güncelle'],
@@ -312,7 +312,7 @@ export class PopupService {
 
   ShowQuestionPopupForRelationalFixedAsset() {
     swal(
-      "Uyarı!",
+      this.languageService.getValue("Warning!"),
       "Seçilen demirbaşların ilişkisi bulunmadığı için işlem gerçekleştirilemedi!",
       "warning"
     )

@@ -1332,7 +1332,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       return;
     }
@@ -1446,7 +1446,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1473,7 +1473,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1500,7 +1500,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1527,7 +1527,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1554,7 +1554,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1581,7 +1581,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1600,7 +1600,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1619,7 +1619,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1638,7 +1638,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1657,7 +1657,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1677,7 +1677,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1710,7 +1710,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     if (selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz!"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       this.currentOperation = null;
       return;
@@ -1866,7 +1866,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
       if (!selectedItems || selectedItems.length == 0) {
         this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir demirbaş seçiniz"
+          this.getLanguageValue("Please_choose_at_least_one_record")
         );
         return;
       }

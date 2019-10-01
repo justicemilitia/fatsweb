@@ -48,7 +48,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     "userrole",
     [
       {
-        columnDisplayName: "Kullanıcı",
+        columnDisplayName: this.getLanguageValue('User'),
         columnName: ["User", "UserMail"],
         isActive: true,
         classes: [],
@@ -56,7 +56,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: "Rol",
+        columnDisplayName: this.getLanguageValue('Role'),
         columnName: ["Role", "Name"],
         isActive: true,
         classes: [],

@@ -235,15 +235,11 @@ export class DepreciationService {
     );
   }
 
-  DepreciationTotalValues(date: NgbDate, isValid: boolean, success, failed){
-    
-    let dep = new Depreciation();
-    dep.TargetDate = date;
-    dep.IsValid = isValid;
-
+  DepreciationTotalValues(date: string, isValid: boolean, success, failed){
+  
     this.httpclient
     .post(
-      SERVICE_URL + DEPRECIATION_TOTAL_VALUES, dep, {
+      SERVICE_URL + DEPRECIATION_TOTAL_VALUES, { "TargetDate": date, "IsValid": isValid }, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
     .subscribe(
@@ -261,15 +257,11 @@ export class DepreciationService {
     );
   }
   
-  DepreciationIFRSTotalValues(date: NgbDate, isValid: boolean, success, failed){
-
-    let dep = new DepreciationIFRS();
-    dep.TargetDate = date;
-    dep.IsValid= isValid;
+  DepreciationIFRSTotalValues(date: string, isValid: boolean, success, failed){
 
     this.httpclient
     .post(
-      SERVICE_URL + IFRS_DEPRECIATION_TOTAL_VALUES, dep, {
+      SERVICE_URL + IFRS_DEPRECIATION_TOTAL_VALUES, { "TargetDate": date, "IsValid": isValid }, {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
     .subscribe(

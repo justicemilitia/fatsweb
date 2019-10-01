@@ -10,7 +10,7 @@
           <div class="card-header" style="padding-bottom:0px;">
             <h2 class="az-content-title" style="margin-left:20px;">Detaylı Amortisman Listesi</h2>
 
-            <div class="grp-btn-action">
+            <div class="grp-btn-action" style="margin-right: 10px;">
 
               <div *ngIf="isDetailInfo == true">          
                 <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" style="margin-right:20px;" data-toggle="tooltip" data-placement="bottom" title="Excel">
@@ -98,18 +98,18 @@
                             <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
                               <div class="input-group">
                                 <div class="input-group-append"
-                                [class.is-invalid]="dataDepreciationFilter.submitted && (!fixedAssetFilter.DepreciationDate || depreciationDateModel.status == 'INVALID' )">
-                                  <div (click)="depreciationDate.toggle()" class="input-group-text">
+                                [class.is-invalid]="dataDepreciationFilter.submitted && (!fixedAssetFilter.EndDate || endDateModel.status == 'INVALID' )">
+                                  <div (click)="endDate.toggle()" class="input-group-text">
                                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                   </div>
                                 </div>
-                                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationDate"
-                                  [(ngModel)]="fixedAssetFilter.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel" 
-                                  [class.is-invalid]="dataDepreciationFilter.submitted && (!fixedAssetFilter.DepreciationDate || depreciationDateModel.status == 'INVALID' )"
+                                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                                  [(ngModel)]="fixedAssetFilter.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel" 
+                                  [class.is-invalid]="dataDepreciationFilter.submitted && (!fixedAssetFilter.EndDate || endDateModel.status == 'INVALID' )"
                                   required>
-                                  <div *ngIf="dataDepreciationFilter.submitted && depreciationDateModel.invalid" class="invalid-feedback">
-                                    <div *ngIf="depreciationDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                                    <div *ngIf="!depreciationDateModel.errors.required && depreciationDateModel.status == 'INVALID'">
+                                  <div *ngIf="dataDepreciationFilter.submitted && endDateModel.invalid" class="invalid-feedback">
+                                    <div *ngIf="endDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                                    <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
                                       {{getLanguageValue('Format_is_not_valid')}}
                                     </div>
                                   </div>
@@ -122,8 +122,17 @@
                               </label>
                             </div>
                             <div class="col-md-2">
-                                <button id="btnFilterDepreciation" type="submit" class="btn btn-az-primary" style="margin-left:100px;margin-top: 5px;">Filtrele
-                                </button>
+                                <div class="grp-btn-action">
+                                  <button id="btnFilterDepreciation" type="submit" class="btn btn-az-primary" style="margin-left:100px;margin-top: 5px; margin-right:10px;">Filtrele
+                                  </button>
+
+                                  <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" style="margin-right: 10px;margin-top: 5px;" data-placement="bottom"
+                                  title="{{getLanguageValue('Reset_Filter')}}" (click)="resetFilter(dataDepreciationFilter)">
+                                  <i class="fas fa-filter"></i>
+                                  <i class="fas fa-times"
+                                  style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
+                                  </button>
+                                </div>
                               </div>
                           </div>                      
                       </form>
@@ -133,31 +142,48 @@
                 <div *ngIf="isDepreciationIFRSList == true">
 
                     <fieldset class="field_set" style="padding-left: 10px; margin-right: 40px; margin-left: 40px; margin-top:10px;">
-                        <legend>Filtre</legend>        
+                        <legend>{{getLanguageValue('Filter')}}</legend>        
                     
                     <form name="form" #dataDepreciationIFRSFilter="ngForm" (ngSubmit)="onSubmitDepreciationIFRSFilter(dataDepreciationIFRSFilter) && dataDepreciationIFRSFilter.form.valid" novalidate>
                      
                         <div class="row">
-                            <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
-                              <div class="input-group">
-                                <div class="input-group-append">
-                                  <div (click)="depreciationDate.toggle()" class="input-group-text">
-                                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                          <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
+                            <div class="input-group">
+                              <div class="input-group-append"
+                              [class.is-invalid]="dataDepreciationIFRSFilter.submitted && (!fixedAssetFilterIfrs.EndDate || endDateModel.status == 'INVALID' )">
+                                <div (click)="endDate.toggle()" class="input-group-text">
+                                  <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                                </div>
+                              </div>
+                              <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                                [(ngModel)]="fixedAssetFilterIfrs.EndDate" ngbDatepicker #endDate="ngbDatepicker" #endDateModel="ngModel" 
+                                [class.is-invalid]="dataDepreciationIFRSFilter.submitted && (!fixedAssetFilterIfrs.EndDate || endDateModel.status == 'INVALID' )"
+                                required>
+                                <div *ngIf="dataDepreciationIFRSFilter.submitted && endDateModel.invalid" class="invalid-feedback">
+                                  <div *ngIf="endDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                                  <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
+                                    {{getLanguageValue('Format_is_not_valid')}}
                                   </div>
                                 </div>
-                                <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationDate"
-                                  [(ngModel)]="fixedAssetFilter.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel">
-                              </div>
                             </div>
+                          </div>
                             <div class="col-md-4 form-group">
                               <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
                                 <input type="checkbox" (change)="isExitFixedAsset($event)"
                                 name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
                               </label>
                             </div>
-                            <div class="col-md-2">
-                                <button id="btnFilterDepreciationIFRS" type="submit" class="btn btn-az-primary" style="margin-left:100px;">Filtrele
-                                </button>
+                              <div class="col-md-2">
+                                <div class="grp-btn-action">
+                                  <button id="btnFilterDepreciationIFRS" type="submit" class="btn btn-az-primary" style="margin-left:100px;margin-top: 5px; margin-right:10px;">{{getLanguageValue('Filter')}}
+                                  </button>
+                                  <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" style="margin-right: 10px;margin-top: 5px;" data-placement="bottom"
+                                  title="{{getLanguageValue('Reset_Filter')}}" (click)="resetFilter(dataDepreciationFilter)">
+                                  <i class="fas fa-filter"></i>
+                                  <i class="fas fa-times"
+                                  style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
+                                  </button>
+                                </div>
                               </div>
                           </div>
                     </form>
