@@ -260,7 +260,7 @@
               <label style="margin-bottom: 0;
               font-weight: 700;" >{{getLanguageValue('Counting_Location')}}</label>                
               <div style="display:flex;">
-              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + getLanguageValue('The_Location_Selected') : "Seçiniz" }}</button>
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + getLanguageValue('The_Location_Selected') : getLanguageValue('Choose') }}</button>
                 <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
               </div>   
               <div *ngIf="data.submitted && !selectedLocation" style="color:red">

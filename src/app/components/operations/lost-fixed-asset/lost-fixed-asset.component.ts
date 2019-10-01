@@ -219,7 +219,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       return;
     }
@@ -245,7 +245,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
 
       return;
@@ -299,7 +299,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       return;
     }

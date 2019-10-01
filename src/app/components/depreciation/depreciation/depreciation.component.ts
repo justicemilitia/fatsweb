@@ -55,6 +55,12 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   isFixedAssetList: boolean;
   isExitList: boolean;
 
+  requiredDepreciation:boolean = false;
+  requiredIFRS:boolean = true;
+
+  isDepreciationCalculation:boolean=false;
+  isDepreciationCalculationIfrs:boolean=false;
+
     /* Is Table Exporting */
     isTableExporting: boolean = false;
     faProperties: FixedAssetCardProperty[] = [];
@@ -500,7 +506,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     );
   }
 
-  // onSubmitDepreciation(dataDepreciation: NgForm) {
+
     onSubmitDepreciation(dataDepreciation: NgForm) {
 
     if (dataDepreciation.form.invalid == true) return;
@@ -516,7 +522,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir demirbaş seçiniz"
+        this.getLanguageValue("Please_choose_at_least_one_record")
       );
       return;
     } else if (!selectedItems || selectedItems.length == 1) {
@@ -726,25 +732,6 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     }
   }
 
-  // isDepreciationList(event){
-  //   if (event.target.checked == true) {
-  //     this.isExitList = true;
-  //     this.isValid=true;
-  //   } else {
-  //     this.isExitList = false;
-  //     this.isValid=false;
-  //   }
-  // }
-
-  // isExitDepreciationList(event){
-  //   if (event.target.checked == true) {
-  //     this.isFixedAssetList = true;
-  //     this.isValid=false;
-  //   } else {
-  //     this.isFixedAssetList = false;
-  //     this.isValid=true;
-  //   }
-  // }
 
   resetForm(data: FixedAsset, isNewItem: boolean) {
     // data.resetForm(this.fixedAsset);
@@ -782,22 +769,58 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     }
   }
 
+  onClickCalculateDepreciation(calculationType:number){
+    let selectedItems = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems()));
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("Please_choose_at_least_one_record")
+      );
+      return;
+    }
+
+     //Seçili kayıtlardan hiçbirinin IFRS bilgisi yoksa 
+     let hasDepreciation: boolean = false;
+     selectedItems.forEach(e=> {
+       if(e.WillDepreciationBeCalculated==true)
+       hasDepreciation=true;
+     }); 
+
+     if(hasDepreciation == false){
+       this.baseService.popupService.ShowAlertPopup(
+         this.getLanguageValue("There_is_no_value_to_calculate")
+       );
+       return;
+     }
+
+     switch (calculationType) {
+       case 1:
+       this.isDepreciationCalculation=true;
+       this.isDepreciationCalculationIfrs=false;
+         break;
+  
+      case 2:
+      this.isDepreciationCalculationIfrs=true;
+      this.isDepreciationCalculation=false;
+        break;
+  
+       default:
+         break;
+     }
+    this.popupComponent.ShowModal('#modalShowQuestionPopupForCalculateDepreciation');
+  }
+  
   async calculateDepreciations(){
 
-      this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+        /* Activate the loading spinner */
+        this.baseService.spinner.show();
 
-        if(this.fixedAsset.FixedAssetIds.length==0){
-          this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
-          return;
-        }
-
-      /* Ask for approve question if its true then update the fixed asset */
-      this.baseService.popupService.ShowQuestionPopupForDepreciation(
-      (response: boolean) => {
-        if (response == true) {
        this.baseService.depreciationService.CalculateAllDepreciation(
         this.fixedAsset,
         (insertedItem: FixedAsset, message) => {
+          /* Deactive the spinner */
+          this.baseService.spinner.hide();
+
           /* Show success pop up */
           this.baseService.popupService.ShowSuccessPopup(message);
 
@@ -805,31 +828,27 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           this.loadFixedAssetProperties();
         },
         (error: HttpErrorResponse) => {
+          /* Deactive the spinner */
+          this.baseService.spinner.hide();
+
           /* Show alert message */
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
-     }
-    }
-   );
+      this.popupComponent.CloseModal('#modalShowQuestionPopupForCalculateDepreciation');
   }
 
     async calculateIfrsDepreciations(){
 
-      this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(this.dataTable.TGT_getSelectedItems())).map(x => x.FixedAssetId);
+        /* Activate the loading spinner */
+        this.baseService.spinner.show();
 
-        if(this.fixedAsset.FixedAssetIds.length==0){
-          this.baseService.popupService.ShowAlertPopup("Lütfen en az bir demirbaş seçiniz!");
-          return;
-        }
-
-      /* Ask for approve question if its true then update the fixed asset */
-      this.baseService.popupService.ShowQuestionPopupForDepreciation(
-      (response: boolean) => {
-        if (response == true) {
         this.baseService.depreciationService.CalculateAllIfrsDepreciation(
         this.fixedAsset,
         (insertedItem: FixedAsset, message) => {
+          /* Deactive the spinner */
+        this.baseService.spinner.hide();
+
           /* Show success pop up */
           this.baseService.popupService.ShowSuccessPopup(message);
 
@@ -837,14 +856,15 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           this.loadFixedAssetProperties();
         },
         (error: HttpErrorResponse) => {
+           /* Deactive the spinner */
+          this.baseService.spinner.hide();
+
           /* Show alert message */
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
-    }
-   }
-  );
-  }
+  this.popupComponent.CloseModal('#modalShowQuestionPopupForCalculateDepreciation');  
+}
 
   async resetFilter() {
 
@@ -858,5 +878,27 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   onClickDepreciation(item) {
     this.selectedFixedAsset=item;
   }
+
+  checkValidation(dataDepreciation: NgForm){  
+    if(this.depreciationBeCalculated == true && (this.fixedAsset.DepreciationPeriod == null || this.fixedAsset.DepreciationCalculationTypeId == null || this.fixedAsset.CurrencyId || this.fixedAsset.Price == null))
+    this.requiredDepreciation = true;
+    else
+    this.requiredDepreciation = false;        
+
+    
+    if(this.ifrsDepreciationBeCalculated == true && (this.fixedAsset.Ifrsperiod == null || this.fixedAsset.IFRSCurrecyId ==null || this.fixedAsset.Ifrsprice == null || this.fixedAsset.IFRSCurrecyId == null))
+    this.requiredIFRS = true;
+    else
+    this.requiredIFRS = false;   
+
+    if(this.requiredIFRS == false && this.requiredDepreciation == false){
+      if (dataDepreciation.form.invalid == true) return;
+      
+      /* Check model state is valid */
+  
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForDepreciation');
+      this.popupComponent.CloseModal('#modalUpdateDepreciation');
+    }
+} 
 
 }

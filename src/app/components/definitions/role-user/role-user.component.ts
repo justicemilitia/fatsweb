@@ -48,7 +48,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
     "userrole",
     [
       {
-        columnDisplayName: this.getLanguageValue("Users"),
+        columnDisplayName: this.getLanguageValue('User'),
         columnName: ["User", "UserMail"],
         isActive: true,
         classes: [],

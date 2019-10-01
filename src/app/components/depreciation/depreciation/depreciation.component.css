@@ -8,8 +8,19 @@
 .flexProperty > div {
     padding:5px;
 }
+
 .mat-tab-nav-bar.mat-primary .mat-ink-bar{
-  background-color:#e67300;
+  background-color:#e67300 !important
+}
+
+.btn-orange {
+  background: #e67300;
+  color: white;
+  border-radius: 0px;
+  background-color: #e67300; color: white; min-height: 29px;
+  min-width: 30px;
+  padding: 0 16px;
+  font-weight: 400; line-height: 29px
 }
 
 .field_set {
@@ -22,7 +33,7 @@
   color: #e67300;
 }
 
-.modal-dialog {
+.modal-dialog-popup {
   max-width: 900px;
   margin: 1.75rem auto;
 }
