@@ -16,7 +16,7 @@
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
 
-            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
@@ -94,7 +94,7 @@
             </div>
             <div class="form-group col-md-6">
               <label>{{getLanguageValue('Parent_Location')}}</label>
-              <div *ngIf="visible;then insertLocation else updateLocation"></div>
+              <div *ngIf="visible;then insertLocation else updateParentLocation"></div>
               <ng-template #insertLocation>
                  <select [(ngModel)]="location.ParentLocationId" name="ParentLocationId" class="form-control"
                 #ParentLocationId="ngModel">
@@ -105,7 +105,7 @@
               </select>
               </ng-template>
 
-              <ng-template #updateLocation>
+              <ng-template #updateParentLocation>
                 <select [(ngModel)]="location.ParentLocationId" name="ParentLocationId" class="form-control"
                 #ParentLocationId="ngModel">
                 <option [ngValue]="null">{{getLanguageValue('None')}}</option>
@@ -178,7 +178,7 @@
           </div>
        
           <div class="col-md-6">        
-          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="updateLocation()">{{getLanguageValue('Update')}}</button>
+          <button class="btn btn-az-primary" id="btnYes" type="button" style="padding: 5px 20px;" (click)="updateLocation()">{{getLanguageValue('Update')}}</button>
             </div>   
         </div>
 

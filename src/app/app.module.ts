@@ -46,7 +46,6 @@ import { FixedAssetComponent } from "./components/operations/fixed-asset/fixed-a
 import { FixedAssetStatusComponent } from "./components/definitions/fixed-asset-status/fixed-asset-status.component";
 import { FaCreateComponent } from "./components/operations/fixed-asset/fa-create/fa-create.component";
 import { FaExitComponent } from "./components/operations/fixed-asset/fa-exit/fa-exit.component";
-import { FaBindingComponent } from "./components/operations/fixed-asset/fa-binding/fa-binding.component";
 import { SuspensionComponent } from "./components/definitions/suspension/suspension.component";
 import { FormWizardModule } from "angular-wizard-form";
 import { SuspendedFixedAssetComponent } from "./components/operations/suspended-fixed-asset/suspended-fixed-asset.component";
@@ -87,7 +86,7 @@ import { ConsumableTransactionListComponent } from './components/consumable/cons
 import { FaGeneralInformationComponent } from './components/operations/fixed-asset/fa-create/fa-general-information/fa-general-information.component';
 import { FaPropertyInformationComponent } from './components/operations/fixed-asset/fa-create/fa-property-information/fa-property-information.component';
 import { FaFinancialInformationComponent } from './components/operations/fixed-asset/fa-create/fa-financial-information/fa-financial-information.component';
-import { FaBarcodeLabelComponent } from './components/operations/fixed-asset/fa-barcode-label/fa-barcode-label.component';
+
 
 import { PopupComponent } from './components/popup/popup.component';
 import { BaseComponent } from './components/base/base.component';
@@ -135,7 +134,6 @@ import { BaseComponent } from './components/base/base.component';
     RelationshipFixedAssetComponent,
     FaSuspendComponent,
     FaLostComponent,
-    FaBindingComponent,
     FixedAssetCardPropertyComponent,
     FaRelationshipComponent,
     FaFilterComponent,
@@ -161,7 +159,6 @@ import { BaseComponent } from './components/base/base.component';
     FaGeneralInformationComponent,
     FaPropertyInformationComponent,
     FaFinancialInformationComponent,
-    FaBarcodeLabelComponent,
     PopupComponent,
   ],
   imports: [

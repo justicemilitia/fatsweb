@@ -282,6 +282,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
           this.isWaitingInsertOrUpdate = true;
 
           this.baseService.spinner.show();
+
           this.baseService.fixedAssetService.ChangeFirm(
             cloneItem,
             (insertedItem: FixedAsset, message) => {
@@ -289,6 +290,7 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
               this.baseService.popupService.ShowSuccessPopup(message);
 
               this.baseService.spinner.hide();
+              
               this.isWaitingInsertOrUpdate = false;
 
               /* Set inserted Item id to model */

@@ -77,11 +77,15 @@ export class FaDeleteDebitComponent extends BaseComponent implements OnInit, OnC
           fixedAssetUser.UserIds = deletedUserIds;
           fixedAssetUser.FixedAssetId = this.faBarcode.FixedAssetId;
 
+          this.baseService.spinner.show();
+
           this.baseService.fixedAssetService.DeleteDebit(
             fixedAssetUser,
             (insertedItem: FixedAsset, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
+
+              this.baseService.spinner.hide();
 
               /* Set inserted Item id to model */
               deletedUserIds.forEach(e => {
@@ -94,6 +98,8 @@ export class FaDeleteDebitComponent extends BaseComponent implements OnInit, OnC
             (error: HttpErrorResponse) => {
               /* Show alert message */
               this.baseService.popupService.ShowErrorPopup(error);
+
+              this.baseService.spinner.hide();
             }
           );
         }

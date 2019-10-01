@@ -134,31 +134,20 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
   }
 
   undoLostFixedAsset() {
-
-    // let selectedItems = <FixedAsset[]>this.dataTable.TGT_getSelectedItems();
-
-    // if (!selectedItems || selectedItems.length == 0) {
-    //   this.baseService.popupService.ShowAlertPopup(
-    //     this.getLanguageValue("Please_choose_at_least_one_record")
-    //   );
-    //   return;
-    // }
-    // else {
-
       this.lostFa.FixedAssetIds = this.selectedSuspendFa();
 
       this.isWaitingInsertOrUpdate = true;
 
-      // this.baseService.popupService.ShowQuestionPopupForFoundFixedAsset((response: boolean) => {
-      
-      // this.popupComponent.ShowModal("#modalShowQuestionPopupForUndoSuspension");    
-
       if (this.response == true) {
+
+        this.baseService.spinner.show();
 
           this.baseService.lostFixedAssetService.UndoLostProcess(this.lostFa,
             () => {
 
               this.isWaitingInsertOrUpdate = false;
+
+              this.baseService.spinner.hide();
 
               this.dataTable.TGT_removeItemsByIds(this.lostFa.FixedAssetIds);
               
@@ -172,23 +161,22 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
             }, (error: HttpErrorResponse) => {
 
               this.baseService.popupService.ShowErrorPopup(error);
+
+              this.baseService.spinner.hide();
+              
               this.isWaitingInsertOrUpdate = false;
 
             });
         }
-      // });
 
       this.isWaitingInsertOrUpdate = false;
-    // }
+
   }
 
   async checkOutFixedAsset(data: NgForm) {
 
     if (data.form.invalid == true) return;
 
-    // this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
-    //   this.faDataTable.TGT_getSelectedItems()
-    // )).map(x => x.FixedAssetId);
     this.transactionLog.FixedAssetIds=this.selectedSuspendFa();
 
     await this.baseService.fixedAssetService.ExitFixedAsset(
@@ -321,7 +309,7 @@ export class LostFixedAssetComponent extends BaseComponent implements OnInit {
   PressExitForm(formName: string){
     let url:string;
     url=DOCUMENT_URL + formName + ".pdf";
-    // this.router.navigate([url]); 
+   
     window.open(url,"_blank");    
   }
 

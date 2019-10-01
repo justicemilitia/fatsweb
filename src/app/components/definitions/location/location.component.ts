@@ -324,11 +324,16 @@ export class LocationComponent extends BaseComponent implements OnInit {
   }
 
   async loadLocationsWithoutChild(locationId:number){
-    await this.baseService.locationService.GetLocationsSelfParentlessById(locationId,(locations:Location[]) => {
-        Object.assign(this.locationsWithoutChild,locations);
-    },(error:HttpErrorResponse) => {
-      this.baseService.popupService.ShowErrorPopup(error);
-    });
+    await this.baseService.locationService.GetLocationsSelfParentlessById(locationId,
+      (locations:Location[]) => {
+
+          Object.assign(this.locationsWithoutChild,locations);
+
+      },
+      (error:HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   async onDoubleClickItem(item: any) {

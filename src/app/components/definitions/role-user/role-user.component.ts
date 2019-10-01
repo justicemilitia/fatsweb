@@ -56,7 +56,7 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName: this.getLanguageValue('Role'),
+        columnDisplayName: this.getLanguageValue("Role"),
         columnName: ["Role", "Name"],
         isActive: true,
         classes: [],
@@ -213,7 +213,6 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
       this.baseService.spinner.show();
 
       let itemIds: number[] = selectedItems.map(x => x.getId());
@@ -242,40 +241,8 @@ export class RoleUserComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowErrorPopup(error);
         }
       );
-      this.popupComponent.CloseModal('#modalShowDeletePopupForRoleUser');      
-    // });
+      this.popupComponent.CloseModal('#modalShowDeletePopupForRoleUser');  
   }
-
-  // async onDoubleClickItem(item: UserRole) {
-  //   this.userRole = new UserRole();
-
-  //   this.baseService.spinner.show();
-
-  //   this.loadRoles();
-
-  //   this.loadUserRole();
-
-  //   await this.baseService.roleUserService.GetUserRoleById(
-  //     item.UserRoleId,
-  //     (result: UserRole) => {
-  //       setTimeout(() => {
-  //         $("#btnEditUserRole").trigger("click");
-  //         this.visible = false;
-  //         this.userRole.RoleId = item.RoleId;
-  //         this.userRole.UserId = item.UserId;
-  //         this.userRole.UserRoleId = item.UserRoleId;
-
-  //         this.baseService.spinner.hide();
-  //         Object.assign(this.userRole, result);
-  //       }, 1000);
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       this.baseService.spinner.hide();
-
-  //       this.baseService.popupService.ShowErrorPopup(error);
-  //     }
-  //   );
-  // }
 
   onItemSelect(item: User) {
     this.selectedUser.push(item);

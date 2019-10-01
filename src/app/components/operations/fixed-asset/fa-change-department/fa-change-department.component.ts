@@ -131,11 +131,16 @@ export class FaChangeDepartmentComponent extends BaseComponent
 
           this.isWaitingInsertOrUpdate = true;
 
+          this.baseService.spinner.show();
+
           this.baseService.fixedAssetService.ChangeDepartment(
             cloneItem,
             (insertedItem: FixedAsset, message) => {
               /* Show success pop up */
               this.baseService.popupService.ShowSuccessPopup(message);
+
+              this.baseService.spinner.hide();
+
               this.isWaitingInsertOrUpdate = false;
 
               /* Set inserted Item id to model */
@@ -151,6 +156,9 @@ export class FaChangeDepartmentComponent extends BaseComponent
             (error: HttpErrorResponse) => {
               /* Show alert message */
               this.isWaitingInsertOrUpdate = false;
+
+              this.baseService.spinner.hide();
+              
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );

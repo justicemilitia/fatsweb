@@ -377,16 +377,7 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       await this.baseService.fixedAssetService.GetFixedAssetRelationship(
         (far: FixedAssetRelationship[]) => {
           Object.assign(this.fixedAssets, far);
-          // far.forEach((element: FixedAssetRelationship) => {
-          //   let e = element.InverseFixedAssetParent;
-          //   if (e && e.length != 0) {
-          //     e.forEach((p, i) => {
-          //       let f = new FixedAssetRelationship();
-          //       Object.assign(f, p);
-          //       this.fixedAssets.push(f);
-          //     })
-          //   }
-          // });
+
           this.dataTable.TGT_loadData(this.fixedAssets);
         },
         (error: HttpErrorResponse) => {
@@ -411,14 +402,21 @@ export class RelationshipFixedAssetComponent extends BaseComponent
       );
   
       this.fixedAsset.FixedAssetIds = selectedItems.map(x => x.getId());
+
+      this.baseService.spinner.show();
   
       await this.baseService.fixedAssetService.BreakFixedAssetRelationship(
         this.fixedAsset,
         (insertedItem: FixedAsset, message) => {
           /* Show success pop up */
           this.baseService.popupService.ShowSuccessPopup(message);
+
+          this.baseService.spinner.hide();
+
           this.popupComponent.CloseModal('#modalBreakRelationship');
+
           this.fixedAssets = [];
+          
           this.refreshTable();
         },
         (error: HttpErrorResponse) => {

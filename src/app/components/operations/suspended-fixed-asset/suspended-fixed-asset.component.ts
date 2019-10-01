@@ -199,6 +199,7 @@ export class SuspendedFixedAssetComponent extends BaseComponent
     this.transactionLogSuspended.FixedAssetIds = this.selectedSuspendFa();
     this.transactionLogSuspended.UndoSuspensionDate = convertNgbDateToDateString(dataSuspend.value.undoSuspensionDate);
 
+    this.baseService.spinner.show();
 
     this.baseService.suspendedService.UndoSuspensionProcess(
     this.transactionLogSuspended,
@@ -214,9 +215,13 @@ export class SuspendedFixedAssetComponent extends BaseComponent
       }
 
       this.baseService.popupService.ShowSuccessPopup(message);
+
+      this.baseService.spinner.hide();
     },
     (error: HttpErrorResponse) => {
       this.baseService.popupService.ShowErrorPopup(error);
+
+      this.baseService.spinner.hide();
     }
     );
       this.resetForm(dataSuspend, true);    
@@ -227,12 +232,15 @@ export class SuspendedFixedAssetComponent extends BaseComponent
 
     this.transactionLog.FixedAssetIds = this.selectedSuspendFa();
 
+    this.baseService.spinner.show();
+
     await this.baseService.fixedAssetService.ExitFixedAsset(
       this.transactionLog,
       (formList: any[], message) => {
         /* Show success pop up */
         this.baseService.popupService.ShowSuccessPopup(message);
 
+        this.baseService.spinner.hide();
         
         if(this.IsCreateExitForm==true){
           for(let i=0;i<formList.length;i++){
@@ -248,6 +256,8 @@ export class SuspendedFixedAssetComponent extends BaseComponent
       (error: HttpErrorResponse) => {
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
+
+        this.baseService.spinner.hide();
       }
     );
   }

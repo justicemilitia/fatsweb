@@ -58,11 +58,8 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
     this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
-    this.baseService.spinner.show();
- 
-    // await this.baseService.popupService.ShowQuestionPopupForChangeRelationhip(
-    //   (response: boolean) => {
-        // if (this.response == true) {
+    this.baseService.spinner.show(); 
+
           this.baseService.fixedAssetService.ChangeRelationship(
             this.fixedAsset,
             (insertedItem: FixedAsset, message) => {
@@ -88,16 +85,16 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
             },
             (error: HttpErrorResponse) => {
               /* Show alert message */
-              this.baseService.spinner.hide();              
+              this.baseService.spinner.hide();  
+
               this.baseService.popupService.ShowErrorPopup(error);
+
               this.resetForm(data);              
             }
           );
 
           this.popupComponent.CloseModal('#modalShowQuestionPopupForRelationship');
-        // }
-    //   }
-    // );
+ 
   }
 
   resetForm(data: NgForm) {
@@ -105,10 +102,4 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
     this.fixedAsset.Barcode = null;
   }
 
-  // updateOperation(isUpdate: boolean){
-  //   if(isUpdate)
-  //     this.ChangeRelationship(this.updatedBarcode);
-  //   else
-  //     this.response=false;
-  // }
 }

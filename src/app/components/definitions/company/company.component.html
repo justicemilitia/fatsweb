@@ -17,16 +17,16 @@
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
 
-            <button type="button" (click)="refreshTable()" id="btnRefresh" class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh')}}">
+            <button type="button" (click)="refreshTable()" id="btnRefresh" class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
-
-            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" (click)="onDelete()"
+     
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="onDelete()"
               class="btn btn-danger btn-delete-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Delete')}}">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
-
+        
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" (click)="resetForm(data,true)"
               id="btnAddCompany" data-toggle="modal" data-target="#modalCompany">
               <i class="fa fa-plus-circle fa-plus-circle-add"></i>

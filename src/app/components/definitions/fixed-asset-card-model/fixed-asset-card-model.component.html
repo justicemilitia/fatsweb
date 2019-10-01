@@ -16,16 +16,17 @@
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
 
-            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom">
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" data-target="#modalShowDeletePopupForFixedAssetCardModel" data-placement="bottom" title="{{getLanguageValue('Delete')}}"
+            <span data-toggle="modal" data-target="#modalShowDeletePopupForFixedAssetCardModel">
+            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Delete')}}"
               class="btn btn-danger btn-delete-custom">
               {{dataTableModel.TGT_getSelectedItems().length > 0 ? dataTableModel.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
-
+            </span>
             <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" (click)="resetForm(data,true)"
               id="btnAddFixedAssetCardModel" data-toggle="modal" data-target="#modalFixedAssetCardModel"><i class="fa fa-plus-circle fa-plus-circle-add"></i>{{getLanguageValue('Add_Fixed_Asset_Model')}}
             </button>

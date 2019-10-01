@@ -17,13 +17,15 @@
             <button type="button" routerLink="/role" class="btn btn-danger btn-back-custom">
               <i class="fas fa-arrow-left"></i></button>
 
-            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="modal" data-target="#modalShowDeletePopupForRoleUser" data-placement="bottom" title="{{getLanguageValue('Delete')}}"
+              <span data-toggle="modal" data-target="#modalShowDeletePopupForRoleUser">
+            <button type="button" *ngIf="IsAuthForDelete==true" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Delete')}}"
               class="btn btn-danger btn-delete-custom">
               {{dataTableUserRole.TGT_getSelectedItems().length > 0 ? dataTableUserRole.TGT_getSelectedItems().length : '' }}
               <i class="fas fa-trash"></i></button>
+            </span>
 
             <button id="refreshUserRole" type="button" (click)="refreshTable()"
-              class="btn btn-success btn-refresh-custom">
+              class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i></button>
 

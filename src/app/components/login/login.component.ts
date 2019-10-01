@@ -30,6 +30,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   visible: boolean = true;
 
+  firmlist:boolean=false;
+
   constructor(protected baseService: BaseService) {
     super(baseService);
   }
@@ -47,9 +49,14 @@ export class LoginComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true)
       return;
 
+
+    let firmList:boolean = this.GetUserFirms(this.loginUser.UserMail);
+
+    if(firmList)
+      this.errorMessage ='';
+
     if (this.loginUser.FirmId == -1) {
-      this.GetUserFirms(this.loginUser.UserMail);
-      this.errorMessage = this.getLanguageValue("Chose_firm_please");
+      this.errorMessage = this.getLanguageValue("Chose_firm_please");  
       return;
     }
 
@@ -78,9 +85,11 @@ export class LoginComponent extends BaseComponent implements OnInit {
       }
     )
 
+  
+
   }
 
-  async GetUserFirms(usermail: string) {
+  GetUserFirms(usermail: string):boolean {
 
     if (usermail == '' || !usermail)
       return;
@@ -92,13 +101,16 @@ export class LoginComponent extends BaseComponent implements OnInit {
     /* Get firms from server */
     this.baseService.authenticationService.getUserFirmList(usermail,
       (result: Firm[]) => {
-
-        /* if success put results to firms */
-        this.firms = result;
-        this.baseService.authenticationService.Firms = result;
-        this.isUserFirmsGetting = false;
-        this.errorMessage = '';
-
+           /* if success put results to firms */
+        setTimeout(() => {
+          this.firms = result;
+          this.baseService.authenticationService.Firms = result;
+          this.isUserFirmsGetting = false;
+          
+          if(this.loginUser.FirmId != -1)
+            this.errorMessage = '';
+        },2000);
+        return true;
       }, (error: HttpErrorResponse) => {
         /* if any error show on screen and stop getting firms */
         let errorType:string = getAnErrorResponse(error.statusText).statusText;
@@ -106,9 +118,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
         
         this.firms = [];
         this.isUserFirmsGetting = false;
-
+        return false;
       });
-
   }
 
   async SendRecoveryCode(data: NgForm) {

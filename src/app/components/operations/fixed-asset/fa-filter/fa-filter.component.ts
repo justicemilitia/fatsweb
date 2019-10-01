@@ -773,29 +773,25 @@ constructor(protected baseService: BaseService) {
 
     cloneItem.FixedAssetPropertyArray = propertyDetail;
 
+    this.baseService.spinner.show();
+
     await this.baseService.fixedAssetService.FilterFixedAsset(
       cloneItem,
       (fixedAssets: FixedAsset[],totalPage) => {
-        /* Show success pop up */
-        // this.baseService.popupService.ShowSuccessPopup(message);
 
         this.fixedAssetComponent.loadFixedAssetForFilter(25,1,totalPage,fixedAssets);
 
+        this.baseService.spinner.hide();
+
        $('#CloseModal').trigger('click');
 
-        // this.fixedAssetFilterList = fixedAssets;
-        // this.filterDataTable.TGT_loadData(this.fixedAssetFilterList);
-        // this.fixedAssetComponent.currentPage = 1;
-        // this.fixedAssetComponent.perInPage = 1000;
-        // this.fixedAssetComponent.totalPage = totalPage;
-        // this.fixedAssetComponent.TGT_calculatePages();
-        // this.loadFixedAssetPropertyList();
-        // $("#CloseModal").trigger("click");
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
-        console.log(error);
+
         this.baseService.popupService.ShowErrorPopup(error);
+
+        this.baseService.spinner.hide();
       }
     );
   }
@@ -844,117 +840,6 @@ constructor(protected baseService: BaseService) {
       }
     );
   }
-
-  /* Selected Fixed Asset Cards */
-  // onSelectFixedAssetCard(item: FixedAssetCard) {
-  //   this.selectedFixedAssetCards.push(item);
-  // }
-  // onSelectAllFixedAssetCard(items: any) {
-  //   this.selectedFixedAssetCards.push(items);
-  // }
-
-  /* Selected Fixed Asset Card Categories */
-  // onSelectCategory(item: FixedAssetCardCategory) {
-  //   this.selectedFixedAssetCardCategories.push(item);
-  // }
-  // onSelectAllCategory(items: any) {
-  //   this.selectedFixedAssetCardCategories.push(items);
-  // }
-
-  /* Selected Departments */
-  // onSelectDepartment(item: Department) {
-  //   this.selectedDepartments.push(item);
-  // }
-  // onSelectAllDepartment(items: any) {
-  //   this.selectedDepartments.push(items);
-  // }
-
-  /* Selected Fixed Asset Card Brand */
-  // onSelectFixedAssetCardBrand(item: FixedAssetCardBrand) {
-  //   this.selectedBrands.push(item);
-  // }
-  // onSelectAllFixedAssetCardBrand(items: any) {
-  //   this.selectedBrands.push(items);
-  // }
-
-  /* Selected Status */
-  // onSelectFixedAssetStatus(item: FixedAssetStatus) {
-  //   this.selectedStatus.push(item);
-  // }
-  // onSelectAllFixedAssetStatus(items: any) {
-  //   this.selectedStatus.push(items);
-  // }
-
-  /* Selected Location */
-  // onSelectLocation(item: Location) {
-  //   this.selectedLocations.push(item);
-  // }
-  // onSelectAllLocation(items: any) {
-  //   this.selectedLocations.push(items);
-  // }
-
-  /* Selected Fixed Asset Card Model */
-  // onSelectFixedAssetCardModel(item: FixedAssetCardModel) {
-  //   this.selectedModels.push(item);
-  // }
-  // onSelectAllFixedAssetCardModel(items: any) {
-  //   this.selectedModels.push(items);
-  // }
-
-  /* Selected Users */
-  // onSelectUser(item: User) {
-  //   this.selectedUsers.push(item);
-  // }
-  // onSelectAllUser(items: any) {
-  //   this.selectedUsers.push(items);
-  // }
-
-
-  // async loadDepartmentByLocationId() {
-  //   this.departments = [];
-
-  //     if( this.selectedLocation != null){
-  //     this.baseService.departmentService.GetDepartmentsByLocationId(
-
-  //       this.selectedLocation.LocationId,
-  //       (departments: Department[]) => {
-  //         this.departments = departments;
-  //         this.dataTableDepartment.TGT_loadData(this.departments);
-  //       },
-  //       (error: HttpErrorResponse) => {}
-  //     );
-  //   }
-  // }
-
-  // async loadFaCardByCategoryId() {
-  //   this.fixedassetcards = [];
-    
-  //     this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
-  //       this.selectedCategory.FixedAssetCardCategoryId,
-  //       (fixedAssetCards: FixedAssetCard[]) => {
-  //         this.fixedassetcards = fixedAssetCards;
-  //         this.dataTableFixedAssetCard.TGT_loadData(this.fixedassetcards);
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         this.baseService.popupService.ShowErrorPopup(error);
-  //       }
-  //     );
-  // }
-
-  // async loadFaModelByBrandId() {
-  //   this.fixedassetbrands = [];
-    
-  //     this.baseService.fixedAssetCardModelService.GetFixedAssetCardModelById(
-  //       this.selectedBrand.FixedAssetCardBrandId,
-  //       (fixedAssetBrands: FixedAssetCardBrand[]) => {
-  //         this.fixedassetbrands = fixedAssetBrands;
-  //         this.dataTableBrand.TGT_loadData(this.fixedassetbrands);
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         this.baseService.popupService.ShowErrorPopup(error);
-  //       }
-  //     );
-  // }
 
   resetForm(data: NgForm) {
     data.resetForm();

@@ -56,7 +56,7 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
   async suspendFixedAsset(data: NgForm) {
     if (data.form.invalid == true) return;
 
-    this.baseService.spinner.show();
+    
 
     this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
       this.faDataTable.TGT_getSelectedItems()
@@ -66,6 +66,8 @@ export class FaSuspendComponent extends BaseComponent implements OnInit {
     Object.assign(cloneItem, this.transactionLog);
 
     cloneItem.CheckInExpectedArrivalDate=  convertNgbDateToDateString(data.value.checkInExpectedArrivalDate);
+
+    this.baseService.spinner.show();
 
     await this.baseService.fixedAssetService.SuspendFixedAsset(
       cloneItem,

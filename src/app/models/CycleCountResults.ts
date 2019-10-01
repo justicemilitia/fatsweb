@@ -21,6 +21,7 @@ export class CycleCountResults implements IData{
     CycleCountResultId:number;
     CycleCountPlanId:number;   
     Barcode:string;
+    FixedAssetCardName:string;
     DepartmentName:string;
     LocationName:string;
     PlanLocationId:number;

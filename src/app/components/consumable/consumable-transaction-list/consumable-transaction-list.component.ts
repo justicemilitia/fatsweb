@@ -283,7 +283,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     "fixedassetpropertyvalue",
     [
       {
-        columnDisplayName: "Özellik Adı",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
         columnName: ["FixedAssetCardProperty", "Name"],
         isActive: true,
         classes: [],
@@ -291,7 +291,7 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
         type: "text"
       },
       {
-        columnDisplayName: "Özellik Değeri",
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
         columnName: ["Value"],
         isActive: true,
         classes: [],

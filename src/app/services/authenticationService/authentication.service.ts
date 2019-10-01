@@ -211,16 +211,16 @@ export class AuthenticationService {
   sendRecoveryCode(email: string, success, failed) {
     this.httpClient.post(SERVICE_URL + FORGET_PASSWORD, {
       UserMail: email
-    }).subscribe((response) => {
-      let result: Response = <Response>response;
-      if (result.ResultStatus == true) {
-        success(result.LanguageKeyword);
+    }).subscribe(result => {
+      let response: Response = <Response>result;
+      if (response.ResultStatus == true) {
+        success(response.LanguageKeyword);
       } else {
-        failed(getAnErrorResponse(result.LanguageKeyword));
+        failed(getAnErrorResponse(response.LanguageKeyword));
       }
-    }, (error) => {
+    }, (error:HttpErrorResponse) => {
       failed(error);
-    })
+    });
   }
 
   // ServiceJSON(){

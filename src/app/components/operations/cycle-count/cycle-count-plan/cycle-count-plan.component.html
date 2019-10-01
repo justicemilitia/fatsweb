@@ -11,34 +11,33 @@
             <h2 class="az-content-title" style="margin-left:20px;">{{getLanguageValue('Counting_Plans')}}</h2>
             <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
               <div *ngIf="locationButton == true">
-                <button class="btn btn-az-primary btn-change-location" (click)="doOperation(3)" style="margin-right:10px"><i class="fas fa-map-marker-alt"></i></button>
+                <button class="btn btn-az-primary btn-change-location" (click)="doOperation(3)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Update_Location')}}" ><i class="fas fa-map-marker-alt"></i></button>
              
                 <button class="btn btn-az-primary btn-change-location" id="btnUpdateLocations" data-toggle="modal" data-target="#modalUpdateDifferentLocation" style="display:none;margin-right:10px"><i class="fas fa-map-marker-alt"></i></button>
 
               </div>
 
               <div *ngIf="lostFixedAssetButton == true">
-                <button class="btn btn-az-primary btn-lost-assets" (click)="doOperation(2)" style="margin-right:10px"><i class="fas fa-search-minus"></i></button>
+                <button class="btn btn-az-primary btn-lost-assets" (click)="doOperation(2)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Kayıp Olarak İşaretle"><i class="fas fa-search-minus"></i></button>
 
                 <button class="btn btn-az-primary btn-lost-assets" data-toggle="modal" data-target="#modalLostFixedAsset" id="btnLostFixedAsset" style="display:none; margin-right:10px"><i class="fas fa-search-minus"></i></button>
               </div>
 
-               <div>
-              <button *ngIf="visibleCycleCountPlan == true" class="btn btn-az-primary btn-create-assets" (click)="resetForm(data,true)" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="modal"
-              data-target="#modalCycleCountPlan"><i class="fas fa-plus-circle"></i></button>
+               <div><span data-toggle="modal" data-target="#modalCycleCountPlan">
+              <button *ngIf="visibleCycleCountPlan == true" class="btn btn-az-primary btn-create-assets" (click)="resetForm(data,true)" id="btnAddCycleCountPlan" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Start_Counting')}}"><i class="fas fa-plus-circle"></i></button></span>
               </div>
 
               <div>
-                <button *ngIf="visibleCycleCountPlan == true" class="btn btn-danger btn-exit-assets" (click)="doOperation(1)" style="margin-right:10px" title="Sayımı İptal Et"><i
+                <button *ngIf="visibleCycleCountPlan == true" class="btn btn-danger btn-exit-assets" (click)="doOperation(1)" style="margin-right:10px"  data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Finish_Counting')}}"><i
                 class="fas fa-minus-circle"></i></button>
 
                 <button class="btn btn-danger btn-exit-assets" id="btnCanceledCycleCountPlan" style="display:none; margin-right:10px" data-toggle="modal"
-                data-target="#modalCanceledCycleCountPlan" title="Sayımı İptal Et"><i
+                data-target="#modalCanceledCycleCountPlan" ><i
                 class="fas fa-minus-circle"></i></button>
               </div>
 
               <div>
-                  <button type="button" (click)="refreshTable()" id="refreshTable" class="btn btn-success btn-refresh-custom">
+                  <button type="button" (click)="refreshTable()" id="refreshTable" class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
                       <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                         [class.btn-refresh-loader]="isTableRefreshing == true"></i>
                     </button>
@@ -309,7 +308,7 @@
 <form name="form" #data="ngForm" (ngSubmit)="lostFixedAsset(data)">
     <div class="modal-body">
       <div>
-        <p style="width:500px;">this.getLanguageValue('Choosen_countin_ plans_are_going_to_be_canceled_Do_you_accept_this_process!')</p>
+        <p style="width:500px;">{{getLanguageValue('Choosen_countin_ plans_are_going_to_be_canceled_Do_you_accept_this_process!')}}</p>
       </div>
       <br>
       <div class="property-values-table">
@@ -341,7 +340,7 @@
 <form name="form">
     <div class="modal-body">
       <div>
-        <p>this.getLanguageValue('Choosen_fixed_assets_are_going_to_be_marked_as_lost_Do_you_accept_this_process')</p>
+        <p>{{getLanguageValue('Choosen_fixed_assets_are_going_to_be_marked_as_lost_Do_you_accept_this_process')}}</p>
       </div>
       <br>
     </div>
