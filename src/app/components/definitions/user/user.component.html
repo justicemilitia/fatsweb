@@ -321,7 +321,7 @@
           </div>
           <div class="modal-footer">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange">getLanguageValue('Back')}}</button>
+              <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange">{{getLanguageValue('Back')}}</button>
             </div>
             <button class="btn btn-az-primary" id="btnCreateUser" type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

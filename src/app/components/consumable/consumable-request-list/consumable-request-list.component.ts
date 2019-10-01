@@ -136,7 +136,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Kategori Adı",
+        columnDisplayName: this.getLanguageValue('Consumable_Category'),
         columnName: ["ConsumableCard","ConsumableCategory","ConsumableCategoryName"],
         isActive: true,
         classes: [],
@@ -170,7 +170,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     "requestlist",
     [
       {
-        columnDisplayName: "Talep Numarası",
+        columnDisplayName: this.getLanguageValue('Request_Number'),
         columnName: ["Number"],
         isActive: true,
         classes: [],
@@ -202,7 +202,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Talep Açıklaması",
+        columnDisplayName: this.getLanguageValue('Request_Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -210,7 +210,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Talep Edilen Miktar",
+        columnDisplayName: this.getLanguageValue('Requested_Amount_Unit'),
         columnName: ["RequestedAmount"],
         isActive: true,
         classes: [],
@@ -218,7 +218,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },  
       {
-        columnDisplayName: "Talep Eden Personel",
+        columnDisplayName: this.getLanguageValue('Requested_User'),
         columnName: ["RequestedUser"],
         isActive: true,
         classes: [],
@@ -244,7 +244,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     "closedrequestlist",
     [
       {
-        columnDisplayName: "Talep Numarası",
+        columnDisplayName: this.getLanguageValue('Request_Number'),
         columnName: ["Number"],
         isActive: true,
         classes: [],
@@ -277,7 +277,7 @@ export class ConsumableRequestListComponent extends BaseComponent
       },
     
       {
-        columnDisplayName: "Talep Edilen Miktar",
+        columnDisplayName: this.getLanguageValue('Requested_Amount_Unit'),
         columnName: ["RequestedAmount"],
         isActive: true,
         classes: [],
@@ -285,7 +285,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },      
       {
-        columnDisplayName: "Karşılanan Miktar - Birim",
+        columnDisplayName: this.getLanguageValue('Received_Amount_Unit'),
         columnName: ["ReceivedAmount"],
         isActive: true,
         classes: [],
@@ -293,7 +293,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       }, 
       {
-        columnDisplayName: "Talep Eden Personel",
+        columnDisplayName: this.getLanguageValue('Requested_User'),
         columnName: ["RequestedUser"],
         isActive: true,
         classes: [],
@@ -309,7 +309,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         }
       },
       {
-        columnDisplayName: "Talebi Karşılayan Personel",
+        columnDisplayName:  this.getLanguageValue('Received_User'),
         columnName: ["ReceivedUser"],
         isActive: true,
         classes: [],
@@ -325,7 +325,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         }
       },   
       {
-        columnDisplayName: "Talep Açıklaması",
+        columnDisplayName: this.getLanguageValue('Request_Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -352,7 +352,7 @@ export class ConsumableRequestListComponent extends BaseComponent
     "canceledrequestlist",
     [
       {
-        columnDisplayName: "Talep Numarası",
+        columnDisplayName: this.getLanguageValue('Request_Number'),
         columnName: ["Number"],
         isActive: true,
         classes: [],
@@ -384,7 +384,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Talep Edilen Miktar",
+        columnDisplayName: this.getLanguageValue('Requested_Amount_Unit'),
         columnName: ["RequestedAmount"],
         isActive: true,
         classes: [],
@@ -392,7 +392,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
-        columnDisplayName: "Talep Açıklaması",
+        columnDisplayName: this.getLanguageValue('Request_Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -400,7 +400,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       }, 
       {
-        columnDisplayName: "Talep İptal Açıklaması",
+        columnDisplayName: this.getLanguageValue('Cancel_Request_Description'),
         columnName: ["DescriptionCanceledArray"],
         isActive: true,
         classes: [],
@@ -408,7 +408,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },     
       {
-        columnDisplayName: "Talep Eden Personel",
+        columnDisplayName: this.getLanguageValue('Requested_User'),
         columnName: ["RequestedUser"],
         isActive: true,
         classes: [],

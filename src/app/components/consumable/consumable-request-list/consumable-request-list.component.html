@@ -12,9 +12,9 @@
           <div class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
 
               <div>
-                  <button *ngIf="visibleRequestButton==true" class="btn btn-az-primary" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Create_Request')}}" style="margin-right:10px" (click)="selectedConsumableMaterial()">Talep Oluştur</button>
+                  <button *ngIf="visibleRequestButton==true" class="btn btn-az-primary" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Create_Request')}}" style="margin-right:10px" (click)="selectedConsumableMaterial()">{{getLanguageValue('Create_Request')}}</button>
 
-                  <button style="display:none" id="btnAddRequest" data-toggle="modal" data-target="#modalRequestConsumable">Talep Oluştur</button>
+                  <button style="display:none" id="btnAddRequest" data-toggle="modal" data-target="#modalRequestConsumable">{{getLanguageValue('Create_Request')}}</button>
               </div>       
               <div>
                   <button *ngIf="visibleConsumableButton==true" class="btn btn-az-primary" style="margin-right:10px" (click)="selectedRequestConsumableMaterial()">{{getLanguageValue('Evaluate_Request')}}</button>
@@ -205,7 +205,7 @@
 
           <div class="row justify-content-center">            
             <div class="form-group col-md-6">
-                <label class="required-span">Miktar</label>
+                <label class="required-span">{{getLanguageValue('Amount')}}</label>
                 <input [(ngModel)]="consumable.RequestedAmount" name="RequestedAmount" class="form-control" type="text"
                 [ngClass]="{ 'is-invalid': data.submitted && RequestedAmount.invalid }" #RequestedAmount="ngModel" required/>
                 <div *ngIf="data.submitted && RequestedAmount.invalid" class="invalid-feedback">
@@ -229,7 +229,7 @@
 
       <div class="row justify-content-center">
         <div class="form-group col-md-12">   
-          <label>Açıklama</label>
+          <label>{{getLanguageValue('Description')}}</label>
                 <input [(ngModel)]="consumable.Description" name="Description" class="form-control" type="text"/>
         </div>   
     </div>   
@@ -238,7 +238,7 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="submit" *ngIf="isWaitingInsertOrUpdate == false">
-            Talep Oluştur
+            {{getLanguageValue('Create_Request')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
@@ -287,11 +287,11 @@
 
         <div class="row justify-content-center">
             <div class="form-group col-md-6">
-                <label>Talep Miktarı</label>
+                <label>{{getLanguageValue('Requested_Amount_Unit')}}</label>
                 <input name="ConsumableAmount"  value="{{consumableRequest.RequestedAmount == null ? '' : consumableRequest.RequestedAmount}}" class="form-control" type="text" disabled/>              
             </div>  
             <div class="form-group col-md-6">
-                  <label class="required-span">Karşılanacak Miktar</label>
+                  <label class="required-span">{{getLanguageValue('Received_Amount_Unit')}}</label>
                   <input [(ngModel)]="receiveConsumableMaterial.ReceivedAmount" [class.is-invalid]="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" name="ReceivedAmount"  class="form-control" type="text" required/>
                   <div *ngIf="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" class="invalid-feedback">
                     <div>{{getLanguageValue('This_value_is_required')}}</div>
@@ -313,7 +313,7 @@
 
         <div class="row justify-content-center">
           <div class="form-group col-md-12">   
-          <label>Açıklama</label>
+          <label>{{getLanguageValue('Description')}}</label>
             <input [(ngModel)]="receiveConsumableMaterial.Description" [class.is-invalid]="receiveConsumableMaterial.Description == null && submitDescription == true" name="Description" class="form-control" type="text"/>
             <div *ngIf="receiveConsumableMaterial.Description == null && submitDescription == true">
               <div style="color:red">{{getLanguageValue('This_value_is_required')}}</div>
@@ -325,11 +325,11 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button class="btn btn-az-primary" id="btnReceivedConsumableMaterial" type="submit" (click)="receivedConsumableMaterial(dataCancel)" >
-            Talebi Karşıla
+            {{getLanguageValue('Evaluate_Request')}}
           </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
           <button class="btn btn-danger"  id="btnCancelConsumableMaterial" type="button"  (click)="cancelRequestConsumableMaterial(dataCancel)" >
-              Talebi İptal Et
+            {{getLanguageValue('Cancel_Request')}}
             </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
@@ -420,7 +420,7 @@
                 <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
               </select> 
               <div *ngIf="visible == true" style="color:red">
-                  <div>Bir {{getLanguageValue('Choose_a_property')}}.</div>
+                  <div> {{getLanguageValue('Choose_a_property')}}.</div>
                 </div> 
             </div>
             <div class="form-group col-md-6">
@@ -453,10 +453,10 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button class="btn btn-danger"  id="btnReceivedConsumableMaterial" type="button" (click)="clearFilter()">
-            Filtre Temizle
+            {{getLanguageValue('Reset_Filter')}}
           </button>         
           <button class="btn btn-az-primary" id="btnCancelConsumableMaterial" type="button" (click)="isFilterRequestList(true)" >
-             Filtrele
+            {{getLanguageValue('Filter')}}
             </button>   
         </div>
       </form>
@@ -531,7 +531,7 @@
                 <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
               </select> 
               <div *ngIf="visible == true" style="color:red">
-                  <div>Bir {{getLanguageValue('Choose_a_property')}}.</div>
+                  <div>{{getLanguageValue('Choose_a_property')}}.</div>
                 </div> 
             </div>
             <div class="form-group col-md-6">
@@ -564,10 +564,10 @@
         <!-- modal-body -->
         <div class="modal-footer">
           <button class="btn btn-danger"  type="button" (click)="clearFilter()">
-            Filtre Temizle
+            {{getLanguageValue('Reset_Filter')}}
           </button>         
           <button class="btn btn-az-primary" type="button" (click)="isFilterConsumableList(true)" >
-             Filtrele
+            {{getLanguageValue('Filter')}}
             </button>   
         </div>
       </form>
