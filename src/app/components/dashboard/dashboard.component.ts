@@ -53,6 +53,8 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
   isGuaranteeFa: boolean = false;
 
   fixedAssets: FixedAsset[] = [];
+
+  language:string;
   // faComponent: FixedAssetComponent = new FixedAssetComponent(this.baseService);
   currentPage: number = 1;
   perInPage: number = 25;
@@ -88,6 +90,8 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
 
   constructor(public baseService: BaseService) {
     super(baseService);
+
+    this.language = this.baseService.languageService.locale;
 
     this.GetUserInfoById(
       this.baseService.authenticationService.getCurrentUserId()
@@ -279,7 +283,7 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
       /* x axis Values */
         let currentMonth = (new Date()).getMonth();
         xValues.push([0,'']);
-        GetMonthOfYearsLong('tr').forEach((e,i)=>{
+        GetMonthOfYearsLong(this.language).forEach((e,i)=>{
           if( i < currentMonth + 1 && i >= currentMonth-2){
             xValues.push([y,e]);
             y=y+20;
@@ -361,17 +365,17 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
       /* x axis Values */
       if (groupType == this.countEnums.Week) {
         this.totalPrices.forEach((e, i) => {
-          xValues.push([e.Dates, e.Dates.toString() + "hafta"]);
+          xValues.push([e.Dates, e.Dates.toString() + this.language == "en" ? "week" : "hafta" ]);
         });
       } else if (groupType == this.countEnums.Day) {
         let today = (new Date()).getDay();
         this.totalPrices.forEach((e, i) => {
-          xValues.push([e.Dates, GetDayOfWeekFromDayOfYear(today - (this.totalPrices.length - 1 - i), 'tr')]);
+          xValues.push([e.Dates, GetDayOfWeekFromDayOfYear(today - (this.totalPrices.length - 1 - i), this.language)]);
         });
       } else if (groupType == this.countEnums.Month) {
         let currentMonth = (new Date()).getMonth();
         this.totalPrices.forEach((e, i) => {
-          xValues.push([e.Dates, GetMonthOfYearsLong('tr')[currentMonth - (this.totalPrices.length - 1 - i)]]);
+          xValues.push([e.Dates, GetMonthOfYearsLong(this.language)[currentMonth - (this.totalPrices.length - 1 - i)]]);
         });
       }
 
