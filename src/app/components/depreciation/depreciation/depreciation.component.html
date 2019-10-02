@@ -8,7 +8,7 @@
         <!-- END Bread Crumb END -->
         <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header" style="padding-bottom:0px;">
-            <h2 class="az-content-title" style="margin-left:20px;">Amortisman Yönetimi</h2>
+            <h2 class="az-content-title" style="margin-left:20px;">{{getLanguageValue('Depreciation_Management')}}</h2>
             <div *ngIf="isDetailInfo == true && isDepreciationTab == true">          
               <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
                         data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px; min-height: 37px;"><i
@@ -37,13 +37,13 @@
                       <button class="btn btn-az-primary" id="btnFilterDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;"  id="showModal" data-toggle="modal" data-target="#modalFilterDepreciation">Filtrele</button>
                   </div>  -->
                   <div>
-                      <button class="btn btn-az-primary" id="btnCalculateIFRSDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="onClickCalculateDepreciation(2)">IFRS Hesapla</button>
+                      <button class="btn btn-az-primary" id="btnCalculateIFRSDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="onClickCalculateDepreciation(2)">{{getLanguageValue('Calculation_IFRS')}}</button>
                   </div>       
                   <div>
-                      <button class="btn btn-az-primary" id="btnCalculateDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="onClickCalculateDepreciation(1)">Amortisman Hesapla</button>
+                      <button class="btn btn-az-primary" id="btnCalculateDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="onClickCalculateDepreciation(1)">{{getLanguageValue('Calculation_Depreciation')}}</button>
                   </div>
                   <div>
-                    <button class="btn btn-az-primary" id="btnUpdateInfos"data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:40px;" (click)="depreciationInfo()">Bilgileri Güncelle</button>
+                    <button class="btn btn-az-primary" id="btnUpdateInfos"data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:40px;" (click)="depreciationInfo()">{{getLanguageValue('Update_Information')}}</button>
                 </div>
               </div>
             </div>
@@ -52,13 +52,13 @@
 
               <div *ngIf="isDetailInfo == true">
                     <fieldset class="field_set" style="padding-left: 10px; margin-right: 10px; margin-left: 20px;">
-                    <legend>Genel Bilgiler</legend>
+                    <legend>{{getLanguageValue('General_Informations')}}</legend>
             
                       <div class="row">
                         <!-- BARKOD -->     
                           <div class="col-md-4">
                             <div class="col-md-12" style="padding-left:0px;">                       
-                                <label><b>Barkod:</b></label>                                            
+                                <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
                                 <span style="margin-left:20px;">{{ fixedAsset.Barcode }}</span>
                             </div>
                         </div> 
@@ -66,14 +66,14 @@
 
                           <div class="col-md-4">
                               <div class="col-md-12">                       
-                                  <label><b>Amortisman Yöntemi:</b></label>
+                                  <label><b>{{getLanguageValue('Depreciation_Method')}}:</b></label>
                                   <span  style="margin-left:20px;">{{ fixedAsset.DepreciationCalculationType == null ? null : fixedAsset.DepreciationCalculationType.DepreciationCalculationTypeDescription }}</span>
                               </div>
                           </div>
 
                           <div class="col-md-4">               
                                   <div class="col-md-12">                
-                                    <label><b>Demirbaşın Aktif Değeri:</b></label>                                             
+                                    <label><b>{{getLanguageValue('Revaluated_Value')}}:</b></label>                                             
                                     <span style="margin-left:20px;">{{ fixedAsset.Price }}</span>
                                   </div>
                           </div>
@@ -86,21 +86,21 @@
                           <!-- DEMİRBAŞ ADI -->     
                             <div class="col-md-4" style="padding-left:0px;">              
                                 <div class="col-md-12">                
-                                  <label><b>Demirbaş Adı:</b></label>                                             
+                                  <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>                                             
                                   <span style="margin-left:20px;">{{ fixedAsset.FixedAssetCard == null ? null : fixedAsset.FixedAssetCard.Name }}</span>
                                 </div>
                           </div>
                             <!-- AMOERTİSMAN PERİYODU -->
                             <div class="col-md-4">           
                               <div class="col-md-12">                
-                                <label><b>Amortisman Periyodu:</b></label>                                             
+                                <label><b>{{getLanguageValue('Depreciation_Period')}}:</b></label>                                             
                                 <span style="margin-left:20px;">{{ fixedAsset.DepreciationPeriod }}</span>
                               </div>
                             </div>
                             <!-- AMORTİSMAN ORANI -->
                             <div class="col-md-4">            
                                     <div class="col-md-12">                
-                                      <label><b>Amortisman Oranı:</b></label>                                           
+                                      <label><b>{{getLanguageValue('Depreciation_Rate')}}:</b></label>                                           
                                       <span style="margin-left:20px;">{{ fixedAssetDepreciationDetails.length == 0 ? null : fixedAssetDepreciationDetails[0].Rate }}</span>
                                     </div>
                             </div>
@@ -131,7 +131,7 @@
                 <!-- AMORTİSMAN VE IFRS BİLGİLERİ -->
                 <mat-tab>
                     <ng-template mat-tab-label>
-                      Amortisman ve IFRS Bilgileri
+                      {{getLanguageValue('Depreciation_and_IFRS_Infos')}}
                     </ng-template>
                     <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                         <tree-grid-table [dataTable]="dataTable" (onClickItem)="onClickDepreciation($event,item)">
@@ -163,7 +163,7 @@
                 <!-- AMORTİSMAN BİLGİLERİ -->
                 <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 && selectedFixedAsset.WillDepreciationBeCalculated == true ? null : 'disabled'">
                   <ng-template mat-tab-label>
-                    Amortisman Bilgileri
+                    {{getLanguageValue('Depreciation_Infos')}}
                   </ng-template>
                   <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                       <tree-grid-table [dataTable]="dataTableDepreciationDetail">
@@ -175,7 +175,7 @@
                 <!-- IFRS BİLGİLERİ -->
                 <mat-tab [disabled]="dataTable.TGT_getSelectedItems().length == 1 && selectedFixedAsset.WillIfrsbeCalculated == true ? null : 'disabled'">
                     <ng-template mat-tab-label>
-                      IFRS Bilgileri
+                      {{getLanguageValue('IFRS_Informations')}}
                     </ng-template>
                         <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                       <tree-grid-table [dataTable]="dataTableIFRSDepreciationDetail">
@@ -202,7 +202,7 @@
   <div class="modal-dialog-popup modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title">Amortisman bilgilerini giriniz.</h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_Depreciation_Information')}}</h6>
         <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -232,7 +232,7 @@
 
                       <!-- PARA BİRİMİ -->
                       <div class="col-md-6 form-group ">
-                              <label>Para Birimi</label>
+                              <label>{{getLanguageValue('Currency')}}</label>
                               <select [(ngModel)]="fixedAsset.CurrencyId" name="CurrencyId" [class.is-invalid]="dataDepreciation.submitted && depreciationBeCalculated == true && fixedAsset.CurrencyId == null" class="form-control select2-no-search">
                                 <option value="-1" >{{getLanguageValue('Choose')}}</option>
                                 <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
@@ -246,20 +246,20 @@
         <div class="row">          
           <div class="col-md-6">
               <fieldset class="field_set">
-                  <legend>Amortisman Bilgileri</legend>
+                  <legend>{{getLanguageValue('Depreciation_Informations')}}</legend>
                   <!-- AMORTİSMAN HESAPLANACAK MI? -->
                   <div class="col-md-12">
                       <label class="ckbox">
                           <input type="checkbox" [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" [checked]="fixedAsset.WillDepreciationBeCalculated"
                           (change)="willDepreciationBeCalculated($event)"
-                            name="WillDepreciationBeCalculated" /><span>Amortismanı hesaplanacak mı?</span>
+                            name="WillDepreciationBeCalculated" /><span>{{getLanguageValue('Will_Depreciation_Be_Calculated')}}</span>
                         </label>
                   </div>
 
                   <div class="row" style="margin-top:15px;">                            
                     <!-- AMORTİSMAN YÖNTEMİ -->
                     <div class="form-group col-md-6">
-                        <label>Amortisman Yöntemi</label> 
+                        <label>{{getLanguageValue('Depreciation_Method')}}</label> 
                         <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" [disabled]="depreciationBeCalculated==false" name="DepreciationCalculationTypeId" [class.is-invalid]="dataDepreciation.submitted && depreciationBeCalculated == true && fixedAsset.DepreciationCalculationTypeId == null" class="form-control select2-no-search">
                             <option value="-1" >{{getLanguageValue('Choose')}}</option>
                             <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
@@ -268,7 +268,7 @@
 
                     <!-- AMORTİSMAN PERİYODU -->
                     <div class="form-group col-md-6">
-                        <label>Amortisman Periyodu</label> 
+                        <label>{{getLanguageValue('Depreciation_Period')}}</label> 
                         <input [(ngModel)]="fixedAsset.DepreciationPeriod" [disabled]="depreciationBeCalculated==false" name="DepreciationPeriod" type="number" onkeypress="return event.charCode >= 48" min="0" [class.is-invalid]="dataDepreciation.submitted && depreciationBeCalculated == true && fixedAsset.DepreciationPeriod == null" class="form-control"/>
                     </div>   
 
@@ -277,7 +277,7 @@
                   <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div style="display:block" *ngIf="dataDepreciation.submitted" class="invalid-feedback">
-                          <div *ngIf="requiredDepreciation==true && depreciationBeCalculated==true"> Amortisman bilgilerini eksiksiz giriniz.</div>
+                          <div *ngIf="requiredDepreciation==true && depreciationBeCalculated==true"> {{getLanguageValue('Enter_Complete_Depreciation_Information')}}</div>
                         </div>
                     </div>      
                   </div>
@@ -286,21 +286,21 @@
 
           <div class="col-md-6">
               <fieldset class="field_set" style="padding-bottom: 0px;">
-                  <legend>IFRS Amortisman Bilgileri</legend>
+                  <legend>{{getLanguageValue('Depreciation_Informations')}}</legend>
 
                   <!-- IFRS AMORTİSMAN HESAPLANACAK MI -->
                   <div class="col-md-12" style="margin-top:10px;  padding-left:0px;">
                       <label class="ckbox">
                           <input type="checkbox" [(ngModel)]="fixedAsset.WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
                             (change)="willIfrsDepreciationBeCalculated($event)"
-                            name="WillIfrsbeCalculated" /><span>IFRS amortismanı hesaplanacak mı?</span>
+                            name="WillIfrsbeCalculated" /><span>{{getLanguageValue('Will_IFRS_Be_Calculated')}}</span>
                         </label>
                   </div>
 
                   <div class="row" style="margin-top:15px;">                                                  
                   <!-- IFRS PERİYODU -->
                   <div class="form-group col-md-6">
-                      <label>IFRS Periyodu</label> 
+                      <label>{{getLanguageValue('IFRS_Period')}}</label> 
                       <input [(ngModel)]="fixedAsset.Ifrsperiod" [disabled]="ifrsDepreciationBeCalculated==false" name="Ifrsperiod" type="number" onkeypress="return event.charCode >= 48" min="0" [class.is-invalid]="dataDepreciation.submitted && ifrsDepreciationBeCalculated == true && fixedAsset.Ifrsperiod == null" class="form-control"/>
                   </div>
 
@@ -308,12 +308,12 @@
                   <div class="form-group col-md-6">
                     <div class="row">                                                                      
                       <div class="form-group col-md-6">
-                        <label>IFRS Fiyatı</label> 
+                        <label>{{getLanguageValue('IFRS_Price')}}</label> 
                         <input [(ngModel)]="fixedAsset.Ifrsprice" [disabled]="ifrsDepreciationBeCalculated==false" name="Ifrsprice" type="text"  [class.is-invalid]="dataDepreciation.submitted && ifrsDepreciationBeCalculated == true && fixedAsset.Ifrsprice == null" class="form-control"/>   
                       </div>
                       <!-- IFRS PARA BİRİMİ -->
                       <div class="form-group col-md-6">
-                          <label>Para Birimi</label> 
+                          <label>{{getLanguageValue('Currency')}}</label> 
                           <select [(ngModel)]="fixedAsset.IFRSCurrecyId" [disabled]="ifrsDepreciationBeCalculated==false" name="IFRSCurrecyId" [class.is-invalid]="dataDepreciation.submitted && ifrsDepreciationBeCalculated == true && fixedAsset.IFRSCurrecyId == null" class="form-control select2-no-search">
                             <option value="-1" >{{getLanguageValue('Choose')}}</option>
                             <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
@@ -329,7 +329,7 @@
                 <div class="row justify-content-center">
                   <div class="col-md-12">
                     <div style="display:block" *ngIf="dataDepreciation.submitted" class="invalid-feedback">
-                      <div *ngIf="requiredIFRS==true && ifrsDepreciationBeCalculated==true"> IFRS bilgilerini eksiksiz giriniz.</div>
+                      <div *ngIf="requiredIFRS==true && ifrsDepreciationBeCalculated==true"> {{getLanguageValue('Enter_Complete_Ifrs_Depreciation_Information')}}</div>
                     </div>
                   </div>      
                 </div>
@@ -344,7 +344,7 @@
                   <label class="ckbox">
                       <input type="checkbox" [(ngModel)]="fixedAsset.HasInflationIndexation" [checked]="fixedAsset.HasInflationIndexation"
                         (change)="fixedAsset.HasInflationIndexation = !fixedAsset.HasInflationIndexation"
-                        name="HasInflationIndexation" /><span>Enflasyon hesaplaması yapılacak mı?</span>
+                        name="HasInflationIndexation" /><span>{{getLanguageValue('Has_Inflation_Indexation')}}</span>
                     </label>
               </div>
           </div>
@@ -353,7 +353,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateDepreciationt" type="submit" (click)="checkValidation(dataDepreciation)" class="btn btn-az-primary">Amortisman Bilgilerini Güncelle
+          <button id="btnInsertOrUpdateDepreciationt" type="submit" (click)="checkValidation(dataDepreciation)" class="btn btn-az-primary">{{getLanguageValue('Update_Depreciation_Informations')}}
           </button>
           <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
         </div>
@@ -369,7 +369,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
-          <h6 class="modal-title">Amortisman bilgilerini giriniz.</h6>
+          <h6 class="modal-title">{{getLanguageValue('Enter_Depreciation_Information')}}</h6>
           <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -377,7 +377,7 @@
         <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)" novalidate>
           <div class="modal-body">
                      <fieldset class="field_set" style="padding-left: 10px; margin-right: 10px; margin-left: 15px;">
-                        <legend>Hesaplamanın Başlayacağı Tarih Aralığı</legend>        
+                        <legend>{{getLanguageValue('Date_Range_From_Starting_Calculation')}}</legend>        
                     
                         <div class="row form-group">                        
                         <!-- BAŞLANGIÇ TARİHİ -->
@@ -422,7 +422,7 @@
                         <div class="col-md-4 form-group">
                           <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
                               <input type="checkbox"
-                              name="WillIfrsbeCalculated" /><span>Çıkışı yapılmış demirbaşlar</span>
+                              name="WillIfrsbeCalculated" /><span>{{getLanguageValue('Exit_Fixed_Assets')}}</span>
                             </label>
                       </div>
                     </div>
@@ -446,8 +446,8 @@
           </div>
           <!-- modal-body -->
           <div class="modal-footer">
-              <button type="button" class="btn btn-danger" (click)="resetFilter()">Filtreyi Temizle</button>
-            <button id="btnInsertOrUpdateFilterDepreciation" type="submit" class="btn btn-az-primary">Filtrele
+              <button type="button" class="btn btn-danger" (click)="resetFilter()">{{getLanguageValue('Reset_Filter')}}</button>
+            <button id="btnInsertOrUpdateFilterDepreciation" type="submit" class="btn btn-az-primary">{{getLanguageValue('Filter')}}
             </button>
             <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
           </div>
