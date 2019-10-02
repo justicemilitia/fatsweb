@@ -898,6 +898,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   
       this.popupComponent.ShowModal('#modalShowQuestionPopupForDepreciation');
       this.popupComponent.CloseModal('#modalUpdateDepreciation');
+  
+      this.requiredDepreciation = true;
+      this.requiredIFRS = true;
+      
     }
 } 
 

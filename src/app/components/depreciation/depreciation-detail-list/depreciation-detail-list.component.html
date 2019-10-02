@@ -3,12 +3,12 @@
       <div class="media-body">
         <!-- Bread Crumb -->
         <div class="az-content-breadcrumb">
-          <span>DETAYLI AMORTİSMAN LİSTESİ</span>
+          <span>{{getLanguageValue('Detailed_Depreciation_List')}}</span>
         </div>
         <!-- END Bread Crumb END -->
         <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header" style="padding-bottom:0px;">
-            <h2 class="az-content-title" style="margin-left:20px;">Detaylı Amortisman Listesi</h2>
+            <h2 class="az-content-title" style="margin-left:20px;">{{getLanguageValue('Detailed_Depreciation_List')}}</h2>
 
             <div class="grp-btn-action" style="margin-right: 10px;">
 
@@ -38,12 +38,12 @@
           <div class="row">
             <div class="col-md-12">
                 <fieldset class="field_set" style="padding-left: 10px; margin-right: 40px; margin-left: 40px; margin-top:10px;">
-                    <legend>Toplam Değerler</legend>        
+                    <legend>{{getLanguageValue('Total_Values')}}</legend>        
                     <div class="row">
                         <div class="col-md-6">
                             <div class="row">                          
                             <div class="col-md-5">                       
-                                <label><b>Toplam Birikmiş Değer:</b></label>                                            
+                                <label><b>{{getLanguageValue('Total_Accumulated_Value')}}:</b></label>                                            
                             </div>
                             <div class="col-md-6">
                                 <span>{{ totalAccumulatedValue }}</span>
@@ -54,7 +54,7 @@
                       <div class="col-md-6">
                           <div class="row">
                               <div class="form-group col-md-4">
-                                <label>Toplam Net Defter Değeri:</label>
+                                <label>{{getLanguageValue('Total_Net_Book_Value')}}:</label>
                               </div>
                               <div class="col-md-6">
                                 <span>{{ totalNddValue }}</span>
@@ -66,7 +66,7 @@
                       <div class="col-md-6">
                           <div class="row">
                               <div class="form-group col-md-5">
-                                <label>Toplam Aktif Amortisman Değeri:</label>
+                                <label>{{getLanguageValue('Total_Revaluated_Value')}}:</label>
                               </div>
                               <div class="col-md-6">
                                 <span>{{ totalRevaluatedValue }}</span>
@@ -76,7 +76,7 @@
                       <div class="col-md-6">
                           <div class="row">
                               <div class="form-group col-md-4">
-                                <label>Toplam Amortisman Değeri:</label>
+                                <label>{{getLanguageValue('Total_Depreciation_Value')}}:</label>
                               </div>
                               <div class="col-md-6">
                                 <span>{{ totalDepreciationMonthlyValue }}</span>
@@ -90,7 +90,7 @@
                 <div *ngIf="isDepreciationList == true">
 
                     <fieldset class="field_set" style="padding-left: 10px; margin-right: 40px; margin-left: 40px; margin-top:10px;">
-                        <legend>Filtre</legend>        
+                        <legend>{{getLanguageValue('Filter')}}</legend>        
                     
                     <form name="form" #dataDepreciationFilter="ngForm" (ngSubmit)="onSubmitDepreciationFilter(dataDepreciationFilter) && dataDepreciationFilter.form.valid" novalidate>
                     
@@ -118,12 +118,12 @@
                             <div class="col-md-4 form-group">
                               <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
                                 <input type="checkbox" [(ngModel)]="fixedAssetFilter.IsExitFixedAsset" (change)="isExitFixedAsset($event)"
-                                name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
+                                name="IsValid" /><span>{{getLanguageValue('Exited_Fixed_Assets')}}</span>
                               </label>
                             </div>
                             <div class="col-md-2">
                                 <div class="grp-btn-action">
-                                  <button id="btnFilterDepreciation" type="submit" class="btn btn-az-primary" style="margin-left:100px;margin-top: 5px; margin-right:10px;">Filtrele
+                                  <button id="btnFilterDepreciation" type="submit" class="btn btn-az-primary" style="margin-left:100px;margin-top: 5px; margin-right:10px;">{{getLanguageValue('Filter')}}
                                   </button>
 
                                   <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" style="margin-right: 10px;margin-top: 5px;" data-placement="bottom"
@@ -170,7 +170,7 @@
                             <div class="col-md-4 form-group">
                               <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
                                 <input type="checkbox" (change)="isExitFixedAsset($event)"
-                                name="IsValid" /><span>Çıkışı yapılmış demirbaşlar</span>
+                                name="IsValid" /><span>{{getLanguageValue('Exited_Fixed_Assets')}}</span>
                               </label>
                             </div>
                               <div class="col-md-2">
@@ -205,7 +205,7 @@
                     <!-- AMORTİSMAN BİLGİLERİ -->
                     <mat-tab>
                       <ng-template mat-tab-label>
-                        Detaylı Amortisman Listesi
+                        {{getLanguageValue('Detailed_Depreciation_List')}}
                       </ng-template>
                       <div class="sales-overview" style="flex-direction:column; margin-top:20px; padding-left:0px;">
                           <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
@@ -215,7 +215,7 @@
                     <!-- IFRS BİLGİLERİ -->
                     <mat-tab>
                         <ng-template mat-tab-label>
-                          Detaylı IFRS Listesi
+                        {{getLanguageValue('Detailed_IFRS_List')}}                          
                         </ng-template>
                         <div class="sales-overview" style="flex-direction:column; margin-top:20px; padding-left:0px;">
                             <tree-grid-table [dataTable]="dataTableIFRS"></tree-grid-table>
@@ -231,64 +231,3 @@
     </div>
   </div>
   <!-- az-content -->
-
-<!-- LARGE MODAL -->
-<!-- <div id="modalFilterDepreciation" class="modal" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content modal-content-demo">
-        <div class="modal-header">
-          <h6 class="modal-title">Amortisman bilgilerini giriniz.</h6>
-          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
-          <div class="modal-body">
-                     <fieldset class="field_set" style="padding-left: 10px; margin-right: 10px; margin-left: 15px;">
-                        <legend>Hesaplamanın Başlayacağı Tarih Aralığı</legend>        
-                    
-                        <div class="row form-group">                        
-                        <div class="col-md-6 form group" style="margin-top: 10px; margin-bottom: 10px;">
-                          <div class="input-group">
-                            <div class="input-group-append">
-                              <div (click)="depreciationDate.toggle()" class="input-group-text">
-                                <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                              </div>
-                            </div>
-                            <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="depreciationDate"
-                              [(ngModel)]="fixedAsset.DepreciationDate" ngbDatepicker #depreciationDate="ngbDatepicker" #depreciationDateModel="ngModel">
-                          </div>
-                        </div>
-                    </div>                           
-                      </fieldset>
-                    <div class="row">
-                        <div class="col-md-4 form-group">
-                            <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                                <input type="checkbox" [(ngModel)]="fixedAsset.WillDepreciationBeCalculated" [checked]="fixedAsset.WillDepreciationBeCalculated"
-                                  name="WillDepreciationBeCalculated" /><span>{{getLanguageValue('Calculating_Depreciation')}}</span>
-                              </label>
-                        </div>
-                        <div class="col-md-4 form-group">
-                            <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                                <input type="checkbox" [(ngModel)]="fixedAsset.WillIfrsbeCalculated" [checked]="fixedAsset.WillIfrsbeCalculated"
-                                  name="WillIfrsbeCalculated" /><span>{{getLanguageValue('Calculating_IFRS')}}</span>
-                              </label>
-                        </div>
-                        <div class="col-md-4 form-group">
-                          <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                              <input type="checkbox"
-                              name="WillIfrsbeCalculated" /><span>Çıkışı yapılmış demirbaşlar</span>
-                            </label>
-                      </div>
-                    </div>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-danger" (click)="resetFilter()">Filtreyi Temizle</button>
-            <button id="btnInsertOrUpdateFilterDepreciation" type="submit" class="btn btn-az-primary">Filtrele
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-   </div> -->
-
