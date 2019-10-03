@@ -59,6 +59,7 @@ export class FixedAsset implements IData {
   WillIfrsbeCalculated: boolean;
   Ifrsperiod: number;
   IFRSCurrecyId: number;
+  IfrscurrecyId: number;
   HasInflationIndexation: boolean;
   GuaranteeStartDate: NgbDate;
   GuaranteeEndDate: NgbDate;

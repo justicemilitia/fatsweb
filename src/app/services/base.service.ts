@@ -90,7 +90,7 @@ export class BaseService {
     public firmService: FirmService,
     public transactionService: TransactionService,
     public cycleCountService : CycleCountService,
-    public alertInfoService: AlertInfoService,
+    // public alertInfoService: AlertInfoService,
     public activeRoute: ActivatedRoute) { }
 
 }
