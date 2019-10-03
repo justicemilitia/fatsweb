@@ -24,6 +24,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
   
   errorMessage: string = '';
 
+  httpErrorMessage:string;
+
   isWaitingForResetPassword: boolean = false;
 
   resetPasswordSucceed: boolean = false;
@@ -31,6 +33,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
   visible: boolean = true;
 
   firmlist:boolean=false;
+
+  recoveryUserMail:UserLogin = new UserLogin(); 
+
+  unAutharized:boolean=false;
 
   constructor(protected baseService: BaseService) {
     super(baseService);
@@ -49,13 +55,13 @@ export class LoginComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true)
       return;
 
-
+    if (this.loginUser.FirmId == -1) {
+          
     let firmList:boolean = this.GetUserFirms(this.loginUser.UserMail);
 
     if(firmList)
       this.errorMessage ='';
 
-    if (this.loginUser.FirmId == -1) {
       this.errorMessage = this.getLanguageValue("Chose_firm_please");  
       return;
     }
@@ -68,6 +74,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
       () => {
 
         this.isLoggining = false;
+
+        this.unAutharized=false;
+
         this.baseService.router.navigateByUrl("/dashboard");
 
       }, (error: HttpErrorResponse) => {
@@ -75,11 +84,15 @@ export class LoginComponent extends BaseComponent implements OnInit {
         /* show login button */
         this.isLoggining = false;
 
+        this.unAutharized=true;
+
+        this.errorMessage='';
+
         /* if 401 error say user username or password is wrong otherwise just show error message*/
         if (error.status == 401)
-          this.errorMessage = this.getLanguageValue("Username_or_Password_Incorrect");
+          this.httpErrorMessage = this.getLanguageValue("Username_or_Password_Incorrect");
         else {
-          this.errorMessage = this.getLanguageValue("Unknown_Error");
+          this.httpErrorMessage = this.getLanguageValue("Unknown_Error");
         }
 
       }
@@ -115,6 +128,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         /* if any error show on screen and stop getting firms */
         let errorType:string = getAnErrorResponse(error.statusText).statusText;
         this.errorMessage = this.getLanguageValue(errorType);
+        this.unAutharized=false;
         
         this.firms = [];
         this.isUserFirmsGetting = false;
@@ -135,7 +149,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
       this.isWaitingForResetPassword = false;
       this.resetPasswordSucceed = true;
       this.baseService.popupService.ShowSuccessPopup(message);
-      data.reset();
+      data.resetForm(data);
 
     }, (error: HttpErrorResponse) => {
 
@@ -146,10 +160,22 @@ export class LoginComponent extends BaseComponent implements OnInit {
   }
 
   resetPasswordAreas(event, data: NgForm) {
-    data.reset();
+    data.resetForm(data);
+
     this.isWaitingForResetPassword = false;
+
     this.resetPasswordSucceed = false;
+
     $('#closePopup').trigger('click');
+  }
+
+  resetForm(data:NgForm){      
+
+    this.recoveryUserMail = new UserLogin();
+
+    data.resetForm(data); 
+
+    this.resetPasswordSucceed = false;
   }
 
 }

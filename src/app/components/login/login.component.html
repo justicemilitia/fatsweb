@@ -53,6 +53,11 @@
           <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">×</span></button>
         </div><!-- alert -->
+        <div id="WrongPassword" *ngIf="unAutharized == true " class="alert alert-solid-danger alert-custom" role="alert">
+          <b>{{getLanguageValue('Error')}} </b>{{httpErrorMessage}}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span></button>
+        </div><!-- alert -->
         <div *ngIf="isLoggining == true">
           <div class="loader"></div>
         </div>
@@ -88,7 +93,7 @@
       <!-- form-group -->
     </div>
     <div class="az-signin-footer">
-      <p><a class="forgetPassword" data-toggle="modal" data-target="#forgotPasswordModal"
+      <p><a class="forgetPassword" data-toggle="modal" data-target="#forgotPasswordModal" (click)="resetForm(recoveryForm)"
           onclick="return false;">{{getLanguageValue('Forgot_Password')}}</a></p>
     </div>
   </div>
@@ -121,7 +126,7 @@
             <label class="required-span">{{getLanguageValue('eMail')}}</label>
             <input class="form-control" [ngClass]="{ 'is-invalid': recoveryForm.submitted && email.invalid }"
               type="email" style="min-height:27px" name="email" email #email="ngModel" required
-              [(ngModel)]="recoveryForm.email" />
+              [(ngModel)]="recoveryUserMail.UserMail" />
             <div *ngIf="recoveryForm.submitted && email.invalid" class="invalid-feedback">
               <div *ngIf="email.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               <div *ngIf="email.errors.email">{{getLanguageValue('Please_enter_a_valid_email')}}</div>
