@@ -30,6 +30,7 @@ export class FixedAssetCard implements IData {
     ModifiedDate: Date;
     ModifiedId: number;
     IsValid: boolean;
+    IsPeriodic:boolean;
     FixedAssetCardCategory: FixedAssetCardCategory;
     FixedAssetCardProperty:FixedAssetCardProperty[] = [];
     Inventories:Inventory[];

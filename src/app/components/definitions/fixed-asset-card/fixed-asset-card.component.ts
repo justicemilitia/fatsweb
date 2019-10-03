@@ -366,4 +366,11 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   }
 
+  AddPeriodicMaintenance(){
+    
+    this.popupComponent.CloseModal('#modalFixedAssetCard');
+
+    this.baseService.router.navigateByUrl("/periodicmaintenance");
+  }
+
 }

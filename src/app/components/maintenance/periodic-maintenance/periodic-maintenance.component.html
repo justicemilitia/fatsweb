@@ -1,0 +1,89 @@
+<div class="az-content az-content-dashboard-four">
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+      <div class="az-content-breadcrumb">
+        <span>{{getLanguageValue('Definitions')}}</span>
+        <span>{{getLanguageValue('Fixed_Asset_Cards')}}</span>
+        <span>Periyodik Bakım İş Emri</span>
+      </div>
+      <div class="card card-dashboard-twelve mg-b-20">
+        <div class="card-header">
+          <h2 class="az-content-title">Periyodik Bakım İş Emri</h2>
+          <div class="grp-btn-action">
+   
+          </div>
+        </div>
+        <div class="sales-overview" style="margin-left:10px;margin-right:10px">
+            <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Demirbaş Kart Kodu :</label>
+                    </div>
+                    <div class="col-md-6">
+                      <span></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group col-md-6">
+                        <label>Demirbaş Kart Adı :</label>
+                      </div>
+                      <div class="col-md-6">
+                        <span></span>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group col-md-6">
+                        <label>Demirbaş Kategorisi :</label>
+                      </div>
+                      <div class="col-md-6">
+                        <span></span>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group col-md-6">
+                        <label>İş Emri Kodu :</label>
+                      </div>
+                      <div class="col-md-6">
+                        <span></span>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <label>1. İş Adımı</label>
+                    <input class="form-control" type="text" maxlength="4000">
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="ckbox" style="margin-top: 23px">
+                            <input type="checkbox" /><span>Sarf malzeme kullanılacak mı?</span>
+                        </label> 
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Resim</label>
+                        <div class="file-area">
+                          <input #fixedAssetCardPicture name="FixedAssetCardPicture" id="FixedAssetCardPicture" type="file"
+                            class="form-control-file" style="display:none">
+                          <label for="FixedAssetCardPicture" class="custom-file">
+                            <label class="custom-file-text" for="FixedAssetCardPicture">
+                             
+                            </label>
+                          </label>
+                          <label class="custom-file-remove"><span class="fa fa-times"></span></label>
+                        </div>
+                      </div>
+                  </div>
+            </div>
+            <div class="form-group col-md-6">
+
+              </div>
+            </div>
+          <!-- <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          </tree-grid-table> -->
+        </div>
+      </div>
+    </div>
+    <!-- az-content-body -->
+  </div>
+</div>
+<!-- az-content -->

@@ -39,6 +39,7 @@ import { ConsumableUnitComponent } from './components/consumable/consumable-unit
 import { ConsumableListComponent } from './components/consumable/consumable-list/consumable-list.component';
 import { ConsumableRequestListComponent } from './components/consumable/consumable-request-list/consumable-request-list.component';
 import { ConsumableTransactionListComponent } from './components/consumable/consumable-transaction-list/consumable-transaction-list.component';
+import { PeriodicMaintenanceComponent } from './components/maintenance/periodic-maintenance/periodic-maintenance.component';
 
 export const routes: Routes = [
   {
@@ -260,6 +261,10 @@ export const routes: Routes = [
     component: ConsumableTransactionListComponent,
     data: { pageKeyword: pages.MENU_CONSUMABLETRANSACTIONLIST },
     canActivate: [AuthGuard]
+  },
+  { 
+    path: "periodicmaintenance",
+    component: PeriodicMaintenanceComponent
   }
 
 ];

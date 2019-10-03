@@ -90,6 +90,7 @@ import { FaFinancialInformationComponent } from './components/operations/fixed-a
 
 import { PopupComponent } from './components/popup/popup.component';
 import { BaseComponent } from './components/base/base.component';
+import { PeriodicMaintenanceComponent } from './components/maintenance/periodic-maintenance/periodic-maintenance.component';
 
 
 @NgModule({
@@ -160,6 +161,7 @@ import { BaseComponent } from './components/base/base.component';
     FaPropertyInformationComponent,
     FaFinancialInformationComponent,
     PopupComponent,
+    PeriodicMaintenanceComponent,
   ],
   imports: [
     BrowserModule,
