@@ -7,12 +7,12 @@ export class AlertInfo {
     message: string;
     title?: string;
     state: string;
-    constructor(messageType: AlertInfoTypes, message: string, title: string = '') {
+    constructor(culture: string, messageType: AlertInfoTypes, message: string, title: string = '') {
         this.messageType = messageType;
         this.message = message;
         this.state = 'enter';
         if (title == '')
-            this.title = getInfoTitle(this.messageType);
+            this.title = getInfoTitle(culture, this.messageType);
     }
 
 }

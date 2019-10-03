@@ -19,24 +19,19 @@ export class PopupService {
 
   ShowAlertPopup(message: string) {
     //swal(message, "", "warning");
-    this.alertSerivce.pushDanger(this.languageService.getValue(message));
+    this.alertSerivce.pushDanger(this.languageService.locale, this.languageService.getValue(message));
   }
 
   ShowWarningPopup(message: string) {
-    this.alertSerivce.pushWarning(this.languageService.getValue(message), this.languageService.getValue("Warning!"));
+    this.alertSerivce.pushWarning(this.languageService.locale, this.languageService.getValue(message));
   }
 
   ShowSuccessPopup(message: string) {
-    /*swal({
-      title: "İşlem Başarılı",
-      text: message,
-      icon: "success"
-    });*/
-    this.alertSerivce.pushSuccess(this.languageService.getValue(message));
+    this.alertSerivce.pushSuccess(this.languageService.locale, this.languageService.getValue(message));
   }
 
   ShowErrorPopup(error: HttpErrorResponse) {
-    this.alertSerivce.pushDanger(this.languageService.getValue(error.statusText));
+    this.alertSerivce.pushDanger(this.languageService.locale, this.languageService.getValue(error.statusText));
     this.errorService.errorManager(error);
   }
 
@@ -50,7 +45,7 @@ export class PopupService {
   }
 
   ShowMenuAuthorizePopup(ok) {
-    this.alertSerivce.pushDanger("Menü için yetkiniz bulunmamaktadır!");
+    this.alertSerivce.pushDanger(this.languageService.locale, "Menü için yetkiniz bulunmamaktadır!");
     setTimeout(() => {
       ok()
     }, 2000);

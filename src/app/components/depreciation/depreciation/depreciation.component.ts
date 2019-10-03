@@ -576,6 +576,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
   async updateAllDepreciation() {
 
+    
+    /* Activate the loading spinner */
+    this.baseService.spinner.show();
+
     this.isWaitingInsertOrUpdate = true;
     
     /* Convert object to new object */
@@ -602,6 +606,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
             willUpdateItem,
             (_fixedAsset, message) => {
               
+              /* Deactive the spinner */
+              this.baseService.spinner.hide();
+
               /* Close loading icon */              
               this.isWaitingInsertOrUpdate = false;
 
@@ -622,6 +629,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
             (error: HttpErrorResponse) => {
               // this.isWaitingInsertOrUpdate = false;
               /* Show error message */
+              
+              /* Deactive the spinner */
+              this.baseService.spinner.hide();
+
               this.baseService.popupService.ShowErrorPopup(error);
             }
           );
@@ -726,7 +737,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     if (event.target.checked == true) {
       this.depreciationBeCalculated = true;
     } else {
-      this.depreciationBeCalculated = false;      
+this.depreciationBeCalculated = false;      
       this.fixedAsset.DepreciationCalculationTypeId = null;
       this.fixedAsset.DepreciationPeriod = null;
     }
@@ -740,6 +751,11 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       this.selectedBarcodes = null;
       this.fixedAsset = new FixedAsset();
     }
+  }
+
+  resetDepreciationPopup(data: NgForm){
+    data.resetForm(this.fixedAsset);
+    this.fixedAsset = new FixedAsset;
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
@@ -810,7 +826,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     this.popupComponent.ShowModal('#modalShowQuestionPopupForCalculateDepreciation');
   }
   
-  async calculateDepreciations(){
+  async calculateDepreciations(dataDepreciation: NgForm){
 
         /* Activate the loading spinner */
         this.baseService.spinner.show();
@@ -826,6 +842,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
           this.loadFixedAsset(this.perInPage, this.currentPage);
           this.loadFixedAssetProperties();
+          this.resetDepreciationPopup(dataDepreciation);
         },
         (error: HttpErrorResponse) => {
           /* Deactive the spinner */
@@ -838,7 +855,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       this.popupComponent.CloseModal('#modalShowQuestionPopupForCalculateDepreciation');
   }
 
-    async calculateIfrsDepreciations(){
+    async calculateIfrsDepreciations(dataDepreciation: NgForm){
 
         /* Activate the loading spinner */
         this.baseService.spinner.show();
@@ -854,6 +871,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
           this.loadFixedAsset(this.perInPage, this.currentPage);
           this.loadFixedAssetProperties();
+          this.resetDepreciationPopup(dataDepreciation);
+          
         },
         (error: HttpErrorResponse) => {
            /* Deactive the spinner */
@@ -877,25 +896,22 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   selectedFixedAsset: FixedAsset;
   onClickDepreciation(item) {
     this.selectedFixedAsset=item;
-  }
+  }  
 
   checkValidation(dataDepreciation: NgForm){  
-    if(this.depreciationBeCalculated == true && (this.fixedAsset.DepreciationPeriod == null || this.fixedAsset.DepreciationCalculationTypeId == null || this.fixedAsset.CurrencyId || this.fixedAsset.Price == null))
+    if(this.depreciationBeCalculated == true && (this.fixedAsset.DepreciationPeriod == null || this.fixedAsset.DepreciationCalculationTypeId == null || this.fixedAsset.CurrencyId == null || this.fixedAsset.Price == null))
     this.requiredDepreciation = true;
     else
     this.requiredDepreciation = false;        
 
     
-    if(this.ifrsDepreciationBeCalculated == true && (this.fixedAsset.Ifrsperiod == null || this.fixedAsset.IFRSCurrecyId ==null || this.fixedAsset.Ifrsprice == null || this.fixedAsset.IFRSCurrecyId == null))
+    if(this.ifrsDepreciationBeCalculated == true && (this.fixedAsset.Ifrsperiod == null || this.fixedAsset.IfrscurrecyId ==null || this.fixedAsset.Ifrsprice == null))
     this.requiredIFRS = true;
     else
     this.requiredIFRS = false;   
 
     if(this.requiredIFRS == false && this.requiredDepreciation == false){
-      if (dataDepreciation.form.invalid == true) return;
       
-      /* Check model state is valid */
-  
       this.popupComponent.ShowModal('#modalShowQuestionPopupForDepreciation');
       this.popupComponent.CloseModal('#modalUpdateDepreciation');
   
