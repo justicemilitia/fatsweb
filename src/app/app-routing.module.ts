@@ -40,6 +40,10 @@ import { ConsumableListComponent } from './components/consumable/consumable-list
 import { ConsumableRequestListComponent } from './components/consumable/consumable-request-list/consumable-request-list.component';
 import { ConsumableTransactionListComponent } from './components/consumable/consumable-transaction-list/consumable-transaction-list.component';
 import { PeriodicMaintenanceComponent } from './components/maintenance/periodic-maintenance/periodic-maintenance.component';
+import { WorkOrderComponent } from './components/maintenance/work-order/work-order.component';
+import { WorkOrderListComponent } from './components/maintenance/work-order-list/work-order-list.component';
+import { BreakdownRequestComponent } from './components/maintenance/breakdown-request/breakdown-request.component';
+
 
 export const routes: Routes = [
   {
@@ -265,8 +269,19 @@ export const routes: Routes = [
   { 
     path: "periodicmaintenance",
     component: PeriodicMaintenanceComponent
+  },
+  { 
+    path: "workorder",
+    component: WorkOrderComponent
+  },
+  { 
+    path: "workorderlist",
+    component: WorkOrderListComponent
+  },
+  { 
+    path: "breakdownrequest",
+    component: BreakdownRequestComponent
   }
-
 ];
 
 @NgModule({

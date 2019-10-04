@@ -43,6 +43,7 @@ import { ConsumableCardService } from './consumable-card-service/consumable-card
 import { ConsumableUnitService } from './consumable-unit-service/consumable-unit.service';
 import { ConsumableService } from './consumable-service/consumable.service';
 import { ConsumableRequestListService } from './consumable-request-list-service/consumable-request-list.service';
+import { WorkOrderService } from './work-order-service/work-order.service';
 
 @Injectable({
   providedIn: "root"
@@ -90,6 +91,7 @@ export class BaseService {
     public firmService: FirmService,
     public transactionService: TransactionService,
     public cycleCountService : CycleCountService,
+    public workOrderService : WorkOrderService,
     // public alertInfoService: AlertInfoService,
     public activeRoute: ActivatedRoute) { }
 

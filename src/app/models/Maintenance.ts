@@ -2,6 +2,8 @@ import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { FixedAssetCard } from './FixedAssetCard';
 import { MaintenanceTypes } from './MaintenanceTypes';
 import { MaintenanceRequestPicture } from './MaintenanceRequestPicture';
+import { User } from './User';
+import { MaintenanceStatus } from './MaintenanceStatus';
 
 export class Maintenance implements IData {
     getParentId(): number {
@@ -36,9 +38,12 @@ export class Maintenance implements IData {
 
     FixedAssetId:number;
     FirmId:number;
-
+    MaintenanceStatusIds:number[];
 
     FixedAssetCard:FixedAssetCard;
     MaintenanceTypes:MaintenanceTypes;
+    MaintenanceStatus:MaintenanceStatus;
     MaintenanceRequestPicture:MaintenanceRequestPicture;
+    RequestedUser:User;
+    AttendantUser:User;
 }
