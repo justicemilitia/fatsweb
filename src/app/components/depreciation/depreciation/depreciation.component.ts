@@ -65,6 +65,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     isTableExporting: boolean = false;
     faProperties: FixedAssetCardProperty[] = [];
 
+    dataDepreciation: NgForm;
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "depreciation",
@@ -574,7 +575,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       );
   }
 
-  async updateAllDepreciation() {
+  async updateAllDepreciation(data: NgForm) {
 
     
     /* Activate the loading spinner */
@@ -595,7 +596,8 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
           willUpdateItem.Price = this.fixedAsset.Price ? Number(this.fixedAsset.Price) : 0;
           willUpdateItem.Ifrsprice = this.fixedAsset.Ifrsprice ? Number(this.fixedAsset.Ifrsprice) : 0;
           willUpdateItem.CurrencyId = this.fixedAsset.CurrencyId ? Number(this.fixedAsset.CurrencyId) : null;
-          willUpdateItem.IFRSCurrecyId = this.fixedAsset.IFRSCurrecyId ? Number(this.fixedAsset.IFRSCurrecyId) : null;
+          willUpdateItem.IFRSCurrecyId = this.fixedAsset.IfrscurrecyId ? Number(this.fixedAsset.IfrscurrecyId) : null;
+          willUpdateItem.IfrscurrecyId = this.fixedAsset.IfrscurrecyId ? Number(this.fixedAsset.IfrscurrecyId) : null;
           willUpdateItem.DepreciationPeriod = this.fixedAsset.DepreciationPeriod ? Number(this.fixedAsset.DepreciationPeriod): null;
           willUpdateItem.Ifrsperiod = this.fixedAsset.Ifrsperiod ? Number(this.fixedAsset.Ifrsperiod) : null;
           willUpdateItem.WillDepreciationBeCalculated = this.fixedAsset.WillDepreciationBeCalculated ? true: false;
@@ -617,11 +619,14 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
 
               this.dataTable.TGT_updateData(willUpdateItem);
 
-              this.resetForm(this.fixedAsset, true);
+              this.resetDepreciationPopup();
+
               // this.loadFixedAssetDepreciations();
               this.loadFixedAsset(this.perInPage, this.currentPage);
               this.loadFixedAssetProperties();
 
+              this.requiredIFRS == false;
+              this.requiredDepreciation == false;
 
               /* Get original source from table */
               this.fixedAssets = <FixedAsset[]>this.dataTable.TGT_copySource();
@@ -744,18 +749,16 @@ this.depreciationBeCalculated = false;
   }
 
 
-  resetForm(data: FixedAsset, isNewItem: boolean) {
-    // data.resetForm(this.fixedAsset);
-
+  resetForm(data: NgForm, isNewItem: boolean) {
+    data.resetForm(this.fixedAsset);
     if (isNewItem == true) {
       this.selectedBarcodes = null;
-      this.fixedAsset = new FixedAsset();
+      // this.fixedAsset = new FixedAsset();
     }
   }
 
-  resetDepreciationPopup(data: NgForm){
-    data.resetForm(this.fixedAsset);
-    this.fixedAsset = new FixedAsset;
+  resetDepreciationPopup(){
+    this.dataDepreciation.resetForm(this.fixedAsset);
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
@@ -831,6 +834,10 @@ this.depreciationBeCalculated = false;
         /* Activate the loading spinner */
         this.baseService.spinner.show();
 
+        this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
+          this.dataTable.TGT_getSelectedItems()
+        )).map(x => x.FixedAssetId);
+
        this.baseService.depreciationService.CalculateAllDepreciation(
         this.fixedAsset,
         (insertedItem: FixedAsset, message) => {
@@ -842,7 +849,7 @@ this.depreciationBeCalculated = false;
 
           this.loadFixedAsset(this.perInPage, this.currentPage);
           this.loadFixedAssetProperties();
-          this.resetDepreciationPopup(dataDepreciation);
+          this.resetDepreciationPopup();
         },
         (error: HttpErrorResponse) => {
           /* Deactive the spinner */
@@ -860,6 +867,10 @@ this.depreciationBeCalculated = false;
         /* Activate the loading spinner */
         this.baseService.spinner.show();
 
+        this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
+          this.dataTable.TGT_getSelectedItems()
+        )).map(x => x.FixedAssetId);
+        
         this.baseService.depreciationService.CalculateAllIfrsDepreciation(
         this.fixedAsset,
         (insertedItem: FixedAsset, message) => {
@@ -871,7 +882,7 @@ this.depreciationBeCalculated = false;
 
           this.loadFixedAsset(this.perInPage, this.currentPage);
           this.loadFixedAssetProperties();
-          this.resetDepreciationPopup(dataDepreciation);
+          this.resetDepreciationPopup();
           
         },
         (error: HttpErrorResponse) => {
@@ -898,7 +909,10 @@ this.depreciationBeCalculated = false;
     this.selectedFixedAsset=item;
   }  
 
-  checkValidation(dataDepreciation: NgForm){  
+  checkValidation(data: NgForm){  
+
+    this.dataDepreciation = data;
+
     if(this.depreciationBeCalculated == true && (this.fixedAsset.DepreciationPeriod == null || this.fixedAsset.DepreciationCalculationTypeId == null || this.fixedAsset.CurrencyId == null || this.fixedAsset.Price == null))
     this.requiredDepreciation = true;
     else

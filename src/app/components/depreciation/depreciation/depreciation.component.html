@@ -261,7 +261,7 @@
                     <div class="form-group col-md-6">
                         <label>{{getLanguageValue('Depreciation_Method')}}</label> 
                         <select [(ngModel)]="fixedAsset.DepreciationCalculationTypeId" [disabled]="depreciationBeCalculated==false" name="DepreciationCalculationTypeId" [class.is-invalid]="dataDepreciation.submitted && depreciationBeCalculated == true && fixedAsset.DepreciationCalculationTypeId == null" class="form-control select2-no-search">
-                            <option value="null" >{{getLanguageValue('Choose')}}</option>
+                            <option [ngValue]="null" >{{getLanguageValue('Choose')}}</option>
                             <option *ngFor="let types of depreciationTypes" value="{{types.DepreciationCalculationTypeId}}">{{types.DepreciationCalculationTypeDescription}}</option>
                         </select>   
                     </div>
@@ -312,13 +312,13 @@
                         <input [(ngModel)]="fixedAsset.Ifrsprice" [disabled]="ifrsDepreciationBeCalculated==false" name="Ifrsprice" type="text"  [class.is-invalid]="dataDepreciation.submitted && ifrsDepreciationBeCalculated == true && fixedAsset.Ifrsprice == null" class="form-control"/>   
                       </div>
                       <!-- IFRS PARA BİRİMİ -->
-                      <div class="col-md-6 form-group ">
-                          <label>{{getLanguageValue('Currency')}}</label>
-                          <select [(ngModel)]="fixedAsset.IfrscurrecyId" [disabled]="ifrsDepreciationBeCalculated==false" name="IFRSCurrecyId" [class.is-invalid]="dataDepreciation.submitted && ifrsDepreciationBeCalculated == true && fixedAsset.IFRSCurrecyId == null" class="form-control select2-no-search">
-                            <option [ngValue]="null" >{{getLanguageValue('Choose')}}</option>
-                            <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
-                          </select>   
-                  </div>
+                  <div class="col-md-6 form-group ">
+                      <label>{{getLanguageValue('Currency')}}</label>
+                      <select [(ngModel)]="fixedAsset.IfrscurrecyId" [disabled]="ifrsDepreciationBeCalculated==false" name="IfrscurrecyId" [class.is-invalid]="dataDepreciation.submitted && ifrsDepreciationBeCalculated == true && fixedAsset.IfrscurrecyId == null" class="form-control select2-no-search">
+                        <option [ngValue]="null" >{{getLanguageValue('Choose')}}</option>
+                        <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
+                      </select>   
+              </div>
 
 
                     </div>
@@ -353,7 +353,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateDepreciationt" type="submit" (click)="checkValidation(dataDepreciation)" class="btn btn-az-primary">{{getLanguageValue('Update_Depreciation_Informations')}}
+          <button id="btnInsertOrUpdateDepreciationt" type="submit" (click)="checkValidation(dataDepreciation)" class="btn btn-az-primary">{{getLanguageValue('Update_Informations')}}
           </button>
           <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
         </div>
@@ -370,7 +370,7 @@
       <div class="modal-content modal-content-demo">
         <div class="modal-header">
           <h6 class="modal-title">{{getLanguageValue('Enter_Depreciation_Information')}}</h6>
-          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetDepreciationPopup(data)">
+          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetDepreciationPopup()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -478,7 +478,7 @@
           </div>
        
           <div class="col-md-6">        
-          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="updateAllDepreciation()">{{getLanguageValue('Update')}}</button>
+          <button class="btn btn-az-primary" id="btnYes" type="submit" (click)="updateAllDepreciation(data)">{{getLanguageValue('Update')}}</button>
             </div>   
         </div>
 
@@ -502,7 +502,7 @@
    
         <div class="row" style="margin-bottom:20px;">
           <div class="col-md-5" style="padding-right: 0px;">
-            <button class="btn btn-az-danger" style="float:right;" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Cancel')}}</button>        
+            <button class="btn btn-az-danger" style="float:right;padding: 5px 20px;" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Cancel')}}</button>        
           </div>
        
           <div class="col-md-6">        

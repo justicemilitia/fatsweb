@@ -42,7 +42,8 @@ import { ConsumableTransactionListComponent } from './components/consumable/cons
 import { PeriodicMaintenanceComponent } from './components/maintenance/periodic-maintenance/periodic-maintenance.component';
 import { WorkOrderComponent } from './components/maintenance/work-order/work-order.component';
 import { WorkOrderListComponent } from './components/maintenance/work-order-list/work-order-list.component';
-import { BreakdownRequestComponent } from './components/maintenance/breakdown-request/breakdown-request.component';
+import { FixBreakdownComponent } from './components/maintenance/fix-breakdown/fix-breakdown.component';
+import { WorkOrderDetailComponent } from './components/maintenance/work-order-detail/work-order-detail.component';
 
 
 export const routes: Routes = [
@@ -279,8 +280,12 @@ export const routes: Routes = [
     component: WorkOrderListComponent
   },
   { 
-    path: "breakdownrequest",
-    component: BreakdownRequestComponent
+    path: "fixbreakdown",
+    component: FixBreakdownComponent
+  },
+  { 
+    path: "workorderdetail",
+    component: WorkOrderDetailComponent
   }
 ];
 

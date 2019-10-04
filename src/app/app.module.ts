@@ -89,7 +89,8 @@ import { FaFinancialInformationComponent } from './components/operations/fixed-a
 import { PeriodicMaintenanceComponent } from './components/maintenance/periodic-maintenance/periodic-maintenance.component';
 import { WorkOrderComponent } from './components/maintenance/work-order/work-order.component';
 import { WorkOrderListComponent } from './components/maintenance/work-order-list/work-order-list.component';
-import { BreakdownRequestComponent } from './components/maintenance/breakdown-request/breakdown-request.component';
+import { FixBreakdownComponent } from './components/maintenance/fix-breakdown/fix-breakdown.component';
+import { WorkOrderDetailComponent } from './components/maintenance/work-order-detail/work-order-detail.component';
 
 import { PopupComponent } from './components/popup/popup.component';
 import { BaseComponent } from './components/base/base.component';
@@ -166,7 +167,8 @@ import { BaseComponent } from './components/base/base.component';
     PeriodicMaintenanceComponent,
     WorkOrderComponent,
     WorkOrderListComponent,
-    BreakdownRequestComponent
+    WorkOrderDetailComponent,
+    FixBreakdownComponent
   ],
   imports: [
     BrowserModule,
