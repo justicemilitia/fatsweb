@@ -223,7 +223,7 @@
                   <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
           </div>   
           <div *ngIf="visibleProperty == true" style="color:red">
-            <div>Lütfen en az bir özellik seçiniz.</div>
+            <div>{{getLanguageValue('Choose_at_least_one_property')}}</div>
           </div> 
       </div>   
 
@@ -255,7 +255,7 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title">
-          {{consumableRequest.Number}} numaralı talebi görüntülüyorsunuz.
+          {{consumableRequest.Number}} {{getLanguageValue('Number_of_request_You_are_seeing_details_of_it')}}
         </h6>
         <button id="CloseCancelModal" type="button" class="close" (click)="resetRequestForm(dataCancel,true)" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -280,7 +280,7 @@
                 <input name="Username" value="{{requestedUser == null ? '' : requestedUser}}" class="form-control" type="text" disabled/>              
             </div>  
             <div class="form-group col-md-6">
-                  <label>Talep Lokasyonu</label>
+                  <label>{{getLanguageValue('Request_Locaiton')}}</label>
                   <input name="ConsumableLocation"  value="{{consumableRequest.ConsumableLocation == null ? '' : consumableRequest.ConsumableLocation.Name}}" class="form-control" type="text" disabled/>
             </div>            
         </div>
@@ -350,7 +350,7 @@
             </button>
         <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
         <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
-        <p class="mg-b-20 mg-x-20">Talep iptal edilsin mi ?</p>
+        <p class="mg-b-20 mg-x-20">{{getLanguageValue('The_request_going_to_be_canceled_Are_you_sure')}}</p>
    
         <div class="row" style="margin-bottom:20px;">
             <div class="col-md-6" style="padding-right: 0px;">
@@ -420,7 +420,7 @@
                 <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
               </select> 
               <div *ngIf="visible == true" style="color:red">
-                  <div> {{getLanguageValue('Choose_a_property')}}.</div>
+                  <div> {{getLanguageValue('Choose_a_property')}}</div>
                 </div> 
             </div>
             <div class="form-group col-md-6">
@@ -433,9 +433,8 @@
                   </select> 
                   <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
                   <div *ngIf="visiblePropertyName == true" style="color:red">
-                      <div>Özellik değeri giriniz.</div>
-                    </div>
-                    <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     
+                      <div>{{getLanguageValue('Choose_a_property_value')}}</div>
+                    </div>                      
                   </div>
                   <div class="property-add-value">                    
                     <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
@@ -544,7 +543,7 @@
                   </select> 
                   <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
                   <div *ngIf="visiblePropertyName == true" style="color:red">
-                      <div>Özellik değeri giriniz.</div>
+                      <div>{{getLanguageValue('Choose_a_property_value')}}</div>
                     </div>
                     <!-- <div *ngIf="isUniqueProperty">Özellik değeri tekil olmalıdır!</div> -->                     
                   </div>

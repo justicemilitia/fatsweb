@@ -43,6 +43,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   selectedItems:any[]=[];
 
+  isPeriodic:boolean=false;
+
   
   public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
     [
@@ -371,6 +373,13 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
     this.popupComponent.CloseModal('#modalFixedAssetCard');
 
     this.baseService.router.navigateByUrl("/periodicmaintenance");
+  }
+
+  IsPeriodic(event:any){
+    if(event.target.checked)
+      this.isPeriodic = true;
+     else
+     this.isPeriodic = false; 
   }
 
 }
