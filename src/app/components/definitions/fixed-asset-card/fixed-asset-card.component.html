@@ -105,14 +105,28 @@
               </div>
             </div>
           </div>
+          <div class="row justify-content-center">    
+              <div class="form-group col-md-12">  
+                  <label></label> 
+                  <label class="ckbox" style="margin-top: 23px">
+                      <input type="checkbox" [(ngModel)]="fixedAssetCard.IsPeriodic" name="IsPeriodic" (change)="IsPeriodic($event)"/><span>Periyodik bakım yapılacak</span>
+                  </label> 
+              </div>     
+          </div>
         </div>
         <!-- form-group -->
         <div class="modal-footer ustify-content-center">
+            <div *ngIf="isPeriodic;then insertFixedAssetCardPeriodic else  insertFixedAssetCard"></div>
+          <ng-template #insertFixedAssetCard>
           <button id="btnInsertOrUpdateFixedAssetCard" type="submit" class="btn btn-az-primary" data-toggle="modal"
             *ngIf="isWaitingInsertOrUpdate == false"
-            data-target="#modalInsertFixedAssetCard">{{fixedAssetCard.FixedAssetCardId ? getLanguageValue('Readit_Fixed_Asset_Card') : getLanguageValue('Add_Fixed_Asset_Card')}}</button>        
+            data-target="#modalInsertFixedAssetCard">{{fixedAssetCard.FixedAssetCardId ? getLanguageValue('Readit_Fixed_Asset_Card') : getLanguageValue('Add_Fixed_Asset_Card')}}</button>     
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-          <button id="btnInsertOrUpdateFixedAssetCardPeriod" type="button" class="btn btn-az-primary" (click)="AddPeriodicMaintenance()">Periyot Ekle</button>
+        </ng-template>
+        <ng-template #insertFixedAssetCardPeriodic>
+          <button id="btnInsertOrUpdateFixedAssetCardPeriod" type="button" class="btn btn-az-primary"  *ngIf="isWaitingInsertOrUpdate == false" (click)="AddPeriodicMaintenance()">Periyot Ekle</button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </ng-template>
         </div>
       </form>
     </div>

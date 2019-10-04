@@ -67,7 +67,7 @@
           </div>
           <div class="row justify-content-center">
             <div class="col-md-6 form-group">
-              <label>Askıdan Alma Bedeli</label>
+              <label>{{getLanguageValue('Undo_Suspend_Price')}}</label>
               <input [(ngModel)]="transactionLogSuspended.CheckOutPrice" name="CheckOutPrice" type="text" class="form-control" #CheckOutPrice="ngModel"/>
             </div>
             <div class="col-md-6 form-group">
@@ -117,7 +117,7 @@
             <div class="form-group col-md-12">
               <div style="padding-top: 5px; margin-right:0px;">
                 <label class="ckbox">
-                  <input type="checkbox" [(ngModel)]="transactionLog.IsCreateUndoSuspendForm" (change)="isCreateUndoSuspendForm($event)" name="IsCreateUndoSuspendForm" #IsCreateUndoSuspendForm="ngModel" /><span style="margin-left:5px;">Askıdan alma formu basılsın.</span>
+                  <input type="checkbox" [(ngModel)]="transactionLog.IsCreateUndoSuspendForm" (change)="isCreateUndoSuspendForm($event)" name="IsCreateUndoSuspendForm" #IsCreateUndoSuspendForm="ngModel" /><span style="margin-left:5px;">{{getLanguageValue('Create_undo_suspend_form')}}</span>
                 </label>
               </div>
             </div>

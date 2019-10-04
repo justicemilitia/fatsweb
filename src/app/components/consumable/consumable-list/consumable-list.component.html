@@ -179,7 +179,7 @@
                   </select> 
                   <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
                   <div *ngIf="visiblePropertyName == true" style="color:red">
-                      <div>Özellik değeri giriniz.</div>
+                      <div>{{getLanguageValue('Choose_a_property_value')}}</div>
                     </div>
                                     
                   </div>
@@ -195,7 +195,7 @@
               </div>   
           </div>            
           <div *ngIf="visibleRequiredProperty" style="color:red">              
-              <div>Lütfen en az bir özellik giriniz.</div>                    
+              <div>{{getLanguageValue('Choose_at_least_one_property')}}</div>                    
             </div> 
         </div>
         <!-- modal-body -->
@@ -219,7 +219,7 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title">     
-          Çıkış yapılacak malzeme bilgilerini giriniz.
+        {{getLanguageValue('Identify_the_consumable_to_be_checked_out')}}
         </h6>
         <button id="CloseExitModal" type="button" class="close" (click)="resetExitForm(data,true)" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -263,7 +263,7 @@
           <div class="row justify-content-center">
               <div class="form-group col-md-6">  
                   <label style="margin-bottom: 0;
-                  font-weight: 700;" class="required-span">Gönderilecek Departman</label>               
+                  font-weight: 700;" class="required-span">{{getLanguageValue('Received_Department')}}</label>               
                   <div class="" style="display: flex;
                   flex-direction: column;">
                            
@@ -280,7 +280,7 @@
                       </div>           
               </div>  
               <div class="form-group col-md-6">
-                <label class="required-span">Gönderilecek Kişi</label>
+                <label class="required-span">{{getLanguageValue('Received_User')}}</label>
                 <select [(ngModel)]="exitconsumable.ReceivedUserId" name="ReceivedUserId" style="width:100%;" place class="form-control select2-no-search"  [ngClass]="{ 'is-invalid': exitData.submitted && ReceivedUserId.invalid }" #ReceivedUserId="ngModel" required>
                   <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
                   <option *ngFor="let user of users" value="{{user.UserId}}">{{user.FirstName + ' ' + user.LastName }}</option>
@@ -406,7 +406,7 @@
                   </select> 
                   <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
                   <div *ngIf="visiblePropertyName == true" style="color:red">
-                      <div>Özellik değeri giriniz.</div>
+                      <div>{{getLanguageValue('Choose_a_property_value')}}</div>
                     </div>
                 
                   </div>

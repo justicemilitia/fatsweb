@@ -1,0 +1,17 @@
+.field_set {
+    border: 1;
+    border-color: #d0cbcb;
+    border-style: solid;
+  }
+  
+  .fieldset_text {
+    color: #e67300;
+  }
+  .card-dashboard-twelve .sales-overview label {
+    text-transform: none !important;
+    font-size: small !important;
+    font-weight: 700;
+    letter-spacing: .5px;
+    color: #494c57;
+    margin-bottom: 8px;
+}

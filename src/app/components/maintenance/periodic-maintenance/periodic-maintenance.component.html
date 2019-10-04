@@ -14,44 +14,55 @@
    
           </div>
         </div>
-        <div class="sales-overview" style="margin-left:10px;margin-right:10px">
-            <div class="row justify-content-center">
+        <div class="sales-overview" style="margin-left:10px;margin-right:10px">         
             <div class="form-group col-md-6">
+                <fieldset class="field_set">
+                    <legend>Demirbaş Kart Bilgileri</legend>
                 <div class="row">
-                    <div class="form-group col-md-6">
-                      <label>Demirbaş Kart Kodu :</label>
+                    <div class="form-group col-md-4">
+                      <label >Demirbaş Kart Kodu :</label>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                       <span></span>
                     </div>
                   </div>
                   <div class="row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-4">
                         <label>Demirbaş Kart Adı :</label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-8">
                         <span></span>
                       </div>
                   </div>
                   <div class="row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-4">
                         <label>Demirbaş Kategorisi :</label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-8">
                         <span></span>
                       </div>
                   </div>
                   <div class="row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label>İş Emri Kodu :</label>
                       </div>
+                      <div class="form-group col-md-3">
+                          <select name="ConsumableCardId" class="form-control select2-no-search">
+                              <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
+                              <option *ngFor="let card of consumableCards"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
+                            </select>       
+                      </div>
                       <div class="col-md-6">
-                        <span></span>
                       </div>
                   </div>
-                  <div class="row">
+                </fieldset>
+                <fieldset class="field_set">
+                    <legend>XXX No'lu İş Emri</legend>
+                     <div class="row">
+                      <div class="form-group col-md-12">
                       <label>1. İş Adımı</label>
-                    <input class="form-control" type="text" maxlength="4000">
+                      <input class="form-control" type="text" maxlength="4000">
+                    </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-md-6">
@@ -60,24 +71,73 @@
                         </label> 
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Resim</label>
+                      <label></label>
                         <div class="file-area">
                           <input #fixedAssetCardPicture name="FixedAssetCardPicture" id="FixedAssetCardPicture" type="file"
                             class="form-control-file" style="display:none">
                           <label for="FixedAssetCardPicture" class="custom-file">
-                            <label class="custom-file-text" for="FixedAssetCardPicture">
-                             
+                            <label class="custom-file-text" for="FixedAssetCardPicture" style="margin: initial;">
+                             Resim Seçiniz...
                             </label>
                           </label>
                           <label class="custom-file-remove"><span class="fa fa-times"></span></label>
                         </div>
                       </div>
                   </div>
+                  <div class="row">
+                      <div class="form-group col-md-12">
+                          <label>{{getLanguageValue('Consumable_Card_Name')}}</label>
+                          <select name="ConsumableCardId" class="form-control select2-no-search">
+                          <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
+                          <option *ngFor="let card of consumableCards"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
+                        </select>                             
+                      </div>
+                  </div>
+                      <div class="form-group">
+                      <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+                    </div>
+           
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <div class="row">
+                    <div class="form-group col-md-6">
+                    <input class="form-control" type="number">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <div class="row">
+                      <label>*****Birim*****</label>
+                      <div class="property-add-value">                    
+                          <span class="tree-table-sign typcn icon-default typcn-plus"></span>
+                      </div> 
+                    </div>  
+                    </div>
+                  </div>
+                  </div>
+                  <div class="form-group col-md-6">
+
+                  </div>
+                </div>
+                <div class="row">
+                    <tbody>
+                      <thead>Kullanılacak sarf malzeme ve adetleri</thead>
+                      <tr>
+                        <td>
+
+                        </td>
+                      </tr>
+                    </tbody>
+
+                </div>
+              </fieldset> 
             </div>
             <div class="form-group col-md-6">
-
-              </div>
-            </div>
+                <fieldset class="field_set">
+                    <legend>XXX No'lu İş Emrinin İş Adımları</legend>
+                    <div class="form-group">
+                        <tree-grid-table [dataTable]="dataTableWorkStep"></tree-grid-table>
+                      </div>
+                  </fieldset>
+              </div>       
           <!-- <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
           </tree-grid-table> -->
         </div>

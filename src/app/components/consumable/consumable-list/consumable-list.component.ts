@@ -781,14 +781,14 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
       if (selectedItems.length > 1) {
         this.baseService.popupService.ShowAlertPopup(
-          "Birden fazla sarf malzeme seçtiniz!"
+          this.getLanguageValue('You_have_choosen_more_than_one_consumable')
         );
 
         return;
       }
 
       if(selectedItems[0].ConsumableParentId == null){
-        this.baseService.popupService.ShowAlertPopup("Lütfen malzeme kartının altında bulunan bir sarf malzeme seçiniz!");
+        this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Select_a_consumable_below_the_consumable_card'));
         return;
       }
 
@@ -972,13 +972,6 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         this.refreshTable();
 
         this.resetForm(data,true);
-        
-      
-        //Api düzelttirilecek! Yanlış nesne dönüyor.
-
-        //this.consumables.push(insertedItem);
-
-        //this.dataTable.TGT_loadData(this.consumables);
 
       },
       (error:HttpErrorResponse) => {

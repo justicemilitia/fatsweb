@@ -424,7 +424,7 @@ export class ConsumableRequestListComponent extends BaseComponent
         }
       },     
       {
-        columnDisplayName: "İptal Eden Personel",
+        columnDisplayName: this.getLanguageValue('Canceled_By_User'),
         columnName: ["User"],
         isActive: true,
         classes: [],
@@ -1143,14 +1143,14 @@ export class ConsumableRequestListComponent extends BaseComponent
 
       if (selectedItems.length > 1) {
         this.baseService.popupService.ShowAlertPopup(
-          "Birden fazla sarf malzeme seçtiniz!"
+          this.getLanguageValue('You_have_choosen_more_than_one_consumable')
         );
 
         return;
       }
 
       if(selectedItems[0].ConsumableParentId == null){
-        this.baseService.popupService.ShowAlertPopup("Lütfen malzeme kartının altında bulunan bir sarf malzeme seçiniz!");
+        this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Select_a_consumable_below_the_consumable_card'));
         return;
       }
 
@@ -1382,14 +1382,14 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     if (!selectedItems || selectedItems.length == 0) {
       this.baseService.popupService.ShowAlertPopup(
-        "Lütfen en az bir talep seçiniz!"
+        this.getLanguageValue('Choose_at_least_one_request')
       );
       return;
     }
 
     if (selectedItems.length > 1) {
       this.baseService.popupService.ShowAlertPopup(
-        "Birden fazla talep seçtiniz!"
+        this.getLanguageValue('You_have_choosen_more_than_one_request')
       );
 
       return;

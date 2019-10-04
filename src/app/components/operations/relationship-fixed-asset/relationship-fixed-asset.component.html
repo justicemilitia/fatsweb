@@ -12,7 +12,7 @@
             <h2 class="az-content-title">{{getLanguageValue('Related_Fixed_Assets')}}</h2>
             <div class="grp-btn-action">
   
-                <button class="btn btn-az-primary " style="margin-right:10px" title="Demirbaş İlişki Koparma" (click)="loadRelationalFixedAssetPopup()"><i class="fas fa-unlink"></i></button>
+                <button class="btn btn-az-primary " style="margin-right:10px" title="{{getLanguageValue('Remove_Relationship')}}" (click)="loadRelationalFixedAssetPopup()"><i class="fas fa-unlink"></i></button>
              
                 <!-- <button data-target="#modalBreakRelationship" data-toggle="modal" id="btnOpenRelationship" style="display:none;"></button>              -->
 
@@ -62,7 +62,7 @@
   
           <!-- modal-body -->
           <div class="modal-footer">
-            <button class="btn btn-az-primary" id="btnBreakRelationship" type="submit">Demirbaş ilişkisini Kopar</button>
+            <button class="btn btn-az-primary" id="btnBreakRelationship" type="submit">{{getLanguageValue('Remove_Relationship')}}</button>
           </div>
         </form>
         <!-- </div> -->
