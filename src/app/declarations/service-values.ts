@@ -395,6 +395,10 @@ export const GET_TRANSACTION_LIST = "TransactionLog/TransactionLogsList";
 export const GET_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";
 //#endregion
 
+//#region WorkOrderList
+export const GET_WORK_ORDER_LIST = "Maintenance/GetWorkOrdersAndBreakdownRequestList";
+//#endregion
+
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
 

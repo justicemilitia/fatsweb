@@ -850,36 +850,42 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     );
   }
 
-  async refreshTableMaterialIn() {
+  refreshTable(){
     this.isTableRefreshing = true;
     this.isFilter=false;
-
-    this.dataTableConsumableMaterialIn.isLoading = true;
-
-    this.dataTableConsumableMaterialIn.TGT_clearData();
-
-    this.perInPage = 25;
-    this.currentPage = 1;
-
-    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1, false);
-
-    this.isTableRefreshing = false;
-  }
-
-  refreshTableMaterialOut(){
-    this.isTableRefreshing = true;
-    this.isFilter=false;
-
-    this.dataTableConsumableMaterialOut.isLoading = true;
-
-    this.dataTableConsumableMaterialOut.TGT_clearData();
 
     this.perInPage = 25;
     this.currentPage = 1
 
+
+    if(this.tabIndex==0)
+    {
+    this.dataTableConsumableMaterialIn.isLoading = true;
+    this.dataTableConsumableMaterialIn.TGT_clearData();
+      
+    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1, false);
+    
+    }
+
+    else{
+
+    this.dataTableConsumableMaterialOut.isLoading = true;
+    this.dataTableConsumableMaterialOut.TGT_clearData();
+
     this.loadConsumableTransactionList(this.perInPage, this.currentPage, 2,  false);
+    }
 
     this.isTableRefreshing = false;
+  }
+
+  resetFilter(){
+    if(this.tabIndex == 1){
+      this.loadConsumableTransactionList(this.perInPage, this.currentPage, 1, false)
+    }
+
+    else{
+    this.loadConsumableTransactionList(this.perInPage, this.currentPage, 2, false)      
+    }
   }
 
   filterConsumable(data: NgForm){
@@ -1115,6 +1121,18 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
 
     this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+  }
+
+  
+  exportExcel(){
+    switch(this.currentTab){
+      case 0:
+      this.exportAsExcelFile(this.dataTableConsumableMaterialIn);
+      break;
+      case 1:
+      this.exportAsExcelFile(this.dataTableConsumableMaterialOut);
+      break; 
+    }
   }
 
 }

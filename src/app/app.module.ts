@@ -86,11 +86,13 @@ import { ConsumableTransactionListComponent } from './components/consumable/cons
 import { FaGeneralInformationComponent } from './components/operations/fixed-asset/fa-create/fa-general-information/fa-general-information.component';
 import { FaPropertyInformationComponent } from './components/operations/fixed-asset/fa-create/fa-property-information/fa-property-information.component';
 import { FaFinancialInformationComponent } from './components/operations/fixed-asset/fa-create/fa-financial-information/fa-financial-information.component';
-
+import { PeriodicMaintenanceComponent } from './components/maintenance/periodic-maintenance/periodic-maintenance.component';
+import { WorkOrderComponent } from './components/maintenance/work-order/work-order.component';
+import { WorkOrderListComponent } from './components/maintenance/work-order-list/work-order-list.component';
+import { BreakdownRequestComponent } from './components/maintenance/breakdown-request/breakdown-request.component';
 
 import { PopupComponent } from './components/popup/popup.component';
 import { BaseComponent } from './components/base/base.component';
-import { PeriodicMaintenanceComponent } from './components/maintenance/periodic-maintenance/periodic-maintenance.component';
 
 
 @NgModule({
@@ -162,6 +164,9 @@ import { PeriodicMaintenanceComponent } from './components/maintenance/periodic-
     FaFinancialInformationComponent,
     PopupComponent,
     PeriodicMaintenanceComponent,
+    WorkOrderComponent,
+    WorkOrderListComponent,
+    BreakdownRequestComponent
   ],
   imports: [
     BrowserModule,

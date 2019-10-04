@@ -15,38 +15,25 @@
                     <button class="btn btn-az-primary btn-filter-button" data-toggle="modal" data-target="#modalFilterTransaction"
                     title="{{getLanguageValue('Filter')}}" style="margin-right:10px">
                     <i class="fas fa-filter"></i>
-                  </button>
+                   </button>
 
-                  <button class="btn btn-az-primary btn-filter-button" *ngIf="tabIndex == 1" data-toggle="tooltip" data-placement="bottom"
-                  title="{{getLanguageValue('Reset_Filter')}}" (click)="loadConsumableTransactionList(this.perInPage, this.currentPage, 1, false)" style="margin-right:10px">
-                  <i class="fas fa-filter"></i>
-                  <i class="fas fa-times"
-                    style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
-                </button>
+                    <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
+                    title="{{getLanguageValue('Reset_Filter')}}" (click)="resetFilter()" style="margin-right:10px">
+                    <i class="fas fa-filter"></i>
+                    <i class="fas fa-times"
+                      style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
+                    </button>
 
-                <button class="btn btn-az-primary btn-filter-button" *ngIf="tabIndex == 2" data-toggle="tooltip" data-placement="bottom"
-                title="{{getLanguageValue('Reset_Filter')}}" (click)="loadConsumableTransactionList(this.perInPage, this.currentPage, 2, false)" style="margin-right:10px">
-                <i class="fas fa-filter"></i>
-                <i class="fas fa-times"
-                  style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
-              </button>
+                    <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile()" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
+                      <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                        [class.btn-refresh-loader]="isTableExporting == true"></i>
+                    </button>           
 
-                  <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
-                    <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
-                      [class.btn-refresh-loader]="isTableExporting == true"></i>
-                  </button>           
-
-                  <button type="button" *ngIf="tabIndex == 1" (click)="refreshTableMaterialIn()" style="margin-right:20px" 
-                    class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
-                    <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
-                      [class.btn-refresh-loader]="isTableRefreshing == true"></i>
-                  </button>
-
-                  <button type="button" *ngIf="tabIndex == 2" (click)="refreshTableMaterialOut()" style="margin-right:20px" 
-                  class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
-                  <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
-                    [class.btn-refresh-loader]="isTableRefreshing == true"></i>
-                </button>
+                    <button type="button" (click)="refreshTable()" style="margin-right:20px" 
+                      class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
+                      <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                        [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+                    </button>
       
                 </div>
               </div>

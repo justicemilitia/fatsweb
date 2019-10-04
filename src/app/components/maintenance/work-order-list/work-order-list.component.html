@@ -1,0 +1,201 @@
+<div class="az-content az-content-dashboard-four">
+    <div class="media media-dashboard">
+      <div class="media-body">
+        <!-- Bread Crumb -->
+        <div class="az-content-breadcrumb">
+          <span>{{getLanguageValue('Work_Order_List')}}</span>
+        </div>
+        <!-- END Bread Crumb END -->
+        <div class="card card-dashboard-twelve mg-b-20">
+            <div class="card-header">
+                <h2 class="az-content-title">{{getLanguageValue('Work_Order_List')}}</h2>
+                <div class="grp-btn-action">
+                    
+                    <button class="btn btn-az-primary" *ngIf="tabIndex == 0" id="btnReportBreakdown" style="margin-right:10px;">{{getLanguageValue('Report_Breakdown')}}</button>
+
+                    <button class="btn btn-az-primary" *ngIf="tabIndex == 0" id="btnCancelReportBreakdown" style="margin-right:10px;">{{getLanguageValue('Cancel_Report_Breakdown')}}</button>
+
+                    <button class="btn btn-success btn-excel-custom" (click)="exportExcel(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
+                        <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                          [class.btn-refresh-loader]="isTableExporting == true"></i>
+                      </button>           
+  
+                      <button type="button" (click)="refreshTable()" style="margin-right:20px" 
+                        class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
+                        <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                          [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+                      </button>
+      
+                </div>
+              </div>
+          <!-- <div class="sales-overview">
+            <tree-grid-table [dataTable]="dataTable">
+            </tree-grid-table>
+          </div> -->
+
+
+          <div class="card-body" style="padding-top:0px; margin-left:20px; margin-right:20px;">
+                <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
+                  <mat-tab>
+                    <ng-template mat-tab-label>
+                       {{getLanguageValue('Fixed_Asset_List')}}
+                     </ng-template>  
+                    <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                      <tree-grid-table [dataTable]="dataTableFixedAssetList"></tree-grid-table>
+                         <!-- Pagination Side -->
+                         <div class="table-pagination">
+                            <!-- Per In Page Select area -->
+                            <select class="table-pagination-select" (change)="loadFixedAsset(perInPage,1)" [(ngModel)]="perInPage">
+                              <option *ngFor="let perIn of dataTableFixedAssetList.perInPages" value="{{perIn}}">{{perIn}}</option>
+                              <option value="1000">{{getLanguageValue('All')}}</option>
+                            </select>
+                            <!-- END Per In Page Select area END -->
+                            <!-- Paginations -->
+                            <nav class="pagination-nav">
+                              <ul class="pagination">
+                                <ng-container *ngFor="let page of pages">
+                                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                      (click)="loadFixedAsset(perInPage,page.value)" class="page-link">{{page.display}}</button>
+                                  </li>
+                                </ng-container>
+                              </ul>
+                            </nav>
+                            <!-- END Paginations END -->
+                          </div>
+                          <!-- END Pagination Side END -->
+                    </div>
+                  </mat-tab>
+                  
+                  <mat-tab>
+                      <ng-template mat-tab-label>
+                          {{getLanguageValue('Work_Orders_And_Breakdown_Requests')}}
+                       </ng-template>  
+                       <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                        <!-- <tree-grid-table [dataTable]="dataTablePendingWorkOrder"></tree-grid-table> -->
+                        <tree-grid-table [dataTable]="dataTableWorkOrder"></tree-grid-table>
+                         <!-- Pagination Side -->
+                         <div class="table-pagination">
+                          <!-- Per In Page Select area -->
+                          <select class="table-pagination-select" (change)="loadWorkOrderList(1,perInPage,1)" [(ngModel)]="perInPage">
+                            <option *ngFor="let perIn of dataTableWorkOrder.perInPages" value="{{perIn}}">{{perIn}}</option>
+                            <option value="1000">{{getLanguageValue('All')}}</option>
+                          </select>
+                          <!-- END Per In Page Select area END -->
+                          <!-- Paginations -->
+                          <nav class="pagination-nav">
+                            <ul class="pagination">
+                              <ng-container *ngFor="let page of pages">
+                                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                    (click)="loadWorkOrderList(1,perInPage,page.value)" class="page-link">{{page.display}}</button>
+                                </li>
+                              </ng-container>
+                            </ul>
+                          </nav>
+                          <!-- END Paginations END -->
+                        </div>
+                        <!-- END Pagination Side END -->
+                      </div>
+                  </mat-tab>
+
+                  <mat-tab>
+                      <ng-template mat-tab-label>
+                          {{getLanguageValue('Planned_Work_Orders')}}
+                        </ng-template>  
+                        <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                        <!-- <tree-grid-table [dataTable]="dataTablePlannedWorkOrders"></tree-grid-table> -->
+                        <tree-grid-table [dataTable]="dataTablePlannedWorkOrders"></tree-grid-table>                          
+                          <!-- Pagination Side -->
+                          <div class="table-pagination">
+                          <!-- Per In Page Select area -->
+                          <select class="table-pagination-select" (change)="loadWorkOrderList(2,perInPage,1)" [(ngModel)]="perInPage">
+                            <option *ngFor="let perIn of dataTablePlannedWorkOrders.perInPages" value="{{perIn}}">{{perIn}}</option>
+                            <option value="1000">{{getLanguageValue('All')}}</option>
+                          </select>
+                          <!-- END Per In Page Select area END -->
+                          <!-- Paginations -->
+                          <nav class="pagination-nav">
+                            <ul class="pagination">
+                              <ng-container *ngFor="let page of pages">
+                                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                    (click)="loadWorkOrderList(2,perInPage,page.value)" class="page-link">{{page.display}}</button>
+                                </li>
+                              </ng-container>
+                            </ul>
+                          </nav>
+                          <!-- END Paginations END -->
+                        </div>
+                        <!-- END Pagination Side END -->
+                      </div>
+                  </mat-tab>
+
+                  <mat-tab>
+                      <ng-template mat-tab-label>
+                          {{getLanguageValue('Completed_Work_Orders_And_Breakdown_Requests')}}
+                        </ng-template>  
+                        <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                        <!-- <tree-grid-table [dataTable]="dataTableCompletedWorkOrders"></tree-grid-table> -->
+                        <tree-grid-table [dataTable]="dataTableCompletedWorkOrders"></tree-grid-table>                            
+                        <!-- Pagination Side -->
+                          <div class="table-pagination">
+                          <!-- Per In Page Select area -->
+                          <select class="table-pagination-select" (change)="loadWorkOrderList(3,perInPage,1)" [(ngModel)]="perInPage">
+                            <option *ngFor="let perIn of dataTableCompletedWorkOrders.perInPages" value="{{perIn}}">{{perIn}}</option>
+                            <option value="1000">{{getLanguageValue('All')}}</option>
+                          </select>
+                          <!-- END Per In Page Select area END -->
+                          <!-- Paginations -->
+                          <nav class="pagination-nav">
+                            <ul class="pagination">
+                              <ng-container *ngFor="let page of pages">
+                                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                    (click)="loadWorkOrderList(3,perInPage,page.value)" class="page-link">{{page.display}}</button>
+                                </li>
+                              </ng-container>
+                            </ul>
+                          </nav>
+                          <!-- END Paginations END -->
+                        </div>
+                        <!-- END Pagination Side END -->
+                      </div>
+                  </mat-tab>
+
+                  <mat-tab>
+                      <ng-template mat-tab-label>
+                          {{getLanguageValue('Cancelled_Work_Orders')}}
+                        </ng-template>  
+                        <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                        <tree-grid-table [dataTable]="dataTableCancelledWorkOrders"></tree-grid-table>
+                          <!-- Pagination Side -->
+                          <div class="table-pagination">
+                          <!-- Per In Page Select area -->
+                          <select class="table-pagination-select" (change)="loadWorkOrderList(4,perInPage,1)" [(ngModel)]="perInPage">
+                            <option *ngFor="let perIn of dataTableCancelledWorkOrders.perInPages" value="{{perIn}}">{{perIn}}</option>
+                            <option value="1000">{{getLanguageValue('All')}}</option>
+                          </select>
+                          <!-- END Per In Page Select area END -->
+                          <!-- Paginations -->
+                          <nav class="pagination-nav">
+                            <ul class="pagination">
+                              <ng-container *ngFor="let page of pages">
+                                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                                    (click)="loadWorkOrderList(4,perInPage,page.value)" class="page-link">{{page.display}}</button>
+                                </li>
+                              </ng-container>
+                            </ul>
+                          </nav>
+                          <!-- END Paginations END -->
+                        </div>
+                        <!-- END Pagination Side END -->
+                      </div>
+                  </mat-tab>
+
+                </mat-tab-group>
+       </div>
+
+
+        </div>
+        <!-- az-content-body -->
+      </div>
+    </div>
+  </div>
+  
