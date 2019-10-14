@@ -103,9 +103,9 @@ export class WorkOrderService {
     })
   }
   
-  // ReportBreakdown(workOrder: Maintenance, success, failed){
+  ReportBreakdown(workOrder: Maintenance, success, failed){
 
-  // }
+  }
 
   // FixBreakdown(workOrder: Maintenance, success, failed){
 
