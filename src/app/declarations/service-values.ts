@@ -396,7 +396,7 @@ export const GET_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";
 //#endregion
 
 //#region WorkOrderList
-export const GET_WORK_ORDER_LIST = "Maintenance/GetWorkOrdersAndBreakdownRequestList";
+export const GET_WORK_ORDER_LIST = "WorkOrder/GetWorkOrdersList";
 //#endregion
 
 

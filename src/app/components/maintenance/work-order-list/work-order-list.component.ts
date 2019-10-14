@@ -1087,9 +1087,17 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   public doOperation(operationType: MaintenanceOperations) {
     this.currentOperation = operationType;
 
-    let selectedItems = <Maintenance[]>this.dataTableWorkOrder.TGT_getSelectedItems();
-    this.maintenanceType = selectedItems[0].MaintenanceTypeId;
-    
+    let selectedItems: any[]=[];
+      if(this.tabIndex==0) {
+      selectedItems = <FixedAsset[]>this.dataTableFixedAssetList.TGT_getSelectedItems();
+      this.maintenanceType = selectedItems[0].MaintenanceTypeId;
+       }
+
+       else {
+        selectedItems = <Maintenance[]>this.dataTableWorkOrder.TGT_getSelectedItems();
+        this.maintenanceType = selectedItems[0].MaintenanceTypeId;
+      }
+
     switch (operationType) {
       case MaintenanceOperations.reportBreakdown:
         this.ReportBreakdownOperation();
