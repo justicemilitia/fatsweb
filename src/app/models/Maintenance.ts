@@ -7,18 +7,22 @@ import { MaintenanceStatus } from './MaintenanceStatus';
 
 export class Maintenance implements IData {
     getParentId(): number {
-        throw new Error("Method not implemented.");
+        return null;
     }    
     getChildren(): IData[] {
-        throw new Error("Method not implemented.");
+        return [];
     }
     getId(): number {
-        throw new Error("Method not implemented.");
+        return this.MaintenanceListId;
     }
     childIndex: number;
     isExtended: boolean;
     isChecked: boolean;
     isVisible: boolean;
+
+    PerPage: number;
+    Page: number;
+
     WorkStepId:number;
     RequestedUserId:number;
     RequestDate:Date;
@@ -46,4 +50,6 @@ export class Maintenance implements IData {
     MaintenanceRequestPicture:MaintenanceRequestPicture;
     RequestedUser:User;
     AttendantUser:User;
+
+    BreakdownPictures: string;
 }
