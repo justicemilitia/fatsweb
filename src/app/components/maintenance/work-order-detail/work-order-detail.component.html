@@ -1,3 +1,71 @@
-<p>
-  work-order-detail works!
-</p>
+<div class="modal-header">
+    <h6 class="modal-title">{{getLanguageValue('You_are_viewing_the_details_of_request')}}</h6>
+
+      <span aria-hidden="true" class="close" style="margin-right: 15px;" data-toggle="tooltip" title="{{getLanguageValue('Download_Form')}}"><i class="fas fa-arrow-down" style="font-size: 18px;"></i></span>
+      
+    <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
+    <div class="modal-body">
+      <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
+  
+      <!-- BARKOD -->            
+      <div class="col-md-12" style="padding-left:0px;">                       
+        <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
+        <span style="margin-left:20px;"></span>
+        <!-- <span style="margin-left:20px;">{{ fixBreakdown.Barcode }}</span> -->
+      </div>
+
+       <!-- KULLANILACAK SARF MALZEME -->
+       <div class="col-md-12" style="padding-left:0px;">  
+          <label><b>{{getLanguageValue('Consumables_To_Be_Used')}}:</b></label>
+          <span style="margin-left:20px;"></span>
+          <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+        </div>
+
+      <!-- DEMİRBAŞ ADI -->      
+      <div class="col-md-12" style="padding-left:0px;">  
+          <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>                                             
+          <span style="margin-left:20px;"></span>
+          <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+      </div>
+
+      <!-- KULLANILACAK SARF MALZEME ADETİ -->    
+      <div class="col-md-12" style="padding-left:0px;">  
+          <label><b>{{getLanguageValue('Consumable_Quantity_To_Be_Used')}}:</b></label>
+          <span style="margin-left:20px;"></span>
+          <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+      </div>
+
+      <!-- BAKIM NO -->    
+      <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
+          <label><b>{{getLanguageValue('Maintenance_Number')}}:</b></label>
+          <span style="margin-left:20px;"></span>
+          <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+      </div>
+
+
+      <fieldset class="field_set">
+          <legend>{{getLanguageValue('Work_Orders')}}</legend>
+
+          <div class="row justify-content-center">
+              <span style="margin-left:20px;">1. İş Adımı</span>          
+          </div>
+        </fieldset>
+
+
+    </div>
+  
+    <!-- modal-body -->
+    <div class="modal-footer">
+      <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-az-primary" id="btnFixBreakdown" type="submit">
+        {{getLanguageValue('Save')}}
+      </button>
+      <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+    </div>
+  </form>
+  
+  

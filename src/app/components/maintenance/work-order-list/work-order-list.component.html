@@ -11,9 +11,11 @@
                 <h2 class="az-content-title">{{getLanguageValue('Work_Order_List')}}</h2>
                 <div class="grp-btn-action">
                     
-                    <button class="btn btn-az-primary" *ngIf="tabIndex == 0" id="btnReportBreakdown" style="margin-right:10px;">{{getLanguageValue('Report_Breakdown')}}</button>
+                    <button class="btn btn-az-primary" *ngIf="tabIndex == 0" id="btnReportBreakdown" style="margin-right:10px;" 
+                    title="{{getLanguageValue('Report_Breakdown')}}" (click)="doOperation(1)">{{getLanguageValue('Report_Breakdown')}}</button>
 
-                    <button class="btn btn-az-primary" *ngIf="tabIndex == 0" id="btnCancelReportBreakdown" style="margin-right:10px;">{{getLanguageValue('Cancel_Report_Breakdown')}}</button>
+                    <button class="btn btn-az-primary" *ngIf="tabIndex == 1" id="btnCancelReportBreakdown" style="margin-right:10px;"
+                    title="{{getLanguageValue('Fix_Breakdown')}}" (click)="doOperation(2)">{{getLanguageValue('Cancel_Report_Breakdown')}}</button>
 
                     <button class="btn btn-success btn-excel-custom" (click)="exportExcel(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
                         <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
@@ -197,6 +199,27 @@
         <!-- az-content-body -->
       </div>
     </div>
+  </div>
+
+  <div id="modalOperation" class="modal" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;" role="document">
+      <div class="modal-content modal-content-demo">
+
+        <app-report-breakdown [reportBreakdown]="reportbreakdown_selectedItem" 
+        *ngIf="currentOperation==1" [wolComponent]="this">
+        </app-report-breakdown>
+        
+        <app-fix-breakdown [fixBreakdown]="fixbreakdown_selectedItem" 
+        *ngIf="currentOperation==2 && maintenanceType==2" [wolComponent]="this">
+        </app-fix-breakdown>
+
+         <app-work-order-detail [workOrderDetail]="workorderdetail_selectedItem" 
+        *ngIf="currentOperation==2 && maintenanceType==1" [wolComponent]="this" >
+        </app-work-order-detail>
+  
+      </div>
+    </div>
+    <!-- modal-dialog -->
   </div>
   
 

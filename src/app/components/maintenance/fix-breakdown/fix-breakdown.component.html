@@ -1,0 +1,133 @@
+<div class="modal-header">
+        <h6 class="modal-title">{{getLanguageValue('You_are_viewing_the_details_of_request')}}</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
+        <div class="modal-body">
+          <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
+      
+           <!-- BARKOD -->      
+           <div class="col-md-12" style="padding-left:0px;">                       
+              <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
+              <span style="margin-left:20px;"></span>
+              <!-- <span style="margin-left:20px;">{{ fixBreakdown.Barcode }}</span> -->
+          </div>
+    
+          <!-- DEMİRBAŞ ADI -->      
+          <div class="col-md-12" style="padding-left:0px;">  
+              <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>                                             
+              <span style="margin-left:20px;"></span>
+              <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+          </div>
+    
+          <!-- TALEP EDEN PERSONEL -->
+          <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
+                <label><b>{{getLanguageValue('Requested_User')}}:</b></label>
+                <span style="margin-left:20px;"></span>
+                <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+            </div>
+
+          <!-- ARIZA AÇIKLAMASI -->
+          <!-- <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
+                <label><b>{{getLanguageValue('Breakdown_Description')}}:</b></label>
+                <textarea style="resize:none" rows="3" disabled></textarea>
+            </div> -->
+
+            <div class="row justify-content-center">
+                <div class="col-md-12 form-group">
+                    <label style="margin-bottom: 10px;">{{getLanguageValue('Breakdown_Description')}}</label>
+                    <textarea name="RequestDescription" style="resize:none" rows="3"
+                    class="form-control" type="text" maxlength="150" disabled></textarea>
+                </div>
+            </div>
+    
+          <!-- RESİM EKLEME KISMI EKLENECEK -->
+            
+            <!-- GÖREVLİ PERSONEL -->
+            
+            <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
+                <label><b>{{getLanguageValue('Attendant_User')}}:</b></label>
+                <span style="margin-left:20px;"></span>
+                <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+            </div>
+
+            <!-- BAKIM SÜRESİ -->
+            <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">                      
+                <label class="required-span"><b>{{getLanguageValue('Maintenance_Time')}}:</b></label>                                             
+                <input  type="time" class="form-control" trim="blur" />
+                <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+            </div>
+
+            <!-- BAKIM AÇIKLAMASI -->
+            <div class="row justify-content-center">
+                    <div class="col-md-12 form-group">
+                        <label class="required-span" style="margin-bottom: 10px;">{{getLanguageValue('Breakdown_Description')}}</label>
+                        <textarea name="RequestDescription" style="resize:none" rows="3"
+                        class="form-control" type="text" maxlength="150" 
+                        [ngClass]="{ 'is-invalid': data.submitted && RequestDescription.invalid }" required></textarea>
+                        <div *ngIf="data.submitted && RequestDescription.invalid" class="invalid-feedback">
+                            <div *ngIf="RequestDescription.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                        </div>
+                </div>
+            </div>
+
+            <!-- RESİM EKLEME KISMI EKLENECEK -->
+            <div class="row justify-content-center">      
+                    <div class="form-group col-md-12">
+                    <label>{{getLanguageValue('File')}}</label>
+                    <div class="file-area">
+                        <input #breakdownPicture name="BreakdownPicture" (change)="changeFile($event)" id="BreakdownPicture" type="file"
+                        class="form-control-file" style="display:none" multiple>
+                        <label for="BreakdownPicture" class="custom-file">
+                        <label class="custom-file-text" for="BreakdownPicture">
+                            {{breakdownPictures.length > 0 ? breakdownPictures[0].name : maintenance.BreakdownPictures ? maintenance.BreakdownPictures : getLanguageValue('Choose_File') }}
+                        </label>
+                        </label>
+                        <label class="custom-file-remove" (click)="clearPictures()"><span class="fa fa-times"></span></label>
+                    </div>
+                    </div>
+                </div>
+
+        </div>
+      
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-az-primary" id="btnFixBreakdown" type="submit">
+            {{getLanguageValue('Fix_Breakdown')}}
+          </button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
+      
+      
+       <!-- GÜNCELLEME ONAY -->
+       <!-- <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForReportBreakdown" style=" overflow-y: hidden !important;">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content tx-size-sm">
+              <div class="modal-body tx-center pd-y-20 pd-x-20">
+                  <button type="button" class="close" (click)="closeChangeBarcodePopup()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+                <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+                <p class="mg-b-20 mg-x-20" style="margin-bottom: 20px;">{{getLanguageValue('Are_you_sure_you_want_to_report_breakdown')}}</p>
+           
+                <div class="row" style="margin-bottom:20px;">
+                    <div class="col-md-6" style="padding-right: 0px;">
+                        <button class="btn btn-az-danger" style="float:right;" (click)="closeReportBreakdownPopup()" >{{getLanguageValue('Cancel')}}</button>        
+                      </div>
+               
+                  <div class="col-md-6">        
+                  <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="ReportBreakdown(data)">{{getLanguageValue('Change_Barcode')}}</button>
+                    </div>   
+                </div> 
+        
+              </div>
+            </div>
+          </div>
+        </div>
+         -->
+        

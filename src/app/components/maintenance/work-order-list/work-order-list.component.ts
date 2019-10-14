@@ -9,6 +9,7 @@ import { FixedAssetCardProperty } from '../../../models/FixedAssetCardProperty';
 import { MatTabChangeEvent } from '@angular/material';
 import { Maintenance } from '../../../models/Maintenance';
 import { MaintenanceStatus } from '../../../declarations/maintenance-status.enum';
+import { MaintenanceOperations } from '../../../declarations/maintenance-operations';
 
 @Component({
   selector: 'app-work-order-list',
@@ -38,7 +39,8 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   fixedAssets: FixedAsset[] = [];
   
   fixedAssetCardProperties: FixedAssetCardProperty[] = [];
-  
+
+  maintenanceType: number;
 
   public dataTableFixedAssetList: TreeGridTable = new TreeGridTable(
     "fixedasset",
@@ -445,7 +447,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.RequestedUser == null ? value.RequestedUser.User.FirstName + ' ' + value.RequestedUser.User.LastName : '';
+            return value.RequestedUser == null ? '' : value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName;
           }
           else {
             return '';
@@ -483,7 +485,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.AttendantUser == null ? value.AttendantUser.User.FirstName + ' ' + value.AttendantUser.User.LastName : '';
+            return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
           }
           else {
             return '';
@@ -508,7 +510,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Type'),
-        columnName: ["MaintenanceTypes", "Name"],
+        columnName: ["MaintenanceType", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -549,7 +551,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.RequestedUser == null ? value.RequestedUser.User.FirstName + ' ' + value.RequestedUser.User.LastName : '';
+            return value.RequestedUser == null ? '' : value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName;
           }
           else {
             return '';
@@ -587,7 +589,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.AttendantUser == null ? value.AttendantUser.User.FirstName + ' ' + value.AttendantUser.User.LastName : '';
+            return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
           }
           else {
             return '';
@@ -604,7 +606,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Type'),
-        columnName: ["MaintenanceTypes", "Name"],
+        columnName: ["MaintenanceType", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -645,7 +647,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.RequestedUser == null ? value.RequestedUser.User.FirstName + ' ' + value.RequestedUser.User.LastName : '';
+            return value.RequestedUser == null ? '' : value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName;
           }
           else {
             return '';
@@ -683,7 +685,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.AttendantUser == null ? value.AttendantUser.User.FirstName + ' ' + value.AttendantUser.User.LastName : '';
+            return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
           }
           else {
             return '';
@@ -700,7 +702,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Type'),
-        columnName: ["MaintenanceTypes", "Name"],
+        columnName: ["MaintenanceType", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -741,7 +743,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.RequestedUser == null ? value.RequestedUser.User.FirstName + ' ' + value.RequestedUser.User.LastName : '';
+            return value.RequestedUser == null ? '' : value.RequestedUser.FirstName + ' ' + value.RequestedUser.LastName;
           }
           else {
             return '';
@@ -779,7 +781,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.AttendantUser == null ? value.AttendantUser.User.FirstName + ' ' + value.AttendantUser.User.LastName : '';
+            return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
           }
           else {
             return '';
@@ -796,7 +798,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Type'),
-        columnName: ["MaintenanceTypes", "Name"],
+        columnName: ["MaintenanceType", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -809,8 +811,6 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     }
   );
   
-  
-
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetpropertyvalue", [
       {
@@ -1038,6 +1038,8 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     let workOrder: Maintenance = new Maintenance;
     
     workOrder.MaintenanceStatusIds = maintenanceStatus;
+    workOrder.PerPage=_perInPage;
+    workOrder.Page=_currentPage;
 
     /* Load all departments to datatable */
     await this.baseService.workOrderService.GetWorkOrdersAndBreakdownRequestList(workOrder,
@@ -1079,6 +1081,115 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
+  currentOperation: MaintenanceOperations = null;
+
+  public doOperation(operationType: MaintenanceOperations) {
+    this.currentOperation = operationType;
+
+    let selectedItems = <Maintenance[]>this.dataTableWorkOrder.TGT_getSelectedItems();
+    this.maintenanceType = selectedItems[0].MaintenanceTypeId;
+    
+    switch (operationType) {
+      case MaintenanceOperations.reportBreakdown:
+        this.ReportBreakdownOperation();
+        break;
+
+      case MaintenanceOperations.fixBreakdown:
+        if(selectedItems[0].MaintenanceTypeId==2)
+        this.FixBreakdownOperation();
+        else
+        this.WorkOrderDetailOperation();
+        
+        break;
+
+      // case MaintenanceOperations.workOrderDetail:
+      //   this.WorkOrderDetailOperation();
+      //   break;
+    }
+  }
+
+  //#region Report Breakdown
+  reportbreakdown_selectedItem: FixedAsset = new FixedAsset();  
+  ReportBreakdownOperation(){
+    let selectedItems = <FixedAsset[]>this.dataTableFixedAssetList.TGT_getSelectedItems();
+
+    if (selectedItems.length > 1) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("You_have_choosen_more_than_one_fixed_asset")
+      );
+      this.currentOperation = null;
+      return;
+    }
+
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("Please_choose_at_least_one_record")
+      );
+      this.currentOperation = null;
+      return;
+    }
+
+    this.reportbreakdown_selectedItem = selectedItems[0];
+
+    this.popupComponent.ShowModal('#modalOperation');
+  }
+  //#endregion
+  
+  //#region Fix Breakdown
+  fixbreakdown_selectedItem: Maintenance = new Maintenance();    
+  FixBreakdownOperation(){
+    let selectedItems = <Maintenance[]>this.dataTableWorkOrder.TGT_getSelectedItems();
+
+    if (selectedItems.length > 1) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("You_have_choosen_more_than_one_fixed_asset")
+      );
+      this.currentOperation = null;
+      return;
+    }
+
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("Please_choose_at_least_one_record")
+      );
+      this.currentOperation = null;
+      return;
+    }
+
+    this.fixbreakdown_selectedItem = selectedItems[0];
+
+    this.popupComponent.ShowModal('#modalOperation');    
+  }
+  //#endregion
+  
+  //#region Work Order Detail  
+  workorderdetail_selectedItem: Maintenance = new Maintenance();    
+  WorkOrderDetailOperation(){
+    let selectedItems = <Maintenance[]>this.dataTableWorkOrder.TGT_getSelectedItems();
+
+    if (selectedItems.length > 1) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("You_have_choosen_more_than_one_fixed_asset")
+      );
+      this.currentOperation = null;
+      return;
+    }
+
+    if (selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("Please_choose_at_least_one_record")
+      );
+      this.currentOperation = null;
+      return;
+    }
+
+    this.workorderdetail_selectedItem = selectedItems[0];
+
+    this.popupComponent.ShowModal('#modalOperation');    
+  }
+  //#endregion
+
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     this.perInPage = 25;
@@ -1160,6 +1271,10 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       break;
     }
     this.isTableRefreshing = false;
+  }
+
+  ClosePopup(isClose: boolean){
+    this.popupComponent.CloseModal('#modalOperation');
   }
 
 }

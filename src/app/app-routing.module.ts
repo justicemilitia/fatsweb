@@ -44,6 +44,7 @@ import { WorkOrderComponent } from './components/maintenance/work-order/work-ord
 import { WorkOrderListComponent } from './components/maintenance/work-order-list/work-order-list.component';
 import { FixBreakdownComponent } from './components/maintenance/fix-breakdown/fix-breakdown.component';
 import { WorkOrderDetailComponent } from './components/maintenance/work-order-detail/work-order-detail.component';
+import { ReportBreakdownComponent } from './components/maintenance/report-breakdown/report-breakdown.component';
 
 
 export const routes: Routes = [
@@ -286,6 +287,10 @@ export const routes: Routes = [
   { 
     path: "workorderdetail",
     component: WorkOrderDetailComponent
+  },
+  {
+    path: "reportbreakdown",
+    component: ReportBreakdownComponent
   }
 ];
 
