@@ -86,4 +86,5 @@ export class ConsumableRequest  implements IData{
      ConsumableCategory:ConsumableCategory;
      ConsumableCard:ConsumableCard;
      ConsumableLocation:Location;
+     RequestedUser:User;
 }

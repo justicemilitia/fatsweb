@@ -102,6 +102,13 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   }
 
+  isSelectFirm(event:any){
+    if(this.loginUser.FirmId != -1)
+      this.errorMessage = '';
+    else
+    this.errorMessage = this.getLanguageValue("Chose_firm_please");
+  }
+
   GetUserFirms(usermail: string):boolean {
 
     if (usermail == '' || !usermail)

@@ -84,6 +84,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   consumableCards: ConsumableCard[] = [];
 
+  consumableCardsByCategory: ConsumableCard[] = [];
+
   brands: FixedAssetCardBrand[] = [];
 
   models: FixedAssetCardModel[] = [];
@@ -167,6 +169,33 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "fixedassetpropertyvalue",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
+        columnName: ["FixedAssetCardProperty", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Value'),
+        columnName: ["Value"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["FixedAssetCardProperty", "Name"]
+    }
+  );
+  
+
+  public dataTablePropertyValueForExitModal: TreeGridTable = new TreeGridTable(
+    "fixedassetpropertyvalueforexitmodal",
     [
       {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Property_Name'),
@@ -316,9 +345,11 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   constructor(public baseService: BaseService) {
     super(baseService);
-    this.loadFixedAssetProperties();
+   
     this.loadDropdown();
     this.loadConsumableList(this.perInPage,this.currentPage,false);
+
+    this.loadFixedAssetProperties();
 
 
     //#region DataTable Property
@@ -330,6 +361,14 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isScrollActive = false;
     this.dataTablePropertyValue.isDeleteable=true;
+
+    this.dataTablePropertyValueForExitModal.isPagingActive = false;
+    this.dataTablePropertyValueForExitModal.isColumnOffsetActive = false;
+    this.dataTablePropertyValueForExitModal.isTableEditable = true;
+    this.dataTablePropertyValueForExitModal.isMultipleSelectedActive = false;
+    this.dataTablePropertyValueForExitModal.isFilterActive = false;
+    this.dataTablePropertyValueForExitModal.isLoading = false;
+    this.dataTablePropertyValueForExitModal.isScrollActive = false;
 
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
@@ -585,7 +624,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   }
 
   async loadConsumableCardByCategoryId(event: any) {
-    this.consumableCards = [];
+    this.consumableCardsByCategory = [];
+
     this.consumableCard.ConsumableUnit = null;    
 
     if (!event.target.value || event.target.value == "") {
@@ -597,7 +637,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       this.baseService.consumableCardService.GetConsumableCardsByCategoryId(
         <number>event.target.value,
         (consumableCards: ConsumableCard[]) => {
-          this.consumableCards = consumableCards;
+          this.consumableCardsByCategory = consumableCards;
         },
         (error: HttpErrorResponse) => {
          
@@ -608,7 +648,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   async loadConsumableUnitByCardId(event:any){
 
-    if (!event.target.value || event.target.value == "") {
+    if (!event.target.value || event.target.value == "" || event.target.selectedIndex == 0) {
       this.consumable.ConsumableUnits.ConsumableUnitId = null;
       this.consumable.ConsumableUnits = new ConsumableUnit();
       return;
@@ -751,11 +791,13 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
 
+       
+
+        //Object.assign(this.newConsumableList,consumables)  
+
+        this.dataTable.TGT_loadData(this.consumables);
+
         this.TGT_calculatePages();
-
-        Object.assign(this.newConsumableList,consumables)  
-
-        this.dataTable.TGT_loadData(this.newConsumableList);
 
       },
       (error: HttpErrorResponse) => {
@@ -770,7 +812,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   selectedConsumableMaterial(){
 
-    let selectedItems = <Consumable[]>this.dataTable.TGT_getSelectedItems()
+    let selectedItems = <Consumable[]>this.dataTable.TGT_getSelectedItems();
 
       if(!selectedItems || selectedItems.length == 0){
         this.baseService.popupService.ShowAlertPopup(
@@ -795,7 +837,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
       let selectedId:number = selectedItems[0].ConsumableId;
 
-      this.dataTablePropertyValue.TGT_clearData();
+      this.dataTablePropertyValueForExitModal.TGT_clearData();
 
       this.insertedProperty=[];
 
@@ -803,8 +845,6 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   }
 
   getConsumableMaterialById(consumableId:number){
-
-    //this.insertedProperty = [];
 
     $("#btnExitConsumable").trigger("click");
 
@@ -828,7 +868,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         this.insertedProperty.push(propertydetails);
         });
 
-        this.dataTablePropertyValue.TGT_loadData(this.insertedProperty);
+        this.dataTablePropertyValueForExitModal.TGT_loadData(this.insertedProperty);
       },
       (error:HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -836,14 +876,21 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   }
 
   getPropertyValue(event: any) {
-    this.propertyValue = event.target.value;
 
     this.visible = false;
+
+    this.propertyValue = event.target.value;
     
-    this.fixedAssetPropertyDetail.Value = null;
+    this.fixedAssetPropertyDetail.Value = event.target.value;
   }
 
   async loadValuesByPropertyId(event) {
+
+    this.fixedAssetPropertyDetail.Value = null;
+
+    this.propertyValue=null;
+
+    this.fixedassetpropertyvalues=[];
 
     this.isSelectedProperty = true;
 
@@ -867,9 +914,14 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     } else {
       this.isListSelected = false;
     }
+
   }
 
   insertPropertyValueToArray(propertyId: any) {
+    let counter:number = 0;
+
+    if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId == null)
+    this.fixedassetpropertyvalues = [];
 
     if(this.isFilter)
     this.faPropertyDetails = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
@@ -881,14 +933,14 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
     this.faPropertyDetails.forEach(e=>{
 
-      if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
-      this.sameProperty = true;
+     if(e.FixedAssetCardPropertyId == this.fixedAssetPropertyDetail.FixedAssetCardPropertyId && e.Value == this.propertyValue)     
+      counter++;
     });
   
-    if(this.sameProperty == true)
+    if(counter > 0)
     {
-      this.sameProperty = false;
-      return;
+    this.sameProperty = false;
+    return;
     }
 
       if(this.fixedAssetPropertyDetail.FixedAssetCardPropertyId != null){
@@ -908,6 +960,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       
             if (this.isListSelected == true)
               this.fixedAssetPropertyDetail.Value = this.propertyValue;
+
             this.faPropertyDetails.push(this.fixedAssetPropertyDetail);
 
             if(this.isFilter)
@@ -916,11 +969,14 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
             this.dataTablePropertyValue.TGT_loadData(this.faPropertyDetails);
       
             this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
-            this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
-            propertyId = null;
-            this.visible = false;
-            this.isSelectedProperty = false;
 
+            this.fixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
+
+            propertyId = null;
+
+            this.visible = false;
+
+            this.isSelectedProperty = false;
         }
         else{
           this.visiblePropertyName=true;    
@@ -928,6 +984,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       }
       else{
           this.visible=true;
+
           this.visiblePropertyName=true;    
       }
   }
@@ -1059,7 +1116,6 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     switch(operationType){
       case this.consumableOperationEnums.exitConsumableMaterial:
       this.selectedConsumableMaterial();
-      this.dataTablePropertyValue.isDeleteable=false;
       break;
     }
   }
@@ -1087,8 +1143,6 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     }
 
     this.dataTablePropertyValue.TGT_clearData();
-
-    this.dataTablePropertyValue.isDeleteable = true;
 
     data.reset();
     

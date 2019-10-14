@@ -1149,28 +1149,19 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     this.dataTable.perInPage = perInPage;
 
     this.totalPage = Math.round(fa.length/this.perInPage);
-    
-    // fa.forEach(e => {
-    //   e.FixedAssetPropertyDetails.forEach(p => {
-    //     if (p.FixedAssetCardPropertyId) {
-    //       e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
-    //     }
-    //   });
-    // });
 
     let valueA: string = '';
         
     fa.forEach(e => {
       e.FixedAssetPropertyDetails.forEach(p => {
         if (p.FixedAssetCardPropertyId) {
-          // e.FixedAssetPropertyDetails.length>1
+
           for (let i = 0; i < e.FixedAssetPropertyDetails.length; i++) {
             valueA+= e.FixedAssetPropertyDetails[i].Value + ( e.FixedAssetPropertyDetails.length - i == 1 ? "" : "|");                                  
           }
 
           e["PROP_" + p.FixedAssetCardPropertyId.toString()] = valueA;
-          console.log(valueA);
-            // e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
+
         }
         valueA='';            
       });

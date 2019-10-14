@@ -5,6 +5,8 @@ import { ConsumableCard } from 'src/app/models/ConsumableCard';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTable';
 import { FixedAssetCardProperty } from 'src/app/models/FixedAssetCardProperty';
+import { WorkOrders } from 'src/app/models/WorkOrders';
+import { Consumable } from 'src/app/models/Consumable';
 @Component({
   selector: 'app-periodic-maintenance',
   templateUrl: './periodic-maintenance.component.html',
@@ -15,6 +17,21 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   consumableCards:ConsumableCard[]=[];
 
   faProperties:FixedAssetCardProperty[]=[];
+  
+  workOrders:WorkOrders[]=[];
+
+  consumables:Consumable[]=[];
+
+  workOrder: WorkOrders = new WorkOrders();
+
+  consumable: Consumable = new Consumable();
+
+  workOrderCode:string;
+
+   /* Is Waititing for a request */
+   isWaitingInsertOrUpdate: boolean = false;
+
+   isConsumableUse:boolean=false;
 
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "consumablepropertyvalue",
@@ -65,6 +82,8 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     super(baseService);
     this.loadConsumableCardDropdown();
     this.loadFixedAssetProperties();
+
+    this.loadWorkOrderCode();
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isTableEditable = false;
@@ -121,5 +140,41 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  async loadWorkOrderByFixedAssetCardId(fixedAssetCardId:number){
+    this.baseService.workOrderService.GetWorkOrderByFixedAssetCardId(fixedAssetCardId,
+      (workOrders:WorkOrders[])=>{
+        this.workOrders = workOrders;
+      }, (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      });      
+  }
+
+  async loadWorkOrderCode(){
+    this.baseService.workOrderService.GetValidWorkOrderNumber((workOrderCode) => {
+      this.workOrderCode = workOrderCode;
+    },(error:HttpErrorResponse) => {
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+  }
+
+  loadConsumablesByConsumableCardId(event:any){
+
+    let consumableCardId:number=Number(event.target.value);
+    
+    this.baseService.workOrderService.GetConsumablesByConsumableCardId(consumableCardId,
+    (consumables:Consumable[])=>{
+      this.consumables = consumables;
+    },(error:HttpErrorResponse)=>{
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+  }
+
+  isConsumableUsed(event:any){
+    if(event.target.checked == true)
+    this.isConsumableUse = true;     
+    else
+    this.isConsumableUse = false;
   }
 }

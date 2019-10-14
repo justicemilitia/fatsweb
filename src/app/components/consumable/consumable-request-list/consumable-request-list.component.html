@@ -292,7 +292,7 @@
             </div>  
             <div class="form-group col-md-6">
                   <label class="required-span">{{getLanguageValue('Received_Amount_Unit')}}</label>
-                  <input [(ngModel)]="receiveConsumableMaterial.ReceivedAmount" [class.is-invalid]="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" name="ReceivedAmount"  class="form-control" type="text" required/>
+                  <input [(ngModel)]="receiveConsumableMaterial.ReceivedAmount" [class.is-invalid]="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" name="ReceivedAmount"  class="form-control" type="number" required/>
                   <div *ngIf="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" class="invalid-feedback">
                     <div>{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
@@ -314,7 +314,7 @@
         <div class="row justify-content-center">
           <div class="form-group col-md-12">   
           <label>{{getLanguageValue('Description')}}</label>
-            <input [(ngModel)]="receiveConsumableMaterial.Description" [class.is-invalid]="receiveConsumableMaterial.Description == null && submitDescription == true" name="Description" class="form-control" type="text"/>
+            <input [(ngModel)]="receiveConsumableMaterial.Description" [class.is-invalid]="receiveConsumableMaterial.Description == null && submitDescription == true" name="Description" maxlength="150" class="form-control" type="text"/>
             <div *ngIf="receiveConsumableMaterial.Description == null && submitDescription == true">
               <div style="color:red">{{getLanguageValue('This_value_is_required')}}</div>
             </div>
@@ -506,14 +506,11 @@
 
         <div class="row justify-content-center"> 
           <div class="form-group col-md-6">
-            <label class="required-span">{{getLanguageValue('Location')}}</label>
+            <label>{{getLanguageValue('Location')}}</label>
             <div style="display:flex;">
-              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"  [class.dropdown-button-valid]="data.submitted && !selectedLocation">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }}</button>
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button" >{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }}</button>
                 <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
-              </div>
-              <div *ngIf="data.submitted && !selectedLocation" style="color:red">
-                <div *ngIf="!selectedLocation">{{getLanguageValue('This_value_is_required')}}</div>
-              </div>    
+              </div>          
               <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
                 <tree-grid-table [dataTable]="dataTableLocation"></tree-grid-table>
               </div>
