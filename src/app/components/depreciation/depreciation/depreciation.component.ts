@@ -223,6 +223,14 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       {
         columnDisplayName: "Amortisman Tarihi",
         columnName: ["EndDate"],
+        isActive: false,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
+        columnDisplayName: "Amortisman Tarihi",
+        columnName: ["|EndDateDepreciation"],
         isActive: true,
         classes: [],
         placeholder: "",
