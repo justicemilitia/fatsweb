@@ -15,3 +15,8 @@
     color: #494c57;
     margin-bottom: 8px;
 }
+.small{
+  min-height: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

@@ -220,6 +220,7 @@ export const GET_CONSUMABLE_LIST = "Consumable/GetConsumableList";
 export const ADD_CONSUMABLE_MATERIAL ="Consumable/AddConsumableMaterial";
 export const ADD_FREE_REQUESTED_MATERIAL="Consumable/AddFreeRequestedMaterial";
 export const GET_CONSUMABLE_MATERIAL_BY_ID = "Consumable/GetConsumableListById";
+export const GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID ="Consumable/GetConsumablesByConsumableCardId";
 
 //#region Consumable Card Unit
 export const GET_CONSUMABLE_CARD_LIST = "ConsumableCards/ConsumableCardsList";
@@ -397,6 +398,9 @@ export const GET_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";
 
 //#region WorkOrderList
 export const GET_WORK_ORDER_LIST = "WorkOrder/GetWorkOrdersList";
+export const GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID ="WorkOrder/GetWorkOrdersByFixedAssetCardId";
+export const GET_VALID_WORK_ORDER_CODE ="WorkOrder/GetValidWorkOrderNumber";
+
 //#endregion
 
 

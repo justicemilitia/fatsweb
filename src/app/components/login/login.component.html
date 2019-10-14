@@ -43,7 +43,7 @@
             <div class="loader"></div>
           </div>
           <select *ngIf="isUserFirmsGetting == false && firms.length > 0" name="firmId" [(ngModel)]="loginUser.FirmId"
-            class="form-control select2-no-search">
+            class="form-control select2-no-search" (change)="isSelectFirm($event)">
             <option value="-1">{{getLanguageValue('Choose_Firm')}}</option>
             <option *ngFor="let firm of firms" value={{firm.FirmId}}>{{firm.Name}}</option>
           </select>

@@ -1412,8 +1412,8 @@ export class ConsumableRequestListComponent extends BaseComponent
       (consumableRequest:ConsumableRequest) => {
         Object.assign(this.consumableRequest, consumableRequest[0]);
     
-        if(this.consumable.User != null)
-        this.requestedUser = this.consumableRequest.User.FirstName  + " " +this.consumableRequest.User.LastName; 
+        if(this.consumableRequest.RequestedUser != null)
+        this.requestedUser = this.consumableRequest.RequestedUser.FirstName  + " " +this.consumableRequest.RequestedUser.LastName; 
 
         let property:FixedAssetPropertyDetails[] =  this.consumableRequest.Consumable.FixedAssetPropertyDetails;
 
@@ -1589,9 +1589,13 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     this.dataTablePropertyValueForFilter.TGT_clearData();
 
+    this.dataTableLocation.TGT_clearData();
+
     this.loadConsumableCardDropdown();
 
     this.loadConsumableCategoryDropdown();
+
+    this.loadConsumableLocationDropdown();
 
     this.fixedAssetPropertyDetail = new FixedAssetPropertyDetails();
 

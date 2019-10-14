@@ -118,6 +118,8 @@ export class FaPropertyInformationComponent extends BaseComponent implements OnI
 }
 
 async loadValuesByPropertyId(event) {
+  if(event.target.selectedIndex == 0)
+
   this.fixedAssetPropertyDetail.Value=null;
 
   this.propertyValue=null;

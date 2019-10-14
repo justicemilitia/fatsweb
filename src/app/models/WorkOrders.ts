@@ -4,4 +4,5 @@ export class WorkOrders{
     WorkStepId:number;
     FixedAssetCardPeriodId:number;
     WorkOrderStatuId:number;    
+    WorkOrderCode:number;
 }

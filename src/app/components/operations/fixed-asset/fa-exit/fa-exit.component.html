@@ -22,7 +22,7 @@
       <div class="col-md-12 form-group">
         <label class="required-span">{{getLanguageValue('Exit_Type')}}</label>
         <select [(ngModel)]="transactionLog.CheckOutReasonId" name="CheckOutReasonId" class="form-control"
-          #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" required>
+          #CheckOutReasonId="ngModel" [ngClass]="{ 'is-invalid': data.submitted && CheckOutReasonId.invalid }" (change)="otherExitType($event)" required>
           <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
           <option *ngFor="let checkedOutReason of checkedOutReasons" value={{checkedOutReason.CheckOutReasonId}}>
             {{checkedOutReason.Name}}
@@ -59,8 +59,9 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>{{getLanguageValue('Description')}}</label>
-        <textarea [(ngModel)]="transactionLog.Description" name="Description" style="resize:none" rows="2"
-          class="form-control" type="text" maxlength="100" #Description="ngModel"></textarea>
+        <textarea [(ngModel)]="transactionLog.CheckOutDescription" name="CheckOutDescription"  [class.is-invalid]="data.submitted && otherCheckReasonType == true"style="resize:none" rows="2"
+          class="form-control" type="text" maxlength="100" #CheckOutDescription="ngModel"></textarea>
+          <div *ngIf="requiredDescription == true" style="color:red">{{getLanguageValue('This_value_is_required')}}</div>
       </div>
     </div>
 
@@ -79,8 +80,7 @@
 
   <!-- modal-body -->
   <div class="modal-footer">
-    <button class="btn btn-az-primary" id="btnExitFixedAsset" type="submit" data-toggle="modal"
-      data-target="#modalExitFixedAsset">
+    <button class="btn btn-az-primary" id="btnExitFixedAsset" type="submit" (click)="exitFixedAssetModal(data)">
       {{getLanguageValue('Save')}}
     </button>
   </div>
@@ -88,7 +88,7 @@
 
 
 <!-- SİLME ONAY -->
-<div class="modal" data-backdrop="static" id="modalShowDeletePopupForFaExit" data-target="#modalShowDeletePopupForFaExit" style=" overflow-y: hidden !important;">
+<div class="modal" data-backdrop="static" id="modalShowDeletePopupForFaExit" style=" overflow-y: hidden !important;">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content tx-size-sm">
       <div class="modal-body tx-center pd-y-20 pd-x-20">

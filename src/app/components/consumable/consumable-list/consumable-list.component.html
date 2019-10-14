@@ -110,7 +110,7 @@
                 name="ConsumableCardId" class="form-control select2-no-search" (change)="loadConsumableUnitByCardId($event)"
                 [ngClass]="{ 'is-invalid': data.submitted && ConsumableCardId.invalid }" #ConsumableCardId="ngModel" required>
                 <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
-                <option *ngFor="let card of consumableCards"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
+                <option *ngFor="let card of consumableCardsByCategory"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
               </select>   
               <div *ngIf="data.submitted && ConsumableCardId.invalid" class="invalid-feedback">
                 <div *ngIf="ConsumableCardId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
@@ -146,8 +146,8 @@
           <div class="row justify-content-center">            
               <div class="form-group col-md-6">
                   <label class="required-span">{{getLanguageValue('Amount')}}</label>
-                  <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="text"
-                  [ngClass]="{ 'is-invalid': data.submitted && ConsumableAmount.invalid }" #ConsumableAmount="ngModel" required/>
+                  <input [(ngModel)]="consumable.ConsumableAmount" name="ConsumableAmount" class="form-control" type="number"
+                  [ngClass]="{ 'is-invalid': data.submitted && ConsumableAmount.invalid }" #ConsumableAmount="ngModel" onkeypress="return event.charCode >= 48" min="0" required/>
                   <div *ngIf="data.submitted && ConsumableAmount.invalid" class="invalid-feedback">
                     <div *ngIf="ConsumableAmount.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
@@ -161,8 +161,8 @@
           <div class="row justify-content-center">
             <div class="form-group col-md-6">
               <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
-              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (click)="loadFixedAssetProperties()" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
-                <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
+              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
+                <option [ngValue]="null">{{getLanguageValue('Choose_a_property')}}</option>
                 <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
               </select> 
               <div *ngIf="visible == true" style="color:red">
@@ -256,7 +256,7 @@
 
           <div class="row justify-content-center">
               <div class="form-group col-md-12">   
-                      <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+                      <tree-grid-table [dataTable]="dataTablePropertyValueForExitModal"></tree-grid-table>
               </div>   
           </div>   
 
@@ -295,8 +295,8 @@
           <div class="row justify-content-center">            
               <div class="form-group col-md-6">
                   <label class="required-span">{{getLanguageValue('Amount')}}</label>
-                  <input [(ngModel)]="exitconsumable.FreeExitAmount" name="FreeExitAmount" class="form-control" type="text"
-                  [ngClass]="{ 'is-invalid': exitData.submitted && FreeExitAmount.invalid }" #FreeExitAmount="ngModel" required/>
+                  <input [(ngModel)]="exitconsumable.FreeExitAmount" name="FreeExitAmount" class="form-control" type="number"
+                  [ngClass]="{ 'is-invalid': exitData.submitted && FreeExitAmount.invalid }" #FreeExitAmount="ngModel" onkeypress="return event.charCode >= 48" min="0" required/>
                   <div *ngIf="exitData.submitted && FreeExitAmount.invalid" class="invalid-feedback">
                     <div *ngIf="FreeExitAmount.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
@@ -309,7 +309,7 @@
           <div class="row justify-content-center">
               <div class="form-group col-md-12">
                   <label>{{getLanguageValue('Description')}}</label>
-                  <input  [(ngModel)]="exitconsumable.Description" name="Description" class="form-control" type="text"/>
+                  <input  [(ngModel)]="exitconsumable.Description" name="Description" class="form-control" maxlength="150" type="text"/>
             </div>
           </div>
         </div>

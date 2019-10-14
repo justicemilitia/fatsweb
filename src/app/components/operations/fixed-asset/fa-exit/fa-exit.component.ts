@@ -43,6 +43,10 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   @Input() faComponent: FixedAssetComponent;
   IsCreateExitForm: boolean = false;
 
+  otherCheckReasonType:boolean=false;
+
+  requiredDescription:boolean=false;
+
   fixedAssetPrice:boolean = false;
 
   constructor(baseService: BaseService) {
@@ -58,9 +62,9 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     if(this.fixedAssetPrice == true) return;
    
 
-    this.popupComponent.ShowModal('#modalShowDeletePopupForFaExit');    
+    // this.popupComponent.ShowModal('#modalShowDeletePopupForFaExit');    
     
-    this.popupComponent.CloseModal('#modalExitFixedAsset');    
+    // this.popupComponent.CloseModal('#modalExitFixedAsset');    
     
   }
 
@@ -72,7 +76,7 @@ export class FaExitComponent extends BaseComponent implements OnInit {
         // if (response == true) {
           this.baseService.spinner.show();
 
-
+          
           this.transactionLog.FixedAssetIds = [];
 
           this.transactionLog.FixedAssetIds = (<FixedAsset[]>(
@@ -196,4 +200,34 @@ export class FaExitComponent extends BaseComponent implements OnInit {
   closeFaExit(){
     this.popupComponent.CloseModal("#modalShowDeletePopupForFaExit");
   }
+
+  otherExitType(event:any){
+    if(this.transactionLog.CheckOutReasonId == 31)
+    this.otherCheckReasonType = true;
+    else {
+      this.otherCheckReasonType = false;
+      this.requiredDescription = false;  
+    }
+    
+  }
+
+  exitFixedAssetModal(data:NgForm){
+
+    if(!this.otherCheckReasonType)
+      this.popupComponent.ShowModal('#modalShowDeletePopupForFaExit');
+    else{
+      let description:string= this.transactionLog.CheckOutDescription;
+      console.log(description);
+        if(description === undefined){           
+          this.requiredDescription = true;
+          return;   
+          }
+          else{
+            this.popupComponent.ShowModal('#modalShowDeletePopupForFaExit');
+            this.requiredDescription = false;
+            this.otherCheckReasonType = false;           
+          }
+    } 
+  }
+
 }
