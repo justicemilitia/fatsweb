@@ -13,49 +13,63 @@
       <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
   
       <!-- BARKOD -->            
-      <div class="col-md-12" style="padding-left:0px;">                       
+      <!-- <div class="col-md-12" style="padding-left:0px;">                       
         <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
-        <span style="margin-left:20px;"></span>
-        <!-- <span style="margin-left:20px;">{{ fixBreakdown.Barcode }}</span> -->
-      </div>
+        <span style="margin-left:20px;">{{ maintenance.FixedAsset.Barcode }}</span>
+      </div> -->
 
-       <!-- KULLANILACAK SARF MALZEME -->
-       <div class="col-md-12" style="padding-left:0px;">  
-          <label><b>{{getLanguageValue('Consumables_To_Be_Used')}}:</b></label>
-          <span style="margin-left:20px;"></span>
-          <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
-        </div>
-
-      <!-- DEMİRBAŞ ADI -->      
-      <div class="col-md-12" style="padding-left:0px;">  
-          <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>                                             
-          <span style="margin-left:20px;"></span>
-          <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
-      </div>
-
-      <!-- KULLANILACAK SARF MALZEME ADETİ -->    
-      <div class="col-md-12" style="padding-left:0px;">  
-          <label><b>{{getLanguageValue('Consumable_Quantity_To_Be_Used')}}:</b></label>
-          <span style="margin-left:20px;"></span>
-          <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
-      </div>
+       <!-- DEMİRBAŞ ADI -->
+       <!-- <div class="col-md-12" style="padding-left:0px;">  
+          <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>
+          <span style="margin-left:20px;">{{ maintenance.FixedAsset.FixedAssetCard.Name }}</span>
+        </div> -->
 
       <!-- BAKIM NO -->    
-      <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
+      <!-- <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
           <label><b>{{getLanguageValue('Maintenance_Number')}}:</b></label>
-          <span style="margin-left:20px;"></span>
-          <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
-      </div>
+          <span style="margin-left:20px;">{{ maintenance.MaintenanceNumber }}</span>
+      </div> -->
 
+    <div *ngFor="let workStep of workSteps; let i = index">
+      <fieldset class="field_set" style="margin-bottom:25px;">
+          <legend> 
+              <label class="ckbox">
+                  <input type="checkbox" name="IsDone" [(ngModel)]="workStep.IsDone" [checked]="workStep.IsDone"
+                  (change)="IsWorkOrderDone($event)"/>
+                  <span>{{i+1}}. iş adımı</span>
+                </label> 
+            </legend>
 
-      <fieldset class="field_set">
-          <legend>{{getLanguageValue('Work_Orders')}}</legend>
-
+          <!-- <div class="row">
+              <span  style="margin-left:20px;">Açıklama: {{maintenance.WorkOrder.WorkSteps[i].WorkStepConsumables.WorkStepId}}</span> 
+              <input [attr.disabled]="workStep.IsDone == true ? '' : 'disabled'" type="text"name="ConsumableCardCode"class="form-control" />         
+          </div> -->
           <div class="row justify-content-center">
-              <span style="margin-left:20px;">1. İş Adımı</span>          
+            <div class="col-md-12 form-group">
+              <label>{{getLanguageValue('Description')}}</label>
+              <input [(ngModel)]="workStep.Description" name="Description_{{i}}" type="text" class="form-control" trim="blur" #Description="ngModel"
+              [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+            </div>
           </div>
-        </fieldset>
 
+            <div class="row justify-content-center">
+              <div class="col-md-6 form-group">
+                <label>Kullanılacak Sarf Malzeme Adeti</label>
+                <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
+                [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+              </div>
+            <!-- </div> -->
+
+              <!-- <div class="row justify-content-center"> -->
+                <div class="col-md-6 form-group">
+                  <label>Kullanılan Sarf Malzeme Adeti</label>
+                  <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_Used_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
+                  [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                </div>
+              </div>
+
+        </fieldset>
+    </div>
 
     </div>
   

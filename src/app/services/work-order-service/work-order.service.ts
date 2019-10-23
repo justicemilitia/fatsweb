@@ -4,7 +4,7 @@ import { AuthenticationService } from '../authenticationService/authentication.s
 import { ErrorService } from '../error-service/error.service';
 import { Response } from "src/app/models/Response";
 import { getAnErrorResponse } from "src/app/declarations/extends";
-import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID, GET_VALID_BARCODE_LAST_NUMBER, GET_VALID_WORK_ORDER_CODE, GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID } from '../../declarations/service-values';
+import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID, GET_VALID_BARCODE_LAST_NUMBER, GET_VALID_WORK_ORDER_CODE, GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID, GET_WORK_STEPS_BY_FIXED_ASSET_ID, REPORT_BREAKDOWN_WITH_FILE_UPLOAD } from '../../declarations/service-values';
 import { Maintenance } from '../../models/Maintenance';
 import { WorkOrders } from 'src/app/models/WorkOrders';
 import { getMatIconFailedToSanitizeLiteralError } from '@angular/material';
@@ -74,6 +74,28 @@ export class WorkOrderService {
       );
   }
 
+  GetWorkStepsByFixedAssetId(maintenance:Maintenance, success, failed) {
+    this.httpClient
+      .post(SERVICE_URL + GET_WORK_STEPS_BY_FIXED_ASSET_ID, maintenance, {
+        headers: GET_HEADERS(this.authenticationService.getToken())
+      })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let maintenance: Maintenance = new Maintenance();
+            Object.assign(maintenance, response.ResultObject)
+            success(maintenance, response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
   GetValidWorkOrderNumber(success,failed){
     this.httpClient.get(SERVICE_URL+ GET_VALID_WORK_ORDER_CODE, {
       headers:GET_HEADERS(this.authenticationService.getToken())
@@ -113,7 +135,26 @@ export class WorkOrderService {
   }
   
   ReportBreakdown(workOrder: Maintenance, success, failed){
-
+    this.httpClient
+      .post(
+        SERVICE_URL + REPORT_BREAKDOWN_WITH_FILE_UPLOAD, workOrder, {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let maintenance: Maintenance = new Maintenance();
+            Object.assign(maintenance, response.ResultObject);
+            success(response.LanguageKeyword);
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
   }
 
   // FixBreakdown(workOrder: Maintenance, success, failed){

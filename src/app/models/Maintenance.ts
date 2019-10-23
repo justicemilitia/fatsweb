@@ -4,6 +4,8 @@ import { MaintenanceTypes } from './MaintenanceTypes';
 import { MaintenanceRequestPicture } from './MaintenanceRequestPicture';
 import { User } from './User';
 import { MaintenanceStatus } from './MaintenanceStatus';
+import { FixedAsset } from './FixedAsset';
+import { WorkOrders } from './WorkOrders';
 
 export class Maintenance implements IData {
     getParentId(): number {
@@ -45,6 +47,8 @@ export class Maintenance implements IData {
     MaintenanceStatusIds:number[];
 
     FixedAssetCard:FixedAssetCard;
+    FixedAsset: FixedAsset;
+    WorkOrder: WorkOrders;
     MaintenanceTypes:MaintenanceTypes;
     MaintenanceStatus:MaintenanceStatus;
     MaintenanceRequestPicture:MaintenanceRequestPicture;

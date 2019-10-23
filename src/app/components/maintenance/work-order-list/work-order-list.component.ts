@@ -424,7 +424,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
-        columnName: ["FixedAssetCard", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -519,7 +519,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["FixedAssetCard", "Name"]
+      column: ["FixedAsset", "FixedAssetCard", "Name"]
     }
   );
 
@@ -1077,6 +1077,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         /* if error show pop up */
         this.totalPage = 0;
         this.TGT_calculatePages();
+        this.dataTableWorkOrder.isLoading=false;
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
@@ -1087,9 +1088,17 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   public doOperation(operationType: MaintenanceOperations) {
     this.currentOperation = operationType;
 
-    let selectedItems = <Maintenance[]>this.dataTableWorkOrder.TGT_getSelectedItems();
-    this.maintenanceType = selectedItems[0].MaintenanceTypeId;
-    
+    let selectedItems: any[]=[];
+      if(this.tabIndex==0) {
+      selectedItems = <FixedAsset[]>this.dataTableFixedAssetList.TGT_getSelectedItems();
+      this.maintenanceType = selectedItems[0].MaintenanceTypeId;
+       }
+
+       else {
+        selectedItems = <Maintenance[]>this.dataTableWorkOrder.TGT_getSelectedItems();
+        this.maintenanceType = selectedItems[0].MaintenanceTypeId;
+      }
+
     switch (operationType) {
       case MaintenanceOperations.reportBreakdown:
         this.ReportBreakdownOperation();

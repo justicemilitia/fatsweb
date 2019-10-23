@@ -1,3 +1,5 @@
+import { WorkStep } from './WorkStep';
+
 export class WorkOrders{
     WorkOrderId:number;
     FixedAssetCardId:number;
@@ -5,4 +7,6 @@ export class WorkOrders{
     FixedAssetCardPeriodId:number;
     WorkOrderStatuId:number;    
     WorkOrderCode:number;
+
+    WorkSteps: WorkStep[];
 }

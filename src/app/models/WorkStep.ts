@@ -1,3 +1,6 @@
+import { WorkStepConsumables } from './WorkStepConsumables';
+import { Consumable } from './Consumable';
+
 export class WorkStep{
     WorkStepId:number;
     WorkStepRowId:number;
@@ -5,4 +8,8 @@ export class WorkStep{
     IsConsumableUsed:boolean;
     Quantity:number;
     Picture:string;
+    IsDone:boolean;
+
+    WorkStepConsumables: WorkStepConsumables;
+    Consumables: Consumable[];
 }
