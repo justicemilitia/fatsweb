@@ -59,9 +59,12 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>{{getLanguageValue('Description')}}</label>
-        <textarea [(ngModel)]="transactionLog.CheckOutDescription" name="CheckOutDescription"  [class.is-invalid]="data.submitted && otherCheckReasonType == true"style="resize:none" rows="2"
+        <textarea [(ngModel)]="transactionLog.CheckOutDescription" name="CheckOutDescription"  [class.is-invalid]="data.submitted && otherCheckReasonType == true && (transactionLog.CheckOutDescription == undefined || transactionLog.CheckOutDescription == '' || transactionLog.CheckOutDescription == null)" style="resize:none" rows="2"
           class="form-control" type="text" maxlength="100" #CheckOutDescription="ngModel"></textarea>
-          <div *ngIf="requiredDescription == true" style="color:red">{{getLanguageValue('This_value_is_required')}}</div>
+          <div style="display:block" *ngIf="data.submitted" class="invalid-feedback">
+            <div *ngIf="otherCheckReasonType == true && (transactionLog.CheckOutDescription == undefined || transactionLog.CheckOutDescription == '' || transactionLog.CheckOutDescription == null)">{{getLanguageValue('This_value_is_required')}}</div>
+          </div>
+          <!-- <div *ngIf="requiredDescription == true" style="color:red"></div> -->
       </div>
     </div>
 

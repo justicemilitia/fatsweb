@@ -8,6 +8,7 @@ import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXED
 import { Maintenance } from '../../models/Maintenance';
 import { WorkOrders } from 'src/app/models/WorkOrders';
 import { getMatIconFailedToSanitizeLiteralError } from '@angular/material';
+import { Consumable } from 'src/app/models/Consumable';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,7 @@ export class WorkOrderService {
       if(response.ResultStatus == true){
         let workOrders: WorkOrders[]=[];
         (<WorkOrders[]>response.ResultObject).forEach(e=>{
+          
           let workOrder:WorkOrders=new WorkOrders();
           Object.assign(workOrder,e);
           workOrders.push(workOrder);
@@ -88,15 +90,22 @@ export class WorkOrderService {
   }
 
   GetConsumablesByConsumableCardId(consumableCardId:number,success,failed){
-    this.httpClient.post(SERVICE_URL + GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID, consumableCardId,{
+    this.httpClient.post(SERVICE_URL + GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID,{ConsumableCardId:consumableCardId},{
       headers:GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(result=>{
       let response:Response=<Response>result;
       if(response.ResultStatus==true){
-        console.log(response.ResultObject);
-        success(response.ResultObject);
+        let consumables:Consumable[]=[];
+        (<Consumable[]>response.ResultObject).forEach(e=>{
+          let consumable:Consumable=new Consumable();
+          if(e.ConsumableParentId != null){
+            Object.assign(consumable,e);
+            consumables.push(consumable);
+          }
+        }); 
+        success(consumables,response.LanguageKeyword);
       }else{
-
+        failed(getAnErrorResponse(response.LanguageKeyword));
       }
     },(error:HttpErrorResponse)=>{
       failed(error);

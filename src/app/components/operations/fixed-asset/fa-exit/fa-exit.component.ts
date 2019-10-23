@@ -160,7 +160,12 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     if (isNewItem == true) {
       this.transactionLog = new TransactionLog();
     }
+    this.requiredDescription=false;
+
+    this.otherCheckReasonType=true;
+
     data.reset();
+
     data.resetForm(this.transactionLog);
   }
 
@@ -199,6 +204,8 @@ export class FaExitComponent extends BaseComponent implements OnInit {
 
   closeFaExit(){
     this.popupComponent.CloseModal("#modalShowDeletePopupForFaExit");
+
+    this.otherCheckReasonType=true;
   }
 
   otherExitType(event:any){
@@ -206,20 +213,22 @@ export class FaExitComponent extends BaseComponent implements OnInit {
     this.otherCheckReasonType = true;
     else {
       this.otherCheckReasonType = false;
+
       this.requiredDescription = false;  
-    }
-    
+    }    
   }
 
   exitFixedAssetModal(data:NgForm){
 
-    if(!this.otherCheckReasonType)
+    if(this.otherCheckReasonType == false)
       this.popupComponent.ShowModal('#modalShowDeletePopupForFaExit');
     else{
       let description:string= this.transactionLog.CheckOutDescription;
       console.log(description);
-        if(description === undefined){           
+        if(description === undefined || description == '' || description == null){    
+
           this.requiredDescription = true;
+
           return;   
           }
           else{

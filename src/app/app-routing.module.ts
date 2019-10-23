@@ -270,27 +270,40 @@ export const routes: Routes = [
   },
   { 
     path: "periodicmaintenance",
-    component: PeriodicMaintenanceComponent
+    component: PeriodicMaintenanceComponent,
+    data:{pageKeyword:pages.MENU_PERIODICMAINTENANCE},
+    canActivate:[AuthGuard],
+    resolve:{ }
   },
   { 
     path: "workorder",
-    component: WorkOrderComponent
+    component: WorkOrderComponent,
+    data:{pageKeyword:pages.MENU_MAINTENANCEREQUEST},
+    canActivate:[AuthGuard]
   },
   { 
     path: "workorderlist",
-    component: WorkOrderListComponent
+    component: WorkOrderListComponent,
+    data:{pageKeyword:pages.MENU_MAINTENANCEREQUEST},
+    canActivate:[AuthGuard]
   },
   { 
     path: "fixbreakdown",
-    component: FixBreakdownComponent
+    component: FixBreakdownComponent,
+    data:{pageKeyword:pages.MENU_MAINTENANCEREQUEST},
+    canActivate:[AuthGuard]
   },
   { 
     path: "workorderdetail",
-    component: WorkOrderDetailComponent
+    component: WorkOrderDetailComponent,
+    data:{pageKeyword:pages.MENU_MAINTENANCEREQUEST},
+    canActivate:[AuthGuard]
   },
   {
     path: "reportbreakdown",
-    component: ReportBreakdownComponent
+    component: ReportBreakdownComponent,
+    data:{pageKeyword:pages.MENU_MAINTENANCEREQUEST},
+    canActivate:[AuthGuard]
   }
 ];
 

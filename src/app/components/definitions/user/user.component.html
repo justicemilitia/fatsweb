@@ -230,13 +230,13 @@
           <ng-template [ngIf]="visibleInsertButton == true">
               <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUser == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
               <div class="grp-btn-action" *ngIf="checkedSystemUser == true">
-              <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">{{getLanguageValue('Next')}}</button>
+              <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">{{getLanguageValue('Next_Button')}}</button>
               </div>
           </ng-template>
           <ng-template [ngIf]="visibleInsertButton == false">
               <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUserUpdate == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
               <div class="grp-btn-action" *ngIf="checkedSystemUserUpdate == true">
-              <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">{{getLanguageValue('Next')}}</button>
+              <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">{{getLanguageValue('Next_Button')}}</button>
               </div>
           </ng-template>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
@@ -321,7 +321,7 @@
           </div>
           <div class="modal-footer">
             <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange">{{getLanguageValue('Back')}}</button>
+              <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange">{{getLanguageValue('Back_Button')}}</button>
             </div>
             <button class="btn btn-az-primary" id="btnCreateUser" type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>

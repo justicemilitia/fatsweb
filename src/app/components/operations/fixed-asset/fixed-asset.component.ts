@@ -52,16 +52,21 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   ngAfterViewInit(): void {
     this.baseService.activeRoute.queryParams.subscribe(params => {
-      this.isGuaranteeFixedAsset = params.isGuaranteeFa;
-      console.log(params.isGuaranteeFa);
+      this.isGuaranteeFixedAsset = params.isGuaranteeFa;   
       let search = params.search;
       if (search) {
         search = search.trimEnd();
-        if (search != this.searchDescription) {
-          this.searchDescription = search; // --> Name must match wanted parameter
+        let desc:string=this.description;
+        console.log(desc);
+        this.searchDescription = search;
+        let d :string = this.searchDescription;
+        console.log(d);
+     
+          // --> Name must match wanted parameter         
           this.key = LoadDataTypes.SearchFixedAsset;
-          this.loadDatatable(this.perInPage, this.currentPage);
-        }
+          this.loadDatatable(this.perInPage, this.currentPage);        
+        
+  
       } else if (this.searchDescription) {
         this.loadFixedAsset(this.perInPage, this.currentPage);
       } else if (this.isGuaranteeFixedAsset) {
@@ -84,7 +89,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       default:
       this.loadFixedAsset(_perInPage,_currentPage);
     }
-  }
+  } 
 
   isWaitingValidBarcode: boolean = false;
 
@@ -957,6 +962,9 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
   imageToShow: any;
   page: number;
+  description:string;
+  counter=0;
+
 
   constructor(protected baseService: BaseService) {
 
@@ -1094,26 +1102,28 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
 
   async loadFixedAssetForDescription(_perInPage: number = 1000, _currentPage: number = 1) {
-
+    let c:string;
     //this.isGuaranteedFixedAsset = false;
     this.dataTable.TGT_clearData();
     this.dataTable.isLoading = true;
 
     this.baseService.fixedAssetService.GetFixedAssetForDescription(_perInPage, _currentPage, this.searchDescription,
       (fa: FixedAsset[], totalPage: number, message: string) => {
-
-        if(fa.length==0){
-          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+        if(fa.length==0){   
+          if(this.description != this.searchDescription)
+            this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+            
           this.dataTable.isLoading = false;
           this.dataTable.isPagingActive = false;
-          this.totalPage = 0;          
+          this.totalPage = 0;    
+          this.description=this.searchDescription;  
         }
         else{
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTable.perInPage = _perInPage;
         this.fixedAssets = fa;
-   
+      
         this.totalPage = Math.round(Math.floor(fa.length)/this.perInPage);
 
         this.TGT_calculatePages();
@@ -1133,9 +1143,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       },
       (error: HttpErrorResponse) => {
         this.totalPage = 0;
+      
         this.TGT_calculatePages();
       }
     );
+    
   }
 
   async loadFixedAssetForFilter(perInPage: number = 1000, _currentPage: number = 1, totalPage:number, fa:FixedAsset[]){

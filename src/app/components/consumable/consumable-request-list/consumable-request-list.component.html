@@ -141,6 +141,7 @@
                 <!-- END Pagination Side END -->
               </div>
             </mat-tab>
+
             <mat-tab>
                 <ng-template mat-tab-label>
                     {{getLanguageValue('Canceled_Request')}}
@@ -170,6 +171,7 @@
                   <!-- END Pagination Side END -->
                 </div>           
               </mat-tab>
+              
         </mat-tab-group>
       </div>
     </div>
@@ -185,7 +187,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title"></h6>
+        <h6 class="modal-title">{{getLanguageValue('Enter_conusmable_request_details')}}</h6>
         <button id="CloseModal" type="button" class="close" (click)="resetForm(data,true)" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -292,7 +294,7 @@
             </div>  
             <div class="form-group col-md-6">
                   <label class="required-span">{{getLanguageValue('Received_Amount_Unit')}}</label>
-                  <input [(ngModel)]="receiveConsumableMaterial.ReceivedAmount" [class.is-invalid]="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" name="ReceivedAmount"  class="form-control" type="number" required/>
+                  <input [(ngModel)]="receiveConsumableMaterial.ReceivedAmount"  onkeypress="return event.charCode >= 48" min="0" [class.is-invalid]="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" name="ReceivedAmount"  class="form-control" type="number" required/>
                   <div *ngIf="dataCancel.submitted && receiveConsumableMaterial.ReceivedAmount == null" class="invalid-feedback">
                     <div>{{getLanguageValue('This_value_is_required')}}</div>
                   </div>

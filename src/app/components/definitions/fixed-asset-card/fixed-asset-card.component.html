@@ -124,7 +124,7 @@
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </ng-template>
         <ng-template #insertFixedAssetCardPeriodic>
-          <button id="btnInsertOrUpdateFixedAssetCardPeriod" type="button" class="btn btn-az-primary"  *ngIf="isWaitingInsertOrUpdate == false" (click)="AddPeriodicMaintenance()">Periyot Ekle</button>
+          <button id="btnInsertOrUpdateFixedAssetCardPeriod" type="button" class="btn btn-az-primary"  *ngIf="isWaitingInsertOrUpdate == false" (click)="AddPeriodicMaintenance(data)">Periyot Ekle</button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </ng-template>
         </div>

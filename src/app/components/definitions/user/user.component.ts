@@ -428,7 +428,10 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   next(event,data:NgForm){
-    if(this.currentUser.FirstName !=null && this.currentUser.LastName != null && this.currentUser.UserCode
+    if(this.currentUser.LastName == "")
+    this.currentUser.LastName = null;
+
+    if(this.currentUser.FirstName && this.currentUser.LastName != null && this.currentUser.UserCode
       && this.currentUser.LocationId && this.currentUser.DepartmentId && this.currentUser.UserTitleId && this.currentUser.UserMail){
         this.stepper.next();
       }else 

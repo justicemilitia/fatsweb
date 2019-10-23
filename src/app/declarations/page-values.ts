@@ -42,6 +42,7 @@ export const MENU_CONSUMABLELIST = "Menu_ConsumableList";
 export const MENU_CONSUMABLEREQUESTLIST = "Menu_ConsumableRequestList";
 export const MENU_CONSUMABLETRANSACTIONLIST = "Menu_ConsumableTransactionList";
 export const MENU_DEPRECIATION = "Menu_Depreciations";
-
+export const MENU_PERIODICMAINTENANCE = "Menu_PeriodicMaintenance";
+export const MENU_MAINTENANCEREQUEST="Menu_MaintenanceRequest";
 
 

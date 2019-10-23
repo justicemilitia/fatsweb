@@ -232,7 +232,15 @@ export class ConsumableRequestListComponent extends BaseComponent
             return '';
           }
         }
-      }
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Location'),
+        columnName: ["ConsumableLocation", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },  
     ],
     {
       isDesc: false,
@@ -935,6 +943,8 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   async loadConsumableList(_perInPage: number = 25,_currentPage: number = 1, isFilter:boolean){
 
+    this.dataTableConsumableList.TGT_clearData();
+    
     this.isConsumableFilter=isFilter;
 
     let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
@@ -976,9 +986,9 @@ export class ConsumableRequestListComponent extends BaseComponent
 
         Object.assign(this.newConsumableList,consumables);
 
-        this.dataTableConsumableList.TGT_clearData();
+  
 
-        this.dataTableConsumableList.TGT_loadData(this.consumables);
+        this.dataTableConsumableList.TGT_loadData(consumables);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -1169,9 +1179,15 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     this.visible = false;
   
-    this.propertyValue=event.target.value;
-  
-    this.fixedAssetPropertyDetail.Value = event.target.value;
+    if(event.target.selectedIndex == 0){
+      this.propertyValue = null;
+      this.fixedAssetPropertyDetail.Value = null;
+    }    
+    else{
+      this.propertyValue = event.target.value;    
+      this.fixedAssetPropertyDetail.Value = event.target.value;
+      this.visiblePropertyName=false;
+    }    
   }
 
   getConsumableMaterialById(consumableId:number){
@@ -1270,9 +1286,17 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   async loadValuesByPropertyId(event) {
 
+    this.fixedAssetPropertyDetail.Value = null;
+
+    this.propertyValue=null;
+
     this.isSelectedProperty = true;
 
     this.visible = false;
+    
+    this.fixedassetpropertyvalues=[];
+
+    this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId=null;
 
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value)
@@ -1440,7 +1464,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   cancelRequestConsumableMaterial(data:NgForm){
 
-    data.resetForm(data);
+  //  data.resetForm(data);
 
     if(this.receiveConsumableMaterial.Description == null || this.receiveConsumableMaterial.Description == '') {
       this.submitDescription = true;
@@ -1461,6 +1485,10 @@ export class ConsumableRequestListComponent extends BaseComponent
         this.popupComponent.CloseModal('#modalShowQuestionPopupForCancelRequest');
 
         $('#CloseCancelModal').trigger('click');
+
+        data.resetForm(data);
+        
+        this.submitDescription = false;
 
       },
       (error:HttpErrorResponse) => {

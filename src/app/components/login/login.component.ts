@@ -57,10 +57,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     if (this.loginUser.FirmId == -1) {
           
-    let firmList:boolean = this.GetUserFirms(this.loginUser.UserMail);
-
-    if(firmList)
-      this.errorMessage ='';
+    this.GetUserFirms(this.loginUser.UserMail);
 
       this.errorMessage = this.getLanguageValue("Chose_firm_please");  
       return;
@@ -95,11 +92,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
           this.httpErrorMessage = this.getLanguageValue("Unknown_Error");
         }
 
-      }
+      } 
     )
-
-  
-
   }
 
   isSelectFirm(event:any){
@@ -109,7 +103,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.errorMessage = this.getLanguageValue("Chose_firm_please");
   }
 
-  GetUserFirms(usermail: string):boolean {
+  GetUserFirms(usermail: string) {
 
     if (usermail == '' || !usermail)
       return;
@@ -124,22 +118,30 @@ export class LoginComponent extends BaseComponent implements OnInit {
            /* if success put results to firms */
         setTimeout(() => {
           this.firms = result;
+
           this.baseService.authenticationService.Firms = result;
+
           this.isUserFirmsGetting = false;
+
+          this.unAutharized=false;          
           
           if(this.loginUser.FirmId != -1)
             this.errorMessage = '';
         },2000);
-        return true;
+   
       }, (error: HttpErrorResponse) => {
         /* if any error show on screen and stop getting firms */
         let errorType:string = getAnErrorResponse(error.statusText).statusText;
-        this.errorMessage = this.getLanguageValue(errorType);
-        this.unAutharized=false;
+
+        this.httpErrorMessage = this.getLanguageValue(errorType);
+
+        this.errorMessage='';
+
+        this.unAutharized=true;
         
         this.firms = [];
-        this.isUserFirmsGetting = false;
-        return false;
+
+        this.isUserFirmsGetting = false;    
       });
   }
 

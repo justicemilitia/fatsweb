@@ -116,6 +116,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     exitConsumableMaterial:1
   }
 
+  //#region DataTables
   /* Data Table */
   public dataTable: TreeGridTable = new TreeGridTable(
     "consumablematerial",
@@ -342,6 +343,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       column: ["FixedAssetCardProperty", "Name"]
     }
   );
+
+  //#endregion
 
   constructor(public baseService: BaseService) {
     super(baseService);
@@ -755,8 +758,6 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
     let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
 
-    this.dataTable.TGT_clearData();
-
     let consumableList:Consumable=new Consumable();
 
     if(isFilter){
@@ -779,7 +780,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         this.totalPage = totalPage ? totalPage : 1;
         
 
-        consumables.forEach(e=>{
+        this.consumables.forEach(e=>{
           e.FixedAssetPropertyDetails.forEach(p=>{
             if(p.FixedAssetCardPropertyId){
               e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
@@ -790,14 +791,11 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         if (this.consumables.length == 0) {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
-
-       
-
-        //Object.assign(this.newConsumableList,consumables)  
-
-        this.dataTable.TGT_loadData(this.consumables);
-
         this.TGT_calculatePages();
+
+        this.dataTable.TGT_clearData();
+
+        this.dataTable.TGT_loadData(this.consumables);       
 
       },
       (error: HttpErrorResponse) => {
@@ -879,9 +877,15 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
     this.visible = false;
 
-    this.propertyValue = event.target.value;
-    
-    this.fixedAssetPropertyDetail.Value = event.target.value;
+    if(event.target.selectedIndex == 0){
+      this.propertyValue = null;
+      this.fixedAssetPropertyDetail.Value = null;
+    }    
+    else{
+      this.propertyValue = event.target.value;    
+      this.fixedAssetPropertyDetail.Value = event.target.value;
+      this.visiblePropertyName=false;
+    }    
   }
 
   async loadValuesByPropertyId(event) {
@@ -891,6 +895,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.propertyValue=null;
 
     this.fixedassetpropertyvalues=[];
+
+    this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId=null;
 
     this.isSelectedProperty = true;
 
@@ -1084,6 +1090,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   }
 
   isFilterConsumableList(isFilter:boolean){
+
+    this.isFilter = isFilter;
 
     this.loadConsumableList(this.perInPage,this.currentPage,isFilter);
   }

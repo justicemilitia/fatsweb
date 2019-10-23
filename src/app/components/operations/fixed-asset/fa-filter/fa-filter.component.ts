@@ -644,14 +644,31 @@ constructor(protected baseService: BaseService) {
   }
 
   async getPropertyValue(event: any) {
-    this.propertyValue = event.target.value;
 
     this.visible = false;
 
-    this.fixedAssetPropertyDetail.Value = null;
+    if(event.target.selectedIndex == 0){
+      this.propertyValue = null;
+      this.fixedAssetPropertyDetail.Value = null;
+    }    
+    else{
+      this.propertyValue = event.target.value;    
+      this.fixedAssetPropertyDetail.Value = event.target.value;
+      this.visiblePropertyName=false;
+    } 
   }
 
   async loadValuesByPropertyId(event) {
+    this.fixedAssetPropertyDetail.Value = null;
+
+    this.propertyValue=null;
+
+    this.fixedassetpropertyvalues=[];
+
+    this.fixedAssetCardPropertyValue.FixedAssetPropertyValueId=null;
+
+    this.visible = false;
+
     let fixedAssetProperty = this.fixedassetproperty.find(
       x => x.FixedAssetCardPropertyId == Number(event.target.value));
 

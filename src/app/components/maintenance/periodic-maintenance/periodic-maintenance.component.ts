@@ -7,12 +7,15 @@ import { TreeGridTable } from 'src/app/extends/TreeGridTable/modules/TreeGridTab
 import { FixedAssetCardProperty } from 'src/app/models/FixedAssetCardProperty';
 import { WorkOrders } from 'src/app/models/WorkOrders';
 import { Consumable } from 'src/app/models/Consumable';
+import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { FixedAssetCard } from 'src/app/models/FixedAssetCard';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-periodic-maintenance',
   templateUrl: './periodic-maintenance.component.html',
   styleUrls: ['./periodic-maintenance.component.css']
 })
-export class PeriodicMaintenanceComponent extends BaseComponent implements OnInit {
+export class PeriodicMaintenanceComponent extends BaseComponent implements OnInit, Resolve<FixedAssetCard> {
 
   consumableCards:ConsumableCard[]=[];
 
@@ -28,17 +31,30 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
   workOrderCode:string;
 
+  fixedAssetCardId:number;
+
+  fixedAssetCard:FixedAssetCard=new FixedAssetCard();
+
    /* Is Waititing for a request */
    isWaitingInsertOrUpdate: boolean = false;
 
    isConsumableUse:boolean=false;
+
+   categoryName:string;
+
+   ngAfterViewInit(): void {
+    this.baseService.activeRoute.queryParams.subscribe(params => {
+      this.fixedAssetCardId = params.insertedFixedAssetCardId
+      this.loadFixedAssetCard(this.fixedAssetCardId);
+    });
+   }
 
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "consumablepropertyvalue",
     [      
     {
       columnDisplayName: '',
-      columnName: [],
+      columnName: ["ConsumableCard","ConsumableCategory","ConsumableCategoryName"],
       isActive: true,
       classes: [],
       placeholder: "",
@@ -47,7 +63,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     ],
     {
       isDesc: false,   
-      column: []   
+      column: ["ConsumableCard","ConsumableCategory","ConsumableCategoryName"]   
     }
   );
 
@@ -101,7 +117,34 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
    }
 
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):FixedAssetCard {
+
+    return undefined; 
+  }
+
   ngOnInit() {
+  }
+
+  async loadFixedAssetCard(fixedAssetCardId:number){
+    this.baseService.fixedAssetCardService.GetFixedAssetCardById(
+      fixedAssetCardId ,
+      (result: FixedAssetCard) => {
+        /* then bind it to fixed asset card category model to update */
+        setTimeout(() => {
+
+          /* bind result to model */
+          Object.assign(this.fixedAssetCard, result);
+          
+          this.categoryName = result.FixedAssetCardCategory.Name;      
+
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+        /* show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+      }
+    );
   }
 
   async loadConsumableCardDropdown(){
@@ -161,11 +204,11 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
   loadConsumablesByConsumableCardId(event:any){
 
-    let consumableCardId:number=Number(event.target.value);
-    
+    let consumableCardId:number=Number(event.target.value);    
     this.baseService.workOrderService.GetConsumablesByConsumableCardId(consumableCardId,
     (consumables:Consumable[])=>{
       this.consumables = consumables;
+      this.dataTablePropertyValue.TGT_loadData(this.consumables);
     },(error:HttpErrorResponse)=>{
       this.baseService.popupService.ShowErrorPopup(error);
     });

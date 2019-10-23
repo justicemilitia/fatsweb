@@ -45,6 +45,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   isPeriodic:boolean=false;
 
+  insertedFixedAssetCardId:number;
+
   
   public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
     [
@@ -368,11 +370,58 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   }
 
-  AddPeriodicMaintenance(){
-    
-    this.popupComponent.CloseModal('#modalFixedAssetCard');
+  AddPeriodicMaintenance(data:NgForm){
+        /* Say user to wait */
+        this.isWaitingInsertOrUpdate = true;
 
-    this.baseService.router.navigateByUrl("/periodicmaintenance");
+        /* Insert Fixed Asset Card service */
+        this.baseService.fixedAssetCardService.InsertFixedAssetCard(this.fixedAssetCard,
+          (insertedItem: FixedAssetCard, message) => {
+    
+            /* Change loading bar status */
+            this.isWaitingInsertOrUpdate = false;
+    
+            /* Show Success popup */
+            this.baseService.popupService.ShowSuccessPopup(message);
+    
+            /* Get inserted asset card id */
+            this.fixedAssetCard.FixedAssetCardId = insertedItem.FixedAssetCardId;
+    
+            /* Bind Category object  */
+            this.fixedAssetCard.FixedAssetCardCategory =
+              this.fixedAssetCardCategories.find(x => x.FixedAssetCardCategoryId == this.fixedAssetCard.FixedAssetCardCategoryId);
+    
+            /* Push the items list */
+            this.fixedAssetCards.push(this.fixedAssetCard);
+    
+            /* Reload Data Table */
+            this.dataTable.TGT_loadData(this.fixedAssetCards);
+    
+            /* Reset Modal form */
+            this.resetForm(data, true);
+
+            this.baseService.router.navigate(['/periodicmaintenance'], {
+              queryParams: {
+                insertedFixedAssetCardId:insertedItem.FixedAssetCardId
+              }
+            });
+
+            this.popupComponent.CloseModal('#modalFixedAssetCard');
+
+
+            // this.baseService.router.navigateByUrl("/periodicmaintenance");
+    
+          }, (error: HttpErrorResponse) => {
+    
+            /* Change loading bar status */
+            this.isWaitingInsertOrUpdate = false;
+    
+            /* Show alert message */
+            this.baseService.popupService.ShowErrorPopup(error);
+    
+          });
+
+  
   }
 
   IsPeriodic(event:any){
