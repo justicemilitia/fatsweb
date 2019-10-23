@@ -245,15 +245,21 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value  => {
+          return value.Value == 0 ? '0' : value.Value;
+        }
       },
       {
         columnDisplayName: "Birikmiş Amortisman",
-        columnName: ["AccumulatedValue"],
+        columnName: ["AccumulatedValue"], 
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value  => {
+          return value.AccumulatedValue == 0 ? '0' : value.AccumulatedValue;
+        }
       },
       {
         columnDisplayName: "Net Defter Değeri",
@@ -261,7 +267,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value  => {
+          return value.Nddvalue == 0 ? '0' : value.Nddvalue;
+        }
       },
     ],
     {
@@ -298,7 +307,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value  => {
+          return value.Value == 0 ? '0' : value.Value;
+        }
       },
       {
         columnDisplayName: "Net Defter Değeri",
@@ -306,7 +318,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value  => {
+          return value.Nddvalue == 0 ? '0' : value.Nddvalue;
+        }
       }
     ],
     {
@@ -766,7 +781,9 @@ this.depreciationBeCalculated = false;
   }
 
   resetDepreciationPopup(){
-    this.dataDepreciation.resetForm(this.fixedAsset);
+    if (this.dataDepreciation !=  null) {
+      this.dataDepreciation.resetForm(this.fixedAsset);      
+    }
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {

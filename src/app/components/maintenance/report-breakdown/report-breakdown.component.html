@@ -44,7 +44,7 @@
               class="form-control-file" style="display:none" multiple>
             <label for="BreakdownPicture" class="custom-file">
               <label class="custom-file-text" for="BreakdownPicture">
-                {{breakdownPictures.length > 0 ? breakdownPictures[0].name : maintenance.BreakdownPictures ? maintenance.BreakdownPictures : getLanguageValue('Choose_File') }}
+                {{breakdownPictures.length > 0 ? breakdownPictures.length + ' ' + getLanguageValue('Files_are_selected') : getLanguageValue('Choose_File') }}
               </label>
             </label>
             <label class="custom-file-remove" (click)="clearPictures()"><span class="fa fa-times"></span></label>
@@ -82,7 +82,7 @@
                   </div>
            
               <div class="col-md-6">        
-              <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="ReportBreakdown(data)">{{getLanguageValue('Change_Barcode')}}</button>
+              <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="ReportBreakdown(data)">{{getLanguageValue('Report_Breakdown')}}</button>
                 </div>   
             </div>
     

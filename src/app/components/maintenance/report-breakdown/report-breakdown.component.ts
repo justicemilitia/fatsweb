@@ -36,7 +36,7 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
 
     if (data.form.invalid == true) return;
 
-      // this.popupComponent.ShowModal('#modalShowQuestionPopupForReportBreakdown');
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForReportBreakdown');
   }
 
   ReportBreakdown(data: NgForm){
@@ -130,5 +130,8 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
   //     }  
   //   );  
   // }
+  clearPictures(){
+    
+  }
 
 }

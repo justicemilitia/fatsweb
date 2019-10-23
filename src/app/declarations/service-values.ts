@@ -398,10 +398,19 @@ export const GET_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";
 
 //#region WorkOrderList
 export const GET_WORK_ORDER_LIST = "WorkOrder/GetWorkOrdersList";
-export const GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID ="WorkOrder/GetWorkOrdersByFixedAssetCardId";
+export const GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID ="WorkOrder/GetWorkStepsByFixedAssetId";
 export const GET_VALID_WORK_ORDER_CODE ="WorkOrder/GetValidWorkOrderNumber";
-
 //#endregion
+
+//#region WorkOrder
+export const REPORT_BREAKDOWN_WITH_FILE_UPLOAD = "WorkOrder/ReportBreakdownWithFileUpload";
+//#endregion
+
+
+//#region WorkSteps
+export const GET_WORK_STEPS_BY_FIXED_ASSET_ID ="WorkStep/GetWorkStepsByFixedAssetId";
+//#endregion
+
 
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
