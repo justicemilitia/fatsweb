@@ -6,6 +6,7 @@ import { BaseService } from '../../../services/base.service';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Maintenance } from '../../../models/Maintenance';
+import { MaintenanceRequestPicture } from '../../../models/MaintenanceRequestPicture';
 
 @Component({
   selector: 'app-report-breakdown',
@@ -20,8 +21,9 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
   maintenance: Maintenance = new Maintenance();
 
   maintenanceNumber: string;
-  breakdownPictures: any[]=[];
-
+  breakdownPictures: MaintenanceRequestPicture[]=[];
+  fileMessage: string = '';
+  isMoreThanFive: boolean=false;
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
   
@@ -108,9 +110,19 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
 
   changeFile(event: any): void {
     var selectedFiles = event.target.files;
+    if(selectedFiles.length <6){
     for (var i = 0; i < selectedFiles.length; i++) {
-      this.breakdownPictures.push(selectedFiles[i].name);
-      // this.breakdownPictures = selectedFiles[i].type;
+      if (selectedFiles[i].type == 'image/png' || selectedFiles[i].type == 'jpg' || selectedFiles[i].type == 'jpeg') {
+        let requestPic: MaintenanceRequestPicture = new MaintenanceRequestPicture;
+        requestPic.Picture=selectedFiles[i].name;
+        requestPic.MaintenanceListId=this.maintenance.MaintenanceListId;
+        this.breakdownPictures.push(requestPic);        
+        }  
+      }    
+    }
+    else{
+      this.isMoreThanFive=true;
+      this.fileMessage = "5'ten fazla resim yükleyemezsiniz.";
     }
   }
 
@@ -131,7 +143,9 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
   //   );  
   // }
   clearPictures(){
-    
+    this.breakdownPictures = [];
+
+    this.maintenance.BreakdownPictures = null;
   }
 
 }
