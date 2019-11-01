@@ -8,6 +8,8 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TreeGridTable } from "../../../extends/TreeGridTable/modules/TreeGridTable";
 import * as $ from "jquery";
 import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
+import * as pages from "../../../declarations/page-values";
+import { WorkOrderPeriodTypes } from 'src/app/models/WorkOrderPeriodTypes';
 
 @Component({
   selector: "app-fixed-asset-card",
@@ -37,7 +39,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   fixedAssetCardCategories: FixedAssetCardCategory[] = [];
 
   /* Store the current fixed asset card */
-  fixedAssetCard: FixedAssetCard = new FixedAssetCard();
+  fixedAssetCard: FixedAssetCard = new FixedAssetCard();  
 
   notDeletedBarcode: string = '';
 
@@ -46,6 +48,15 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   isPeriodic:boolean=false;
 
   insertedFixedAssetCardId:number;
+
+  updatedFixedAssetCardId:number;
+
+  updatedWorkOrderId:number;
+
+  isThereMaintenance:boolean = false;
+
+  visiblePeriodicButton:boolean=true;
+
 
   
   public dataTable: TreeGridTable = new TreeGridTable("fixedassetcard",
@@ -91,8 +102,14 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   constructor(public baseService: BaseService) {
     super(baseService);
+
     this.loadFixedAssetCards();
+
     this.loadFixedAssetCardCategories();
+    
+    this.MaintenanceControl();
+
+
   }
 
   ngOnInit() { }
@@ -100,7 +117,11 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset modal form then reload lists */
     data.resetForm(this.fixedAssetCard);
+
     this.loadFixedAssetCardCategories();
+
+    this.isPeriodic=false;
+
     if (isNewItem == true) {
       this.fixedAssetCard = new FixedAssetCard();
     }
@@ -114,10 +135,18 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
     /* if fixed asset card id exists means update it otherwise insert it */
     if (this.fixedAssetCard.FixedAssetCardId == null) {
+      if(this.isPeriodic)
+      this.AddPeriodicMaintenance(data);
+      else
       this.addFixedAssetCard(data);
     } else {
-      this.popupComponent.ShowModal('#modalShowQuestionPopupForFixedAssetCard');
-      this.popupComponent.CloseModal('#modalFixedAssetCard');
+      if(this.isPeriodic)
+        this.AddPeriodicMaintenance(data);
+      else{
+        this.popupComponent.ShowModal('#modalShowQuestionPopupForFixedAssetCard');
+        this.popupComponent.CloseModal('#modalFixedAssetCard');
+      }
+      
     }
   }
 
@@ -133,6 +162,10 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
       }
    else
    this.popupComponent.ShowModal('#modalShowDeletePopupForFixedAssetCard');   
+ }
+
+ MaintenanceControl(){
+   this.isThereMaintenance = this.baseService.authenticationService.isMenuAccessable(pages.MENU_MAINTENANCE);   
  }
 
   async deleteFixedAssetCards() {
@@ -274,6 +307,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
             /* Get original source after update completed */
             this.fixedAssetCards = <FixedAssetCard[]>this.dataTable.TGT_copySource();
 
+            
+
           }, (error: HttpErrorResponse) => {
 
             /* Close loader */
@@ -283,7 +318,58 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
             this.baseService.popupService.ShowErrorPopup(error);
 
           });
+
         this.popupComponent.CloseModal('#modalShowQuestionPopupForFixedAssetCard');          
+  }
+
+  updateFixedAssetCardWithMaintenance(){
+            /* loading icon visible */
+            this.isWaitingInsertOrUpdate = true;
+
+            let willUpdateItem = new FixedAssetCard();
+            Object.assign(willUpdateItem, this.fixedAssetCard);
+    
+            this.baseService.fixedAssetCardService.UpdateFixedAssetCard(this.fixedAssetCard,
+              (_updatedFixedAssetCard, message) => {
+    
+                /* Close loading icon */
+                this.isWaitingInsertOrUpdate = false;
+    
+                /* Show pop up then update data in datatable */
+                this.baseService.popupService.ShowSuccessPopup(message);
+    
+                /* Bind Category object  */
+                this.fixedAssetCard.FixedAssetCardCategory =
+                  this.fixedAssetCardCategories.find(x => x.FixedAssetCardCategoryId == this.fixedAssetCard.FixedAssetCardCategoryId);
+    
+                let updatedFixedAssetCard = new FixedAssetCard();
+                Object.assign(updatedFixedAssetCard, this.fixedAssetCard);
+    
+                /* Update in table the current user */
+                this.dataTable.TGT_updateData(updatedFixedAssetCard);
+    
+                /* Get original source after update completed */
+                this.fixedAssetCards = <FixedAssetCard[]>this.dataTable.TGT_copySource();
+    
+                this.baseService.router.navigate(['/periodicmaintenance'], {
+                  queryParams: {
+                    updatedFixedAssetCardId:updatedFixedAssetCard.FixedAssetCardId,
+                    updatedWorkOrderId:updatedFixedAssetCard.WorkOrderFixedAssetCards[0].WorkOrderId
+                  }
+                });
+    
+                this.popupComponent.CloseModal('#modalFixedAssetCard');
+    
+              }, (error: HttpErrorResponse) => {
+    
+                /* Close loader */
+                this.isWaitingInsertOrUpdate = false;
+    
+                /* Show error message */
+                this.baseService.popupService.ShowErrorPopup(error);
+    
+              });    
+        
   }
 
   async loadFixedAssetCards() {
@@ -343,6 +429,11 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
           /* bind result to model */
           Object.assign(this.fixedAssetCard, result);
 
+          if(this.fixedAssetCard.IsPeriodic)
+            this.visiblePeriodicButton=false;
+          else
+            this.visiblePeriodicButton=true;
+
         }, 1000);
       },
       (error: HttpErrorResponse) => {
@@ -374,6 +465,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
         /* Say user to wait */
         this.isWaitingInsertOrUpdate = true;
 
+      if(this.fixedAssetCard.FixedAssetCardId == null){
         /* Insert Fixed Asset Card service */
         this.baseService.fixedAssetCardService.InsertFixedAssetCard(this.fixedAssetCard,
           (insertedItem: FixedAssetCard, message) => {
@@ -402,7 +494,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
             this.baseService.router.navigate(['/periodicmaintenance'], {
               queryParams: {
-                insertedFixedAssetCardId:insertedItem.FixedAssetCardId
+                insertedFixedAssetCardId:insertedItem.FixedAssetCardId   
               }
             });
 
@@ -420,15 +512,23 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
             this.baseService.popupService.ShowErrorPopup(error);
     
           });
+        }
+        else{
+          this.baseService.router.navigate(['/periodicmaintenance'], {
+            queryParams: {
+              insertedFixedAssetCardId:this.fixedAssetCard.FixedAssetCardId,
+            }
+          });
 
-  
+          this.popupComponent.CloseModal('#modalFixedAssetCard');
+        }
   }
 
   IsPeriodic(event:any){
     if(event.target.checked)
-      this.isPeriodic = true;
+    this.isPeriodic = true;     
      else
-     this.isPeriodic = false; 
+     this.isPeriodic = false;
   }
 
 }

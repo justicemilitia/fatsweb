@@ -7,6 +7,8 @@ export class WorkOrders{
     FixedAssetCardPeriodId:number;
     WorkOrderStatuId:number;    
     WorkOrderCode:number;
+    Frequency:number;
+    PeriodTypeId:number;
 
     WorkSteps: WorkStep[];
 }

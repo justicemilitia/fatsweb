@@ -404,11 +404,15 @@ export const GET_VALID_WORK_ORDER_CODE ="WorkOrder/GetValidWorkOrderNumber";
 
 //#region WorkOrder
 export const REPORT_BREAKDOWN_WITH_FILE_UPLOAD = "WorkOrder/ReportBreakdownWithFileUpload";
+export const ADD_WORK_ORDER ="WorkOrder/AddWorkOrder";
 //#endregion
 
 
 //#region WorkSteps
 export const GET_WORK_STEPS_BY_FIXED_ASSET_ID ="WorkStep/GetWorkStepsByFixedAssetId";
+export const GET_WORK_ORDER_PERIOD_TYPES = "WorkStep/GetPeriodTypes";
+export const GET_WORK_STEP_LIST_BY_WORK_ORDER_ID = "WorkStep/GetWorkStepListByWorkOrderId";
+
 //#endregion
 
 

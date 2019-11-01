@@ -16,7 +16,9 @@
             </button>
           </div>
         </div>
-        <div class="sales-overview" style="margin-left:10px;margin-right:10px">         
+        <form #data="ngForm" (ngSubmit)="insertWorkStepToDataTableWorkStep(data)">    
+        <div class="sales-overview" style="margin-left:10px;margin-right:10px">    
+          
             <div class="form-group col-md-6">
                 <fieldset class="field_set" style="padding-left: 10px; padding-right: 10px;">
                     <legend>Demirbaş Kart Bilgileri</legend>
@@ -48,6 +50,8 @@
                       <div class="form-group col-md-3">
                         <label>İş Emri Kodu :</label>
                       </div>
+                      <div *ngIf="isUpdateOrInsertMaintenance;then insertFixedAssetCardPeriodic else  updateFixedAssetCard"></div>
+                      <ng-template #updateFixedAssetCard>
                       <div class="form-group col-md-3">
                           <select name="WorkOrderId" class="form-control select2-no-search">
                               <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
@@ -56,20 +60,49 @@
                       </div>
                       <div class="col-md-6">
                       </div>
+                    </ng-template>
+                    <ng-template #insertFixedAssetCardPeriodic>
+                        <div class="form-group col-md-3">
+                           <input type="text" value="{{workOrderCode}}" disabled>      
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </ng-template>
+
+                  </div>
+                  <div class="row">
+                    <label>Tekrarlama sıklığını seçiniz</label> 
+                    <div class="row">
+                    <div class="form-group col-md-6">                 
+                      <select [(ngModel)]="workOrder.PeriodTypeId" name="PeriodTypeId" (change)="selectPeriod($event)" [ngClass]="{ 'is-invalid': data.submitted && isPeriodic == true && insertedPeriodTypeId == null }" class="form-control">
+                        <option [ngValue]="null">Seçiniz</option>
+                        <option *ngFor="let period of periods" value={{period.PeriodTypeId}}>{{period.PeriodName}}</option>
+                      </select>              
+                    </div>
+                    <div class="form-group col-md-6">
+                        <select [(ngModel)]="workOrder.Frequency" name="Frequency" (change)="selectPeriodValue($event)" [ngClass]="{ 'is-invalid': data.submitted && isPeriodic == true && insertedPeriodTypeValue == null }" class="form-control">
+                            <option [ngValue]="null">Seçiniz</option>
+                            <option *ngFor="let period of periodArray" value={{period}}>{{period}}</option>
+                          </select>                    
+                    </div>
+                    <div style="display:block" *ngIf="data.submitted" class="invalid-feedback">
+                        <div *ngIf="insertedPeriodTypeValue == null || insertedPeriodTypeId == null">{{getLanguageValue('This_value_is_required')}}</div>
+                      </div>
+                  </div>
                   </div>
                 </fieldset>
                 <fieldset class="field_set" style="padding-left: 10px; padding-right: 10px; margin-top: 10px;">
                     <legend>{{workOrderCode}} No'lu İş Emri</legend>
                      <div class="row">
                       <div class="form-group col-md-12">
-                      <label>1. İş Adımı</label>
-                      <input class="form-control" type="text" maxlength="4000">
+                      <label>{{WorkStepRowId}}. İş Adımı</label>
+                      <input [(ngModel)]="workStep.Description" name="Description" class="form-control" type="text" maxlength="4000">
                     </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-md-6">
                         <label class="ckbox" style="margin-top: 23px">
-                            <input type="checkbox" (change)="isConsumableUsed($event)" /><span>Sarf malzeme kullanılacak mı?</span>
+                            <input [(ngModel)]="workStep.IsConsumableUsed" name="IsConsumableUsed" type="checkbox" (change)="isConsumableUsed($event)" /><span>Sarf malzeme kullanılacak mı?</span>
                         </label> 
                     </div>
                     <div class="form-group col-md-6">
@@ -88,8 +121,8 @@
                   </div>
                   <div class="row">
                       <div class="form-group col-md-12">
-                          <label>{{getLanguageValue('Consumable_Card_Name')}}</label>
-                          <select name="ConsumableCardId" class="form-control select2-no-search" [disabled]="isConsumableUse == false" (change)="loadConsumablesByConsumableCardId($event)">
+                        <label>{{getLanguageValue('Consumable_Card_Name')}}</label>
+                        <select [(ngModel)]="workStep.ConsumableCardId" name="ConsumableCardId" class="form-control select2-no-search" [disabled]="isConsumableUse == false" (change)="loadConsumablesByConsumableCardId($event)">
                           <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
                           <option *ngFor="let card of consumableCards"  value="{{card.ConsumableCardId}}">{{card.ConsumableCardName}} </option>
                         </select>                             
@@ -103,13 +136,13 @@
                   <div class="form-group col-md-6">
                     <div class="row">
                     <div class="form-group col-md-6">
-                    <input class="form-control" type="number">
+                    <input [(ngModel)]="workStep.Quantity"  name="Quantity" class="form-control" type="number">
                   </div>
                   <div class="form-group col-md-6">
-                    <div class="row">
-                      <label>*****Birim*****</label>
-                      <div class="property-add-value">                    
-                          <span class="tree-table-sign typcn icon-default typcn-plus"></span>
+                    <div class="row" style="margin-top: 5px;">
+                      <label>{{consumableCardUnit}}</label>
+                      <div class="property-add-value" style="margin-left:5px">                    
+                          <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertConsumableCardWithProperties()"></span>
                       </div> 
                     </div>  
                     </div>
@@ -120,17 +153,28 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="form-group col-md-12">
-                      <tr><thead>Kullanılacak sarf malzeme ve adetleri</thead></tr>                  
-                      <tr>* Çivi: tahta , 5 adet</tr>
-                      <tr>* Kablo: 1mm , 10 adet</tr>
-                      <tr>* Kablo: 5mm , 55 adet</tr>
-                      <tr>* Kablo: 15mm , 5 adet</tr>
-                </div>
-         
+                  <table style="margin-right:15px; margin-left:15px">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Kullanılacak sarf malzeme</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let property of consumableCardsWithQuantity">
+                        <td>*</td>
+                        <td>{{property}}</td>
+                        <td>
+                          <div class="property-add-value">                    
+                          <span class="tree-table-sign typcn icon-default typcn-plus" (click)="deleteConsumable"></span></div> 
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>     
                 </div>
                 <div class="row justify-content-center">
-                    <button id="insertWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" *ngIf="isWaitingInsertOrUpdate == false">İş Adımı Ekle</button>
+                    <button id="insertWorkStep" type="submit" class="btn btn-az-primary small" style="margin-bottom: 5px" *ngIf="isWaitingInsertOrUpdate == false" >İş Adımı Ekle</button>
                     <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
                 </div>
               </fieldset> 
@@ -143,7 +187,7 @@
                       </div>
                       <div class="row justify-content-center">
                         <div class="form-group">
-                          <button id="insertWorkOrder" type="button" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false">İş Emrini Kaydet</button>
+                          <button id="insertWorkOrder" type="button" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false" (click)="addWorkOrder()">İş Emrini Kaydet</button>
                           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
                         </div>
                       </div>
@@ -152,6 +196,7 @@
           <!-- <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
           </tree-grid-table> -->
         </div>
+      </form>
       </div>
     </div>
     <!-- az-content-body -->

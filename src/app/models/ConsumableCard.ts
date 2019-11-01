@@ -1,6 +1,7 @@
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { ConsumableCategory } from './ConsumableCategory';
 import { ConsumableUnit } from './ConsumableUnit';
+import { FixedAssetPropertyDetails } from './FixedAssetPropertyDetails';
 
 export class ConsumableCard implements IData{
 
@@ -35,5 +36,6 @@ export class ConsumableCard implements IData{
     ConsumableCategory: ConsumableCategory;
     ConsumableUnit: ConsumableUnit;
     ConsumableCardIds: number[];
+    FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
     // Consumables: Consumable[]= [];
 }

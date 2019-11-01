@@ -2,6 +2,7 @@ import { FixedAssetCardCategory } from './FixedAssetCardCategory';
 import { Inventory } from './Inventory';
 import { FixedAssetCardProperty } from './FixedAssetCardProperty';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
+import { WorkOrderFixedAssetCards } from './WorkOrderFixedAssetCards';
 
 export class FixedAssetCard implements IData {
    
@@ -34,4 +35,6 @@ export class FixedAssetCard implements IData {
     FixedAssetCardCategory: FixedAssetCardCategory;
     FixedAssetCardProperty:FixedAssetCardProperty[] = [];
     Inventories:Inventory[];
+    WorkOrderFixedAssetCards:WorkOrderFixedAssetCards[];
+
 }
