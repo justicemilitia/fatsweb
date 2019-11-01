@@ -48,6 +48,7 @@
               </label>
             </label>
             <label class="custom-file-remove" (click)="clearPictures()"><span class="fa fa-times"></span></label>
+              <div *ngIf="isMoreThanFive">{{fileMessage}}</div>
           </div>
         </div>
       </div>
