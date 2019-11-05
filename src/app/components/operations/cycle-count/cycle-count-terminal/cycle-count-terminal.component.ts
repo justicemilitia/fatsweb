@@ -184,9 +184,17 @@ export class CycleCountTerminalComponent extends BaseComponent
         this.succesMessage = message;
         this.isBarcodeRead = false;
         this.addCycleCounting = true;
+        this.cyclecountplan.Barcode = null;
+        if(this.errorMessage != null)
+          this.errorMessage = '';
+        setTimeout(()=>{
+          this.resetAlert(event);
+          },1500);
       },
       (error: HttpErrorResponse) => {
         /* Show error message */
+        if(this.succesMessage != null)
+          this.succesMessage = '';  
         this.errorMessage = getAnErrorResponse(error.statusText).statusText;
       }
     );
@@ -203,6 +211,8 @@ export class CycleCountTerminalComponent extends BaseComponent
     this.succesMessage='';
     this.errorMessage ='';
   }
+
+
 
   resetForm(){
 

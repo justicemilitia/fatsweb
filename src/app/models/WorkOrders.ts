@@ -1,4 +1,5 @@
 import { WorkStep } from './WorkStep';
+import { FixedAssetCardPeriods } from './FixedAssetCardPeriods';
 
 export class WorkOrders{
     WorkOrderId:number;
@@ -11,4 +12,5 @@ export class WorkOrders{
     PeriodTypeId:number;
 
     WorkSteps: WorkStep[];
+    FixedAssetCardPeriods:FixedAssetCardPeriods[];
 }
