@@ -889,6 +889,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   loadDepartmentByLocationId(event: any) {
     this.departments = [];
+    this.currentUser.DepartmentId=null;
 
     if (!event.target.value || event.target.value == "") {
       this.currentUser.DepartmentId = null;

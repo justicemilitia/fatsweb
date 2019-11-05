@@ -1515,8 +1515,6 @@ export class ConsumableRequestListComponent extends BaseComponent
     receivedItem.ConsumableParentId = this.consumableRequest.ConsumableParentId;
 
     this.baseService.consumableRequestListService.ReceivedConsumableMaterial(receivedItem,(result:any,message)=>{
-
-      console.log(result);
       
       this.baseService.spinner.hide();
 
@@ -1526,6 +1524,7 @@ export class ConsumableRequestListComponent extends BaseComponent
 
       this.resetRequestForm(data,true);
 
+      this.popupComponent.CloseModal('#modalCancelRequestConsumable');
       
     },
     (error:HttpErrorResponse)=>{
