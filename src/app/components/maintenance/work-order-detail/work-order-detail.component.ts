@@ -6,6 +6,7 @@ import { BaseComponent } from '../../base/base.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WorkOrders } from '../../../models/WorkOrders';
 import { WorkStep } from '../../../models/WorkStep';
+import { IMAGE_URL } from '../../../declarations/service-values';
 
 @Component({
   selector: 'app-work-order-detail',
@@ -21,7 +22,8 @@ export class WorkOrderDetailComponent extends BaseComponent implements OnInit, O
   workSteps: WorkStep[]=[];
   isWorkOrderDone: boolean;
   isWaitingInsertOrUpdate: boolean = false;
-   
+  imageUrl: any;
+  
   constructor(baseService: BaseService) {
     super(baseService);
     this.GetWorkStepsByFixedAssetId();
@@ -50,6 +52,14 @@ export class WorkOrderDetailComponent extends BaseComponent implements OnInit, O
       (maintenance: Maintenance) => {
         this.maintenance = maintenance;
         this.workSteps =maintenance[0].WorkOrder.WorkSteps;
+        let path: any;
+let kw="UploadFiles/";
+        this.workSteps.forEach(e => {
+          if(e.Picture){
+          path = IMAGE_URL + kw + e.Picture;
+          e.Picture = path;
+        }
+        });
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);

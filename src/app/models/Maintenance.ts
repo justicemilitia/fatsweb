@@ -51,9 +51,16 @@ export class Maintenance implements IData {
     WorkOrder: WorkOrders;
     MaintenanceTypes:MaintenanceTypes;
     MaintenanceStatus:MaintenanceStatus;
-    MaintenanceRequestPicture:MaintenanceRequestPicture;
     RequestedUser:User;
     AttendantUser:User;
 
-    BreakdownPictures: string;
+    MaintenanceRequestPictures: MaintenanceRequestPicture[];
+
+    constructor() {
+        this.FixedAssetCard = new FixedAssetCard();
+        this.FixedAsset = new FixedAsset();
+        this.WorkOrder = new WorkOrders();
+        this.RequestedUser = new User();
+        this.AttendantUser = new User();
+      }
 }

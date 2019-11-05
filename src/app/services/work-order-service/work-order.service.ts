@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from '../authenticationService/authentication.service';
 import { ErrorService } from '../error-service/error.service';
 import { Response } from "src/app/models/Response";
@@ -134,11 +134,28 @@ export class WorkOrderService {
     })
   }
   
-  ReportBreakdown(workOrder: Maintenance, success, failed){
+  ReportBreakdown(maintenance: Maintenance, files: any, success, failed){
+
+    let formData = new FormData();
+    formData.append("model", JSON.stringify(maintenance));    
+    
+    if (files && files.length > 0)
+    { 
+     for (let i = 0; i < files.length; i++) {
+      formData.append(files[i].name, files[i]);       
+     }
+      // formData.append(files[0].name, files[0]);
+      
+    }
+    let headers: HttpHeaders=new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
+    headers = headers.append('Accept', 'application/json');
+
+
     this.httpClient
       .post(
-        SERVICE_URL + REPORT_BREAKDOWN_WITH_FILE_UPLOAD, workOrder, {
-          headers: GET_HEADERS(this.authenticationService.getToken())
+        SERVICE_URL + REPORT_BREAKDOWN_WITH_FILE_UPLOAD, formData, {
+          headers: headers
         })
       .subscribe(
         result => {
@@ -146,7 +163,7 @@ export class WorkOrderService {
           if (response.ResultStatus == true) {
             let maintenance: Maintenance = new Maintenance();
             Object.assign(maintenance, response.ResultObject);
-            success(response.LanguageKeyword);
+            success(response.ResultObject, response.LanguageKeyword);            
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }

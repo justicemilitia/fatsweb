@@ -14,8 +14,8 @@
                     <button class="btn btn-az-primary" *ngIf="tabIndex == 0" id="btnReportBreakdown" style="margin-right:10px;" 
                     title="{{getLanguageValue('Report_Breakdown')}}" (click)="doOperation(1)">{{getLanguageValue('Report_Breakdown')}}</button>
 
-                    <button class="btn btn-az-primary" *ngIf="tabIndex == 1" id="btnCancelReportBreakdown" style="margin-right:10px;"
-                    title="{{getLanguageValue('Fix_Breakdown')}}" (click)="doOperation(2)">{{getLanguageValue('Cancel_Report_Breakdown')}}</button>
+                    <button class="btn btn-az-primary" *ngIf="tabIndex == 1" id="btnEvaluateRequest" style="margin-right:10px;"
+                    title="{{getLanguageValue('Fix_Breakdown')}}" (click)="doOperation(2)">{{getLanguageValue('Evaluate_Request')}}</button>
 
                     <button class="btn btn-success btn-excel-custom" (click)="exportExcel(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
                         <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"

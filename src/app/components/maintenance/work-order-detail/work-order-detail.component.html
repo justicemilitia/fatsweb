@@ -44,29 +44,45 @@
               <span  style="margin-left:20px;">Açıklama: {{maintenance.WorkOrder.WorkSteps[i].WorkStepConsumables.WorkStepId}}</span> 
               <input [attr.disabled]="workStep.IsDone == true ? '' : 'disabled'" type="text"name="ConsumableCardCode"class="form-control" />         
           </div> -->
-          <div class="row justify-content-center">
-            <div class="col-md-12 form-group">
-              <label>{{getLanguageValue('Description')}}</label>
-              <input [(ngModel)]="workStep.Description" name="Description_{{i}}" type="text" class="form-control" trim="blur" #Description="ngModel"
-              [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
-            </div>
-          </div>
 
-            <div class="row justify-content-center">
-              <div class="col-md-6 form-group">
-                <label>Kullanılacak Sarf Malzeme Adeti</label>
-                <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
-                [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
-              </div>
-            <!-- </div> -->
-
-              <!-- <div class="row justify-content-center"> -->
-                <div class="col-md-6 form-group">
-                  <label>Kullanılan Sarf Malzeme Adeti</label>
-                  <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_Used_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
+              <div class="row justify-content-center">
+          
+          <div class="col-md-8">
+              <!-- AÇIKLAMA -->
+              <div class="row justify-content-center">
+                <div class="col-md-12 form-group">
+                  <label>{{getLanguageValue('Description')}}</label>
+                  <input [(ngModel)]="workStep.Description" name="Description_{{i}}" type="text" class="form-control" trim="blur" #Description="ngModel"
                   [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
                 </div>
               </div>
+
+              <!-- KULLANILACAK/KULLANILAN SARF MALZEME ADETİ -->
+              <div class="row justify-content-center">
+                  <div class="col-md-6 form-group">
+                    <label>Kullanılacak Sarf Malzeme Adeti</label>
+                    <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
+                    [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                  </div>
+                <!-- </div> -->
+
+                  <!-- <div class="row justify-content-center"> -->
+                    <div class="col-md-6 form-group">
+                      <label>Kullanılan Sarf Malzeme Adeti</label>
+                      <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_Used_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
+                      [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                    </div>
+              </div>
+          </div>
+
+          <div class="col-md-4">
+              <div *ngIf="workStep.Picture" style="width: 50%; height: 50%;; margin: 20px;">
+                  <img [src]="workStep.Picture" style="    width: 50%;
+                  height: 50%;">
+                </div>
+            </div>
+          </div>
+          
 
         </fieldset>
     </div>

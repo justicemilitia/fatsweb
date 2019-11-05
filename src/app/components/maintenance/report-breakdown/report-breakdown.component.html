@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <!-- RESİM EKLEME KISMI EKLENECEK -->
+      <!-- RESİM EKLEME -->
       <div class="row justify-content-center">      
         <div class="form-group col-md-12">
           <label>{{getLanguageValue('File')}}</label>
@@ -43,15 +43,26 @@
             <input #breakdownPicture name="BreakdownPicture" (change)="changeFile($event)" id="BreakdownPicture" type="file"
               class="form-control-file" style="display:none" multiple>
             <label for="BreakdownPicture" class="custom-file">
-              <label class="custom-file-text" for="BreakdownPicture">
-                {{breakdownPictures.length > 0 ? breakdownPictures.length + ' ' + getLanguageValue('Files_are_selected') : getLanguageValue('Choose_File') }}
-              </label>
+              <label class="custom-file-text" for="BreakdownPicture">{{getLanguageValue('Choose_File')}}</label>
             </label>
             <label class="custom-file-remove" (click)="clearPictures()"><span class="fa fa-times"></span></label>
-              <div *ngIf="isMoreThanFive">{{fileMessage}}</div>
           </div>
+          <div *ngIf="isMoreThanFive==true" style="color: red;">{{fileMessage}}</div>
         </div>
       </div>
+
+      <!-- EKLENEN RESİMLERİ TABLODA GÖSTERME -->
+      <div class="row justify-content-center">
+        <div class="form-group col-md-12">
+            <h3></h3>     
+            <div class="property-values-table">        
+              <tree-grid-table [dataTable]="dataTableFile"></tree-grid-table>
+            </div>
+            <div *ngIf="data.submitted && dtFileLength>6" class="invalid-feedback">
+              <div *ngIf="BreakdownPicture.errors.required">{{getLanguageValue('fileMessage')}}</div>
+            </div>
+        </div>
+      </div>      
 
     </div>
   
@@ -98,12 +109,12 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content tx-size-sm">
           <div class="modal-body tx-center pd-y-20 pd-x-20">
-              <button type="button" class="close">
+              <button type="button" class="close" (click)="closeModalMaintenanceNumberPopup()">
                   <span aria-hidden="true">&times;</span>
                 </button>
             <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
             <h4 class="tx-success tx-semibold mg-b-20">{{getLanguageValue('Successfull')}}</h4>
-            <p class="mg-b-20 mg-x-20" style="margin-bottom: 20px;">{{ maintenanceNumber + " " + getLanguageValue('Requested_Created')}}</p>
+            <p class="mg-b-20 mg-x-20" style="margin-bottom: 20px;">{{ maintenanceNumber + " nolu arıza talebi oluşturuldu."}}</p>
        
             <div class="modal-footer" style="margin-bottom:20px;">
               <button class="btn btn-success pd-x-25" style="float:right;" (click)="closeModalMaintenanceNumberPopup()" >{{getLanguageValue('Ok')}}</button>        

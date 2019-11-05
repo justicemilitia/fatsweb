@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Maintenance } from '../../../models/Maintenance';
 import { MaintenanceRequestPicture } from '../../../models/MaintenanceRequestPicture';
+import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
 
 @Component({
   selector: 'app-report-breakdown',
@@ -21,14 +22,41 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
   maintenance: Maintenance = new Maintenance();
 
   maintenanceNumber: string;
-  breakdownPictures: MaintenanceRequestPicture[]=[];
+  maintenancePictures: any[]=[];
   fileMessage: string = '';
   isMoreThanFive: boolean=false;
+  dtFileLength: number;
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
   
+  
+  public dataTableFile: TreeGridTable = new TreeGridTable(
+    "fixedassetfile",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('File'),
+        columnName: ["Picture"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Picture"]
+    }
+  );
+
   constructor(baseService: BaseService) {
     super(baseService);
+
+    this.dataTableFile.isPagingActive = false;
+    this.dataTableFile.isColumnOffsetActive = false;
+    this.dataTableFile.isDeleteable = true;
+    this.dataTableFile.isMultipleSelectedActive = false;
+    this.dataTableFile.isLoading = false;
+
   }
 
   ngOnInit() {
@@ -36,18 +64,28 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
 
   onSubmit(data: NgForm) {
 
-    if (data.form.invalid == true) return;
+    this.dtFileLength =this.dataTableFile.TGT_selectAllItems().length;
+    if (data.form.invalid == true && this.dtFileLength<6) return;
 
       this.popupComponent.ShowModal('#modalShowQuestionPopupForReportBreakdown');
   }
 
   ReportBreakdown(data: NgForm){
-   
-    let cloneItem = new Maintenance();  
-    
-    cloneItem.FixedAssetId=this.reportBreakdown.FixedAssetId;
 
+    let cloneItem = new Maintenance();  
+    // let maintenanceRequestPicture: MaintenanceRequestPicture[] = [];
+
+    if (this.maintenancePictures.length == 0) {
+      this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Choose_File'));
+      return;
+    } 
+
+    cloneItem.FixedAssetId=this.reportBreakdown.FixedAssetId;
     cloneItem.RequestDescription = data.value.RequestDescription;
+    
+    if (this.maintenancePictures && this.maintenancePictures.length > 0) {
+      cloneItem.MaintenanceRequestPictures = this.maintenancePictures;
+    }
 
     cloneItem.MaintenanceStatusId=2;
 
@@ -57,6 +95,7 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
 
     this.baseService.workOrderService.ReportBreakdown(
       cloneItem,
+      this.maintenancePictures,
       (insertedItem: Maintenance, message) => {
 
       this.popupComponent.ShowModal('#modalShowMaintenanceNumberPopup');
@@ -91,6 +130,7 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
 
   resetForm(data: NgForm) {
     data.resetForm();
+    this.dataTableFile.TGT_clearData();    
   }
 
   closeReportBreakdownPopup(){
@@ -102,50 +142,32 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
     this.wolComponent.ClosePopup(true);        
   }
 
-  clearFiles() {
-    this.breakdownPictures = [];
-
-    this.maintenance.BreakdownPictures = null;
+  clearPictures() {
+    this.maintenancePictures = [];
+    this.maintenance.MaintenanceRequestPictures = null;
   }
 
   changeFile(event: any): void {
-    var selectedFiles = event.target.files;
-    if(selectedFiles.length <6){
-    for (var i = 0; i < selectedFiles.length; i++) {
-      if (selectedFiles[i].type == 'image/png' || selectedFiles[i].type == 'jpg' || selectedFiles[i].type == 'jpeg') {
+    let maintenanceRequestPicture: MaintenanceRequestPicture[]=[];    
+
+    this.maintenancePictures = event.target.files;
+    if(this.maintenancePictures.length <6){
+    this.isMoreThanFive=false;      
+    for (var i = 0; i < this.maintenancePictures.length; i++) {
+      if (this.maintenancePictures[i].type == 'image/png' || this.maintenancePictures[i].type == 'image/jpg' || this.maintenancePictures[i].type == 'image/jpeg') {
+       
         let requestPic: MaintenanceRequestPicture = new MaintenanceRequestPicture;
-        requestPic.Picture=selectedFiles[i].name;
-        requestPic.MaintenanceListId=this.maintenance.MaintenanceListId;
-        this.breakdownPictures.push(requestPic);        
-        }  
-      }    
+
+        requestPic.MaintenanceRequestPictureId = (maintenanceRequestPicture.length + 1) * -1;     
+        requestPic.Picture=this.maintenancePictures[i].name;
+        maintenanceRequestPicture.push(requestPic);        
+        }
+      }
     }
     else{
       this.isMoreThanFive=true;
       this.fileMessage = "5'ten fazla resim yükleyemezsiniz.";
     }
+      this.dataTableFile.TGT_loadData(maintenanceRequestPicture);            
   }
-
-  // uploadFiles() {  
-  //   const frmData = new FormData();  
-  //   for (var i = 0; i < this.breakdownPictures.length; i++) {  
-  //     frmData.append("fileUpload", this.breakdownPictures[i]);  
-  //     if (i == 0) {  
-  //       frmData.append("remark", this.remark);  
-  //     }  
-  //   }  
-  //   this.httpService.post('http://localhost:50401/api/FileUpload/UploadFiles', frmData).subscribe(  
-  //     data => {  
-  //       // SHOW A MESSAGE RECEIVED FROM THE WEB API.  
-  //       this.sMsg = data as string;  
-  //       console.log(this.sMsg);  
-  //     }  
-  //   );  
-  // }
-  clearPictures(){
-    this.breakdownPictures = [];
-
-    this.maintenance.BreakdownPictures = null;
-  }
-
 }

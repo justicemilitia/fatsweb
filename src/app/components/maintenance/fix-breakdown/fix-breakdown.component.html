@@ -12,8 +12,8 @@
            <!-- BARKOD -->      
            <div class="col-md-12" style="padding-left:0px;">                       
               <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
-              <span style="margin-left:20px;"></span>
-              <!-- <span style="margin-left:20px;">{{ fixBreakdown.Barcode }}</span> -->
+              <!-- <span style="margin-left:20px;"></span> -->
+              <span style="margin-left:20px;">{{ fixBreakdown.FixedAsset.Barcode }}</span>
           </div>
     
           <!-- DEMİRBAŞ ADI -->      
@@ -44,8 +44,8 @@
                 </div>
             </div>
     
-          <!-- RESİM EKLEME KISMI EKLENECEK -->
-            
+            <img [src]="image" *ngFor="let image of imageArray" [src]="image" height="100" style="margin-right:20px; margin-top:20px; margin-bottom:20px;"> 
+
             <!-- GÖREVLİ PERSONEL -->
             
             <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
@@ -74,22 +74,34 @@
                 </div>
             </div>
 
-            <!-- RESİM EKLEME KISMI EKLENECEK -->
-            <div class="row justify-content-center">      
-                    <div class="form-group col-md-12">
-                    <label>{{getLanguageValue('File')}}</label>
-                    <div class="file-area">
-                        <input #breakdownPicture name="BreakdownPicture" (change)="changeFile($event)" id="BreakdownPicture" type="file"
-                        class="form-control-file" style="display:none" multiple>
-                        <label for="BreakdownPicture" class="custom-file">
-                        <label class="custom-file-text" for="BreakdownPicture">
-                            {{breakdownPictures.length > 0 ? breakdownPictures[0].name : maintenance.BreakdownPictures ? maintenance.BreakdownPictures : getLanguageValue('Choose_File') }}
-                        </label>
-                        </label>
-                        <label class="custom-file-remove" (click)="clearPictures()"><span class="fa fa-times"></span></label>
+                <!-- RESİM EKLEME -->
+                <div class="row justify-content-center">      
+                        <div class="form-group col-md-12">
+                        <label>{{getLanguageValue('File')}}</label>
+                        <div class="file-area">
+                            <input #breakdownPicture name="BreakdownPicture" (change)="changeFile($event)" id="BreakdownPicture" type="file"
+                            class="form-control-file" style="display:none" multiple>
+                            <label for="BreakdownPicture" class="custom-file">
+                            <label class="custom-file-text" for="BreakdownPicture">{{getLanguageValue('Choose_File')}}</label>
+                            </label>
+                            <label class="custom-file-remove" (click)="clearPictures()"><span class="fa fa-times"></span></label>
+                        </div>
+                        <div *ngIf="isMoreThanFive==true" style="color: red;">{{fileMessage}}</div>
+                        </div>
                     </div>
-                    </div>
-                </div>
+
+                    <!-- EKLENEN RESİMLERİ TABLODA GÖSTERME -->
+                    <div class="row justify-content-center">
+                        <div class="form-group col-md-12">
+                            <h3></h3>     
+                            <div class="property-values-table">        
+                            <tree-grid-table [dataTable]="dataTableFile"></tree-grid-table>
+                            </div>
+                            <div *ngIf="data.submitted && dtFileLength>6" class="invalid-feedback">
+                            <div *ngIf="BreakdownPicture.errors.required">{{getLanguageValue('fileMessage')}}</div>
+                            </div>
+                        </div>
+                    </div>      
 
         </div>
       
