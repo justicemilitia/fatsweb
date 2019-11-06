@@ -6,7 +6,10 @@ import { jsonpCallbackContext } from '@angular/common/http/src/module';
 // export const SERVICE_URL            = "http://localhost:5000/api/";
  //export const SERVICE_URL = "http://localhost:11889/api/";
  export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
+
+ //ASSIST
 // export const SERVICE_URL = "http://213.74.216.245:8080/api/"; 
+//ASSIST
 
 // export const SERVICE_URL = (url:string) => {
 //   let httpClient:HttpClient;
@@ -28,9 +31,11 @@ export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
 export const IMAGE_URL =  "http://dev.fatsapi.com/";
 
+//ASSIST
 // export const DOCUMENT_URL = "http://213.74.216.245:8080/Documents/";
 // export const LANGUAGE_URL = "http://213.74.216.245:8080/Language/language.json";
 // export const IMAGE_URL =  "http://213.74.216.245:8080/";
+//ASSIST
 
 //export const IMAGE_URL =  "http://localhost:5000/";
 

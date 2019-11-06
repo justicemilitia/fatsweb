@@ -524,7 +524,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       // }
     ],
     {
-      isDesc: false,
+      isDesc: true,
       column: ["Barcode"]
     }
   );

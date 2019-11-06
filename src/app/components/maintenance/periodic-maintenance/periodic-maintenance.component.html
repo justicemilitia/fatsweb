@@ -16,7 +16,7 @@
             </button>
           </div>
         </div>
-        <form #data="ngForm" (ngSubmit)="insertWorkStepToDataTableWorkStep(data)">    
+        <form #data="ngForm" (ngSubmit)="addWorkOrder(data)">    
         <div class="sales-overview" style="margin-left:10px;margin-right:10px">    
           
             <div class="form-group col-md-6">
@@ -75,21 +75,20 @@
                       <label>Tekrarlama sıklığını seçiniz</label>
                     </div>                
                     <div class="form-group col-md-4">                 
-                      <select [(ngModel)]="workOrder.PeriodTypeId" name="PeriodTypeId" (change)="selectPeriod($event)" [ngClass]="{ 'is-invalid': data.submitted && isPeriodic == true && insertedPeriodTypeId == null }" class="form-control">
+                      <select [(ngModel)]="workOrder.PeriodTypeId" name="PeriodTypeId" (change)="selectPeriod($event)" [class.is-invalid]="data.submitted && insertedPeriodTypeId == null" class="form-control" required>
                         <option [ngValue]="null">Seçiniz</option>
                         <option *ngFor="let period of periods" value={{period.PeriodTypeId}}>{{period.PeriodName}}</option>
                       </select>              
                     </div>
                     <div class="form-group col-md-4">
-                        <select [(ngModel)]="workOrder.Frequency" name="Frequency" (change)="selectPeriodValue($event)" [ngClass]="{ 'is-invalid': data.submitted && isPeriodic == true && insertedPeriodTypeValue == null }" class="form-control">
+                        <select [(ngModel)]="workOrder.Frequency" name="Frequency" (change)="selectPeriodValue($event)" [class.is-invalid]="data.submitted && insertedPeriodTypeValue == null" class="form-control" required>
                             <option [ngValue]="null">Seçiniz</option>
                             <option *ngFor="let period of periodArray" value={{period}}>{{period}}</option>
-                          </select>                    
-                    </div>
-                    <div style="display:block" *ngIf="data.submitted" class="invalid-feedback">
-                        <div *ngIf="insertedPeriodTypeValue == null || insertedPeriodTypeId == null">{{getLanguageValue('This_value_is_required')}}</div>
-                      </div>
-                
+                        </select>     
+                        <div style="display:block" *ngIf="data.submitted" class="invalid-feedback">
+                            <div *ngIf="insertedPeriodTypeValue == null || insertedPeriodTypeId == null">{{getLanguageValue('This_value_is_required')}}</div>
+                        </div>               
+                    </div>        
                   </div>
                 </fieldset>
                 <fieldset class="field_set" style="padding-left: 10px; padding-right: 10px; margin-top: 10px;">
@@ -198,7 +197,7 @@
                       </div>
                       <div class="row justify-content-center">
                         <div class="form-group">
-                          <button id="insertWorkOrder" type="button" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false" (click)="addWorkOrder()">İş Emrini Kaydet</button>
+                          <button id="insertWorkOrder" type="submit" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false" (click)="addWorkOrder(data)">İş Emrini Kaydet</button>
                           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
                         </div>
                       </div>

@@ -234,7 +234,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
         Object.assign(fixedAssetCard,workOrder.FixedAssetCardPeriods[0].FixedAssetCard);
         this.fixedAssetCard.FixedAssetCardCode = fixedAssetCard.FixedAssetCardCode;
         this.fixedAssetCard.Name = fixedAssetCard.Name;
-        //this.categoryName = fixedAssetCard.FixedAssetCardCategory.Name;
+        this.categoryName = fixedAssetCard.FixedAssetCardCategory.Name;
       }
 
       this.dataTableWorkStep.TGT_loadData(workSteps);
@@ -445,8 +445,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
       this.insertedPeriodTypeId=period;
       switch(period){
       case this.periodTypeEnum.Day:
-     this.periodArray = this.loadPeriodNumberByPeriodType(this.day);
-     
+      this.periodArray = this.loadPeriodNumberByPeriodType(this.day);     
       break;
       case this.periodTypeEnum.Week:
       this.periodArray = this.loadPeriodNumberByPeriodType(this.week);
@@ -475,7 +474,10 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     }
   }
 
-  addWorkOrder(){
+  addWorkOrder(data:NgForm){
+
+  /* Check model state */
+  if (data.form.invalid == true) return;
     
    let workSteps:WorkStep[]= <WorkStep[]>this.dataTableWorkStep.TGT_copySource();
 
@@ -493,6 +495,20 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
   async onDoubleClickItem(item: WorkStep) {
     this.baseService.workOrderService.GetWorkStepDetailByWorkStepId(item.WorkStepId,(workStep:WorkStep)=>{
+      workStep[0].WorkStepConsumables.forEach(e=>{ 
+        let properties:string='';
+
+        for (let i = 0; i < e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length; i++) {
+          properties+= e.Consumable.ConsumableCard.FixedAssetPropertyDetails[i].Value + ( e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length - i == 1 ? "" : ",");                                  
+      }
+
+      properties = e.Consumable.ConsumableCard.ConsumableCardName + ": " + properties + "("+ e.Quantity +" "+ e.Consumable.ConsumableCard.ConsumableUnit.ConsumableUnitName +")";
+
+      this.consumableCardsWithConsumableObject.push(e.Consumable.ConsumableCard.FixedAssetPropertyDetails);
+
+      this.consumableCardsWithQuantity.push(properties);
+      });
+
       console.log(workStep);
     },(error:HttpErrorResponse)=>{
       this.baseService.popupService.ShowErrorPopup(error);
