@@ -4,7 +4,7 @@ import { AuthenticationService } from '../authenticationService/authentication.s
 import { ErrorService } from '../error-service/error.service';
 import { Response } from "src/app/models/Response";
 import { getAnErrorResponse } from "src/app/declarations/extends";
-import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID, GET_VALID_BARCODE_LAST_NUMBER, GET_VALID_WORK_ORDER_CODE, GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID, GET_WORK_STEPS_BY_FIXED_ASSET_ID, REPORT_BREAKDOWN_WITH_FILE_UPLOAD, GET_WORK_ORDER_PERIOD_TYPES, ADD_WORK_ORDER, GET_WORK_STEP_LIST_BY_WORK_ORDER_ID, GET_WORKSTEPDETAIL_BY_WORK_STEP_ID } from '../../declarations/service-values';
+import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID, GET_VALID_BARCODE_LAST_NUMBER, GET_VALID_WORK_ORDER_CODE, GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID, GET_WORK_STEPS_BY_FIXED_ASSET_ID, REPORT_BREAKDOWN_WITH_FILE_UPLOAD, GET_WORK_ORDER_PERIOD_TYPES, ADD_WORK_ORDER, GET_WORK_STEP_LIST_BY_WORK_ORDER_ID, GET_WORKSTEPDETAIL_BY_WORK_STEP_ID, UPDATE_WORK_ORDER } from '../../declarations/service-values';
 import { Maintenance } from '../../models/Maintenance';
 import { WorkOrders } from 'src/app/models/WorkOrders';
 import { getMatIconFailedToSanitizeLiteralError } from '@angular/material';
@@ -13,6 +13,7 @@ import { ConsumableProperties } from 'src/app/models/ConsumableProperties';
 import { PeriodTypes } from 'src/app/models/PeriodTypes';
 import { WorkOrderPeriodTypes } from 'src/app/models/WorkOrderPeriodTypes';
 import { WorkStep } from 'src/app/models/WorkStep';
+import { resetComponentState } from '@angular/core/src/render3/state';
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +73,7 @@ export class WorkOrderService {
   }
 
   GetWorkStepDetailByWorkStepId(WorkStepId:number,success,failed){
+    
     this.httpClient.post(SERVICE_URL+ GET_WORKSTEPDETAIL_BY_WORK_STEP_ID,{WorkStepId:WorkStepId},{
       headers:GET_HEADERS(this.authenticationService.getToken())
     }).subscribe(result=>{
@@ -239,6 +241,20 @@ export class WorkOrderService {
       }else{
         failed(getAnErrorResponse(response.LanguageKeyword));
       }
+    },error=>{
+      failed(error);
+    });
+  }
+
+  UpdateWorkOrder(workOrder:WorkOrders,success,failed){
+    this.httpClient.post(SERVICE_URL + UPDATE_WORK_ORDER, workOrder,{
+      headers:GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result=>{
+      let response:Response=<Response>result;
+      if(response.ResultStatus==true)
+        success(response.LanguageKeyword)
+       else
+       failed(getAnErrorResponse(response.LanguageKeyword)); 
     },error=>{
       failed(error);
     });

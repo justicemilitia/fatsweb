@@ -44,7 +44,7 @@
               </div>
 
               <div>
-                <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTable)"
+                <button class="btn btn-success btn-excel-custom" (click)="exportExcel()"
                 data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i
                 [ngClass]="{'far fa-file-excel':isTableExporting == false}" [class.btn-refresh-loader]="isTableExporting == true"></i>
                 </button>  
@@ -72,6 +72,10 @@
                     <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                         <tree-grid-table [dataTable]="dataTableCycleCountDetail">
                         </tree-grid-table>
+
+                        <div class="table-info" class="table-info-without-margin" style="margin-left:22px">
+                            {{pagingInfo}}
+                          </div>
                           <!-- Pagination Side -->
                           <div class="table-pagination">
                             <!-- Per In Page Select area -->
@@ -103,6 +107,9 @@
                        <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                            <tree-grid-table [dataTable]="dataTableNotFoundFixedAsset">
                            </tree-grid-table>
+                           <div class="table-info" class="table-info-without-margin" style="margin-left:22px">{{pagingInfo}}
+                              
+                            </div>
                           <!-- Pagination Side -->
                           <div class="table-pagination">
                             <!-- Per In Page Select area -->
@@ -134,6 +141,9 @@
                          <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                              <tree-grid-table [dataTable]="dataTableDifferenLocationFixedAsset">
                              </tree-grid-table>
+                             <div class="table-info" class="table-info-without-margin" style="margin-left:22px">
+                               {{pagingInfo}}
+                              </div>
                                                        <!-- Pagination Side -->
                           <div class="table-pagination">
                             <!-- Per In Page Select area -->
@@ -165,6 +175,9 @@
                      <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
                          <tree-grid-table [dataTable]="dataTableNotRegisteredFixedAsset">
                          </tree-grid-table>
+                         <div class="table-info" class="table-info-without-margin" style="margin-left:22px">
+                           {{pagingInfo}}
+                          </div>
                                                    <!-- Pagination Side -->
                       <div class="table-pagination">
                         <!-- Per In Page Select area -->
@@ -340,7 +353,7 @@
 <form name="form">
     <div class="modal-body">
       <div>
-        <p>{{getLanguageValue('Choosen_fixed_assets_are_going_to_be_marked_as_lost_Do_you_accept_this_process')}}</p>
+        <p>{{getLanguageValue('Choosen_fixed_assets_are_going_to_be_marked_as_lost') +''+getLanguageValue('Do_you_approve_this_process')}}</p>
       </div>
       <br>
     </div>

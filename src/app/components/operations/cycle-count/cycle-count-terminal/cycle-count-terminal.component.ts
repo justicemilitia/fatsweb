@@ -50,9 +50,15 @@ export class CycleCountTerminalComponent extends BaseComponent
     this.baseService.cycleCountService.GetCycleCountPlanWithoutCanceledPlan(
       (cyclecountplans: CycleCountPlan[]) => {
         this.cyclecountplans = cyclecountplans;
+
+        if(cyclecountplans.length == 0)
+        this.baseService.popupService.ShowWarningPopup(this.getLanguageValue("There_is_no_cycle_count_plan_yet"));
       },
       (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
+        if(this.cyclecountplans.length == 0)
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue("There_is_no_cycle_count_plan_yet"));
+        else
+          this.baseService.popupService.ShowErrorPopup(error);
       }
     
     );

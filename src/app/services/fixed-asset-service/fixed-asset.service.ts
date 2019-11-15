@@ -73,7 +73,7 @@ export class FixedAssetService {
               Object.assign(fa, e);
               fixedAssets.push(fa);
             });
-            success(fixedAssets, result.TotalPage, response.LanguageKeyword);
+            success(fixedAssets, result.TotalPage, result.TotalRecords, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -106,7 +106,7 @@ export class FixedAssetService {
               Object.assign(fa, e);
               fixedAssets.push(fa);
             });
-            success(fixedAssets, result.TotalPage, response.LanguageKeyword);
+            success(fixedAssets, result.TotalPage, result.TotalRecords, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
@@ -542,7 +542,7 @@ export class FixedAssetService {
               fixedAssets.push(fa);
             });
 
-            callback(fixedAssets, result.TotalPage);
+            callback(fixedAssets, result.TotalPage,result.TotalRecords);
 
 
             // Object.assign(fixedAssets, response.ResultObject);

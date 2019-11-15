@@ -7,9 +7,9 @@ import { jsonpCallbackContext } from '@angular/common/http/src/module';
  //export const SERVICE_URL = "http://localhost:11889/api/";
  export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
 
- //ASSIST
-// export const SERVICE_URL = "http://213.74.216.245:8080/api/"; 
-//ASSIST
+ export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
+export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
+export const IMAGE_URL =  "http://dev.fatsapi.com/";
 
 // export const SERVICE_URL = (url:string) => {
 //   let httpClient:HttpClient;
@@ -27,15 +27,20 @@ import { jsonpCallbackContext } from '@angular/common/http/src/module';
 export const LOGIN = "Auth/token";
 
 export const FORGET_PASSWORD = "Auth/forgotpassword";
-export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
-export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
-export const IMAGE_URL =  "http://dev.fatsapi.com/";
 
-//ASSIST
+//#region Vector
+// export const SERVICE_URL = "http://devtest.fatsapi.com/api/"; 
+// export const DOCUMENT_URL = "http://devtest.fatsapi.com/Documents/";
+// export const LANGUAGE_URL = "http://devtest.fatsapi.com/Language/language.json";
+// export const IMAGE_URL =  "http://devtest.fatsapi.com/";
+//#endregion Vector
+
+//#region 10.20.0.53
+// export const SERVICE_URL = "http://213.74.216.245:8080/api/"; 
 // export const DOCUMENT_URL = "http://213.74.216.245:8080/Documents/";
 // export const LANGUAGE_URL = "http://213.74.216.245:8080/Language/language.json";
 // export const IMAGE_URL =  "http://213.74.216.245:8080/";
-//ASSIST
+//#endregion 10.20.0.53
 
 //export const IMAGE_URL =  "http://localhost:5000/";
 
@@ -409,6 +414,7 @@ export const GET_VALID_WORK_ORDER_CODE ="WorkOrder/GetValidWorkOrderNumber";
 //#region WorkOrder
 export const REPORT_BREAKDOWN_WITH_FILE_UPLOAD = "WorkOrder/ReportBreakdownWithFileUpload";
 export const ADD_WORK_ORDER ="WorkOrder/AddWorkOrder";
+export const UPDATE_WORK_ORDER ="WorkOrder/UpdateWorkOrder";
 //#endregion
 
 

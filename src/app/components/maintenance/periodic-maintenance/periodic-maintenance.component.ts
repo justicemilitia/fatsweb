@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import { ConsumableCard } from 'src/app/models/ConsumableCard';
@@ -22,6 +22,9 @@ import { NgForm } from '@angular/forms';
 })
 export class PeriodicMaintenanceComponent extends BaseComponent implements OnInit, Resolve<FixedAssetCard> {
 
+  @Output('onClickItem') onClickItem: EventEmitter<any> = new EventEmitter();
+  
+  
   consumableCards:ConsumableCard[]=[];
 
   faProperties:FixedAssetCardProperty[]=[];
@@ -59,6 +62,8 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
    /* Is Waititing for a request */
    isWaitingInsertOrUpdate: boolean = false;
 
+   isWaitingInsertWorkStep: boolean = false;
+
    isConsumableUse:boolean=false;
 
    categoryName:string;
@@ -75,6 +80,8 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
    insertWorkStep:boolean=false;
 
+   imageName:string = '';
+
    periodTypeEnum =
    {
        Day:1,
@@ -90,11 +97,26 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
    insertedPeriodTypeValue:number = null;
 
+   imgURL: any;
 
+   FixedAssetCardPicture:string;
+
+   errorMessage:boolean=false;
+
+   disablebtnAddWorkOrder:boolean=false;
+   
+   visibleWorkOrderButton:boolean=false;
+
+   visibleWorkStepButton:boolean=false;
+ 
    ngAfterViewInit(): void {
     this.baseService.activeRoute.queryParams.subscribe(params => {
       this.fixedAssetCardId = params.insertedFixedAssetCardId == null ? params.updatedFixedAssetCardId : params.insertedFixedAssetCardId,
-      this.WorkOrderId = params.updatedWorkOrderId          
+      this.WorkOrderId = params.updatedWorkOrderId   
+      if(params.updatedWorkOrderId == null)
+        this.visibleWorkOrderButton=true;
+      else
+        this.visibleWorkOrderButton=false;         
 
      this.loadFixedAssetCard(this.fixedAssetCardId);
 
@@ -143,8 +165,8 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     }
     ],
     {
-      isDesc: false,   
-      column: ["Description"]   
+      isDesc: true,   
+      column: ["WorkStepRowId"]   
     }
   );
 
@@ -165,6 +187,8 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     else
     this.isUpdateOrInsertMaintenance = false;
 
+    if(this.dataTableWorkStep.TGT_copySource().length != 0)
+      this.disablebtnAddWorkOrder=false;
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isTableEditable = false;
@@ -179,6 +203,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     this.dataTableWorkStep.isLoading = false;
     this.dataTableWorkStep.isScrollActive = true;
     this.dataTablePropertyValue.isFilterActive = false;
+    this.dataTablePropertyValue.isDeleteable = true;
 
    }
 
@@ -190,6 +215,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   ngOnInit() {
   }
 
+  //#region Load Data
   async loadFixedAssetCard(fixedAssetCardId:number){
     if(this.WorkOrderId == null){
     this.baseService.fixedAssetCardService.GetFixedAssetCardById(
@@ -332,6 +358,36 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
       this.dataTablePropertyValue.TGT_clearData();
     });
   }
+  //#endregion
+
+  onSubmit(data:NgForm){
+    if(this.WorkOrderId == null)
+      this.addWorkOrder(data);
+    else
+      this.updateWorkOrder(data);
+  }
+
+  updateWorkOrder(data:NgForm){
+      /* Check model state */
+  if (data.form.invalid == true) return;
+    
+  let workSteps:WorkStep[]= <WorkStep[]>this.dataTableWorkStep.TGT_copySource();
+   
+  this.workOrder.WorkSteps=workSteps;
+
+  this.workOrder.FixedAssetCardId = this.fixedAssetCardId;
+  
+  this.workOrder.WorkOrderCode = Number(this.workOrderCode);   
+
+  this.workOrder.WorkOrderId=this.WorkOrderId;
+
+  this.baseService.workOrderService.UpdateWorkOrder(this.workOrder,(result,message:string)=>{
+    this.baseService.popupService.ShowSuccessPopup(message);
+  },
+  (error:HttpErrorResponse)=>{
+    this.baseService.popupService.ShowErrorPopup(error);
+  })
+  }
 
   isConsumableUsed(event:any){
     if(event.target.checked == true)
@@ -339,8 +395,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     else{
     this.isConsumableUse = false;
     this.requiredConsumable = false;
-    }
-    
+    }    
   }
 
   insertConsumableCardWithProperties(){
@@ -349,76 +404,165 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
     let consumableWithProperties:ConsumableProperties[] = <ConsumableProperties[]>this.dataTablePropertyValue.TGT_getSelectedItems();
 
+    let consumableWithProperty:ConsumableProperties=new ConsumableProperties();
+    
     if(consumableWithProperties.length == 0){
       this.requiredConsumable = true;
       return;
     }else{    
       this.requiredConsumable = false;
-      if(this.workStep.Quantity != null || this.workStep.Quantity != undefined)
-      this.insertConsumableProperties = true;
-      else
+        if((this.workStep.Quantity != null || this.workStep.Quantity != undefined) && this.workStep.Quantity != 0)
+        this.insertConsumableProperties = true;
+        else
+        return;
+    }
+
+    Object.assign(consumableWithProperty,consumableWithProperties[0]);      
+
+    if(this.consumableCardsWithConsumableObject.length > 0){
+    let count:number=0;
+
+    this.consumableCardsWithConsumableObject.forEach(x=>{
+     
+      if(x.ConsumableId == consumableWithProperty.ConsumableId){
+        this.consumableCardsWithConsumableObject = this.consumableCardsWithConsumableObject.filter(t=>t.ConsumableId != x.ConsumableId);
+
+        this.workStep.Quantity = x.Quantity + this.workStep.Quantity;
+
+        this.addPropertyArray(consumableWithProperty);
+        count++;
+        return;
+      }
+
+    });
+    if(count == 0)
+    this.addPropertyArray(consumableWithProperty);
+
+  }else
+    this.addPropertyArray(consumableWithProperty);
+  
+
+  //RESET
+    this.workStep.Quantity = null;
+
+    this.insertConsumableProperties=false;
+  }
+
+  addPropertyArray(consumableWithProperty:ConsumableProperties){
+
+  let properties:string='';  
+
+  for (let i = 0; i < consumableWithProperty.FixedAssetPropertyDetails.length; i++) {
+    properties+= consumableWithProperty.FixedAssetPropertyDetails[i].Value + ( consumableWithProperty.FixedAssetPropertyDetails.length - i == 1 ? "" : ",");                                  
+  }
+
+  properties = consumableWithProperty.ConsumableCard.ConsumableCardName + ": " + properties + "("+this.workStep.Quantity +" "+this.consumableCardUnit+")"
+
+  consumableWithProperty.properties = properties;
+
+  consumableWithProperty.Quantity=this.workStep.Quantity;
+
+  this.consumableCardsWithConsumableObject.push(consumableWithProperty);
+  }
+
+  insertWorkStepToDataTableWorkStep(data:NgForm){    
+
+    let dataTableWorkStep:WorkStep[]=<WorkStep[]>this.dataTableWorkStep.TGT_copySource();
+
+    this.isWaitingInsertWorkStep = true;    
+
+    let workStep:WorkStep = new WorkStep();
+
+    if(dataTableWorkStep.length > 0)
+    dataTableWorkStep.forEach(e=>{
+      let workStep:WorkStep=new WorkStep();
+      Object.assign(workStep,e);
+      this.workSteps.push(workStep);
+    });     
+    
+    let workStepConsumables:WorkStepConsumables[]=[];
+
+    let stepRow:number;
+
+    if(this.isConsumableUse == true && (this.workStep.ConsumableCardId && this.workStep.Quantity && this.dataTablePropertyValue.TGT_getSelectedItems().length == 0 && this.consumableCardsWithConsumableObject.length == 0)){
+      this.errorMessage = true;
+      this.isWaitingInsertWorkStep = false; 
+      return;
+    }
+    else
+    this.errorMessage=false;
+   
+    if(this.dataTableWorkStep.TGT_copySource().length != 0){
+      stepRow = this.dataTableWorkStep.TGT_copySource().length + 1;
+    }else{
+      stepRow = 1;
+    }    
+
+    this.insertWorkStep = true;
+
+    Object.assign(workStep,this.workStep);
+
+    if(data.value.Description != undefined)
+    workStep.Description = data.value.Description;     
+    else{
+      this.isWaitingInsertWorkStep = false;
+
       return;
     }
 
-    if(this.workStep.Quantity != null || this.workStep.Quantity != undefined){
+    workStep.WorkStepRowId=stepRow;
 
-    }
+    workStep.WorkStepId = (dataTableWorkStep.length + 1)*-1;
 
-
-    let consumableWithProperty:ConsumableProperties=new ConsumableProperties();
-
-    let properties:string='';
-
-    Object.assign(consumableWithProperty,consumableWithProperties[0]);  
-    
-    consumableWithProperty.Quantity=this.workStep.Quantity;
-
-   // this.workStep.ConsumableProperties.push(consumableWithProperty);
-
-    for (let i = 0; i < consumableWithProperty.FixedAssetPropertyDetails.length; i++) {
-        properties+= consumableWithProperty.FixedAssetPropertyDetails[i].Value + ( consumableWithProperty.FixedAssetPropertyDetails.length - i == 1 ? "" : ",");                                  
-    }
-
-    properties = consumableWithProperty.ConsumableCard.ConsumableCardName + ": " + properties + "("+this.workStep.Quantity +" "+this.consumableCardUnit+")"
-
-    this.consumableCardsWithConsumableObject.push(consumableWithProperty);
-    
-    this.consumableCardsWithQuantity.push(properties);
-  }
-
-  insertWorkStepToDataTableWorkStep(data:NgForm){
-
-    let stepRow:number = this.dataTableWorkStep.TGT_copySource().length + 1;
-    this.insertWorkStep = true;
-
-    if(data.value.Description != undefined)
-    this.workStep.Description = data.value.Description; 
-    else
-    return;
-
-    this.workStep.WorkStepRowId=stepRow;
-
-    this.WorkStepRowId = stepRow;
-
-    this.workStep.WorkStepId = this.WorkStepRowId;
-
-    let workStepConsumables:WorkStepConsumables[]=[];
+    workStep.Picture = this.FixedAssetCardPicture;
 
     this.consumableCardsWithConsumableObject.forEach(x=>{
       
       let workStepConsumable:WorkStepConsumables=new WorkStepConsumables();
 
       workStepConsumable.Quantity = x.Quantity;
+
       workStepConsumable.ConsumableId=x.ConsumableId;   
 
       workStepConsumables.push(workStepConsumable);
     });
 
-    this.workStep.WorkStepConsumables=workStepConsumables;
+    workStep.WorkStepConsumables=workStepConsumables;
 
-    this.workSteps.push(this.workStep);
+    this.workSteps.push(workStep);
 
-    this.dataTableWorkStep.TGT_loadData(this.workSteps);
+  
+    setTimeout(()=>{
+      this.isWaitingInsertWorkStep=false;         
+
+      this.dataTableWorkStep.TGT_loadData(this.workSteps);
+
+      this.WorkStepRowId = stepRow + 1;
+
+      this.disablebtnAddWorkOrder=true;
+    },1000);
+
+    this.resetWorkStep();
+  }
+
+  updateWorkStepToDataTableWorkStep(data:NgForm){
+    this.visibleWorkStepButton=true;
+  }
+
+  resetWorkStep(){
+    this.insertWorkStep = false;
+
+    this.workStep = new WorkStep();
+
+    this.dataTablePropertyValue.TGT_clearData();
+
+    this.insertConsumableProperties=false;
+
+    this.consumableCardsWithConsumableObject=[];
+
+    this.isConsumableUse = false;
+
+    this.imageName='';
   }
 
     GetWorkOrderPeriodTypes(){
@@ -480,13 +624,18 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   if (data.form.invalid == true) return;
     
    let workSteps:WorkStep[]= <WorkStep[]>this.dataTableWorkStep.TGT_copySource();
-
+    
    this.workOrder.WorkSteps=workSteps;
+
    this.workOrder.FixedAssetCardId = this.fixedAssetCardId;
+   
    this.workOrder.WorkOrderCode = Number(this.workOrderCode);   
+
+   
 
     this.baseService.workOrderService.AddWorkOrder(this.workOrder,(message)=>{
       this.baseService.popupService.ShowSuccessPopup(message);
+      this.visibleWorkOrderButton=false;
     },(error:HttpErrorResponse)=>{
      /* show error message */
      this.baseService.popupService.ShowErrorPopup(error);
@@ -494,25 +643,66 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   }
 
   async onDoubleClickItem(item: WorkStep) {
-    this.baseService.workOrderService.GetWorkStepDetailByWorkStepId(item.WorkStepId,(workStep:WorkStep)=>{
-      workStep[0].WorkStepConsumables.forEach(e=>{ 
-        let properties:string='';
+    
+    this.visibleWorkStepButton=false;
 
+    if(item.WorkStepId < 0){
+      
+    }else{
+      this.baseService.workOrderService.GetWorkStepDetailByWorkStepId(item.WorkStepId,(workStep:WorkStep)=>{
+
+        Object.assign(this.workStep,workStep);
+
+        workStep.WorkStepConsumables.forEach(e=>{ 
+          let properties:string='';
+  
         for (let i = 0; i < e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length; i++) {
-          properties+= e.Consumable.ConsumableCard.FixedAssetPropertyDetails[i].Value + ( e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length - i == 1 ? "" : ",");                                  
-      }
+            properties+= e.Consumable.ConsumableCard.FixedAssetPropertyDetails[i].Value + ( e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length - i == 1 ? "" : ",");                                  
+        }
+  
+        properties = e.Consumable.ConsumableCard.ConsumableCardName + ": " + properties + "("+ e.Quantity +" "+ e.Consumable.ConsumableCard.ConsumableUnit.ConsumableUnitName +")";
+  
+        let consumableWithProperty:ConsumableProperties=new ConsumableProperties();
+  
+        Object.assign(consumableWithProperty,e);
 
-      properties = e.Consumable.ConsumableCard.ConsumableCardName + ": " + properties + "("+ e.Quantity +" "+ e.Consumable.ConsumableCard.ConsumableUnit.ConsumableUnitName +")";
-
-      this.consumableCardsWithConsumableObject.push(e.Consumable.ConsumableCard.FixedAssetPropertyDetails);
-
-      this.consumableCardsWithQuantity.push(properties);
+        consumableWithProperty.properties=properties;
+  
+        this.consumableCardsWithConsumableObject.push(consumableWithProperty);
+        });
+  
+      },(error:HttpErrorResponse)=>{
+        this.baseService.popupService.ShowErrorPopup(error);
       });
+    }
+  }
+  
+  deleteConsumable(data:ConsumableProperties){ 
+    this.consumableCardsWithConsumableObject = this.consumableCardsWithConsumableObject.filter(e=>e.ConsumableId != data.ConsumableId);
+  }
 
-      console.log(workStep);
-    },(error:HttpErrorResponse)=>{
-      this.baseService.popupService.ShowErrorPopup(error);
-    });
+  async addImageFile(imageFile) {
+
+    this.baseService.fileUploadService.ImageUpload(
+      imageFile,
+      result => {
+        this.FixedAssetCardPicture = result;
+        this.imageName=imageFile[0].name;
+        console.log(this.FixedAssetCardPicture);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  
+    var reader = new FileReader();
+    reader.readAsDataURL(imageFile[0]);
+    reader.onload = _event => (this.imgURL = reader.result.toString());
+  }
+
+  clearFiles(){
+    this.FixedAssetCardPicture = null;
+    this.imageName='';
   }
 
 }

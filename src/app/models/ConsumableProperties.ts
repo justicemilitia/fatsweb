@@ -48,6 +48,7 @@ export class ConsumableProperties implements IData{
     
     //WorkStep Quantity
     Quantity:number;
+    properties:string;
 
     ConsumableCategoryIds:number[];
     ConsumableCardIds:number[];

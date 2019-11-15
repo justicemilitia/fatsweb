@@ -92,7 +92,9 @@
         <div class="sales-overview" style="flex-direction:column">
           <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)"  [dataTable]="dataTable">
           </tree-grid-table>
-
+          <div class="table-info" class="table-info-without-margin" style="margin-left:22px">
+            {{pagingInfo}}
+          </div>
           <!-- Pagination Side -->
           <div class="table-pagination">
             <!-- Per In Page Select area -->

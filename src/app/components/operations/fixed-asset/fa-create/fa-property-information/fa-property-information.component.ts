@@ -303,8 +303,6 @@ async addImageFile(imageFile) {
     imageFile,
     result => {
       this.FixedAssetPicture = result;
-      //console.log(this.picture);
-      console.log(this.FixedAssetPicture);
     },
     (error: HttpErrorResponse) => {
       this.baseService.popupService.ShowErrorPopup(error);

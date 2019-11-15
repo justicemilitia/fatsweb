@@ -95,6 +95,8 @@
                     routerLinkActive="active">{{getLanguageValue('Roles')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/roleauthorization"
                     routerLinkActive="active">{{getLanguageValue('Role_Authorization')}}</a></li>
+                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardproperty"
+                  routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Card_Properties')}}</a></li>          
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/expensecenter"
                     routerLinkActive="active">{{getLanguageValue('Expense_Centers')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/checkedoutreason"
@@ -112,9 +114,7 @@
                   <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardcategory"
                     routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Card_Categories')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcard"
-                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Cards')}}</a></li>
-                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardproperty"
-                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Card_Properties')}}</a></li>                
+                    routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Cards')}}</a></li>          
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardbrand"
                     routerLinkActive="active">{{getLanguageValue('Fixed_Asset_Brands')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/fixedassetcardmodel"
@@ -126,13 +126,13 @@
             <li class="nav-link-item-parent">
               <a class="nav-link-item-parent-link" href="#" onclick="return false">{{getLanguageValue('Consumable_Definitions')}}<span
                   class="typcn typcn-chevron-right"></span></a>
-              <ul class="nav-link-item-ul-sub">
-                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/consumablecard"
-                    routerLinkActive="active">{{getLanguageValue('Consumable_Cards')}}</a></li>
+              <ul class="nav-link-item-ul-sub">                
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/consumablecategory"
                     routerLinkActive="active">{{getLanguageValue('Consumable_Card_Categories')}}</a></li>
                 <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/consumableunit"
                     routerLinkActive="active">{{getLanguageValue('Consumable_Units')}}</a></li>
+                <li class="nav-link-item"><a class="nav-link-item-link" routerLink="/consumablecard"
+                  routerLinkActive="active">{{getLanguageValue('Consumable_Cards')}}</a></li>
               </ul>
             </li>
             <!-- <li class="nav-link-item-parent">
@@ -152,6 +152,11 @@
               </a>
             </li>
             <li class="nav-link-item-parent">
+                <a class="nav-link-item-link" routerLink="/relationshipfixedasset" routerLinkActive="active">
+                  {{getLanguageValue('Related_Fixed_Assets')}}             
+                </a>
+              </li>
+            <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/suspendedfixedasset" routerLinkActive="active">
                 {{getLanguageValue('Suspended_Fixed_Assets')}}
               </a>
@@ -165,22 +170,17 @@
               <a class="nav-link-item-link" routerLink="/checkoutfixedasset" routerLinkActive="active">
                 {{getLanguageValue('Exit_Fixed_Assets')}}
               </a>
-            </li>
-            <li class="nav-link-item-parent">
-              <a class="nav-link-item-link" routerLink="/relationshipfixedasset" routerLinkActive="active">
-                {{getLanguageValue('Related_Fixed_Assets')}}             
-              </a>
-            </li>
-            <li class="nav-link-item-parent">
-              <a class="nav-link-item-link" routerLink="/transactionlist" routerLinkActive="active">
-                {{getLanguageValue('Transaction_List')}}
-              </a>
-            </li>
+            </li>               
             <li class="nav-link-item-parent">
               <a class="nav-link-item-link" routerLink="/cyclecount" routerLinkActive="active">
                 {{getLanguageValue('Fixed_Asset_Counting')}}
               </a>
             </li>
+            <li class="nav-link-item-parent">
+                <a class="nav-link-item-link" routerLink="/transactionlist" routerLinkActive="active">
+                  {{getLanguageValue('Transaction_List')}}
+                </a>
+              </li>
           </ul>
           <!--<ul>
             <li><a href="#" onclick="return false">Genel Tanımlar</a>
