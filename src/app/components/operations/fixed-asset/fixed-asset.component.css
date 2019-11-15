@@ -58,3 +58,7 @@
     padding-left: 12px;
     align-self: center;
   }
+
+  .table-info-without-margin {
+    margin-left: 0;
+}

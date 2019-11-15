@@ -54,12 +54,22 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
   visibleCycleCountPlan:boolean = true;
 
+  selectedPlanId:number[]=[];
+
   currentTab:number = 0;
 
   currentPage: number = 1;
   perInPage: number = 25;
   totalPage: number = 1;
   pages: Page[] = [];
+
+  totalRecords:number = 0;
+
+  pagingInfo:string='';
+  
+  countOfParentItems:number;
+  endDisplayCount:number;
+  totalDisplayItem:number;
 
   cycleCountListEnums = {
     CycleCountResult:1,
@@ -177,15 +187,22 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
-      },
-      {
-        columnDisplayName: this.getLanguageValue('Location_Name'),
-        columnName: ["Location", "Name"],
+      },   {
+        columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
+        columnName: ["FixedAssetCardName"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text"
-      }, 
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Counted_Location'),
+        columnName: ["PlanLocation", "Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },    
       {
         columnDisplayName: this.getLanguageValue('Counting_Date'),
         columnName: ["CountDate"],
@@ -204,7 +221,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       }  
     ],
     {
-      isDesc: false,
+      isDesc: true,
       column: ["Barcode"]
     }
   );
@@ -246,7 +263,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       }  
     ],
     {
-      isDesc: false,
+      isDesc: true,
       column: ["Barcode"]
     }
   );
@@ -304,8 +321,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text"
       },  
       {
-        columnDisplayName: this.getLanguageValue('Location_Name'),
-        columnName: ["Location", "Name"],
+        columnDisplayName: this.getLanguageValue('Counted_Location'),
+        columnName: ["PlanLocation", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -368,6 +385,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     super(baseService);
     this.loadCycleCountPlanList();
 
+    this.dataTable.isSelectAllWithChildrenActive=true;
+
     //#region DataTable Properties
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
@@ -424,7 +443,10 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     this.baseService.cycleCountService.GetCycleCountPlan(
       (cyclecountplans: CycleCountPlan[]) => {
         this.cycleCountPlans = cyclecountplans;
+
         this.dataTable.TGT_loadData(this.cycleCountPlans);
+        if(this.selectedPlanId.length != 0)
+        this.dataTable.TGT_selectItemsByIds(this.selectedPlanId);
       },
       (error: HttpErrorResponse) => {       
         this.baseService.popupService.ShowErrorPopup(error);
@@ -437,6 +459,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     let cycleCountResult: CycleCountResults = new CycleCountResults();
     let selectedIds = (<CycleCountPlan[]>this.dataTable.TGT_getSelectedItems()).map(x=>x.getId());
 
+    this.selectedPlanId=<number[]>(selectedIds);
     cycleCountResult.CycleCountPlanId = selectedIds[0];
     cycleCountResult.PerPage = _perInPage;
     cycleCountResult.Page = _currentPage;
@@ -451,21 +474,24 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       cycleCountResult.NotFoundDuringTheCounting=false;
       cycleCountResult.ShowDifferentLocationsFixedAssets=false;
       cycleCountResult.UnKnownBarcodeList=false;
+      this.dataTableCycleCountDetail.isLoading=true;         
       break; 
       case this.cycleCountListEnums.DifferentLocationFixedAsset:
       cycleCountResult.NotFoundDuringTheCounting=false;
       cycleCountResult.ShowDifferentLocationsFixedAssets=true;
       cycleCountResult.UnKnownBarcodeList=false;
+      this.dataTableDifferenLocationFixedAsset.isLoading=true;
       break;
       case this.cycleCountListEnums.NotRegisteredFixedAsset:
       cycleCountResult.NotFoundDuringTheCounting=false;
       cycleCountResult.ShowDifferentLocationsFixedAssets=false;
       cycleCountResult.UnKnownBarcodeList=true;
+      this.dataTableNotRegisteredFixedAsset.isLoading=true;
       break;
     }
 
     this.baseService.cycleCountService.GetCycleCountResult(cycleCountResult,
-      (cycleCountResults:CycleCountResults[],totalPage:number)=>{
+      (cycleCountResults:CycleCountResults[],totalPage:number,totalRecords:number)=>{
 
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
@@ -473,22 +499,38 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         this.cycleCountResult = cycleCountResults;
         this.totalPage = totalPage ? totalPage : 1;
 
+        let endDisplayCount:number = this.currentPage * this.perInPage;
+        let countOfParentItems:number=this.cycleCountResult.filter(x=>!x.getParentId()).length;
+        this.countOfParentItems=countOfParentItems;
+
+        this.totalRecords = totalRecords;
+        this.endDisplayCount = endDisplayCount - this.perInPage + 1;
+        this.totalDisplayItem =  this.endDisplayCount + this.countOfParentItems - 1;    
+
+        if(this.totalRecords > 0)
+        this.pagingInfo = this.getLanguageValue('Total')+' '+ this.totalRecords+' '+this.getLanguageValue('records_and')+' '+ this.endDisplayCount + ' '+this.getLanguageValue('with') +' '+ this.totalDisplayItem + ' ' + this.getLanguageValue('records_shown');
+        else
+        this.pagingInfo = this.getLanguageValue('Total') +' 0 '+ this.getLanguageValue('records');
+
+
         switch(tabIndex){
-          case this.cycleCountListEnums.CycleCountResult:
-          this.dataTableCycleCountDetail.TGT_loadData(this.cycleCountResult);
-          this.dataTableCycleCountDetail.isLoading=false;
+          case this.cycleCountListEnums.CycleCountResult: 
+          this.dataTableCycleCountDetail.TGT_loadData(this.cycleCountResult);   
+          this.dataTableCycleCountDetail.isLoading=false;    
           break;
-          case this.cycleCountListEnums.NotFoundFixedAsset:
+          case this.cycleCountListEnums.NotFoundFixedAsset:  
+          this.dataTableNotFoundFixedAsset.isLoading=true;     
           this.dataTableNotFoundFixedAsset.TGT_loadData(this.cycleCountResult);
-          this.dataTableNotFoundFixedAsset.isLoading=false;
+          this.dataTableNotFoundFixedAsset.isLoading=false;     
           break;
-          case this.cycleCountListEnums.DifferentLocationFixedAsset:
+          case this.cycleCountListEnums.DifferentLocationFixedAsset:          
           this.dataTableDifferenLocationFixedAsset.TGT_loadData(this.cycleCountResult);
-          this.dataTableDifferenLocationFixedAsset.isLoading=false;
+          this.dataTableDifferenLocationFixedAsset.isLoading=false;          
           break;
-          case this.cycleCountListEnums.NotRegisteredFixedAsset:
+
+          case this.cycleCountListEnums.NotRegisteredFixedAsset:         
           this.dataTableNotRegisteredFixedAsset.TGT_loadData(this.cycleCountResult);
-          this.dataTableNotRegisteredFixedAsset.isLoading=false;
+          this.dataTableNotRegisteredFixedAsset.isLoading=false;          
           break;
         }
    
@@ -496,6 +538,10 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+        this.dataTableCycleCountDetail.isLoading=false; 
+        this.dataTableNotFoundFixedAsset.isLoading=false;   
+        this.dataTableDifferenLocationFixedAsset.isLoading=false;
+        this.dataTableNotRegisteredFixedAsset.isLoading=false;    
       });
 
   }
@@ -518,19 +564,34 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     cycleCountResult.ShowDifferentLocationsFixedAssets=false;
 
     this.baseService.cycleCountService.GetCycleCountResultNotFoundFixedAsset(cycleCountResult,
-      (cycleCountResults:CycleCountResults[],totalPage:number)=>{
+      (notFoundFixedAsset:FixedAsset[],totalPage:number,totalRecords:number)=>{
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTableCycleCountDetail.perInPage = _perInPage;
-        this.cycleCountResult = cycleCountResults;
+   
         this.totalPage = totalPage ? totalPage : 1;
+        let endDisplayCount:number = this.currentPage * this.perInPage;
+        let countOfParentItems:number=notFoundFixedAsset.filter(x=>!x.getParentId()).length;
+        this.countOfParentItems=countOfParentItems;
 
-        this.dataTableNotFoundFixedAsset.TGT_loadData(this.cycleCountResult); 
+        this.totalRecords = totalRecords;
+        this.endDisplayCount = endDisplayCount - this.perInPage + 1;
+        this.totalDisplayItem =  this.endDisplayCount + this.countOfParentItems - 1;    
+
+        if(this.totalRecords > 0)
+        this.pagingInfo = this.getLanguageValue('Total')+' '+ this.totalRecords+' '+this.getLanguageValue('records_and')+' '+ this.endDisplayCount + ' '+this.getLanguageValue('with') +' '+ this.totalDisplayItem+ ' ' + this.getLanguageValue('records_shown');       
+        else
+        this.pagingInfo = this.getLanguageValue('Total') +' 0 '+ this.getLanguageValue('records');
+
+        this.dataTableNotFoundFixedAsset.TGT_loadData(notFoundFixedAsset); 
+
         this.TGT_calculatePages();
+
         this.dataTableNotFoundFixedAsset.isLoading = false;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+        this.dataTableNotFoundFixedAsset.isLoading = false;       
       });
   }
 
@@ -724,30 +785,35 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       this.visibleCycleCountPlan=true;   
       this.lostFixedAssetButton=false;
       this.locationButton=false;
+      this.pagingInfo=null;
       this.loadCycleCountPlanList();
     } 
     else if (tabChangeEvent.index == 1) {
       this.visibleCycleCountPlan=false;   
       this.lostFixedAssetButton=false;
       this.locationButton=false;
+      this.pagingInfo=null;
       this.loadCycleCountResult(this.perInPage,this.currentPage,1);
     }
     else if(tabChangeEvent.index == 2){
       this.visibleCycleCountPlan=false;   
       this.lostFixedAssetButton=true;
       this.locationButton=false;
+      this.pagingInfo=null;
       this.loadCycleCountResultNotFoundFixedAsset(this.perInPage,this.currentPage);
     }
     else if(tabChangeEvent.index == 3){
       this.visibleCycleCountPlan=false;   
       this.lostFixedAssetButton=false;
       this.locationButton=true;
+      this.pagingInfo=null;
       this.loadCycleCountResult(this.perInPage,this.currentPage,3);
     }
     else if(tabChangeEvent.index == 4){
       this.visibleCycleCountPlan=false;   
       this.lostFixedAssetButton=false;
       this.locationButton=false;
+      this.pagingInfo=null;
       this.loadCycleCountResult(this.perInPage,this.currentPage,4);
     }
   }
@@ -888,5 +954,25 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     /* We set pages to new pagination items. */
     this.pages = items;
 
+  }
+
+  exportExcel(){
+    switch(this.currentTab){
+      case 0:
+      this.exportAsExcelFile(this.dataTable);
+      break;
+      case 1:
+      this.exportAsExcelFile(this.dataTableCycleCountDetail);
+      break; 
+      case 2:
+      this.exportAsExcelFile(this.dataTableNotFoundFixedAsset);
+      break;
+      case 3:
+      this.exportAsExcelFile(this.dataTableDifferenLocationFixedAsset);
+      break;
+      case 4:
+      this.exportAsExcelFile(this.dataTableNotRegisteredFixedAsset);
+      break;
+    }
   }
 }

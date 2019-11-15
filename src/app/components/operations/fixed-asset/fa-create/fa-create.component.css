@@ -133,7 +133,7 @@ input[type=number]::-webkit-outer-spin-button {
   height: 200px;
   z-index: 1000;
   top: 46px;
-  display: block;
+  display: inline-grid;
   max-height: 200px;
   overflow-y: auto;
   

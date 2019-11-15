@@ -6,7 +6,7 @@
     height: 200px;
     z-index: 1000;
     top: 46px;
-    display: block;
+    display: inline-grid;
     max-height: 200px;
     overflow-y: auto;
     
@@ -114,3 +114,6 @@
     font-size: 13px;
     padding-top: 3px;
   }
+  .table-info-without-margin {
+    margin-left: 0;
+}

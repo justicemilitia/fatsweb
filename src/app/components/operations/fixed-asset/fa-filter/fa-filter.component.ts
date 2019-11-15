@@ -794,9 +794,9 @@ constructor(protected baseService: BaseService) {
 
     await this.baseService.fixedAssetService.FilterFixedAsset(
       cloneItem,
-      (fixedAssets: FixedAsset[],totalPage) => {
+      (fixedAssets: FixedAsset[],totalPage,totalRecords:number) => {
 
-        this.fixedAssetComponent.loadFixedAssetForFilter(25,1,totalPage,fixedAssets);
+        this.fixedAssetComponent.loadFixedAssetForFilter(25,1,totalPage,fixedAssets,totalRecords);
 
         this.baseService.spinner.hide();
 

@@ -16,7 +16,7 @@
             </button>
           </div>
         </div>
-        <form #data="ngForm" (ngSubmit)="insertWorkStepToDataTableWorkStep(data)">    
+        <form #data="ngForm" (ngSubmit)="onSubmit(data)">    
         <div class="sales-overview" style="margin-left:10px;margin-right:10px">    
           
             <div class="form-group col-md-6">
@@ -75,34 +75,35 @@
                       <label>Tekrarlama sıklığını seçiniz</label>
                     </div>                
                     <div class="form-group col-md-4">                 
-                      <select [(ngModel)]="workOrder.PeriodTypeId" name="PeriodTypeId" (change)="selectPeriod($event)" [ngClass]="{ 'is-invalid': data.submitted && isPeriodic == true && insertedPeriodTypeId == null }" class="form-control">
+                      <select [(ngModel)]="workOrder.PeriodTypeId" name="PeriodTypeId" (change)="selectPeriod($event)" [class.is-invalid]="data.submitted && insertedPeriodTypeId == null" class="form-control" required>
                         <option [ngValue]="null">Seçiniz</option>
                         <option *ngFor="let period of periods" value={{period.PeriodTypeId}}>{{period.PeriodName}}</option>
                       </select>              
                     </div>
                     <div class="form-group col-md-4">
-                        <select [(ngModel)]="workOrder.Frequency" name="Frequency" (change)="selectPeriodValue($event)" [ngClass]="{ 'is-invalid': data.submitted && isPeriodic == true && insertedPeriodTypeValue == null }" class="form-control">
+                        <select [(ngModel)]="workOrder.Frequency" name="Frequency" (change)="selectPeriodValue($event)" [class.is-invalid]="data.submitted && insertedPeriodTypeValue == null" class="form-control" required>
                             <option [ngValue]="null">Seçiniz</option>
                             <option *ngFor="let period of periodArray" value={{period}}>{{period}}</option>
-                          </select>                    
-                    </div>
-                    <div style="display:block" *ngIf="data.submitted" class="invalid-feedback">
-                        <div *ngIf="insertedPeriodTypeValue == null || insertedPeriodTypeId == null">{{getLanguageValue('This_value_is_required')}}</div>
-                      </div>
-                
+                        </select>     
+                        <div style="display:block" *ngIf="data.submitted" class="invalid-feedback">
+                            <div *ngIf="insertedPeriodTypeValue == null || insertedPeriodTypeId == null">{{getLanguageValue('This_value_is_required')}}</div>
+                        </div>               
+                    </div>        
                   </div>
                 </fieldset>
                 <fieldset class="field_set" style="padding-left: 10px; padding-right: 10px; margin-top: 10px;">
                     <legend>{{workOrderCode}} No'lu İş Emri</legend>
+                    <span (click)="insertConsumableCardWithProperties()"><i class="fas fa-trash"></i></span>                         
+                                  
                      <div class="row">
-                      <div class="form-group col-md-12">
-                      <label>{{WorkStepRowId}}. İş Adımı</label>
-                      <input [(ngModel)]="workStep.Description" name="Description" #Description="ngModel" [class.is-invalid]="insertWorkStep == true && workStep.Description == null" class="form-control" maxlength="4000" type="text" maxlength="4000" required>
-                      <div *ngIf="insertWorkStep == true && Description == null">
-                        <div style="color:red">{{getLanguageValue('This_value_is_required')}}</div>                        
-                      </div>
+                        <div class="form-group col-md-12">
+                        <label>{{WorkStepRowId}}. İş Adımı</label>
+                        <input [(ngModel)]="workStep.Description" name="Description" #Description="ngModel" [class.is-invalid]="insertWorkStep == true && workStep.Description == null" class="form-control" maxlength="4000" type="text" maxlength="4000">
+                        <div *ngIf="insertWorkStep == true && workStep.Description == null">
+                          <div style="color:red">{{getLanguageValue('This_value_is_required')}}</div>                        
+                        </div>
+                        </div>
                     </div>
-                  </div>
                   <div class="row">
                     <div class="form-group col-md-6">
                         <label class="ckbox" style="margin-top: 23px">
@@ -112,14 +113,14 @@
                     <div class="form-group col-md-6">
                       <label></label>
                         <div class="file-area">
-                          <input #fixedAssetCardPicture name="FixedAssetCardPicture" id="FixedAssetCardPicture" type="file"
+                          <input #FixedAssetCardPicture [(ngModel)]="imageFile" name="FixedAssetCardPicture" id="FixedAssetCardPicture" type="file" (change)="addImageFile(FixedAssetCardPicture.files)"
                             class="form-control-file" style="display:none">
                           <label for="FixedAssetCardPicture" class="custom-file">
                             <label class="custom-file-text" for="FixedAssetCardPicture" style="margin: initial;">
-                             Resim Seçiniz...
+                             {{imageName == '' ? 'Resim Seçiniz...' : imageName}}
                             </label>
                           </label>
-                          <label class="custom-file-remove"><span class="fa fa-times"></span></label>
+                          <label class="custom-file-remove" (click)="clearFiles()"><span class="fa fa-times"></span></label>
                         </div>
                       </div>
                   </div>
@@ -133,8 +134,7 @@
                         <div *ngIf="workStep.IsConsumableUsed == true && workStep.ConsumableCardId == null && insertConsumableProperties == true">
                             <div style="color:red">{{getLanguageValue('This_value_is_required')}}</div>                        
                         </div>                          
-                      </div>
-                
+                      </div>                
                   </div>
                     <div class="form-group">
                       <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
@@ -145,19 +145,19 @@
                   <div class="form-group col-md-6">
                     <div class="row">
                     <div class="form-group col-md-6">
-                    <input [(ngModel)]="workStep.Quantity"  name="Quantity"  type="number" [class.is-invalid]="workStep.IsConsumableUsed == true && workStep.Quantity == null && insertConsumableProperties == true" class="form-control" >
+                    <input [(ngModel)]="workStep.Quantity"  name="Quantity"  type="number" [class.is-invalid]="workStep.IsConsumableUsed == true && workStep.Quantity == null && insertConsumableProperties == true" onkeypress="return event.charCode >= 48" class="form-control" min="1" >
                     <div *ngIf="workStep.IsConsumableUsed == true && workStep.Quantity == null && insertConsumableProperties == true">
                       <div style="color:red">{{getLanguageValue('This_value_is_required')}}</div>                        
                     </div>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <div class="row" style="margin-top: 5px;">
-                      <label>{{consumableCardUnit}}</label>
-                      <div class="property-add-value" style="margin-left:5px">                    
-                          <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertConsumableCardWithProperties()"></span>
-                      </div> 
-                    </div>  
                     </div>
+                    <div class="form-group col-md-6">
+                      <div class="row" style="margin-top: 5px;">
+                        <label>{{consumableCardUnit}}</label>
+                        <div class="property-add-value" style="margin-left:5px">                    
+                            <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertConsumableCardWithProperties()"></span>
+                        </div> 
+                      </div>  
+                      </div>
                   </div>
                   </div>
                   <div class="form-group col-md-6">
@@ -173,20 +173,30 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let property of consumableCardsWithQuantity">
-                        <td>*</td>
-                        <td>{{property}}</td>
-                        <td>
+                      <ng-container *ngFor="let property of consumableCardsWithConsumableObject" >
+                      <tr >
+                        <td><i class="fas fa-angle-right"></i></td>
+                        <td>{{property.properties}}</td>
+                        <td (click)="deleteConsumable(property)">
                           <div class="property-add-value">                    
-                          <span class="tree-table-sign typcn icon-default typcn-plus" (click)="deleteConsumable"></span></div> 
+                          <span class='typcn icon-default typcn-minus' ></span></div> 
                         </td>
                       </tr>
+                    </ng-container>
                     </tbody>
-                  </table>     
+                  </table>                        
                 </div>
+                <div style="color:red" *ngIf="errorMessage == true">Lütfen sarf malzeme bilgilerini tamamlayınız.</div>
                 <div class="row justify-content-center">
-                    <button id="insertWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="insertWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertOrUpdate == false" >İş Adımı Ekle</button>
-                    <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+                  <div *ngIf="visibleWorkStepButton;then insertWorkStep else updateWorkStep"></div>
+                  <ng-template #insertWorkStep>
+                    <button id="insertWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="insertWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertWorkStep == false" >İş Adımı Ekle</button>
+                    <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div>
+                  </ng-template>
+                  <ng-template #updateWorkStep>
+                      <button id="updateWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="updateWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertWorkStep == false" >İş Adımını Güncelle</button>
+                      <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div>
+                  </ng-template>
                 </div>
               </fieldset> 
             </div>
@@ -198,8 +208,15 @@
                       </div>
                       <div class="row justify-content-center">
                         <div class="form-group">
-                          <button id="insertWorkOrder" type="button" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false" (click)="addWorkOrder()">İş Emrini Kaydet</button>
+                        <div *ngIf="visibleWorkOrderButton;then insertMaintenance else updateMaintenance"></div>
+                        <ng-template #insertMaintenance>
+                          <button id="insertWorkOrder" type="submit" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false" [disabled]="disablebtnAddWorkOrder == false">İş Emrini Kaydet</button>
                           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+                        </ng-template>
+                        <ng-template #updateMaintenance>
+                            <button id="updateWorkOrder" type="submit" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false" [disabled]="disablebtnAddWorkOrder == false">İş Emrini Güncelle</button>
+                            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+                        </ng-template>
                         </div>
                       </div>
                   </fieldset>

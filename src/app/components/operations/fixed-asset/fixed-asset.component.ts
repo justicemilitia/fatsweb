@@ -46,6 +46,8 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   faNewFilter:FixedAsset[]=[];
 
   faNewSearch:FixedAsset[]=[];
+
+  pagingInfo:string = '';
   
   dashboardComponent: DashboardComponent = new DashboardComponent(this.baseService); 
 // = new DashboardComponent(this.baseService);
@@ -55,18 +57,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.isGuaranteeFixedAsset = params.isGuaranteeFa;   
       let search = params.search;
       if (search) {
-        search = search.trimEnd();
-        let desc:string=this.description;
-        console.log(desc);
+        search = search.trimEnd();   
         this.searchDescription = search;
-        let d :string = this.searchDescription;
-        console.log(d);
-     
           // --> Name must match wanted parameter         
           this.key = LoadDataTypes.SearchFixedAsset;
-          this.loadDatatable(this.perInPage, this.currentPage);        
-        
-  
+          this.loadDatatable(this.perInPage, this.currentPage);      
       } else if (this.searchDescription) {
         this.loadFixedAsset(this.perInPage, this.currentPage);
       } else if (this.isGuaranteeFixedAsset) {
@@ -84,7 +79,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       this.loadFixedAssetForDescription(_perInPage, _currentPage);
       break;
       case LoadDataTypes.FilterFixedAsset:
-      this.loadFixedAssetForFilter(_perInPage,_currentPage,this.totalPage,this.faFilter);
+      this.loadFixedAssetForFilter(_perInPage,_currentPage,this.totalPage,this.faFilter,this.totalRecords);
       break;
       default:
       this.loadFixedAsset(_perInPage,_currentPage);
@@ -141,6 +136,10 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   perInPage: number = 25;
   totalPage: number = 1;
   pages: Page[] = [];
+
+  countOfParentItems:number;
+  endDisplayCount:number;
+  totalDisplayItem:number;
 
   //#region DataTable
 
@@ -524,7 +523,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
       // }
     ],
     {
-      isDesc: false,
+      isDesc: true,
       column: ["Barcode"]
     }
   );
@@ -964,6 +963,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
   page: number;
   description:string;
   counter=0;
+  totalRecords:number = 0;
 
 
   constructor(protected baseService: BaseService) {
@@ -1108,7 +1108,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     this.dataTable.isLoading = true;
 
     this.baseService.fixedAssetService.GetFixedAssetForDescription(_perInPage, _currentPage, this.searchDescription,
-      (fa: FixedAsset[], totalPage: number, message: string) => {
+      (fa: FixedAsset[], totalPage: number, totalRecords:number, message: string) => {
         if(fa.length==0){   
           if(this.description != this.searchDescription)
             this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
@@ -1123,8 +1123,21 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         this.currentPage = _currentPage;
         this.dataTable.perInPage = _perInPage;
         this.fixedAssets = fa;
+
+        this.totalRecords = totalRecords;
+        let endDisplayCount:number = this.currentPage * this.perInPage;
+        let countOfParentItems:number=this.fixedAssets.filter(x=>!x.getParentId()).length;
+        this.countOfParentItems=countOfParentItems;
       
-        this.totalPage = Math.round(Math.floor(fa.length)/this.perInPage);
+        this.endDisplayCount = endDisplayCount - this.perInPage + 1;
+        this.totalDisplayItem =  this.endDisplayCount + this.countOfParentItems - 1;    
+
+        if(this.totalRecords > 0)
+        this.pagingInfo = this.getLanguageValue('Total')+' '+ this.totalRecords+' '+this.getLanguageValue('records_and')+' '+ this.endDisplayCount + ' '+this.getLanguageValue('with') +' '+ this.totalDisplayItem + ' ' + this.getLanguageValue('records_shown');       
+        else
+        this.pagingInfo = this.getLanguageValue('Total') +' 0 '+ this.getLanguageValue('records');
+      
+        this.totalPage = Math.ceil(fa.length/this.perInPage);
 
         this.TGT_calculatePages();
 
@@ -1150,7 +1163,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     
   }
 
-  async loadFixedAssetForFilter(perInPage: number = 1000, _currentPage: number = 1, totalPage:number, fa:FixedAsset[]){
+  async loadFixedAssetForFilter(perInPage: number = 1000, _currentPage: number = 1, totalPage:number, fa:FixedAsset[],totalRecords:number){
 
     this.isFilter=true;
     this.dataTable.TGT_clearData();
@@ -1160,9 +1173,20 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     this.faFilter = fa;
     this.dataTable.perInPage = perInPage;
 
-    this.totalPage = Math.round(fa.length/this.perInPage);
+    let endDisplayCount:number = this.currentPage * this.perInPage;
+    let countOfParentItems:number=this.faFilter.filter(x=>!x.getParentId()).length;        
+    let totalDisplayItem = endDisplayCount > countOfParentItems ? countOfParentItems : endDisplayCount;
+    this.totalDisplayItem=totalDisplayItem;
+    this.totalRecords=totalRecords;
+ 
+    this.totalPage = Math.ceil(fa.length/this.perInPage);
 
     let valueA: string = '';
+
+    if(this.totalRecords > 0)
+    this.pagingInfo = this.getLanguageValue('Total')+' '+ this.totalRecords+' '+this.getLanguageValue('records_and')+' '+ (endDisplayCount - this.perInPage + 1) + ' '+this.getLanguageValue('with') +' '+ this.totalDisplayItem + ' ' + this.getLanguageValue('records_shown');       
+    else
+    this.pagingInfo = this.getLanguageValue('Total') +' 0 '+ this.getLanguageValue('records');
         
     fa.forEach(e => {
       e.FixedAssetPropertyDetails.forEach(p => {
@@ -1224,9 +1248,11 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
 
     switch(this.key){
       case LoadDataTypes.SearchFixedAsset:
+      this.faNewSearch=[];
       Object.assign(this.faNewSearch,fixedAssetCalculate);
       break;
       case LoadDataTypes.FilterFixedAsset:
+      this.faNewFilter=[];
       Object.assign(this.faNewFilter,fixedAssetCalculate);
       break;
       default:
@@ -1242,7 +1268,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
     this.dataTable.isLoading = true;
 
     this.baseService.fixedAssetService.GetFixedAsset(_perInPage, _currentPage, false,
-      (fa: FixedAsset[], totalPage: number, message: string) => {
+      (fa: FixedAsset[], totalPage: number, totalRecords:number, message: string) => {
 
         let valueA: string = '';
         
@@ -1250,7 +1276,21 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
         this.currentPage = _currentPage;
         this.dataTable.perInPage = _perInPage;
         this.fixedAssets = fa;
+        this.totalRecords = totalRecords;
+
+        let endDisplayCount:number = this.currentPage * this.perInPage;
+        let countOfParentItems:number=this.fixedAssets.filter(x=>!x.getParentId()).length;
+        this.countOfParentItems=countOfParentItems;
+      
+        this.endDisplayCount = endDisplayCount - this.perInPage + 1;
+        this.totalDisplayItem =  this.endDisplayCount + this.countOfParentItems - 1;    
         this.totalPage = totalPage ? totalPage : 1;
+
+        
+        if(this.totalRecords > 0)
+        this.pagingInfo = this.getLanguageValue('Total')+' '+ this.totalRecords+' '+this.getLanguageValue('records_and')+' '+ this.endDisplayCount + ' '+this.getLanguageValue('with') +' '+ this.totalDisplayItem + ' ' + this.getLanguageValue('records_shown');       
+        else
+        this.pagingInfo = this.getLanguageValue('Total') +' 0 '+ this.getLanguageValue('records');
 
         fa.forEach(e => {
           e.FixedAssetPropertyDetails.forEach(p => {
@@ -1320,7 +1360,7 @@ export class FixedAssetComponent extends BaseComponent implements OnInit, AfterV
           });
         });
         
-        this.dataTable.TGT_clearData();        
+        this.dataTable.TGT_clearData();       
         this.dataTable.TGT_loadData(fa);
         this.TGT_calculatePages();
       },

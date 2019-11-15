@@ -80,7 +80,7 @@ export class CycleCountService {
               cycleCountResults.push(cycleCountResult);
             });
             console.log(cycleCountResults);
-            success(cycleCountResults, result.TotalPage);
+            success(cycleCountResults, result.TotalPage, result.TotalRecords);
           }
         },
         (error: HttpErrorResponse) => {
@@ -98,14 +98,14 @@ export class CycleCountService {
         (result: any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
-            let cycleCountResults: CycleCountResults[] = [];
+            let notFoundFixedAssets: FixedAsset[] = [];
             (<FixedAsset[]>response.ResultObject).forEach(e => {
-              let cycleCountResult: CycleCountResults = new CycleCountResults();
-              Object.assign(cycleCountResult, e);
-              cycleCountResults.push(cycleCountResult);
+              let notFoundFa: FixedAsset = new FixedAsset();
+              Object.assign(notFoundFa, e);
+              notFoundFixedAssets.push(notFoundFa);
             });
-            success(cycleCountResults, result.TotalPage);
-          }
+            success(notFoundFixedAssets, result.TotalPage,result.TotalRecords);
+          }   
         },
         (error: HttpErrorResponse) => {
           failed(error);
