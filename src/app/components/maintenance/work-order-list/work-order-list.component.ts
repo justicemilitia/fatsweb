@@ -4,10 +4,10 @@ import { BaseService } from '../../../services/base.service';
 import { BaseComponent } from '../../base/base.component';
 import { Page } from '../../../extends/TreeGridTable/models/Page';
 import { FixedAsset } from '../../../models/FixedAsset';
+import { Maintenance } from '../../../models/Maintenance';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FixedAssetCardProperty } from '../../../models/FixedAssetCardProperty';
 import { MatTabChangeEvent } from '@angular/material';
-import { Maintenance } from '../../../models/Maintenance';
 import { MaintenanceStatus } from '../../../declarations/maintenance-status.enum';
 import { MaintenanceOperations } from '../../../declarations/maintenance-operations';
 
@@ -20,7 +20,8 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
 
   /* List Of Work Orders */
   workOrders: Maintenance[] = [];
-  
+  fixedAssets: FixedAsset[] = [];
+
   currentPage: number = 1;
   perInPage: number = 25;
   totalPage: number = 1;
@@ -36,7 +37,6 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   /* Is Table Exporting */
   isTableExporting: boolean = false;
   
-  fixedAssets: FixedAsset[] = [];
   
   fixedAssetCardProperties: FixedAssetCardProperty[] = [];
 
@@ -502,7 +502,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Time'),
-        columnName: ["MaintenanceTime"],
+        columnName: ["MaintenanceTotalTime"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -598,7 +598,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Time'),
-        columnName: ["MaintenanceTime"],
+        columnName: ["MaintenanceTotalTime"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -694,7 +694,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Time'),
-        columnName: ["MaintenanceTime"],
+        columnName: ["MaintenanceTotalTime"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -790,7 +790,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Time'),
-        columnName: ["MaintenanceTime"],
+        columnName: ["MaintenanceTotalTime"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -958,7 +958,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTableFixedAssetList.perInPage = _perInPage;
-        this.fixedAssets = fa;
+         this.fixedAssets = fa;
         this.totalPage = totalPage ? totalPage : 1;
 
         fa.forEach(e => {
@@ -1106,15 +1106,15 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
 
       case MaintenanceOperations.fixBreakdown:
         if(selectedItems[0].MaintenanceTypeId==2)
-        this.FixBreakdownOperation();
+        this.FixBreakdownOperation(false);
         else
         this.WorkOrderDetailOperation();
-        
         break;
 
-      // case MaintenanceOperations.workOrderDetail:
-      //   this.WorkOrderDetailOperation();
-      //   break;
+        case MaintenanceOperations.cancelBreakdown:
+        this.FixBreakdownOperation(true);
+        break;
+
     }
   }
 
@@ -1147,7 +1147,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   
   //#region Fix Breakdown
   fixbreakdown_selectedItem: Maintenance = new Maintenance();    
-  FixBreakdownOperation(){
+  FixBreakdownOperation(isCancelled: boolean){
     let selectedItems = <Maintenance[]>this.dataTableWorkOrder.TGT_getSelectedItems();
 
     if (selectedItems.length > 1) {
@@ -1167,10 +1167,16 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     }
 
     this.fixbreakdown_selectedItem = selectedItems[0];
-
+    if(isCancelled == true){
+      this.fixbreakdown_selectedItem.isCancelled = true;
+    }
+    else{
+      this.fixbreakdown_selectedItem.isCancelled = false;
+    }
     this.popupComponent.ShowModal('#modalOperation');    
   }
   //#endregion
+  
   
   //#region Work Order Detail  
   workorderdetail_selectedItem: Maintenance = new Maintenance();    

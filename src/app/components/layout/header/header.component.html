@@ -213,11 +213,6 @@
         </li>
 
         <li class="drop-right nav-item">
-          <a routerLink="/workorderlist" class="nav-link">
-              <i class="typcn typcn-chart-line-outline"></i> {{getLanguageValue('Maintanence_Management')}}</a>
-        </li>
-
-        <li class="drop-right nav-item">
             <a href="#" onclick="return false" class="nav-link with-sub">
               <i class="typcn typcn-tabs-outline"></i>{{getLanguageValue('Consumable_Management')}}</a>
             <ul class="nav-link-item-ul">
@@ -242,7 +237,11 @@
             </ul>
           </li>
 
-
+          <li class="drop-right nav-item">
+              <a routerLink="/workorderlist" class="nav-link">
+                  <i class="typcn typcn-cog-outline"></i> {{getLanguageValue('Maintanence_Management')}}</a>
+            </li>
+    
         <!--<li class="drop-left"><a href="" onclick="return false">Drop Left</a>
           <ul>
             <li><a href="#" onclick="return false">How deep?</a>

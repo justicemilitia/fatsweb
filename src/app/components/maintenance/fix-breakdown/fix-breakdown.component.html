@@ -13,56 +13,53 @@
            <div class="col-md-12" style="padding-left:0px;">                       
               <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
               <!-- <span style="margin-left:20px;"></span> -->
-              <span style="margin-left:20px;">{{ fixBreakdown.FixedAsset.Barcode }}</span>
+              <span style="margin-left:20px;">{{ fixBreakdown.FixedAsset == null ? '' : fixBreakdown.FixedAsset.Barcode }}</span>
           </div>
     
           <!-- DEMİRBAŞ ADI -->      
           <div class="col-md-12" style="padding-left:0px;">  
-              <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>                                             
-              <span style="margin-left:20px;"></span>
+              <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>
+              <span style="margin-left:20px;">{{ fixBreakdown.FixedAsset == null ? '' : (fixBreakdown.FixedAsset.FixedAssetCard == null ? '' : fixBreakdown.FixedAsset.FixedAssetCard.Name) }}</span>              
               <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
           </div>
     
           <!-- TALEP EDEN PERSONEL -->
           <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
                 <label><b>{{getLanguageValue('Requested_User')}}:</b></label>
-                <span style="margin-left:20px;"></span>
-                <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+                <span style="margin-left:20px;">{{ fixBreakdown.RequestedUser == null ? null : fixBreakdown.RequestedUser.FirstName + ' ' + fixBreakdown.RequestedUser.LastName }}</span>
             </div>
 
           <!-- ARIZA AÇIKLAMASI -->
-          <!-- <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
-                <label><b>{{getLanguageValue('Breakdown_Description')}}:</b></label>
-                <textarea style="resize:none" rows="3" disabled></textarea>
-            </div> -->
-
             <div class="row justify-content-center">
                 <div class="col-md-12 form-group">
                     <label style="margin-bottom: 10px;">{{getLanguageValue('Breakdown_Description')}}</label>
                     <textarea name="RequestDescription" style="resize:none" rows="3"
-                    class="form-control" type="text" maxlength="150" disabled></textarea>
+                    class="form-control" type="text" maxlength="150" [(ngModel)]="fixBreakdown.RequestDescription" disabled></textarea>
                 </div>
             </div>
     
-            <img [src]="image" *ngFor="let image of imageArray" [src]="image" height="100" style="margin-right:20px; margin-top:20px; margin-bottom:20px;"> 
+
+            <fieldset class="field_set" style="padding-left: 20px;" >
+            <legend>Arıza resimleri</legend>
+                <img [src]="image" *ngFor="let image of imageArray" [src]="image" height="70" style="margin-right:15px;"> 
+            </fieldset>
 
             <!-- GÖREVLİ PERSONEL -->
             
             <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
                 <label><b>{{getLanguageValue('Attendant_User')}}:</b></label>
-                <span style="margin-left:20px;"></span>
-                <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+                <span style="margin-left:20px;"> {{maintenanceUsers}}</span>
             </div>
 
             <!-- BAKIM SÜRESİ -->
-            <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">                      
+            <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;" *ngIf= "fixBreakdown.isCancelled == false">                      
                 <label class="required-span"><b>{{getLanguageValue('Maintenance_Time')}}:</b></label>                                             
                 <input  type="time" class="form-control" trim="blur" />
                 <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
             </div>
 
             <!-- BAKIM AÇIKLAMASI -->
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" *ngIf= "fixBreakdown.isCancelled == false">
                     <div class="col-md-12 form-group">
                         <label class="required-span" style="margin-bottom: 10px;">{{getLanguageValue('Maintenance_Description')}}</label>
                         <textarea name="RequestDescription" style="resize:none" rows="3"
@@ -75,7 +72,7 @@
             </div>
 
                 <!-- RESİM EKLEME -->
-                <div class="row justify-content-center">      
+                <div class="row justify-content-center" *ngIf= "fixBreakdown.isCancelled == false">      
                         <div class="form-group col-md-12">
                         <label>{{getLanguageValue('File')}}</label>
                         <div class="file-area">
@@ -91,7 +88,7 @@
                     </div>
 
                     <!-- EKLENEN RESİMLERİ TABLODA GÖSTERME -->
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center" *ngIf= "fixBreakdown.isCancelled == false">
                         <div class="form-group col-md-12">
                             <h3></h3>     
                             <div class="property-values-table">        
@@ -107,13 +104,15 @@
       
         <!-- modal-body -->
         <div class="modal-footer">
-          <button *ngIf="isWaitingInsertOrUpdate == false" class="btn btn-az-primary" id="btnFixBreakdown" type="submit">
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false" class="btn btn-az-primary" id="btnFixBreakdown" type="submit">
             {{getLanguageValue('Fix_Breakdown')}}
           </button>
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == true" class="btn btn-az-primary" id="btnCancelBreakdown" type="submit">
+                {{getLanguageValue('Cancel_Breakdown')}}
+              </button>
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
-      
       
        <!-- GÜNCELLEME ONAY -->
        <!-- <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForReportBreakdown" style=" overflow-y: hidden !important;">

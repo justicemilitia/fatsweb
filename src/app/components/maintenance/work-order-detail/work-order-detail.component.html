@@ -13,78 +13,127 @@
       <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
   
       <!-- BARKOD -->            
-      <!-- <div class="col-md-12" style="padding-left:0px;">                       
+      <div class="col-md-12" style="padding-left:0px;">                       
         <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
-        <span style="margin-left:20px;">{{ maintenance.FixedAsset.Barcode }}</span>
-      </div> -->
+        <span style="margin-left:20px;"></span>
+        <!-- <span style="margin-left:20px;">{{ maintenance.FixedAsset.Barcode }}</span> -->
+      </div>
 
        <!-- DEMİRBAŞ ADI -->
-       <!-- <div class="col-md-12" style="padding-left:0px;">  
+       <div class="col-md-12" style="padding-left:0px;">  
           <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>
-          <span style="margin-left:20px;">{{ maintenance.FixedAsset.FixedAssetCard.Name }}</span>
-        </div> -->
+          <span style="margin-left:20px;"></span>
+          <!-- <span style="margin-left:20px;">{{ maintenance.FixedAsset.FixedAssetCard.Name }}</span> -->
+        </div>
 
       <!-- BAKIM NO -->    
-      <!-- <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
+      <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
           <label><b>{{getLanguageValue('Maintenance_Number')}}:</b></label>
-          <span style="margin-left:20px;">{{ maintenance.MaintenanceNumber }}</span>
-      </div> -->
+          <span style="margin-left:20px;"></span>
+          <!-- <span style="margin-left:20px;">{{ maintenance.MaintenanceNumber }}</span> -->
+      </div>
 
-    <div *ngFor="let workStep of workSteps; let i = index">
-      <fieldset class="field_set" style="margin-bottom:25px;">
-          <legend> 
-              <label class="ckbox">
-                  <input type="checkbox" name="IsDone" [(ngModel)]="workStep.IsDone" [checked]="workStep.IsDone"
-                  (change)="IsWorkOrderDone($event)"/>
-                  <span>{{i+1}}. iş adımı</span>
-                </label> 
-            </legend>
+    <div class="table-scroll" >      
+      <div *ngFor="let workStep of workSteps; let i = index" style="margin-top:25px;margin-right: 10px;">
+        <fieldset class="field_set" >
+            <legend> 
+                <label class="ckbox">
+                    <input type="checkbox" name="IsDone{{i}}" [(ngModel)]="workStep.IsDone" [checked]="workStep.IsDone"
+                    (change)="IsWorkOrderDone($event)"/>
+                    <span>{{i+1}}. iş adımı</span>
+                  </label> 
+              </legend>
 
-          <!-- <div class="row">
-              <span  style="margin-left:20px;">Açıklama: {{maintenance.WorkOrder.WorkSteps[i].WorkStepConsumables.WorkStepId}}</span> 
-              <input [attr.disabled]="workStep.IsDone == true ? '' : 'disabled'" type="text"name="ConsumableCardCode"class="form-control" />         
-          </div> -->
+            <!-- <div class="row">
+                <span  style="margin-left:20px;">Açıklama: {{maintenance.WorkOrder.WorkSteps[i].WorkStepConsumables.WorkStepId}}</span> 
+                <input [attr.disabled]="workStep.IsDone == true ? '' : 'disabled'" type="text"name="ConsumableCardCode"class="form-control" />         
+            </div> -->
 
-              <div class="row justify-content-center">
-          
-          <div class="col-md-8">
-              <!-- AÇIKLAMA -->
-              <div class="row justify-content-center">
-                <div class="col-md-12 form-group">
-                  <label>{{getLanguageValue('Description')}}</label>
-                  <input [(ngModel)]="workStep.Description" name="Description_{{i}}" type="text" class="form-control" trim="blur" #Description="ngModel"
-                  [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
-                </div>
-              </div>
-
-              <!-- KULLANILACAK/KULLANILAN SARF MALZEME ADETİ -->
-              <div class="row justify-content-center">
-                  <div class="col-md-6 form-group">
-                    <label>Kullanılacak Sarf Malzeme Adeti</label>
-                    <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
-                    [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                <div class="row justify-content-center" style="margin-top: 20px;">
+            
+            <div class="col-md-10">
+                <!-- AÇIKLAMA -->
+                <div class="row justify-content-center">
+                  <div class="col-md-12 form-group">
+                    <label>{{getLanguageValue('Description')}}</label>
+                    <input [(ngModel)]="workStep.Description" name="Description{{i}}" type="text" class="form-control" trim="blur" #Description="ngModel" disabled />
                   </div>
-                <!-- </div> -->
-
-                  <!-- <div class="row justify-content-center"> -->
-                    <div class="col-md-6 form-group">
-                      <label>Kullanılan Sarf Malzeme Adeti</label>
-                      <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_Used_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
-                      [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
-                    </div>
-              </div>
-          </div>
-
-          <div class="col-md-4">
-              <div *ngIf="workStep.Picture" style="width: 50%; height: 50%;; margin: 20px;">
-                  <img [src]="workStep.Picture" style="    width: 50%;
-                  height: 50%;">
                 </div>
-            </div>
-          </div>
-          
 
-        </fieldset>
+                <!-- KULLANILACAK/KULLANILAN SARF MALZEME ADETİ -->
+                <!-- <div class="row justify-content-center"> -->
+                    
+                  <!-- <div *ngFor="let workStepConsumable of workStep.WorkStepConsumables; let i = index" style="margin-top:25px;margin-right: 10px;"> -->
+                    <div class="row justify-content-center">              
+                      <!-- <div class="col-md-6 form-group">
+                        <label>Kullanılacak Sarf Malzeme Adeti</label>
+                        <input [(ngModel)]="workStepConsumable.Quantity" name="Quantity{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel" disabled/>
+                      </div> -->
+
+                      <div class="col-md-6 form-group">
+                        
+                          <!-- <table style="margin-right:15px; margin-left:15px">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <th>Kullanılacak sarf malzeme: </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let workStepConsumable of workStep.WorkStepConsumables; let i = index">
+                                  <td>*</td>
+                                  <td>{{ workStepConsumable.Consumable.ConsumableCard.ConsumableCardName (workStepConsumable.Quantity)}}</td>
+                                </tr>
+                              </tbody>
+                            </table>  -->
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                          <label>Kullanılan Sarf Malzeme Adeti</label>
+                          <input [(ngModel)]="workStepConsumable.Quantity" name="Quantity_Used_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
+                          [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                        </div>
+                      </div>
+                    <!-- </div> -->
+                      
+                  
+                  
+                  
+                  <!--<div class="col-md-6 form-group">
+                      <label>Kullanılacak Sarf Malzeme Adeti</label>
+                      <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel" disabled/>
+                    </div>
+                       <div class="col-md-6 form-group">
+                        <label>Kullanılan Sarf Malzeme Adeti</label>
+                        <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_Used_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
+                        [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                      </div> -->
+                <!-- </div> -->
+            </div>
+
+            <div class="form-group col-md-2" style="padding-left: 0px;margin-top: 10px;">
+                <div class="form-group well my-drop-zone-image">   
+                    <img *ngIf="workStep.Picture" [src]="workStep.Picture" style="width: 100%;" (click)="ShowImage(workStep.Picture)">                    
+                </div> 
+              </div>
+              <!-- <div class="form-group col-md-4">          
+                  <div class="home-banner">
+                      <div class="banner-container">
+                        <div class="banner-image">
+                            <img *ngIf="workStep.Picture" [src]="workStep.Picture" style="width: 100%;">                    
+                          
+                        </div>
+                      </div>
+                  </div>
+                </div> -->
+
+            </div>
+            
+        
+
+          </fieldset>
+      </div>
     </div>
 
     </div>
@@ -98,4 +147,23 @@
     </div>
   </form>
   
+
   
+       <!-- FOTOĞRAFI GÖSTERME POPUPI -->
+       <div class="modal" data-backdrop="static" id="modalShowImagePopup" style=" overflow-y: hidden !important;">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content tx-size-sm">
+              <div class="modal-body tx-center pd-y-20 pd-x-20">
+                  <button type="button" class="close" (click)="closeModalShowImagePopup()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="form-group well my-drop-zone-image">   
+                        <img *ngIf="imageUrl" [src]="imageUrl" style="width: 100%;">                    
+                    </div> 
+              </div><!-- modal-body -->
+            </div><!-- modal-content -->
+          </div><!-- modal-dialog -->
+        </div><!-- modal -->
+        
+  
+

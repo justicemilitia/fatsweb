@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { FixedAsset } from '../../../models/FixedAsset';
 import { WorkOrderListComponent } from '../work-order-list/work-order-list.component';
 import { BaseComponent } from '../../base/base.component';
@@ -57,9 +57,16 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
     this.dataTableFile.isMultipleSelectedActive = false;
     this.dataTableFile.isLoading = false;
 
+    console.log(this.reportBreakdown);    
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["reportBreakdown"].currentValue != changes["reportBreakdown"].previousValue) {
+      // this.GetWorkStepsByFixedAssetId();
+    }
   }
 
   onSubmit(data: NgForm) {

@@ -311,7 +311,7 @@ export class TransactionListComponent extends BaseComponent implements OnInit {
     this.isTableRefreshing = true;
 
     this.dataTable.isLoading = true;
-
+ 
     this.dataTable.TGT_clearData();
 
     this.perInPage = 25;

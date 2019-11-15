@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { FixedAsset } from '../../../models/FixedAsset';
 import { WorkOrderListComponent } from '../work-order-list/work-order-list.component';
 import { BaseService } from '../../../services/base.service';
@@ -7,7 +7,7 @@ import { Maintenance } from '../../../models/Maintenance';
 import { NgForm } from '@angular/forms';
 import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
 import { MaintenanceRequestPicture } from '../../../models/MaintenanceRequestPicture';
-import { NumberSymbol } from '@angular/common';
+import { IMAGE_URL } from '../../../declarations/service-values';
 
 @Component({
   selector: 'app-fix-breakdown',
@@ -27,6 +27,9 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
   isMoreThanFive: boolean=false;
   dtFileLength: number;
   imageArray: any[]=[];
+  maintenanceUsers: string = '';
+  isCancelled: boolean= true;
+
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
 
@@ -60,19 +63,40 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
     this.dataTableFile.isLoading = false;
 
     console.log(this.fixBreakdown);
-    // this.url="https://static8.depositphotos.com/1394326/866/i/950/depositphotos_8665977-stock-photo-bleeding-rose.jpg";
-    
-    // this.imageArray.push(this.url);
-    // this.imageArray.push(this.url);
-    // this.imageArray.push(this.url);
+    Object.assign(this.imageArray, this.fixBreakdown.MaintenanceRequestPictures);    
   }
   ngOnInit() {
   }
 
-  onSubmit(data: NgForm) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["fixBreakdown"].currentValue != changes["fixBreakdown"].previousValue) {
 
+      let path="UploadFiles/ThumbImages/thumb_";
+      this.imageArray= [];
+      this.maintenanceUsers= '';
+      for (var i = 0; i < this.fixBreakdown.MaintenanceRequestPictures.length; i++) {
+         
+          let requestPic: MaintenanceRequestPicture = new MaintenanceRequestPicture;
+          requestPic.Picture=IMAGE_URL + path + this.fixBreakdown.MaintenanceRequestPictures[i].Picture;
+          this.imageArray.push(requestPic.Picture);        
+        }
+
+        this.fixBreakdown.MaintinanceUsers.forEach((e, i) => {
+          this.maintenanceUsers += e.User == null ? '' : (e.User.FirstName + ' ' + e.User.LastName) + (i == this.fixBreakdown.MaintinanceUsers.length - 1 ? "" : ", ");
+        });
+    }
   }
 
+  onSubmit(data: NgForm) {
+
+    this.dtFileLength =this.dataTableFile.TGT_selectAllItems().length;
+    if (data.form.invalid == true && this.dtFileLength>5) return;
+
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForFixBreakdown');
+  }
+  fixBreakdownWithFileUpload(isCancelled: boolean){
+
+  }
   
   clearPictures() {
     this.maintenancePictures = [];
