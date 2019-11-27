@@ -6,6 +6,7 @@ import { User } from './User';
 import { MaintenanceStatus } from './MaintenanceStatus';
 import { FixedAsset } from './FixedAsset';
 import { WorkOrders } from './WorkOrders';
+import { MaintenanceUser } from './MaintenanceUser';
 
 export class Maintenance implements IData {
     getParentId(): number {
@@ -45,6 +46,7 @@ export class Maintenance implements IData {
     FixedAssetId:number;
     FirmId:number;
     MaintenanceStatusIds:number[];
+    isCancelled: boolean;
 
     FixedAssetCard:FixedAssetCard;
     FixedAsset: FixedAsset;
@@ -55,12 +57,12 @@ export class Maintenance implements IData {
     AttendantUser:User;
 
     MaintenanceRequestPictures: MaintenanceRequestPicture[];
-
+    MaintinanceUsers: MaintenanceUser[];
     constructor() {
-        this.FixedAssetCard = new FixedAssetCard();
-        this.FixedAsset = new FixedAsset();
-        this.WorkOrder = new WorkOrders();
-        this.RequestedUser = new User();
-        this.AttendantUser = new User();
+        // this.FixedAssetCard = new FixedAssetCard();
+        // this.FixedAsset = new FixedAsset();
+        // this.WorkOrder = new WorkOrders();
+        // this.RequestedUser = new User();
+        // this.AttendantUser = new User();
       }
 }

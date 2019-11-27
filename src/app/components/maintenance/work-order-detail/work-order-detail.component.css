@@ -8,3 +8,32 @@
     border-color: #d0cbcb;
     border-style: solid;
 }
+
+
+.my-drop-zone-image {
+    border: dotted 1px lightgray;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+  }
+
+  .home-banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.banner-image {
+    border: dotted 1px lightgray;    
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.table-scroll{
+    height: 550px;
+    overscroll-behavior-y: contain;
+    overflow-y: scroll;
+    }
+    

@@ -414,6 +414,7 @@ export const GET_VALID_WORK_ORDER_CODE ="WorkOrder/GetValidWorkOrderNumber";
 //#region WorkOrder
 export const REPORT_BREAKDOWN_WITH_FILE_UPLOAD = "WorkOrder/ReportBreakdownWithFileUpload";
 export const ADD_WORK_ORDER ="WorkOrder/AddWorkOrder";
+export const FIX_BREAKDOWN_WITH_FILE_UPLOAD ="WorkOrder/FixBreakdownWithFileUpload";
 export const UPDATE_WORK_ORDER ="WorkOrder/UpdateWorkOrder";
 //#endregion
 

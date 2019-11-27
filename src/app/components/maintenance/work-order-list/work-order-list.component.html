@@ -17,6 +17,10 @@
                     <button class="btn btn-az-primary" *ngIf="tabIndex == 1" id="btnEvaluateRequest" style="margin-right:10px;"
                     title="{{getLanguageValue('Fix_Breakdown')}}" (click)="doOperation(2)">{{getLanguageValue('Evaluate_Request')}}</button>
 
+                    
+                    <button class="btn btn-az-primary" *ngIf="tabIndex == 1" id="btnCancelRequest" style="margin-right:10px;"
+                    title="{{getLanguageValue('Cancel_Breakdown')}}" (click)="doOperation(3)">{{getLanguageValue('Cancel_Request')}}</button>
+
                     <button class="btn btn-success btn-excel-custom" (click)="exportExcel(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
                         <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                           [class.btn-refresh-loader]="isTableExporting == true"></i>
@@ -210,7 +214,7 @@
         </app-report-breakdown>
         
         <app-fix-breakdown [fixBreakdown]="fixbreakdown_selectedItem" 
-        *ngIf="currentOperation==2 && maintenanceType==2" [wolComponent]="this">
+        *ngIf="(currentOperation==2 || currentOperation==3 ) && maintenanceType==2" [wolComponent]="this">
         </app-fix-breakdown>
 
          <app-work-order-detail [workOrderDetail]="workorderdetail_selectedItem" 

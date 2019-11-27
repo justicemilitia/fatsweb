@@ -130,13 +130,14 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       },
       {
         columnDisplayName: this.getLanguageValue('Quantity_Unit'),
-        columnName: ["FreeEnterAmount"],
+        columnName: ["|FreeEnterAmount"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text",
         formatter: value => {
-          return value.FreeEnterAmount + ' ' + (value.ConsumableUnit == null ? "" :value.ConsumableUnit.ConsumableUnitName);
+          // return  '';
+          return  value.FreeEnterAmount == null ? 0 + ' ' + (value.ConsumableCard.ConsumableUnit == null ? "" : value.ConsumableCard.ConsumableUnit.ConsumableUnitName) : (value.FreeEnterAmount + ' ' + (value.ConsumableCard == null ? "" :(value.ConsumableCard.ConsumableUnit == null ? "" : value.ConsumableCard.ConsumableUnit.ConsumableUnitName)));
         }
       },
       {
@@ -237,29 +238,38 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
       {
         columnDisplayName: this.getLanguageValue('Free_Exit_Amount'),
         // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
-        columnName: ["FreeExitAmount"],
+        columnName: ["|FreeExitAmount"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.FreeExitAmount;
+        }
       },
       {
         columnDisplayName: this.getLanguageValue('Requested_Amount_Unit'),
         // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
-        columnName: ["RequestedAmount"],
+        columnName: ["|RequestedAmount"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.RequestedAmount;
+        }
       },
       {
         columnDisplayName: this.getLanguageValue('Received_Amount_Unit'),
         // columnDisplayName: this.getLanguageValue('Quantity_Unit'),
-        columnName: ["ReceivedAmount"],
+        columnName: ["|ReceivedAmount"],
         isActive: true,
         classes: [],
         placeholder: "",
-        type: "text"
+        type: "text",
+        formatter: value => {
+          return value.ReceivedAmount;
+        }
       },
       {
         columnDisplayName: this.getLanguageValue('Transaction_Date'),
