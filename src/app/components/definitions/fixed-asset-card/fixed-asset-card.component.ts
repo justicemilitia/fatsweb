@@ -26,6 +26,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
   /* Is Waiting For an update or insert */
   isWaitingInsertOrUpdate: boolean = false;
 
+  isWaitingPeriodicInsertOrUpdate: boolean = false;
+
   /* Is Table Refreshing */
   isTableRefreshing: boolean = false;
 
@@ -324,7 +326,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   updateFixedAssetCardWithMaintenance(){
             /* loading icon visible */
-            this.isWaitingInsertOrUpdate = true;
+            this.isWaitingPeriodicInsertOrUpdate = true;
 
             let willUpdateItem = new FixedAssetCard();
             Object.assign(willUpdateItem, this.fixedAssetCard);
@@ -333,7 +335,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
               (_updatedFixedAssetCard, message) => {
     
                 /* Close loading icon */
-                this.isWaitingInsertOrUpdate = false;
+                this.isWaitingPeriodicInsertOrUpdate = false;
     
                 /* Show pop up then update data in datatable */
                 this.baseService.popupService.ShowSuccessPopup(message);
@@ -351,6 +353,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
                 /* Get original source after update completed */
                 this.fixedAssetCards = <FixedAssetCard[]>this.dataTable.TGT_copySource();
     
+                this.baseService.workOrderService.saveWorkInfo(updatedFixedAssetCard.FixedAssetCardId,updatedFixedAssetCard.WorkOrderFixedAssetCards[0].WorkOrderId);
+
                 this.baseService.router.navigate(['/periodicmaintenance'], {
                   queryParams: {
                     updatedFixedAssetCardId:updatedFixedAssetCard.FixedAssetCardId,
@@ -363,7 +367,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
               }, (error: HttpErrorResponse) => {
     
                 /* Close loader */
-                this.isWaitingInsertOrUpdate = false;
+                this.isWaitingPeriodicInsertOrUpdate = false;
     
                 /* Show error message */
                 this.baseService.popupService.ShowErrorPopup(error);
@@ -463,7 +467,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
 
   AddPeriodicMaintenance(data:NgForm){
         /* Say user to wait */
-        this.isWaitingInsertOrUpdate = true;
+        this.isWaitingPeriodicInsertOrUpdate = true;
 
       if(this.fixedAssetCard.FixedAssetCardId == null){
         /* Insert Fixed Asset Card service */
@@ -471,7 +475,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
           (insertedItem: FixedAssetCard, message) => {
     
             /* Change loading bar status */
-            this.isWaitingInsertOrUpdate = false;
+            this.isWaitingPeriodicInsertOrUpdate = false;
     
             /* Show Success popup */
             this.baseService.popupService.ShowSuccessPopup(message);
@@ -492,6 +496,10 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
             /* Reset Modal form */
             this.resetForm(data, true);
 
+            this.baseService.workOrderService.saveFaInfo(insertedItem.FixedAssetCardId);
+
+            this.baseService.workOrderService.removeWorkOrderInfo();
+
             this.baseService.router.navigate(['/periodicmaintenance'], {
               queryParams: {
                 insertedFixedAssetCardId:insertedItem.FixedAssetCardId   
@@ -506,7 +514,7 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
           }, (error: HttpErrorResponse) => {
     
             /* Change loading bar status */
-            this.isWaitingInsertOrUpdate = false;
+            this.isWaitingPeriodicInsertOrUpdate = false;
     
             /* Show alert message */
             this.baseService.popupService.ShowErrorPopup(error);
@@ -514,6 +522,8 @@ export class FixedAssetCardComponent extends BaseComponent implements OnInit {
           });
         }
         else{
+          this.baseService.workOrderService.saveFaInfo(this.fixedAssetCard.FixedAssetCardId);
+
           this.baseService.router.navigate(['/periodicmaintenance'], {
             queryParams: {
               insertedFixedAssetCardId:this.fixedAssetCard.FixedAssetCardId,

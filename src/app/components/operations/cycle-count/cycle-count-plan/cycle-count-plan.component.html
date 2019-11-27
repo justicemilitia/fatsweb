@@ -243,8 +243,16 @@
                   </div>
                 </div>
                 <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="startTime"
-                [(ngModel)]="cycleCountPlan.StartTime" ngbDatepicker #startTime="ngbDatepicker" #startTimeModel="ngModel"/>      
-            </div>
+                [(ngModel)]="cycleCountPlan.StartTime" ngbDatepicker #startTime="ngbDatepicker" #startTimeModel="ngModel"
+                [class.is-invalid]="data.submitted && (!cycleCountPlan.StartTime || startTimeModel.status == 'INVALID' )"
+                required/>      
+                  <div *ngIf="data.submitted && startTimeModel.invalid" class="invalid-feedback">
+                  <div *ngIf="startTimeModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                  <div *ngIf="!startTimeModel.errors.required && startTimeModel.status == 'INVALID'">
+                    {{getLanguageValue('Format_is_not_valid')}}
+                  </div>
+                </div> 
+               </div>
             </div>
             <div class="form-group col-md-6">
                 <label>{{getLanguageValue('End_Date')}}</label>
@@ -255,7 +263,15 @@
                     </div>
                   </div>
                   <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="endTime"
-                  [(ngModel)]="cycleCountPlan.EndTime" ngbDatepicker #endTime="ngbDatepicker" #endTimeModel="ngModel"/> 
+                  [(ngModel)]="cycleCountPlan.EndTime" ngbDatepicker #endTime="ngbDatepicker" #endTimeModel="ngModel"  
+                  [class.is-invalid]="data.submitted && (!cycleCountPlan.EndTime || endTimeModel.status == 'INVALID' )"
+                  required/> 
+                  <div *ngIf="data.submitted && endTimeModel.invalid" class="invalid-feedback">
+                    <div *ngIf="endTimeModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                    <div *ngIf="!endTimeModel.errors.required && endTimeModel.status == 'INVALID'">
+                      {{getLanguageValue('Format_is_not_valid')}}
+                    </div>
+                  </div> 
                </div>
               </div>
           </div>          
@@ -273,7 +289,7 @@
               <label style="margin-bottom: 0;
               font-weight: 700;" >{{getLanguageValue('Counting_Location')}}</label>                
               <div style="display:flex;">
-              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + getLanguageValue('The_Location_Selected') : getLanguageValue('Choose') }}</button>
+              <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" [class.dropdown-button-valid]="data.submitted && !selectedLocation" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length +' '+ getLanguageValue('The_Location_Selected') : getLanguageValue('Choose') }}</button>
                 <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
               </div>   
               <div *ngIf="data.submitted && !selectedLocation" style="color:red">
@@ -318,7 +334,7 @@
   </button>
 </div>
 
-<form name="form" #data="ngForm" (ngSubmit)="lostFixedAsset(data)">
+<form name="form" #dataLost="ngForm" (ngSubmit)="lostFixedAsset(dataLost)">
     <div class="modal-body">
       <div>
         <p style="width:500px;">{{getLanguageValue('Choosen_countin_ plans_are_going_to_be_canceled_Do_you_accept_this_process!')}}</p>

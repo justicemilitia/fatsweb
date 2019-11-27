@@ -427,6 +427,7 @@ export const GET_WORK_STEPS_BY_FIXED_ASSET_ID ="WorkStep/GetWorkStepsByFixedAsse
 export const GET_WORK_ORDER_PERIOD_TYPES = "WorkStep/GetPeriodTypes";
 export const GET_WORK_STEP_LIST_BY_WORK_ORDER_ID = "WorkStep/GetWorkStepListByWorkOrderId";
 export const GET_WORKSTEPDETAIL_BY_WORK_STEP_ID = "WorkStep/GetWorkStepDetailByWorkStepId";
+export const GET_WORKSTEPLIST_BY_FIXEDASSETCARD_ID = "WorkStep/GetWorkStepListByFixedAssetCardId";
 //#endregion
 
 

@@ -27,9 +27,19 @@ export class WorkStep implements IData{
     Picture:string;
     IsDone:boolean;
     ConsumableCardId:number;
+    imageName:string;
 
     WorkStepConsumables: WorkStepConsumables[];
     
     ConsumableProperties:ConsumableProperties[];    
     Consumables: Consumable[];
+
+    /**
+     *
+     */
+    constructor() {
+        this.WorkStepConsumables=[];
+        this.ConsumableProperties=[];
+        this.Consumables =[];      
+    }
 }

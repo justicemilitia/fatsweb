@@ -56,5 +56,10 @@ export class Consumable implements IData{
 
     constructor(){
         this.InverseConsumableParent = [];
+
+        this.FixedAssetPropertyDetails=[];
+
+        this.ConsumableCard=new ConsumableCard();
+        
     }
 }

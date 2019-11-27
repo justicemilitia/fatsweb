@@ -6,6 +6,7 @@ import { FixedAssetCardModel } from './FixedAssetCardModel';
 import { IData } from '../extends/TreeGridTable/models/interfaces/IData';
 import { User } from './User';
 import { WorkStepConsumables } from './WorkStepConsumables';
+import { Consumable } from './Consumable';
 
 export class ConsumableProperties implements IData{
     getParentId(): number {
@@ -54,6 +55,14 @@ export class ConsumableProperties implements IData{
     ConsumableCardIds:number[];
     ConsumableLocationIds:number[];
     FixedAssetPropertyArray:FixedAssetPropertyDetails[];
+    Consumable:Consumable;
+    
+    /**
+     *
+     */
+    constructor() {
+       this.Consumable = new Consumable();
+    }
 
 
 }

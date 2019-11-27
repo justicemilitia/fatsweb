@@ -15,15 +15,13 @@ import { WorkStep } from 'src/app/models/WorkStep';
 import { WorkOrderPeriodTypes } from 'src/app/models/WorkOrderPeriodTypes';
 import { WorkStepConsumables } from 'src/app/models/WorkStepConsumables';
 import { NgForm } from '@angular/forms';
+import { FixedAssetPropertyDetails } from 'src/app/models/FixedAssetPropertyDetails';
 @Component({
   selector: 'app-periodic-maintenance',
   templateUrl: './periodic-maintenance.component.html',
   styleUrls: ['./periodic-maintenance.component.css']
 })
-export class PeriodicMaintenanceComponent extends BaseComponent implements OnInit, Resolve<FixedAssetCard> {
-
-  @Output('onClickItem') onClickItem: EventEmitter<any> = new EventEmitter();
-  
+export class PeriodicMaintenanceComponent extends BaseComponent implements OnInit {   
   
   consumableCards:ConsumableCard[]=[];
 
@@ -57,6 +55,10 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
   WorkOrderId:number;
 
+  WorkStepId:number = 0;
+
+  isInsertDescription:boolean=false;
+
   periods:WorkOrderPeriodTypes[]=[];
 
    /* Is Waititing for a request */
@@ -82,6 +84,10 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
    imageName:string = '';
 
+   newWorkStep:WorkStep=new WorkStep();
+
+   required:boolean=false;
+
    periodTypeEnum =
    {
        Day:1,
@@ -93,7 +99,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
    week:number = 52;
    month:number = 12;
  
-   periodArray:number[]=[];
+   periodArray:WorkOrderPeriodTypes[]=[];
 
    insertedPeriodTypeValue:number = null;
 
@@ -107,24 +113,18 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
    
    visibleWorkOrderButton:boolean=false;
 
+   counter:number=0;
+
    visibleWorkStepButton:boolean=false;
  
    ngAfterViewInit(): void {
     this.baseService.activeRoute.queryParams.subscribe(params => {
       this.fixedAssetCardId = params.insertedFixedAssetCardId == null ? params.updatedFixedAssetCardId : params.insertedFixedAssetCardId,
-      this.WorkOrderId = params.updatedWorkOrderId   
-      if(params.updatedWorkOrderId == null)
-        this.visibleWorkOrderButton=true;
-      else
-        this.visibleWorkOrderButton=false;         
-
-     this.loadFixedAssetCard(this.fixedAssetCardId);
-
-    //this.loadFixedAssetCardWithWorkOrder(this.WorkOrderId);
-
+      this.WorkOrderId = params.updatedWorkOrderId  
     });
    }
 
+//#region DataTables
   public dataTablePropertyValue: TreeGridTable = new TreeGridTable(
     "consumablepropertyvalue",
     [      
@@ -169,26 +169,27 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
       column: ["WorkStepRowId"]   
     }
   );
-
+  //#endregion
+  
   constructor(public baseService: BaseService) {
 
-    super(baseService);
+    super(baseService);   
+    
+    this.loadFixedAssetCard(Number(this.baseService.workOrderService.GetFixedAssetInfo()));
+
+    if(this.baseService.workOrderService.GetWorkOrderInfo() == null )
+      this.loadWorkOrderCode();
 
     this.loadConsumableCardDropdown();
 
     this.loadFixedAssetProperties();
 
-    this.loadWorkOrderCode();
-
     this.GetWorkOrderPeriodTypes();
 
-    if(this.workOrders.length == 0)
-    this.isUpdateOrInsertMaintenance = true;
-    else
-    this.isUpdateOrInsertMaintenance = false;
-
-    if(this.dataTableWorkStep.TGT_copySource().length != 0)
+    if(this.dataTableWorkStep.TGT_copySource().length != 0){
       this.disablebtnAddWorkOrder=false;
+      this.WorkStepRowId = this.dataTableWorkStep.TGT_copySource().length + 1;
+    }
 
     this.dataTablePropertyValue.isPagingActive = false;
     this.dataTablePropertyValue.isTableEditable = false;
@@ -197,58 +198,79 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     this.dataTablePropertyValue.isLoading = false;
     this.dataTablePropertyValue.isScrollActive = true;
     this.dataTablePropertyValue.isDeleteable=false;
+    this.dataTablePropertyValue.isFilterActive = false;
 
     this.dataTableWorkStep.isColumnOffsetActive = false;
     this.dataTableWorkStep.isPagingActive = false;   
     this.dataTableWorkStep.isLoading = false;
     this.dataTableWorkStep.isScrollActive = true;
-    this.dataTablePropertyValue.isFilterActive = false;
-    this.dataTablePropertyValue.isDeleteable = true;
+    this.dataTableWorkStep.isMultipleSelectedActive = false;
 
    }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):FixedAssetCard {
-
-    return undefined; 
+   ngOnInit() {
   }
 
-  ngOnInit() {
+   onSubmit(data:NgForm){
+    if(this.baseService.workOrderService.GetWorkOrderInfo() == null)
+      this.addWorkOrder(data);
+    else
+      this.updateWorkOrder(data);
   }
 
   //#region Load Data
   async loadFixedAssetCard(fixedAssetCardId:number){
-    if(this.WorkOrderId == null){
+    if(this.baseService.workOrderService.GetWorkOrderInfo() == null){
+
+    this.visibleWorkOrderButton = true;
+
+    this.isUpdateOrInsertMaintenance = true;
+
     this.baseService.fixedAssetCardService.GetFixedAssetCardById(
       fixedAssetCardId ,
       (result: FixedAssetCard) => {
+
+        this.baseService.spinner.show();
         /* then bind it to fixed asset card category model to update */
         setTimeout(() => {
-
+         
           /* bind result to model */
           Object.assign(this.fixedAssetCard, result);
           
           this.categoryName = result.FixedAssetCardCategory.Name;      
 
         }, 1000);
+
+        this.baseService.spinner.hide();
       },
       (error: HttpErrorResponse) => {
         /* show error message */
         this.baseService.popupService.ShowErrorPopup(error);
 
+        this.baseService.spinner.hide();
       }
     );
   }else{
-    this.loadFixedAssetCardWithWorkOrder(this.WorkOrderId);
+    this.visibleWorkOrderButton = false;
+
+    this.loadFixedAssetCardWithWorkOrder(Number(this.baseService.workOrderService.GetFixedAssetInfo()));
   }
   }
 
-  async loadFixedAssetCardWithWorkOrder(workOrderId:number){
+  async loadWorkOrderByWorkOrderId(workOrderId:number){
     let workOrdersId:WorkOrders=new WorkOrders();
+
     workOrdersId.WorkOrderId = workOrderId;
+
+    this.baseService.spinner.show();
+
     this.baseService.workOrderService.GetWorkStepListByWorkOrderId(workOrdersId,
     (workOrder:WorkOrders)=>{
 
+      this.workOrderCode=String(workOrder.WorkOrderCode);
+
       let workSteps:WorkStep[]=[];
+
       workOrder.WorkSteps.forEach(e=>{
         let workStep:WorkStep=new WorkStep();
         Object.assign(workStep,e);
@@ -261,13 +283,154 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
         this.fixedAssetCard.FixedAssetCardCode = fixedAssetCard.FixedAssetCardCode;
         this.fixedAssetCard.Name = fixedAssetCard.Name;
         this.categoryName = fixedAssetCard.FixedAssetCardCategory.Name;
+        this.workOrder.PeriodTypeId = workOrder.FixedAssetCardPeriods[0].PeriodTypeId;
+        this.workOrder.Frequency = workOrder.FixedAssetCardPeriods[0].Frequency;
       }
 
       this.dataTableWorkStep.TGT_loadData(workSteps);
 
+      this.WorkStepRowId = this.dataTableWorkStep.TGT_copySource().length + 1;
+
+      this.baseService.spinner.hide();
+
+    },(error:HttpErrorResponse)=>{
+      this.baseService.spinner.hide();
+
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+  }
+
+ async loadFixedAssetCardWithWorkOrder(fixedAssetCardId:number){
+  
+    this.baseService.workOrderService.GetWorkStepListByFixedAssetCardId(fixedAssetCardId,
+    (workOrder:WorkOrders[])=>{
+
+      this.workOrders = workOrder;
+
+      if(workOrder.length > 1)
+        this.isUpdateOrInsertMaintenance = false;
+      else
+        this.isUpdateOrInsertMaintenance = true;
+      
+      Object.assign(this.workOrder,workOrder[0]);
+
+      this.workOrderCode = this.workOrder.WorkOrderCode.toString();
+      
+      this.workOrder.Frequency = this.workOrder.FixedAssetCardPeriods[0].Frequency;
+
+      this.workOrder.PeriodTypeId = this.workOrder.FixedAssetCardPeriods[0].PeriodTypeId;
+
+      switch(this.workOrder.PeriodTypeId){
+        case this.periodTypeEnum.Day:
+        this.periodArray = this.loadPeriodNumberByPeriodType(this.day);     
+        break;
+        case this.periodTypeEnum.Week:
+        this.periodArray = this.loadPeriodNumberByPeriodType(this.week);
+        break;
+        case this.periodTypeEnum.Month:
+        this.periodArray = this.loadPeriodNumberByPeriodType(this.month);
+        break;
+        }      
+
+      let workSteps:WorkStep[]=[];
+
+      this.workOrder.WorkSteps.forEach(e=>{
+        let workStep:WorkStep=new WorkStep();
+        Object.assign(workStep,e);
+        workSteps.push(workStep);
+      });   
+
+      if(this.workOrder.FixedAssetCardPeriods[0] != null){
+        let fixedAssetCard:FixedAssetCard=new FixedAssetCard();
+        Object.assign(fixedAssetCard,this.workOrder.FixedAssetCardPeriods[0].FixedAssetCard);
+        this.fixedAssetCard.FixedAssetCardCode = fixedAssetCard.FixedAssetCardCode;
+        this.fixedAssetCard.Name = fixedAssetCard.Name;
+        this.categoryName = fixedAssetCard.FixedAssetCardCategory.Name;
+      }
+
+      this.dataTableWorkStep.TGT_loadData(workSteps);
+
+      this.WorkStepRowId = this.dataTableWorkStep.TGT_copySource().length + 1;
+
     },(error:HttpErrorResponse)=>{
       this.baseService.popupService.ShowErrorPopup(error);
     });
+  }
+
+  getWorkOrderByWorkOrderId(event:any){
+    let workOrderId:number = Number(event.target.value);
+
+    if(workOrderId != -1)
+      this.loadWorkOrderByWorkOrderId(workOrderId);
+    else{
+    this.workOrders.filter(x=>x.WorkOrderId == -1).forEach(t=>{
+      this.workOrderCode = t.WorkOrderCode.toString();
+    });
+    }  
+  }
+
+  AddNewWorkOrder(){
+
+    this.resetWorkStep();
+
+    this.workSteps=[];
+
+    this.dataTableWorkStep.TGT_clearData();
+
+    this.workOrder = new WorkOrders();   
+
+    this.baseService.workOrderService.GetValidWorkOrderNumber((workOrderCode) => {
+ 
+      this.visibleWorkOrderButton = true;
+
+      this.visibleWorkStepButton =  false;
+  
+      this.WorkStepRowId=1;
+  
+      this.baseService.workOrderService.removeWorkOrderInfo();
+
+      this.workOrderCode = workOrderCode;
+  
+      this.isUpdateOrInsertMaintenance = false;
+
+      console.log(this.workOrders);
+    },(error:HttpErrorResponse) => {
+
+      this.baseService.popupService.ShowErrorPopup(error);
+
+    });
+  }
+ 
+  onDelete(){
+    this.popupComponent.ShowModal('#modalShowDeletePopupForWorkStep');
+  }
+
+  deleteWorkStep(){
+
+    this.popupComponent.CloseModal('#modalShowDeletePopupForWorkStep');
+
+    this.consumableCardUnit = ' ';
+
+    let workSteps:WorkStep[]= <WorkStep[]>this.dataTableWorkStep.TGT_copySource();
+
+    workSteps = workSteps.filter(x=>x.WorkStepId != this.WorkStepId);
+
+    let stepRow:number=1;
+
+    workSteps.forEach(t=>{
+      t.WorkStepRowId = stepRow;
+      stepRow++;
+    });
+
+    this.dataTableWorkStep.isLoading=true;
+
+    this.dataTableWorkStep.TGT_loadData(workSteps);
+
+    this.dataTableWorkStep.isLoading=false;
+
+    this.WorkStepRowId = this.dataTableWorkStep.TGT_copySource().length + 1;
+
+    this.resetWorkStep();
   }
 
   async loadConsumableCardDropdown(){
@@ -328,7 +491,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     },(error:HttpErrorResponse) => {
       this.baseService.popupService.ShowErrorPopup(error);
     });
-  }
+   }
 
   loadConsumablesByConsumableCardId(event:any){
 
@@ -342,8 +505,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
       this.consumableCardUnit=this.consumables[0].ConsumableCard.ConsumableUnit.ConsumableUnitName;
       //this.consumableCardUnit= // Apiden gelen alana göre birimleri çek
 
-      this.
-      consumables.forEach(e=>{
+      this.consumables.forEach(e=>{
         e.FixedAssetPropertyDetails.forEach( p => {
           e["PROP_" + p.FixedAssetCardPropertyId.toString()]=p.Value;
         });
@@ -359,13 +521,6 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     });
   }
   //#endregion
-
-  onSubmit(data:NgForm){
-    if(this.WorkOrderId == null)
-      this.addWorkOrder(data);
-    else
-      this.updateWorkOrder(data);
-  }
 
   updateWorkOrder(data:NgForm){
       /* Check model state */
@@ -383,6 +538,8 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
   this.baseService.workOrderService.UpdateWorkOrder(this.workOrder,(result,message:string)=>{
     this.baseService.popupService.ShowSuccessPopup(message);
+
+    data.resetForm();
   },
   (error:HttpErrorResponse)=>{
     this.baseService.popupService.ShowErrorPopup(error);
@@ -395,6 +552,10 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     else{
     this.isConsumableUse = false;
     this.requiredConsumable = false;
+    this.consumableCardsWithConsumableObject=[];
+    this.workStep.Quantity=null;
+    this.consumableCardUnit=' ';
+    this.dataTablePropertyValue.TGT_clearData();    
     }    
   }
 
@@ -402,22 +563,33 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
     this.insertConsumableProperties=true;
 
+    this.isInsertDescription=true;
+
     let consumableWithProperties:ConsumableProperties[] = <ConsumableProperties[]>this.dataTablePropertyValue.TGT_getSelectedItems();
 
     let consumableWithProperty:ConsumableProperties=new ConsumableProperties();
     
-    if(consumableWithProperties.length == 0){
+    if(consumableWithProperties.length == 1){
+      this.requiredConsumable = false;
+      if((this.workStep.Quantity != null || this.workStep.Quantity != undefined) && this.workStep.Quantity != 0)
+        this.insertConsumableProperties = true;
+      else
+      return;   
+    }  
+    else{    
       this.requiredConsumable = true;
       return;
-    }else{    
-      this.requiredConsumable = false;
-        if((this.workStep.Quantity != null || this.workStep.Quantity != undefined) && this.workStep.Quantity != 0)
-        this.insertConsumableProperties = true;
-        else
-        return;
     }
 
+    this.errorMessage = false;
+
     Object.assign(consumableWithProperty,consumableWithProperties[0]);      
+
+    consumableWithProperties.forEach(e=>{
+      consumableWithProperty.Consumable.ConsumableCard = e.ConsumableCard;
+      consumableWithProperty.ConsumableCard = e.ConsumableCard;
+    });
+
 
     if(this.consumableCardsWithConsumableObject.length > 0){
     let count:number=0;
@@ -429,6 +601,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
         this.workStep.Quantity = x.Quantity + this.workStep.Quantity;
 
+        
         this.addPropertyArray(consumableWithProperty);
         count++;
         return;
@@ -465,72 +638,49 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   this.consumableCardsWithConsumableObject.push(consumableWithProperty);
   }
 
-  insertWorkStepToDataTableWorkStep(data:NgForm){    
+  insertWorkStepToDataTableWorkStep(data:NgForm){   
+    let stepRow:number;
+
+    this.isWaitingInsertWorkStep = true;    
+    
+    this.isInsertDescription=true;
 
     let dataTableWorkStep:WorkStep[]=<WorkStep[]>this.dataTableWorkStep.TGT_copySource();
 
-    this.isWaitingInsertWorkStep = true;    
-
-    let workStep:WorkStep = new WorkStep();
-
-    if(dataTableWorkStep.length > 0)
-    dataTableWorkStep.forEach(e=>{
-      let workStep:WorkStep=new WorkStep();
-      Object.assign(workStep,e);
-      this.workSteps.push(workStep);
-    });     
-    
-    let workStepConsumables:WorkStepConsumables[]=[];
-
-    let stepRow:number;
-
-    if(this.isConsumableUse == true && (this.workStep.ConsumableCardId && this.workStep.Quantity && this.dataTablePropertyValue.TGT_getSelectedItems().length == 0 && this.consumableCardsWithConsumableObject.length == 0)){
+    if(this.isConsumableUse == true &&      
+   this.consumableCardsWithConsumableObject.length == 0){
       this.errorMessage = true;
       this.isWaitingInsertWorkStep = false; 
       return;
     }
     else
     this.errorMessage=false;
-   
-    if(this.dataTableWorkStep.TGT_copySource().length != 0){
-      stepRow = this.dataTableWorkStep.TGT_copySource().length + 1;
-    }else{
-      stepRow = 1;
-    }    
 
-    this.insertWorkStep = true;
-
-    Object.assign(workStep,this.workStep);
-
-    if(data.value.Description != undefined)
-    workStep.Description = data.value.Description;     
+    if(data.value.Description != undefined && this.workStep.Description != "")
+    this.workStep.Description= data.value.Description;     
     else{
       this.isWaitingInsertWorkStep = false;
-
+      this.workStep = new WorkStep();
+      this.isWaitingInsertWorkStep = false; 
       return;
     }
+    
 
-    workStep.WorkStepRowId=stepRow;
+    this.createWorkStepObject(data);
+   
+    stepRow=this.WorkStepRowId; 
 
-    workStep.WorkStepId = (dataTableWorkStep.length + 1)*-1;
+    this.newWorkStep.WorkStepRowId=stepRow;
 
-    workStep.Picture = this.FixedAssetCardPicture;
+    this.newWorkStep.WorkStepId = (this.dataTableWorkStep.TGT_copySource().length + 1) * -1;
+    
+    this.newWorkStep.Picture = this.FixedAssetCardPicture;
 
-    this.consumableCardsWithConsumableObject.forEach(x=>{
-      
-      let workStepConsumable:WorkStepConsumables=new WorkStepConsumables();
+    this.newWorkStep.imageName=this.imageName;
 
-      workStepConsumable.Quantity = x.Quantity;
+    Object.assign(this.workSteps,dataTableWorkStep);
 
-      workStepConsumable.ConsumableId=x.ConsumableId;   
-
-      workStepConsumables.push(workStepConsumable);
-    });
-
-    workStep.WorkStepConsumables=workStepConsumables;
-
-    this.workSteps.push(workStep);
-
+    this.workSteps.push(this.newWorkStep);
   
     setTimeout(()=>{
       this.isWaitingInsertWorkStep=false;         
@@ -540,17 +690,111 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
       this.WorkStepRowId = stepRow + 1;
 
       this.disablebtnAddWorkOrder=true;
-    },1000);
 
-    this.resetWorkStep();
+      this.isInsertDescription=false;
+
+      this.WorkStepId++;
+
+      this.resetWorkStep();
+    },1000);
   }
 
   updateWorkStepToDataTableWorkStep(data:NgForm){
-    this.visibleWorkStepButton=true;
+
+    this.visibleWorkStepButton=false;
+
+    this.isWaitingInsertWorkStep = true;    
+
+    this.isInsertDescription=true;
+
+    let dataTableWorkStep:WorkStep[]=<WorkStep[]>this.dataTableWorkStep.TGT_copySource();
+
+
+      if(this.isConsumableUse == true &&  this.consumableCardsWithConsumableObject.length == 0){
+          this.errorMessage = true;
+          this.isWaitingInsertWorkStep = false; 
+          this.visibleWorkStepButton = true;
+          return;
+        }
+        else
+        this.errorMessage=false;
+    
+        if(data.value.Description != undefined && this.workStep.Description != "")
+        this.workStep.Description= data.value.Description;     
+        else{
+          this.isWaitingInsertWorkStep = false;
+          this.visibleWorkStepButton = true;
+          this.workStep = new WorkStep();
+          return;
+        }
+
+    let updateWorkStep:WorkStep[] = <WorkStep[]>this.dataTableWorkStep.TGT_copySource();
+
+    updateWorkStep = updateWorkStep.filter(x=>x.WorkStepId!= this.workStep.WorkStepId);
+    
+
+    this.createWorkStepObject(data);
+
+    this.newWorkStep.WorkStepId = this.workStep.WorkStepId;
+
+    updateWorkStep.push(this.newWorkStep);    
+    
+    setTimeout(()=>{
+      this.WorkStepId++;
+
+      this.isWaitingInsertWorkStep=false;         
+
+      this.dataTableWorkStep.TGT_loadData(updateWorkStep);
+      
+      this.WorkStepRowId = this.dataTableWorkStep.TGT_copySource().length + 1;
+
+      this.disablebtnAddWorkOrder=true;
+
+      this.isInsertDescription=false;
+
+      this.visibleWorkStepButton=false;
+
+      this.resetWorkStep();
+    },1000);
+  }
+
+  createWorkStepObject(data:NgForm){
+
+    this.newWorkStep = new WorkStep();
+    
+
+    let workStepConsumables:WorkStepConsumables[]=[];    
+    
+    Object.assign(this.newWorkStep,this.workStep);
+
+    this.newWorkStep.WorkStepRowId = this.WorkStepRowId;
+
+    this.newWorkStep.Picture = this.FixedAssetCardPicture;
+
+    this.consumableCardsWithConsumableObject.forEach(x=>{
+      
+      let workStepConsumable:WorkStepConsumables=new WorkStepConsumables();
+
+      workStepConsumable.Quantity = x.Quantity;
+
+      workStepConsumable.ConsumableId=x.ConsumableId;    
+
+      Object.assign(workStepConsumable.Consumable.ConsumableCard,x.Consumable.ConsumableCard);
+
+      workStepConsumable.Consumable.ConsumableCard.FixedAssetPropertyDetails = x.Consumable.ConsumableCard.FixedAssetPropertyDetails;   
+    
+      workStepConsumables.push(workStepConsumable);
+    });
+
+   // this.newWorkStep.WorkStepId = (this.WorkStepId + 1) *-1;
+
+    this.newWorkStep.WorkStepConsumables=workStepConsumables;
   }
 
   resetWorkStep(){
     this.insertWorkStep = false;
+
+    this.workSteps=[];
 
     this.workStep = new WorkStep();
 
@@ -563,9 +807,11 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     this.isConsumableUse = false;
 
     this.imageName='';
+
+    this.consumableCardUnit = ' ';
   }
 
-    GetWorkOrderPeriodTypes(){
+  GetWorkOrderPeriodTypes(){
     this.baseService.workOrderService.GetWorkOrderPeriodTypes((periods:WorkOrderPeriodTypes[])=>{
 
       Object.assign(this.periods,periods);
@@ -577,7 +823,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     });
   }
 
-    selectPeriod(event:any){
+  selectPeriod(event:any){
     if(event.target.selectedIndex==0)
       {
         this.periodArray=[];
@@ -600,11 +846,14 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
       }
   }
 
-    loadPeriodNumberByPeriodType(key:number):number[]{
-    let periods:number[]=[];
+  loadPeriodNumberByPeriodType(key:number):WorkOrderPeriodTypes[]{
+    let periods:WorkOrderPeriodTypes[]=[];
 
     for (let i = 1; i <= key; i++) {
-      periods.push(i);                          
+      let period:WorkOrderPeriodTypes = new WorkOrderPeriodTypes();
+      period.FrequencyId = i;
+      period.Frequency = i;
+      periods.push(period);                          
     }
 
     return periods;
@@ -629,56 +878,109 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
    this.workOrder.FixedAssetCardId = this.fixedAssetCardId;
    
-   this.workOrder.WorkOrderCode = Number(this.workOrderCode);   
+   this.workOrder.WorkOrderCode = Number(this.workOrderCode);      
 
-   
-
-    this.baseService.workOrderService.AddWorkOrder(this.workOrder,(message)=>{
+    this.baseService.workOrderService.AddWorkOrder(this.workOrder,(workOrder:WorkOrders,message)=>{
       this.baseService.popupService.ShowSuccessPopup(message);
+
       this.visibleWorkOrderButton=false;
+
+      this.workOrders.push(workOrder);
+
+      data.resetForm();
+
     },(error:HttpErrorResponse)=>{
      /* show error message */
      this.baseService.popupService.ShowErrorPopup(error);
     });
   }
 
-  async onDoubleClickItem(item: WorkStep) {
+  async onDoubleClickItem(item: WorkStep) {  
+
+    this.errorMessage = false;
+
+    this.consumableCardsWithConsumableObject=[];
+
+    if(item.WorkStepId < 0){   
     
-    this.visibleWorkStepButton=false;
+      this.WorkStepId = item.WorkStepId;
 
-    if(item.WorkStepId < 0){
-      
+      this.getWorkStepItem(item);
+
+      this.IsUsedConsumable(item);
+
     }else{
-      this.baseService.workOrderService.GetWorkStepDetailByWorkStepId(item.WorkStepId,(workStep:WorkStep)=>{
 
-        Object.assign(this.workStep,workStep);
+      this.WorkStepId = item.WorkStepId;
 
-        workStep.WorkStepConsumables.forEach(e=>{ 
-          let properties:string='';
-  
-        for (let i = 0; i < e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length; i++) {
-            properties+= e.Consumable.ConsumableCard.FixedAssetPropertyDetails[i].Value + ( e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length - i == 1 ? "" : ",");                                  
-        }
-  
-        properties = e.Consumable.ConsumableCard.ConsumableCardName + ": " + properties + "("+ e.Quantity +" "+ e.Consumable.ConsumableCard.ConsumableUnit.ConsumableUnitName +")";
-  
-        let consumableWithProperty:ConsumableProperties=new ConsumableProperties();
-  
-        Object.assign(consumableWithProperty,e);
+      this.baseService.workOrderService.GetWorkStepDetailByWorkStepId(item.WorkStepId,(workStep:WorkStep)=>{      
 
-        consumableWithProperty.properties=properties;
-  
-        this.consumableCardsWithConsumableObject.push(consumableWithProperty);
-        });
-  
+        this.getWorkStepItem(workStep);
+        
       },(error:HttpErrorResponse)=>{
         this.baseService.popupService.ShowErrorPopup(error);
       });
     }
   }
+
+  IsUsedConsumable(item:WorkStep){
+   if(item.IsConsumableUsed == true)   
+    this.isConsumableUse = true;
+   else{
+    this.isConsumableUse = false;
+    this.errorMessage=false;
+    this.consumableCardsWithConsumableObject = [];
+   }
+  }
+
+  async getWorkStepItem(item:WorkStep){
+
+    this.visibleWorkStepButton=true;
+
+    Object.assign(this.workStep,item);
+
+    this.WorkStepRowId= item.WorkStepRowId;
+
+    this.isConsumableUse=item.IsConsumableUsed;
+
+    if(item.WorkStepId<0)
+    this.imageName = item.imageName;
+    else
+    this.imageName =item.Picture;
+
+    item.WorkStepConsumables.forEach(e=>{
+
+      let properties:string='';      
+  
+      for (let i = 0; i < e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length; i++) {
+          properties+= e.Consumable.ConsumableCard.FixedAssetPropertyDetails[i].Value + ( e.Consumable.ConsumableCard.FixedAssetPropertyDetails.length - i == 1 ? "" : ",");                                  
+      }
+        
+      properties = e.Consumable.ConsumableCard.ConsumableCardName + ": " + properties + "("+ e.Quantity +" "+ e.Consumable.ConsumableCard.ConsumableUnit.ConsumableUnitName +")";
+  
+      let consumableWithProperty:ConsumableProperties=new ConsumableProperties();
+
+      Object.assign(consumableWithProperty,e);
+
+      consumableWithProperty.properties=properties;
+
+      this.consumableCardsWithConsumableObject.push(consumableWithProperty);
+    });
+  }
   
   deleteConsumable(data:ConsumableProperties){ 
     this.consumableCardsWithConsumableObject = this.consumableCardsWithConsumableObject.filter(e=>e.ConsumableId != data.ConsumableId);
+  }
+
+  forgetUpdateData(){
+    this.workStep = new WorkStep();
+
+    this.consumableCardsWithConsumableObject=[];
+
+    this.WorkStepRowId = this.dataTableWorkStep.TGT_copySource().length + 1;
+
+    this.visibleWorkStepButton=false;
+
   }
 
   async addImageFile(imageFile) {

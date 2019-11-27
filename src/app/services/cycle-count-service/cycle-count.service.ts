@@ -81,7 +81,7 @@ export class CycleCountService {
             });
             console.log(cycleCountResults);
             success(cycleCountResults, result.TotalPage, result.TotalRecords);
-          }
+          }     
         },
         (error: HttpErrorResponse) => {
           failed(error);

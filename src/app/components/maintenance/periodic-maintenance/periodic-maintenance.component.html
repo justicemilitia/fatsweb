@@ -11,7 +11,7 @@
         <div class="card-header">
           <h2 class="az-content-title">Periyodik Bakım İş Emri</h2>
           <div class="grp-btn-action">
-              <button class="btn btn-az-primary" style="margin-right: 25px;" id="btnAddNewWorkOrder">
+              <button class="btn btn-az-primary" style="margin-right: 25px;" (click)="AddNewWorkOrder()" id="btnAddNewWorkOrder">
               <i class="fa fa-plus-circle fa-plus-circle-add"></i>Yeni İş Emri Ekle
             </button>
           </div>
@@ -50,24 +50,24 @@
                       <div class="form-group col-md-4">
                         <label>İş Emri Kodu :</label>
                       </div>
-                      <div *ngIf="isUpdateOrInsertMaintenance;then insertFixedAssetCardPeriodic else  updateFixedAssetCard"></div>
-                      <ng-template #updateFixedAssetCard>
+                      <!-- <div *ngIf="isUpdateOrInsertMaintenance;then insertFixedAssetCardPeriodic else  updateFixedAssetCard"></div> -->
                       <div class="form-group col-md-4">
-                          <select name="WorkOrderId" class="form-control select2-no-search">
+                          <input class="form-control" type="text" value="{{workOrderCode}}" disabled>      
+                       </div>
+                     
+                       <div class="form-group col-md-4">
+                          <select *ngIf="isUpdateOrInsertMaintenance == false" [(ngModel)]="workOrder.WorkOrderId"  name="WorkOrderId" class="form-control select2-no-search" (change)="getWorkOrderByWorkOrderId($event)">
                               <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
-                              <option *ngFor="let workOrder of workOrders"  value="{{workOrder.WorkOrderId}}">{{workOrder.WorkOrderCode}} </option>
+                              <option *ngFor="let workOrder of workOrders"  value="{{workOrder.WorkOrderId}}">{{workOrder.WorkOrderCode}}</option>
                           </select>       
                       </div>
-                      <div class="col-md-4">
-                      </div>
+                    
+                      <!-- <ng-template #updateFixedAssetCard>
+             
                     </ng-template>
                     <ng-template #insertFixedAssetCardPeriodic>
-                        <div class="form-group col-md-4">
-                           <input type="text" value="{{workOrderCode}}" disabled>      
-                        </div>
-                        <div class="col-md-4">
-                        </div>
-                    </ng-template>
+                 
+                    </ng-template> -->
 
                   </div>
                   <div class="row">             
@@ -83,7 +83,7 @@
                     <div class="form-group col-md-4">
                         <select [(ngModel)]="workOrder.Frequency" name="Frequency" (change)="selectPeriodValue($event)" [class.is-invalid]="data.submitted && insertedPeriodTypeValue == null" class="form-control" required>
                             <option [ngValue]="null">Seçiniz</option>
-                            <option *ngFor="let period of periodArray" value={{period}}>{{period}}</option>
+                            <option *ngFor="let period of periodArray" value={{period.Frequency}}>{{period.Frequency}}</option>
                         </select>     
                         <div style="display:block" *ngIf="data.submitted" class="invalid-feedback">
                             <div *ngIf="insertedPeriodTypeValue == null || insertedPeriodTypeId == null">{{getLanguageValue('This_value_is_required')}}</div>
@@ -93,17 +93,23 @@
                 </fieldset>
                 <fieldset class="field_set" style="padding-left: 10px; padding-right: 10px; margin-top: 10px;">
                     <legend>{{workOrderCode}} No'lu İş Emri</legend>
-                    <span (click)="insertConsumableCardWithProperties()"><i class="fas fa-trash"></i></span>                         
-                                  
-                     <div class="row">
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                      <label>{{WorkStepRowId}}. İş Adımı</label>
+                      </div>
+                      <div class="form-group col-md-6">
+                      <span *ngIf="visibleWorkStepButton== true" style="float:right" (click)="onDelete()"><i class="fas fa-trash"></i></span> 
+                    </div> 
+                  </div>                                  
+                  <div class="row">
                         <div class="form-group col-md-12">
-                        <label>{{WorkStepRowId}}. İş Adımı</label>
-                        <input [(ngModel)]="workStep.Description" name="Description" #Description="ngModel" [class.is-invalid]="insertWorkStep == true && workStep.Description == null" class="form-control" maxlength="4000" type="text" maxlength="4000">
-                        <div *ngIf="insertWorkStep == true && workStep.Description == null">
+                        <!-- <label>{{WorkStepRowId}}. İş Adımı</label> -->
+                        <input [(ngModel)]="workStep.Description" name="Description" #Description="ngModel" trim="blur" [class.is-invalid]="isInsertDescription == true && workStep.Description == null"  class="form-control" maxlength="4000" type="text" maxlength="4000">
+                        <div *ngIf="isInsertDescription == true && workStep.Description == null">
                           <div style="color:red">{{getLanguageValue('This_value_is_required')}}</div>                        
                         </div>
                         </div>
-                    </div>
+                  </div>
                   <div class="row">
                     <div class="form-group col-md-6">
                         <label class="ckbox" style="margin-top: 23px">
@@ -138,7 +144,7 @@
                   </div>
                     <div class="form-group">
                       <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
-                      <div *ngIf="requiredConsumable == true" style="color:red">Lütfen bir sarf malzeme seçiniz</div>  
+                      <div *ngIf="requiredConsumable == true" style="color:red">Lütfen <b>bir</b> sarf malzeme seçiniz.</div>  
                     </div>
            
                 <div class="row">
@@ -179,7 +185,7 @@
                         <td>{{property.properties}}</td>
                         <td (click)="deleteConsumable(property)">
                           <div class="property-add-value">                    
-                          <span class='typcn icon-default typcn-minus' ></span></div> 
+                          <span class='typcn icon-default typcn-minus'></span></div> 
                         </td>
                       </tr>
                     </ng-container>
@@ -188,14 +194,16 @@
                 </div>
                 <div style="color:red" *ngIf="errorMessage == true">Lütfen sarf malzeme bilgilerini tamamlayınız.</div>
                 <div class="row justify-content-center">
-                  <div *ngIf="visibleWorkStepButton;then insertWorkStep else updateWorkStep"></div>
+                  <div *ngIf="visibleWorkStepButton;then updateWorkStep else insertWorkStep"></div>
                   <ng-template #insertWorkStep>
                     <button id="insertWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="insertWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertWorkStep == false" >İş Adımı Ekle</button>
                     <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div>
                   </ng-template>
-                  <ng-template #updateWorkStep>
-                      <button id="updateWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="updateWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertWorkStep == false" >İş Adımını Güncelle</button>
-                      <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div>
+                  <ng-template #updateWorkStep>                   
+                        <button id="updateWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="updateWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertWorkStep == false" >İş Adımını Güncelle</button>
+                        <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div> 
+                        
+                        <button class="btn btn-danger" style="margin-left:10px" type="button" (click)="forgetUpdateData()">Vazgeç</button>
                   </ng-template>
                 </div>
               </fieldset> 
@@ -214,7 +222,7 @@
                           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
                         </ng-template>
                         <ng-template #updateMaintenance>
-                            <button id="updateWorkOrder" type="submit" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false" [disabled]="disablebtnAddWorkOrder == false">İş Emrini Güncelle</button>
+                            <button id="updateWorkOrder" type="submit" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false">İş Emrini Güncelle</button>
                             <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
                         </ng-template>
                         </div>
@@ -231,3 +239,28 @@
   </div>
 </div>
 <!-- az-content -->
+
+<!-- SİLME ONAY -->
+<div class="modal" data-backdrop="static" id="modalShowDeletePopupForWorkStep" style=" overflow-y: hidden !important;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content tx-size-sm">
+        <div class="modal-body tx-center pd-y-20 pd-x-20">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+          <h4 class="mg-b-20">{{getLanguageValue('Are_you_sure_you_want_to_delete')}}</h4>         
+          <div class="row" style="margin-bottom:20px;">
+            <div class="col-md-6" style="padding-right: 0px;">
+              <button class="btn btn-az-danger" style="float:right; padding-left:32px; padding-right:32px;" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Cancel')}}</button>        
+            </div>
+         
+            <div class="col-md-6">        
+            <button class="btn btn-az-primary" id="btnYes" type="button" style="padding: 5px 20px; padding-left: 37px;padding-right: 37px;" (click)="deleteWorkStep()">{{getLanguageValue('Delete')}}</button>
+              </div>   
+          </div>
+  
+        </div><!-- modal-body -->
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->
