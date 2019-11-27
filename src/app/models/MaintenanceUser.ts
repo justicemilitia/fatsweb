@@ -3,7 +3,7 @@ import { Maintenance } from './Maintenance';
 import { MaintenanceStatus } from './MaintenanceStatus';
 import { User } from 'src/app/models/User';
 
-export class MaintenanceUser implements IData {
+export class  MaintenanceUser implements IData {
     getParentId(): number {
         return null;
     }    
@@ -22,6 +22,8 @@ export class MaintenanceUser implements IData {
     MaintinanceListId: number;
     UserId: number;
     MaintinanceTime: number;
+    Hour: number;
+    Minute: number;
     MaintinanceDate: Date;
     MaintinanceStatuId:number;
 

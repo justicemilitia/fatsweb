@@ -10,3 +10,9 @@
     color: #e67300;
   }
   
+  .table-scroll{
+    overscroll-behavior-y: contain;
+    overflow-y: scroll;
+    padding-left: 10px;
+    }
+    

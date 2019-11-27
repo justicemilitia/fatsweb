@@ -416,6 +416,9 @@ export const REPORT_BREAKDOWN_WITH_FILE_UPLOAD = "WorkOrder/ReportBreakdownWithF
 export const ADD_WORK_ORDER ="WorkOrder/AddWorkOrder";
 export const FIX_BREAKDOWN_WITH_FILE_UPLOAD ="WorkOrder/FixBreakdownWithFileUpload";
 export const UPDATE_WORK_ORDER ="WorkOrder/UpdateWorkOrder";
+export const GET_USER_STATUS_BY_MAINTENANCE_ID ="WorkOrder/GetUserStatusByMaintenanceId";
+export const GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID ="WorkOrder/GetMaintenanceRequestPicturesByMaintenanceId";
+export const CANCEL_BREAKDOWN = "WorkOrder/CancelBreakdown";
 //#endregion
 
 

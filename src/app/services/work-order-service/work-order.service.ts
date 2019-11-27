@@ -4,7 +4,7 @@ import { AuthenticationService } from '../authenticationService/authentication.s
 import { ErrorService } from '../error-service/error.service';
 import { Response } from "src/app/models/Response";
 import { getAnErrorResponse } from "src/app/declarations/extends";
-import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID, GET_VALID_BARCODE_LAST_NUMBER, GET_VALID_WORK_ORDER_CODE, GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID, GET_WORK_STEPS_BY_FIXED_ASSET_ID, REPORT_BREAKDOWN_WITH_FILE_UPLOAD, GET_WORK_ORDER_PERIOD_TYPES, ADD_WORK_ORDER, GET_WORK_STEP_LIST_BY_WORK_ORDER_ID, GET_WORKSTEPDETAIL_BY_WORK_STEP_ID, UPDATE_WORK_ORDER } from '../../declarations/service-values';
+import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID, GET_VALID_BARCODE_LAST_NUMBER, GET_VALID_WORK_ORDER_CODE, GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID, GET_WORK_STEPS_BY_FIXED_ASSET_ID, REPORT_BREAKDOWN_WITH_FILE_UPLOAD, GET_WORK_ORDER_PERIOD_TYPES, ADD_WORK_ORDER, GET_WORK_STEP_LIST_BY_WORK_ORDER_ID, GET_WORKSTEPDETAIL_BY_WORK_STEP_ID, UPDATE_WORK_ORDER, FIX_BREAKDOWN_WITH_FILE_UPLOAD, GET_USER_STATUS_BY_MAINTENANCE_ID, GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID, CANCEL_BREAKDOWN } from '../../declarations/service-values';
 import { Maintenance } from '../../models/Maintenance';
 import { WorkOrders } from 'src/app/models/WorkOrders';
 import { getMatIconFailedToSanitizeLiteralError } from '@angular/material';
@@ -14,6 +14,8 @@ import { PeriodTypes } from 'src/app/models/PeriodTypes';
 import { WorkOrderPeriodTypes } from 'src/app/models/WorkOrderPeriodTypes';
 import { WorkStep } from 'src/app/models/WorkStep';
 import { resetComponentState } from '@angular/core/src/render3/state';
+import { MaintenanceUser } from '../../models/MaintenanceUser';
+import { MaintenanceRequestPicture } from '../../models/MaintenanceRequestPicture';
 
 @Injectable({
   providedIn: 'root'
@@ -210,6 +212,114 @@ export class WorkOrderService {
           failed(error);
         }
       );
+  }
+
+  GetUserStatusByMaintenanceId(maintenanceListId: number, success, failed) {
+    this.httpClient
+      .get(
+        SERVICE_URL + GET_USER_STATUS_BY_MAINTENANCE_ID + "/" + maintenanceListId,
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+              let maintenanceUser: MaintenanceUser = new MaintenanceUser();
+              Object.assign(maintenanceUser, response.ResultObject)
+              success(maintenanceUser, response.LanguageKeyword);
+            } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+
+  
+  GetMaintenanceRequestPicturesByMaintenanceId(maintenanceListId: number, success, failed) {
+    this.httpClient
+      .get(
+        SERVICE_URL + GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID + "/" + maintenanceListId,
+        {
+          headers: GET_HEADERS(this.authenticationService.getToken())
+        }
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+              let maintenanceRequestPicture: MaintenanceRequestPicture = new MaintenanceRequestPicture();
+              Object.assign(maintenanceRequestPicture, response.ResultObject)
+              success(maintenanceRequestPicture, response.LanguageKeyword);
+            } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  FixBreakdownWithFileUpload(maintenance: Maintenance, files: any, success, failed){
+
+    let formData = new FormData();
+    formData.append("model", JSON.stringify(maintenance));    
+    
+    if (files && files.length > 0)
+    { 
+     for (let i = 0; i < files.length; i++) {
+      formData.append(files[i].name, files[i]);       
+     }
+      // formData.append(files[0].name, files[0]);
+      
+    }
+    let headers: HttpHeaders=new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.authenticationService.getToken());
+    headers = headers.append('Accept', 'application/json');
+
+
+    this.httpClient
+      .post(
+        SERVICE_URL + FIX_BREAKDOWN_WITH_FILE_UPLOAD, formData, {
+          headers: headers
+        })
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          if (response.ResultStatus == true) {
+            let maintenance: Maintenance = new Maintenance();
+            Object.assign(maintenance, response.ResultObject);
+            success(response.ResultObject, response.LanguageKeyword);            
+          } else {
+            failed(getAnErrorResponse(response.LanguageKeyword));
+          }
+        },
+        error => {
+          failed(error);
+        }
+      );
+  }
+
+  CancelBreakdown(maintenance:Maintenance,success,failed){
+    this.httpClient.post(SERVICE_URL + CANCEL_BREAKDOWN, maintenance,{
+      headers:GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result=>{
+      let response: Response = <Response>result;
+      if(response.ResultStatus == true){
+        Object.assign(maintenance, response.ResultObject);
+        success(response.ResultObject, response.LanguageKeyword);
+      }else{
+        failed(getAnErrorResponse(response.LanguageKeyword));
+      }
+    },error=>{
+      failed(error);
+    });
   }
 
   GetWorkOrderPeriodTypes(success,failed){

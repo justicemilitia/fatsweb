@@ -34,7 +34,7 @@ export class Maintenance implements IData {
     ModifiedDate:Date;
     CompletionDate:Date;
     MaintenanceStatusId:number;
-    MaintenanceTime:number;
+    MaintenanceTotalTime:number;
     MaintenanceTypeId:number;
     RequestDescription:string;
     CompletionDescription:string;
@@ -48,6 +48,8 @@ export class Maintenance implements IData {
     MaintenanceStatusIds:number[];
     isCancelled: boolean;
 
+    Hour: number;
+    Minute: number;
     FixedAssetCard:FixedAssetCard;
     FixedAsset: FixedAsset;
     WorkOrder: WorkOrders;

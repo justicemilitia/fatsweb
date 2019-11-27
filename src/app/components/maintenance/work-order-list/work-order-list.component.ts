@@ -10,6 +10,7 @@ import { FixedAssetCardProperty } from '../../../models/FixedAssetCardProperty';
 import { MatTabChangeEvent } from '@angular/material';
 import { MaintenanceStatus } from '../../../declarations/maintenance-status.enum';
 import { MaintenanceOperations } from '../../../declarations/maintenance-operations';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-work-order-list',
@@ -36,7 +37,8 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
 
   /* Is Table Exporting */
   isTableExporting: boolean = false;
-  
+
+  isWaitingInsertOrUpdate = false;  
   
   fixedAssetCardProperties: FixedAssetCardProperty[] = [];
 
@@ -465,17 +467,17 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
           return value.RequestDate ? value.RequestDate.substring(0, 10).split("-").reverse().join("-") : "";
         }
       },
-      {
-        columnDisplayName: this.getLanguageValue('CompletionDate'),
-        columnName: ["CompletionDate"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text",
-        formatter: value => {
-          return value.CompletionDate ? value.CompletionDate.substring(0, 10).split("-").reverse().join("-") : "";
-        }
-      },
+      // {
+      //   columnDisplayName: this.getLanguageValue('CompletionDate'),
+      //   columnName: ["CompletionDate"],
+      //   isActive: true,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text",
+      //   formatter: value => {
+      //     return value.CompletionDate ? value.CompletionDate.substring(0, 10).split("-").reverse().join("-") : "";
+      //   }
+      // },
       {
         columnDisplayName: this.getLanguageValue('Attendant_User'),
         columnName: ["|AttendantUser"],
@@ -485,7 +487,21 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
+            if(value.MaintinanceUsers.length >0)
+            {
+              let user: string='';
+              let userIds: number[]=[];
+              
+              value.MaintinanceUsers.forEach((e, i) => {
+                if(!userIds.includes(e.UserId))
+                {
+                  userIds.push(e.User.UserId);
+                  user += e.User == null ? '' : (e.User.FirstName + ' ' + e.User.LastName) + ", ";
+                }
+              });
+              //Son karakter virgül mü diye konrol edip, virgülse virgülü kaldırmak için
+              return user.slice(user.length-2, user.length) == ', ' ? user.slice(0, - 2) : user;
+            }
           }
           else {
             return '';
@@ -528,7 +544,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
-        columnName: ["FixedAssetCard", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -580,30 +596,30 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
           return value.CompletionDate ? value.CompletionDate.substring(0, 10).split("-").reverse().join("-") : "";
         }
       },
-      {
-        columnDisplayName: this.getLanguageValue('Attendant_User'),
-        columnName: ["|AttendantUser"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text",
-        formatter: (value) => {
-          if (value) {
-            return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
-          }
-          else {
-            return '';
-          }
-        }
-      },
-      {
-        columnDisplayName: this.getLanguageValue('Maintenance_Time'),
-        columnName: ["MaintenanceTotalTime"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
+    //  {
+    //     columnDisplayName: this.getLanguageValue('Attendant_User'),
+    //     columnName: ["|AttendantUser"],
+    //     isActive: true,
+    //     classes: [],
+    //     placeholder: "",
+    //     type: "text",
+    //     formatter: (value) => {
+    //       if (value) {
+    //         // return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
+    //         if(value.MaintinanceUsers.length >0)
+    //         {
+    //           let user: string='';
+    //           value.MaintinanceUsers.forEach((e, i) => {
+    //             user += e.User == null ? '' : (e.User.FirstName + ' ' + e.User.LastName) + (i == value.MaintinanceUsers.length - 1 ? "" : ", ");
+    //           });
+    //          return user;              
+    //         }
+    //       }
+    //       else {
+    //         return '';
+    //       }
+    //     }
+    //   },
       {
         columnDisplayName: this.getLanguageValue('Maintenance_Type'),
         columnName: ["MaintenanceType", "Name"],
@@ -615,7 +631,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["FixedAssetCard", "Name"]
+      column: ["FixedAsset", "FixedAssetCard", "Name"]
     }
   );
 
@@ -624,7 +640,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
-        columnName: ["FixedAssetCard", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -685,7 +701,21 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
+            if(value.MaintinanceUsers.length >0)
+            {
+              let user: string='';
+              let userIds: number[]=[];
+              
+              value.MaintinanceUsers.forEach((e, i) => {
+                if(!userIds.includes(e.UserId))
+                {
+                  userIds.push(e.User.UserId);
+                  user += e.User == null ? '' : (e.User.FirstName + ' ' + e.User.LastName) + ", ";
+                }
+              });
+              //Son karakter virgül mü diye konrol edip, virgülse virgülü kaldırmak için
+              return user.slice(user.length-2, user.length) == ', ' ? user.slice(0, - 2) : user;
+            }
           }
           else {
             return '';
@@ -711,7 +741,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["FixedAssetCard", "Name"]
+      column: ["FixedAsset", "FixedAssetCard", "Name"]
     }
   );
 
@@ -720,7 +750,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     [
       {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
-        columnName: ["FixedAssetCard", "Name"],
+        columnName: ["FixedAsset", "FixedAssetCard", "Name"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -781,7 +811,21 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.AttendantUser == null ? '' : value.AttendantUser.FirstName + ' ' + value.AttendantUser.LastName;
+            if(value.MaintinanceUsers.length >0)
+            {
+              let user: string='';
+              let userIds: number[]=[];
+
+              value.MaintinanceUsers.forEach((e, i) => {
+                if(!userIds.includes(e.UserId))
+                {
+                  userIds.push(e.User.UserId);
+                  user += e.User == null ? '' : (e.User.FirstName + ' ' + e.User.LastName) + ", ";
+                }
+              });
+              //Son karakter virgül mü diye konrol edip, virgülse virgülü kaldırmak için
+              return user.slice(user.length-2, user.length) == ', ' ? user.slice(0, - 2) : user;
+            }
           }
           else {
             return '';
@@ -807,7 +851,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     ],
     {
       isDesc: false,
-      column: ["FixedAssetCard", "Name"]
+      column: ["FixedAsset", "FixedAssetCard", "Name"]
     }
   );
   
@@ -1011,13 +1055,14 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async loadWorkOrderList(tabIndex:number, _perInPage: number = 25, _currentPage: number = 1) {
+  async loadWorkOrderList(tabIndex:number, _perInPage: number = 100, _currentPage: number = 1) {
     let maintenanceStatus: number[] = [];    
 
     switch(tabIndex){
       case 1:
       this.tabIndex = 1;
       maintenanceStatus.push(MaintenanceStatus.PLANNED);
+      maintenanceStatus.push(MaintenanceStatus.CONTINUING);
       maintenanceStatus.push(MaintenanceStatus.PENDING);
       maintenanceStatus.push(MaintenanceStatus.DELAYED);      
       break; 
@@ -1029,7 +1074,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       this.tabIndex = 3;
       maintenanceStatus.push(MaintenanceStatus.DONE);
       break;
-      case 3:
+      case 4:
       this.tabIndex = 4;
       maintenanceStatus.push(MaintenanceStatus.CANCELLED);
       break;
@@ -1041,6 +1086,8 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     workOrder.PerPage=_perInPage;
     workOrder.Page=_currentPage;
 
+    console.log(workOrder.MaintenanceStatusIds);
+
     /* Load all departments to datatable */
     await this.baseService.workOrderService.GetWorkOrdersAndBreakdownRequestList(workOrder,
       (workOrders: Maintenance[], totalPage: number, message: string) => {
@@ -1050,22 +1097,28 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         this.totalPage = totalPage ? totalPage : 1;
 
         this.workOrders = workOrders;
-        this.dataTableWorkOrder.TGT_loadData(this.workOrders);
         this.TGT_calculatePages();
         
 
         switch(this.tabIndex){
           case 1:
           this.dataTableWorkOrder.perInPage = _perInPage;
+          this.dataTableWorkOrder.TGT_loadData(this.workOrders);
+
           break; 
           case 2:
           this.dataTablePlannedWorkOrders.perInPage = _perInPage;
+          this.dataTablePlannedWorkOrders.TGT_loadData(this.workOrders);
+          
           break;
           case 3:
           this.dataTableCompletedWorkOrders.perInPage = _perInPage;
+          this.dataTableCompletedWorkOrders.TGT_loadData(this.workOrders);
+          
           break;
           case 4:
           this.dataTableCancelledWorkOrders.perInPage = _perInPage;
+          this.dataTableCancelledWorkOrders.TGT_loadData(this.workOrders);          
           break;
         }
 
@@ -1167,13 +1220,20 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     }
 
     this.fixbreakdown_selectedItem = selectedItems[0];
-    if(isCancelled == true){
-      this.fixbreakdown_selectedItem.isCancelled = true;
+
+    if (this.fixbreakdown_selectedItem.MaintenanceTypeId==1) {
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForCancellingPeriodicBreakdown');
     }
     else{
-      this.fixbreakdown_selectedItem.isCancelled = false;
+        if(isCancelled == true){
+          this.fixbreakdown_selectedItem.isCancelled = true;
+        }
+        else{
+          this.fixbreakdown_selectedItem.isCancelled = false;
+        }
+    this.popupComponent.ShowModal('#modalOperation');            
     }
-    this.popupComponent.ShowModal('#modalOperation');    
+   
   }
   //#endregion
   
@@ -1288,8 +1348,51 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     this.isTableRefreshing = false;
   }
 
-  ClosePopup(isClose: boolean){
-    this.popupComponent.CloseModal('#modalOperation');
+  cancelPeriodicBreakdown(){
+    
+    
+    let cloneItem = new Maintenance();
+
+    cloneItem.MaintenanceStatusId = this.fixbreakdown_selectedItem.MaintenanceStatusId;
+    cloneItem.MaintenanceListId = this.fixbreakdown_selectedItem.MaintenanceListId;
+
+    this.isWaitingInsertOrUpdate = true;
+
+    this.baseService.spinner.show();
+
+    this.baseService.workOrderService.CancelBreakdown(
+      cloneItem,
+      (insertedItem: Maintenance, message) => {
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        this.baseService.spinner.hide();
+
+        this.isWaitingInsertOrUpdate = false;
+
+        this.loadWorkOrderList(1,1,25);
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        // this.baseService.popupService.ShowErrorPopup(error);
+
+        this.popupComponent.ShowModal("#modalShowErrorMessage");
+
+        this.baseService.spinner.hide();
+        
+        this.isWaitingInsertOrUpdate = false;
+      }
+    );
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForChangeBarcode');      
   }
 
+  ClosePopup(isClose: boolean){
+    if(isClose){
+    this.popupComponent.CloseModal('#modalOperation');
+    }
+  }
+
+  closeCancelPeriodicBreakdownPopup(){
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForCancellingPeriodicBreakdown');    
+  }
 }

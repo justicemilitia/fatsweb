@@ -7,13 +7,13 @@
   .fieldset_text {
     color: #e67300;
   }
-  .card-dashboard-twelve .sales-overview label {
-    text-transform: none !important;
-    font-size: small !important;
-    font-weight: 700;
-    letter-spacing: .5px;
-    color: #494c57;
-    margin-bottom: 8px;
+.card-dashboard-twelve .sales-overview label {
+  text-transform: none !important;
+  font-size: small !important;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: #494c57;
+  margin-bottom: 8px;
 }
 .small{
   min-height: 15px;
