@@ -5,10 +5,10 @@
         </button>
       </div>
       
-      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid">
         <div class="modal-body">
           <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
-      
+          <div class="col-md-12 table-scroll" >                             
            <!-- BARKOD -->      
            <div class="col-md-12" style="padding-left:0px;">                       
               <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
@@ -24,11 +24,25 @@
           </div>
     
           <!-- TALEP EDEN PERSONEL -->
-          <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
+          <div class="col-md-12" style="padding-left:0px;">  
                 <label><b>{{getLanguageValue('Requested_User')}}:</b></label>
                 <span style="margin-left:20px;">{{ fixBreakdown.RequestedUser == null ? null : fixBreakdown.RequestedUser.FirstName + ' ' + fixBreakdown.RequestedUser.LastName }}</span>
             </div>
 
+        <!-- GÖREVLİ PERSONEL -->
+
+        <div class="col-md-12 form-group" style="padding-left:0px;">  
+            <label><b>{{getLanguageValue('Attendant_User')}}:</b></label>
+            <span style="margin-left:20px;"> {{maintenanceUsers}}</span>
+        </div>
+
+        <!-- TOPLAM BAKIM SÜRESİ -->
+    
+        <div class="col-md-12 form-group" style="padding-left:0px; margin-bottom:10px;">  
+            <label><b>{{getLanguageValue('Total_Maintenance_Time')}}:</b></label>
+            <span style="margin-left:20px;"> {{HourMinute}}</span>
+        </div>
+            
           <!-- ARIZA AÇIKLAMASI -->
             <div class="row justify-content-center">
                 <div class="col-md-12 form-group">
@@ -38,36 +52,59 @@
                 </div>
             </div>
     
+            <!-- ARIZA RESİMLERİ -->
+            <fieldset class="field_set" style="padding-left: 20px;" *ngIf="fixBreakdown.MaintenanceRequestPictures == null ? false : ( fixBreakdown.MaintenanceRequestPictures.length>0 ? true : false )" >
+            <legend>Arıza Resimleri</legend>
+                <img [src]="image" *ngFor="let image of imageArray" [src]="image" height="70" style="margin-right:15px;"> 
+            </fieldset> 
 
-            <fieldset class="field_set" style="padding-left: 20px;" >
-            <legend>Arıza resimleri</legend>
+            <!-- ARIZA GİDERME RESİMLERİ -->
+            <fieldset class="field_set" style="padding-left: 20px;" *ngIf="requestImageArray.length>0" >
+            <legend>Arıza Giderme Resimleri</legend>
                 <img [src]="image" *ngFor="let image of imageArray" [src]="image" height="70" style="margin-right:15px;"> 
             </fieldset>
 
-            <!-- GÖREVLİ PERSONEL -->
-            
-            <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
-                <label><b>{{getLanguageValue('Attendant_User')}}:</b></label>
-                <span style="margin-left:20px;"> {{maintenanceUsers}}</span>
-            </div>
-
             <!-- BAKIM SÜRESİ -->
-            <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;" *ngIf= "fixBreakdown.isCancelled == false">                      
-                <label class="required-span"><b>{{getLanguageValue('Maintenance_Time')}}:</b></label>                                             
-                <input  type="time" class="form-control" trim="blur" />
-                <!-- <span style="margin-left:20px;">{{ fixBreakdown.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span> -->
+            <div style="padding-left:0px;margin-bottom:20px;" *ngIf= "fixBreakdown.isCancelled == false">   
+                    <label class="required-span"><b>{{getLanguageValue('Maintenance_Time')}}:</b></label>                                                                                      
+                    <div class="row">
+                    <div class="col-md-3 form-group">
+                            <input type="text" class="form-control" [(ngModel)]="maintinanceUser.Hour" name="Hour" #Hour="ngModel" trim="blur" onkeypress="return event.charCode >= 48" min="0"
+                            [ngClass]="{ 'is-invalid': data.submitted && Hour.invalid && !fixBreakdown.isCancelled}" required/>
+                            
+                    </div>   
+                    <span>:</span>   
+                    <div class="col-md-3 form-group">
+                            <input type="text" class="form-control" [(ngModel)]="maintinanceUser.Minute" name="Minute" #Minute="ngModel" onkeypress="return event.charCode >= 48" min="0" max="60" trim="blur" 
+                            [ngClass]="{ 'is-invalid': data.submitted && Minute.invalid && !fixBreakdown.isCancelled}" required/>
+                          
+                    </div>
+                    <div class="col-md-6"></div>
+                    <div *ngIf="data.submitted && (Minute.invalid || Hour.invalid)" class="invalid-feedback">
+                            <div *ngIf="Minute.errors.required || Hour.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                        </div>
+                </div>  
             </div>
 
             <!-- BAKIM AÇIKLAMASI -->
-            <div class="row justify-content-center" *ngIf= "fixBreakdown.isCancelled == false">
+            <div class="row justify-content-center">
                     <div class="col-md-12 form-group">
-                        <label class="required-span" style="margin-bottom: 10px;">{{getLanguageValue('Maintenance_Description')}}</label>
-                        <textarea name="RequestDescription" style="resize:none" rows="3"
-                        class="form-control" type="text" maxlength="150" 
-                        [ngClass]="{ 'is-invalid': data.submitted && RequestDescription.invalid }" required></textarea>
-                        <div *ngIf="data.submitted && RequestDescription.invalid" class="invalid-feedback">
-                            <div *ngIf="RequestDescription.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                        <label class="required-span" *ngIf= "fixBreakdown.isCancelled == false" style="margin-bottom: 10px;">{{getLanguageValue('Maintenance_Description')}}</label>
+                        <label class="required-span" *ngIf= "fixBreakdown.isCancelled == true" style="margin-bottom: 10px;">{{getLanguageValue('Cancelled_Description')}}</label>
+                        <textarea [(ngModel)]="maintenance.CompletionDescription" name="CompletionDescription" style="resize:none" rows="3"
+                        #CompletionDescription="ngModel" class="form-control" type="text" 
+                        [ngClass]="{ 'is-invalid': data.submitted && CompletionDescription.invalid }" maxlength="150" required></textarea>
+                        <div *ngIf="data.submitted && CompletionDescription.invalid" class="invalid-feedback">
+                          <div *ngIf="CompletionDescription.errors.required">{{getLanguageValue('This_value_is_required')}}</div>                       
                         </div>
+                        
+                        
+                        <!-- <textarea name="CompletionDescription" style="resize:none" rows="3"
+                        class="form-control" type="text" maxlength="150" #CompletionDescription="ngModel"
+                        [ngClass]="{ 'is-invalid': data.submitted && RequestDescription.invalid }" required></textarea>
+                        <div *ngIf="data.submitted && CompletionDescription.invalid" class="invalid-feedback">
+                            <div *ngIf="CompletionDescription.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                        </div> -->
                 </div>
             </div>
 
@@ -101,38 +138,55 @@
                     </div>      
 
         </div>
+    </div>
       
         <!-- modal-body -->
         <div class="modal-footer">
-          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false" class="btn btn-az-primary" id="btnFixBreakdown" type="submit">
-            {{getLanguageValue('Fix_Breakdown')}}
+
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 1" class="btn btn-az-primary" id="btnFixBreakdown" type="submit" (click)="checkUserMaintenanceStatus(3)">
+            {{getLanguageValue('Start')}}
           </button>
-          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == true" class="btn btn-az-primary" id="btnCancelBreakdown" type="submit">
-                {{getLanguageValue('Cancel_Breakdown')}}
-              </button>
+
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 2" class="btn btn-az-primary" id="btnFixBreakdown" type="submit" (click)="checkUserMaintenanceStatus(3)">
+          {{getLanguageValue('Continue')}}
+          </button>
+
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 3" class="btn btn-az-primary" id="btnFixBreakdown" type="button" (click)="checkUserMaintenanceStatus(2)">
+          {{getLanguageValue('Quit_Breakdown')}}
+          </button>
+
+          
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 3" class="btn btn-az-primary" id="btnFixBreakdown" type="submit" (click)="checkUserMaintenanceStatus(5)">
+          {{getLanguageValue('Complete_Breakdown')}}
+          </button>
+            
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == true" class="btn btn-az-primary" id="btnCancelBreakdown" type="button" (click)="cancelBreakdown(data)">
+          {{getLanguageValue('Cancel_Breakdown')}}
+          </button>
+
           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
         </div>
       </form>
       
-       <!-- GÜNCELLEME ONAY -->
-       <!-- <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForReportBreakdown" style=" overflow-y: hidden !important;">
+       <!-- TALEP DEĞERLENDİRME ONAY -->
+       <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForFixBreakdown" style=" overflow-y: hidden !important;">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content tx-size-sm">
               <div class="modal-body tx-center pd-y-20 pd-x-20">
-                  <button type="button" class="close" (click)="closeChangeBarcodePopup()">
+                  <button type="button" class="close" (click)="closeFixBreakdownPopup()">
                       <span aria-hidden="true">&times;</span>
                     </button>
                 <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
                 <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
-                <p class="mg-b-20 mg-x-20" style="margin-bottom: 20px;">{{getLanguageValue('Are_you_sure_you_want_to_report_breakdown')}}</p>
+                <p class="mg-b-20 mg-x-20" style="margin-bottom: 20px;">{{getLanguageValue('Are_you_sure_you_want_to_fix_breakdown')}}</p>
            
                 <div class="row" style="margin-bottom:20px;">
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <button class="btn btn-az-danger" style="float:right;" (click)="closeReportBreakdownPopup()" >{{getLanguageValue('Cancel')}}</button>        
+                        <button class="btn btn-az-danger" style="float:right;" (click)="closeFixBreakdownPopup()" >{{getLanguageValue('Cancel')}}</button>        
                       </div>
                
                   <div class="col-md-6">        
-                  <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="ReportBreakdown(data)">{{getLanguageValue('Change_Barcode')}}</button>
+                  <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="FixBreakdownWithFileUpload(data)">{{getLanguageValue('Fix_Breakdown')}}</button>
                     </div>   
                 </div> 
         
@@ -140,5 +194,33 @@
             </div>
           </div>
         </div>
-         -->
+        
+
+             
+       <!-- 'TALEBİ İPTAL ETMEK İSTEDİĞİNDEN EMİN MİSİN?' POPUPI -->
+       <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForQuitBreakdown" style=" overflow-y: hidden !important;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content tx-size-sm">
+                <div class="modal-body tx-center pd-y-20 pd-x-20">
+                    <button type="button" class="close" (click)="closeFixBreakdownPopup()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                  <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+                  <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+                  <p class="mg-b-20 mg-x-20" style="margin-bottom: 20px;">{{getLanguageValue('Are_you_sure_you_want_to_quit_breakdown')}}</p>
+             
+                  <div class="row" style="margin-bottom:20px;">
+                      <div class="col-md-6" style="padding-right: 0px;">
+                          <button class="btn btn-az-danger" style="float:right;" (click)="closeFixBreakdownPopup()" >{{getLanguageValue('Cancel')}}</button>        
+                        </div>
+                 
+                    <div class="col-md-6">        
+                    <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="FixBreakdownWithFileUpload(data)">{{getLanguageValue('Fix_Breakdown')}}</button>
+                      </div>   
+                  </div> 
+          
+                </div>
+              </div>
+            </div>
+          </div>
         

@@ -8,6 +8,9 @@ import { NgForm } from '@angular/forms';
 import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
 import { MaintenanceRequestPicture } from '../../../models/MaintenanceRequestPicture';
 import { IMAGE_URL } from '../../../declarations/service-values';
+import { MaintenanceUser } from '../../../models/MaintenanceUser';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MaintenanceStatus } from '../../../declarations/maintenance-status.enum';
 
 @Component({
   selector: 'app-fix-breakdown',
@@ -20,6 +23,10 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
   @Input() wolComponent: WorkOrderListComponent;
   
   maintenance: Maintenance = new Maintenance();  
+  maintinanceUser: MaintenanceUser = new MaintenanceUser();
+
+  maintenanceStatusId: number;
+  updatedMaintenanceStatusId: number;
 
   maintenanceNumber: string;
   maintenancePictures: any[]=[];
@@ -27,9 +34,10 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
   isMoreThanFive: boolean=false;
   dtFileLength: number;
   imageArray: any[]=[];
+  requestImageArray: any[]=[];
   maintenanceUsers: string = '';
   isCancelled: boolean= true;
-
+  HourMinute: string = '';
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
 
@@ -62,7 +70,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
     this.dataTableFile.isMultipleSelectedActive = false;
     this.dataTableFile.isLoading = false;
 
-    console.log(this.fixBreakdown);
+    console.log(this.maintinanceUser);
     Object.assign(this.imageArray, this.fixBreakdown.MaintenanceRequestPictures);    
   }
   ngOnInit() {
@@ -70,7 +78,10 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["fixBreakdown"].currentValue != changes["fixBreakdown"].previousValue) {
-
+    
+      this.GetUserStatusByMaintenanceId(this.fixBreakdown.MaintenanceListId);
+      this.GetMaintenanceRequestPicturesByMaintenanceId(this.fixBreakdown.MaintenanceListId);
+      
       let path="UploadFiles/ThumbImages/thumb_";
       this.imageArray= [];
       this.maintenanceUsers= '';
@@ -81,29 +92,179 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
           this.imageArray.push(requestPic.Picture);        
         }
 
+        let userIds: number[]=[];
         this.fixBreakdown.MaintinanceUsers.forEach((e, i) => {
-          this.maintenanceUsers += e.User == null ? '' : (e.User.FirstName + ' ' + e.User.LastName) + (i == this.fixBreakdown.MaintinanceUsers.length - 1 ? "" : ", ");
+          if(!userIds.includes(e.UserId)) 
+          {     
+            userIds.push(e.User.UserId);                
+            this.maintenanceUsers += e.User == null ? '' : (e.User.FirstName + ' ' + e.User.LastName) + (i == this.fixBreakdown.MaintinanceUsers.length - 1 ? "" : ", ");
+          }
         });
+        this.maintenanceUsers = this.maintenanceUsers.slice(this.maintenanceUsers.length-2, this.maintenanceUsers.length) == ', ' ? this.maintenanceUsers.slice(0, - 2) : this.maintenanceUsers;
+
+        let hour: number = Math.floor((this.fixBreakdown.MaintenanceTotalTime/60));
+        let minute: number = Math.floor((this.fixBreakdown.MaintenanceTotalTime %60));
+        this.HourMinute = hour + ' saat ' + minute + ' dakika';
     }
   }
 
   onSubmit(data: NgForm) {
 
     this.dtFileLength =this.dataTableFile.TGT_selectAllItems().length;
-    if (data.form.invalid == true && this.dtFileLength>5) return;
-
+    if (data.form.invalid == true || this.dtFileLength>5) return;
+    else
       this.popupComponent.ShowModal('#modalShowQuestionPopupForFixBreakdown');
   }
-  fixBreakdownWithFileUpload(isCancelled: boolean){
 
+  //ARIZA GİDERME
+  FixBreakdownWithFileUpload(data: NgForm){
+
+    let cloneItem = new Maintenance();  
+    // let maintenanceRequestPicture: MaintenanceRequestPicture[] = [];
+
+    // if (this.maintenancePictures.length == 0) {
+    //   this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Choose_File'));
+    //   return;
+    // } 
+    
+    cloneItem.Hour = data.value.Hour;
+    cloneItem.Minute = data.value.Minute;
+
+    cloneItem.CompletionDescription = data.value.CompletionDescription;
+    
+    if (this.maintenancePictures && this.maintenancePictures.length > 0) {
+      cloneItem.MaintenanceRequestPictures = this.maintenancePictures;
+    }
+    cloneItem.MaintenanceListId=this.fixBreakdown.MaintenanceListId;
+    cloneItem.MaintenanceStatusId = this.updatedMaintenanceStatusId;
+
+    this.isWaitingInsertOrUpdate = true;
+
+    this.baseService.spinner.show();
+
+    this.baseService.workOrderService.FixBreakdownWithFileUpload(
+      cloneItem,
+      this.maintenancePictures,
+      (insertedItem: Maintenance, message) => {
+
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        this.baseService.spinner.hide();
+
+        this.popupComponent.CloseModal('#modalShowQuestionPopupForFixBreakdown');      
+
+        this.maintenanceStatusId = insertedItem.MaintenanceStatusId;
+        insertedItem.CompletionDescription='';
+        insertedItem.MaintenanceTotalTime=null;
+        insertedItem.MaintenanceRequestPictures=[];
+
+        // Object.assign(this.fixBreakdown, insertedItem);
+
+        this.isWaitingInsertOrUpdate = false;
+
+        this.wolComponent.loadWorkOrderList(1,1,25);
+        this.wolComponent.ClosePopup(true);
+
+      },
+      (error: HttpErrorResponse) => {
+
+        this.popupComponent.ShowModal("#modalShowErrorMessage");
+
+        this.baseService.spinner.hide();
+        
+        this.isWaitingInsertOrUpdate = false;
+      }
+    );
   }
   
+
+  //ARIZA İPTALİ 
+  cancelBreakdown(data: NgForm){
+    
+    if (data.form.invalid == true) return;
+    
+    let cloneItem = new Maintenance();
+ 
+    cloneItem.MaintenanceStatusId = data.value.MaintenanceStatusId;
+    cloneItem.MaintenanceListId = data.value.MaintenanceListId;
+
+    this.isWaitingInsertOrUpdate = true;
+
+    this.baseService.spinner.show();
+
+    this.baseService.workOrderService.CancelBreakdown(
+      cloneItem,
+      (insertedItem: Maintenance, message) => {
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
+
+        // this.resetForm(data);
+        
+        this.baseService.spinner.hide();
+
+        this.isWaitingInsertOrUpdate = false;
+
+        this.wolComponent.loadWorkOrderList(1,1,25);
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        // this.baseService.popupService.ShowErrorPopup(error);
+
+        this.popupComponent.ShowModal("#modalShowErrorMessage");
+
+        this.baseService.spinner.hide();
+        
+        this.isWaitingInsertOrUpdate = false;
+      }
+    );
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForQuitBreakdown');      
+  }
+
+ 
+  GetUserStatusByMaintenanceId(maintenanceListId: number){
+
+      this.baseService.workOrderService.GetUserStatusByMaintenanceId(
+        maintenanceListId,
+        (maintenanceUser: MaintenanceUser) => {
+            this.maintenanceStatusId = maintenanceUser.MaintinanceStatuId;
+        },
+        (error: HttpErrorResponse) => {
+          // this.baseService.popupService.ShowErrorPopup(error);
+        }
+      );
+  }
+
+  GetMaintenanceRequestPicturesByMaintenanceId(maintenanceListId: number){
+
+    this.baseService.workOrderService.GetMaintenanceRequestPicturesByMaintenanceId(
+      maintenanceListId,
+      (maintenanceRequestPictures: MaintenanceRequestPicture[]) => {
+
+        let path="UploadFiles/ThumbImages/thumb_";
+        this.imageArray= [];
+        for (var i = 0; i < maintenanceRequestPictures.length; i++) {
+           
+            let requestPic: MaintenanceRequestPicture = new MaintenanceRequestPicture;
+            requestPic.Picture=IMAGE_URL + path + this.fixBreakdown.MaintenanceRequestPictures[i].Picture;
+            this.requestImageArray.push(requestPic.Picture);        
+          }
+      },
+      (error: HttpErrorResponse) => {
+        // this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+}
+
+
   clearPictures() {
     this.maintenancePictures = [];
     this.maintenance.MaintenanceRequestPictures = null;
   }
 
   changeFile(event: any): void {
+
+    this.isMoreThanFive=false;
     let maintenanceRequestPicture: MaintenanceRequestPicture[]=[];    
 
     this.maintenancePictures = event.target.files;
@@ -126,4 +287,21 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
       this.dataTableFile.TGT_loadData(maintenanceRequestPicture);            
   }
 
+  closeFixBreakdownPopup(){
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForFixBreakdown');
+  }
+
+  checkUserMaintenanceStatus(maintenanceStatusId: number){
+    this.updatedMaintenanceStatusId=maintenanceStatusId;
+
+    if(this.updatedMaintenanceStatusId == 2){
+       this.popupComponent.ShowModal('#modalShowQuestionPopupForQuitBreakdown');
+    }
+  }
+
+  resetForm(data: NgForm) {
+    data.resetForm();
+    this.maintenancePictures = [];
+    // this.fixBreakdown = new Maintenance();
+  }
 }
