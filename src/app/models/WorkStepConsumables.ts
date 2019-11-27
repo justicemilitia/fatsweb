@@ -7,4 +7,10 @@ export class WorkStepConsumables{
     Quantity:number;
 
     Consumable:Consumable;
+
+    constructor() {
+        
+        this.Consumable = new Consumable();
+
+    }
 }

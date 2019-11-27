@@ -87,8 +87,7 @@
                 [ngClass]="{ 'is-invalid': data.submitted && FixedAssetCardCategoryId.invalid }" class="form-control"
                 (click)="loadFixedAssetCardCategories()" #FixedAssetCardCategoryId="ngModel" required>
                 <option [ngValue]="null">Yok</option>
-                <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories"
-                  value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>{{fixedAssetCardCategory.Name}}</option>
+                <option *ngFor="let fixedAssetCardCategory of fixedAssetCardCategories" value={{fixedAssetCardCategory.FixedAssetCardCategoryId}}>{{fixedAssetCardCategory.Name}}</option>
               </select>
               <div *ngIf="data.submitted && FixedAssetCardCategoryId.invalid" class="invalid-feedback">
                 <div *ngIf="FixedAssetCardCategoryId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
@@ -126,12 +125,12 @@
           
           <div *ngIf="visiblePeriodicButton;then insertMaintenance else updateMaintenance"></div>
           <ng-template #insertMaintenance>
-          <button id="btnInsertMaintenance" type="submit" class="btn btn-az-primary"  *ngIf="isWaitingInsertOrUpdate == false && isThereMaintenance == true" [disabled]="isPeriodic == false" >Periyot Ekle</button>
-          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>    
+          <button id="btnInsertMaintenance" type="submit" class="btn btn-az-primary"  *ngIf="isWaitingPeriodicInsertOrUpdate == false && isThereMaintenance == true" [disabled]="isPeriodic == false" >Periyot Ekle</button>
+          <div *ngIf="isWaitingPeriodicInsertOrUpdate == true" class="button-loader"></div>    
           </ng-template>
           <ng-template #updateMaintenance>
-            <button id="btnUpdateMaintenance" type="button" class="btn btn-az-primary"  *ngIf="isWaitingInsertOrUpdate == false && isThereMaintenance == true" (click)="updateFixedAssetCardWithMaintenance()" >Periyot Güncelle</button>
-            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>    
+            <button id="btnUpdateMaintenance" type="button" class="btn btn-az-primary"  *ngIf="isWaitingPeriodicInsertOrUpdate == false && isThereMaintenance == true" (click)="updateFixedAssetCardWithMaintenance()" >Periyot Güncelle</button>
+            <div *ngIf="isWaitingPeriodicInsertOrUpdate == true" class="button-loader"></div>    
           </ng-template>
         </div>
       </form>

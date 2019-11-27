@@ -38,4 +38,13 @@ export class ConsumableCard implements IData{
     ConsumableCardIds: number[];
     FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
     // Consumables: Consumable[]= [];
+
+    /**
+     *
+     */
+    constructor() {
+        this.FixedAssetPropertyDetails =[];
+
+        this.ConsumableUnit = new ConsumableUnit();
+    }
 }

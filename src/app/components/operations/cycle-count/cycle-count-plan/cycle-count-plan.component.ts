@@ -114,7 +114,8 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         type: "text",
         formatter: (value) => {
           if (value) {
-            return value.CycleCountPlanLocations.length> 0 ? value.CycleCountPlanLocations[0].Location.Name : '';
+         
+            return value.CycleCountPlanLocations.length > 0 ? value.CycleCountPlanLocations[0].Location.Name : '';
           }
           else {
             return '';
@@ -386,6 +387,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     this.loadCycleCountPlanList();
 
     this.dataTable.isSelectAllWithChildrenActive=true;
+    this.dataTable.isLoading=false;
 
     //#region DataTable Properties
     this.dataTableLocation.isPagingActive = false;
@@ -442,14 +444,18 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   async loadCycleCountPlanList() {
     this.baseService.cycleCountService.GetCycleCountPlan(
       (cyclecountplans: CycleCountPlan[]) => {
+
         this.cycleCountPlans = cyclecountplans;
 
+       
         this.dataTable.TGT_loadData(this.cycleCountPlans);
+     
+
         if(this.selectedPlanId.length != 0)
         this.dataTable.TGT_selectItemsByIds(this.selectedPlanId);
       },
       (error: HttpErrorResponse) => {       
-        this.baseService.popupService.ShowErrorPopup(error);
+       // this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }
@@ -474,19 +480,19 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       cycleCountResult.NotFoundDuringTheCounting=false;
       cycleCountResult.ShowDifferentLocationsFixedAssets=false;
       cycleCountResult.UnKnownBarcodeList=false;
-      this.dataTableCycleCountDetail.isLoading=true;         
+      this.dataTableCycleCountDetail.isLoading=false;         
       break; 
       case this.cycleCountListEnums.DifferentLocationFixedAsset:
       cycleCountResult.NotFoundDuringTheCounting=false;
       cycleCountResult.ShowDifferentLocationsFixedAssets=true;
       cycleCountResult.UnKnownBarcodeList=false;
-      this.dataTableDifferenLocationFixedAsset.isLoading=true;
+      this.dataTableDifferenLocationFixedAsset.isLoading=false;
       break;
       case this.cycleCountListEnums.NotRegisteredFixedAsset:
       cycleCountResult.NotFoundDuringTheCounting=false;
       cycleCountResult.ShowDifferentLocationsFixedAssets=false;
       cycleCountResult.UnKnownBarcodeList=true;
-      this.dataTableNotRegisteredFixedAsset.isLoading=true;
+      this.dataTableNotRegisteredFixedAsset.isLoading=false;
       break;
     }
 
@@ -537,11 +543,13 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
         this.TGT_calculatePages();
       },
       (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
+       
+        this.baseService.popupService.ShowErrorPopup(error);   
+        this.dataTableNotRegisteredFixedAsset.isLoading=false;  
         this.dataTableCycleCountDetail.isLoading=false; 
         this.dataTableNotFoundFixedAsset.isLoading=false;   
         this.dataTableDifferenLocationFixedAsset.isLoading=false;
-        this.dataTableNotRegisteredFixedAsset.isLoading=false;    
+  
       });
 
   }
@@ -596,6 +604,10 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
+
+    /* Check model state is valid */
+    if (data.form.invalid == true) return;
+
     if (this.cycleCountPlan.CycleCountPlanId == null) {
       this.addCycleCountPlan(data);
     }
@@ -614,9 +626,13 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     willInsertItem.StartTime=convertNgbDateToDateString(willInsertItem.StartTime);
     willInsertItem.EndTime=convertNgbDateToDateString(willInsertItem.EndTime);
 
+    this.baseService.spinner.show();
+
     this.baseService.cycleCountService.InsertCycleCountPlan(
       willInsertItem,
       (insertedItem:CycleCountPlan,message) => {
+
+        this.baseService.spinner.hide();        
 
         this.baseService.popupService.ShowSuccessPopup(message);
 
@@ -624,15 +640,23 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
         willInsertItem.CycleCountPlanId=insertedItem.CycleCountPlanId;
 
-        this.cycleCountPlans.push(willInsertItem);
+        // this.cycleCountPlans.push(willInsertItem);
 
-        this.dataTable.TGT_loadData(this.cycleCountPlans);
+        // let cycleCountPlan:CycleCountPlan[]=[];
 
+        // Object.assign(cycleCountPlan,this.cycleCountPlans)
+
+        // this.dataTable.TGT_loadData(cycleCountPlan);
+
+        //Apiden işlem sonrası dönen Obje, grid'e yüklenen ile aynı olmadığından refresh işlemi tetiklenmiştir.
+        $('#refreshTable').trigger('click');
+        
         this.resetForm(data, true);
       },
       (error:HttpErrorResponse) => {
         this.isWaitingInsertOrUpdate = false;
 
+        this.baseService.spinner.hide();
         /* Show alert message */
         this.baseService.popupService.ShowErrorPopup(error);
       }
@@ -814,6 +838,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
       this.lostFixedAssetButton=false;
       this.locationButton=false;
       this.pagingInfo=null;
+      this.dataTableNotRegisteredFixedAsset.TGT_clearData();
       this.loadCycleCountResult(this.perInPage,this.currentPage,4);
     }
   }
@@ -828,7 +853,7 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
 
     switch(currentTabIndex){
       case 0:
-        this.dataTable.isLoading = true;
+
         this.dataTable.TGT_clearData();
         this.loadCycleCountPlanList();        
       break;

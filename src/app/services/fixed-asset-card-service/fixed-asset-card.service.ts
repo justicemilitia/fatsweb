@@ -107,7 +107,7 @@ export class FixedAssetCardService {
         if (response.ResultStatus == true) {
           let fixedAssetCard: FixedAssetCard = new FixedAssetCard();
           Object.assign(fixedAssetCard, response.ResultObject);
-          success(fixedAssetCard, response.LanguageKeyword);
+          success(fixedAssetCard, response.LanguageKeyword);         
         } else {
           failed(getAnErrorResponse(response.LanguageKeyword));
         }
