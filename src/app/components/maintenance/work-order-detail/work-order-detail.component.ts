@@ -8,6 +8,9 @@ import { WorkOrders } from '../../../models/WorkOrders';
 import { WorkStep } from '../../../models/WorkStep';
 import { IMAGE_URL } from '../../../declarations/service-values';
 import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTable';
+import { WorkStepConsumables } from 'src/app/models/WorkStepConsumables';
+import { ConsumableProperties } from 'src/app/models/ConsumableProperties';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-work-order-detail',
@@ -17,6 +20,7 @@ import { TreeGridTable } from '../../../extends/TreeGridTable/modules/TreeGridTa
 export class WorkOrderDetailComponent extends BaseComponent implements OnInit, OnChanges {
   
   @Input() workOrderDetail: Maintenance = new Maintenance();
+
   @Input() wolComponent: WorkOrderListComponent;
   
   maintenance: Maintenance;
@@ -24,6 +28,21 @@ export class WorkOrderDetailComponent extends BaseComponent implements OnInit, O
   isWorkOrderDone: boolean;
   isWaitingInsertOrUpdate: boolean = false;
   imageUrl: any;
+
+  workStep:WorkStep = new WorkStep();
+
+  processData:Maintenance=new Maintenance();
+
+  workStepConsumable:ConsumableProperties = new ConsumableProperties();
+
+  workStepConsumablesWithProperties:ConsumableProperties[]=[];
+
+  barcode:string;
+  fixedAssetCard:string;
+  maintenanceNumber:string;
+
+  consumables:ConsumableProperties=new ConsumableProperties();
+
 
   public dataTable: TreeGridTable = new TreeGridTable(
     "fixedassetpropertyvalue", [
@@ -50,37 +69,46 @@ export class WorkOrderDetailComponent extends BaseComponent implements OnInit, O
     }
   )
 
-
-
   constructor(baseService: BaseService) {
     super(baseService);
     this.GetWorkStepsByFixedAssetId();
   }
+
   ngOnInit() {
   }
   
-  
+  onSubmit(data:NgForm){
+
+    this.PeriodicMaintenanceProcess(data,this.workSteps);
+
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["workOrderDetail"].currentValue != changes["workOrderDetail"].previousValue) {
-      this.GetWorkStepsByFixedAssetId();
+    
+      this.GetWorkStepsByFixedAssetId();   
+
     }
-  }
+  } 
 
   GetWorkStepsByFixedAssetId() {
     this.maintenance = new Maintenance;
     
-    this.maintenance.FixedAssetId=144795;
-    this.maintenance.MaintenanceNumber=30;
+    this.maintenance.FixedAssetId=this.workOrderDetail.FixedAssetId;
 
-    console.log(this.workOrderDetail);
+    this.maintenance.MaintenanceNumber=this.workOrderDetail.MaintenanceNumber;
     
     this.baseService.workOrderService.GetWorkStepsByFixedAssetId(
-      this.maintenance,
-      // this.workOrderDetail.FixedAssetId,
+      this.maintenance,   
       (maintenance: Maintenance) => {
-        this.maintenance = maintenance;
+
+        Object.assign( this.maintenance, maintenance);      
+       
+        this.barcode = this.maintenance.FixedAsset == null ? "" : this.maintenance.FixedAsset.Barcode;
+        this.fixedAssetCard = this.maintenance.FixedAssetCard == null ? "" : this.maintenance.FixedAssetCard.Name;
+        this.maintenanceNumber = this.maintenance.MaintenanceNumber.toString();
         this.workSteps =maintenance.WorkOrder.WorkSteps;
-        
+        let consumables:WorkStepConsumables[]=[];
         let path: any;
         let thumb="ThumbImages/thumb_";
         this.workSteps.forEach(e => {
@@ -88,12 +116,93 @@ export class WorkOrderDetailComponent extends BaseComponent implements OnInit, O
           path = IMAGE_URL + thumb + e.Picture;
           e.Picture = path;
         }
+          
+        let workStepConsumables:WorkStepConsumables[] = e.WorkStepConsumables;
+
+        workStepConsumables.forEach(t=>{
+            let properties:string = '';
+
+            this.workStepConsumablesWithProperties=[];
+
+            if(t.Consumable.ConsumableCard.FixedAssetPropertyDetails.length == 0)
+              return;            
+             
+            for(let i = 0; i<t.Consumable.ConsumableCard.FixedAssetPropertyDetails.length; i++){
+
+              properties += t.Consumable.ConsumableCard.FixedAssetPropertyDetails[i].Value + (t.Consumable.ConsumableCard.FixedAssetPropertyDetails.length - i == 1 ? "" : ",");
+            
+            }
+
+            properties = t.Consumable.ConsumableCard.ConsumableCardName + ": " + properties + "(" + t.Quantity +" "+  ")";
+
+            let consumableWithProperty:ConsumableProperties = new ConsumableProperties();
+            
+            Object.assign(consumableWithProperty,e);
+
+            consumableWithProperty.ConsumableId = t.ConsumableId;
+
+
+            consumableWithProperty.properties = properties;
+
+            this.workStepConsumablesWithProperties.push(consumableWithProperty);
+
+          });
+
+          e.WorkStepConsumablesWithProperty = this.workStepConsumablesWithProperties;
+
         });
+
+        Object.assign(this.processData,maintenance);
+
+        this.processData.WorkOrder.WorkSteps =  this.workSteps;
+
+        console.log(this.processData);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  PeriodicMaintenanceProcess(data:NgForm,workSteps:WorkStep[]){
+
+    let maintenance:Maintenance=new Maintenance();
+    
+    maintenance.MaintenanceListId = this.processData.MaintenanceListId;
+
+    maintenance.WorkOrderId = this.processData.WorkOrder.WorkOrderId;
+
+    maintenance.WorkSteps = this.processData.WorkOrder.WorkSteps; 
+
+    maintenance.WorkSteps.forEach((e,i)=>{
+
+      let workStep:WorkStep=new WorkStep();
+      
+      workStep.WorkStepId = e.WorkStepId;
+
+      workStep.IsDone = e.IsDone;
+
+      for(let j = 0; j<e.WorkStepConsumablesWithProperty.length;j++){
+
+        let quantity:number = Number(data.value["Quantity_"+ (i) +"_"+j]);
+
+        let consumables:WorkStepConsumables = new WorkStepConsumables();
+
+        consumables.ConsumableId = e.WorkStepConsumablesWithProperty[j].ConsumableId;
+
+        consumables.Quantity = quantity;     
+   
+        workStep.WorkStepConsumables.push(consumables); 
+      }  
+
+      maintenance.WorkStepsForMaintinancesProcess.push(workStep);
+    });
+
+    this.baseService.workOrderService.PeriodicMaintenanceProcess(maintenance,()=>{
+      
+    },(error:HttpErrorResponse)=>{
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
   }
 
   IsWorkOrderDone(event){
