@@ -184,7 +184,7 @@ export class WorkOrderDetailComponent extends BaseComponent implements OnInit, O
 
       for(let j = 0; j<e.WorkStepConsumablesWithProperty.length;j++){
 
-        let quantity:number = Number(data.value["Quantity_"+ (i) +"_"+j]);
+        let quantity:number = Number(data.value["Quantity_"+ i +"_"+j]);
 
         let consumables:WorkStepConsumables = new WorkStepConsumables();
 

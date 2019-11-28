@@ -737,6 +737,8 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
     this.newWorkStep.WorkStepId = this.workStep.WorkStepId;
 
+    this.newWorkStep.imageName = this.imageName ;
+
     updateWorkStep.push(this.newWorkStep);    
     
     setTimeout(()=>{
@@ -989,8 +991,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
       imageFile,
       result => {
         this.FixedAssetCardPicture = result;
-        this.imageName=imageFile[0].name;
-        console.log(this.FixedAssetCardPicture);
+        this.imageName=imageFile[0].name;      
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
