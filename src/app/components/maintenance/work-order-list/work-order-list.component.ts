@@ -28,6 +28,14 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   totalPage: number = 1;
   pages: Page[] = [];
 
+  totalRecords:number = 0;
+
+  pagingInfo:string='';
+  
+  countOfParentItems:number;
+  endDisplayCount:number;
+  totalDisplayItem:number;
+
   tabIndex: number = 0;  
 
   currentTab:number = 0;
@@ -1090,15 +1098,25 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
 
     /* Load all departments to datatable */
     await this.baseService.workOrderService.GetWorkOrdersAndBreakdownRequestList(workOrder,
-      (workOrders: Maintenance[], totalPage: number, message: string) => {
+      (workOrders: Maintenance[], TotalPage:number,TotalRecords:number, message: string) => {
 
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
-        this.totalPage = totalPage ? totalPage : 1;
+        this.totalPage = TotalPage ? TotalPage : 1;
 
-        this.workOrders = workOrders;
-        this.TGT_calculatePages();
+        let endDisplayCount:number = this.currentPage * this.perInPage;
         
+        this.totalRecords = TotalRecords;
+        this.endDisplayCount = endDisplayCount - this.perInPage + 1;
+        this.totalDisplayItem =  this.endDisplayCount + this.countOfParentItems - 1;    
+
+        if(this.totalRecords > 0)
+        this.pagingInfo = this.getLanguageValue('Total')+' '+ this.totalRecords+' '+this.getLanguageValue('records_and')+' '+ this.endDisplayCount + ' '+this.getLanguageValue('with') +' '+ this.totalDisplayItem + ' ' + this.getLanguageValue('records_shown');
+        else
+        this.pagingInfo = this.getLanguageValue('Total') +' 0 '+ this.getLanguageValue('records');
+
+
+        this.workOrders = workOrders;        
 
         switch(this.tabIndex){
           case 1:
@@ -1121,6 +1139,9 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
           this.dataTableCancelledWorkOrders.TGT_loadData(this.workOrders);          
           break;
         }
+
+        this.TGT_calculatePages();
+        
 
         if(this.workOrders.length==0){
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
@@ -1370,7 +1391,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
 
         this.isWaitingInsertOrUpdate = false;
 
-        this.loadWorkOrderList(1,1,25);
+        this.loadWorkOrderList(1,100,1);
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */

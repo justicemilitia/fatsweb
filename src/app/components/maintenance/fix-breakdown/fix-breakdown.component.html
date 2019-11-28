@@ -90,21 +90,14 @@
             <div class="row justify-content-center">
                     <div class="col-md-12 form-group">
                         <label class="required-span" *ngIf= "fixBreakdown.isCancelled == false" style="margin-bottom: 10px;">{{getLanguageValue('Maintenance_Description')}}</label>
-                        <label class="required-span" *ngIf= "fixBreakdown.isCancelled == true" style="margin-bottom: 10px;">{{getLanguageValue('Cancelled_Description')}}</label>
+                        <label class="required-span" *ngIf= "fixBreakdown.isCancelled == true" style="margin-bottom: 10px;">{{getLanguageValue('Maintenance_Description')}}</label>                       
                         <textarea [(ngModel)]="maintenance.CompletionDescription" name="CompletionDescription" style="resize:none" rows="3"
                         #CompletionDescription="ngModel" class="form-control" type="text" 
                         [ngClass]="{ 'is-invalid': data.submitted && CompletionDescription.invalid }" maxlength="150" required></textarea>
+  
                         <div *ngIf="data.submitted && CompletionDescription.invalid" class="invalid-feedback">
                           <div *ngIf="CompletionDescription.errors.required">{{getLanguageValue('This_value_is_required')}}</div>                       
                         </div>
-                        
-                        
-                        <!-- <textarea name="CompletionDescription" style="resize:none" rows="3"
-                        class="form-control" type="text" maxlength="150" #CompletionDescription="ngModel"
-                        [ngClass]="{ 'is-invalid': data.submitted && RequestDescription.invalid }" required></textarea>
-                        <div *ngIf="data.submitted && CompletionDescription.invalid" class="invalid-feedback">
-                            <div *ngIf="CompletionDescription.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                        </div> -->
                 </div>
             </div>
 
@@ -160,7 +153,7 @@
           {{getLanguageValue('Complete_Breakdown')}}
           </button>
             
-          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == true" class="btn btn-az-primary" id="btnCancelBreakdown" type="button" (click)="cancelBreakdown(data)">
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == true" class="btn btn-az-primary" id="btnCancelBreakdown" type="submit" (click)="checkUserMaintenanceStatus(6)">
           {{getLanguageValue('Cancel_Breakdown')}}
           </button>
 
@@ -197,12 +190,12 @@
         
 
              
-       <!-- 'TALEBİ İPTAL ETMEK İSTEDİĞİNDEN EMİN MİSİN?' POPUPI -->
+       <!-- 'TALEBİ BIRAKMAK İSTEDİĞİNDEN EMİN MİSİN?' POPUPI -->
        <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForQuitBreakdown" style=" overflow-y: hidden !important;">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content tx-size-sm">
                 <div class="modal-body tx-center pd-y-20 pd-x-20">
-                    <button type="button" class="close" (click)="closeFixBreakdownPopup()">
+                    <button type="button" class="close" (click)="closeQuitBreakdownPopup()">
                         <span aria-hidden="true">&times;</span>
                       </button>
                   <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
@@ -211,11 +204,11 @@
              
                   <div class="row" style="margin-bottom:20px;">
                       <div class="col-md-6" style="padding-right: 0px;">
-                          <button class="btn btn-az-danger" style="float:right;" (click)="closeFixBreakdownPopup()" >{{getLanguageValue('Cancel')}}</button>        
+                          <button class="btn btn-az-danger" style="float:right;" (click)="closeQuitBreakdownPopup()" >{{getLanguageValue('Cancel')}}</button>        
                         </div>
                  
                     <div class="col-md-6">        
-                    <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="FixBreakdownWithFileUpload(data)">{{getLanguageValue('Fix_Breakdown')}}</button>
+                    <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="FixBreakdownWithFileUpload(data)">{{getLanguageValue('Quit_Breakdown')}}</button>
                       </div>   
                   </div> 
           
@@ -224,3 +217,30 @@
             </div>
           </div>
         
+
+        <!-- 'TALEBİ İPTAL ETMEK İSTEDİĞİNDEN EMİN MİSİN?' POPUPI -->
+        <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForCancelBreakdown" style=" overflow-y: hidden !important;">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content tx-size-sm">
+                    <div class="modal-body tx-center pd-y-20 pd-x-20">
+                        <button type="button" class="close" (click)="closeCancelBreakdownPopup()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+                    <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
+                    <p class="mg-b-20 mg-x-20" style="margin-bottom: 20px;">{{getLanguageValue('Are_you_sure_you_want_to_cancel_breakdown')}}</p>
+                
+                    <div class="row" style="margin-bottom:20px;">
+                        <div class="col-md-6" style="padding-right: 0px;">
+                            <button class="btn btn-az-danger" style="float:right;" (click)="closeCancelBreakdownPopup()" >{{getLanguageValue('Cancel')}}</button>        
+                            </div>
+                    
+                        <div class="col-md-6">        
+                        <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="cancelBreakdown(data)">{{getLanguageValue('Cancel_Breakdown')}}</button>
+                        </div>   
+                    </div> 
+            
+                    </div>
+                </div>
+                </div>
+            </div>

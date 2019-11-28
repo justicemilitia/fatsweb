@@ -109,7 +109,7 @@ export class WorkOrderService {
         headers: GET_HEADERS(this.authenticationService.getToken())
       })
       .subscribe(
-        result => {
+        (result: any) => {
           let response: Response = <Response>result;
           if (response.ResultStatus == true) {
             let workOrders: Maintenance[] = [];
@@ -118,7 +118,7 @@ export class WorkOrderService {
               Object.assign(workOrder, e);
               workOrders.push(workOrder);
             });
-            success(workOrders, response.LanguageKeyword);
+            success(workOrders, result.TotalPage, result.TotalRecords, response.LanguageKeyword);
           } else {
             failed(getAnErrorResponse(response.LanguageKeyword));
           }
