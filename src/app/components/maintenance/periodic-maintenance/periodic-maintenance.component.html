@@ -180,12 +180,13 @@
                     </thead>
                     <tbody>
                       <ng-container *ngFor="let property of consumableCardsWithConsumableObject" >
-                      <tr >
+                      <tr>
                         <td><i class="fas fa-angle-right"></i></td>
                         <td>{{property.properties}}</td>
                         <td (click)="deleteConsumable(property)">
                           <div class="property-add-value">                    
-                          <span class='typcn icon-default typcn-minus'></span></div> 
+                            <span class='typcn icon-default typcn-minus'></span>
+                          </div> 
                         </td>
                       </tr>
                     </ng-container>
@@ -201,8 +202,7 @@
                   </ng-template>
                   <ng-template #updateWorkStep>                   
                         <button id="updateWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="updateWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertWorkStep == false" >İş Adımını Güncelle</button>
-                        <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div> 
-                        
+                        <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div>                         
                         <button class="btn btn-danger" style="margin-left:10px" type="button" (click)="forgetUpdateData()">Vazgeç</button>
                   </ng-template>
                 </div>
