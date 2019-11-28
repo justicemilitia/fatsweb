@@ -79,10 +79,11 @@
                             [ngClass]="{ 'is-invalid': data.submitted && Minute.invalid && !fixBreakdown.isCancelled}" required/>
                           
                     </div>
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
                     <div *ngIf="data.submitted && (Minute.invalid || Hour.invalid)" class="invalid-feedback">
                             <div *ngIf="Minute.errors.required || Hour.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                         </div>
+                    </div>
                 </div>  
             </div>
 

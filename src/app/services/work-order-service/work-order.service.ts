@@ -306,7 +306,7 @@ export class WorkOrderService {
               Object.assign(maintenanceUser, response.ResultObject)
               success(maintenanceUser, response.LanguageKeyword);
             } else {
-            failed(getAnErrorResponse(response.LanguageKeyword));
+            failed();
           }
         },
         (error: HttpErrorResponse) => {

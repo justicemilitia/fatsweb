@@ -222,7 +222,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
         this.isWaitingInsertOrUpdate = false;
 
-        this.wolComponent.loadWorkOrderList(1,1,1);
+        this.wolComponent.loadWorkOrderList(1,100,1);
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -245,9 +245,9 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
         maintenanceListId,
         (maintenanceUser: MaintenanceUser) => {
             this.maintenanceStatusId = maintenanceUser.MaintinanceStatuId;
-        },
+          },
         (error: HttpErrorResponse) => {
-          // this.baseService.popupService.ShowErrorPopup(error);
+          this.maintenanceStatusId = 1          
         }
       );
   }

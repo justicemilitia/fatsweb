@@ -1142,7 +1142,6 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
 
         this.TGT_calculatePages();
         
-
         if(this.workOrders.length==0){
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
