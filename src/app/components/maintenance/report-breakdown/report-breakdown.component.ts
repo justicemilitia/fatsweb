@@ -82,10 +82,10 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
     let cloneItem = new Maintenance();  
     // let maintenanceRequestPicture: MaintenanceRequestPicture[] = [];
 
-    if (this.maintenancePictures.length == 0) {
-      this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Choose_File'));
-      return;
-    } 
+    // if (this.maintenancePictures.length == 0) {
+    //   this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Choose_File'));
+    //   return;
+    // } 
 
     cloneItem.FixedAssetId=this.reportBreakdown.FixedAssetId;
     cloneItem.RequestDescription = data.value.RequestDescription;
@@ -94,7 +94,7 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
       cloneItem.MaintenanceRequestPictures = this.maintenancePictures;
     }
 
-    cloneItem.MaintenanceStatusId=2;
+    cloneItem.MaintenanceStatusId=1;
 
     this.isWaitingInsertOrUpdate = true;
 
