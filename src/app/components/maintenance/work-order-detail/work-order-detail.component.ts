@@ -180,7 +180,7 @@ export class WorkOrderDetailComponent extends BaseComponent implements OnInit, O
       
       workStep.WorkStepId = e.WorkStepId;
 
-      workStep.IsDone = e.IsDone;
+      workStep.IsCompleted = e.IsCompleted;
 
       for(let j = 0; j<e.WorkStepConsumablesWithProperty.length;j++){
 

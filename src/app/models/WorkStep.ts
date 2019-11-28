@@ -25,7 +25,7 @@ export class WorkStep implements IData{
     IsConsumableUsed:boolean;
     Quantity:number;
     Picture:string;
-    IsDone:boolean;
+    IsCompleted:boolean;
     ConsumableCardId:number;
     imageName:string;
 

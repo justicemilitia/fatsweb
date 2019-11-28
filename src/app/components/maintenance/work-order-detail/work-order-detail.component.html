@@ -38,7 +38,7 @@
         <fieldset class="field_set" >
             <legend> 
                 <label class="ckbox">
-                    <input type="checkbox" name="IsDone{{i}}" [(ngModel)]="workStep.IsDone" [checked]="workStep.IsDone"
+                    <input type="checkbox" name="IsCompleted{{i}}" [(ngModel)]="workStep.IsCompleted" [checked]="workStep.IsCompleted"
                     (change)="IsWorkOrderDone($event)"/>
                     <span>{{i+1}}. iş adımı</span>
                 </label> 
@@ -52,7 +52,7 @@
                <div class="col-md-12 form-group">
                 <label>{{getLanguageValue('Description')}}</label>
                 <input [(ngModel)]="workStep.Description" name="Description_{{i}}" type="text" class="form-control" trim="blur" #Description="ngModel"
-                [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                [attr.disabled]="workStep.IsCompleted == true ? 'disabled' : null" />
                </div>
               </div>
 
@@ -74,7 +74,7 @@
       
                     <!-- <div class="row justify-content-center"> -->
                       <div class="col-md-4 form-group">
-                        <input [ngModel]="consumables.Quantity"  name="Quantity_{{i}}_{{j}}" type="text" class="form-control" trim="blur"  [attr.disabled]="consumables.IsDone == true ? 'disabled' : null" />
+                        <input [ngModel]="consumables.Quantity"  name="Quantity_{{i}}_{{j}}" type="text" class="form-control" trim="blur"  [attr.disabled]="consumables.IsCompleted == true ? 'disabled' : null" />
                       </div>
                     </div>
                   </div>
