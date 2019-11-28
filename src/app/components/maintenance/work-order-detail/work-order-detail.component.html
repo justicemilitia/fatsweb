@@ -15,21 +15,21 @@
       <!-- BARKOD -->            
       <div class="col-md-12" style="padding-left:0px;">                       
         <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
-        <span style="margin-left:20px;">{{ maintenance.FixedAsset.Barcode }}</span>
+        <span style="margin-left:20px;">{{barcode}}</span>
         <!-- <span style="margin-left:20px;">{{ maintenance.FixedAsset.Barcode }}</span> -->
       </div>
 
        <!-- DEMİRBAŞ ADI -->
        <div class="col-md-12" style="padding-left:0px;">  
           <label><b>{{getLanguageValue('Fixed_Asset_Card_Name')}}:</b></label>
-          <span style="margin-left:20px;"> {{ maintenance.FixedAssetCard == null ? null : fixBreakdown.FixedAssetCard.Name }}</span>
+          <span style="margin-left:20px;"> {{fixedAssetCard}}</span>
           <!-- <span style="margin-left:20px;">{{ maintenance.FixedAsset.FixedAssetCard.Name }}</span> -->
         </div>
 
       <!-- BAKIM NO -->    
       <div class="col-md-12" style="padding-left:0px;margin-bottom:20px;">  
           <label><b>{{getLanguageValue('Maintenance_Number')}}:</b></label>
-          <span style="margin-left:20px;">{{ maintenance.MaintenanceNumber }}</span>
+          <span style="margin-left:20px;">{{maintenanceNumber}}</span>
           <!-- <span style="margin-left:20px;">{{ maintenance.MaintenanceNumber }}</span> -->
       </div>
 
@@ -41,36 +41,43 @@
                     <input type="checkbox" name="IsDone{{i}}" [(ngModel)]="workStep.IsDone" [checked]="workStep.IsDone"
                     (change)="IsWorkOrderDone($event)"/>
                     <span>{{i+1}}. iş adımı</span>
-                  </label> 
+                </label> 
               </legend>
 
-                <div class="row justify-content-center" style="margin-top: 20px;">
-            
+          <div class="row justify-content-center" style="margin-top: 20px;">      
+            <input [(ngModel)]="workStep.WorkStepId" name="WorkStepId_{{i}}" style="display:none"/>      
             <div class="col-md-10">
                 <!-- AÇIKLAMA -->
+                <div class="row justify-content-center">
                <div class="col-md-12 form-group">
                 <label>{{getLanguageValue('Description')}}</label>
                 <input [(ngModel)]="workStep.Description" name="Description_{{i}}" type="text" class="form-control" trim="blur" #Description="ngModel"
                 [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
                </div>
+              </div>
 
                 <!-- KULLANILACAK/KULLANILAN SARF MALZEME ADETİ -->
                 <div class="row justify-content-center">
-                    <div class="col-md-6 form-group">
-                      <label>Kullanılacak Sarf Malzeme Adeti</label>
-                      <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
-                      [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                    <div class="col-md-8 form-group">
+                        <label>Kullanılacak Sarf Malzeme Adeti</label>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>Kullanılan Adet</label>                       
+                    </div>
+                </div>
+                <div *ngFor="let consumables of workStep.WorkStepConsumablesWithProperty; let j = index" style="margin-top:25px;margin-right: 10px;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 form-group">
+                      <input type="text" class="form-control" trim="blur"  value={{consumables.properties}} disabled/>
                     </div>
                   <!-- </div> -->
       
                     <!-- <div class="row justify-content-center"> -->
-                      <div class="col-md-6 form-group">
-                        <label>Kullanılan Sarf Malzeme Adeti</label>
-                        <input [(ngModel)]="workStep.WorkStepConsumables.Quantity" name="Quantity_Used_{{i}}" type="text" class="form-control" trim="blur" #Quantity="ngModel"
-                        [attr.disabled]="workStep.IsDone == true ? 'disabled' : null" />
+                      <div class="col-md-4 form-group">
+                        <input [ngModel]="consumables.Quantity"  name="Quantity_{{i}}_{{j}}" type="text" class="form-control" trim="blur"  [attr.disabled]="consumables.IsDone == true ? 'disabled' : null" />
                       </div>
                     </div>
-                      
+                  </div>
                   
                   
                 <!-- </div> -->

@@ -7,6 +7,7 @@ import { MaintenanceStatus } from './MaintenanceStatus';
 import { FixedAsset } from './FixedAsset';
 import { WorkOrders } from './WorkOrders';
 import { MaintenanceUser } from './MaintenanceUser';
+import { WorkStep } from './WorkStep';
 
 export class Maintenance implements IData {
     getParentId(): number {
@@ -57,14 +58,19 @@ export class Maintenance implements IData {
     MaintenanceStatus:MaintenanceStatus;
     RequestedUser:User;
     AttendantUser:User;
+    WorkSteps:WorkStep[];
 
+    WorkOrderId:number;
+    WorkStepsForMaintinancesProcess:WorkStep[];
     MaintenanceRequestPictures: MaintenanceRequestPicture[];
     MaintinanceUsers: MaintenanceUser[];
     constructor() {
+        this.WorkSteps = [];
         // this.FixedAssetCard = new FixedAssetCard();
         // this.FixedAsset = new FixedAsset();
         // this.WorkOrder = new WorkOrders();
         // this.RequestedUser = new User();
         // this.AttendantUser = new User();
+        this.WorkStepsForMaintinancesProcess=[];
       }
 }

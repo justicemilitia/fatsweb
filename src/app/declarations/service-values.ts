@@ -419,6 +419,7 @@ export const UPDATE_WORK_ORDER ="WorkOrder/UpdateWorkOrder";
 export const GET_USER_STATUS_BY_MAINTENANCE_ID ="WorkOrder/GetUserStatusByMaintenanceId";
 export const GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID ="WorkOrder/GetMaintenanceRequestPicturesByMaintenanceId";
 export const CANCEL_BREAKDOWN = "WorkOrder/CancelBreakdown";
+export const PERIODIC_MAINTENANCE_PROCESS = "WorkOrder/PeriodicMaintenanceProcess";
 //#endregion
 
 

@@ -62,6 +62,7 @@ export class ConsumableProperties implements IData{
      */
     constructor() {
        this.Consumable = new Consumable();
+       this.Quantity = 0;
     }
 
 

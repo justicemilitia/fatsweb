@@ -30,9 +30,15 @@ export class WorkStep implements IData{
     imageName:string;
 
     WorkStepConsumables: WorkStepConsumables[];
+    WorkStepConsumablesWithProperty:ConsumableProperties[];
+    ConsumableId:number;
     
-    ConsumableProperties:ConsumableProperties[];    
+    Consumable:Consumable;
+    
+    ConsumableProperties:ConsumableProperties[];  
+
     Consumables: Consumable[];
+    ConsumableProcess:WorkStepConsumables[];
 
     /**
      *
@@ -41,5 +47,8 @@ export class WorkStep implements IData{
         this.WorkStepConsumables=[];
         this.ConsumableProperties=[];
         this.Consumables =[];      
+        this.WorkStepConsumablesWithProperty= [];
+        this.ConsumableProcess=[];
+        this.Consumable = new Consumable();
     }
 }
