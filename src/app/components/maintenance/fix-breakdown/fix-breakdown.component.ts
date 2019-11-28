@@ -40,7 +40,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
   HourMinute: string = '';
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
-
+  isModalOpen: boolean = false;
   url: any;
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
@@ -105,15 +105,31 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
         let hour: number = Math.floor((this.fixBreakdown.MaintenanceTotalTime/60));
         let minute: number = Math.floor((this.fixBreakdown.MaintenanceTotalTime %60));
         this.HourMinute = hour + ' saat ' + minute + ' dakika';
+
+        this.maintinanceUser.Hour = hour;
+        this.maintinanceUser.Minute = minute;
+
+        Object.assign(this.maintenance, this.fixBreakdown);
     }
   }
 
   onSubmit(data: NgForm) {
-
-    this.dtFileLength =this.dataTableFile.TGT_selectAllItems().length;
-    if (data.form.invalid == true || this.dtFileLength>5) return;
-    else
-      this.popupComponent.ShowModal('#modalShowQuestionPopupForFixBreakdown');
+  
+    if(this.updatedMaintenanceStatusId==6){
+      if (data.form.invalid == true) return;
+      else
+      this.popupComponent.ShowModal('#modalShowQuestionPopupForCancelBreakdown');      
+    }
+    
+    else{ 
+        this.dtFileLength =this.dataTableFile.TGT_selectAllItems().length;
+          if (data.form.invalid == true || this.dtFileLength>5) return;
+          else
+          {
+            // this.wolComponent.ClosePopup(true);      
+            this.popupComponent.ShowModal('#modalShowQuestionPopupForFixBreakdown');
+          }
+        }
   }
 
   //ARIZA GİDERME
@@ -152,8 +168,8 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
         this.baseService.spinner.hide();
 
-        this.popupComponent.CloseModal('#modalShowQuestionPopupForFixBreakdown');      
-
+        this.closeFixBreakdownPopup();
+        
         this.maintenanceStatusId = insertedItem.MaintenanceStatusId;
         insertedItem.CompletionDescription='';
         insertedItem.MaintenanceTotalTime=null;
@@ -163,7 +179,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
         this.isWaitingInsertOrUpdate = false;
 
-        this.wolComponent.loadWorkOrderList(1,1,25);
+        this.wolComponent.loadWorkOrderList(1,100,1);
         this.wolComponent.ClosePopup(true);
 
       },
@@ -185,9 +201,10 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
     if (data.form.invalid == true) return;
     
     let cloneItem = new Maintenance();
- 
-    cloneItem.MaintenanceStatusId = data.value.MaintenanceStatusId;
-    cloneItem.MaintenanceListId = data.value.MaintenanceListId;
+    
+    cloneItem.CompletionDescription = data.value.CompletionDescription;
+    cloneItem.MaintenanceStatusId = this.fixBreakdown.MaintenanceStatusId;
+    cloneItem.MaintenanceListId = this.fixBreakdown.MaintenanceListId;
 
     this.isWaitingInsertOrUpdate = true;
 
@@ -205,7 +222,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
         this.isWaitingInsertOrUpdate = false;
 
-        this.wolComponent.loadWorkOrderList(1,1,25);
+        this.wolComponent.loadWorkOrderList(1,100,1);
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
@@ -218,7 +235,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
         this.isWaitingInsertOrUpdate = false;
       }
     );
-    this.popupComponent.CloseModal('#modalShowQuestionPopupForQuitBreakdown');      
+    this.closeCancelBreakdownPopup();
   }
 
  
@@ -242,7 +259,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
       (maintenanceRequestPictures: MaintenanceRequestPicture[]) => {
 
         let path="UploadFiles/ThumbImages/thumb_";
-        this.imageArray= [];
+        this.requestImageArray= [];
         for (var i = 0; i < maintenanceRequestPictures.length; i++) {
            
             let requestPic: MaintenanceRequestPicture = new MaintenanceRequestPicture;
@@ -289,6 +306,14 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
   closeFixBreakdownPopup(){
     this.popupComponent.CloseModal('#modalShowQuestionPopupForFixBreakdown');
+  }
+
+  closeQuitBreakdownPopup(){
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForQuitBreakdown');
+  }
+
+  closeCancelBreakdownPopup(){
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForCancelBreakdown');
   }
 
   checkUserMaintenanceStatus(maintenanceStatusId: number){

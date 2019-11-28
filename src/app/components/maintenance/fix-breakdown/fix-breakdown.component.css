@@ -11,6 +11,7 @@
   }
   
   .table-scroll{
+    height: 490px;
     overscroll-behavior-y: contain;
     overflow-y: scroll;
     padding-left: 10px;

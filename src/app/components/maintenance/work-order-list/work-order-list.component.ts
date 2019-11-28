@@ -1370,7 +1370,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
 
         this.isWaitingInsertOrUpdate = false;
 
-        this.loadWorkOrderList(1,1,25);
+        this.loadWorkOrderList(1,100,1);
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
