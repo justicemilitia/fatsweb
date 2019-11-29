@@ -32,7 +32,7 @@
 }
 
 .table-scroll{
-    height: 550px;
+    height: 350px;
     overscroll-behavior-y: contain;
     overflow-y: scroll;
     }

@@ -200,11 +200,15 @@
                     <button id="insertWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="insertWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertWorkStep == false" >İş Adımı Ekle</button>
                     <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div>
                   </ng-template>
-                  <ng-template #updateWorkStep>                   
+                  <ng-template #updateWorkStep>   
+                    <div class="form-group">                
                         <button id="updateWorkStep" type="button" class="btn btn-az-primary small" style="margin-bottom: 5px" (click)="updateWorkStepToDataTableWorkStep(data)" *ngIf="isWaitingInsertWorkStep == false" >İş Adımını Güncelle</button>
-                        <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div>                         
-                        <button class="btn btn-danger" style="margin-left:10px" type="button" (click)="forgetUpdateData()">Vazgeç</button>
-                  </ng-template>
+                        <div *ngIf="isWaitingInsertWorkStep == true" class="button-loader"></div>          
+                      </div>   
+                      <div class="form-group">            
+                        <button class="btn btn-az-primary small" style="margin-left:10px; background-color: #dc3545;" type="button" (click)="forgetUpdateData()">Vazgeç</button>
+                      </div>
+                    </ng-template>
                 </div>
               </fieldset> 
             </div>
@@ -218,8 +222,10 @@
                         <div class="form-group">
                         <div *ngIf="visibleWorkOrderButton;then insertMaintenance else updateMaintenance"></div>
                         <ng-template #insertMaintenance>
+                            <div class="form-group">
                           <button id="insertWorkOrder" type="submit" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false" [disabled]="disablebtnAddWorkOrder == false">İş Emrini Kaydet</button>
                           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+                        </div>
                         </ng-template>
                         <ng-template #updateMaintenance>
                             <button id="updateWorkOrder" type="submit" class="btn btn-az-primary small" *ngIf="isWaitingInsertOrUpdate == false">İş Emrini Güncelle</button>

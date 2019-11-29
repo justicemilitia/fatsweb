@@ -52,7 +52,7 @@
                <div class="col-md-12 form-group">
                 <label>{{getLanguageValue('Description')}}</label>
                 <input [(ngModel)]="workStep.Description" name="Description_{{i}}" type="text" class="form-control" trim="blur" #Description="ngModel"
-                [attr.disabled]="workStep.IsCompleted == true ? 'disabled' : null" />
+                disabled/>
                </div>
               </div>
 
@@ -65,7 +65,7 @@
                         <label>Kullanılan Adet</label>                       
                     </div>
                 </div>
-                <div *ngFor="let consumables of workStep.WorkStepConsumablesWithProperty; let j = index" style="margin-top:25px;margin-right: 10px;">
+                <div *ngFor="let consumables of workStep.WorkStepConsumablesWithProperty; let j = index" >
                 <div class="row justify-content-center">
                     <div class="col-md-8 form-group">
                       <input type="text" class="form-control" trim="blur"  value={{consumables.properties}} disabled/>
