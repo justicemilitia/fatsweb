@@ -323,8 +323,8 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
   checkUserMaintenanceStatus(maintenanceStatusId: number){
     this.updatedMaintenanceStatusId=maintenanceStatusId;
-
-    if(this.updatedMaintenanceStatusId == 2){
+    
+    if(maintenanceStatusId == 2){
        this.popupComponent.ShowModal('#modalShowQuestionPopupForQuitBreakdown');
     }
   }

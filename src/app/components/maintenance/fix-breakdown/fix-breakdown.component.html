@@ -137,20 +137,20 @@
         <!-- modal-body -->
         <div class="modal-footer">
 
-          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 1" class="btn btn-az-primary" id="btnFixBreakdown" type="submit" (click)="checkUserMaintenanceStatus(3)">
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 1" class="btn btn-az-primary" id="btnFixBreakdown" type="button" (click)="checkUserMaintenanceStatus(3, true)">
             {{getLanguageValue('Start')}}
           </button>
 
-          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 2" class="btn btn-az-primary" id="btnFixBreakdown" type="submit" (click)="checkUserMaintenanceStatus(3)">
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 2" class="btn btn-az-primary" id="btnFixBreakdown" type="submit" (click)="checkUserMaintenanceStatus(3, false)">
           {{getLanguageValue('Continue')}}
           </button>
 
-          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 3" class="btn btn-az-primary" id="btnFixBreakdown" type="button" (click)="checkUserMaintenanceStatus(2)">
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 3" class="btn btn-az-primary" id="btnFixBreakdown" type="button" (click)="checkUserMaintenanceStatus(2, false)">
           {{getLanguageValue('Quit_Breakdown')}}
           </button>
 
           
-          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 3" class="btn btn-az-primary" id="btnFixBreakdown" type="submit" (click)="checkUserMaintenanceStatus(5)">
+          <button *ngIf="isWaitingInsertOrUpdate == false && fixBreakdown.isCancelled == false && maintenanceStatusId == 3" class="btn btn-az-primary" id="btnFixBreakdown" type="submit" (click)="checkUserMaintenanceStatus(5, false)">
           {{getLanguageValue('Complete_Breakdown')}}
           </button>
             

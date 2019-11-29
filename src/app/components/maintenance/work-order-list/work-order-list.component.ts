@@ -35,7 +35,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   countOfParentItems:number;
   endDisplayCount:number;
   totalDisplayItem:number;
-
+  IsValid: boolean = true;
   tabIndex: number = 0;  
 
   currentTab:number = 0;
@@ -1112,19 +1112,23 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
       maintenanceStatus.push(MaintenanceStatus.PLANNED);
       maintenanceStatus.push(MaintenanceStatus.CONTINUING);
       maintenanceStatus.push(MaintenanceStatus.PENDING);
-      maintenanceStatus.push(MaintenanceStatus.DELAYED);      
+      maintenanceStatus.push(MaintenanceStatus.DELAYED);     
+      this.IsValid=true;             
       break; 
       case 2:
       this.tabIndex = 2;
       maintenanceStatus.push(MaintenanceStatus.PLANNED);
+      this.IsValid=true;            
       break;
       case 3:
       this.tabIndex = 3;
       maintenanceStatus.push(MaintenanceStatus.DONE);
+      this.IsValid=true;            
       break;
       case 4:
       this.tabIndex = 4;
       maintenanceStatus.push(MaintenanceStatus.CANCELLED);
+      this.IsValid=false;      
       break;
     }
 
@@ -1133,8 +1137,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     workOrder.MaintenanceStatusIds = maintenanceStatus;
     workOrder.PerPage=_perInPage;
     workOrder.Page=_currentPage;
-
-    console.log(workOrder.MaintenanceStatusIds);
+    workOrder.IsValid=this.IsValid;
 
     /* Load all departments to datatable */
     await this.baseService.workOrderService.GetWorkOrdersAndBreakdownRequestList(workOrder,
