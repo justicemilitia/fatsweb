@@ -433,6 +433,14 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     "workOrder",
     [
       {
+        columnDisplayName: this.getLanguageValue('Barcode'),
+        columnName: ["FixedAsset", "Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAsset", "FixedAssetCard", "Name"],
         isActive: true,
@@ -551,6 +559,14 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
     "plannedWorkOrder",
     [
       {
+        columnDisplayName: this.getLanguageValue('Barcode'),
+        columnName: ["FixedAsset", "Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
+      {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAsset", "FixedAssetCard", "Name"],
         isActive: true,
@@ -646,6 +662,14 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   public dataTableCompletedWorkOrders: TreeGridTable = new TreeGridTable(
     "completedWorkOrder",
     [
+      {
+        columnDisplayName: this.getLanguageValue('Barcode'),
+        columnName: ["FixedAsset", "Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
       {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAsset", "FixedAssetCard", "Name"],
@@ -745,6 +769,14 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
         classes: [],
         placeholder: "",
         type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Completion_Description'),
+        columnName: ["CompletionDescription"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
       }
     ],
     {
@@ -756,6 +788,14 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   public dataTableCancelledWorkOrders: TreeGridTable = new TreeGridTable(
     "cancelledWorkOrder",
     [
+      {
+        columnDisplayName: this.getLanguageValue('Barcode'),
+        columnName: ["FixedAsset", "Barcode"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      },
       {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Card_Name'),
         columnName: ["FixedAsset", "FixedAssetCard", "Name"],

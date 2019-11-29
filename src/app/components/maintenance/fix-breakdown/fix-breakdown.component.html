@@ -8,8 +8,8 @@
       <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid">
         <div class="modal-body">
           <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
-          <div class="col-md-12 table-scroll" >                             
-           <!-- BARKOD -->      
+          <div class="col-md-12 table-scroll" [ngClass]="{'table-with-scroll' : fixBreakdown.isCancelled == false, 'table-scroll' : fixBreakdown.isCancelled == true }">
+            <!-- BARKOD -->      
            <div class="col-md-12" style="padding-left:0px;">                       
               <label><b>{{getLanguageValue('Barcode')}}:</b></label>                                            
               <!-- <span style="margin-left:20px;"></span> -->
@@ -70,18 +70,18 @@
                     <div class="row">
                     <div class="col-md-3 form-group">
                             <input type="text" class="form-control" [(ngModel)]="maintinanceUser.Hour" name="Hour" #Hour="ngModel" trim="blur" onkeypress="return event.charCode >= 48" min="0"
-                            [ngClass]="{ 'is-invalid': data.submitted && Hour.invalid && !fixBreakdown.isCancelled}" required/>
+                            [ngClass]="{ 'is-invalid': data.submitted && Hour.invalid && fixBreakdown.isCancelled == false}" required/>
                             
                     </div>   
                     <span>:</span>   
                     <div class="col-md-3 form-group">
                             <input type="text" class="form-control" [(ngModel)]="maintinanceUser.Minute" name="Minute" #Minute="ngModel" onkeypress="return event.charCode >= 48" min="0" max="60" trim="blur" 
-                            [ngClass]="{ 'is-invalid': data.submitted && Minute.invalid && !fixBreakdown.isCancelled}" required/>
+                            [ngClass]="{ 'is-invalid': data.submitted && Minute.invalid && fixBreakdown.isCancelled == false}" required/>
                           
                     </div>
                     <div class="col-md-6">
-                    <div *ngIf="data.submitted && (Minute.invalid || Hour.invalid)" class="invalid-feedback">
-                            <div *ngIf="Minute.errors.required || Hour.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                    <div *ngIf="(Minute.invalid || Hour.invalid)" class="invalid-feedback">
+                            <div>{{getLanguageValue('This_value_is_required')}}</div>
                         </div>
                     </div>
                 </div>  
