@@ -220,7 +220,6 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
     this.isLocationDropdownOpen = false;
     this.isFirmDropdownOpen = false;  
     this.isUserDropdownOpen=false;      
-    this.loadDepartmentByLocationId();
     break;
 
     case "user":
@@ -363,10 +362,16 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
       {
         this.firms=firms;
         this.dataTableFirm.TGT_loadData(this.firms);
-      },(error: HttpErrorResponse)=>{
+      },(error: HttpErrorResponse)=>{}
+    );
 
-      });
-
+      this.baseService.departmentService.GetDepartments(
+        (departments: Department[]) => {
+          this.departments = departments;
+          this.dataTableDepartment.TGT_loadData(this.departments);
+        },
+        (error: HttpErrorResponse) => {}
+      );
   }
 
   loadDropdownListByFirmId(firmId: number) {
@@ -392,20 +397,4 @@ export class FaChangeFirmComponent extends BaseComponent implements OnInit {
       }
     );
   }
-
-  async loadDepartmentByLocationId() {
-    this.departments = [];
-      if( this.selectedLocation != null){
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-
-        this.selectedLocation.LocationId,
-        (departments: Department[]) => {
-          this.departments = departments;
-          this.dataTableDepartment.TGT_loadData(this.departments);
-        },
-        (error: HttpErrorResponse) => {}
-      );
-    }
-  }
-
 }

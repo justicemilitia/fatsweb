@@ -26,7 +26,7 @@ import { TreeGridTable } from '../../../../extends/TreeGridTable/modules/TreeGri
   providers: [FaChangeDepartmentComponent]
 })
 export class FaChangeDepartmentComponent extends BaseComponent
-  implements OnInit, OnChanges {
+  implements OnInit {
 
   @Input() faBarcode: FixedAsset = new FixedAsset();
   @Input() faComponent: FixedAssetComponent;
@@ -61,7 +61,7 @@ export class FaChangeDepartmentComponent extends BaseComponent
   
   constructor(baseService: BaseService) {
     super(baseService);
-    this.loadDepartmentByLocationId();
+    this.loadDropdownList();
 
     this.dataTableDepartment.isPagingActive = false;
     this.dataTableDepartment.isColumnOffsetActive = false;
@@ -89,8 +89,6 @@ export class FaChangeDepartmentComponent extends BaseComponent
       
     case "department":
     this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
-    this.loadDepartmentByLocationId();
-
     break;
     }
   }
@@ -100,13 +98,13 @@ export class FaChangeDepartmentComponent extends BaseComponent
     this.selectedDepartment = item;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes["faBarcode"].currentValue != changes["faBarcode"].previousValue
-    ) {
-      this.loadDepartmentByLocationId();
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (
+  //     changes["faBarcode"].currentValue != changes["faBarcode"].previousValue
+  //   ) {
+  //     this.loadDepartmentByLocationId();
+  //   }
+  // }
 
   onSubmit(data: NgForm) {
 
@@ -184,37 +182,17 @@ export class FaChangeDepartmentComponent extends BaseComponent
     this.popupComponent.CloseModal("#modalShowQuestionPopupForChangeDepartment");
   }
 
-  // async loadDropdownList() {
-  //   /* Load departments to department dropdown */
-  //   this.baseService.departmentService.GetDepartmentsByLocationId(
-  //     this.faBarcode.DepartmentId,
-  //     (departments: Department[]) => {
-  //       this.departments = departments;
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       this.baseService.popupService.ShowErrorPopup(error);
-  //     }
-  //   );
-  // }
-
-  loadDepartmentByLocationId() {
-    this.departments = [];
-
-    if (this.faBarcode.Location.LocationId == 0 || !this.faBarcode.Location.LocationId) {
-      return;
-    }
-
-    if (this.faBarcode.Location) {
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-        this.faBarcode.Location.LocationId,
-        (departments: Department[]) => {
-          this.departments = departments;
-          this.dataTableDepartment.TGT_loadData(this.departments);          
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
+  async loadDropdownList() {
+    /* Load departments to department dropdown */
+    this.baseService.departmentService.GetDepartments(
+      (departments: Department[]) => {
+        this.departments = departments;
+        this.dataTableDepartment.TGT_loadData(this.departments);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
+
 }

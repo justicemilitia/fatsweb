@@ -250,7 +250,7 @@
 
           <div class="form-group col-md-6">
             <label>{{getLanguageValue('Consumable_Category')}}</label>
-            <input name="ConsumableCategoryId"  value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCategory.ConsumableCategoryName}}" class="form-control" type="text" disabled/>
+            <input name="ConsumableCategoryId"  value="{{consumable.ConsumableCard == null ? '' : (consumable.ConsumableCard.ConsumableCategory == null ? '' : consumable.ConsumableCard.ConsumableCategory.ConsumableCategoryName)}}" class="form-control" type="text" disabled/>
           </div>       
           </div>
 

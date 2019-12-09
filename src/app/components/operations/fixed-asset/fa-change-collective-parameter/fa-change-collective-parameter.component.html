@@ -85,7 +85,7 @@
                     <div class="col-md-3 form-group">
                         <label>{{getLanguageValue('Location')}}</label>
                         <select
-                          [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel" (change)="loadDepartmentByLocationId($event)">
+                          [(ngModel)]="fixedAsset.LocationId" name="LocationId" class="form-control" #LocationId="ngModel">
                           <option value="">Seçiniz</option>
                           <option
                             *ngFor="let location of locations"

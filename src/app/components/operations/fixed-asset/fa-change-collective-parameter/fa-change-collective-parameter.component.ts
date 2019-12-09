@@ -155,6 +155,16 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent
       }
     );
 
+     // LocationList
+     this.baseService.departmentService.GetDepartments(
+      (departments: Department[]) => {
+        this.departments = departments;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
     // ExpenseCenterList
     this.baseService.expenseCenterService.GetExpenseCenters(
       (expCenters: ExpenseCenter[]) => {
@@ -216,29 +226,6 @@ export class FaChangeCollectiveParameterComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-  }
-
-  loadDepartmentByLocationId(event: any) {
-    this.departments = [];
-    this.selectedFirm = false;
-
-    if (!event.target.value || event.target.value == "") {
-      this.fixedAsset.DepartmentId = null;
-      this.fixedAsset.Department = new Department();
-      return;
-    }
-
-    if (event.target.value) {
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-        <number>event.target.value,
-        (departments: Department[]) => {
-          this.departments = departments;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
   }
 
   loadModelByBrandId(event: any) {
