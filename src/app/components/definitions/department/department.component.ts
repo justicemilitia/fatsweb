@@ -47,6 +47,8 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
 
   /* Current Edit Department */
   department: Department = new Department();
+  isLocationDropdownOpen: boolean = false;
+  isDepartmentDropdownOpen:boolean = false;
 
   notDeletedBarcode: string = '';
   
@@ -94,10 +96,72 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     }
   );
 
+  public dataTableLocation: TreeGridTable = new TreeGridTable(
+    "ddllocation",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Location'),
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableDepartment: TreeGridTable = new TreeGridTable(
+    "ddldepartment",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Department'),
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
   constructor(public baseService: BaseService) {
     super(baseService);
     this.loadDepartments();
     this.loadDropdownList();
+
+    this.dataTableLocation.isPagingActive = false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isMultipleSelectedActive = false;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isHeaderVisible = false;
+    this.dataTableLocation.isScrollActive = false;
+
+    this.dataTableDepartment.isPagingActive = false;
+    this.dataTableDepartment.isColumnOffsetActive = false;
+    this.dataTableDepartment.isDeleteable = false;
+    this.dataTableDepartment.isMultipleSelectedActive = false;
+    this.dataTableDepartment.isLoading = false;
+    this.dataTableDepartment.isHeaderVisible = false;
+    this.dataTableDepartment.isScrollActive = false;
+
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnDepartment").length == 0 
+      ) {
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen = false;
+      }
+    });
   }
 
   ngOnInit() {}
@@ -138,13 +202,9 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     this.popupComponent.ShowModal('#modalShowDeletePopupForDepartment');
     
   }
-  
-  get getDepartmentsWithoutCurrent() {
-    return this.departments.filter(
-      x => x.DepartmentId != this.department.DepartmentId
-    );
-  }
 
+//#endregion
+  
   async deleteDepartments() {
 
       this.notDeletedBarcode = '';
@@ -227,26 +287,6 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     // });
   }
 
-  loadDepartmentByLocationId(event: any) {
-    this.ddlDepartments = [];
-
-    if (!event.target.value || event.target.value == "") {
-      this.department.ParentDepartmentId = null;      
-      return;
-    }
-
-    if (event.target.value) {
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-        <number>event.target.value,
-        (departments: Department[]) => {
-          this.ddlDepartments = departments;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
-  }
 
   async insertDepartment(data: NgForm) {
 
@@ -268,7 +308,11 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     /* Bind found item to department model */
     this.department.Location.LocationId = location.LocationId;
     this.department.Location.Name = location.Name;
-
+ 
+    /* Save parent to rollback it. Normally api says circuler error */
+    let parentDepartment = this.department.ParentDepartment;
+    this.department.ParentDepartment = null;
+    
     /* Show Loading bar */
     this.isWaitingInsertOrUpdate = true;
 
@@ -392,15 +436,17 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
       }
     );
 
-    /* Load locations to location dropdown */
-    // await this.baseService.departmentService.GetDepartments(
-    //   departments => {
-    //     this.ddlDepartments = departments;
-    //   },
-    //   (error: HttpErrorResponse) => {
-    //     this.baseService.popupService.ShowErrorPopup(error);
-    //   }
-    // );
+    await this.baseService.departmentService.GetDepartments(
+      departments => {
+        this.ddlDepartments = this.departments;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+      /* Load departments to department dropdown */
+      // this.ddlDepartments = this.departments.filter(x => x.DepartmentId != this.department.DepartmentId);
+      
   }
 
   async loadDepartments() {
@@ -408,6 +454,8 @@ export class DepartmentComponent extends BaseComponent implements OnInit, OnChan
     await this.baseService.departmentService.GetDepartments(
       (departments: Department[]) => {
         this.departments = departments;
+        this.ddlDepartments = departments.filter(x => x.DepartmentId != this.department.DepartmentId);        
+        
         this.dataTable.TGT_loadData(this.departments);
         if(this.departments.length==0){
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));

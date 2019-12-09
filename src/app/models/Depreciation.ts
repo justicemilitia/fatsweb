@@ -21,7 +21,7 @@ export class Depreciation implements IData {
     DepreciationId: number;
     DecreciationCalculationTypeId: number;
     FixedAssetId: number;
-    EndDate: string;
+    EndDate: NgbDate;
     Rate: number;
     Value: number;
     AccumulatedValue: number;

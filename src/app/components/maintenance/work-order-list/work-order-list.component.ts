@@ -1037,7 +1037,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
   }
 
   
-  async loadFixedAsset(_perInPage: number = 25, _currentPage: number = 1) {
+  async loadFixedAsset(_perInPage: number = 100, _currentPage: number = 1) {
 
     this.dataTableFixedAssetList.TGT_clearData();
     this.dataTableFixedAssetList.isLoading = true;
@@ -1378,7 +1378,7 @@ export class WorkOrderListComponent extends BaseComponent implements OnInit {
 
   refreshTable(){
     this.isTableRefreshing = true;
-    this.perInPage = 25;
+    this.perInPage = 100;
     this.currentPage = 1
 
     switch(this.tabIndex){
