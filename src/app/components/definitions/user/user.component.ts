@@ -683,10 +683,10 @@ export class UserComponent extends BaseComponent implements OnInit {
     /* Show spinner for loading */
     this.baseService.spinner.show();
 
-    if(item.Department)
-      this.loadDepartmentByLocationId({ target: { value: item.LocationId } });
-    else
-      this.departments = [];
+    // if(item.Department)
+    //   this.loadDepartmentByLocationId({ target: { value: item.LocationId } });
+    // else
+    //   this.departments = [];
 
     this.isInsertOrUpdate = true;
     
@@ -859,6 +859,13 @@ export class UserComponent extends BaseComponent implements OnInit {
       this.dataTableLocation.TGT_loadData(this.locations);
     },(error:HttpErrorResponse)=>{});
 
+       //Get Departments
+       this.baseService.departmentService.GetDepartments((department:Department[])=>{
+        this.departments=department;
+        // this.dataTableLocation.TGT_loadData(this.locations);
+      },(error:HttpErrorResponse)=>{});
+  
+
     //Get Firms
     this.baseService.userService.GetFirms(
       (firms:Firm[])=>
@@ -868,46 +875,6 @@ export class UserComponent extends BaseComponent implements OnInit {
       },(error: HttpErrorResponse)=>{
 
       });
-  }
-
-  loadLocationList(){
-     //Get Locations
-     if(!this.locations || this.locations.length == 0)
-     {
-       this.departments = [];
-
-       this.baseService.locationService.GetLocations(
-           (locations: Location[]) => {
-             this.locations = locations;
-           },
-           (error:HttpErrorResponse)=>{
-
-           }
-       );      
-     }
-  }
-
-  loadDepartmentByLocationId(event: any) {
-    this.departments = [];
-    this.currentUser.DepartmentId=null;
-
-    if (!event.target.value || event.target.value == "") {
-      this.currentUser.DepartmentId = null;
-      this.currentUser.Department = new Department();
-      return;
-    }
-
-    if (event.target.value) {
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-        <number>event.target.value,
-        (departments: Department[]) => {
-          this.departments = departments;
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
   }
 
   onItemSelect(item: Role) {

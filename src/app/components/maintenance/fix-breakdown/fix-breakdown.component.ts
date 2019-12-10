@@ -36,7 +36,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
   imageArray: any[]=[];
   requestImageArray: any[]=[];
   maintenanceUsers: string = '';
-  isCancelled: boolean= true;
+  isCancelled: boolean= false;
   HourMinute: string = '';
   /* Is Waiting For An Insert Or Update */
   isWaitingInsertOrUpdate = false;
@@ -106,8 +106,8 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
         let minute: number = Math.floor((this.fixBreakdown.MaintenanceTotalTime %60));
         this.HourMinute = hour + ' saat ' + minute + ' dakika';
 
-        this.maintinanceUser.Hour = hour;
-        this.maintinanceUser.Minute = minute;
+        this.maintinanceUser.Hour = hour == 0 ? null : hour;
+        this.maintinanceUser.Minute = minute  == 0 ? null : minute;
 
         Object.assign(this.maintenance, this.fixBreakdown);
     }
@@ -123,7 +123,7 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
     
     else{ 
         this.dtFileLength =this.dataTableFile.TGT_selectAllItems().length;
-          if (data.form.invalid == true || this.dtFileLength>5) return;
+          if (data.form.invalid == true || this.dtFileLength>5 || this.maintinanceUser.Hour == null || this.maintinanceUser.Minute == null) return;
           else
           {
             // this.wolComponent.ClosePopup(true);      
@@ -168,7 +168,6 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
         this.baseService.spinner.hide();
 
-        this.closeFixBreakdownPopup();
         
         this.maintenanceStatusId = insertedItem.MaintenanceStatusId;
         insertedItem.CompletionDescription='';
@@ -180,7 +179,13 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
         this.isWaitingInsertOrUpdate = false;
 
         this.wolComponent.loadWorkOrderList(1,100,1);
+
         this.wolComponent.ClosePopup(true);
+
+        if(this.updatedMaintenanceStatusId==2)
+          this.closeQuitBreakdownPopup();
+        else
+          this.closeFixBreakdownPopup();        
 
       },
       (error: HttpErrorResponse) => {
@@ -318,8 +323,8 @@ export class FixBreakdownComponent extends BaseComponent implements OnInit {
 
   checkUserMaintenanceStatus(maintenanceStatusId: number){
     this.updatedMaintenanceStatusId=maintenanceStatusId;
-
-    if(this.updatedMaintenanceStatusId == 2){
+    
+    if(maintenanceStatusId == 2){
        this.popupComponent.ShowModal('#modalShowQuestionPopupForQuitBreakdown');
     }
   }

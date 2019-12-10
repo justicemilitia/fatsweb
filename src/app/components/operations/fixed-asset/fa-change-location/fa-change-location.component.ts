@@ -115,7 +115,6 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
       case "department":
       this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
       this.isLocationDropdownOpen = false;
-      this.loadDepartmentByLocationId();
   
       break;
     }
@@ -222,21 +221,16 @@ export class FaChangeLocationComponent extends BaseComponent implements OnInit {
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
-  }
-
-  async loadDepartmentByLocationId() {
-    this.departments = [];
-
-      if( this.selectedLocation != null){
-      this.baseService.departmentService.GetDepartmentsByLocationId(
-
-        this.selectedLocation.LocationId,
-        (departments: Department[]) => {
+      /* Load departments to department dropdown */
+      await this.baseService.departmentService.GetDepartments(
+        departments => {
           this.departments = departments;
-          this.dataTableDepartment.TGT_loadData(this.departments);
+          this.dataTableDepartment.TGT_loadData(this.departments);        
         },
-        (error: HttpErrorResponse) => {}
+        (error: HttpErrorResponse) => {
+          this.baseService.popupService.ShowErrorPopup(error);
+        }
       );
-    }
   }
+
 }

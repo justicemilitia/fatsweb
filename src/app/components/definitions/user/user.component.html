@@ -102,7 +102,7 @@
             <div class="form-group col-md-6">
               <label class="required-span">{{getLanguageValue('Location')}}</label>
               <select #LocationId="ngModel" name="LocationId" required class="form-control"
-                [(ngModel)]="currentUser.LocationId" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" (change)="loadDepartmentByLocationId($event)">
+                [(ngModel)]="currentUser.LocationId" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }">
                 <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
                 <option
                 *ngFor="let location of locations"

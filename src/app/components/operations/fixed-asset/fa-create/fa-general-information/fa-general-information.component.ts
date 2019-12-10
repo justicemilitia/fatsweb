@@ -368,8 +368,6 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     this.isFaCardDropdownOpen=false;
     this.isFaCardCategoryDropdownOpen = false;
     this.isLocationDropdownOpen = false;
-    this.loadDepartmentByLocationId();
-
     break;
     
     case "card":
@@ -424,8 +422,18 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     this.baseService.locationService.GetLocations(
       (locations: Location[]) => {
         this.locations = locations;
-        console.log(this.locations);
         this.dataTableLocation.TGT_loadData(this.locations);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+
+
+    this.baseService.departmentService.GetDepartments(
+      (departments: Department[]) => {
+        this.departments = departments;
+        this.dataTableDepartment.TGT_loadData(this.departments);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -477,21 +485,21 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     }
   }
 
-  async loadDepartmentByLocationId() {
-    this.departments = [];
+  // async loadDepartmentByLocationId() {
+  //   this.departments = [];
 
-      if( this.selectedLocation != null){
-      this.baseService.departmentService.GetDepartmentsByLocationId(
+  //     if( this.selectedLocation != null){
+  //     this.baseService.departmentService.GetDepartmentsByLocationId(
 
-        this.selectedLocation.LocationId,
-        (departments: Department[]) => {
-          this.departments = departments;
-          this.dataTableDepartment.TGT_loadData(this.departments);
-        },
-        (error: HttpErrorResponse) => {}
-      );
-    }
-  }
+  //       this.selectedLocation.LocationId,
+  //       (departments: Department[]) => {
+  //         this.departments = departments;
+  //         this.dataTableDepartment.TGT_loadData(this.departments);
+  //       },
+  //       (error: HttpErrorResponse) => {}
+  //     );
+  //   }
+  // }
 
   async loadModelByBrandId(event: any) {
     this.models = [];

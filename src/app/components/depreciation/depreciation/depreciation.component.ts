@@ -223,14 +223,6 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       {
         columnDisplayName: "Amortisman Tarihi",
         columnName: ["EndDate"],
-        isActive: false,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: "Amortisman Tarihi",
-        columnName: ["|EndDateDepreciation"],
         isActive: true,
         classes: [],
         placeholder: "",
@@ -823,7 +815,14 @@ this.depreciationBeCalculated = false;
       return;
     }
 
-     //Seçili kayıtlardan hiçbirinin IFRS bilgisi yoksa 
+
+     switch (calculationType) {
+       case 1:
+       this.isDepreciationCalculation=true;
+       this.isDepreciationCalculationIfrs=false;
+
+       
+     //Seçili kayıtlardan hiçbirinin amortisman bilgisi yoksa 
      let hasDepreciation: boolean = false;
      selectedItems.forEach(e=> {
        if(e.WillDepreciationBeCalculated==true)
@@ -836,16 +835,26 @@ this.depreciationBeCalculated = false;
        );
        return;
      }
-
-     switch (calculationType) {
-       case 1:
-       this.isDepreciationCalculation=true;
-       this.isDepreciationCalculationIfrs=false;
          break;
   
       case 2:
       this.isDepreciationCalculationIfrs=true;
       this.isDepreciationCalculation=false;
+
+      
+     //Seçili kayıtlardan hiçbirinin IFRS bilgisi yoksa 
+     let hasIfrsDepreciation: boolean = false;
+     selectedItems.forEach(e=> {
+       if(e.WillIfrsbeCalculated==true)
+       hasIfrsDepreciation=true;
+     }); 
+
+     if(hasIfrsDepreciation == false){
+       this.baseService.popupService.ShowAlertPopup(
+         this.getLanguageValue("There_is_no_value_to_calculate")
+       );
+       return;
+     }
         break;
   
        default:

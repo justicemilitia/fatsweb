@@ -780,8 +780,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         this.dataTable.perInPage = _perInPage;
         this.consumables = consumables;
         this.totalPage = totalPage ? totalPage : 1;
-        
-
+   
         this.consumables.forEach(e=>{
           e.FixedAssetPropertyDetails.forEach(p=>{
             if(p.FixedAssetCardPropertyId){

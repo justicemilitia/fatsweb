@@ -31,15 +31,15 @@ export class Department implements IData {
   ModifiedId: number;
   Name: string;
   LocationId: number;
-  ParentDepartment: Department;
+  ParentDepartment: any;
   Location: Location;
   InverseParentDepartment: Department[];
   ParentDepartmentId: number;
 
   constructor() {
-
     this.Location = new Location();
     this.InverseParentDepartment = [];
+    this.ParentDepartment = null;
   }
 
 }

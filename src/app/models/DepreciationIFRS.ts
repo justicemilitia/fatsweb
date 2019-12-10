@@ -21,7 +21,7 @@ export class DepreciationIFRS implements IData {
     DepreciationIfrsid: number;
     // DecreciationCalculationTypeId: number;
     FixedAssetId: number;
-    EndDate: string;
+    EndDate: NgbDate;
     Rate: number;
     Value: number;
     RevaluatedValue: number;

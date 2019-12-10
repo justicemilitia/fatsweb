@@ -90,13 +90,13 @@
             <div class="col-md-6 form-group">
               <label class="required-span">{{getLanguageValue('Parent_Location')}}</label>
               <select [(ngModel)]="department.LocationId" name="LocationId" class="form-control"
-                (change)="loadDepartmentByLocationId($event)" (click)="loadDropdownList()" #LocationId="ngModel"
+               #LocationId="ngModel"
                 [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }" required>
                 <option value="">Yok</option>
                 <option *ngFor="let location of locations" value="{{location.LocationId}}">
                   {{location.Name}}
                 </option>
-              </select>
+              </select> 
               <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
                 <div *ngIf="LocationId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
               </div>
@@ -106,14 +106,48 @@
             <div class="col-md-6 form-group">
               <label>{{getLanguageValue('Parent_Department')}}</label>
               <select [(ngModel)]="department.ParentDepartmentId" name="ParentDepartmentId" style="resize:none"
-                class="form-control" type="text">
-                <option [ngValue]="null">Yok</option>
-                <option *ngFor="let department of ddlDepartments" value={{department.ParentDepartmentId}}>
+               #ParentDepartmentId="ngModel" class="form-control" type="text">
+                <option value="">Yok</option>
+                <option *ngFor="let department of ddlDepartments" value={{department.DepartmentId}}>
                   {{department.Name}}
                 </option>
               </select>
             </div>
+
+            <!-- BAĞLI OLDUĞU LOKASYON  -->            
+            <!-- <div class="col-md-6 form-group">
+              <div>
+                <label class="required-span" style="margin-bottom: 0;
+                font-weight: 700;" >{{getLanguageValue('Parent_Location')}}</label>
+                <div style="display:flex;">
+                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">{{selectedLocation ? selectedLocation.Name : getLanguageValue('Choose') }}</button>
+                  <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
+                </div>
+            </div>
+            <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                    <tree-grid-table (onClickItem)="onClickLocation($event,item)" [dataTable]="dataTableLocation"></tree-grid-table>
+            </div>
+            </div> -->
+
+            <!-- BAĞLI OLDUĞU DEPARTMAN  -->            
+            <!-- <div class="col-md-6 form-group">
+              <div class="" style="display: flex;
+              flex-direction: column;">
+              <label style="margin-bottom: 0;
+              font-weight: 700;">{{getLanguageValue('Parent_Department')}}</label>
+                   <div style="display:flex;">
+                      <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button" >{{selectedDepartment ? selectedDepartment.Name : getLanguageValue('Choose') }}</button>
+                        <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
+                      </div>
+              </div>
+                <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+                    <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
+                  </div>
+            </div> -->
+
           </div>
+
+          <!-- DEPARTMAN AÇIKLAMASI -->
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label>{{getLanguageValue('Department_Description')}}</label>
@@ -159,7 +193,7 @@
           </div>
        
           <div class="col-md-6">        
-          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="updateDepartment()">{{getLanguageValue('Update')}}</button>
+          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="updateDepartment(data)">{{getLanguageValue('Update')}}</button>
             </div>   
         </div>
 

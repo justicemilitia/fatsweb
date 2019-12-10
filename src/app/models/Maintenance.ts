@@ -48,7 +48,7 @@ export class Maintenance implements IData {
     FirmId:number;
     MaintenanceStatusIds:number[];
     isCancelled: boolean;
-
+    IsValid: boolean;
     Hour: number;
     Minute: number;
     FixedAssetCard:FixedAssetCard;
