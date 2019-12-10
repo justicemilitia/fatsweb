@@ -105,7 +105,7 @@ export class WorkOrderDetailComponent extends BaseComponent implements OnInit, O
         Object.assign( this.maintenance, maintenance);      
        
         this.barcode = this.maintenance.FixedAsset == null ? "" : this.maintenance.FixedAsset.Barcode;
-        this.fixedAssetCard = this.maintenance.FixedAssetCard == null ? "" : this.maintenance.FixedAssetCard.Name;
+        this.fixedAssetCard = this.maintenance.FixedAsset.FixedAssetCard == null ? "" : this.maintenance.FixedAsset.FixedAssetCard.Name;
         this.maintenanceNumber = this.maintenance.MaintenanceNumber.toString();
         this.workSteps =maintenance.WorkOrder.WorkSteps;
         let consumables:WorkStepConsumables[]=[];
