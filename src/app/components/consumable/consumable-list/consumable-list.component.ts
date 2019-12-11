@@ -62,6 +62,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   consumableCard: ConsumableCard=new ConsumableCard();
 
+  consumableCategoryName:string;
+
   fixedAssetPropertyDetail: FixedAssetPropertyDetails = new FixedAssetPropertyDetails();
 
   fixedAssetCardPropertyValue: FixedAssetCardPropertyValue = new FixedAssetCardPropertyValue();
@@ -851,6 +853,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         Object.assign(this.consumable, consumable[0]);
 
         this.consumableUnit = this.consumable.ConsumableCard.ConsumableUnit.ConsumableUnitName;
+
+        this.consumableCategoryName = this.consumable.ConsumableCard.ConsumableCategory.ConsumableCategoryName;
 
         let property:FixedAssetPropertyDetails[] =  consumable[0].FixedAssetPropertyDetails;
 
