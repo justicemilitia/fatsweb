@@ -227,8 +227,11 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
         classes: [],
         placeholder: "",
         type: "text",
+        // formatter: value => {
+        //   return value.EndDate ? value.EndDate.substring(0, 10).split("-").reverse().join("-") : "";
+        // }
         formatter: value => {
-          return value.EndDate ? value.EndDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.EndDate ? value.EndDate.substring(0, 10) : "";
         }
       },
       {
@@ -274,23 +277,26 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
   public dataTableIFRSDepreciationDetail: TreeGridTable = new TreeGridTable(
     "ifrsdepreciationdetail",
     [
+      // {
+      //   columnDisplayName: "Amortisman Tarihi",
+      //   columnName: ["EndDate"],
+      //   isActive: false,
+      //   classes: [],
+      //   placeholder: "",
+      //   type: "text"
+      // },
       {
         columnDisplayName: "Amortisman Tarihi",
         columnName: ["EndDate"],
-        isActive: false,
-        classes: [],
-        placeholder: "",
-        type: "text"
-      },
-      {
-        columnDisplayName: "Amortisman Tarihi",
-        columnName: ["|EndDateIfrs"],
         isActive: true,
         classes: [],
         placeholder: "",
         type: "text",
+        // formatter: value => {
+        //   return value.EndDate ? value.EndDate.substring(0, 10).split("-").reverse().join("-") : "";
+        // }
         formatter: value => {
-          return value.EndDate ? value.EndDate.substring(0, 10).split("-").reverse().join("-") : "";
+          return value.EndDate ? value.EndDate.substring(0, 10) : "";
         }
       },
       {
