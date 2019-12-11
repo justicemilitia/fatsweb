@@ -126,7 +126,7 @@
                                   <button id="btnFilterDepreciation" type="submit" class="btn btn-az-primary" style="margin-left:100px;margin-top: 5px; margin-right:10px;">{{getLanguageValue('Filter')}}
                                   </button>
 
-                                  <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" style="margin-right: 10px;margin-top: 5px;" data-placement="bottom"
+                                  <button class="btn btn-az-primary btn-filter-button" type="button" data-toggle="tooltip" style="margin-right: 10px;margin-top: 5px;" data-placement="bottom"
                                   title="{{getLanguageValue('Reset_Filter')}}" (click)="resetFilter(dataDepreciationFilter)">
                                   <i class="fas fa-filter"></i>
                                   <i class="fas fa-times"
@@ -169,7 +169,7 @@
                           </div>
                             <div class="col-md-4 form-group">
                               <label class="ckbox" style="margin-left: 15px; margin-top: 15px;">
-                                <input type="checkbox" (change)="isExitFixedAsset($event)"
+                                <input type="checkbox" [(ngModel)]="fixedAssetFilter.IsExitFixedAsset" (change)="isExitFixedAssetIfrs($event)"
                                 name="IsValid" /><span>{{getLanguageValue('Exited_Fixed_Assets')}}</span>
                               </label>
                             </div>
@@ -177,8 +177,8 @@
                                 <div class="grp-btn-action">
                                   <button id="btnFilterDepreciationIFRS" type="submit" class="btn btn-az-primary" style="margin-left:100px;margin-top: 5px; margin-right:10px;">{{getLanguageValue('Filter')}}
                                   </button>
-                                  <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" style="margin-right: 10px;margin-top: 5px;" data-placement="bottom"
-                                  title="{{getLanguageValue('Reset_Filter')}}" (click)="resetFilter(dataDepreciationFilter)">
+                                  <button class="btn btn-az-primary btn-filter-button" type="button" data-toggle="tooltip" style="margin-right: 10px;margin-top: 5px;" data-placement="bottom"
+                                  title="{{getLanguageValue('Reset_Filter')}}" (click)="resetIfrsFilter(dataDepreciationIFRSFilter)">
                                   <i class="fas fa-filter"></i>
                                   <i class="fas fa-times"
                                   style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>

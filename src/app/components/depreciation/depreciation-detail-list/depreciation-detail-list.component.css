@@ -26,3 +26,7 @@
     margin-left: 20px;
     margin-right: 20px;
   }
+
+.az-content-dashboard-four>.media-dashboard>.media-body {
+    padding: 20px !important;
+}

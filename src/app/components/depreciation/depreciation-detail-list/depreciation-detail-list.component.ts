@@ -959,7 +959,7 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       cloneItem.IsFilter = true;
       cloneItem.PerPage = 1000;
       cloneItem.Page=1;      
-      // cloneItem.Date =  this.today() == null ? null : convertNgbDateToDateString(this.today());
+
       cloneItem.Date = null; 
       cloneItem.IsValid=true;
       cloneItem.WillDepreciationBeCalculated = true;
@@ -1081,10 +1081,6 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
 
   async filterDepreciation(data: NgForm){
 
-    this.fixedAssetFilter.IsFilter = true;
-    this.fixedAssetFilter.Page = 1;
-    this.fixedAssetFilter.PerPage = 1000;
-
     let cloneItem = new FixedAssetFilter();
     Object.assign(cloneItem, this.fixedAssetFilter);
 
@@ -1092,6 +1088,9 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     cloneItem.Date = data.value.endDate == null ? null : convertNgbDateToDateString(data.value.endDate);
     cloneItem.WillDepreciationBeCalculated = this.isDetailInfo;
     cloneItem.IsValid=this.isValid;
+    cloneItem.IsFilter = true
+    cloneItem.Page = 1;
+    cloneItem.PerPage = 1000;
 
     if(this.isDepreciationList){
       cloneItem.WillDepreciationBeCalculated=true;
@@ -1121,17 +1120,16 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     /* Is Form Valid */
     if (data.form.invalid == true) return;
 
-    this.fixedAssetFilterIfrs.IsFilter = true;
-    this.fixedAssetFilterIfrs.Page = 1;
-    this.fixedAssetFilterIfrs.PerPage = 1000;
-
     let cloneItem = new FixedAssetFilter();
     Object.assign(cloneItem, this.fixedAssetFilterIfrs);
 
    cloneItem.Date = data.value.endDate == null ? null : convertNgbDateToDateString(data.value.endDate);
    cloneItem.EndDate = data.value.endDate == null ? null : convertNgbDateToDateString(data.value.endDate);
    cloneItem.WillIfrsbeCalculated = this.isDetailInfoIFRS;
-    cloneItem.IsValid=this.isValid;
+   cloneItem.IsValid=this.isValid;
+   cloneItem.IsFilter = true
+   cloneItem.Page = 1;
+   cloneItem.PerPage = 1000;
 
     if(this.isDepreciationIFRSList){
       cloneItem.WillIfrsbeCalculated=true;
@@ -1165,7 +1163,8 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
 
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     let selectedItems= this.dataTable.TGT_getSelectedItems();
-    
+    this.isValid = true;
+
     if(tabChangeEvent.index==0){
       this.totalDepreciationValues(null, true);
       this.loadDepreciationList();
@@ -1175,7 +1174,6 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       this.isDepreciationIFRSList=false;
       this.isDetailInfo=true;
       this.isDetailInfoIFRS=false;
-      this.isValid=true;      
     } 
     else if(tabChangeEvent.index==1){
       this.totalDepreciationIFRSValues(null, true);      
@@ -1186,7 +1184,6 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       this.isDepreciationIFRSList=true;
       this.isDetailInfoIFRS=true;
       this.isDetailInfo=false;   
-      this.isValid=true;      
     }
   }
 
@@ -1202,7 +1199,6 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
       },
       (error: HttpErrorResponse) => {
         /* Show alert message */
-        console.log(error); 
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
@@ -1249,12 +1245,31 @@ export class DepreciationDetailListComponent extends BaseComponent implements On
     }
   }
 
+  isExitFixedAssetIfrs(event){
+    if(event.target.checked==true){
+      this.isValid=false;
+    }
+    else{
+      this.isValid=true;
+    }
+  }
+
   resetFilter(dataDepreciationFilter: NgForm){
-    // this.fixedAssetFilter= new FixedAssetFilter();
+
     dataDepreciationFilter.resetForm();
-    this.fixedAssetFilter=new FixedAssetFilter();
-    this.fixedAssetFilter.IsValid = false;
-    this.isValid = true;
+    this.loadDepreciationList();
+    this.loadFixedAssetProperties();
+
+    this.totalDepreciationValues(null, true);
+  }
+
+  resetIfrsFilter(dataDepreciationIFRSFilter: NgForm){
+ 
+      dataDepreciationIFRSFilter.resetForm();
+      this.loadDepreciationIFRSList();
+      this.loadFixedAssetProperties();
+  
+      this.totalDepreciationIFRSValues(null, true);
   }
 
   async refreshTable() {
