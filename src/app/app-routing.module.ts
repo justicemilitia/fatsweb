@@ -45,6 +45,7 @@ import { WorkOrderListComponent } from './components/maintenance/work-order-list
 import { FixBreakdownComponent } from './components/maintenance/fix-breakdown/fix-breakdown.component';
 import { WorkOrderDetailComponent } from './components/maintenance/work-order-detail/work-order-detail.component';
 import { ReportBreakdownComponent } from './components/maintenance/report-breakdown/report-breakdown.component';
+import { HashLocationStrategy } from '@angular/common';
 
 
 export const routes: Routes = [
@@ -308,7 +309,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{useHash:true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
