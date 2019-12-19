@@ -792,6 +792,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         if (this.consumables.length == 0) {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
+        
         this.TGT_calculatePages();
 
         this.dataTable.TGT_clearData();

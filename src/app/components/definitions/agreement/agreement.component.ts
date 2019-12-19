@@ -14,6 +14,11 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 import { PopupComponent } from '../../popup/popup.component';
 import { CDK_DESCRIBEDBY_HOST_ATTRIBUTE } from '@angular/cdk/a11y';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Http, ResponseContentType, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
+import { saveAs } from "file-saver";
+import { MIME_TYPES, IMAGE_URL, SERVICE_URL } from '../../../declarations/service-values';
 
 @Component({
   selector: "app-agreement",
@@ -58,6 +63,9 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   notDeletedCode: string = '';
 
   selectedItems:any[]=[];
+  
+  agreementFileName: string = '';
+  filename: string = '';
   
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
@@ -147,7 +155,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     }
   );
 
-  constructor(public baseService: BaseService) {
+  constructor(public baseService: BaseService, private http: Http, private sanitizer: DomSanitizer) {
     super(baseService);
     this.loadAgreements();
     this.loadCompanies();
@@ -390,6 +398,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   }
 
+
   async loadAgreements() {
     /* Load all agreements to datatable */
     this.baseService.agreementService.GetAgreement(
@@ -498,4 +507,75 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   }
 
+
+  downloadFile()
+  {
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("Please_choose_at_least_one_record")
+      );
+      return;
+    }
+
+     this.filename = selectedItems[0] == null ? null : (<Agreement>selectedItems[0]).AgreementFile;    
+
+    this.baseService.fileUploadService.getFile(this.filename).then((result: any) =>
+    {
+      this.showFile(result._body, this.filename);
+    });
+  }
+
+  private showFile(blob: any, filename: string)
+  { 
+    // It is necessary to create a new blob object with mime-type 
+    // explicitly set otherwise only Chrome works like it should
+    const EXT = this.agreementFileName.substr(this.agreementFileName.lastIndexOf('.') + 1);
+    let newBlob = new Blob([blob], { type: MIME_TYPES[EXT] });
+
+    // IE doesn't allow using a blob object directly as link href 
+    // instead it is necessary to use msSaveOrOpenBlob
+    if (window.navigator && window.navigator.msSaveOrOpenBlob)
+    {
+      window.navigator.msSaveOrOpenBlob(newBlob);
+      return;
+    }
+
+    // For other browsers: 
+    // Create a link pointing to the ObjectURL containing the blob.
+    let data = window.URL.createObjectURL(newBlob);
+    let link = document.createElement('a');
+    link.href = data;
+    link.download = filename;
+    link.click();
+    setTimeout(() =>
+    {
+      // For Firefox it is necessary to delay revoking the ObjectURL
+      window.URL.revokeObjectURL(data);
+    }, 100);
+  }
+
+  downloadMyFile(){
+
+    let selectedItems = this.dataTable.TGT_getSelectedItems();
+
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("Please_choose_at_least_one_record")
+      );
+      return;
+    }
+
+     this.filename = selectedItems[0] == null ? null : (<Agreement>selectedItems[0]).AgreementFile;    
+
+
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', IMAGE_URL + 'UploadFiles/' + this.filename);
+    link.setAttribute('download', this.filename);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+}
 }

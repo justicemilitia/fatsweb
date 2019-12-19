@@ -3,9 +3,9 @@ import {AuthenticationService} from "../services/authenticationService/authentic
 import { Service } from '../models/Service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
-// export const SERVICE_URL            = "http://localhost:5000/api/";
+export const SERVICE_URL            = "http://localhost:5000/api/";
  //export const SERVICE_URL = "http://localhost:11889/api/";
- export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
+//  export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
 
  export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
@@ -431,7 +431,15 @@ export const GET_WORKSTEPDETAIL_BY_WORK_STEP_ID = "WorkStep/GetWorkStepDetailByW
 export const GET_WORKSTEPLIST_BY_FIXEDASSETCARD_ID = "WorkStep/GetWorkStepListByFixedAssetCardId";
 //#endregion
 
+export const DOWNLOAD_FILE = "File/DownloadFile";
 
+
+
+export const MIME_TYPES = {
+  pdf: 'application/pdf',
+  xls: 'application/vnd.ms-excel',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetxml.sheet'
+}
 
 const FILE_UPLOAD_URL = "http://localhost:8000/upload";
 

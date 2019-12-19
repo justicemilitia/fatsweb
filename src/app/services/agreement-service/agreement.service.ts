@@ -3,6 +3,7 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
+  HttpParams,
 } from "@angular/common/http";
 
 import {
@@ -13,13 +14,17 @@ import {
   UPDATE_AGREEMENT,
   GET_AGREEMENT_BY_ID,
   DELETE_AGREEMENT,
-  FILE_UPLOAD
+  FILE_UPLOAD,
+  IMAGE_URL
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { Response } from "../../../../src/app/models/Response";
 import { Agreement } from "../../../../src/app/models/Agreement";
 import { getAnErrorResponse } from "src/app/declarations/extends";
 import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
+import { Observable } from 'rxjs';
+import { RequestOptions, ResponseContentType, Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Injectable({
   providedIn: "root"
@@ -27,7 +32,8 @@ import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 export class AgreementService {
   constructor(
     private httpClient: HttpClient,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private http: Http
   ) {}
 
   GetAgreement(success, failed) {
@@ -204,4 +210,25 @@ export class AgreementService {
         }
       );
   }
+
+  DownloadFile(data){
+     const REQUEST_PARAMS = new HttpParams().set('fileName', data.fileName);
+     const REQUEST_URI =  IMAGE_URL + "UploadFiles/" + data.fileName;
+     window.open(REQUEST_URI, '_blank');
+     return this.httpClient
+     .get(REQUEST_URI, {
+       headers: GET_HEADERS(this.authenticationService.getToken()),
+       params: REQUEST_PARAMS,
+       responseType: 'arraybuffer'
+     });    
+}
+
+
+//   DownloadFile(filePath: string): Observable<Blob> {
+//     let options = new RequestOptions({responseType: ResponseContentType.Blob });
+//     return this.http.get(IMAGE_URL + "UploadFiles/" + filePath, options)
+//         .map(res => res.blob())
+        
+// }
+  
 }

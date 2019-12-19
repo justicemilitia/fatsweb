@@ -706,8 +706,11 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
           this.loadConsumableOutProperties();
           break;
         }
-
         this.TGT_calculatePages();
+
+        if(transactionList.length==0){
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+        }
 
         this.popupComponent.CloseModal('#modalFilterTransaction');        
       },
