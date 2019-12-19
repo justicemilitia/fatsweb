@@ -12,6 +12,8 @@ import { Depreciation } from 'src/app/models/Depreciation';
 import { Agreement } from 'src/app/models/Agreement';
 import { AuthenticationService } from 'src/app/services/authenticationService/authentication.service';
 import * as pages from "../../../../../declarations/page-values";
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { convertNgbDateToDateString, getToday, convertDateToNgbDate } from '../../../../../declarations/extends';
 
 
 @Component({
@@ -152,6 +154,15 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
 
      return false;        
   } 
+
+  isActivationDateToday(event){
+
+    let getdate:NgbDate = getToday();
+
+    if(convertNgbDateToDateString(getdate) == convertNgbDateToDateString(event)|| convertNgbDateToDateString(event) < convertNgbDateToDateString(getdate)){
+      this.fixedAsset.IsActive = true;
+    } 
+  }
 
   previousTab(){
   this.faCreate.previous();

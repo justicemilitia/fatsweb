@@ -114,6 +114,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   newConsumableList:Consumable[]=[];
 
+  consumableWithFilter:Consumable[]=[];
+
   consumableOperationEnums = {
     exitConsumableMaterial:1
   }
@@ -543,6 +545,43 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.pages = items;
   }
 
+  async calculateDatatable(perInPage:number = 1000, _currentPage:number = 1, material:Consumable[] ){
+    let startIndex = _currentPage * perInPage - perInPage;
+    let counter = 0;
+    let consumableMaterial:Consumable[]=[];
+
+    for (let ii = 0; ii < material.length; ii++) {
+      if (consumableMaterial.length > 0) {
+        if (material[ii].getParentId()) {
+          consumableMaterial.push(material[ii]);
+            continue;
+        }
+    }
+
+    /* Eğer eklediğimiz miktar ekleyeceğimiz sayıya ulaştıysa döngüden çıkıyoruz */
+      if (counter == startIndex + perInPage)
+         break;
+     /* Eğer miktar az ise ve parenti yok ise sayacı bir arttırıyoruz. Amacı childları saymayı önlemek */
+     if (counter < startIndex){
+         if (!material[ii].getParentId()) {
+             counter++;
+             continue;
+         } else
+            continue;
+         /* Parent idsi olmayanları atarken sayacı 1 arttırıyoruz. Childları basarken ise sayacı arttırmıyoruz. */
+     } else if (counter < startIndex + perInPage){
+         if (material[ii].getParentId())
+             continue;
+             consumableMaterial.push(material[ii]);
+         if (!material[ii].getParentId())
+             counter++;
+         continue;
+     }
+    }
+
+    Object.assign(this.consumableWithFilter,consumableMaterial);
+  }
+
   async loadDropdown() {
     this.baseService.fixedAssetCardPropertyService.GetFixedAssetCardProperties(
       (fixedAssetCardProperties: FixedAssetCardProperty[]) => {
@@ -768,35 +807,50 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
       consumableList.ConsumableLocationIds =(<Consumable[]>this.dataTableLocationFilter.TGT_getSelectedItems()).map(x=>x.getId());    
       consumableList.FixedAssetPropertyArray = propertyDetail;
     }
+
     consumableList.Page = _currentPage;
+    
     consumableList.PerPage = _perInPage; 
 
     /* Load all consumables to datatable */
     this.baseService.consumableService.GetConsumableList(consumableList,
       (consumables: Consumable[], totalPage: number,
         message: string) => {
+      this.dataTable.TGT_clearData();
+        this.consumables=[];
         this.perInPage = _perInPage;
         this.currentPage = _currentPage;
         this.dataTable.perInPage = _perInPage;
         this.consumables = consumables;
         this.totalPage = totalPage ? totalPage : 1;
    
-        this.consumables.forEach(e=>{
+        consumables.forEach(e=>{
           e.FixedAssetPropertyDetails.forEach(p=>{
             if(p.FixedAssetCardPropertyId){
               e["PROP_" + p.FixedAssetCardPropertyId.toString()] = p.Value;
             }
-          });
+          });       
         });  
 
-        if (this.consumables.length == 0) {
+        consumables.forEach(e=>{
+          if(propertyDetail.length > 0){
+            let consumable:Consumable=new Consumable();
+            
+            Object.assign(consumable,e.ConsumableParent); 
+
+           this.consumables.push(consumable);
+          }  
+        });
+
+        if(this.consumables.length == 0) {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
+
+       // this.calculateDatatable(this.perInPage,this.currentPage,consumables);
+
         this.TGT_calculatePages();
 
-        this.dataTable.TGT_clearData();
-
-        this.dataTable.TGT_loadData(this.consumables);       
+        this.dataTable.TGT_loadData(this.consumables);     
 
       },
       (error: HttpErrorResponse) => {

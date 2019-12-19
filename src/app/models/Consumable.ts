@@ -39,8 +39,8 @@ export class Consumable implements IData{
     ConsumableCategory: ConsumableCategory;
     ConsumableUnits: ConsumableUnit;
     FixedAssetCardModel:FixedAssetCardModel;
-    ParentConsumable:Consumable;
-    InverseConsumableParent : Consumable[];
+    ConsumableParent:Consumable;
+    InverseConsumableParent : Consumable[];    
     FixedAssetPropertyDetails: FixedAssetPropertyDetails[];
     User: User;
     Description:string;

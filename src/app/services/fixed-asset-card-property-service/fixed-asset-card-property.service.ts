@@ -234,8 +234,14 @@ export class FixedAssetCardPropertyService {
       })
       .subscribe(result => {
         let response:Response=<Response>result;
-        if(response.ResultStatus==true){          
-          success(<FixedAssetCardProperty[]>response.ResultObject,response.LanguageKeyword);
+        if(response.ResultStatus==true){     
+          let fixedAssetCardProperties: FixedAssetCardProperty[] = [];
+          (<FixedAssetCardProperty[]>response.ResultObject).forEach(e => {
+            let facp: FixedAssetCardProperty = new FixedAssetCardProperty();
+            Object.assign(facp, e);
+            fixedAssetCardProperties.push(facp);
+          });
+          success(fixedAssetCardProperties,response.LanguageKeyword);
         }
         else{
           failed(getAnErrorResponse(response.LanguageKeyword));

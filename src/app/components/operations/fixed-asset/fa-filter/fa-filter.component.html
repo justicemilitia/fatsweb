@@ -361,15 +361,15 @@
 
             <div class="form-group col-md-3">
               <label class="ckbox">
-                <input type="checkbox" (change)="IsPassiveFa($event)" id="IsPassive"
+                <input type="checkbox" [(ngModel)]="fixedAsset.IsPassive" (change)="IsPassiveFa($event)" id="IsPassive"
                   name="IsPassive" /><span>{{getLanguageValue('Passive_Fixed_Assets')}}</span>
               </label>
             </div>
 
             <div class="form-group col-md-3">
               <label class="ckbox">
-                <input type="checkbox" (change)="IsActiveFa($event)" id="IsActive"
-                  name="IsCalculatedDepreciation" /><span>{{getLanguageValue('Active_Fixed_Assets')}}</span>
+                <input type="checkbox" [(ngModel)]="fixedAsset.IsActive" (change)="IsActiveFa($event)" id="IsActive"
+                  name="IsActive" /><span>{{getLanguageValue('Active_Fixed_Assets')}}</span>
               </label>
             </div>
             <div class="form-group col-md-6">

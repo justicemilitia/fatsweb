@@ -6,14 +6,13 @@
     <div class="row">
       <div class="form-group col-md-4">
           <label class="required-span">{{getLanguageValue('Barcode')}}</label>
-          <input [(ngModel)]="fixedAsset.Prefix" name="Prefix" (keyup)="rfidBarcodeReplace($event)" type="text" trim="blur" 
+          <input [(ngModel)]="fixedAsset.Prefix" name="Prefix" onkeypress="return (event.charCode >= 65 && event.charCode <= 70) || (event.charCode >= 97 && event.charCode <= 102)" type="text" trim="blur" 
           class="form-control" #Prefix="ngModel"/>   
       </div>
 
       <div class="form-group col-md-8">
           <input [(ngModel)]="fixedAsset.Barcode" (focusout)="isBarcodeUnique(fixedAsset.Barcode)"
-          value="{{barcode}}" name="Barcode" type="number" trim="blur" 
-          class="form-control"
+          value="{{barcode}}" name="Barcode" type="number" trim="blur" class="form-control"
           [ngClass]="{ 'is-invalid': data.submitted && Barcode.invalid }" #Barcode="ngModel" style="margin-top: 19px; margin-left: -20px; width: 150px;" maxlength="50" required/>
           <div *ngIf="isWaitingValidBarcode == true" class="button-loader"></div>
           <div *ngIf="data.submitted && Barcode.invalid" class="invalid-feedback">
@@ -170,9 +169,9 @@
                 <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
               </div>
       </div>
-        <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+      <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
             <tree-grid-table (onClickItem)="onClickDepartment($event,item)" [dataTable]="dataTableDepartment"></tree-grid-table>
-          </div>
+      </div>
       <!-- <select [(ngModel)]="fixedAsset.DepartmentId" name="DepartmentId" class="form-control select2-no-search" style="width:100%;" #DepartmentId="ngModel">
           <option [ngValue]="null" >Departman Seçiniz</option>
           <option *ngFor="let department of departments" value="{{department.DepartmentId}}">{{department.Name}}</option>

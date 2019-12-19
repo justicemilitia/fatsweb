@@ -56,8 +56,8 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   fixedassetproperty: FixedAssetCardProperty[] = [];
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
   fixedAssetFilterList: FixedAsset[] = [];
-  IsActive: boolean = null;
-  IsPassive: boolean = null; 
+  IsActive: boolean = false;
+  IsPassive: boolean = false; 
 
   isUserDropdownOpen:boolean = false;
   isLocationDropdownOpen: boolean = false;
@@ -375,6 +375,8 @@ constructor(protected baseService: BaseService) {
 
         this.IsPassive = false;
         this.IsActive = false;
+
+       
 
         //Dropdown Selected Items
         this.selectedUser = null; 
