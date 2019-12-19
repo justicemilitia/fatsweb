@@ -353,7 +353,7 @@
         </div>
         <!-- modal-body -->
         <div class="modal-footer">
-          <button id="btnInsertOrUpdateDepreciationt" type="submit" (click)="checkValidation(dataDepreciation)" class="btn btn-az-primary">{{getLanguageValue('Update_Informations')}}
+          <button id="btnInsertOrUpdateDepreciation" type="submit" (click)="checkValidation(dataDepreciation)" class="btn btn-az-primary">{{getLanguageValue('Update_Informations')}}
           </button>
           <!-- <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div> -->
         </div>
@@ -506,11 +506,11 @@
           </div>
        
           <div class="col-md-7" *ngIf="isDepreciationCalculation==true">        
-          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px; padding-left: 37px;padding-right: 37px;" (click)="calculateDepreciations(dataDepreciation)">{{getLanguageValue('Calculate_Depreciation')}}</button>
+          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px; padding-left: 37px;padding-right: 37px;" (click)="calculateDepreciations()">{{getLanguageValue('Calculate_Depreciation')}}</button>
             </div> 
             
           <div class="col-md-7" *ngIf="isDepreciationCalculationIfrs==true">        
-            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px; padding-left: 37px;padding-right: 37px;" (click)="calculateIfrsDepreciations(dataDepreciation)">{{getLanguageValue('Calculate_Depreciation')}}</button>
+            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px; padding-left: 37px;padding-right: 37px;" (click)="calculateIfrsDepreciations()">{{getLanguageValue('Calculate_Depreciation')}}</button>
           </div>   
         </div>
       </div><!-- modal-body -->

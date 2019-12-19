@@ -445,17 +445,18 @@ export class CycleCountPlanComponent extends BaseComponent implements OnInit {
     this.baseService.cycleCountService.GetCycleCountPlan(
       (cyclecountplans: CycleCountPlan[]) => {
 
-        this.cycleCountPlans = cyclecountplans;
-
-       
+        this.cycleCountPlans = cyclecountplans;       
         this.dataTable.TGT_loadData(this.cycleCountPlans);
-     
+
+        if(cyclecountplans.length==0){
+          this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+        }
 
         if(this.selectedPlanId.length != 0)
         this.dataTable.TGT_selectItemsByIds(this.selectedPlanId);
       },
       (error: HttpErrorResponse) => {       
-       // this.baseService.popupService.ShowErrorPopup(error);
+       this.baseService.popupService.ShowErrorPopup(error);
       }
     );
   }

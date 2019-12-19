@@ -629,9 +629,6 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
             willUpdateItem,
             (_fixedAsset, message) => {
               
-              /* Deactive the spinner */
-              this.baseService.spinner.hide();
-
               /* Close loading icon */              
               this.isWaitingInsertOrUpdate = false;
 
@@ -645,6 +642,12 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
               // this.loadFixedAssetDepreciations();
               this.loadFixedAsset(this.perInPage, this.currentPage);
               this.loadFixedAssetProperties();
+
+              this.calculateDepreciations();
+              this.calculateIfrsDepreciations();
+              
+              /* Deactive the spinner */
+              this.baseService.spinner.hide();
 
               this.requiredIFRS == false;
               this.requiredDepreciation == false;
@@ -869,7 +872,7 @@ this.depreciationBeCalculated = false;
     this.popupComponent.ShowModal('#modalShowQuestionPopupForCalculateDepreciation');
   }
   
-  async calculateDepreciations(dataDepreciation: NgForm){
+  async calculateDepreciations(){
 
         /* Activate the loading spinner */
         this.baseService.spinner.show();
@@ -902,7 +905,7 @@ this.depreciationBeCalculated = false;
       this.popupComponent.CloseModal('#modalShowQuestionPopupForCalculateDepreciation');
   }
 
-    async calculateIfrsDepreciations(dataDepreciation: NgForm){
+    async calculateIfrsDepreciations(){
 
         /* Activate the loading spinner */
         this.baseService.spinner.show();

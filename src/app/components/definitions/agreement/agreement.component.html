@@ -12,6 +12,11 @@
           <h2 class="az-content-title">{{getLanguageValue('Agreements')}}</h2>
           <div class="grp-btn-action">
 
+            <!-- <a [href]="fileUrl" download="file.txt">DownloadFile</a> -->
+            <!-- <button type="button" (click)="downloadMyFile()" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Download_Agreement')}}">
+              <i class="fa fa-download"></i>
+            </button> -->
+
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" data-toggle="tooltip" data-placement="bottom" title="Excel">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i>

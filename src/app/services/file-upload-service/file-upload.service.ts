@@ -14,10 +14,18 @@ import {
   FILE_UPLOAD,
   GET_HEADERS,
   UPLOAD_IMAGE,
-  DELETE_FIXEDASSET_FILE
+  DELETE_FIXEDASSET_FILE,
+  DOWNLOAD_FILE
 } from "../../declarations/service-values";
 import { getAnErrorResponse } from "../../declarations/extends";
 import { FixedAssetFile } from "src/app/models/FixedAssetFile";
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
+
 
 @Injectable({
   providedIn: "root"
@@ -77,6 +85,7 @@ export class FileUploadService {
         failed(error);
       });
   }
+
   ImageUpload(files: any, success, failed) {
     let formData = new FormData();
 
@@ -112,4 +121,49 @@ export class FileUploadService {
         }
       );
   }
+
+
+  public getFile(filename: string)
+  {
+    return this.getFileEndpoint(filename).toPromise();
+  }
+
+  public getFileEndpoint(filename: string): Observable<Response>
+  {
+    return this.httpClient
+    .get(SERVICE_URL + DOWNLOAD_FILE + "/" + filename, {
+      headers: GET_HEADERS(this.authenticationService.getToken())
+    })
+    .map((response: Response) =>
+    {
+      return response;
+    });
+  }
+
+  // private getAuthHeader(includeJsonContentType?: boolean, 
+  //   includeBlobResponseContentType?: boolean): RequestOptions
+  // {
+  //   let headers = new Headers({ 'Authorization': 'Bearer ' + 
+  //     this.authService.accessToken });
+
+  //   if (includeJsonContentType)
+  //     headers.append("Content-Type", "application/json");
+
+  //   headers.append("Accept", `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`);
+  //   headers.append("App-Version", ConfigurationService.appVersion);
+
+  //   if (includeBlobResponseContentType) 
+  //     return new RequestOptions({ responseType: ResponseContentType.Blob, headers: headers });
+  //   else 
+  //     return new RequestOptions({ headers: headers });
+  // }
+
+  private baseUrl() 
+  {
+    if (window.location.origin)  return window.location.origin;
+  
+    return window.location.protocol + "//" + window.location.hostname + 
+      (window.location.port ? ':' + window.location.port : '');
+  }
+
 }
