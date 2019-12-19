@@ -96,6 +96,8 @@ import { ReportBreakdownComponent } from './components/maintenance/report-breakd
 import { PopupComponent } from './components/popup/popup.component';
 import { BaseComponent } from './components/base/base.component';
 
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -195,7 +197,7 @@ import { BaseComponent } from './components/base/base.component';
     MatTabsModule,
 
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, HashLocationStrategy],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
