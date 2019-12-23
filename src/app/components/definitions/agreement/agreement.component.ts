@@ -66,7 +66,7 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   
   agreementFileName: string = '';
   filename: string = '';
-  
+  fileURL;
   public dataTable: TreeGridTable = new TreeGridTable(
     "agreement",
     [
@@ -159,6 +159,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
     super(baseService);
     this.loadAgreements();
     this.loadCompanies();
+
+    // this.downloadFile();
   }
 
   ngOnInit() { }
@@ -507,75 +509,77 @@ export class AgreementComponent extends BaseComponent implements OnInit {
 
   }
 
+downloadFiles(){
+  let selectedItems = <Agreement[]>this.dataTable.TGT_getSelectedItems();
 
-  downloadFile()
-  {
-    let selectedItems = this.dataTable.TGT_getSelectedItems();
-
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        this.getLanguageValue("Please_choose_at_least_one_record")
-      );
-      return;
-    }
-
-     this.filename = selectedItems[0] == null ? null : (<Agreement>selectedItems[0]).AgreementFile;    
-
-    this.baseService.fileUploadService.getFile(this.filename).then((result: any) =>
-    {
-      this.showFile(result._body, this.filename);
-    });
+  if (!selectedItems || selectedItems.length == 0) {
+    this.baseService.popupService.ShowAlertPopup(
+      this.getLanguageValue("Please_choose_at_least_one_record")
+    );
+    return;
   }
+  
 
-  private showFile(blob: any, filename: string)
-  { 
-    // It is necessary to create a new blob object with mime-type 
-    // explicitly set otherwise only Chrome works like it should
-    const EXT = this.agreementFileName.substr(this.agreementFileName.lastIndexOf('.') + 1);
-    let newBlob = new Blob([blob], { type: MIME_TYPES[EXT] });
-
-    // IE doesn't allow using a blob object directly as link href 
-    // instead it is necessary to use msSaveOrOpenBlob
-    if (window.navigator && window.navigator.msSaveOrOpenBlob)
-    {
-      window.navigator.msSaveOrOpenBlob(newBlob);
-      return;
+  selectedItems.forEach((e,i) => {
+    this.filename = selectedItems[i] == null ? null : (<Agreement>selectedItems[i]).AgreementFile;  
+    if(this.filename != ''){
+      this.downloadFile(this.filename);      
     }
+    this.filename='';
+  });
+}
 
-    // For other browsers: 
-    // Create a link pointing to the ObjectURL containing the blob.
-    let data = window.URL.createObjectURL(newBlob);
-    let link = document.createElement('a');
-    link.href = data;
-    link.download = filename;
-    link.click();
-    setTimeout(() =>
-    {
-      // For Firefox it is necessary to delay revoking the ObjectURL
-      window.URL.revokeObjectURL(data);
-    }, 100);
-  }
+downloadFile(fileName: string){ 
 
-  downloadMyFile(){
-
-    let selectedItems = this.dataTable.TGT_getSelectedItems();
-
-    if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup(
-        this.getLanguageValue("Please_choose_at_least_one_record")
-      );
-      return;
-    }
-
-     this.filename = selectedItems[0] == null ? null : (<Agreement>selectedItems[0]).AgreementFile;    
-
-
-    const link = document.createElement('a');
-    link.setAttribute('target', '_blank');
-    link.setAttribute('href', IMAGE_URL + 'UploadFiles/' + this.filename);
-    link.setAttribute('download', this.filename);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+ 
+  //file type extension
+  let checkFileType =  this.filename.split('.').pop();
+  var fileType;
+  switch(checkFileType){
+    case 'txt':
+    fileType = "text/plain";    
+    break;
+    case 'pdf':
+    fileType = "application/pdf";    
+    break;
+    case 'doc':
+    fileType = "application/vnd.ms-word";    
+    break;
+    case 'docx':
+    fileType = "application/vnd.ms-word";    
+    break;
+    case 'xls':
+    fileType = "application/vnd.ms-excel";    
+    break;
+    case 'xlsx':
+    fileType = "application/vnd.ms-excel";    
+    break;
+    case 'png':
+    fileType = "image/png";    
+    break;
+    case 'jpg':
+    fileType = "image/jpeg";    
+    break;
+    case 'jpeg':
+    fileType = "image/jpeg";    
+    break;
+    case 'gif':
+    fileType = "image/gif";    
+    break;
+    case 'csv':
+    fileType = "text/csv";    
+    break;
+   }
+  
+  this.baseService.fileUploadService.DownloadFile(fileName, fileType)
+  .subscribe(
+            success => {
+              saveAs(success, fileName); 
+            },
+            (error: HttpErrorResponse) => {
+              /* show error pop up */
+              this.baseService.popupService.ShowErrorPopup(error);
+            }
+        );
 }
 }
