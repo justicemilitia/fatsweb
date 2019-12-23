@@ -25,6 +25,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
+import { ResponseContentType, Http } from '@angular/http';
 
 
 @Injectable({
@@ -33,6 +34,7 @@ import 'rxjs/add/operator/catch';
 export class FileUploadService {
   constructor(
     private httpClient: HttpClient,
+    private http: Http,
     private authenticationService: AuthenticationService
   ) {}
 
@@ -140,24 +142,6 @@ export class FileUploadService {
     });
   }
 
-  // private getAuthHeader(includeJsonContentType?: boolean, 
-  //   includeBlobResponseContentType?: boolean): RequestOptions
-  // {
-  //   let headers = new Headers({ 'Authorization': 'Bearer ' + 
-  //     this.authService.accessToken });
-
-  //   if (includeJsonContentType)
-  //     headers.append("Content-Type", "application/json");
-
-  //   headers.append("Accept", `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`);
-  //   headers.append("App-Version", ConfigurationService.appVersion);
-
-  //   if (includeBlobResponseContentType) 
-  //     return new RequestOptions({ responseType: ResponseContentType.Blob, headers: headers });
-  //   else 
-  //     return new RequestOptions({ headers: headers });
-  // }
-
   private baseUrl() 
   {
     if (window.location.origin)  return window.location.origin;
@@ -166,4 +150,16 @@ export class FileUploadService {
       (window.location.port ? ':' + window.location.port : '');
   }
 
+  DownloadFile(fileName: string, fileType:string): Observable<any>{
+    let fileExtension = fileType;
+    // let input = fileName;
+    return this.http
+    .get(SERVICE_URL + DOWNLOAD_FILE + "/" + fileName,
+    { responseType: ResponseContentType.Blob })
+    .map(
+      (res) => {
+            var blob = new Blob([res.blob()], {type: fileExtension} )
+            return blob;            
+      });
+  }
 }
