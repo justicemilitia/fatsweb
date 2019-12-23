@@ -8,10 +8,13 @@
       </div>
       <div class="form-group col-md-3"> 
           <label>{{getLanguageValue('Currency')}}</label>
-          <select [(ngModel)]="fixedAsset.CurrencyId" name="CurrencyId" class="form-control select2-no-search">
-            <option value="-1" >{{getLanguageValue('Currency')}}</option>
+          <select [(ngModel)]="fixedAsset.CurrencyId" [class.is-invalid]="!fixedAsset.CurrencyId && fixedAsset.Price" name="CurrencyId"  class="form-control select2-no-search">
+            <option [ngValue]="null" >{{getLanguageValue('Currency')}}</option>
             <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
-          </select>       
+          </select>  
+          <div *ngIf="!fixedAsset.CurrencyId && fixedAsset.Price" class="invalid-feedback">
+            <div >{{getLanguageValue('This_value_is_required')}}</div>
+          </div>     
       </div>
       <div class="form-group col-md-3">        
           <label >{{getLanguageValue('Invoice_No')}}</label>        
@@ -214,7 +217,7 @@
         font-weight: 400;">{{getLanguageValue('Back_Button')}}</button>
       </div>
       <div class="grp-btn-action">
-        <button mat-raised-button type="submit" (click)="nextTab()"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
+        <button mat-raised-button type="submit" (click)="nextTab(dataFinancial)"  class="btn btn-orange"  style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px;
         margin-bottom: 0px;">{{getLanguageValue('Next_Button')}}</button>
       </div>
   </div>

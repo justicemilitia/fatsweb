@@ -70,6 +70,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
   faProperties: FixedAssetCardProperty[] = [];
 
+  faPropertiesForFilter:FixedAssetCardProperty[]=[];
+
   locations: Location[] = [];
 
   companies: Company[] = [];
@@ -115,6 +117,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   newConsumableList:Consumable[]=[];
 
   consumableWithFilter:Consumable[]=[];
+
+  refreshtable:boolean = false;
 
   consumableOperationEnums = {
     exitConsumableMaterial:1
@@ -354,6 +358,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     super(baseService);
    
     this.loadDropdown();
+
     this.loadConsumableList(this.perInPage,this.currentPage,false);
 
     this.loadFixedAssetProperties();
@@ -750,6 +755,18 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     );
   }
 
+  loadFixedAssetPropertiesForFilter(){
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+
+        this.faPropertiesForFilter = faProperties;
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
   async loadConsumableCategoryDropdown(){
     await this.baseService.consumableCategoryService.GetConsumableCategories(
       (categories: ConsumableCategory[]) => {
@@ -795,9 +812,13 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
   }
 
   async loadConsumableList(_perInPage:number=25,_currentPage:number=1,isFilter:boolean) {
+
     this.isFilter = isFilter;    
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
+    let propertyDetail:FixedAssetPropertyDetails[] = [];
+
+    if(this.refreshtable == false)
+    propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
 
     let consumableList:Consumable=new Consumable();
 
@@ -832,6 +853,7 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
           });       
         });  
 
+        //Özellik ile arama yapıldığında apiden grid'e uygun olmayan bir sonuç döndüğü için dönen değerler bu şekilde yönetilmiştir.
         consumables.forEach(e=>{
           if(propertyDetail.length > 0){
             let consumable:Consumable=new Consumable();
@@ -850,7 +872,9 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
 
         this.TGT_calculatePages();
 
-        this.dataTable.TGT_loadData(this.consumables);     
+        this.dataTable.TGT_loadData(this.consumables);    
+        
+        propertyDetail = [];
 
       },
       (error: HttpErrorResponse) => {
@@ -1139,6 +1163,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
         this.refreshTable();
 
         this.resetForm(data, true);
+
+        this.popupComponent.CloseModal('#modalExitConsumable');
       },
       (error:HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -1247,6 +1273,8 @@ export class ConsumableListComponent extends BaseComponent implements OnInit {
     this.isTableRefreshing = true;
 
     this.dataTable.isLoading = true;
+
+    this.refreshtable=true;
 
     this.dataTable.TGT_clearData();
 

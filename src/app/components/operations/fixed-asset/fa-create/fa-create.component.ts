@@ -403,8 +403,7 @@ export class FaCreateComponent extends BaseComponent
         this.barcode = Number(this.fixedAsset.Barcode.toString());
 
         fixedasset.Barcode = this.barcode.toString(); //this.fixedAsset.Barcode;
-        //
-
+        
         fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
 
         Object.assign(fixedasset, this.fixedAsset);

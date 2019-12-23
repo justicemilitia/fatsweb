@@ -6,20 +6,16 @@
   </button>
 </div>
 
-<mat-horizontal-stepper  [@.disabled]="true" linear #stepper>   
-
+<mat-horizontal-stepper  [@.disabled]="true" linear #stepper>
   <mat-step label="{{getLanguageValue('General_Informations')}}" [editable]="editable">
     <app-fa-general-information  [faCreate]="this" ></app-fa-general-information> 
   </mat-step>
-
   <mat-step label="{{getLanguageValue('Property_Informations')}}" [editable]="editable">  
     <app-fa-property-information [faCreate]="this" ></app-fa-property-information>
   </mat-step>
-
   <mat-step label="{{getLanguageValue('Financial_Informations')}}" [editable]="editable">  
     <app-fa-financial-information [faCreate]="this" ></app-fa-financial-information>         
-  </mat-step>
-  
+  </mat-step>  
   <mat-step label="{{getLanguageValue('Fixed_Asset_List')}}" [editable]="editable">
     <div class="property-values-table">
     <tree-grid-table [dataTable]="dataTable"></tree-grid-table>
@@ -40,12 +36,8 @@
         </ng-template>
         </div>
     </div>
-
-
   </mat-step>
-
   <mat-step label="{{getLanguageValue('File')}}">      
-
     <div>
       <div class="row justify-content-center">
           <div class="form-group col-md-12"> 

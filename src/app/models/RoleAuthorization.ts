@@ -4,10 +4,10 @@ import { Menu } from './Menu';
 
 export default class RoleAuthorization implements IData{
   getParentId(): number {
-  return null;
+  return this.Menu.ParentMenuId;
   }
   getChildren(): IData[] {
-   return [];
+   return this.Menu.InverseParentMenu;
   }
   getId(): number {
     return this.MenuId;
@@ -29,6 +29,7 @@ export default class RoleAuthorization implements IData{
   MenuCaption:string;
   Role:Role;
   Menu:Menu;
+
 
   constructor(){  
     this.Role=new Role();

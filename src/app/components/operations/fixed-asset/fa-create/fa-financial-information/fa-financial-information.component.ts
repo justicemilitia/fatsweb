@@ -136,9 +136,16 @@ export class FaFinancialInformationComponent extends BaseComponent implements On
 
   nextTab(data:NgForm){
     this.requiredDepreciation = this.checkRequiredDepreciationField();
-    
-    if(this.fixedAsset.ActivationDate != null && this.fixedAsset.InvoiceDate !=null && !this.requiredDepreciation){      
+
+    (data.value.Price == null || data.value.Price == "") ? this.fixedAsset.Price=null : this.fixedAsset.Price=data.value.Price;
+
+    if(this.fixedAsset.ActivationDate != null && this.fixedAsset.InvoiceDate !=null && !this.requiredDepreciation){    
+      
+      if((this.fixedAsset.Price != null)&& (this.fixedAsset.CurrencyId == null || !this.fixedAsset.CurrencyId)){
+        return;
+      }else{
         this.faCreate.nextFixedAssetList();
+      }
     }
     else return;
   }

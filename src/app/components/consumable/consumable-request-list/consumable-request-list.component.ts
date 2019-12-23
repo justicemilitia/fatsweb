@@ -60,6 +60,8 @@ export class ConsumableRequestListComponent extends BaseComponent
 
   faProperties: FixedAssetCardProperty[] = [];
 
+  faPropertiesForFilter:FixedAssetCardProperty[] = [];
+
   insertedProperty:FixedAssetPropertyDetails[]= [];
 
   fixedassetpropertyvalues: FixedAssetCardPropertyValue[] = [];
@@ -121,6 +123,8 @@ export class ConsumableRequestListComponent extends BaseComponent
   isConsumableFilter:boolean=false;
 
   key:number;  
+
+  refreshtable:boolean=false;
 
    //#region DataTable 
   /* Data Table */
@@ -946,8 +950,11 @@ export class ConsumableRequestListComponent extends BaseComponent
     this.dataTableConsumableList.TGT_clearData();
     
     this.isConsumableFilter=isFilter;
+    
+    let propertyDetail:FixedAssetPropertyDetails[] = [];
 
-    let propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
+    if(this.refreshtable == false)
+    propertyDetail = <FixedAssetPropertyDetails[]>(this.dataTablePropertyValueForFilter.TGT_copySource());
 
     let consumableList:Consumable=new Consumable();
 
@@ -978,17 +985,26 @@ export class ConsumableRequestListComponent extends BaseComponent
             }
           });
         });  
+
+        //Özellik ile arama yapıldığında apiden grid'e uygun olmayan bir sonuç döndüğü için dönen değerler bu şekilde yönetilmiştir.
+        consumables.forEach(e=>{
+          if(propertyDetail.length > 0){
+            let consumable:Consumable=new Consumable();
+            
+            Object.assign(consumable,e.ConsumableParent); 
+
+           this.consumables.push(consumable);
+          }  
+        });
+
         if (this.consumables.length == 0) {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
 
         this.TGT_calculatePages();       
 
-        Object.assign(this.newConsumableList,consumables);
+        this.dataTableConsumableList.TGT_loadData(this.consumables);
 
-  
-
-        this.dataTableConsumableList.TGT_loadData(consumables);
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -1092,6 +1108,19 @@ export class ConsumableRequestListComponent extends BaseComponent
           });
         });
         this.dataTableConsumableList.TGT_bindActiveColumns();
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+  }
+
+  async loadFixedAssetPropertiesForFilter() {
+    this.baseService.fixedAssetService.GetFixedAssetProperties(
+      (faProperties: FixedAssetCardProperty[]) => {
+
+        this.faPropertiesForFilter = faProperties;
+
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -1566,6 +1595,8 @@ export class ConsumableRequestListComponent extends BaseComponent
 
     this.isTableRefreshing = true;
 
+    this.refreshtable = true;
+    
     switch(currentTabIndex){
       case 0:     
       this.dataTableConsumableList.isLoading = true;

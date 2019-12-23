@@ -256,7 +256,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       result => {
         this.BarcodeIsUnique = false;
         this.errorMessage = "";
-      this.barcode = Number(barcode);
+      //this.barcode = Number(barcode);
       },
       (error: HttpErrorResponse) => {
         this.BarcodeIsUnique = true;
@@ -319,6 +319,8 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   selectedCategory:FixedAssetCardCategory;
   onClickFaCategory(item){
     this.selectedCategory=item;
+
+    this.selectedCard = null;
   }
 
   selectedCard:FixedAssetCard;
@@ -522,7 +524,5 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
      this.faCreate.nextTab();
     } else return;
   }
-
-  
 
 }

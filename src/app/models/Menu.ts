@@ -22,4 +22,12 @@ export class Menu implements IData {
   MenuId: number;
   Name: string;
   IsValid: boolean;
+  ParentMenu: Menu;
+  InverseParentMenu: Menu[];
+
+  constructor() {
+    this.InverseParentMenu = [];
+  }
+
+
 }
