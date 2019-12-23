@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
       <div class="form-group col-md-3">
           <label>{{getLanguageValue('Fixed_Asset_Price')}}</label>
-          <input [(ngModel)]="fixedAsset.Price" name="Price" type="number" trim="blur" placeholder="{{getLanguageValue('Fixed_Asset_Price')}}" class="form-control"/>               
+          <input [(ngModel)]="fixedAsset.Price" name="Price" type="number" trim="blur" min="0"  onkeypress="return event.charCode >= 48" placeholder="{{getLanguageValue('Fixed_Asset_Price')}}" class="form-control"/>               
       </div>
       <div class="form-group col-md-3"> 
           <label>{{getLanguageValue('Currency')}}</label>
@@ -53,13 +53,13 @@
             <div class="input-group">
                 <div class="input-group-append"
                 [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )">
-                  <div (click)="activationDate.toggle()" class="input-group-text">
+                  <div (click)="activationDate.toggle()" (ngModelChange)="isActivationDateToday(fixedAsset.ActivationDate)" class="input-group-text">
                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                   </div>
                 </div>
                 <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="activationDate"
                 [(ngModel)]="fixedAsset.ActivationDate" ngbDatepicker #activationDate="ngbDatepicker" #activationDateModel="ngModel"
-                [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )" required/>                        
+                [class.is-invalid]="dataFinancial.submitted && (!fixedAsset.ActivationDate || activationDateModel.status == 'INVALID' )"  (ngModelChange)="isActivationDateToday(fixedAsset.ActivationDate)" required/>                        
                 <div *ngIf="dataFinancial.submitted && activationDateModel.invalid" class="invalid-feedback">
                   <div *ngIf="activationDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
                   <div *ngIf="!activationDateModel.errors.required && activationDateModel.status == 'INVALID'">
@@ -68,19 +68,19 @@
                 </div>
             </div>
         </div>       
-            <div class="form-group col-md-3"> 
-                <label>{{getLanguageValue('Guarentee_Start_Date')}}</label> 
-                <div class="input-group">
-                    <div class="input-group-append">
-                      <div (click)="guaranteeStartDate.toggle()" class="input-group-text">
-                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                      </div>
-                    </div>
-                    <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="guaranteeStartDate"
-                    [(ngModel)]="fixedAsset.GuaranteeStartDate" ngbDatepicker #guaranteeStartDate="ngbDatepicker" #guaranteeStartDateModel="ngModel"/>      
+        <div class="form-group col-md-3"> 
+            <label>{{getLanguageValue('Guarentee_Start_Date')}}</label> 
+            <div class="input-group">
+                <div class="input-group-append">
+                  <div (click)="guaranteeStartDate.toggle()" class="input-group-text">
+                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                  </div>
                 </div>
+                <input class="form-control" type="text" placeholder="yyyy/mm/dd" name="guaranteeStartDate"
+                [(ngModel)]="fixedAsset.GuaranteeStartDate" ngbDatepicker #guaranteeStartDate="ngbDatepicker" #guaranteeStartDateModel="ngModel"/>      
             </div>
-            <div class="form-group col-md-3">
+        </div>
+        <div class="form-group col-md-3">
                 <label>{{getLanguageValue('Guarentee_End_Date')}}</label> 
                 <div class="input-group">
                     <div class="input-group-append">
@@ -92,11 +92,11 @@
                     [minDate]="fixedAsset.GuaranteeStartDate" [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker" #guaranteeEndDateModel="ngModel"/>
                     
                     <!-- <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="guaranteeEndDate"
-          [minDate]="fixedAsset.GuaranteeStartDate" [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker"
-          #guaranteeEndDate="ngModel" /> -->
+                    [minDate]="fixedAsset.GuaranteeStartDate" [(ngModel)]="fixedAsset.GuaranteeEndDate" ngbDatepicker #guaranteeEndDate="ngbDatepicker"
+                    #guaranteeEndDate="ngModel" /> -->
 
                  </div>
-            </div>
+        </div>
     </div>
 
     <div class="row justify-content-center">
@@ -110,10 +110,10 @@
         </div>
         <div class="form-group col-md-3">
             <label></label> 
-        <label class="ckbox" style="margin-top: 17px">
+        <!-- <label class="ckbox" style="margin-top: 17px">
             <input type="checkbox" [(ngModel)]="fixedAsset.HasInflationIndexation" name="HasInflationIndexation"               
             name="HasInflationIndexation" /><span>{{getLanguageValue('Has_Inflation_Indexation')}}</span>
-          </label>
+          </label> -->
         </div>
         <div class="form-group col-md-3">
             <label>{{getLanguageValue('Receipt_Date')}}</label>  
@@ -127,13 +127,13 @@
                 [(ngModel)]="fixedAsset.ReceiptDate" ngbDatepicker #receiptDate="ngbDatepicker" #receiptDateModel="ngModel"/>  
               </div>
             </div>
-            <div class="form-group col-md-3">
+        <div class="form-group col-md-3">
                 <label>{{getLanguageValue('Expense_Center')}}</label> 
                 <select [(ngModel)]="fixedAsset.ExpenseCenterId"  name="ExpenseCenterId" class="form-control select2-no-search">
                     <option value="-1">{{getLanguageValue('Expense_Center')}}</option>
                     <option *ngFor="let expense of expensecenters" value="{{expense.ExpenseCenterId}}">{{expense.Name}}</option>
                 </select>
-            </div>
+        </div>
     </div>
   </fieldset>
   <fieldset class="field_set" *ngIf="roleControl">

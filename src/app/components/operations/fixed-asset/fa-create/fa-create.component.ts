@@ -255,12 +255,16 @@ export class FaCreateComponent extends BaseComponent
   }
 
   nextTab() {
-    if (this.barcode) this.fixedAsset.Barcode = this.barcode.toString();
+    if (this.barcode) this.fixedAsset.Barcode = this.barcode.toString();  
 
     this.stepper.next();
+
+    
   }
 
   nextFixedAssetList() {
+    if (this.barcode) this.fixedAsset.Barcode = this.barcode.toString();
+
     this.isFinished = true;
     this.stepper.next();
   }
@@ -332,6 +336,8 @@ export class FaCreateComponent extends BaseComponent
   }
 
   addFaPropertyInformation(fixedasset: FixedAsset, data:NgForm) {
+    this.barcode = Number(fixedasset.Barcode);
+
     this.dataProperty = data;
 
     Object.assign(this.faPropertyInformation, fixedasset);
@@ -339,6 +345,8 @@ export class FaCreateComponent extends BaseComponent
   }
 
   addFaFinancialInformation(fixedasset: FixedAsset, data:NgForm) {
+    this.barcode = Number(fixedasset.Barcode);
+
     this.dataFinancial = data;
 
     Object.assign(this.faFinancialInformation, fixedasset);
@@ -352,19 +360,8 @@ export class FaCreateComponent extends BaseComponent
     Object.assign(this.fixedAsset, this.faGeneralInformation);
 
     this.fixedAsset.FixedAssetPropertyDetails = this.faPropertyInformation.FixedAssetPropertyDetails;
+    
     this.fixedAsset.Picture = this.faPropertyInformation.Picture;
-
-
-    // this.fixedAsset.IFRSCurrecyId = Number(this.faFinancialInformation.IFRSCurrecyId);
-    // this.fixedAsset.Price = Number(this.faFinancialInformation.Price);
-    // this.fixedAsset.Ifrsprice = Number(this.faFinancialInformation.Ifrsprice);
-    // this.fixedAsset.DepreciationPeriod = Number(this.faFinancialInformation.DepreciationPeriod);
-    // this.fixedAsset.Ifrsperiod = Number(this.faFinancialInformation.Ifrsperiod);
-    // this.fixedAsset.DepreciationCalculationTypeID = Number(this.faFinancialInformation.DepreciationCalculationTypeID);
-    // this.fixedAsset.WillDepreciationBeCalculated = this.faFinancialInformation.WillDepreciationBeCalculated;
-    // this.fixedAsset.WillIfrsbeCalculated = this.faFinancialInformation.WillIfrsbeCalculated;
-    // this.fixedAsset.CurrencyId = Number(this.faFinancialInformation.CurrencyId);
-
 
     this.dataTable.TGT_clearData();
 
@@ -377,7 +374,7 @@ export class FaCreateComponent extends BaseComponent
     this.fixedAsset.IsActive = Boolean(data.value.IsActive);
     this.fixedAsset.ActivationDate = data.value.activationDate;
     this.fixedAsset.ExpenseCenterId = Number(data.value.ExpenseCenterId);
-    this.fixedAsset.Price = data.value.Price;
+    this.fixedAsset.Price = data.value.Price == 0 ? null : data.value.Price;    
     this.fixedAsset.GuaranteeStartDate = data.value.guaranteeStartDate;
     this.fixedAsset.GuaranteeEndDate = data.value.guaranteeEndDate;
     this.fixedAsset.InvoiceDate = data.value.invoiceDate;
@@ -391,12 +388,23 @@ export class FaCreateComponent extends BaseComponent
     this.fixedAsset.DepreciationCalculationTypeId = Number(data.value.DepreciationCalculationTypeId);
     this.fixedAsset.WillDepreciationBeCalculated = data.value.WillDepreciationBeCalculated;
     this.fixedAsset.WillIfrsbeCalculated = data.value.WillIfrsbeCalculated;
+    this.barcode = this.barcode - this.fixedAsset.Quantity;
 
     if (this.isFinished == true) {
+
+      let counter:number = 0;
+      
       for (let i = 0; i < this.fixedAsset.Quantity; i++) {
         let fixedasset = new FixedAsset();
 
-        fixedasset.Barcode = this.barcode.toString();
+        counter++;
+
+        if(counter == 1 )
+        this.barcode = Number(this.fixedAsset.Barcode.toString());
+
+        fixedasset.Barcode = this.barcode.toString(); //this.fixedAsset.Barcode;
+        //
+
         fixedasset.FixedAssetId = (this.fixedAssets.length + 1) * -1;
 
         Object.assign(fixedasset, this.fixedAsset);

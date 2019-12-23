@@ -206,6 +206,8 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
 
     this.fixedAsset.FixedAssetCard = this.selectedCard;
 
+    console.log(this.barcode);
+
     this.faCreate.addFaGeneralInformation(this.fixedAsset,data,this.selectedCategory);
   }
 
@@ -247,7 +249,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   isBarcodeUnique(barcode: string) {
     if (barcode == "") return;
 
-    this.firstBarcode = Number(this.fixedAsset.Barcode);
+    //this.firstBarcode = Number(this.fixedAsset.Barcode);
 
     this.baseService.fixedAssetCreateService.isBarcodeUnique(
       barcode,
@@ -302,36 +304,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       this.getValidBarcode();
     }
   }
-
-  rfidBarcodeReplace(event:any){
-    if(this.isRFIDBarcode == true){
-    let key:string = event.key;
-
-    key = key.toLocaleUpperCase();
-
-    let value:string = event.target.value;
-    value = value.toLocaleUpperCase();  
-
-    if(key == "A" || key == "B" || key == "C" || key == "D" || key == "E" || key == "F"){
-      if(this.prefix != null){
-        this.prefix = this.prefix + key;   
-        key = null;
-      }else
-        this.prefix = key;    
-        key = null;
-    }
-    else{
-
-      if(key.length != 1){
-        key = "";
-
-        this.prefix = this.prefix + key;
-        this.fixedAsset.Prefix = this.prefix.trim();
-      }     
-    }
-    }
-  }
-
+ 
 
   selectedLocation: Location;
   onClickLocation(item) {

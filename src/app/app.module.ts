@@ -197,7 +197,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     MatTabsModule,
 
   ],
-  providers: [AuthGuard, HashLocationStrategy],
+  providers: [AuthGuard, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
