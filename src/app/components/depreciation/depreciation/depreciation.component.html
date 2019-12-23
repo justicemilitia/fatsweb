@@ -9,6 +9,26 @@
         <div class="card card-dashboard-twelve mg-b-20">
           <div class="card-header" style="padding-bottom:0px;">
             <h2 class="az-content-title" style="margin-left:20px;">{{getLanguageValue('Depreciation_Management')}}</h2>
+            <div>
+              <div *ngIf="isDetailInfo == false">
+               <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
+   
+                   <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalUpdateDepreciation"></button>  
+                   <!-- <div>
+                       <button class="btn btn-az-primary" id="btnFilterDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;"  id="showModal" data-toggle="modal" data-target="#modalFilterDepreciation">Filtrele</button>
+                   </div>  -->
+                   <div>
+                       <button class="btn btn-az-primary" id="btnCalculateIFRSDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="onClickCalculateDepreciation(2)">{{getLanguageValue('Calculation_IFRS')}}</button>
+                   </div>       
+                   <div>
+                       <button class="btn btn-az-primary" id="btnCalculateDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="onClickCalculateDepreciation(1)">{{getLanguageValue('Calculation_Depreciation')}}</button>
+                   </div>
+                   <div>
+                     <button class="btn btn-az-primary" id="btnUpdateInfos"data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:20px;" (click)="depreciationInfo()">{{getLanguageValue('Update_Information')}}</button>
+                 </div>
+               </div>
+             </div>
+           </div>   
             <div *ngIf="isDetailInfo == true && isDepreciationTab == true">          
               <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTableDepreciationDetail)"
                         data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px; min-height: 37px;"><i
@@ -26,28 +46,7 @@
               </div>
             
           </div>            
-            <div>
-            
-    
-             <div *ngIf="isDetailInfo == false">
-              <div  class="justify-content:flex-end; display:flex" style="flex: 1; justify-content: flex-end; display: flex;">
-  
-                  <button style="display:none" id="showModal" data-toggle="modal" data-target="#modalUpdateDepreciation"></button>  
-                  <!-- <div>
-                      <button class="btn btn-az-primary" id="btnFilterDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;"  id="showModal" data-toggle="modal" data-target="#modalFilterDepreciation">Filtrele</button>
-                  </div>  -->
-                  <div>
-                      <button class="btn btn-az-primary" id="btnCalculateIFRSDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="onClickCalculateDepreciation(2)">{{getLanguageValue('Calculation_IFRS')}}</button>
-                  </div>       
-                  <div>
-                      <button class="btn btn-az-primary" id="btnCalculateDepreciation" style="padding: 5px 20px; margin-right:10px; margin-top: 5px;" (click)="onClickCalculateDepreciation(1)">{{getLanguageValue('Calculation_Depreciation')}}</button>
-                  </div>
-                  <div>
-                    <button class="btn btn-az-primary" id="btnUpdateInfos"data-dismiss="modal" style="padding: 5px 20px; margin-top: 5px; margin-right:40px;" (click)="depreciationInfo()">{{getLanguageValue('Update_Information')}}</button>
-                </div>
-              </div>
-            </div>
-          </div>            
+                 
            <div class="card-body" style="padding-top:0px;">
 
               <div *ngIf="isDetailInfo == true">
