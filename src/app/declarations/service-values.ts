@@ -3,9 +3,9 @@ import {AuthenticationService} from "../services/authenticationService/authentic
 import { Service } from '../models/Service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
-export const SERVICE_URL            = "http://localhost:5000/api/";
+// export const SERVICE_URL            = "http://localhost:5000/api/";
  //export const SERVICE_URL = "http://localhost:11889/api/";
-//  export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
+ export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
 
  export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
