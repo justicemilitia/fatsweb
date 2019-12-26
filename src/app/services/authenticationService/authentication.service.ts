@@ -59,7 +59,7 @@ export class AuthenticationService {
           success();
 
         },
-        error => {
+        error => {              
           failed(error);
         }
       );

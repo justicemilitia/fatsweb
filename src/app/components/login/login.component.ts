@@ -69,7 +69,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     /* Login if success redirect user to dashboard */
     this.baseService.authenticationService.Login(this.loginUser,
       () => {
-
+ 
         this.isLoggining = false;
 
         this.unAutharized=false;

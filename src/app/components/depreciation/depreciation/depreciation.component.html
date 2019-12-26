@@ -313,7 +313,7 @@
                       <!-- IFRS PARA BİRİMİ -->
                   <div class="col-md-6 form-group ">
                       <label>{{getLanguageValue('Currency')}}</label>
-                      <select [(ngModel)]="fixedAsset.IfrscurrecyId" [disabled]="ifrsDepreciationBeCalculated==false" name="IfrscurrecyId" [class.is-invalid]="dataDepreciation.submitted && ifrsDepreciationBeCalculated == true && fixedAsset.IfrscurrecyId == null" class="form-control select2-no-search">
+                      <select [(ngModel)]="fixedAsset.IfrscurrecyId" [disabled]="ifrsDepreciationBeCalculated==false" name="IfrscurrecyId" [class.is-invalid]="dataDepreciation.submitted && ifrsDepreciationBeCalculated == true && fixedAsset.Ifrsprice == null && fixedAsset.IfrscurrecyId == null" class="form-control select2-no-search">
                         <option [ngValue]="null" >{{getLanguageValue('Choose')}}</option>
                         <option *ngFor="let currency of currencies" value="{{currency.CurrencyId}}">{{currency.Name}}</option>
                       </select>   

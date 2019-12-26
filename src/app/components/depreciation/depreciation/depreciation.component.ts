@@ -758,7 +758,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       this.ifrsDepreciationBeCalculated = false;
       this.fixedAsset.Ifrsperiod = null;
       this.fixedAsset.Ifrsprice = null;
-      this.fixedAsset.IFRSCurrecyId = null;    
+      this.fixedAsset.IfrscurrecyId = null;
     }
   }
 
@@ -766,7 +766,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     if (event.target.checked == true) {
       this.depreciationBeCalculated = true;
     } else {
-this.depreciationBeCalculated = false;      
+      this.depreciationBeCalculated = false;      
       this.fixedAsset.DepreciationCalculationTypeId = null;
       this.fixedAsset.DepreciationPeriod = null;
     }

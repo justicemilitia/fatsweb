@@ -421,7 +421,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
       t.WorkStepRowId = stepRow;
       stepRow++;
     });
-
+    
     this.dataTableWorkStep.isLoading=true;
 
     this.dataTableWorkStep.TGT_loadData(workSteps);
