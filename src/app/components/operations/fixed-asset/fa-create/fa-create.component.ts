@@ -255,17 +255,18 @@ export class FaCreateComponent extends BaseComponent
   }
 
   nextTab() {
+
     if (this.barcode) this.fixedAsset.Barcode = this.barcode.toString();  
 
     this.stepper.next();
-
-    
   }
 
   nextFixedAssetList() {
+
     if (this.barcode) this.fixedAsset.Barcode = this.barcode.toString();
 
     this.isFinished = true;
+    
     this.stepper.next();
   }
 

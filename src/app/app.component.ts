@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, DoCheck, AfterViewInit } from "@angular/core";
+import { Component, SimpleChanges, DoCheck, AfterViewInit, enableProdMode } from "@angular/core"; enableProdMode();
 import { BaseService } from './services/base.service';
 import { BaseComponent } from './components/base/base.component';
 

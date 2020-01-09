@@ -281,14 +281,24 @@ export class DashboardComponent extends BaseComponent implements OnInit, DoCheck
       let xValues = [];
       let y:number=20;
       /* x axis Values */
-        let currentMonth = (new Date()).getMonth();
+        let currentMonth = 2;//(new Date()).getMonth();
         xValues.push([0,'']);
-        GetMonthOfYearsLong(this.language).forEach((e,i)=>{
-          if( i < currentMonth + 1 && i >= currentMonth-2){
-            xValues.push([y,e]);
-            y=y+20;
-          }
-        });
+        if(currentMonth <= 3 && currentMonth >= 0 ){
+          GetMonthOfYearsLong(this.language).forEach((e,i)=>{
+            if( i == 0 || i == 11 || i ==10){
+              xValues.push([y,e]);
+             // xValues.
+              y=y+20;
+            }
+          });
+        }else{
+          GetMonthOfYearsLong(this.language).forEach((e,i)=>{
+            if( i < currentMonth + 1 && i >= currentMonth-2){
+              xValues.push([y,e]);
+              y=y+20;
+            }
+          });
+        }        
 
       loadMonth(xValues);
 

@@ -6,12 +6,17 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { UserLogin } from 'src/app/models/UserLogin';
 import { NgForm } from '@angular/forms';
 import { getAnErrorResponse } from 'src/app/declarations/extends';
+import { Router } from "@angular/router";
+import { DashboardComponent } from '../dashboard/dashboard.component';
+
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  styleUrls: ["./login.component.css"],
+
 })
+
 export class LoginComponent extends BaseComponent implements OnInit {
 
   loginUser: UserLogin = new UserLogin();
@@ -38,7 +43,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   unAutharized:boolean=false;
 
-  constructor(protected baseService: BaseService) {
+  constructor(protected baseService: BaseService, private _router: Router) {
     super(baseService);
   }
 
@@ -74,7 +79,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
         this.unAutharized=false;
 
-        this.baseService.router.navigateByUrl("/dashboard");
+        //this._router.navigate(["/#/dashboard"]);
+        // setTimeout(()=>{
+          this.baseService.router.navigateByUrl("/dashboard");
+        // },10000);
 
       }, (error: HttpErrorResponse) => {
 

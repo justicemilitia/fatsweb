@@ -369,9 +369,11 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     }  
   }
 
-  AddNewWorkOrder(){
+  AddNewWorkOrder(data:NgForm){
 
     this.resetWorkStep();
+
+    data.resetForm();
 
     this.workSteps=[];
 
@@ -525,6 +527,8 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   updateWorkOrder(data:NgForm){
       /* Check model state */
   if (data.form.invalid == true) return;
+
+  this.baseService.spinner.show();
     
   let workSteps:WorkStep[]= <WorkStep[]>this.dataTableWorkStep.TGT_copySource();
    
@@ -537,12 +541,19 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   this.workOrder.WorkOrderId=this.WorkOrderId;
 
   this.baseService.workOrderService.UpdateWorkOrder(this.workOrder,(result,message:string)=>{
+
     this.baseService.popupService.ShowSuccessPopup(message);
 
+    this.loadWorkOrderByWorkOrderId(this.workOrder.WorkOrderId);
+
     data.resetForm();
+
+    this.baseService.spinner.hide();
   },
   (error:HttpErrorResponse)=>{
     this.baseService.popupService.ShowErrorPopup(error);
+
+    this.baseService.spinner.hide();
   })
   }
 
@@ -648,7 +659,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     let dataTableWorkStep:WorkStep[]=<WorkStep[]>this.dataTableWorkStep.TGT_copySource();
 
     if(this.isConsumableUse == true &&      
-   this.consumableCardsWithConsumableObject.length == 0){
+    this.consumableCardsWithConsumableObject.length == 0){
       this.errorMessage = true;
       this.isWaitingInsertWorkStep = false; 
       return;
@@ -794,6 +805,11 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   }
 
   resetWorkStep(){
+
+    this.insertedPeriodTypeId=null;
+
+    this.insertedPeriodTypeValue=null;
+    
     this.insertWorkStep = false;
 
     this.workSteps=[];
@@ -873,7 +889,9 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
   /* Check model state */
   if (data.form.invalid == true) return;
-    
+
+  this.baseService.spinner.show();
+     
    let workSteps:WorkStep[]= <WorkStep[]>this.dataTableWorkStep.TGT_copySource();
     
    this.workOrder.WorkSteps=workSteps;
@@ -883,6 +901,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
    this.workOrder.WorkOrderCode = Number(this.workOrderCode);      
 
     this.baseService.workOrderService.AddWorkOrder(this.workOrder,(workOrder:WorkOrders,message)=>{
+
       this.baseService.popupService.ShowSuccessPopup(message);
 
       this.visibleWorkOrderButton=false;
@@ -891,8 +910,11 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
       data.resetForm();
 
+      this.baseService.spinner.hide();
     },(error:HttpErrorResponse)=>{
      /* show error message */
+     this.baseService.spinner.hide();
+
      this.baseService.popupService.ShowErrorPopup(error);
     });
   }
@@ -972,6 +994,10 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
   
   deleteConsumable(data:ConsumableProperties){ 
     this.consumableCardsWithConsumableObject = this.consumableCardsWithConsumableObject.filter(e=>e.ConsumableId != data.ConsumableId);
+
+    if(this.consumableCardsWithConsumableObject.length == 0){
+      this.workStep.IsConsumableUsed = false;
+    }
   }
 
   forgetUpdateData(){

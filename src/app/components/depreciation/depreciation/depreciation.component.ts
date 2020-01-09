@@ -479,34 +479,6 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       );
     }
 
-
-  //Amortisman Detayları
-  // async loadFixedAssetDepreciations(_perInPage: number = 25, _currentPage: number = 1) {
-  //   this.searchDescription = "";
-  //   this.dataTable.TGT_clearData();
-  //   this.dataTable.isLoading = true;
-
-  //   this.baseService.depreciationService.GetDepreciationFixedAsset(
-  //     _perInPage,
-  //     _currentPage,
-  //     false,
-  //     true,
-  //     (fa: FixedAsset[], totalPage: number, message: string) => {
-  //       this.perInPage = _perInPage;
-  //       this.currentPage = _currentPage;
-  //       this.dataTable.perInPage = _perInPage;
-  //       this.fixedAssets = fa;
-  //       this.totalPage = totalPage ? totalPage : 1;
-
-  //       this.dataTable.TGT_loadData(this.fixedAssets);
-  //       this.TGT_calculatePages();
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       this.baseService.popupService.ShowErrorPopup(error);
-  //     }
-  //   );
-  // }
-
   loadDropdownList() {
 
     this.baseService.currencyService.GetCurrencies(

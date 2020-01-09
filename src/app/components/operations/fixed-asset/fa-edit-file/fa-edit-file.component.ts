@@ -15,6 +15,7 @@ import { InputTrimDirective } from "ng2-trim-directive";
 import { FixedAssetComponent } from "../fixed-asset.component";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAssetFile } from "src/app/models/FixedAssetFile";
+import { saveAs } from "file-saver";
 
 @Component({
   selector: "app-fa-edit-file",
@@ -46,6 +47,8 @@ export class FaEditFileComponent extends BaseComponent
   fixedAssetFile: FixedAssetFile[] = [];
   InsertOrDelete:boolean=false;
   barcodes:any;
+
+  filename: string = '';
 
   
   public dataTableFile: TreeGridTable = new TreeGridTable(
@@ -225,6 +228,79 @@ export class FaEditFileComponent extends BaseComponent
         this.baseService.popupService.ShowErrorPopup(error);
       }
     );
+  }
+
+  downloadFiles(){
+    let selectedItems = <FixedAssetFile[]>this.dataTableFile.TGT_getSelectedItems();
+  
+    if (!selectedItems || selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        this.getLanguageValue("Please_choose_at_least_one_record")
+      );
+      return;
+    }    
+  
+    selectedItems.forEach((e,i) => {
+      this.filename = selectedItems[i] == null ? null : (selectedItems[i]).FileName;  
+      if(this.filename != ''){
+        this.downloadFile(this.filename);      
+      }
+      this.filename='';
+    });
+  }
+
+  downloadFile(fileName: string){ 
+
+ 
+    //file type extension
+    let checkFileType =  this.filename.split('.').pop();
+    var fileType;
+    switch(checkFileType){
+      case 'txt':
+      fileType = "text/plain";    
+      break;
+      case 'pdf':
+      fileType = "application/pdf";    
+      break;
+      case 'doc':
+      fileType = "application/vnd.ms-word";    
+      break;
+      case 'docx':
+      fileType = "application/vnd.ms-word";    
+      break;
+      case 'xls':
+      fileType = "application/vnd.ms-excel";    
+      break;
+      case 'xlsx':
+      fileType = "application/vnd.ms-excel";    
+      break;
+      case 'png':
+      fileType = "image/png";    
+      break;
+      case 'jpg':
+      fileType = "image/jpeg";    
+      break;
+      case 'jpeg':
+      fileType = "image/jpeg";    
+      break;
+      case 'gif':
+      fileType = "image/gif";    
+      break;
+      case 'csv':
+      fileType = "text/csv";    
+      break;
+     }
+    
+    this.baseService.fileUploadService.DownloadFile(fileName, fileType)
+    .subscribe(
+              success => {
+                saveAs(success, fileName); 
+              },
+              (error: HttpErrorResponse) => {
+                /* show error pop up */
+                this.baseService.popupService.ShowErrorPopup(error);
+              }
+          );
   }
 
   resetForm(){
