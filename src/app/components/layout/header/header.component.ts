@@ -25,9 +25,9 @@ export class HeaderComponent extends BaseComponent implements OnInit, AfterViewI
   loadSystemInformations() {
     this.applicationInfo = {
       Application: {
-        ApplicationName: 'Fats Demirbaş Yönetim Sistemi',
+        ApplicationName: 'Owno Varlık Yönetim Sistemi',
         ApplicationVersion: this.Version,
-        ApplicationCompany: 'Trinoks Yazılım A.Ş.',
+        ApplicationCompany: 'VecSoft',
         ApplicationContact: 'mailto:destek@trinoks.com',
         ApplicationContactName: 'destek@trinoks.com',
         ApplicationPhone:'0216 417 71 82'

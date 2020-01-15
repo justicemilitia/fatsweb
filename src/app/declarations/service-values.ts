@@ -25,7 +25,7 @@ export const IMAGE_URL =  "http://dev.fatsapi.com/";
 // } 
 
 export const LOGIN = "Auth/token";
-export const FORGET_PASSWORD = "Auth/forgotpassword";
+export const FORGET_PASSWORD  = "Auth/forgotpassword";
 
 //#region Vector
 // export const SERVICE_URL = "http://devtest.fatsapi.com/api/"; 
@@ -378,6 +378,7 @@ export const GET_USER_STATUS_BY_MAINTENANCE_ID ="WorkOrder/GetUserStatusByMainte
 export const GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID ="WorkOrder/GetMaintenanceRequestPicturesByMaintenanceId";
 export const CANCEL_BREAKDOWN = "WorkOrder/CancelBreakdown";
 export const PERIODIC_MAINTENANCE_PROCESS = "WorkOrder/PeriodicMaintenanceProcess";
+export const DELETE_WORK_ORDER = "WorkOrder/RemoveWorkOrder";
 //#endregion
 //#region WorkSteps
 export const GET_WORK_STEPS_BY_FIXED_ASSET_ID ="WorkStep/GetWorkStepsByFixedAssetId";

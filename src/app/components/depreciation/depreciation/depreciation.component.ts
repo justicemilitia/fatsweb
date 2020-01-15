@@ -336,12 +336,7 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     this.loadFixedAssetProperties();
 
     this.dataTable.isPagingActive = false;
-
-    this.dataTableDepreciationDetail.isPagingActive=false;
-    this.dataTableDepreciationDetail.isMultipleSelectedActive=false;
-
-    this.dataTableIFRSDepreciationDetail.isPagingActive=false;
-    this.dataTableIFRSDepreciationDetail.isMultipleSelectedActive=false;
+ 
   }
 
   async loadFixedAssetProperties() {
@@ -702,8 +697,9 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
       else
       {
         this.fixedAssetIfrsDepreciationDetails = ifrsDepreciationDetails;
+
         this.dataTableIFRSDepreciationDetail.TGT_loadData(ifrsDepreciationDetails);
-        // this.dataTableIFRSDepreciationDetail.TGT_loadData(this.fixedAssetIfrsDepreciationDetails);
+        
       }
        },
       (error: HttpErrorResponse) => {

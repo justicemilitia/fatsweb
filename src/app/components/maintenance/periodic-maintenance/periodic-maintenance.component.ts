@@ -435,6 +435,18 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
     this.resetWorkStep();
   }
 
+  deleteWorkOrder(workOrderId:number){
+
+    let workOrderIds:number[]=[];
+    workOrderIds.push(workOrderId);
+
+    this.baseService.workOrderService.DeleteWorkOrder(workOrderIds,(message)=>{
+      this.baseService.popupService.ShowSuccessPopup(message);
+    },(error:HttpErrorResponse)=>{
+      this.baseService.popupService.ShowErrorPopup(error);
+    });
+  }
+
   async loadConsumableCardDropdown(){
     await this.baseService.consumableCardService.GetConsumableCards(
       (consumableCards: ConsumableCard[]) => {

@@ -4,7 +4,7 @@ import { AuthenticationService } from '../authenticationService/authentication.s
 import { ErrorService } from '../error-service/error.service';
 import { Response } from "src/app/models/Response";
 import { getAnErrorResponse } from "src/app/declarations/extends";
-import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID, GET_VALID_BARCODE_LAST_NUMBER, GET_VALID_WORK_ORDER_CODE, GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID, GET_WORK_STEPS_BY_FIXED_ASSET_ID, REPORT_BREAKDOWN_WITH_FILE_UPLOAD, GET_WORK_ORDER_PERIOD_TYPES, ADD_WORK_ORDER, GET_WORK_STEP_LIST_BY_WORK_ORDER_ID, GET_WORKSTEPDETAIL_BY_WORK_STEP_ID, UPDATE_WORK_ORDER, FIX_BREAKDOWN_WITH_FILE_UPLOAD, GET_USER_STATUS_BY_MAINTENANCE_ID, GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID, CANCEL_BREAKDOWN, GET_FIXEDASSETCARD_BY_ID, GET_WORKSTEPLIST_BY_FIXEDASSETCARD_ID, PERIODIC_MAINTENANCE_PROCESS } from '../../declarations/service-values';
+import { SERVICE_URL, GET_HEADERS, GET_WORK_ORDER_LIST, GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID, GET_VALID_BARCODE_LAST_NUMBER, GET_VALID_WORK_ORDER_CODE, GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID, GET_WORK_STEPS_BY_FIXED_ASSET_ID, REPORT_BREAKDOWN_WITH_FILE_UPLOAD, GET_WORK_ORDER_PERIOD_TYPES, ADD_WORK_ORDER, GET_WORK_STEP_LIST_BY_WORK_ORDER_ID, GET_WORKSTEPDETAIL_BY_WORK_STEP_ID, UPDATE_WORK_ORDER, FIX_BREAKDOWN_WITH_FILE_UPLOAD, GET_USER_STATUS_BY_MAINTENANCE_ID, GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID, CANCEL_BREAKDOWN, GET_FIXEDASSETCARD_BY_ID, GET_WORKSTEPLIST_BY_FIXEDASSETCARD_ID, PERIODIC_MAINTENANCE_PROCESS, DELETE_WORK_ORDER } from '../../declarations/service-values';
 import { Maintenance } from '../../models/Maintenance';
 import { WorkOrders } from 'src/app/models/WorkOrders';
 import { getMatIconFailedToSanitizeLiteralError } from '@angular/material';
@@ -455,6 +455,20 @@ export class WorkOrderService {
         success(response.LanguageKeyword)
        else
        failed(getAnErrorResponse(response.LanguageKeyword)); 
+    },error=>{
+      failed(error);
+    });
+  }
+
+  DeleteWorkOrder(workOrderIds:number[],success,failed){
+    this.httpClient.post(SERVICE_URL + DELETE_WORK_ORDER,{ WorkOrderIds:workOrderIds},{
+      headers:GET_HEADERS(this.authenticationService.getToken())
+    }).subscribe(result => {
+      let response:Response=<Response>result;
+      if(response.ResultStatus == true)
+      success(response.LanguageKeyword)
+      else
+      failed(getAnErrorResponse(response.LanguageKeyword));
     },error=>{
       failed(error);
     });
