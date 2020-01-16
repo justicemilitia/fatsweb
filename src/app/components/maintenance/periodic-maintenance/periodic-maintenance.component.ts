@@ -442,6 +442,12 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
 
     this.baseService.workOrderService.DeleteWorkOrder(workOrderIds,(message)=>{
       this.baseService.popupService.ShowSuccessPopup(message);
+
+      if(this.workOrders.length == 1){
+        this.baseService.router.navigateByUrl("/fixedassetcard");
+      }
+
+
     },(error:HttpErrorResponse)=>{
       this.baseService.popupService.ShowErrorPopup(error);
     });
