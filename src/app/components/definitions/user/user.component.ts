@@ -14,6 +14,7 @@ import { MatStepper } from '@angular/material';
 import { FixedAssetCardCategory } from 'src/app/models/FixedAssetCardCategory';
 import { Firm } from 'src/app/models/Firm';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
+import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 
 @Component({
   selector: "app-user",
@@ -101,6 +102,17 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   @ViewChild("stepper") stepper: MatStepper;
 
+  currentPage: number = 1;
+  perInPage: number = 25;
+  totalPage: number = 1;
+  pages: Page[] = [];
+  totalRecords:number = 0;
+  
+  countOfParentItems:number;
+  endDisplayCount:number;
+  totalDisplayItem:number;
+
+  pagingInfo:string = '';
   /* Data Table instance */
 
   //#region DataTable
@@ -309,6 +321,8 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.loadUsers();
     this.loadDropdownList();
 
+    this.dataTable.isPagingActive = false;
+
     //#region DataTable Property
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
@@ -358,6 +372,94 @@ export class UserComponent extends BaseComponent implements OnInit {
       }
     });
   }
+
+
+  async  TGT_calculatePages() {
+
+    let items: Page[] = [];
+    let totalPage = this.totalPage;
+
+    /* if user in a diffrent page we will render throw the first page */
+    if (this.currentPage > totalPage)
+      this.currentPage = 1;
+    else if (this.currentPage < 1)
+      this.currentPage = 1
+
+    /* We will always put first page in to pagination items */
+    items.push({
+      value: 1,
+      display: '1',
+      isDisabled: false,
+      isActive: this.currentPage == 1 ? true : false
+    });
+
+    /* if the total page is 1 return the items no more need calculation */
+    if (totalPage <= 1) {
+      this.pages = items;
+      return;
+    }
+
+    /* we will store the last inserted item */
+    let lastInsertedItem = this.currentPage - 3;
+
+    /* if current user far enough page we will show ... (you passed many page) */
+    if (lastInsertedItem > 2) {
+      items.push({
+        value: 0,
+        display: '...',
+        isDisabled: true,
+        isActive: false
+      });
+    }
+
+    /* We loop all pages to add pagination items */
+    for (let ii = this.currentPage - 3; ii < totalPage; ii++) {
+      lastInsertedItem = ii;
+
+      /* first pages ii may be minus so we should check ii is bigger 1 */
+      if (ii > 1) {
+        /* Insert pagination item */
+        items.push({
+          value: ii,
+          display: ii.toString(),
+          isDisabled: false,
+          isActive: this.currentPage == ii ? true : false
+        });
+      }
+
+      /* maximum item we will show is 7 */
+      if (items.length > 7) {
+        ii = totalPage;
+        break;
+      }
+    }
+
+    /* After calculation if we still far from totalpage we insert ... page item */
+    if (lastInsertedItem < totalPage - 1 && lastInsertedItem > 0) {
+      items.push({
+        value: 0,
+        display: '...',
+        isDisabled: true,
+        isActive: false
+      });
+    }
+
+    /* We always push the last page to the pagination items */
+    if (!items.find(x => x.value == totalPage)) {
+      items.push({
+        value: totalPage,
+        display: totalPage.toString(),
+        isDisabled: false,
+        isActive: this.currentPage == totalPage ? true : false
+      });
+    }
+
+    /* We set pages to new pagination items. */
+    this.pages = items;
+
+  }
+
+
 
   ngOnInit() {}
 
@@ -790,28 +892,100 @@ export class UserComponent extends BaseComponent implements OnInit {
           (error:HttpErrorResponse)=>{});
   }
 
-  async loadUsers() {
+  async loadUsers(_perInPage: number = 5, _currentPage: number = 1) {
+    let c:string;
+    //this.isGuaranteedFixedAsset = false;
+    this.dataTable.TGT_clearData();
+    this.dataTable.isLoading = true;
+    
     /* Load just user to table */
-    this.baseService.userService.GetUsers(
-      (usrs: User[]) => {
+    this.baseService.userService.GetUsersByPagedList(_perInPage, _currentPage,
+      (usrs: User[], totalPage: number, totalRecords:number) => {
         this.users = usrs;
         this.dataTable.TGT_loadData(this.users);
      
         if(usrs.length==0){
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
+          this.totalPage = 0;    
+        }  else{
+          this.perInPage = _perInPage;
+          this.currentPage = _currentPage;
+          this.dataTable.perInPage = _perInPage;
+          this.users  = usrs;
+  
+          this.totalRecords = totalRecords;
+          let endDisplayCount:number = this.currentPage * this.perInPage;
+          let countOfParentItems:number=this.users.filter(x=>!x.getParentId()).length;
+          this.countOfParentItems=countOfParentItems;
+        
+          this.endDisplayCount = endDisplayCount - this.perInPage + 1;
+          this.totalDisplayItem =  this.endDisplayCount + this.countOfParentItems - 1;    
+  
+          if(this.totalRecords > 0)
+          this.pagingInfo = this.getLanguageValue('Total')+' '+ this.totalRecords+' '+this.getLanguageValue('records_and')+' '+ this.endDisplayCount + ' '+this.getLanguageValue('with') +' '+ this.totalDisplayItem + ' ' + this.getLanguageValue('records_shown');       
+          else
+          this.pagingInfo = this.getLanguageValue('Total') +' 0 '+ this.getLanguageValue('records');
+        
+          this.totalPage = Math.ceil(usrs.length/this.perInPage);
+  
+          this.TGT_calculatePages();
+  
+          this.calculateDatatable(this.perInPage,this.currentPage,usrs);
+  
+          this.dataTable.TGT_loadData(this.users);
         }
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
+        this.totalPage = 0;
+        this.TGT_calculatePages();
       }
     );
+  }
+
+
+  async calculateDatatable(perInPage:number = 1000, _currentPage:number = 1, user:User[] ){
+    let startIndex = _currentPage * perInPage - perInPage;
+    let counter = 0;
+    let userCalculate:User[]=[];
+
+    for (let ii = 0; ii < user.length; ii++) {
+      if (userCalculate.length > 0) {
+        if (user[ii].getParentId()) {
+          userCalculate.push(user[ii]);
+            continue;
+        }
+    }
+
+    /* Eğer eklediğimiz miktar ekleyeceğimiz sayıya ulaştıysa döngüden çıkıyoruz */
+      if (counter == startIndex + perInPage)
+         break;
+     /* Eğer miktar az ise ve parenti yok ise sayacı bir arttırıyoruz. Amacı childları saymayı önlemek */
+     if (counter < startIndex){
+         if (!user[ii].getParentId()) {
+             counter++;
+             continue;
+         } else
+            continue;
+         /* Parent idsi olmayanları atarken sayacı 1 arttırıyoruz. Childları basarken ise sayacı arttırmıyoruz. */
+     } else if (counter < startIndex + perInPage){
+         if (user[ii].getParentId())
+             continue;
+             userCalculate.push(user[ii]);
+         if (!user[ii].getParentId())
+             counter++;
+         continue;
+     }
+    }
+
+    Object.assign(this.users, userCalculate);
   }
 
   async loadDropdownList() {
 
     /* Reload users again */
     if (this.users.length == 0) {
-      this.baseService.userService.GetUsers(
+      this.baseService.userService.GetUsers( 
         (users: User[]) => {
           this.users = users;
           this.dataTable.TGT_loadData(this.users);
@@ -845,8 +1019,8 @@ export class UserComponent extends BaseComponent implements OnInit {
       (error:HttpErrorResponse)=>{});
 
     //Get Users  
-    this.baseService.userService.GetUsers(
-      (usrs: User[]) => {
+    this.baseService.userService.GetUsers( 
+      (usrs: User[], totalPage: number, totalRecords:number) => {
         this.dropdownUsers = usrs;
         this.dataTableUser.TGT_loadData(this.dropdownUsers);   
       },

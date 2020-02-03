@@ -20,7 +20,8 @@ import {
   GET_USER_LIST_BY_FIRM_ID,
   GET_DEBITUSER_LIST,
   CHECK_USER_PASSWORD,
-  GET_USER_BY_DEPARTMENT_ID
+  GET_USER_BY_DEPARTMENT_ID,
+  USER_PAGED_LIST
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { User } from "../../models/User";
@@ -71,9 +72,9 @@ export class UserService {
 
   GetUsers(callback, failed) {
     this.httpClient
-      .get(SERVICE_URL + GET_USER_LIST, {
-        headers: GET_HEADERS(this.aService.getToken())
-      })
+      .get(SERVICE_URL + USER_PAGED_LIST,        
+        {headers: GET_HEADERS(this.aService.getToken())}
+      )
       .subscribe(
         result => {
           let response: Response = <Response>result;
@@ -86,6 +87,31 @@ export class UserService {
           });
 
           callback(users);
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+  GetUsersByPagedList(_pageSize: number = 25, _currentPage: number = 1, callback, failed) {
+    this.httpClient
+      .post(SERVICE_URL + USER_PAGED_LIST, 
+        {PageSize: _pageSize, PageNumber: _currentPage},
+        {headers: GET_HEADERS(this.aService.getToken())}
+      )
+      .subscribe(
+        (result: any) => {
+          let response: Response = <Response>result;
+          let users: User[] = [];
+
+          (<User[]>response.ResultObject).forEach(e => {
+            let usr: User = new User();
+            Object.assign(usr, e);
+            users.push(usr);
+            
+          });
+          callback(users, result.TotalPage, result.TotalRecords);
         },
         (error: HttpErrorResponse) => {
           failed(error);

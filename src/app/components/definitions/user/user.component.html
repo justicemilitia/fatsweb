@@ -35,10 +35,34 @@
               (click)="resetForm(data,false)">{{getLanguageValue('Reedit_User')}}
             </button>
           </div>
-        </div>
-        <div class="sales-overview">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+        </div>        
+        <div class="sales-overview" style="flex-direction:column">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)"  [dataTable]="dataTable">
           </tree-grid-table>
+          <div class="table-info" class="table-info-without-margin" style="margin-left:22px">
+            {{pagingInfo}}
+          </div>
+          <!-- Pagination Side -->
+          <div class="table-pagination">
+            <!-- Per In Page Select area -->
+            <select class="table-pagination-select" (change)="loadDatatable(perInPage,1)" [(ngModel)]="perInPage">
+              <option *ngFor="let perIn of dataTable.perInPages" value="{{perIn}}">{{perIn}}</option>
+              <option value="1000">1000</option>
+            </select>
+            <!-- END Per In Page Select area END -->
+            <!-- Paginations -->
+            <nav class="pagination-nav">
+              <ul class="pagination">
+                <ng-container *ngFor="let page of pages">
+                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                      (click)="loadDatatable(perInPage,page.value)" class="page-link">{{page.display}}</button>
+                  </li>
+                </ng-container>
+              </ul>
+            </nav>
+            <!-- END Paginations END -->
+          </div>
+          <!-- END Pagination Side END -->
         </div>
       </div>
       <!-- az-content-body -->

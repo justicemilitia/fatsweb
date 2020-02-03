@@ -3,9 +3,9 @@ import {AuthenticationService} from "../services/authenticationService/authentic
 import { Service } from '../models/Service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
-//export const SERVICE_URL = "http://localhost:5000/api/";
+export const SERVICE_URL = "http://localhost:5000/api/";
  //export const SERVICE_URL = "http://localhost:11889/api/";
-export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
+// export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
 
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
@@ -76,6 +76,7 @@ export const GET_USERFIRM_LIST_WITHOUT_PARAMS = "UserFirms/GetUserFirmsListbyFir
 //#endregion
 //#region Users
 export const GET_USER_LIST = "user/GetUserList";
+export const USER_PAGED_LIST = "user/GetUserPagedList";
 export const GET_USER_BY_ID = "user/GetUserById";
 export const INSERT_USER = "User/AddUser";
 export const UPDATE_USER = "User/UpdateUser";
