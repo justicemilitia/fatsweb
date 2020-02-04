@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Debug in Chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/src/app/"
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }
