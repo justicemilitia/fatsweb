@@ -28,21 +28,21 @@ import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 })
 export class UserComponent extends BaseComponent implements OnInit {
 
-  
+
   isLocationDropdownOpen: boolean = false;
 
-  isUserDropdownOpen:boolean = false;
+  isUserDropdownOpen: boolean = false;
 
-  isFirmDropdownOpen:boolean = false;
+  isFirmDropdownOpen: boolean = false;
 
   isFaCardCategoryDropdownOpen: boolean = false;
 
-  visibleInsertButton:boolean=true;
+  visibleInsertButton: boolean = true;
 
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
 
-  visibleUpdateButton:boolean = false;
+  visibleUpdateButton: boolean = false;
 
   /* Is Table Refreshing */
   isTableRefreshing: boolean = false;
@@ -56,7 +56,7 @@ export class UserComponent extends BaseComponent implements OnInit {
   /* Store all the table users */
   users: User[] = [];
 
-  dropdownUsers:User[]=[];
+  dropdownUsers: User[] = [];
 
   /* Store the departments to inser users */
   departments: Department[] = [];
@@ -65,13 +65,13 @@ export class UserComponent extends BaseComponent implements OnInit {
   locations: Location[] = [];
 
   /* Store the categories to insert users */
-  categories:FixedAssetCardCategory[] = [];
+  categories: FixedAssetCardCategory[] = [];
 
   /* Store the roles to insert users */
   roles: Role[] = [];
 
-/* Store the firms to insert users */
-  firms:Firm[]=[];
+  /* Store the firms to insert users */
+  firms: Firm[] = [];
 
   /* Store user titles to insert users */
   userTitles: UserTitle[] = [];
@@ -82,37 +82,37 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   checkedSystemUser: boolean = false;
 
-  checkedSystemUserUpdate:boolean=false;
+  checkedSystemUserUpdate: boolean = false;
 
   isInsertOrUpdate: boolean = false;
 
-  CategoryIds:number[]=[];
+  CategoryIds: number[] = [];
 
-  FirmIds:number[]=[];
+  FirmIds: number[] = [];
 
-  LocationIds:number[]=[];
+  LocationIds: number[] = [];
 
-  UserIds:number[]=[];
+  UserIds: number[] = [];
 
-  isUpdate:boolean=false;
-  
+  isUpdate: boolean = false;
+
   notDeletedBarcode: string = '';
 
-  selectedItems:User[]=[];
+  selectedItems: User[] = [];
 
   @ViewChild("stepper") stepper: MatStepper;
 
   currentPage: number = 1;
-  perInPage: number = 25;
+  perInPage: number = 100;
   totalPage: number = 1;
   pages: Page[] = [];
-  totalRecords:number = 0;
-  
-  countOfParentItems:number;
-  endDisplayCount:number;
-  totalDisplayItem:number;
+  totalRecords: number = 0;
 
-  pagingInfo:string = '';
+  countOfParentItems: number;
+  endDisplayCount: number;
+  totalDisplayItem: number;
+
+  pagingInfo: string = '';
   /* Data Table instance */
 
   //#region DataTable
@@ -329,9 +329,9 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableLocation.isDeleteable = false;
     this.dataTableLocation.isLoading = false;
     this.dataTableLocation.isScrollActive = false;
-    this.dataTableLocation.isSelectAllWithChildrenActive=true;
-    this.dataTableLocation.isMultipleSelectedActive=true;
-    
+    this.dataTableLocation.isSelectAllWithChildrenActive = true;
+    this.dataTableLocation.isMultipleSelectedActive = true;
+
 
     this.dataTableFixedAssetCategory.isPagingActive = false;
     this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
@@ -339,36 +339,36 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableFixedAssetCategory.isLoading = false;
     this.dataTableFixedAssetCategory.isScrollActive = false;
     this.dataTableFixedAssetCategory.isSelectAllWithChildrenActive = true;
-    this.dataTableFixedAssetCategory.isMultipleSelectedActive=true;
-    
+    this.dataTableFixedAssetCategory.isMultipleSelectedActive = true;
+
 
     this.dataTableFirm.isPagingActive = false;
     this.dataTableFirm.isColumnOffsetActive = false;
     this.dataTableFirm.isDeleteable = false;
     this.dataTableFirm.isLoading = false;
-    this.dataTableFirm.isScrollActive=false;
-    this.dataTableFirm.isSelectAllWithChildrenActive=true;
-    this.dataTableFirm.isMultipleSelectedActive=true;
+    this.dataTableFirm.isScrollActive = false;
+    this.dataTableFirm.isSelectAllWithChildrenActive = true;
+    this.dataTableFirm.isMultipleSelectedActive = true;
 
     this.dataTableUser.isPagingActive = false;
     this.dataTableUser.isColumnOffsetActive = false;
     this.dataTableUser.isDeleteable = false;
     this.dataTableUser.isLoading = false;
-    this.dataTableUser.isScrollActive=false;
+    this.dataTableUser.isScrollActive = false;
     this.dataTableUser.isSelectAllWithChildrenActive = true;
-    this.dataTableUser.isMultipleSelectedActive=true;
+    this.dataTableUser.isMultipleSelectedActive = true;
     //#endregion
-    
+
     $(document).on("click", e => {
       if (
         $(e.target).closest(".custom-dropdown").length == 0 &&
-        $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnUser").length == 0 
-        && $(e.target).closest("#btnFaCategory").length == 0  && $(e.target).closest("#btnFirm").length == 0
+        $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnUser").length == 0
+        && $(e.target).closest("#btnFaCategory").length == 0 && $(e.target).closest("#btnFirm").length == 0
       ) {
         this.isLocationDropdownOpen = false;
         this.isUserDropdownOpen = false;
-        this.isFaCardCategoryDropdownOpen=false;
-        this.isFirmDropdownOpen=false;
+        this.isFaCardCategoryDropdownOpen = false;
+        this.isFirmDropdownOpen = false;
       }
     });
   }
@@ -461,65 +461,65 @@ export class UserComponent extends BaseComponent implements OnInit {
 
 
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  toggleDropdown(key:string) {
+  toggleDropdown(key: string) {
 
     switch (key) {
       case "location":
-    //this.loadDropdownLocations();
-    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
-    this.isFaCardCategoryDropdownOpen = false;
-    this.isFirmDropdownOpen=false;
-    this.isUserDropdownOpen=false;    
-    break;
+        //this.loadDropdownLocations();
+        this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+        this.isFaCardCategoryDropdownOpen = false;
+        this.isFirmDropdownOpen = false;
+        this.isUserDropdownOpen = false;
+        break;
 
-    case "user":
-    this.isUserDropdownOpen=!this.isUserDropdownOpen;
-    this.isFirmDropdownOpen=false;
-    this.isFaCardCategoryDropdownOpen = false;
-    this.isLocationDropdownOpen = false;
-    break;
-    
-    case "firm":
-    this.isFirmDropdownOpen=!this.isFirmDropdownOpen;
-    this.isLocationDropdownOpen = false;
-    this.isUserDropdownOpen=false;
-    this.isFaCardCategoryDropdownOpen = false;
-    break;
+      case "user":
+        this.isUserDropdownOpen = !this.isUserDropdownOpen;
+        this.isFirmDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen = false;
+        this.isLocationDropdownOpen = false;
+        break;
 
-    case "category":
-    this.isFaCardCategoryDropdownOpen = !this.isFaCardCategoryDropdownOpen;
-    this.isLocationDropdownOpen = false;
-    this.isFirmDropdownOpen = false;
-    this.isUserDropdownOpen = false;
-    break;
+      case "firm":
+        this.isFirmDropdownOpen = !this.isFirmDropdownOpen;
+        this.isLocationDropdownOpen = false;
+        this.isUserDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen = false;
+        break;
+
+      case "category":
+        this.isFaCardCategoryDropdownOpen = !this.isFaCardCategoryDropdownOpen;
+        this.isLocationDropdownOpen = false;
+        this.isFirmDropdownOpen = false;
+        this.isUserDropdownOpen = false;
+        break;
     }
   }
 
-  loadDropdownLocations(){
-    this.baseService.locationService.GetLocations((location:Location[])=>{
-      this.locations=location;
+  loadDropdownLocations() {
+    this.baseService.locationService.GetLocations((location: Location[]) => {
+      this.locations = location;
       this.dataTableLocation.TGT_loadData(this.locations);
-    },(error:HttpErrorResponse)=>{})
+    }, (error: HttpErrorResponse) => { })
   }
 
   resetForm(data: NgForm, isNewItem: boolean) {
     /* Reset modal form then reload lists */
     data.resetForm(this.currentUser);
-    
+
     this.currentUserRoles = [];
 
-    this.isUpdate=false;
+    this.isUpdate = false;
 
     this.dataTableFirm.TGT_clearData();
 
     this.dataTableFixedAssetCategory.TGT_clearData();
 
     this.dataTableLocation.TGT_clearData();
-    
+
     this.dataTableUser.TGT_clearData();
-    
+
     this.loadDropdownList();
 
     this.stepper.reset();
@@ -529,21 +529,20 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
   }
 
-  next(event,data:NgForm){
-    if(this.currentUser.LastName == "")
-    this.currentUser.LastName = null;
+  next(event, data: NgForm) {
+    if (this.currentUser.LastName == "")
+      this.currentUser.LastName = null;
 
-    if(this.currentUser.FirstName && this.currentUser.LastName != null && this.currentUser.UserCode
-      && this.currentUser.LocationId && this.currentUser.DepartmentId && this.currentUser.UserTitleId && this.currentUser.UserMail){
-        this.stepper.next();
-      }else 
-      {
-        data.onSubmit(event);
-        return;
-      }
+    if (this.currentUser.FirstName && this.currentUser.LastName != null && this.currentUser.UserCode
+      && this.currentUser.LocationId && this.currentUser.DepartmentId && this.currentUser.UserTitleId && this.currentUser.UserMail) {
+      this.stepper.next();
+    } else {
+      data.onSubmit(event);
+      return;
+    }
   }
 
-  previous(){
+  previous() {
     this.stepper.previous();
   }
 
@@ -574,10 +573,10 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.isWaitingInsertOrUpdate = true;
 
     this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
-    this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x=>x.getId());
-    this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x=>x.getId());
-    this.currentUser.FixedassetCardCategoryIds=<[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x=>x.getId());
-    this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x=>x.getId());
+    this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x => x.getId());
+    this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x => x.getId());
+    this.currentUser.FixedassetCardCategoryIds = <[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x => x.getId());
+    this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x => x.getId());
 
     /* insert into service */
     this.baseService.userService.InsertUser(
@@ -595,7 +594,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         this.refreshTable();
 
         this.checkedSystemUser = false;
-     
+
       },
       (error: HttpErrorResponse) => {
         /* Change loading bar status */
@@ -608,175 +607,174 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   updateUser(data: NgForm) {
-  
-          /* Object bindings to store in datatable */
-          let department = this.departments.find(
-            x => x.DepartmentId == this.currentUser.DepartmentId
-          );
-          let userTitle = this.userTitles.find(
-            x => x.UserTitleId == this.currentUser.UserTitleId
-          );
-          let parentUser = this.users.find(
-            x => x.UserId == this.currentUser.ParentUserId
-          );
 
-          this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x=>x.getId());
-          this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x=>x.getId());
-          this.currentUser.FixedassetCardCategoryIds=<[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x=>x.getId());
-          this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x=>x.getId());
-         
-          if (this.checkedSystemUser == true){
-            this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
-            }          
-          else this.currentUser.RoleIds = [];    
-          
-          /* loading icon visible */
-          this.isWaitingInsertOrUpdate = true;
+    /* Object bindings to store in datatable */
+    let department = this.departments.find(
+      x => x.DepartmentId == this.currentUser.DepartmentId
+    );
+    let userTitle = this.userTitles.find(
+      x => x.UserTitleId == this.currentUser.UserTitleId
+    );
+    let parentUser = this.users.find(
+      x => x.UserId == this.currentUser.ParentUserId
+    );
 
-          this.baseService.spinner.show();
+    this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x => x.getId());
+    this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x => x.getId());
+    this.currentUser.FixedassetCardCategoryIds = <[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x => x.getId());
+    this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x => x.getId());
 
-          this.baseService.userService.UpdateUser(
-            this.currentUser,
-            (updateUser, message) => {
-              /* Close loading icon */
-              this.isWaitingInsertOrUpdate = false;
+    if (this.checkedSystemUser == true) {
+      this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
+    }
+    else this.currentUser.RoleIds = [];
 
-              this.baseService.spinner.hide();
+    /* loading icon visible */
+    this.isWaitingInsertOrUpdate = true;
 
-              /* Show pop up*/
-              this.baseService.popupService.ShowSuccessPopup(message);
+    this.baseService.spinner.show();
 
-              /* Load related values to current model */
-              this.currentUser.Department = department;
-              this.currentUser.UserTitle = userTitle;
-              this.currentUser.ParentUser = parentUser;
+    this.baseService.userService.UpdateUser(
+      this.currentUser,
+      (updateUser, message) => {
+        /* Close loading icon */
+        this.isWaitingInsertOrUpdate = false;
 
-              /* Update in table the current user */
-              this.dataTable.TGT_updateData(this.currentUser);
+        this.baseService.spinner.hide();
 
-              let newUser = new User();
-              Object.assign(newUser, this.currentUser);
-              this.currentUser = newUser;
+        /* Show pop up*/
+        this.baseService.popupService.ShowSuccessPopup(message);
 
-              /* Get original source after update completed */
-              this.users = <User[]>this.dataTable.TGT_copySource();
-            },
-            (error: HttpErrorResponse) => {
-              /* Close loader */
-              this.isWaitingInsertOrUpdate = false;
+        /* Load related values to current model */
+        this.currentUser.Department = department;
+        this.currentUser.UserTitle = userTitle;
+        this.currentUser.ParentUser = parentUser;
 
-              /* Show error message */
-              this.baseService.popupService.ShowErrorPopup(error);
+        /* Update in table the current user */
+        this.dataTable.TGT_updateData(this.currentUser);
 
-              this.baseService.spinner.hide();
-            }
-          );
-        this.popupComponent.CloseModal('#modalShowQuestionPopupForUser');          
+        let newUser = new User();
+        Object.assign(newUser, this.currentUser);
+        this.currentUser = newUser;
+
+        /* Get original source after update completed */
+        this.users = <User[]>this.dataTable.TGT_copySource();
+      },
+      (error: HttpErrorResponse) => {
+        /* Close loader */
+        this.isWaitingInsertOrUpdate = false;
+
+        /* Show error message */
+        this.baseService.popupService.ShowErrorPopup(error);
+
+        this.baseService.spinner.hide();
+      }
+    );
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForUser');
   }
 
-  onDelete(){
-    
+  onDelete() {
+
     /* get selected items from table */
     this.selectedItems = <User[]>this.dataTable.TGT_getSelectedItems();
-   
-    /* if count of items equals 0 show message for no selected item */
-      if (!this.selectedItems || this.selectedItems.length == 0) {
-        this.baseService.popupService.ShowAlertPopup(
-          "Lütfen en az bir kullanıcı seçiniz"
-        );
-        return;
-      }
-   else
-   this.popupComponent.ShowModal('#modalShowDeletePopupForUser');
-   
- }
 
- deleteUsers() {
+    /* if count of items equals 0 show message for no selected item */
+    if (!this.selectedItems || this.selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir kullanıcı seçiniz"
+      );
+      return;
+    }
+    else
+      this.popupComponent.ShowModal('#modalShowDeletePopupForUser');
+
+  }
+
+  deleteUsers() {
 
     this.notDeletedBarcode = '';
 
     /* Show Question Message */
     //  this.baseService.popupService.ShowQuestionPopupForDelete(() => {
-      /* Activate the loading spinner */
-      this.baseService.spinner.show();
+    /* Activate the loading spinner */
+    this.baseService.spinner.show();
 
-      /* Convert items to ids */
-      let itemIds: number[] = this.selectedItems.map(x => x.getId());
+    /* Convert items to ids */
+    let itemIds: number[] = this.selectedItems.map(x => x.getId());
 
-      /* Delete all */
-      this.baseService.userService.DeleteUsers(
-        itemIds,
-        () => {
-          /* Deactive the spinner */
-          this.baseService.spinner.hide();
+    /* Delete all */
+    this.baseService.userService.DeleteUsers(
+      itemIds,
+      () => {
+        /* Deactive the spinner */
+        this.baseService.spinner.hide();
 
-          /* if all of them removed */
-          if (itemIds.length == 1)
-            this.baseService.popupService.ShowSuccessPopup(
-              this.getLanguageValue('Delete_operation_successful')
-            );
-          else
-            this.baseService.popupService.ShowSuccessPopup(
-              this.getLanguageValue('All_records_deleted')
-            );
+        /* if all of them removed */
+        if (itemIds.length == 1)
+          this.baseService.popupService.ShowSuccessPopup(
+            this.getLanguageValue('Delete_operation_successful')
+          );
+        else
+          this.baseService.popupService.ShowSuccessPopup(
+            this.getLanguageValue('All_records_deleted')
+          );
 
-          /* Clear all the ids from table */
-          this.dataTable.TGT_removeItemsByIds(itemIds);
+        /* Clear all the ids from table */
+        this.dataTable.TGT_removeItemsByIds(itemIds);
 
-          /* Get current original sources */
-          this.users = <User[]>this.dataTable.TGT_copySource();
-        },
-        (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
+        /* Get current original sources */
+        this.users = <User[]>this.dataTable.TGT_copySource();
+      },
+      (itemIds: NotDeletedItem[], error: HttpErrorResponse) => {
 
-          let barcode:User;
-  
-          let notDeletedCode : string[]=[];
-  
-          let users = <User[]>this.dataTable.TGT_copySource();
-          
-          /* Hide spinner then show error message */
-          this.baseService.spinner.hide(); 
-    
-  
-          itemIds.forEach((e:NotDeletedItem) => {
-            for(let i=0; i<itemIds.length; i++){
-              let id:NotDeletedItem = e;
-              let ids:NotDeletedItem[]=[];
-              ids.push(id);
+        let barcode: User;
 
-              ids.forEach(t=>{
-                for(let j=0; j<ids.length; j++)
-                barcode= users.find(x=>x.UserId == t[j].Id);
-              });        
-          }     
+        let notDeletedCode: string[] = [];
+
+        let users = <User[]>this.dataTable.TGT_copySource();
+
+        /* Hide spinner then show error message */
+        this.baseService.spinner.hide();
+
+
+        itemIds.forEach((e: NotDeletedItem) => {
+          for (let i = 0; i < itemIds.length; i++) {
+            let id: NotDeletedItem = e;
+            let ids: NotDeletedItem[] = [];
+            ids.push(id);
+
+            ids.forEach(t => {
+              for (let j = 0; j < ids.length; j++)
+                barcode = users.find(x => x.UserId == t[j].Id);
+            });
+          }
           notDeletedCode.push(barcode.UserCode);
-          });
-          /* Show error message */
-          if(itemIds.length>0)
-          {
+        });
+        /* Show error message */
+        if (itemIds.length > 0) {
           // this.baseService.popupService.ShowDeletePopup(error,notDeletedCode);
-          
+
           notDeletedCode.forEach((e, i) => {
             this.notDeletedBarcode +=
               e + (i == this.selectedItems.length - 1 ? "" : ", ");
           });
 
-           this.popupComponent.ShowModal('#modalShowErrorPopup');          
-          }
-          else
-          this.baseService.popupService.ShowErrorPopup(error);
+          this.popupComponent.ShowModal('#modalShowErrorPopup');
         }
-      );
-      this.popupComponent.CloseModal('#modalShowDeletePopupForUser');      
+        else
+          this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
+    this.popupComponent.CloseModal('#modalShowDeletePopupForUser');
     // });
   }
 
-  onDoubleClickItem(item: User) {   
+  onDoubleClickItem(item: User) {
 
-    this.visibleInsertButton=false;
+    this.visibleInsertButton = false;
 
-    if(item.IsSystemUser==true)
-    this.checkedSystemUserUpdate = true;
+    if (item.IsSystemUser == true)
+      this.checkedSystemUserUpdate = true;
     else this.checkedSystemUserUpdate = false;
 
     /* Clear Model */
@@ -791,16 +789,16 @@ export class UserComponent extends BaseComponent implements OnInit {
     //   this.departments = [];
 
     this.isInsertOrUpdate = true;
-    
+
 
     /* get user information from server */
-     this.baseService.userService.GetUserById(
+    this.baseService.userService.GetUserById(
       item.UserId,
       (result: User) => {
         /* then bind it to user model to update */
-        
 
-       setTimeout(() => {
+
+        setTimeout(() => {
           /* close loading */
           this.baseService.spinner.hide();
 
@@ -808,7 +806,7 @@ export class UserComponent extends BaseComponent implements OnInit {
           $("#btnEditUser").trigger("click");
 
           /* bind result to model */
-          this.currentUser = result;   
+          this.currentUser = result;
 
           this.currentUserRoles.splice(0);
 
@@ -816,35 +814,35 @@ export class UserComponent extends BaseComponent implements OnInit {
             let role = this.roles.find(y => y.RoleId == e.RoleId);
             if (role) this.currentUserRoles.push(role);
           });
-     
-          let CategoryIds:number[]= [];
+
+          let CategoryIds: number[] = [];
 
           /*get user authorized fixed asset categories from server */
-         result.UserAuthorizedFixedAssetCardCategories.forEach(e=>{
-               CategoryIds.push(e.FixedAssetCardCategoryId);
-         });  
+          result.UserAuthorizedFixedAssetCardCategories.forEach(e => {
+            CategoryIds.push(e.FixedAssetCardCategoryId);
+          });
 
-         let FirmIds:number[]= [];
-         /*get user authorized firms from server */
-         result.UserAuthorizedFirms.forEach(e=>{
-           FirmIds.push(e.FirmId);
-         });  
-    
-         let LocationIds:number[]= [];
-         /*get user authorized locations from server */
-         result.UserAuthorizedLocations.forEach(e=>{
-         LocationIds.push(e.LocationId);
-         });  
- 
-         let UserIds:number[]= [];
-         /*get user authorized users from server */
-         result.UserAuthorizedUsersUser.forEach(e=>{
-           UserIds.push(e.AuthorizedUserId);
-         });  
+          let FirmIds: number[] = [];
+          /*get user authorized firms from server */
+          result.UserAuthorizedFirms.forEach(e => {
+            FirmIds.push(e.FirmId);
+          });
 
-       this.LoadRoleAuthDropdowns(CategoryIds, FirmIds, LocationIds, UserIds);
+          let LocationIds: number[] = [];
+          /*get user authorized locations from server */
+          result.UserAuthorizedLocations.forEach(e => {
+            LocationIds.push(e.LocationId);
+          });
 
-        }, 1000);       
+          let UserIds: number[] = [];
+          /*get user authorized users from server */
+          result.UserAuthorizedUsersUser.forEach(e => {
+            UserIds.push(e.AuthorizedUserId);
+          });
+
+          this.LoadRoleAuthDropdowns(CategoryIds, FirmIds, LocationIds, UserIds);
+
+        }, 1000);
       },
       (error: HttpErrorResponse) => {
         /* hide spinner */
@@ -856,82 +854,78 @@ export class UserComponent extends BaseComponent implements OnInit {
     );
   }
 
-  LoadRoleAuthDropdowns(CategoryIds:number[], FirmIds:number[], LocationIds:number[], UserIds:number[]){
+  LoadRoleAuthDropdowns(CategoryIds: number[], FirmIds: number[], LocationIds: number[], UserIds: number[]) {
 
-         this.baseService.userService.GetUsers(
-          (usrs: User[]) => {
-            this.dropdownUsers = usrs;
-            this.dataTableUser.TGT_loadData(this.dropdownUsers);
-           this.dataTableUser.TGT_selectItemsByIds(UserIds);
-          },
-          (error: HttpErrorResponse) => {}
-       );
+    this.baseService.userService.GetUsers(
+      (usrs: User[]) => {
+        this.dropdownUsers = usrs;
+        this.dataTableUser.TGT_loadData(this.dropdownUsers);
+        this.dataTableUser.TGT_selectItemsByIds(UserIds);
+      },
+      (error: HttpErrorResponse) => { }
+    );
 
-         this.baseService.locationService.GetLocations((location:Location[])=>{
-          this.locations=location;
-         this.dataTableLocation.TGT_loadData(this.locations);
-         this.dataTableLocation.TGT_selectItemsByIds(LocationIds); 
-        },(error:HttpErrorResponse)=>{});
+    this.baseService.locationService.GetLocations((location: Location[]) => {
+      this.locations = location;
+      this.dataTableLocation.TGT_loadData(this.locations);
+      this.dataTableLocation.TGT_selectItemsByIds(LocationIds);
+    }, (error: HttpErrorResponse) => { });
 
-          this.baseService.userService.GetFirms(
-          (firms:Firm[])=>
-          {
-            this.firms=firms;
-            this.dataTableFirm.TGT_loadData(this.firms);
-            this.dataTableFirm.TGT_selectItemsByIds(FirmIds);
-          },(error: HttpErrorResponse)=>{    
-          });
+    this.baseService.userService.GetFirms(
+      (firms: Firm[]) => {
+        this.firms = firms;
+        this.dataTableFirm.TGT_loadData(this.firms);
+        this.dataTableFirm.TGT_selectItemsByIds(FirmIds);
+      }, (error: HttpErrorResponse) => {
+      });
 
 
-         this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
-          (faCategory:FixedAssetCardCategory[]) => {
-            this.categories=faCategory;
-            this.dataTableFixedAssetCategory.TGT_loadData(this.categories);
-           this.dataTableFixedAssetCategory.TGT_selectItemsByIds(CategoryIds);      
-          },
-          (error:HttpErrorResponse)=>{});
+    this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
+      (faCategory: FixedAssetCardCategory[]) => {
+        this.categories = faCategory;
+        this.dataTableFixedAssetCategory.TGT_loadData(this.categories);
+        this.dataTableFixedAssetCategory.TGT_selectItemsByIds(CategoryIds);
+      },
+      (error: HttpErrorResponse) => { });
   }
 
-  async loadUsers(_perInPage: number = 5, _currentPage: number = 1) {
-    let c:string;
+  async loadUsers(_perInPage: number = 100, _currentPage: number = 1) {
+    let c: string;
     //this.isGuaranteedFixedAsset = false;
     this.dataTable.TGT_clearData();
     this.dataTable.isLoading = true;
-    
+
     /* Load just user to table */
     this.baseService.userService.GetUsersByPagedList(_perInPage, _currentPage,
-      (usrs: User[], totalPage: number, totalRecords:number) => {
+      (usrs: User[], totalPage: number, totalRecords: number) => {
         this.users = usrs;
         this.dataTable.TGT_loadData(this.users);
-     
-        if(usrs.length==0){
+
+        if (usrs.length == 0) {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
-          this.totalPage = 0;    
-        }  else{
+          this.totalPage = 0;
+        } else {
           this.perInPage = _perInPage;
           this.currentPage = _currentPage;
           this.dataTable.perInPage = _perInPage;
-          this.users  = usrs;
-  
+          this.users = usrs;
+
+          this.totalPage = totalPage;
           this.totalRecords = totalRecords;
-          let endDisplayCount:number = this.currentPage * this.perInPage;
-          let countOfParentItems:number=this.users.filter(x=>!x.getParentId()).length;
-          this.countOfParentItems=countOfParentItems;
-        
+          let endDisplayCount: number = this.currentPage * this.perInPage;
+          let countOfParentItems: number = this.users.length;
+          this.countOfParentItems = countOfParentItems;
+
           this.endDisplayCount = endDisplayCount - this.perInPage + 1;
-          this.totalDisplayItem =  this.endDisplayCount + this.countOfParentItems - 1;    
-  
-          if(this.totalRecords > 0)
-          this.pagingInfo = this.getLanguageValue('Total')+' '+ this.totalRecords+' '+this.getLanguageValue('records_and')+' '+ this.endDisplayCount + ' '+this.getLanguageValue('with') +' '+ this.totalDisplayItem + ' ' + this.getLanguageValue('records_shown');       
+          this.totalDisplayItem = this.endDisplayCount + this.countOfParentItems - 1;
+
+          if (this.totalRecords > 0)
+            this.pagingInfo = this.getLanguageValue('Total') + ' ' + this.totalRecords + ' ' + this.getLanguageValue('records_and') + ' ' + this.endDisplayCount + ' ' + this.getLanguageValue('with') + ' ' + this.totalDisplayItem + ' ' + this.getLanguageValue('records_shown');
           else
-          this.pagingInfo = this.getLanguageValue('Total') +' 0 '+ this.getLanguageValue('records');
-        
-          this.totalPage = Math.ceil(usrs.length/this.perInPage);
-  
+            this.pagingInfo = this.getLanguageValue('Total') + ' 0 ' + this.getLanguageValue('records');
+
           this.TGT_calculatePages();
-  
-          this.calculateDatatable(this.perInPage,this.currentPage,usrs);
-  
+
           this.dataTable.TGT_loadData(this.users);
         }
       },
@@ -944,38 +938,43 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
 
-  async calculateDatatable(perInPage:number = 1000, _currentPage:number = 1, user:User[] ){
+  loadDatatable(_perInPage: number = 100, _currentPage: number = 1) {
+    this.loadUsers(_perInPage, _currentPage);
+  }
+
+
+  async calculateDatatable(perInPage: number = 1000, _currentPage: number = 1, user: User[]) {
     let startIndex = _currentPage * perInPage - perInPage;
     let counter = 0;
-    let userCalculate:User[]=[];
+    let userCalculate: User[] = [];
 
     for (let ii = 0; ii < user.length; ii++) {
       if (userCalculate.length > 0) {
         if (user[ii].getParentId()) {
           userCalculate.push(user[ii]);
-            continue;
+          continue;
         }
-    }
+      }
 
-    /* Eğer eklediğimiz miktar ekleyeceğimiz sayıya ulaştıysa döngüden çıkıyoruz */
+      /* Eğer eklediğimiz miktar ekleyeceğimiz sayıya ulaştıysa döngüden çıkıyoruz */
       if (counter == startIndex + perInPage)
-         break;
-     /* Eğer miktar az ise ve parenti yok ise sayacı bir arttırıyoruz. Amacı childları saymayı önlemek */
-     if (counter < startIndex){
-         if (!user[ii].getParentId()) {
-             counter++;
-             continue;
-         } else
-            continue;
-         /* Parent idsi olmayanları atarken sayacı 1 arttırıyoruz. Childları basarken ise sayacı arttırmıyoruz. */
-     } else if (counter < startIndex + perInPage){
-         if (user[ii].getParentId())
-             continue;
-             userCalculate.push(user[ii]);
-         if (!user[ii].getParentId())
-             counter++;
-         continue;
-     }
+        break;
+      /* Eğer miktar az ise ve parenti yok ise sayacı bir arttırıyoruz. Amacı childları saymayı önlemek */
+      if (counter < startIndex) {
+        if (!user[ii].getParentId()) {
+          counter++;
+          continue;
+        } else
+          continue;
+        /* Parent idsi olmayanları atarken sayacı 1 arttırıyoruz. Childları basarken ise sayacı arttırmıyoruz. */
+      } else if (counter < startIndex + perInPage) {
+        if (user[ii].getParentId())
+          continue;
+        userCalculate.push(user[ii]);
+        if (!user[ii].getParentId())
+          counter++;
+        continue;
+      }
     }
 
     Object.assign(this.users, userCalculate);
@@ -985,7 +984,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     /* Reload users again */
     if (this.users.length == 0) {
-      this.baseService.userService.GetUsers( 
+      this.baseService.userService.GetUsers(
         (users: User[]) => {
           this.users = users;
           this.dataTable.TGT_loadData(this.users);
@@ -1012,41 +1011,40 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     //Get Fixed Asset Categories
     this.baseService.fixedAssetCardCategoryService.GetFixedAssetCardCategories(
-      (faCategory:FixedAssetCardCategory[]) => {
-        this.categories=faCategory;
+      (faCategory: FixedAssetCardCategory[]) => {
+        this.categories = faCategory;
         this.dataTableFixedAssetCategory.TGT_loadData(this.categories);
       },
-      (error:HttpErrorResponse)=>{});
+      (error: HttpErrorResponse) => { });
 
     //Get Users  
-    this.baseService.userService.GetUsers( 
-      (usrs: User[], totalPage: number, totalRecords:number) => {
+    this.baseService.userService.GetUsers(
+      (usrs: User[], totalPage: number, totalRecords: number) => {
         this.dropdownUsers = usrs;
-        this.dataTableUser.TGT_loadData(this.dropdownUsers);   
+        this.dataTableUser.TGT_loadData(this.dropdownUsers);
       },
-      (error: HttpErrorResponse) => {}
+      (error: HttpErrorResponse) => { }
     );
 
     //Get Locations
-    this.baseService.locationService.GetLocations((location:Location[])=>{
-      this.locations=location;
+    this.baseService.locationService.GetLocations((location: Location[]) => {
+      this.locations = location;
       this.dataTableLocation.TGT_loadData(this.locations);
-    },(error:HttpErrorResponse)=>{});
+    }, (error: HttpErrorResponse) => { });
 
-       //Get Departments
-       this.baseService.departmentService.GetDepartments((department:Department[])=>{
-        this.departments=department;
-        // this.dataTableLocation.TGT_loadData(this.locations);
-      },(error:HttpErrorResponse)=>{});
-  
+    //Get Departments
+    this.baseService.departmentService.GetDepartments((department: Department[]) => {
+      this.departments = department;
+      // this.dataTableLocation.TGT_loadData(this.locations);
+    }, (error: HttpErrorResponse) => { });
+
 
     //Get Firms
     this.baseService.userService.GetFirms(
-      (firms:Firm[])=>
-      {
-        this.firms=firms;
+      (firms: Firm[]) => {
+        this.firms = firms;
         this.dataTableFirm.TGT_loadData(this.firms);
-      },(error: HttpErrorResponse)=>{
+      }, (error: HttpErrorResponse) => {
 
       });
   }
@@ -1071,10 +1069,10 @@ export class UserComponent extends BaseComponent implements OnInit {
   isSystemUser(event) {
     if (event.target.checked == true) {
       this.checkedSystemUser = true;
-      this.checkedSystemUserUpdate=true;
+      this.checkedSystemUserUpdate = true;
     } else {
       this.checkedSystemUser = false;
-      this.checkedSystemUserUpdate=false;
+      this.checkedSystemUserUpdate = false;
     }
   }
 

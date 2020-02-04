@@ -10,34 +10,38 @@
         <div class="card-header">
           <h2 class="az-content-title">{{getLanguageValue('Users')}}</h2>
           <div class="grp-btn-action">
-            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom" data-toggle="tooltip" data-placement="bottom" title="Excel">
+            <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom"
+              data-toggle="tooltip" data-placement="bottom" title="Excel">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                 [class.btn-refresh-loader]="isTableExporting == true"></i>
             </button>
 
-            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
+            <button type="button" (click)="refreshTable()" class="btn btn-success btn-refresh-custom"
+              data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
               <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
                 [class.btn-refresh-loader]="isTableRefreshing == true"></i>
             </button>
 
-            <button type="button"  *ngIf="IsAuthForDelete==true" (click)="onDelete()" class="btn btn-danger btn-delete-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Delete')}}">
+            <button type="button" *ngIf="IsAuthForDelete==true" (click)="onDelete()"
+              class="btn btn-danger btn-delete-custom" data-toggle="tooltip" data-placement="bottom"
+              title="{{getLanguageValue('Delete')}}">
               {{dataTable.TGT_getSelectedItems().length > 0 ? dataTable.TGT_getSelectedItems().length : "" }}
               <i class="fas fa-trash"></i>
             </button>
 
-            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddUser" data-toggle="modal" data-target="#modalUser"
-              (click)="resetForm(data,true)">
+            <button class="btn btn-az-primary" *ngIf="IsAuthForInsert==true" id="btnAddUser" data-toggle="modal"
+              data-target="#modalUser" (click)="resetForm(data,true)">
               <i class="fa fa-plus-circle fa-plus-circle-add"></i>
               {{getLanguageValue('Add_User')}}
             </button>
 
-            <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditUser" data-toggle="modal" data-target="#modalUser"
-              (click)="resetForm(data,false)">{{getLanguageValue('Reedit_User')}}
+            <button style="display:none" *ngIf="IsAuthForEdit==true" id="btnEditUser" data-toggle="modal"
+              data-target="#modalUser" (click)="resetForm(data,false)">{{getLanguageValue('Reedit_User')}}
             </button>
           </div>
-        </div>        
+        </div>
         <div class="sales-overview" style="flex-direction:column">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)"  [dataTable]="dataTable">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
           </tree-grid-table>
           <div class="table-info" class="table-info-without-margin" style="margin-left:22px">
             {{pagingInfo}}
@@ -79,279 +83,294 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      
+
       <form #data="ngForm" (ngSubmit)="onSubmit(data) && !data.form.invalid" class="form-register">
-        <mat-horizontal-stepper  [@.disabled]="true" linear #stepper>
-        <mat-step label="{{getLanguageValue('User_Informations')}}" >
-        <div class="modal-body">
-          <div class="row justify-content-center">
-            <div class="form-group col-md-6">
-              <label class="required-span">{{getLanguageValue('User_Code')}}</label>
-              <input type="text" trim="blur" autocomplete="off" [(ngModel)]="currentUser.UserCode"
-                [ngClass]="{ 'is-invalid': data.submitted && UserCode.invalid }" #UserCode="ngModel" name="UserCode"
-                required class="form-control" maxlength="50" />
-              <div *ngIf="data.submitted && UserCode.invalid" class="invalid-feedback">
-                <div *ngIf="UserCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="UserCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label>{{getLanguageValue('User_Registration_Number')}}</label>
-              <input type="text" trim="blur" [(ngModel)]="currentUser.RegistrationNumber" autocomplete="off" class="form-control" name="RegistrationNumber" maxlength="50"/>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="form-group col-md-6">
-              <label class="required-span">{{getLanguageValue('User_First_Name')}}</label>
-              <input type="text" trim="blur" autocomplete="off" [(ngModel)]="currentUser.FirstName"
-                [ngClass]="{ 'is-invalid': data.submitted && FirstName.invalid }" #FirstName="ngModel" name="FirstName"
-                required class="form-control" maxlength="50" />
-              <div *ngIf="data.submitted && FirstName.invalid" class="invalid-feedback">
-                <div *ngIf="FirstName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="FirstName.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label class="required-span">{{getLanguageValue('User_Last_Name')}}</label>
-              <input type="text" trim="blur" autocomplete="off" [(ngModel)]="currentUser.LastName" #LastName="ngModel"
-                [ngClass]="{ 'is-invalid': data.submitted && LastName.invalid }" name="LastName" required
-                class="form-control" maxlength="50" />
-              <div *ngIf="data.submitted && LastName.invalid" class="invalid-feedback">
-                <div *ngIf="LastName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                <div *ngIf="LastName.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="form-group col-md-6">
-              <label class="required-span">{{getLanguageValue('Location')}}</label>
-              <select #LocationId="ngModel" name="LocationId" required class="form-control"
-                [(ngModel)]="currentUser.LocationId" [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }">
-                <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
-                <option
-                *ngFor="let location of locations"
-                value = "{{location.LocationId}}">
-                {{ location.Name }}
-              </option>
-              </select>
-              <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
-                <div *ngIf="LocationId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label class="required-span">{{getLanguageValue('Department')}}</label>
-              <select #DepartmentId="ngModel" name="DepartmentId" [attr.disabled]="departments.length > 0 ? null :'disabled'" required class="form-control"
-                [(ngModel)]="currentUser.DepartmentId"
-                [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }">
-                <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
-                <option *ngFor="let department of departments" value = "{{department.DepartmentId}}" >
-                  {{department.Name}}
-                </option>
-              </select>
-              <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
-                <div *ngIf="DepartmentId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-              </div>
-            </div>
-          </div>
-          <!-- form-group -->
-          <div class="row justify-content-center">
-            <div class="form-group col-md-6">
-              <label class="required-span">{{getLanguageValue('User_Title')}}</label>
-              <select #UserTitleId="ngModel" [(ngModel)]="currentUser.UserTitleId" name="UserTitleId" required
-                class="form-control" [ngClass]="{ 'is-invalid': data.submitted && UserTitleId.invalid }">
-                <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
-                <option *ngFor="let title of userTitles" [ngValue]="title.UserTitleId">
-                  {{title.Title}}
-                </option>
-              </select>
-              <div *ngIf="data.submitted && UserTitleId.invalid" class="invalid-feedback">
-                <div *ngIf="UserTitleId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-              </div>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label>{{getLanguageValue('Parent_User')}}</label>
-              <select [(ngModel)]="currentUser.ParentUserId" name="ParentUserId" class="form-control">
-                <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
-                <option *ngFor="let user of users" [ngValue]="user.UserId">
-                  {{ user.RegistrationNumber == null ? user.FirstName + ' ' + user.LastName : user.RegistrationNumber + ' - ' + user.FirstName + ' ' + user.LastName}}
-                </option>
-              </select>
-            </div>
-
-          </div>
-
-          <div class="row justify-content-center">
-            <div class="form-group col-md-6">
-              <label>{{getLanguageValue('Phone')}}</label>
-              <input type="number" autocomplete="off" name="PhoneNumber" class="form-control"
-                [(ngModel)]="currentUser.PhoneNumber" maxlength="50"/>
-            </div>      
-
-            <div class="form-group col-md-6">
-                <label class="required-span">{{getLanguageValue('eMail')}}</label>
-                <input type="email" name="UserMail" autocomplete="off" #UserMail="ngModel" required maxlength="50"
-                  class="form-control" [(ngModel)]="currentUser.UserMail"
-                  [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" email />
-                <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
-                  <div *ngIf="UserMail.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                  <div *ngIf="UserMail.errors.email">{{getLanguageValue('Please_enter_a_valid_email')}}</div>
-                  <div *ngIf="UserMail.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
+        <mat-horizontal-stepper [@.disabled]="true" linear #stepper>
+          <mat-step label="{{getLanguageValue('User_Informations')}}">
+            <div class="modal-body">
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                  <label class="required-span">{{getLanguageValue('User_Code')}}</label>
+                  <input type="text" trim="blur" autocomplete="off" [(ngModel)]="currentUser.UserCode"
+                    [ngClass]="{ 'is-invalid': data.submitted && UserCode.invalid }" #UserCode="ngModel" name="UserCode"
+                    required class="form-control" maxlength="50" />
+                  <div *ngIf="data.submitted && UserCode.invalid" class="invalid-feedback">
+                    <div *ngIf="UserCode.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                    <div *ngIf="UserCode.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>{{getLanguageValue('User_Registration_Number')}}</label>
+                  <input type="text" trim="blur" [(ngModel)]="currentUser.RegistrationNumber" autocomplete="off"
+                    class="form-control" name="RegistrationNumber" maxlength="50" />
                 </div>
               </div>
-          </div>
-
-          <div class="row justify-content-center">
-            <div class="form-group col-md-12">
-                <label>{{getLanguageValue('Description')}}</label>
-                <input [(ngModel)]="currentUser.Description" name="Description" #Description="ngModel"
-                  class="form-control" type="text"/>
-                  <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
-                    <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_150_character')}}</div>
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                  <label class="required-span">{{getLanguageValue('User_First_Name')}}</label>
+                  <input type="text" trim="blur" autocomplete="off" [(ngModel)]="currentUser.FirstName"
+                    [ngClass]="{ 'is-invalid': data.submitted && FirstName.invalid }" #FirstName="ngModel"
+                    name="FirstName" required class="form-control" maxlength="50" />
+                  <div *ngIf="data.submitted && FirstName.invalid" class="invalid-feedback">
+                    <div *ngIf="FirstName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                    <div *ngIf="FirstName.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}
+                    </div>
                   </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="required-span">{{getLanguageValue('User_Last_Name')}}</label>
+                  <input type="text" trim="blur" autocomplete="off" [(ngModel)]="currentUser.LastName"
+                    #LastName="ngModel" [ngClass]="{ 'is-invalid': data.submitted && LastName.invalid }" name="LastName"
+                    required class="form-control" maxlength="50" />
+                  <div *ngIf="data.submitted && LastName.invalid" class="invalid-feedback">
+                    <div *ngIf="LastName.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                    <div *ngIf="LastName.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
+                  </div>
+                </div>
               </div>
-          </div>
-          
-          <div class="row justify-content-center">
-              <div class="form-group col-md-6">
-                  <label class="ckbox" style="margin-top: 15px">
-                      <input type="checkbox" [(ngModel)]="currentUser.IsSystemUser" (change)="isSystemUser($event)" name="IsSystemUser" #IsSystemUser="ngModel"
-                     /><span>{{getLanguageValue('Is_System_User')}}</span>
-                  </label>  
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                  <label class="required-span">{{getLanguageValue('Location')}}</label>
+                  <select #LocationId="ngModel" name="LocationId" required class="form-control"
+                    [(ngModel)]="currentUser.LocationId"
+                    [ngClass]="{ 'is-invalid': data.submitted && LocationId.invalid }">
+                    <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
+                    <option *ngFor="let location of locations" value="{{location.LocationId}}">
+                      {{ location.Name }}
+                    </option>
+                  </select>
+                  <div *ngIf="data.submitted && LocationId.invalid" class="invalid-feedback">
+                    <div *ngIf="LocationId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="required-span">{{getLanguageValue('Department')}}</label>
+                  <select #DepartmentId="ngModel" name="DepartmentId"
+                    [attr.disabled]="departments.length > 0 ? null :'disabled'" required class="form-control"
+                    [(ngModel)]="currentUser.DepartmentId"
+                    [ngClass]="{ 'is-invalid': data.submitted && DepartmentId.invalid }">
+                    <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
+                    <option *ngFor="let department of departments" value="{{department.DepartmentId}}">
+                      {{department.Name}}
+                    </option>
+                  </select>
+                  <div *ngIf="data.submitted && DepartmentId.invalid" class="invalid-feedback">
+                    <div *ngIf="DepartmentId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group col-md-6"></div> 
-            
-            </div>
-                <div class="row justify-content-center" *ngIf="checkedSystemUser==true">
-                    <div class="form-group col-md-6">
-                      <label class="required-span">Şifre</label>
-                      <input type="password" #Password="ngModel" maxlength="16" name="Password" required class="form-control"
-                        [(ngModel)]="currentUser.Password"
-                        [ngClass]="{ 'is-invalid': data.submitted && (Password.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value)) }" />
-                      <div *ngIf="data.submitted && Password.invalid" class="invalid-feedback">
-                        <div *ngIf="Password.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                        <div *ngIf="Password.errors.maxlength">Maksimum 16 karakter giriniz.</div>
-                      </div>
-                      <div
-                        *ngIf="data.submitted && !PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value"
-                        class="invalid-feedback">
-                        <div>{{getLanguageValue('Your_passwords_are_not_matched')}}</div>
-                      </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label class="required-span">{{getLanguageValue('Reenter_Password')}}</label>
-                      <input type="password" maxlength="16" #PasswordConfirm="ngModel" ngModel name="PasswordConfirm" required
-                        autocomplete="off" class="form-control"
-                        [ngClass]="{ 'is-invalid': data.submitted && (PasswordConfirm.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value))  }" />
-                      <div *ngIf="data.submitted && PasswordConfirm.invalid" class="invalid-feedback">
-                        <div *ngIf="PasswordConfirm.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                        <div *ngIf="PasswordConfirm.errors.maxlength">Maksimum 16 karakter giriniz.</div>
-                      </div>
-                    </div>
-              </div>
-        </div>     
-        <div class="modal-footer">  
-          <ng-template [ngIf]="visibleInsertButton == true">
-              <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUser == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
-              <div class="grp-btn-action" *ngIf="checkedSystemUser == true">
-              <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">{{getLanguageValue('Next_Button')}}</button>
-              </div>
-          </ng-template>
-          <ng-template [ngIf]="visibleInsertButton == false">
-              <button class="btn btn-az-primary" id="btnCreateUser"  type="submit" *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUserUpdate == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
-              <div class="grp-btn-action" *ngIf="checkedSystemUserUpdate == true">
-              <button mat-raised-button type="button"  class="btn btn-az-primary" (click)="next($event,data)" style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">{{getLanguageValue('Next_Button')}}</button>
-              </div>
-          </ng-template>
-          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-        </div>          
-        </mat-step>
+              <!-- form-group -->
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                  <label class="required-span">{{getLanguageValue('User_Title')}}</label>
+                  <select #UserTitleId="ngModel" [(ngModel)]="currentUser.UserTitleId" name="UserTitleId" required
+                    class="form-control" [ngClass]="{ 'is-invalid': data.submitted && UserTitleId.invalid }">
+                    <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
+                    <option *ngFor="let title of userTitles" [ngValue]="title.UserTitleId">
+                      {{title.Title}}
+                    </option>
+                  </select>
+                  <div *ngIf="data.submitted && UserTitleId.invalid" class="invalid-feedback">
+                    <div *ngIf="UserTitleId.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                  </div>
+                </div>
 
-        <mat-step label="{{getLanguageValue('Role_and_Authorizations')}}" >
+                <div class="form-group col-md-6">
+                  <label>{{getLanguageValue('Parent_User')}}</label>
+                  <select [(ngModel)]="currentUser.ParentUserId" name="ParentUserId" class="form-control">
+                    <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
+                    <option *ngFor="let user of users" [ngValue]="user.UserId">
+                      {{ user.RegistrationNumber == null ? user.FirstName + ' ' + user.LastName : user.RegistrationNumber + ' - ' + user.FirstName + ' ' + user.LastName}}
+                    </option>
+                  </select>
+                </div>
+
+              </div>
+
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                  <label>{{getLanguageValue('Phone')}}</label>
+                  <input type="number" autocomplete="off" name="PhoneNumber" class="form-control"
+                    [(ngModel)]="currentUser.PhoneNumber" maxlength="50" />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="required-span">{{getLanguageValue('eMail')}}</label>
+                  <input type="email" name="UserMail" autocomplete="off" #UserMail="ngModel" required maxlength="50"
+                    class="form-control" [(ngModel)]="currentUser.UserMail"
+                    [ngClass]="{ 'is-invalid': data.submitted && UserMail.invalid }" email />
+                  <div *ngIf="data.submitted && UserMail.invalid" class="invalid-feedback">
+                    <div *ngIf="UserMail.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                    <div *ngIf="UserMail.errors.email">{{getLanguageValue('Please_enter_a_valid_email')}}</div>
+                    <div *ngIf="UserMail.errors.maxlength">{{getLanguageValue('Only_can_enter_max_50_character')}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row justify-content-center">
+                <div class="form-group col-md-12">
+                  <label>{{getLanguageValue('Description')}}</label>
+                  <input [(ngModel)]="currentUser.Description" name="Description" #Description="ngModel"
+                    class="form-control" type="text" />
+                  <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
+                    <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_150_character')}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                  <label class="ckbox" style="margin-top: 15px">
+                    <input type="checkbox" [(ngModel)]="currentUser.IsSystemUser" (change)="isSystemUser($event)"
+                      name="IsSystemUser" #IsSystemUser="ngModel" /><span>{{getLanguageValue('Is_System_User')}}</span>
+                  </label>
+                </div>
+                <div class="form-group col-md-6"></div>
+
+              </div>
+              <div class="row justify-content-center" *ngIf="checkedSystemUser==true">
+                <div class="form-group col-md-6">
+                  <label class="required-span">Şifre</label>
+                  <input type="password" #Password="ngModel" maxlength="16" name="Password" required
+                    class="form-control" [(ngModel)]="currentUser.Password"
+                    [ngClass]="{ 'is-invalid': data.submitted && (Password.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value)) }" />
+                  <div *ngIf="data.submitted && Password.invalid" class="invalid-feedback">
+                    <div *ngIf="Password.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                    <div *ngIf="Password.errors.maxlength">Maksimum 16 karakter giriniz.</div>
+                  </div>
+                  <div
+                    *ngIf="data.submitted && !PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value"
+                    class="invalid-feedback">
+                    <div>{{getLanguageValue('Your_passwords_are_not_matched')}}</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="required-span">{{getLanguageValue('Reenter_Password')}}</label>
+                  <input type="password" maxlength="16" #PasswordConfirm="ngModel" ngModel name="PasswordConfirm"
+                    required autocomplete="off" class="form-control"
+                    [ngClass]="{ 'is-invalid': data.submitted && (PasswordConfirm.invalid || (!PasswordConfirm.invalid && !Password.invalid && Password.value != PasswordConfirm.value))  }" />
+                  <div *ngIf="data.submitted && PasswordConfirm.invalid" class="invalid-feedback">
+                    <div *ngIf="PasswordConfirm.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                    <div *ngIf="PasswordConfirm.errors.maxlength">Maksimum 16 karakter giriniz.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <ng-template [ngIf]="visibleInsertButton == true">
+                <button class="btn btn-az-primary" id="btnCreateUser" type="submit"
+                  *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUser == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
+                <div class="grp-btn-action" *ngIf="checkedSystemUser == true">
+                  <button mat-raised-button type="button" class="btn btn-az-primary" (click)="next($event,data)"
+                    style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">{{getLanguageValue('Next_Button')}}</button>
+                </div>
+              </ng-template>
+              <ng-template [ngIf]="visibleInsertButton == false">
+                <button class="btn btn-az-primary" id="btnCreateUser" type="submit"
+                  *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUserUpdate == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
+                <div class="grp-btn-action" *ngIf="checkedSystemUserUpdate == true">
+                  <button mat-raised-button type="button" class="btn btn-az-primary" (click)="next($event,data)"
+                    style="border-radius:0px; background-color: #e67300; color: white;    margin-top: 0px; margin-bottom: 0px;">{{getLanguageValue('Next_Button')}}</button>
+                </div>
+              </ng-template>
+              <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+            </div>
+          </mat-step>
+
+          <mat-step label="{{getLanguageValue('Role_and_Authorizations')}}">
             <div class="modal-body">
-            <div class="row justify-content-center">
-              <div class="form-group col-md-6">
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6">
                   <label class="required-span">{{getLanguageValue('Role')}}</label>
-                  <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles" [placeholder]="getLanguageValue('Choose')"
-                    [data]="roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" [ngClass]="{ 'is-invalid': data.submitted }"
-                    (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false" [attr.required] = "checkedSystemUserUpdate==true ? true : undefined" required>
+                  <ng-multiselect-dropdown [(ngModel)]="currentUserRoles" name="currentUserRoles"
+                    [placeholder]="getLanguageValue('Choose')" [data]="roles" [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)" [ngClass]="{ 'is-invalid': data.submitted }"
+                    (onSelectAll)="onSelectAll($event)" [disabled]="checkedSystemUser==false"
+                    [attr.required]="checkedSystemUserUpdate==true ? true : undefined" required>
                   </ng-multiselect-dropdown>
                   <div style="display:block"
                     *ngIf="data.submitted && (!currentUserRoles || currentUserRoles.length == 0)"
                     class="invalid-feedback">
                     <div *ngIf="">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
-              </div>
-              <div class="form-group col-md-6">
+                </div>
+                <div class="form-group col-md-6">
                   <div>
-                      <label style="margin-bottom: 0;
-                        font-weight: 700;" >{{getLanguageValue('Staff')}}</label>        
-                      <div style="display:flex;">
-                      <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button" type="button">{{dataTableUser.TGT_getSelectedItems().length > 0 ? dataTableUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Staff_Selected')  : getLanguageValue('Choose') }}</button>
-                        <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
-                      </div>                     
+                    <label style="margin-bottom: 0;
+                        font-weight: 700;">{{getLanguageValue('Staff')}}</label>
+                    <div style="display:flex;">
+                      <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button"
+                        type="button">{{dataTableUser.TGT_getSelectedItems().length > 0 ? dataTableUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Staff_Selected')  : getLanguageValue('Choose') }}</button>
+                      <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
+                    </div>
                   </div>
                   <div class="custom-dropdown" *ngIf="isUserDropdownOpen==true">
-                          <tree-grid-table [dataTable]="dataTableUser"></tree-grid-table>
+                    <tree-grid-table [dataTable]="dataTableUser"></tree-grid-table>
                   </div>
-              </div>           
-            </div>
-            <div class="row justify-content-center">
+                </div>
+              </div>
+              <div class="row justify-content-center">
                 <div class="form-group col-md-6">
-                    <div>
-                        <label style="margin-bottom: 0;
-                          font-weight: 700;" >{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>        
-                        <div style="display:flex;">
-                        <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button" type="button" >{{dataTableFixedAssetCategory.TGT_getSelectedItems().length > 0 ? dataTableFixedAssetCategory.TGT_getSelectedItems().length + " " + getLanguageValue('The_Category_Selected') : getLanguageValue('Choose') }}</button>
-                          <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
-                        </div>                       
-                    </div>
-                    <div class="custom-dropdown" *ngIf="isFaCardCategoryDropdownOpen==true">
-                      <tree-grid-table [dataTable]="dataTableFixedAssetCategory"></tree-grid-table>
+                  <div>
+                    <label style="margin-bottom: 0;
+                          font-weight: 700;">{{getLanguageValue('Fixed_Asset_Category_Name')}}</label>
+                    <div style="display:flex;">
+                      <button id="btnFaCategory" (click)="toggleDropdown('category') " class="dropdown-button"
+                        type="button">{{dataTableFixedAssetCategory.TGT_getSelectedItems().length > 0 ? dataTableFixedAssetCategory.TGT_getSelectedItems().length + " " + getLanguageValue('The_Category_Selected') : getLanguageValue('Choose') }}</button>
+                      <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
                     </div>
                   </div>
-                  <div class="form-group col-md-6">
-                    <div>
-                      <label style="margin-bottom: 0;
-                      font-weight: 700;" >{{getLanguageValue('Location')}}</label>                
-                      <div style="display:flex;">
-                      <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected') : getLanguageValue('Choose') }}</button>
-                        <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
-                      </div>                     
-                    </div>                 
-                <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
-                    <tree-grid-table  [dataTable]="dataTableLocation"></tree-grid-table>
-                </div>     
-              </div>          
-            </div>
-            <div class="row justify-content-center">
-                <div class="form-group col-md-6">
-                    <div>
-                        <label style="margin-bottom: 0;
-                          font-weight: 700;" >{{getLanguageValue('Firm')}}</label>        
-                        <div style="display:flex;">
-                        <button id="btnFirm" (click)="toggleDropdown('firm') " class="dropdown-button" type="button">{{dataTableFirm.TGT_getSelectedItems().length > 0 ? dataTableFirm.TGT_getSelectedItems().length + " " + getLanguageValue('The_Firm_Selected') : getLanguageValue('Choose') }}</button>
-                          <!-- <span class="span-dropdown"   class="typcn icon-default typcn-times span-dropdown"></span> -->
-                        </div>                       
-                    </div>
-                    <div class="custom-dropdown" *ngIf="isFirmDropdownOpen==true">
-                      <tree-grid-table [dataTable]="dataTableFirm"></tree-grid-table>
-                    </div>
+                  <div class="custom-dropdown" *ngIf="isFaCardCategoryDropdownOpen==true">
+                    <tree-grid-table [dataTable]="dataTableFixedAssetCategory"></tree-grid-table>
+                  </div>
                 </div>
                 <div class="form-group col-md-6">
-                
+                  <div>
+                    <label style="margin-bottom: 0;
+                      font-weight: 700;">{{getLanguageValue('Location')}}</label>
+                    <div style="display:flex;">
+                      <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button"
+                        type="button">{{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected') : getLanguageValue('Choose') }}</button>
+                      <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
+                    </div>
+                  </div>
+                  <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                    <tree-grid-table [dataTable]="dataTableLocation"></tree-grid-table>
+                  </div>
                 </div>
-            </div>  
-          </div>
-          <div class="modal-footer">
-            <div class="grp-btn-action-left">
-              <button mat-button matStepperPrevious type="button" (click)="previous()"  class="btn btn-orange">{{getLanguageValue('Back_Button')}}</button>
+              </div>
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6">
+                  <div>
+                    <label style="margin-bottom: 0;
+                          font-weight: 700;">{{getLanguageValue('Firm')}}</label>
+                    <div style="display:flex;">
+                      <button id="btnFirm" (click)="toggleDropdown('firm') " class="dropdown-button"
+                        type="button">{{dataTableFirm.TGT_getSelectedItems().length > 0 ? dataTableFirm.TGT_getSelectedItems().length + " " + getLanguageValue('The_Firm_Selected') : getLanguageValue('Choose') }}</button>
+                      <!-- <span class="span-dropdown"   class="typcn icon-default typcn-times span-dropdown"></span> -->
+                    </div>
+                  </div>
+                  <div class="custom-dropdown" *ngIf="isFirmDropdownOpen==true">
+                    <tree-grid-table [dataTable]="dataTableFirm"></tree-grid-table>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+
+                </div>
+              </div>
             </div>
-            <button class="btn btn-az-primary" id="btnCreateUser" type="submit" *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
-           <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
-          </div>
-        </mat-step>
-      </mat-horizontal-stepper>
+            <div class="modal-footer">
+              <div class="grp-btn-action-left">
+                <button mat-button matStepperPrevious type="button" (click)="previous()"
+                  class="btn btn-orange">{{getLanguageValue('Back_Button')}}</button>
+              </div>
+              <button class="btn btn-az-primary" id="btnCreateUser" type="submit"
+                *ngIf="isWaitingInsertOrUpdate == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
+              <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
       </form>
     </div>
   </div>
@@ -360,27 +379,30 @@
 <!-- modal -->
 
 
- <!-- GÜNCELLEME ONAY -->
+<!-- GÜNCELLEME ONAY -->
 
- <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForUser" style=" overflow-y: hidden !important;">
+<div class="modal" data-backdrop="static" id="modalShowQuestionPopupForUser" style=" overflow-y: hidden !important;">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content tx-size-sm">
       <div class="modal-body tx-center pd-y-20 pd-x-20">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+        <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block"
+          style="margin-left: 20px;"></i>
         <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
         <p class="mg-b-20 mg-x-20">{{getLanguageValue('Are_you_sure_you_want_to_update_the_record')}}</p>
-   
+
         <div class="row" style="margin-bottom:20px;">
           <div class="col-md-6" style="padding-right: 0px;">
-            <button class="btn btn-az-danger" style="float:right;" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Cancel')}}</button>        
+            <button class="btn btn-az-danger" style="float:right;" data-dismiss="modal" data-toggle="modal"
+              aria-label="Close">{{getLanguageValue('Cancel')}}</button>
           </div>
-       
-          <div class="col-md-6">        
-          <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="updateUser(currentUser)">{{getLanguageValue('Update')}}</button>
-            </div>   
+
+          <div class="col-md-6">
+            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;"
+              (click)="updateUser(currentUser)">{{getLanguageValue('Update')}}</button>
+          </div>
         </div>
 
       </div><!-- modal-body -->
@@ -397,18 +419,21 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+        <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block"
+          style="margin-left: 20px;"></i>
         <h4 class="mg-b-20">{{getLanguageValue('Are_you_sure_you_want_to_delete')}}</h4>
         <p class="mg-b-20 mg-x-20">{{getLanguageValue('This_operation_can_not_be_undone')}}</p>
-   
+
         <div class="row" style="margin-bottom:20px;">
           <div class="col-md-6" style="padding-right: 0px;">
-            <button class="btn btn-az-danger" style="float:right; padding-left:32px; padding-right:32px;" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Cancel')}}</button>        
+            <button class="btn btn-az-danger" style="float:right; padding-left:32px; padding-right:32px;"
+              data-dismiss="modal" data-toggle="modal" aria-label="Close">{{getLanguageValue('Cancel')}}</button>
           </div>
-       
-          <div class="col-md-6">        
-          <button class="btn btn-az-primary" id="btnYes" (click)="deleteUsers()" type="button" style="padding: 5px 20px; padding-left: 37px;padding-right: 37px;" >{{getLanguageValue('Delete')}}</button>
-            </div>   
+
+          <div class="col-md-6">
+            <button class="btn btn-az-primary" id="btnYes" (click)="deleteUsers()" type="button"
+              style="padding: 5px 20px; padding-left: 37px;padding-right: 37px;">{{getLanguageValue('Delete')}}</button>
+          </div>
         </div>
 
       </div><!-- modal-body -->
@@ -425,12 +450,15 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block" style="margin-left: 20px;"></i>
+        <i class="icon icon ion-ios-information-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block"
+          style="margin-left: 20px;"></i>
         <h4 class="mg-b-20">{{getLanguageValue('Warning!')}}</h4>
-        <p class="mg-b-20 mg-x-20">{{ notDeletedBarcode }} {{getLanguageValue('Code_can_not_be_deleted_because_it_uses_in_the_system')}}</p>
-   
+        <p class="mg-b-20 mg-x-20">{{ notDeletedBarcode }}
+          {{getLanguageValue('Code_can_not_be_deleted_because_it_uses_in_the_system')}}</p>
+
         <div class="row justify-content-center" style="margin-bottom:20px;">
-            <button class="btn btn-az-primary" data-dismiss="modal" data-toggle="modal" aria-label="Close" >{{getLanguageValue('Okay')}}</button>        
+          <button class="btn btn-az-primary" data-dismiss="modal" data-toggle="modal"
+            aria-label="Close">{{getLanguageValue('Okay')}}</button>
         </div>
 
       </div><!-- modal-body -->

@@ -21,7 +21,7 @@ import {
   GET_DEBITUSER_LIST,
   CHECK_USER_PASSWORD,
   GET_USER_BY_DEPARTMENT_ID,
-  USER_PAGED_LIST
+  GET_USER_PAGED_LIST
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { User } from "../../models/User";
@@ -72,7 +72,7 @@ export class UserService {
 
   GetUsers(callback, failed) {
     this.httpClient
-      .get(SERVICE_URL + USER_PAGED_LIST,        
+      .get(SERVICE_URL + GET_USER_LIST,        
         {headers: GET_HEADERS(this.aService.getToken())}
       )
       .subscribe(
@@ -94,9 +94,9 @@ export class UserService {
       );
   }
 
-  GetUsersByPagedList(_pageSize: number = 25, _currentPage: number = 1, callback, failed) {
+  GetUsersByPagedList(_pageSize: number = 100, _currentPage: number = 1, callback, failed) {
     this.httpClient
-      .post(SERVICE_URL + USER_PAGED_LIST, 
+      .post(SERVICE_URL + GET_USER_PAGED_LIST, 
         {PageSize: _pageSize, PageNumber: _currentPage},
         {headers: GET_HEADERS(this.aService.getToken())}
       )

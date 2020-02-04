@@ -76,7 +76,7 @@ export const GET_USERFIRM_LIST_WITHOUT_PARAMS = "UserFirms/GetUserFirmsListbyFir
 //#endregion
 //#region Users
 export const GET_USER_LIST = "user/GetUserList";
-export const USER_PAGED_LIST = "user/GetUserPagedList";
+export const GET_USER_PAGED_LIST = "user/GetUserPagedList";
 export const GET_USER_BY_ID = "user/GetUserById";
 export const INSERT_USER = "User/AddUser";
 export const UPDATE_USER = "User/UpdateUser";
