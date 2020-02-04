@@ -20,7 +20,7 @@ import * as PopUp from 'src/assets/js/popup';
   `,
   styleUrls: ["./base.component.css"]
 })
-export abstract class BaseComponent implements OnInit {
+export class BaseComponent implements OnInit {
 
   protected readonly PAGES = pages;
 

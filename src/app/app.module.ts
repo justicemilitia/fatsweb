@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
 import { FormsModule, ReactiveFormsModule, NgControl } from "@angular/forms";
@@ -94,13 +94,14 @@ import { WorkOrderDetailComponent } from './components/maintenance/work-order-de
 import { ReportBreakdownComponent } from './components/maintenance/report-breakdown/report-breakdown.component';
 
 import { PopupComponent } from './components/popup/popup.component';
-import { BaseComponent } from './components/base/base.component';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { BaseComponent } from './components/base/base.component';
 
 
 @NgModule({
   declarations: [
+    BaseComponent,
     AppComponent,
     LoginComponent,
     HeaderComponent,
@@ -194,10 +195,10 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     ReactiveFormsModule,
     InputTrimModule,
     NgxMaskModule.forRoot(),
-    MatTabsModule,
-
+    MatTabsModule
   ],
-  providers: [AuthGuard, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [AuthGuard, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

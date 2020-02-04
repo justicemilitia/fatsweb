@@ -920,6 +920,10 @@ export class DepreciationComponent extends BaseComponent implements OnInit, OnCh
     this.selectedFixedAsset=item;
   }  
 
+  onSubmit(data:any){
+
+  }
+
   checkValidation(data: NgForm){  
 
     this.dataDepreciation = data;

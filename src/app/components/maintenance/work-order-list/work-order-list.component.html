@@ -21,7 +21,7 @@
                     <button class="btn btn-az-primary" *ngIf="tabIndex == 1" id="btnCancelRequest" style="margin-right:10px;"
                     title="{{getLanguageValue('Cancel_Breakdown')}}" (click)="doOperation(3)">{{getLanguageValue('Cancel_Request')}}</button>
 
-                    <button class="btn btn-success btn-excel-custom" (click)="exportExcel(dataTable)" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
+                    <button class="btn btn-success btn-excel-custom" (click)="exportExcel()" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
                         <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                           [class.btn-refresh-loader]="isTableExporting == true"></i>
                       </button>           

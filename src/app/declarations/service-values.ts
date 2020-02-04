@@ -1,15 +1,13 @@
 import { HttpHeaders, HttpClient } from "@angular/common/http";
-import {AuthenticationService} from "../services/authenticationService/authentication.service";
+import { AuthenticationService } from "../services/authenticationService/authentication.service";
 import { Service } from '../models/Service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
+import { environment } from 'src/environments/environment';
 
-export const SERVICE_URL = "http://localhost:5000/api/";
- //export const SERVICE_URL = "http://localhost:11889/api/";
-// export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
-
-export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
-export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
-export const IMAGE_URL =  "http://dev.fatsapi.com/";
+export const SERVICE_URL = environment.serviceUrl;
+export const DOCUMENT_URL = environment.documentUrl;
+export const LANGUAGE_URL = environment.languageUrl;
+export const IMAGE_URL = environment.imageUrl;
 
 // export const SERVICE_URL = (url:string) => {
 //   let httpClient:HttpClient;
@@ -25,7 +23,7 @@ export const IMAGE_URL =  "http://dev.fatsapi.com/";
 // } 
 
 export const LOGIN = "Auth/token";
-export const FORGET_PASSWORD  = "Auth/forgotpassword";
+export const FORGET_PASSWORD = "Auth/forgotpassword";
 
 //#region Vector
 // export const SERVICE_URL = "http://devtest.fatsapi.com/api/"; 
@@ -112,12 +110,12 @@ export const FIXEDASSET_PROPERTY_UNIQUE_CHECK = "FixedAsset/GetFixedAssetDetailU
 export const UPDATE_DEPRECIATION = "Depreciation/UpdateDepreciation";
 export const CALCULATE_DEPRECIATION = "Depreciation/CalculateFixedAssetDepreciationValues";
 export const CALCULATE_IFRSDEPRECIATION = "DepreciationIFRS/CalculateFixedAssetDepreciationIFRSValues";
-export const ADD_LABELS_TO_BE_PRINTED ="LabelsToBePrinted/AddLabelsToBePrintedByArray";
+export const ADD_LABELS_TO_BE_PRINTED = "LabelsToBePrinted/AddLabelsToBePrintedByArray";
 //#endregion
 //#region Depreciations
 export const GET_DEPRECIATIONTYPE_LIST = "DepreciationCalculationTypes/GetDepreciationCalculationTypes";
-export const GET_DEPRECIATIONLIST_BY_ID="Depreciation/GetDepreciationListbyFixedAssetId";
-export const GET_IFRSDEPRECIATIONLIST_BY_ID="DepreciationIFRS/GetDepreciationIFRSListbyFixedAssetId";
+export const GET_DEPRECIATIONLIST_BY_ID = "Depreciation/GetDepreciationListbyFixedAssetId";
+export const GET_IFRSDEPRECIATIONLIST_BY_ID = "DepreciationIFRS/GetDepreciationIFRSListbyFixedAssetId";
 export const DEPRECIATION_TOTAL_VALUES = "Depreciation/GetDepreciationTotals";
 export const IFRS_DEPRECIATION_TOTAL_VALUES = "Depreciation/GetDepreciationIFRSTotals";
 //#endregion
@@ -207,10 +205,10 @@ export const GET_CONSUMABLE_CARDS_BY_CATEGORY_ID = "ConsumableCards/GetConsumabl
 //#endregion
 //#region Consumable Material
 export const GET_CONSUMABLE_LIST = "Consumable/GetConsumableList";
-export const ADD_CONSUMABLE_MATERIAL ="Consumable/AddConsumableMaterial";
-export const ADD_FREE_REQUESTED_MATERIAL="Consumable/AddFreeRequestedMaterial";
+export const ADD_CONSUMABLE_MATERIAL = "Consumable/AddConsumableMaterial";
+export const ADD_FREE_REQUESTED_MATERIAL = "Consumable/AddFreeRequestedMaterial";
 export const GET_CONSUMABLE_MATERIAL_BY_ID = "Consumable/GetConsumableListById";
-export const GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID ="Consumable/GetConsumablesByConsumableCardId";
+export const GET_CONSUMABLES_BY_CONSUMABLE_CARD_ID = "Consumable/GetConsumablesByConsumableCardId";
 //#endregion
 //#region Consumable Card Unit
 export const GET_CONSUMABLE_CARD_LIST = "ConsumableCards/ConsumableCardsList";
@@ -227,8 +225,8 @@ export const GET_CONSUMABLE_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsL
 export const GET_CONSUMABLE_REQUEST_LIST = "Consumable/GetConsumabledMaterialRequestList";
 export const REQUEST_CONSUMABLE_MATERIAL = "Consumable/MakeConsumabledMaterialRequest";
 export const GET_CONSUMABLE_MATERIAL_REQUESTLIST_BY_ID = "Consumable/GetConsumabledMaterialRequestListById";
-export const CANCEL_REQUEST_CONSUMABLE_MATERIAL ="Consumable/CancelConsumeMaterialRequest";
-export const RECEIVED_CONSUMABLE_MATERIAL ="Consumable/AddReceivedConsumabledMaterial";
+export const CANCEL_REQUEST_CONSUMABLE_MATERIAL = "Consumable/CancelConsumeMaterialRequest";
+export const RECEIVED_CONSUMABLE_MATERIAL = "Consumable/AddReceivedConsumabledMaterial";
 //#endregion
 //#region FixedAssetCardBrands
 export const GET_FIXEDASSETCARDBRAND_LIST =
@@ -348,17 +346,17 @@ export const GET_FIXED_ASSET_IFRS_DEPRECIATION_DETAIL_LIST = "Depreciation/GetDe
 export const GET_FIXED_ASSET_IFRS_DEPRECIATION_LIST = "Depreciation/GetDepreciationIFRSFixedAssetsDetailsList"
 //#endregion
 //#region CycleCountPlan
-export const GET_CYCLE_COUNT_PLAN_LIST ="CycleCountingPlans/GetCountingPlansList";
-export const INSERT_CYCLE_COUNT_PLAN ="CycleCountingPlans/AddCountingPlan";
-export const GET_LOCATION_BY_CYCLE_PLAN_ID ="CycleCounting/GetCycleCountingPlanLocationListById";
+export const GET_CYCLE_COUNT_PLAN_LIST = "CycleCountingPlans/GetCountingPlansList";
+export const INSERT_CYCLE_COUNT_PLAN = "CycleCountingPlans/AddCountingPlan";
+export const GET_LOCATION_BY_CYCLE_PLAN_ID = "CycleCounting/GetCycleCountingPlanLocationListById";
 export const UPDATE_CYCLE_COUNT_STATU = "CycleCountingStatus/UpdateCountingPlanStatus";
-export const GET_CYCLE_PLAN_STATU ="CycleCountingStatus/GetCyleCountingStatusByCountingPlanId";
+export const GET_CYCLE_PLAN_STATU = "CycleCountingStatus/GetCyleCountingStatusByCountingPlanId";
 export const MAKE_COUNTING = "CycleCounting/MakeCounting";
-export const GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL="CycleCountingPlans/GetCountingPlansListWithoutDoneAndCancel"; 
-export const GET_CYCLE_COUNT_RESULT ="CycleCountingResults/GetCycleCountingResultsById";
-export const CANCEL_CYCLE_COUNT_PLAN="CycleCountingStatus/CancelCountingStatus";
-export const GET_CYCLECOUNTPLAN_BY_PLAN_ID="CycleCountingPlans/GetCountingPlansByCycleCountPlanId";
-export const UPDATE_FIND_DIFFERENT_LOCATION ="CycleCountingResults/UpdateFindDifferentLocationsDuringTheCountingFixedassets";
+export const GET_CYCLE_COUNT_PLAN_WITHOUT_CANCEL = "CycleCountingPlans/GetCountingPlansListWithoutDoneAndCancel";
+export const GET_CYCLE_COUNT_RESULT = "CycleCountingResults/GetCycleCountingResultsById";
+export const CANCEL_CYCLE_COUNT_PLAN = "CycleCountingStatus/CancelCountingStatus";
+export const GET_CYCLECOUNTPLAN_BY_PLAN_ID = "CycleCountingPlans/GetCountingPlansByCycleCountPlanId";
+export const UPDATE_FIND_DIFFERENT_LOCATION = "CycleCountingResults/UpdateFindDifferentLocationsDuringTheCountingFixedassets";
 export const UPDATE_NOTFOUND_FIXEDASSET = "CycleCountingResults/UpdateNotFoundDuringTheCountingFixedassets";
 //#endregion
 //#region TransactionList
@@ -367,22 +365,22 @@ export const GET_TRANSACTION_BY_ID = "TransactionLog/TransactionLogsListById";
 //#endregion
 //#region WorkOrderList
 export const GET_WORK_ORDER_LIST = "WorkOrder/GetWorkOrdersList";
-export const GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID ="WorkOrder/GetWorkStepsByFixedAssetId";
-export const GET_VALID_WORK_ORDER_CODE ="WorkOrder/GetValidWorkOrderNumber";
+export const GET_WORK_ORDERS_BY_FIXEDASSETCARD_ID = "WorkOrder/GetWorkStepsByFixedAssetId";
+export const GET_VALID_WORK_ORDER_CODE = "WorkOrder/GetValidWorkOrderNumber";
 //#endregion
 //#region WorkOrder
 export const REPORT_BREAKDOWN_WITH_FILE_UPLOAD = "WorkOrder/ReportBreakdownWithFileUpload";
-export const ADD_WORK_ORDER ="WorkOrder/AddWorkOrder";
-export const FIX_BREAKDOWN_WITH_FILE_UPLOAD ="WorkOrder/FixBreakdownWithFileUpload";
-export const UPDATE_WORK_ORDER ="WorkOrder/UpdateWorkOrder";
-export const GET_USER_STATUS_BY_MAINTENANCE_ID ="WorkOrder/GetUserStatusByMaintenanceId";
-export const GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID ="WorkOrder/GetMaintenanceRequestPicturesByMaintenanceId";
+export const ADD_WORK_ORDER = "WorkOrder/AddWorkOrder";
+export const FIX_BREAKDOWN_WITH_FILE_UPLOAD = "WorkOrder/FixBreakdownWithFileUpload";
+export const UPDATE_WORK_ORDER = "WorkOrder/UpdateWorkOrder";
+export const GET_USER_STATUS_BY_MAINTENANCE_ID = "WorkOrder/GetUserStatusByMaintenanceId";
+export const GET_MAINTENANCE_PICTURES_BY_MAINTENANCE_ID = "WorkOrder/GetMaintenanceRequestPicturesByMaintenanceId";
 export const CANCEL_BREAKDOWN = "WorkOrder/CancelBreakdown";
 export const PERIODIC_MAINTENANCE_PROCESS = "WorkOrder/PeriodicMaintenanceProcess";
 export const DELETE_WORK_ORDER = "WorkOrder/RemoveWorkOrder";
 //#endregion
 //#region WorkSteps
-export const GET_WORK_STEPS_BY_FIXED_ASSET_ID ="WorkStep/GetWorkStepsByFixedAssetId";
+export const GET_WORK_STEPS_BY_FIXED_ASSET_ID = "WorkStep/GetWorkStepsByFixedAssetId";
 export const GET_WORK_ORDER_PERIOD_TYPES = "WorkStep/GetPeriodTypes";
 export const GET_WORK_STEP_LIST_BY_WORK_ORDER_ID = "WorkStep/GetWorkStepListByWorkOrderId";
 export const GET_WORKSTEPDETAIL_BY_WORK_STEP_ID = "WorkStep/GetWorkStepDetailByWorkStepId";

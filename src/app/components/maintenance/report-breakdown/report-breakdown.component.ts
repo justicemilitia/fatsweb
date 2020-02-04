@@ -144,6 +144,8 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
     this.popupComponent.CloseModal('#modalShowQuestionPopupForReportBreakdown');          
   }
 
+  closeChangeBarcodePopup(){}
+
   closeModalMaintenanceNumberPopup(){
     this.popupComponent.CloseModal('#modalShowMaintenanceNumberPopup');  
     this.wolComponent.ClosePopup(true);        

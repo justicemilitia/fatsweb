@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true
+  production: true,
+  serviceUrl: "http://localhost:5000/api/",
+  documentUrl: "http://dev.fatsapi.com/Documents/",
+  languageUrl: "http://dev.fatsapi.com/Language/language.json",
+  imageUrl :"http://dev.fatsapi.com/"
 };
 
 /*

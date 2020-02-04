@@ -104,6 +104,7 @@ export class PeriodicMaintenanceComponent extends BaseComponent implements OnIni
    insertedPeriodTypeValue:number = null;
 
    imgURL: any;
+   imageFile:any;
 
    FixedAssetCardPicture:string;
 

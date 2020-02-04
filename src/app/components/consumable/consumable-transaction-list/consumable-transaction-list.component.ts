@@ -629,6 +629,10 @@ export class ConsumableTransactionListComponent extends BaseComponent implements
     this.loadConsumableTransactionList(this.perInPage,this.currentPage,this.currentPage,isFilter);
   }
 
+  loadConsumableRequestList(_perInPage: number = 25, _currentPage: number = 1, tabIndex:number){
+
+  }
+
   loadConsumableTransactionList(_perInPage: number = 25, _currentPage: number = 1, tabIndex:number, isFilter: boolean) {
 
     let consumableLogType:number[]=[];
