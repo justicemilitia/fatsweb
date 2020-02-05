@@ -212,7 +212,7 @@ export class ExpenseCenterComponent extends BaseComponent implements OnInit {
     );
   }
 
-  async updateExpenseCenter(data: NgForm) {
+  async updateExpenseCenter() {
 
     this.isWaitingInsertOrUpdate = true;
 

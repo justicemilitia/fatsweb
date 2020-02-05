@@ -16,6 +16,7 @@ import { FixedAssetComponent } from "../fixed-asset.component";
 import { TreeGridTable } from "src/app/extends/TreeGridTable/modules/TreeGridTable";
 import { FixedAssetFile } from "src/app/models/FixedAssetFile";
 import { saveAs } from "file-saver";
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: "app-fa-edit-file",
@@ -49,8 +50,8 @@ export class FaEditFileComponent extends BaseComponent
   barcodes:any;
 
   filename: string = '';
-
-  
+  uploader :FileUploader;
+  public hasAnotherDropZoneOver: boolean = false;
   public dataTableFile: TreeGridTable = new TreeGridTable(
     "fixedassetfile",
     [
@@ -318,5 +319,9 @@ export class FaEditFileComponent extends BaseComponent
     
 
     this.faComponent.loadFixedAsset();
+  }
+
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
   }
 }

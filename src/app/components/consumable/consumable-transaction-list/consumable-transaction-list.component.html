@@ -1,138 +1,148 @@
 <div class="az-content az-content-dashboard-four">
-    <div class="media media-dashboard">
-      <div class="media-body">
-        <!-- Bread Crumb -->
-        <div class="az-content-breadcrumb">
-          <span>{{getLanguageValue('Consumable_Consumption')}}</span>
+  <div class="media media-dashboard">
+    <div class="media-body">
+      <!-- Bread Crumb -->
+      <div class="az-content-breadcrumb">
+        <span>{{getLanguageValue('Consumable_Consumption')}}</span>
+      </div>
+      <!-- END Bread Crumb END -->
+      <div class="card card-dashboard-twelve mg-b-20">
+        <div class="card-header">
+          <h2 class="az-content-title">{{getLanguageValue('Consumable_Consumption')}}</h2>
+          <div class="grp-btn-action">
+
+
+            <button class="btn btn-az-primary btn-filter-button" data-toggle="modal"
+              data-target="#modalFilterTransaction" title="{{getLanguageValue('Filter')}}" style="margin-right:10px">
+              <i class="fas fa-filter"></i>
+            </button>
+
+            <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
+              title="{{getLanguageValue('Reset_Filter')}}" (click)="resetFilter()" style="margin-right:10px">
+              <i class="fas fa-filter"></i>
+              <i class="fas fa-times"
+                style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
+            </button>
+
+            <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile(dataTableConsumableCard)"
+              style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
+              <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                [class.btn-refresh-loader]="isTableExporting == true"></i>
+            </button>
+
+            <button type="button" (click)="refreshTable()" style="margin-right:20px"
+              class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom"
+              title="{{getLanguageValue('Refresh_Table')}}">
+              <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
+                [class.btn-refresh-loader]="isTableRefreshing == true"></i>
+            </button>
+
+          </div>
         </div>
-        <!-- END Bread Crumb END -->
-        <div class="card card-dashboard-twelve mg-b-20">
-            <div class="card-header">
-                <h2 class="az-content-title">{{getLanguageValue('Consumable_Consumption')}}</h2>
-                <div class="grp-btn-action">
-                    
-
-                    <button class="btn btn-az-primary btn-filter-button" data-toggle="modal" data-target="#modalFilterTransaction"
-                    title="{{getLanguageValue('Filter')}}" style="margin-right:10px">
-                    <i class="fas fa-filter"></i>
-                   </button>
-
-                    <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
-                    title="{{getLanguageValue('Reset_Filter')}}" (click)="resetFilter()" style="margin-right:10px">
-                    <i class="fas fa-filter"></i>
-                    <i class="fas fa-times"
-                      style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
-                    </button>
-
-                    <button class="btn btn-success btn-excel-custom" (click)="exportAsExcelFile()" style="margin-right:10px" data-toggle="tooltip" data-placement="bottom" title="Excel">
-                      <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
-                        [class.btn-refresh-loader]="isTableExporting == true"></i>
-                    </button>           
-
-                    <button type="button" (click)="refreshTable()" style="margin-right:20px" 
-                      class="btn btn-success btn-refresh-custom" data-toggle="tooltip" data-placement="bottom" title="{{getLanguageValue('Refresh_Table')}}">
-                      <i [ngClass]="{'fas fa-sync-alt':isTableRefreshing== false}"
-                        [class.btn-refresh-loader]="isTableRefreshing == true"></i>
-                    </button>
-      
-                </div>
-              </div>
-          <!-- <div class="sales-overview">
+        <!-- <div class="sales-overview">
             <tree-grid-table [dataTable]="dataTable">
             </tree-grid-table>
           </div> -->
 
 
-          <div class="card-body" style="padding-top:0px; margin-left:20px; margin-right:20px;">
-                <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
-                  <mat-tab>
-                    <ng-template mat-tab-label>
-                       {{getLanguageValue('Add_Consumable')}}
-                     </ng-template>  
-                    <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
-                      <tree-grid-table [dataTable]="dataTableConsumableMaterialIn"></tree-grid-table>
-                         <!-- Pagination Side -->
-                         <div class="table-pagination">
-                            <!-- Per In Page Select area -->
-                            <select class="table-pagination-select" (change)="dataTableConsumableMaterialIn(perInPage,1,1)" [(ngModel)]="perInPage">
-                              <option *ngFor="let perIn of dataTableConsumableMaterialIn.perInPages" value="{{perIn}}">{{perIn}}</option>
-                              <option value="1000">{{getLanguageValue('All')}}</option>
-                            </select>
-                            <!-- END Per In Page Select area END -->
-                            <!-- Paginations -->
-                            <nav class="pagination-nav">
-                              <ul class="pagination">
-                                <ng-container *ngFor="let page of pages">
-                                  <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
-                                      (click)="dataTableConsumableMaterialIn(perInPage,page.value,1)" class="page-link">{{page.display}}</button>
-                                  </li>
-                                </ng-container>
-                              </ul>
-                            </nav>
-                            <!-- END Paginations END -->
-                          </div>
-                          <!-- END Pagination Side END -->
-                    </div>
-                  </mat-tab>
-                  
-                  <mat-tab>
-                      <ng-template mat-tab-label>
-                          {{getLanguageValue('Exit_Consumable')}}
-                       </ng-template>  
-                       <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
-                        <tree-grid-table [dataTable]="dataTableConsumableMaterialOut"></tree-grid-table>
-                         <!-- Pagination Side -->
-                         <div class="table-pagination">
-                          <!-- Per In Page Select area -->
-                          <select class="table-pagination-select" (change)="loadConsumableRequestList(perInPage,1,2)" [(ngModel)]="perInPage">
-                            <option *ngFor="let perIn of dataTableConsumableMaterialOut.perInPages" value="{{perIn}}">{{perIn}}</option>
-                            <option value="1000">{{getLanguageValue('All')}}</option>
-                          </select>
-                          <!-- END Per In Page Select area END -->
-                          <!-- Paginations -->
-                          <nav class="pagination-nav">
-                            <ul class="pagination">
-                              <ng-container *ngFor="let page of pages">
-                                <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
-                                    (click)="loadConsumableRequestList(perInPage,page.value,2)" class="page-link">{{page.display}}</button>
-                                </li>
-                              </ng-container>
-                            </ul>
-                          </nav>
-                          <!-- END Paginations END -->
-                        </div>
-                        <!-- END Pagination Side END -->
-                      </div>
-                    </mat-tab>
-                </mat-tab-group>
-       </div>
+        <div class="card-body" style="padding-top:0px; margin-left:20px; margin-right:20px;">
+          <mat-tab-group style="margin-top:10px;" (selectedTabChange)="tabChanged($event)">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                {{getLanguageValue('Add_Consumable')}}
+              </ng-template>
+              <div class="sales-overview"
+                style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                <tree-grid-table [dataTable]="dataTableConsumableMaterialIn"></tree-grid-table>
+                <!-- Pagination Side -->
+                <div class="table-pagination">
+                  <!-- Per In Page Select area -->
+                  <select class="table-pagination-select" (change)="loadConsumableTransactionList(perInPage,1,1,false)"
+                    [(ngModel)]="perInPage">
+                    <option *ngFor="let perIn of dataTableConsumableMaterialIn.perInPages" value="{{perIn}}">{{perIn}}
+                    </option>
+                    <option value="1000">{{getLanguageValue('All')}}</option>
+                  </select>
+                  <!-- END Per In Page Select area END -->
+                  <!-- Paginations -->
+                  <nav class="pagination-nav">
+                    <ul class="pagination">
+                      <ng-container *ngFor="let page of pages">
+                        <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                            (click)="loadConsumableTransactionList(perInPage,page.value,1,false)"
+                            class="page-link">{{page.display}}</button>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </nav>
+                  <!-- END Paginations END -->
+                </div>
+                <!-- END Pagination Side END -->
+              </div>
+            </mat-tab>
 
-
+            <mat-tab>
+              <ng-template mat-tab-label>
+                {{getLanguageValue('Exit_Consumable')}}
+              </ng-template>
+              <div class="sales-overview"
+                style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
+                <tree-grid-table [dataTable]="dataTableConsumableMaterialOut"></tree-grid-table>
+                <!-- Pagination Side -->
+                <div class="table-pagination">
+                  <!-- Per In Page Select area -->
+                  <select class="table-pagination-select" (change)="loadConsumableRequestList(perInPage,1,2)"
+                    [(ngModel)]="perInPage">
+                    <option *ngFor="let perIn of dataTableConsumableMaterialOut.perInPages" value="{{perIn}}">{{perIn}}
+                    </option>
+                    <option value="1000">{{getLanguageValue('All')}}</option>
+                  </select>
+                  <!-- END Per In Page Select area END -->
+                  <!-- Paginations -->
+                  <nav class="pagination-nav">
+                    <ul class="pagination">
+                      <ng-container *ngFor="let page of pages">
+                        <li class="page-item" [class.disabled]="page.isDisabled" [class.active]="page.isActive"><button
+                            (click)="loadConsumableRequestList(perInPage,page.value,2)"
+                            class="page-link">{{page.display}}</button>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </nav>
+                  <!-- END Paginations END -->
+                </div>
+                <!-- END Pagination Side END -->
+              </div>
+            </mat-tab>
+          </mat-tab-group>
         </div>
-        <!-- az-content-body -->
+
+
       </div>
+      <!-- az-content-body -->
     </div>
   </div>
-  
-  
+</div>
 
-  <!-- FILTER CONSUMABLE MATERIAL MODAL -->
+
+
+<!-- FILTER CONSUMABLE MATERIAL MODAL -->
 <div id="modalFilterTransaction" class="modal" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content modal-content-demo">
-        <div class="modal-header">
-          <h6 class="modal-title">{{getLanguageValue('Identify_filter_values')}}</h6>
-          <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form #data="ngForm" (ngSubmit)="filterConsumable(data)" class="form-register">
-          <div class="modal-body">
-            
-            <div class="row justify-content-center">           
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">{{getLanguageValue('Identify_filter_values')}}</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #data="ngForm" (ngSubmit)="filterConsumable(data)" class="form-register">
+        <div class="modal-body">
 
-              <!-- MALZEME KATEGORİSİ -->
-              <!-- <div class="form-group col-md-6">
+          <div class="row justify-content-center">
+
+            <!-- MALZEME KATEGORİSİ -->
+            <!-- <div class="form-group col-md-6">
                 <div>
                     <label style="margin-bottom: 0; font-weight: 700;" >{{getLanguageValue('Consumable_Category')}}</label>
                     <div style="display:flex;">
@@ -145,267 +155,299 @@
                 </div>
               </div> -->
 
-              <div class="form-group col-md-6">
-                <label>{{getLanguageValue('Consumable_Category')}}</label>
+            <div class="form-group col-md-6">
+              <label>{{getLanguageValue('Consumable_Category')}}</label>
+              <div style="display:flex;">
+                <button id="btnConsumableCategory" (click)="toggleDropdown('consumableCategory')"
+                  class="dropdown-button"
+                  type="button">{{dataTableConsumableCategory.TGT_getSelectedItems().length > 0 ? dataTableConsumableCategory.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Category_Selected')  : getLanguageValue('Choose') }}</button>
+                <span class="span-dropdown" (click)="resetDropdown('consumableCategory')"
+                  class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+              <div class="custom-dropdown" *ngIf="isConsumableCategoryDropdownOpen==true">
+                <tree-grid-table [dataTable]="dataTableConsumableCategory"></tree-grid-table>
+              </div>
+            </div>
+
+            <!-- MALZEME ADI -->
+            <div class="form-group col-md-6">
+              <div>
+                <label style="margin-bottom: 0; font-weight: 700;">{{getLanguageValue('Consumable_Card_Name')}}</label>
                 <div style="display:flex;">
-                    <button id="btnConsumableCategory" (click)="toggleDropdown('consumableCategory')" class="dropdown-button" type="button">{{dataTableConsumableCategory.TGT_getSelectedItems().length > 0 ? dataTableConsumableCategory.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Category_Selected')  : getLanguageValue('Choose') }}</button>
-                      <span class="span-dropdown"  (click)="resetDropdown('consumableCategory')" class="typcn icon-default typcn-times span-dropdown"></span>
-                  </div> 
-                  <div class="custom-dropdown" *ngIf="isConsumableCategoryDropdownOpen==true">
-                      <tree-grid-table [dataTable]="dataTableConsumableCategory"></tree-grid-table>
-                    </div>             
-              </div>   
-
-              <!-- MALZEME ADI -->            
-              <div class="form-group col-md-6">
-                <div>
-                    <label style="margin-bottom: 0; font-weight: 700;" >{{getLanguageValue('Consumable_Card_Name')}}</label>
-                    <div style="display:flex;">
-                    <button id="btnConsumableCard" (click)="toggleDropdown('consumableCard')" class="dropdown-button" type="button">{{dataTableConsumableCard.TGT_getSelectedItems().length > 0 ? dataTableConsumableCard.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Card_Selected')  : getLanguageValue('Choose') }}</button>
-                      <span class="span-dropdown"  (click)="resetDropdown('consumableCard')" class="typcn icon-default typcn-times span-dropdown"></span>
-                    </div>
-                </div>
-                <div class="custom-dropdown" *ngIf="isConsumableCardDropdownOpen==true">
-                        <tree-grid-table [dataTable]="dataTableConsumableCard"></tree-grid-table>
+                  <button id="btnConsumableCard" (click)="toggleDropdown('consumableCard')" class="dropdown-button"
+                    type="button">{{dataTableConsumableCard.TGT_getSelectedItems().length > 0 ? dataTableConsumableCard.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Card_Selected')  : getLanguageValue('Choose') }}</button>
+                  <span class="span-dropdown" (click)="resetDropdown('consumableCard')"
+                    class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
               </div>
-
+              <div class="custom-dropdown" *ngIf="isConsumableCardDropdownOpen==true">
+                <tree-grid-table [dataTable]="dataTableConsumableCard"></tree-grid-table>
+              </div>
             </div>
-  
-            <div class="row justify-content-center">
-            
-                <!-- LOKASYON -->
-                <div class="form-group col-md-6">
-                  <label>{{getLanguageValue('Location')}}</label>
-                  <div style="display:flex;">
-                    <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button"> {{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }} </button>
-                      <span class="span-dropdown"  (click)="resetDropdown('location')" class="typcn icon-default typcn-times span-dropdown"></span>
-                    </div>   
-                    <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
-                      <tree-grid-table [dataTable]="dataTableLocation"></tree-grid-table>
-                    </div>
-                </div>
-  
-                <!-- DEPARTMAN -->
-                <div class="form-group col-md-6">  
-                  <label style="margin-bottom: 0; font-weight: 700;">{{getLanguageValue('Department')}}</label>               
-                  <div class="" style="display: flex;
+
+          </div>
+
+          <div class="row justify-content-center">
+
+            <!-- LOKASYON -->
+            <div class="form-group col-md-6">
+              <label>{{getLanguageValue('Location')}}</label>
+              <div style="display:flex;">
+                <button id="btnLocation" (click)="toggleDropdown('location')" class="dropdown-button" type="button">
+                  {{dataTableLocation.TGT_getSelectedItems().length > 0 ? dataTableLocation.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Location_Selected')  : getLanguageValue('Choose') }}
+                </button>
+                <span class="span-dropdown" (click)="resetDropdown('location')"
+                  class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+              <div class="custom-dropdown" *ngIf="isLocationDropdownOpen==true">
+                <tree-grid-table [dataTable]="dataTableLocation"></tree-grid-table>
+              </div>
+            </div>
+
+            <!-- DEPARTMAN -->
+            <div class="form-group col-md-6">
+              <label style="margin-bottom: 0; font-weight: 700;">{{getLanguageValue('Department')}}</label>
+              <div class="" style="display: flex;
                   flex-direction: column;">
-                          
-                      <div style="display:flex;">
-                          <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button" type="button">{{dataTableDepartment.TGT_getSelectedItems().length > 0 ? dataTableDepartment.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Department_Selected')  : getLanguageValue('Choose') }}</button>
-                            <span class="span-dropdown"  (click)="resetDropdown('department')" class="typcn icon-default typcn-times span-dropdown"></span>
-                          </div>
-                  </div>
-                    <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
-                        <tree-grid-table [dataTable]="dataTableDepartment"></tree-grid-table>
-                      </div>           
-                </div>  
-  
-              </div>        
 
-              
-              <div class="row justify-content-center"> 
-             
-                  <!-- TALEP EDEN KİŞİ -->
-                  <div class="form-group col-md-6">
-                    <label>{{getLanguageValue('Requested_User')}}</label>
-                    <div style="display:flex;">
-                      <button id="btnRequestedUser" (click)="toggleDropdown('requestedUser')" class="dropdown-button" type="button">{{dataTableRequestedUser.TGT_getSelectedItems().length > 0 ? dataTableRequestedUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_User_Selected')  : getLanguageValue('Choose') }}</button>
-                        <span class="span-dropdown"  (click)="resetDropdown('requestedUser')" class="typcn icon-default typcn-times span-dropdown"></span>
-                      </div>   
-                      <div class="custom-dropdown" *ngIf="isRequestedUserDropdownOpen==true">
-                        <tree-grid-table [dataTable]="dataTableRequestedUser"></tree-grid-table>
-                      </div>
-                  </div>
-    
-                <!-- TALEBİ KARŞILAYAN KİŞİ -->
-                <div class="form-group col-md-6">
-                  <label>{{getLanguageValue('Received_User')}}</label>
-                  <div style="display:flex;">
-                    <button id="btnReceivedUser" (click)="toggleDropdown('receivedUser')" class="dropdown-button" type="button">{{dataTableReceivedUser.TGT_getSelectedItems().length > 0 ? dataTableReceivedUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_User_Selected')  : getLanguageValue('Choose') }}</button>
-                      <span class="span-dropdown"  (click)="resetDropdown('receivedUser')" class="typcn icon-default typcn-times span-dropdown"></span>
-                    </div>   
-                    <div class="custom-dropdown" *ngIf="isReceivedUserDropdownOpen==true">
-                      <tree-grid-table [dataTable]="dataTableReceivedUser"></tree-grid-table>
-                    </div>
-                </div>
-    
-                </div>
-
-
-            <div class="row justify-content-center">
-
-                <!-- MALZEME KODU -->
-              <div class="form-group col-md-6">
-                <label>Malzeme Kodu</label>
-                <input  name="ConsumableCardCode" [(ngModel)]="consumable.ConsumableCardCode" #ConsumableCardCode="ngModel" value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardCode}}" class="form-control" type="text"/>
-              </div>
-
-              <!-- SERBEST GİRİŞ MİKTARI -->
-              <div class="form-group col-md-6" *ngIf="tabIndex == 1">
-                <label>Serbest Giriş Miktarı</label>                
-                <div class="row justify-content-center">
-                      <div class="form-group col-md-6" style="padding-right: 7px;">
-                        <input [(ngModel)]="consumable.FreeEnterAmountMin" name="FreeEnterAmountMin" class="form-control" type="text" #FreeEnterAmountMin="ngModel" placeholder="Min"/>  
-                      </div>
-
-                      <div class="form-group col-md-6" style="padding-left: 7px;">
-                        <input [(ngModel)]="consumable.FreeEnterAmountMax" name="FreeEnterAmountMax" class="form-control" type="text" #FreeEnterAmountMax="ngModel" placeholder="Max"/>  
-                    </div>
-                </div>
-              </div> 
-              
-               <!-- SERBEST ÇIKIŞ MİKTARI -->
-               <div class="form-group col-md-6" *ngIf="tabIndex == 2" >
-                <label>Serbest Çıkış Miktarı</label>      
-                <div class="row justify-content-center">                     
-                  <div class="form-group col-md-6" style="padding-right: 7px;">
-                   <input [(ngModel)]="consumable.FreeExitAmountMin" name="FreeExitAmountMin" class="form-control" type="text" #FreeExitAmountMin="ngModel" placeholder="Min"/>
-                  </div>
-
-                  <div class="form-group col-md-6" style="padding-left: 7px;">
-                    <input [(ngModel)]="consumable.FreeExitAmountMax" name="FreeExitAmountMax" class="form-control" type="text" #FreeExitAmountMax="ngModel" placeholder="Max"/>  
+                <div style="display:flex;">
+                  <button id="btnDepartment" (click)="toggleDropdown('department')" class="dropdown-button"
+                    type="button">{{dataTableDepartment.TGT_getSelectedItems().length > 0 ? dataTableDepartment.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Department_Selected')  : getLanguageValue('Choose') }}</button>
+                  <span class="span-dropdown" (click)="resetDropdown('department')"
+                    class="typcn icon-default typcn-times span-dropdown"></span>
                 </div>
               </div>
-              </div> 
-
+              <div class="custom-dropdown" *ngIf="isDepartmentDropdownOpen==true">
+                <tree-grid-table [dataTable]="dataTableDepartment"></tree-grid-table>
+              </div>
             </div>
-    
 
-            <div class="row justify-content-center" *ngIf="tabIndex == 2">
+          </div>
 
-              <!-- TALEP EDİLEN MİKTAR -->
+
+          <div class="row justify-content-center">
+
+            <!-- TALEP EDEN KİŞİ -->
+            <div class="form-group col-md-6">
+              <label>{{getLanguageValue('Requested_User')}}</label>
+              <div style="display:flex;">
+                <button id="btnRequestedUser" (click)="toggleDropdown('requestedUser')" class="dropdown-button"
+                  type="button">{{dataTableRequestedUser.TGT_getSelectedItems().length > 0 ? dataTableRequestedUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_User_Selected')  : getLanguageValue('Choose') }}</button>
+                <span class="span-dropdown" (click)="resetDropdown('requestedUser')"
+                  class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+              <div class="custom-dropdown" *ngIf="isRequestedUserDropdownOpen==true">
+                <tree-grid-table [dataTable]="dataTableRequestedUser"></tree-grid-table>
+              </div>
+            </div>
+
+            <!-- TALEBİ KARŞILAYAN KİŞİ -->
+            <div class="form-group col-md-6">
+              <label>{{getLanguageValue('Received_User')}}</label>
+              <div style="display:flex;">
+                <button id="btnReceivedUser" (click)="toggleDropdown('receivedUser')" class="dropdown-button"
+                  type="button">{{dataTableReceivedUser.TGT_getSelectedItems().length > 0 ? dataTableReceivedUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_User_Selected')  : getLanguageValue('Choose') }}</button>
+                <span class="span-dropdown" (click)="resetDropdown('receivedUser')"
+                  class="typcn icon-default typcn-times span-dropdown"></span>
+              </div>
+              <div class="custom-dropdown" *ngIf="isReceivedUserDropdownOpen==true">
+                <tree-grid-table [dataTable]="dataTableReceivedUser"></tree-grid-table>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="row justify-content-center">
+
+            <!-- MALZEME KODU -->
+            <div class="form-group col-md-6">
+              <label>Malzeme Kodu</label>
+              <input name="ConsumableCardCode" [(ngModel)]="consumable.ConsumableCardCode" #ConsumableCardCode="ngModel"
+                value="{{consumable.ConsumableCard == null ? '' : consumable.ConsumableCard.ConsumableCardCode}}"
+                class="form-control" type="text" />
+            </div>
+
+            <!-- SERBEST GİRİŞ MİKTARI -->
+            <div class="form-group col-md-6" *ngIf="tabIndex == 1">
+              <label>Serbest Giriş Miktarı</label>
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6" style="padding-right: 7px;">
+                  <input [(ngModel)]="consumable.FreeEnterAmountIn" name="FreeEnterAmountMin" class="form-control"
+                    type="text" #FreeEnterAmountMin="ngModel" placeholder="Min" />
+                </div>
+
+                <div class="form-group col-md-6" style="padding-left: 7px;">
+                  <input [(ngModel)]="consumable.FreeEnterAmountOut" name="FreeEnterAmountMax" class="form-control"
+                    type="text" #FreeEnterAmountMax="ngModel" placeholder="Max" />
+                </div>
+              </div>
+            </div>
+
+            <!-- SERBEST ÇIKIŞ MİKTARI -->
+            <div class="form-group col-md-6" *ngIf="tabIndex == 2">
+              <label>Serbest Çıkış Miktarı</label>
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6" style="padding-right: 7px;">
+                  <input [(ngModel)]="consumable.FreeExitAmountIn" name="FreeExitAmountMin" class="form-control"
+                    type="text" #FreeExitAmountMin="ngModel" placeholder="Min" />
+                </div>
+
+                <div class="form-group col-md-6" style="padding-left: 7px;">
+                  <input [(ngModel)]="consumable.FreeExitAmountOut" name="FreeExitAmountMax" class="form-control"
+                    type="text" #FreeExitAmountMax="ngModel" placeholder="Max" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="row justify-content-center" *ngIf="tabIndex == 2">
+
+            <!-- TALEP EDİLEN MİKTAR -->
             <div class="form-group col-md-6">
               <label>{{getLanguageValue('Requested_Amount_Unit')}}</label>
-              <div class="row justify-content-center">                                   
-               <div class="form-group col-md-6" style="padding-right: 7px;">
-                  <input [(ngModel)]="consumable.RequestedAmountMin" name="RequestedAmountMin" class="form-control" type="text" #RequestedAmountMin="ngModel" placeholder="Min"/>
-                    </div>
-  
-                    <div class="form-group col-md-6" style="padding-left: 7px;">
-                      <input [(ngModel)]="consumable.RequestedAmountMax" name="RequestedAmountMax" class="form-control" type="text" #RequestedAmountMax="ngModel" placeholder="Max"/>  
-                  </div>
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6" style="padding-right: 7px;">
+                  <input [(ngModel)]="consumable.RequestedAmountIn" name="RequestedAmountMin" class="form-control"
+                    type="text" #RequestedAmountMin="ngModel" placeholder="Min" />
                 </div>
+
+                <div class="form-group col-md-6" style="padding-left: 7px;">
+                  <input [(ngModel)]="consumable.RequestedAmountOut" name="RequestedAmountMax" class="form-control"
+                    type="text" #RequestedAmountMax="ngModel" placeholder="Max" />
+                </div>
+              </div>
             </div>
 
             <!-- KARŞILANAN MİKTAR-->
             <div class="form-group col-md-6">
               <label>Karşılanan Miktar</label>
-                  <div class="row justify-content-center">                                                 
-                  <div class="form-group col-md-6" style="padding-right: 7px;">
-                      <input [(ngModel)]="consumable.ReceivedAmountMin" name="ReceivedAmountMin" class="form-control" type="text" #ReceivedAmountMin="ngModel" placeholder="Min"/>
-                        </div>
-      
-                    <div class="form-group col-md-6" style="padding-left: 7px;">
-                      <input [(ngModel)]="consumable.ReceivedAmountMax" name="ReceivedAmountMax" class="form-control" type="text" #ReceivedAmountMax="ngModel" placeholder="Max"/>  
-                  </div>
+              <div class="row justify-content-center">
+                <div class="form-group col-md-6" style="padding-right: 7px;">
+                  <input [(ngModel)]="consumable.ReceivedAmountIn" name="ReceivedAmountMin" class="form-control"
+                    type="text" #ReceivedAmountMin="ngModel" placeholder="Min" />
                 </div>
-            </div>  
 
-          </div>
-
-  
-            <div class="row justify-content-center">
-            <div class="form-group col-md-12">              
-            <label>İşlem Tarih Aralığı</label>
-            <div class="row justify-content-center">
-              <!-- GİRİŞ TARİHİ -->
-              <div class="form-group col-md-6">
-                <div class="input-group">
-                  <div class="input-group-append">
-                    <div (click)="startDate.toggle()" class="input-group-text">
-                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                    </div>
-                  </div>
-                  <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
-                  [class.is-invalid]="data.submitted && (!consumable.StartDate || startDateModel.status == 'INVALID' )"
-                    [(ngModel)]="consumable.StartDate" ngbDatepicker #startDate="ngbDatepicker"
-                    #startDateModel="ngModel" />
-                    <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
-                        <div *ngIf="startDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                        <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
-                          {{getLanguageValue('Format_is_not_valid')}}
-                        </div>
-                      </div>
-                </div>
-              </div>
-  
-              <!-- BİTİŞ TARİHİ -->
-              <div class="form-group col-md-6">
-                <div class="input-group">
-                  <div class="input-group-append">
-                    <div (click)="endDate.toggle()" class="input-group-text">
-                      <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                    </div>
-                  </div>
-                  <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
-                    [minDate]="consumable.StartDate" [(ngModel)]="consumable.EndDate" ngbDatepicker
-                  [class.is-invalid]="data.submitted && (!consumable.EndDate || endDateModel.status == 'INVALID' )"                    
-                    #endDate="ngbDatepicker" #endDateModel="ngModel" />
-                    <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
-                        <div *ngIf="endDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
-                        <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
-                          {{getLanguageValue('Format_is_not_valid')}}
-                        </div>
-                      </div>
+                <div class="form-group col-md-6" style="padding-left: 7px;">
+                  <input [(ngModel)]="consumable.ReceivedAmountOut" name="ReceivedAmountMax" class="form-control"
+                    type="text" #ReceivedAmountMax="ngModel" placeholder="Max" />
                 </div>
               </div>
             </div>
-          </div>            
-        </div>            
 
-            <div class="row justify-content-center">
-              <div class="form-group col-md-6">
-                <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
-                <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId" name="FixedAssetCardPropertyId" (change)="loadValuesByPropertyId($event)" class="form-control select2-no-search" >
-                  <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
-                  <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">{{property.Name}}</option>
-                </select> 
-                <div *ngIf="visible == true" style="color:red">
-                    <div>Bir {{getLanguageValue('Choose_a_property')}}</div>
-                  </div> 
-              </div>
-              <div class="form-group col-md-6">
-                  <label>{{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>   
-                  <div class="flexProperty">
-                    <div style="flex:1;">
-                    <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId" name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)" class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
-                      <option [ngValue]="null">{{getLanguageValue('Choose_a_property_value')}}</option>
-                      <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}</option>
-                    </select> 
-                    <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"  class="form-control" type="text" style="font-size: 13px;height: 27px;">
-                    <div *ngIf="visiblePropertyName == true" style="color:red">
-                        <div>{{getLanguageValue('Choose_a_property_value')}}</div>
+          </div>
+
+
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+              <label>İşlem Tarih Aralığı</label>
+              <div class="row justify-content-center">
+                <!-- GİRİŞ TARİHİ -->
+                <div class="form-group col-md-6">
+                  <div class="input-group">
+                    <div class="input-group-append">
+                      <div (click)="startDate.toggle()" class="input-group-text">
+                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                       </div>
-                   </div>
-                    <div class="property-add-value">                    
-                      <span class="tree-table-sign typcn icon-default typcn-plus" (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
-                    </div>    
+                    </div>
+                    <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="startDate"
+                      [class.is-invalid]="data.submitted && (!consumable.StartDate || startDateModel.status == 'INVALID' )"
+                      [(ngModel)]="consumable.StartDate" ngbDatepicker #startDate="ngbDatepicker"
+                      #startDateModel="ngModel" />
+                    <div *ngIf="data.submitted && startDateModel.invalid" class="invalid-feedback">
+                      <div *ngIf="startDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                      <div *ngIf="!startDateModel.errors.required && startDateModel.status == 'INVALID'">
+                        {{getLanguageValue('Format_is_not_valid')}}
+                      </div>
+                    </div>
                   </div>
+                </div>
+
+                <!-- BİTİŞ TARİHİ -->
+                <div class="form-group col-md-6">
+                  <div class="input-group">
+                    <div class="input-group-append">
+                      <div (click)="endDate.toggle()" class="input-group-text">
+                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                      </div>
+                    </div>
+                    <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate"
+                      [minDate]="consumable.StartDate" [(ngModel)]="consumable.EndDate" ngbDatepicker
+                      [class.is-invalid]="data.submitted && (!consumable.EndDate || endDateModel.status == 'INVALID' )"
+                      #endDate="ngbDatepicker" #endDateModel="ngModel" />
+                    <div *ngIf="data.submitted && endDateModel.invalid" class="invalid-feedback">
+                      <div *ngIf="endDateModel.errors.required">{{getLanguageValue('This_value_is_required')}}</div>
+                      <div *ngIf="!endDateModel.errors.required && endDateModel.status == 'INVALID'">
+                        {{getLanguageValue('Format_is_not_valid')}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>   
-            <div class="row justify-content-center">
-                <div class="form-group col-md-12">   
-                        <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
-                </div>   
-            </div>   
+            </div>
           </div>
-          <!-- modal-body -->
-          <div class="modal-footer">
-                <button class="btn btn-danger" id="btnResetFilter" type="button" (click)="clearFilter()">
-                    Filtre Temizle
-                  </button>  
-            <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="button" (click)="isFilterTransactionList(data, true)"
-              data-toggle="modal" data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
-              {{getLanguageValue('Filter')}}
-            </button>
-            <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+
+          <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+              <label>{{getLanguageValue('Fixed_Asset_Card_Property_Name')}}</label>
+              <select #FixedAssetCardPropertyId [(ngModel)]="fixedAssetPropertyDetail.FixedAssetCardPropertyId"
+                name="FixedAssetCardPropertyId" (change)="loadValuesByPropertyId($event)"
+                class="form-control select2-no-search">
+                <option value="-1">{{getLanguageValue('Choose_a_property')}}</option>
+                <option *ngFor="let property of fixedassetproperty" value="{{property.FixedAssetCardPropertyId}}">
+                  {{property.Name}}</option>
+              </select>
+              <div *ngIf="visible == true" style="color:red">
+                <div>Bir {{getLanguageValue('Choose_a_property')}}</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>{{getLanguageValue('Fixed_Asset_Card_Property_Value')}}</label>
+              <div class="flexProperty">
+                <div style="flex:1;">
+                  <select [(ngModel)]="fixedAssetCardPropertyValue.FixedAssetPropertyValueId"
+                    name="FixedAssetPropertyValueId" *ngIf="isListSelected==true" (change)="getPropertyValue($event)"
+                    class="form-control select2-no-search" style="font-size: 13px;height: 27px;">
+                    <option [ngValue]="null">{{getLanguageValue('Choose_a_property_value')}}</option>
+                    <option *ngFor="let value of fixedassetpropertyvalues" value="{{value.Value}}">{{value.Value}}
+                    </option>
+                  </select>
+                  <input [(ngModel)]="fixedAssetPropertyDetail.Value" name="Value" *ngIf="isListSelected==false"
+                    class="form-control" type="text" style="font-size: 13px;height: 27px;">
+                  <div *ngIf="visiblePropertyName == true" style="color:red">
+                    <div>{{getLanguageValue('Choose_a_property_value')}}</div>
+                  </div>
+                </div>
+                <div class="property-add-value">
+                  <span class="tree-table-sign typcn icon-default typcn-plus"
+                    (click)="insertPropertyValueToArray(FixedAssetCardPropertyId)"></span>
+                </div>
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
+          <div class="row justify-content-center">
+            <div class="form-group col-md-12">
+              <tree-grid-table [dataTable]="dataTablePropertyValue"></tree-grid-table>
+            </div>
+          </div>
+        </div>
+        <!-- modal-body -->
+        <div class="modal-footer">
+          <button class="btn btn-danger" id="btnResetFilter" type="button" (click)="clearFilter()">
+            Filtre Temizle
+          </button>
+          <button class="btn btn-az-primary" id="btnInsertOrUpdateConsumableCategory" type="button"
+            (click)="isFilterTransactionList(data, true)" data-toggle="modal"
+            data-target="#modalInsertConsumableCategory" *ngIf="isWaitingInsertOrUpdate == false">
+            {{getLanguageValue('Filter')}}
+          </button>
+          <div *ngIf="isWaitingInsertOrUpdate == true" class="button-loader"></div>
+        </div>
+      </form>
     </div>
-    <!-- modal-dialog -->
   </div>
-  <!-- modal -->
-  
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->

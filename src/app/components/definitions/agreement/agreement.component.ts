@@ -35,6 +35,8 @@ export class AgreementComponent extends BaseComponent implements OnInit {
   @Input() response: boolean;  
   popupComp: PopupComponent = new PopupComponent(this.baseService);
 
+  notDeletedBarcode:string='';
+
   /* Is Request send and waiting for response ? */
   isWaitingInsertOrUpdate: boolean = false;
   /* Is Table Refreshing */

@@ -103,7 +103,7 @@ export class FixedAsset implements IData {
   DepreciationEndDate: string;
   Description:string;
   FixedAssetForms: FixedAssetForm[];
-
+  DepreciationCalculationType :any;
   constructor() {
     this.FixedAssetCard = new FixedAssetCard();
     this.FixedAssetCardBrand = new FixedAssetCardBrand();

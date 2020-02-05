@@ -23,19 +23,19 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
   // transactionLog: TransactionLog = new TransactionLog();
   // transactionLogs: TransactionLog[] = [];
   fixedAsset: FixedAsset = new FixedAsset();
-  fixedAssets: FixedAsset[]=[];
+  fixedAssets: FixedAsset[] = [];
   @Input() faDataTable: TreeGridTable;
   @Input() faBarcode: string;
   @Input() selectedFixedAssetId: number;
   @Input() faComponent: FixedAssetComponent;
   response: boolean = false;
-  formData:NgForm = null;
+  formData: NgForm = null;
   updatedBarcode: string = '';
 
   constructor(baseService: BaseService) {
     super(baseService);
   }
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit(data: NgForm) {
     // this.ChangeRelationship(data);
@@ -45,56 +45,56 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
 
     // Object.assign(this.fixedAsset, data);
 
-    
+
   }
 
   async ChangeRelationship(data: NgForm) {
     /* Is Form Valid */
 
-    if(data.form.invalid == true)return;    
+    if (data.form.invalid == true) return;
 
 
-    this.fixedAsset.Barcode=data.value.newBarcodes;
+    this.fixedAsset.Barcode = data.value.newBarcodes;
     this.fixedAsset.FixedAssetIds = (<FixedAsset[]>(
       this.faDataTable.TGT_getSelectedItems()
     )).map(x => x.FixedAssetId);
-    this.baseService.spinner.show(); 
+    this.baseService.spinner.show();
 
-          this.baseService.fixedAssetService.ChangeRelationship(
-            this.fixedAsset,
-            (insertedItem: FixedAsset, message) => {
+    this.baseService.fixedAssetService.ChangeRelationship(
+      this.fixedAsset,
+      (insertedItem: FixedAsset, message) => {
 
-              this.baseService.spinner.hide();
+        this.baseService.spinner.hide();
 
-              /* Show success pop up */
-              this.baseService.popupService.ShowSuccessPopup(message);
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
 
-              /* Set inserted Item id to model */
-              this.fixedAsset.FixedAssetId =
-                insertedItem.FixedAssetId;
+        /* Set inserted Item id to model */
+        this.fixedAsset.FixedAssetId =
+          insertedItem.FixedAssetId;
 
-              /* Push inserted item to Property list */
-              this.fixedAssets.push(this.fixedAsset);
+        /* Push inserted item to Property list */
+        this.fixedAssets.push(this.fixedAsset);
 
-              this.resetForm(data);
-              
-              this.faComponent.loadFixedAsset();
+        this.resetForm(data);
 
-              $('#CloseModal').trigger('click');
+        this.faComponent.loadFixedAsset();
 
-            },
-            (error: HttpErrorResponse) => {
-              /* Show alert message */
-              this.baseService.spinner.hide();  
+        $('#CloseModal').trigger('click');
 
-              this.baseService.popupService.ShowErrorPopup(error);
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        this.baseService.spinner.hide();
 
-              this.resetForm(data);              
-            }
-          );
+        this.baseService.popupService.ShowErrorPopup(error);
 
-          this.popupComponent.CloseModal('#modalShowQuestionPopupForRelationship');
- 
+        this.resetForm(data);
+      }
+    );
+
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForRelationship');
+
   }
 
   resetForm(data: NgForm) {
@@ -102,4 +102,7 @@ export class FaRelationshipComponent extends BaseComponent implements OnInit {
     this.fixedAsset.Barcode = null;
   }
 
+  closeModal() {
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForRelationship');
+  }
 }

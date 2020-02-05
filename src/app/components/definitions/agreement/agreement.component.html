@@ -46,7 +46,7 @@
         </div>
         <p class="mg-b-20"></p>
         <div class="sales-overview">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event, item)" [dataTable]="dataTable">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event)" [dataTable]="dataTable">
           </tree-grid-table>
         </div>
       </div>
@@ -66,7 +66,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
+      <form name="form" #data="ngForm" (ngSubmit)="data.form.valid && onSubmit(data)" novalidate>
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-6">

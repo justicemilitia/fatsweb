@@ -55,7 +55,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
+      <form name="form" #data="ngForm" (ngSubmit)="data.form.valid && onSubmit(data)" novalidate>
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">

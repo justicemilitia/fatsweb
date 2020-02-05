@@ -29,7 +29,7 @@
     <div class="row justify-content-center">
       <div class="col-md-12 form-group">
         <label>{{getLanguageValue('New_Barcode')}}</label>
-        <input [(ngModel)]="Barcode" name="newBarcodes" type="text" class="form-control" trim="blur" #newBarcodes="ngModel"
+        <input [(ngModel)]="newBarcode" name="newBarcodes" type="text" class="form-control" trim="blur" #newBarcodes="ngModel"
           [ngClass]="{ 'is-invalid': data.submitted && newBarcodes.invalid }" required />
         <div *ngIf="data.submitted && newBarcodes.invalid" class="invalid-feedback">
           <div *ngIf="newBarcodes.errors.required">{{getLanguageValue('This_value_is_required')}}</div>

@@ -18,7 +18,7 @@
             <!-- BARKOD -->
             <div class="col-md-4 form-group">
               <label>{{getLanguageValue('Barcode')}}</label>
-              <input [(ngModel)]="fixedAsset.Barcode" name="Barcode" type="text" class="form-control" />
+              <input [(ngModel)]="fixedAsset.Barcode" #Barcode="ngModel" name="Barcode" type="text" class="form-control" />
             </div>
 
             <!-- DEMİRBAŞ ADI -->
@@ -40,7 +40,7 @@
                   </div>
                 </div>
                 <div class="custom-dropdown" *ngIf="isFaCardDropdownOpen==true">
-                    <tree-grid-table (onClickItem)="onClickFaCard($event,item)" [dataTable]="dataTableFixedAssetCard"></tree-grid-table>
+                    <tree-grid-table (onClickItem)="onClickFaCard($event)" [dataTable]="dataTableFixedAssetCard"></tree-grid-table>
                 </div>
             </div>
 

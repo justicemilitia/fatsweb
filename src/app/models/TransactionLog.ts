@@ -46,7 +46,9 @@ export class TransactionLog implements IData{
     FromDepartmentId: number;
     ToDepartment: string;
     ToDepartmentId: number;
+    FromUser:string;
     FromUserId: number;
+    ToUser:string;
     ToUserId: number;
     FromCompany: string;
     FromCompanyId: number;
@@ -86,14 +88,15 @@ export class TransactionLog implements IData{
     ToBrandId: number;
     FromModelId: number;   
     ToModelId: number;
-    //FromModel ??
-    //ToModel ??
+    FromModel:string;
+    ToModel :string;
     CheckOutLocation: string; 
+    CheckOutLocationName: string; 
     Currency: number;
     FromExpenseCenterId: number;
     ToExpenseCenterId: number;
-    //FromExpenseCenter
-    //ToExpenseCenter
+    FromExpenseCenter:string;
+    ToExpenseCenter:string;
     FromInvoiceNo: string;
     ToInvoiceNo: string;
     FromInvoiceDate: Date;

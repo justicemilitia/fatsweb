@@ -37,7 +37,7 @@
               </div>
 
               <div>                
-                <button class="btn btn-success btn-excel-custom" (click)="exportExcel(dataTable)" data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
+                <button class="btn btn-success btn-excel-custom" (click)="exportExcel()" data-toggle="tooltip" data-placement="bottom" title="Excel" style="margin-right:10px"><i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
                   [class.btn-refresh-loader]="isTableExporting == true"></i>
                 </button>
               </div>
@@ -360,7 +360,7 @@
               </div>
        
           <div class="col-md-6">          
-            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="cancelRequestConsumableMaterial()" >{{getLanguageValue('Yes')}}</button>
+            <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;" (click)="cancelRequestConsumableMaterial($event)" >{{getLanguageValue('Yes')}}</button>
           </div>   
         </div>
 

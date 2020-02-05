@@ -5,7 +5,7 @@
         </button>
       </div>
       
-      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid">
+      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data)">
         <div class="modal-body">
           <!-- <input type="hidden" name="TransactionLogId" [(ngModel)]="transactionLog.TransactionLogId" /> -->
           <div class="col-md-12 table-scroll" [ngClass]="{'table-with-scroll' : fixBreakdown.isCancelled == false, 'table-scroll' : fixBreakdown.isCancelled == true }">
@@ -107,7 +107,7 @@
                         <div class="form-group col-md-12">
                         <label>{{getLanguageValue('File')}}</label>
                         <div class="file-area">
-                            <input #breakdownPicture name="BreakdownPicture" (change)="changeFile($event)" id="BreakdownPicture" type="file"
+                            <input #BreakdownPicture name="BreakdownPicture" (change)="changeFile($event)" id="BreakdownPicture" type="file"
                             class="form-control-file" style="display:none" multiple>
                             <label for="BreakdownPicture" class="custom-file">
                             <label class="custom-file-text" for="BreakdownPicture">{{getLanguageValue('Choose_File')}}</label>

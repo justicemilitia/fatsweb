@@ -274,7 +274,7 @@ export class ConsumableCardComponent extends BaseComponent implements OnInit {
       });
   }
 
-  async updateConsumableCard(data: NgForm) {
+  async updateConsumableCard() {
 
         /* loading icon visible */
         this.isWaitingInsertOrUpdate = true;

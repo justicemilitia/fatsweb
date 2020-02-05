@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="sales-overview">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event)" [dataTable]="dataTable">
           </tree-grid-table>
         </div>
       </div>
@@ -84,7 +84,7 @@
           <div class="row justify-content-center">
             <div class="col-md-12 form-group">
               <label>{{getLanguageValue('Description')}}</label>
-              <textarea [(ngModel)]="suspension.Description" name="Description" rows="3" type="text" style="resize:none"
+              <textarea [(ngModel)]="suspension.Description" #Description="ngModel" name="Description" rows="3" type="text" style="resize:none"
                 class="form-control" maxlength="150"></textarea>
                 <div *ngIf="data.submitted && Description.invalid" class="invalid-feedback">
                   <div *ngIf="Description.errors.maxlength">{{getLanguageValue('Only_can_enter_max_150_character')}}</div>

@@ -19,9 +19,10 @@ export class FixedAssetFilter implements IData {
 
   FixedAssetId: number;
   IsSearchRequest: boolean;
-  Page:number;
+  Page: number;
   PerPage: number;
   Barcodes: string[];
+  Barcode: string;
   FixedAssetCardName: number[];
   FixedAssetCardCategoryName: number[];
   StartDate: string;
@@ -36,7 +37,7 @@ export class FixedAssetFilter implements IData {
   IsCalculatedDepreciation: boolean;
   IsCalculatedIFRSDepreciation: boolean;
   FixedAssetPropertyArray: FixedAssetPropertyDetails[];
-  WillDepreciationBeCalculated:boolean;
+  WillDepreciationBeCalculated: boolean;
   WillIfrsbeCalculated: boolean;
   DepreciationCalculationTypeID: number;
   IsFilter: boolean;
@@ -44,20 +45,20 @@ export class FixedAssetFilter implements IData {
   IsExitFixedAsset: boolean;
   Date: NgbDate;
   RecordStatus: boolean;
-  IsPassive:boolean;
-  IsActive:boolean;
+  IsPassive: boolean;
+  IsActive: boolean;
 
   constructor() {
     this.FixedAssetPropertyArray = [];
-    this.Barcodes=[];
-    this.FixedAssetCardName=[];
-    this.FixedAssetCardCategoryName=[];
-    this.Departments=[];
-    this.Brands=[];
-    this.Statuses=[];
-    this.Locations=[];
-    this.Models=[];
-    this.Users=[];
+    this.Barcodes = [];
+    this.FixedAssetCardName = [];
+    this.FixedAssetCardCategoryName = [];
+    this.Departments = [];
+    this.Brands = [];
+    this.Statuses = [];
+    this.Locations = [];
+    this.Models = [];
+    this.Users = [];
     this.RecordStatus = null;
   }
 }

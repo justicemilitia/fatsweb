@@ -22,7 +22,7 @@ export class User implements IData {
     }
     UserTitleId: number;
     isExtended: boolean;
-    RegistrationNumber:string;
+    RegistrationNumber: string;
     UserId: number;
     UserMail: string;
     FirstName: string;
@@ -44,18 +44,18 @@ export class User implements IData {
     /**
      * To Update Roles
      */
-    
+    Location: any;
     LocationIds: any[];
-    UserIds:any[];
-    FixedassetCardCategoryIds:any[];
-    FirmIds:any[];
+    UserIds: any[];
+    FixedassetCardCategoryIds: any[];
+    FirmIds: any[];
     RoleIds: any[];
 
-    UserAuthorizedFirms:UserAuthorizedFirms[];
-    UserAuthorizedLocations:UserAuthorizedLocations[];
-    UserAuthorizedFixedAssetCardCategories:UserAuthorizedFixedAssetCardCategories[];
-    UserAuthorizedUsers:UserAuthorizedUsers[];
-    UserAuthorizedUsersUser:UserAuthorizedUsers[];
+    UserAuthorizedFirms: UserAuthorizedFirms[];
+    UserAuthorizedLocations: UserAuthorizedLocations[];
+    UserAuthorizedFixedAssetCardCategories: UserAuthorizedFixedAssetCardCategories[];
+    UserAuthorizedUsers: UserAuthorizedUsers[];
+    UserAuthorizedUsersUser: UserAuthorizedUsers[];
 
 
     constructor() {

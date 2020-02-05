@@ -42,51 +42,54 @@ export class FaChangeBarcodeComponent extends BaseComponent implements OnInit {
 
     if (data.form.invalid == true) return;
 
-      this.popupComponent.ShowModal('#modalShowQuestionPopupForChangeBarcode');
+    this.popupComponent.ShowModal('#modalShowQuestionPopupForChangeBarcode');
   }
 
   async ChangeBarcode(data: NgForm) {
     /* Is Form Valid */
-          
-          let cloneItem = new FixedAsset();
-          Object.assign(cloneItem, this.faBarcode);
 
-          cloneItem.Barcode = data.value.newBarcodes;
+    let cloneItem = new FixedAsset();
+    Object.assign(cloneItem, this.faBarcode);
 
-          this.isWaitingInsertOrUpdate = true;
+    cloneItem.Barcode = data.value.newBarcodes;
 
-          this.baseService.spinner.show();
+    this.isWaitingInsertOrUpdate = true;
 
-          this.baseService.fixedAssetService.ChangeBarcode(
-            cloneItem,
-            (insertedItem: FixedAsset, message) => {
-              /* Show success pop up */
-              this.baseService.popupService.ShowSuccessPopup(message);
+    this.baseService.spinner.show();
 
-              this.baseService.spinner.hide();
+    this.baseService.fixedAssetService.ChangeBarcode(
+      cloneItem,
+      (insertedItem: FixedAsset, message) => {
+        /* Show success pop up */
+        this.baseService.popupService.ShowSuccessPopup(message);
 
-              /* Set inserted Item id to model */
-              this.faBarcode.Barcode = cloneItem.Barcode;
-              this.resetForm(data);
+        this.baseService.spinner.hide();
 
-              this.isWaitingInsertOrUpdate = false;
+        /* Set inserted Item id to model */
+        this.faBarcode.Barcode = cloneItem.Barcode;
+        this.resetForm(data);
 
-              this.faComponent.loadFixedAsset();
-            },
-            (error: HttpErrorResponse) => {
-              /* Show alert message */
-              // this.baseService.popupService.ShowErrorPopup(error);
-              this.errorMessage=error;
+        this.isWaitingInsertOrUpdate = false;
 
-              this.popupComponent.ShowModal("#modalShowErrorMessage");
+        this.faComponent.loadFixedAsset();
+      },
+      (error: HttpErrorResponse) => {
+        /* Show alert message */
+        // this.baseService.popupService.ShowErrorPopup(error);
+        this.errorMessage = error;
 
-              this.baseService.spinner.hide();
-              
-              this.isWaitingInsertOrUpdate = false;
-            }
-          );
-          this.popupComponent.CloseModal('#modalShowQuestionPopupForChangeBarcode');      
-          this.popupComponent.ShowModal('#modalChangeBarcode');              
-        }
+        this.popupComponent.ShowModal("#modalShowErrorMessage");
 
+        this.baseService.spinner.hide();
+
+        this.isWaitingInsertOrUpdate = false;
+      }
+    );
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForChangeBarcode');
+    this.popupComponent.ShowModal('#modalChangeBarcode');
+  }
+
+  closeChangeBarcodePopup() {
+    this.popupComponent.CloseModal('#modalChangeBarcode');
+  }
 }

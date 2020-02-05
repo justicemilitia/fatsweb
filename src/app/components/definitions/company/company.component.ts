@@ -343,7 +343,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     });
   }
 
-  async updateCompany(data: NgForm) {
+  async updateCompany() {
 
       /* Activate the loading spinner */
       this.baseService.spinner.show();

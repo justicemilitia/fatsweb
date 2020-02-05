@@ -238,7 +238,7 @@ export class FixedAssetCardCategoryComponent extends BaseComponent implements On
       });
   }
 
-  async updateFixedAssetCardCategory(data: NgForm) {
+  async updateFixedAssetCardCategory() {
 
         /* Change button to loading */
         this.isWaitingInsertOrUpdate = true;

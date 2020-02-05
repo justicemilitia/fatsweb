@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="sales-overview" style="flex-direction:column">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)"  [dataTable]="dataTable"></tree-grid-table>
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event)"  [dataTable]="dataTable"></tree-grid-table>
                     <!-- Pagination Side -->
                     <div class="table-pagination">
                         <!-- Per In Page Select area -->
@@ -97,7 +97,7 @@
                       <label>{{getLanguageValue('Transaction_Type')}} :</label>
                       </div>
                       <div class="col-md-6">
-                        <span>{{transaction.TransactionTypeName}}</span>
+                        <span>{{transaction.TransactionType}}</span>
                       </div>
                 </div>
               </div>
@@ -109,7 +109,7 @@
                             <label>{{getLanguageValue('Transaction_Date')}} :</label>
                         </div>
                         <div class="col-md-6">
-                            <span>{{transaction.TransactionDate ? transaction.TransactionDate.substring(0, 10).split("-").reverse().join("-") : ""}}</span> 
+                            <span>{{transaction.TransactionDate ? transaction.TransactionDate.toString().substring(0, 10).split("-").reverse().join("-") : ""}}</span> 
                         </div> 
                     </div>
                   </div>
@@ -119,7 +119,7 @@
                           <label>{{getLanguageValue('Transaction_User')}} :</label>
                           </div>
                           <div class="col-md-6">
-                            <span>{{transaction.UserName}}</span>
+                            <span>{{transaction.FromUser}}</span>
                           </div>
                     </div>
                   </div>
@@ -146,66 +146,66 @@
                           <span>{{transaction.ExistingBarcode ? transaction.ExistingBarcode : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
-                  <!-- *ngIf="transaction.FromFixedAssetCardCategoryName" -->
-                  <div class="row" *ngIf="transaction.ToFixedAssetCardCategoryName">
+                  <!-- *ngIf="transaction.FromFixedAssetCardCategory" -->
+                  <div class="row" *ngIf="transaction.ToFixedAssetCardCategory">
                       <div class="form-group col-md-6">
-                          <label>{{getLanguageValue('Fixed_Asset_Category_Name')}} :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Category_')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromFixedAssetCardCategoryName ? transaction.FromFixedAssetCardCategoryName : getLanguageValue('There_is_no_record_before') }}</span> 
+                          <span>{{transaction.FromFixedAssetCardCategory ? transaction.FromFixedAssetCardCategory : getLanguageValue('There_is_no_record_before') }}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToFixedAssetCardName">
+                  <div class="row" *ngIf="transaction.ToFixedAssetCard">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Fixed_Asset_Card')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromFixedAssetCardName  ? transaction.FromFixedAssetCardName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromFixedAssetCard  ? transaction.FromFixedAssetCard : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
                   
-                  <div class="row" *ngIf="transaction.ToLocationName">
+                  <div class="row" *ngIf="transaction.ToLocation">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Location')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromLocationName  ? transaction.FromLocationName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromLocation  ? transaction.FromLocation : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
                   
-                  <div class="row" *ngIf="transaction.ToDepartmentName">
+                  <div class="row" *ngIf="transaction.ToDepartment">
                       <div class="form-group col-md-6">
                           <label>Departman :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromDepartmentName  ? transaction.FromDepartmentName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromDepartment  ? transaction.FromDepartment : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToCompanyName">
+                  <div class="row" *ngIf="transaction.ToCompany">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Supplier')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromCompanyName  ? transaction.FromCompanyName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromCompany  ? transaction.FromCompany : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.ToInsuranceCompanyName">
+                  <div class="row" *ngIf="transaction.ToInsuranceCompany">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Insurance_Company')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromInsuranceCompanyName ? transaction.FromInsuranceCompanyName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromInsuranceCompany ? transaction.FromInsuranceCompany : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
                   
-                  <div class="row" *ngIf="transaction.ToUserName">
+                  <div class="row" *ngIf="transaction.ToUser">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Embezzled_User')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromUserName ? transaction.FromUserName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromUser ? transaction.FromUser : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
                   <div class="row" *ngIf="transaction.ToSerialNumber">
@@ -217,36 +217,36 @@
                       </div> 
                   </div>
                   
-                  <div class="row" *ngIf="transaction.ToStatusName">
+                  <div class="row" *ngIf="transaction.ToStatus">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Fixed_Asset_Statu')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromStatusName ? transaction.FromStatusName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromStatus ? transaction.FromStatus : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.ToBrandName">
+                  <div class="row" *ngIf="transaction.ToBrand">
                       <div class="form-group col-md-6">
-                          <label>{{getLanguageValue('Fixed_Asset_Brand_Name')}} :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Brand_')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromBrandName ? transaction.FromBrandName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromBrand ? transaction.FromBrand : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.ToModelName">
+                  <div class="row" *ngIf="transaction.ToModel">
                       <div class="form-group col-md-6">
-                          <label>{{getLanguageValue('Fixed_Asset_Model_Name')}} :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Model_')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromModelName ? transaction.FromModelName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromModel ? transaction.FromModel : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.ToExpenseCenterName">
+                  <div class="row" *ngIf="transaction.ToExpenseCenter">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Expense_Center')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromExpenseCenterName ? transaction.FromExpenseCenterName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromExpenseCenter ? transaction.FromExpenseCenter : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
                   <div class="row" *ngIf="transaction.ToInvoiceNo">
@@ -289,12 +289,12 @@
                           <span>{{transaction.FixedAssetIsActive ? transaction.FixedAssetIsActive : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
-                  <div class="row" *ngIf="transaction.ToCompanyName">
+                  <div class="row" *ngIf="transaction.ToCompany">
                       <div class="form-group col-md-6">
                           <label>Tedarikçi :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.FromCompanyName ? transaction.FromCompanyName : getLanguageValue('There_is_no_record_before')}}</span> 
+                          <span>{{transaction.FromCompany ? transaction.FromCompany : getLanguageValue('There_is_no_record_before')}}</span> 
                       </div> 
                   </div>
                
@@ -316,67 +316,67 @@
                 </div>
 
                       
-                  <div class="row" *ngIf="transaction.ToFixedAssetCardCategoryName" >
+                  <div class="row" *ngIf="transaction.ToFixedAssetCardCategory" >
                       <div class="form-group col-md-6">
-                          <label>{{getLanguageValue('Fixed_Asset_Category_Name')}} :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Category_')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToFixedAssetCardCategoryName}}</span> 
+                          <span>{{transaction.ToFixedAssetCardCategory}}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToFixedAssetCardName">
+                  <div class="row" *ngIf="transaction.ToFixedAssetCard">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Fixed_Asset_Card')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToFixedAssetCardName}}</span> 
+                          <span>{{transaction.ToFixedAssetCard}}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToLocationName" >
+                  <div class="row" *ngIf="transaction.ToLocation" >
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Location')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToLocationName}}</span> 
+                          <span>{{transaction.ToLocation}}</span> 
                       </div> 
                   </div>
                   
-                  <div class="row" *ngIf="transaction.ToDepartmentName">
+                  <div class="row" *ngIf="transaction.ToDepartment">
                       <div class="form-group col-md-6">
                           <label>Departman :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToDepartmentName}}</span> 
+                          <span>{{transaction.ToDepartment}}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToCompanyName">
+                  <div class="row" *ngIf="transaction.ToCompany">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Supplier')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToCompanyName}}</span> 
+                          <span>{{transaction.ToCompany}}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToInsuranceCompanyName">
+                  <div class="row" *ngIf="transaction.ToInsuranceCompany">
                       <div class="form-group col-md-6">
                           <label>Sigorta Şirket :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToInsuranceCompanyName}}</span> 
+                          <span>{{transaction.ToInsuranceCompany}}</span> 
                       </div> 
                   </div>
 
                  
-                  <div class="row"  *ngIf="transaction.ToUserName">
+                  <div class="row"  *ngIf="transaction.ToUser">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Embezzled_User')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToUserName}}</span> 
+                          <span>{{transaction.ToUser}}</span> 
                       </div> 
                   </div>
 
@@ -389,39 +389,39 @@
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToStatusName">
+                  <div class="row" *ngIf="transaction.ToStatus">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Fixed_Asset_Statu')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToStatusName}}</span> 
+                          <span>{{transaction.ToStatus}}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToBrandName">
+                  <div class="row" *ngIf="transaction.ToBrand">
                       <div class="form-group col-md-6">
-                          <label>{{getLanguageValue('Fixed_Asset_Brand_Name')}} :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Brand_')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToBrandName}}</span> 
+                          <span>{{transaction.ToBrand}}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToModelName">
+                  <div class="row" *ngIf="transaction.ToModel">
                       <div class="form-group col-md-6">
-                          <label>{{getLanguageValue('Fixed_Asset_Model_Name')}} :</label>
+                          <label>{{getLanguageValue('Fixed_Asset_Model_')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToModelName}}</span> 
+                          <span>{{transaction.ToModel}}</span> 
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToExpenseCenterName">
+                  <div class="row" *ngIf="transaction.ToExpenseCenter">
                       <div class="form-group col-md-6">
                           <label>{{getLanguageValue('Expense_Center')}} :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToExpenseCenterName}}</span> 
+                          <span>{{transaction.ToExpenseCenter}}</span> 
                       </div> 
                   </div>
 
@@ -470,12 +470,12 @@
                       </div> 
                   </div>
 
-                  <div class="row" *ngIf="transaction.ToCompanyName">
+                  <div class="row" *ngIf="transaction.ToCompany">
                       <div class="form-group col-md-6">
                           <label>Tedarikçi :</label>
                       </div>
                       <div class="col-md-6">
-                          <span>{{transaction.ToCompanyName}}</span> 
+                          <span>{{transaction.ToCompany}}</span> 
                       </div> 
                   </div>
                   
@@ -502,7 +502,7 @@
                                 <label>Çıkış Lokasyonu :</label>
                             </div>
                             <div class="col-md-6">
-                                <span>{{transaction.CheckOutLocationName}}</span> 
+                                <span>{{transaction.CheckOutLocation}}</span> 
                             </div> 
                         </div>
                     </div>

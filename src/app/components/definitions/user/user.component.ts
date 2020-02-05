@@ -606,7 +606,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     );
   }
 
-  updateUser(data: NgForm) {
+  updateUser() {
 
     /* Object bindings to store in datatable */
     let department = this.departments.find(

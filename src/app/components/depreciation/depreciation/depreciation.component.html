@@ -133,7 +133,7 @@
                       {{getLanguageValue('Depreciation_and_IFRS_Infos')}}
                     </ng-template>
                     <div class="sales-overview" style="flex-direction:column; padding-left:0px; padding-right:0px; margin-top:20px;">
-                        <tree-grid-table [dataTable]="dataTable" (onClickItem)="onClickDepreciation($event,item)">
+                        <tree-grid-table [dataTable]="dataTable" (onClickItem)="onClickDepreciation($event)">
                         </tree-grid-table>
                         <!-- Pagination Side -->
                         <div class="table-pagination">
@@ -398,7 +398,7 @@
                                 <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                               </div>
                             </div>
-                            <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate" [minDate]="fixedAsset.DepreciationStartDate"
+                            <input class="form-control" type="text" placeholder="yyyy-mm-dd" name="endDate" [minDate]="fixedAsset.DepreciationBeginDate"
                               [(ngModel)]="fixedAsset.EndDate" ngbDatepicker #endDate="ngbDatepicker" #depreciationEndDateModel="ngModel"/>
                           </div>
                         </div>

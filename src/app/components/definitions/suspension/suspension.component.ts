@@ -155,7 +155,7 @@ export class SuspensionComponent extends BaseComponent implements OnInit {
     });
   }  
 
-  async updateSuspension(data: NgForm) {
+  async updateSuspension() {
 
         this.isWaitingInsertOrUpdate = true;
 

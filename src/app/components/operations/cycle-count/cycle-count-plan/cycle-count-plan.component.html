@@ -221,7 +221,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="form" #data="ngForm" (ngSubmit)="onSubmit(data) && data.form.valid" novalidate>
+      <form name="form" #data="ngForm" (ngSubmit)="data.form.valid && onSubmit(data)" novalidate>
         <div class="modal-body">
           <div class="row justify-content-center">
             <div class="form-group col-md-12">
@@ -334,7 +334,7 @@
   </button>
 </div>
 
-<form name="form" #dataLost="ngForm" (ngSubmit)="lostFixedAsset(dataLost)">
+<form name="form" #dataLost="ngForm">
     <div class="modal-body">
       <div>
         <p style="width:500px;">{{getLanguageValue('Choosen_countin_ plans_are_going_to_be_canceled_Do_you_accept_this_process!')}}</p>

@@ -84,7 +84,7 @@
         </button>
       </div>
 
-      <form #data="ngForm" (ngSubmit)="onSubmit(data) && !data.form.invalid" class="form-register">
+      <form #data="ngForm" (ngSubmit)="onSubmit(data)" class="form-register">
         <mat-horizontal-stepper [@.disabled]="true" linear #stepper>
           <mat-step label="{{getLanguageValue('User_Informations')}}">
             <div class="modal-body">
@@ -401,7 +401,7 @@
 
           <div class="col-md-6">
             <button class="btn btn-az-primary" id="btnYes" type="submit" style="padding: 5px 20px;"
-              (click)="updateUser(currentUser)">{{getLanguageValue('Update')}}</button>
+              (click)="updateUser()">{{getLanguageValue('Update')}}</button>
           </div>
         </div>
 
