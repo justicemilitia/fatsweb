@@ -97,6 +97,7 @@ import { PopupComponent } from './components/popup/popup.component';
 import { BaseComponent } from './components/base/base.component';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { UserAutoCompleteComponent } from './components/child/user-autocomplete/user.auto.complete.component';
 
 
 @NgModule({
@@ -172,7 +173,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     WorkOrderListComponent,
     WorkOrderDetailComponent,
     FixBreakdownComponent,
-    ReportBreakdownComponent
+    ReportBreakdownComponent,
+    UserAutoCompleteComponent
   ],
   imports: [
     BrowserModule,
@@ -194,10 +196,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     ReactiveFormsModule,
     InputTrimModule,
     NgxMaskModule.forRoot(),
-    MatTabsModule,
-
+    MatTabsModule
   ],
-  providers: [AuthGuard, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [AuthGuard, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

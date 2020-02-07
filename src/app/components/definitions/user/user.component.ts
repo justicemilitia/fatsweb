@@ -1,5 +1,5 @@
 import { Component, OnInit, NgModule, ViewChild, SimpleChanges } from "@angular/core";
-import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule, NgForm, FormControl } from "@angular/forms";
 import { BaseComponent } from "../../base/base.component";
 import { BaseService } from "../../../services/base.service";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -13,7 +13,6 @@ import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
 import { MatStepper } from '@angular/material';
 import { FixedAssetCardCategory } from 'src/app/models/FixedAssetCardCategory';
 import { Firm } from 'src/app/models/Firm';
-import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
 
 @Component({
@@ -27,7 +26,6 @@ import { Page } from 'src/app/extends/TreeGridTable/models/Page';
   providers: [UserComponent]
 })
 export class UserComponent extends BaseComponent implements OnInit {
-
 
   isLocationDropdownOpen: boolean = false;
 
@@ -113,6 +111,9 @@ export class UserComponent extends BaseComponent implements OnInit {
   totalDisplayItem: number;
 
   pagingInfo: string = '';
+
+  searchUser: string = '';
+
   /* Data Table instance */
 
   //#region DataTable
@@ -332,7 +333,6 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTableLocation.isSelectAllWithChildrenActive = true;
     this.dataTableLocation.isMultipleSelectedActive = true;
 
-
     this.dataTableFixedAssetCategory.isPagingActive = false;
     this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
     this.dataTableFixedAssetCategory.isDeleteable = false;
@@ -372,7 +372,6 @@ export class UserComponent extends BaseComponent implements OnInit {
       }
     });
   }
-
 
   async  TGT_calculatePages() {
 
@@ -458,8 +457,6 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.pages = items;
 
   }
-
-
 
   ngOnInit() { }
 
@@ -808,6 +805,8 @@ export class UserComponent extends BaseComponent implements OnInit {
           /* bind result to model */
           this.currentUser = result;
 
+          this.searchUser = this.currentUser.ParentUser != null ? `${this.currentUser.ParentUser.FirstName} ${this.currentUser.ParentUser.LastName}` : '';
+
           this.currentUserRoles.splice(0);
 
           this.currentUser.UserRoles.forEach(e => {
@@ -855,16 +854,6 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   LoadRoleAuthDropdowns(CategoryIds: number[], FirmIds: number[], LocationIds: number[], UserIds: number[]) {
-
-    this.baseService.userService.GetUsers(
-      (usrs: User[]) => {
-        this.dropdownUsers = usrs;
-        this.dataTableUser.TGT_loadData(this.dropdownUsers);
-        this.dataTableUser.TGT_selectItemsByIds(UserIds);
-      },
-      (error: HttpErrorResponse) => { }
-    );
-
     this.baseService.locationService.GetLocations((location: Location[]) => {
       this.locations = location;
       this.dataTableLocation.TGT_loadData(this.locations);
@@ -983,18 +972,6 @@ export class UserComponent extends BaseComponent implements OnInit {
   async loadDropdownList() {
 
     /* Reload users again */
-    if (this.users.length == 0) {
-      this.baseService.userService.GetUsers(
-        (users: User[]) => {
-          this.users = users;
-          this.dataTable.TGT_loadData(this.users);
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      );
-    }
-
     /* Get Roles */
     if (this.roles.length == 0) {
       this.baseService.userService.GetRoles(roles => {
@@ -1018,13 +995,13 @@ export class UserComponent extends BaseComponent implements OnInit {
       (error: HttpErrorResponse) => { });
 
     //Get Users  
-    this.baseService.userService.GetUsers(
-      (usrs: User[], totalPage: number, totalRecords: number) => {
-        this.dropdownUsers = usrs;
-        this.dataTableUser.TGT_loadData(this.dropdownUsers);
-      },
-      (error: HttpErrorResponse) => { }
-    );
+    /* this.baseService.userService.GetUsers(
+       (usrs: User[], totalPage: number, totalRecords: number) => {
+         this.dropdownUsers = usrs;
+         this.dataTableUser.TGT_loadData(this.dropdownUsers);
+       },
+       (error: HttpErrorResponse) => { }
+     );*/
 
     //Get Locations
     this.baseService.locationService.GetLocations((location: Location[]) => {
@@ -1086,5 +1063,10 @@ export class UserComponent extends BaseComponent implements OnInit {
     await this.loadUsers();
 
     this.isTableRefreshing = false;
+  }
+
+  receiveParentId($event){
+    console.log("$event =>", $event);
+    this.currentUser.ParentUserId = $event;
   }
 }

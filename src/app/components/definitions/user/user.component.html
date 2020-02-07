@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="sales-overview" style="flex-direction:column">
-          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event,item)" [dataTable]="dataTable">
+          <tree-grid-table (onDoubleClickItem)="onDoubleClickItem($event)" [dataTable]="dataTable">
           </tree-grid-table>
           <div class="table-info" class="table-info-without-margin" style="margin-left:22px">
             {{pagingInfo}}
@@ -73,7 +73,7 @@
     </div>
   </div>
 </div>
-
+<!-- User Modal Begin-->
 <div id="modalUser" class="modal" data-backdrop="static">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
@@ -175,16 +175,9 @@
                   </div>
                 </div>
 
-                <div class="form-group col-md-6">
-                  <label>{{getLanguageValue('Parent_User')}}</label>
-                  <select [(ngModel)]="currentUser.ParentUserId" name="ParentUserId" class="form-control">
-                    <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
-                    <option *ngFor="let user of users" [ngValue]="user.UserId">
-                      {{ user.RegistrationNumber == null ? user.FirstName + ' ' + user.LastName : user.RegistrationNumber + ' - ' + user.FirstName + ' ' + user.LastName}}
-                    </option>
-                  </select>
-                </div>
-
+                <user-auto-complete class="form-group col-md-6" [searchUser]="searchUser"
+                  (parentIdEvent)="receiveParentId($event)">
+                </user-auto-complete>
               </div>
 
               <div class="row justify-content-center">
@@ -267,7 +260,7 @@
                 </div>
               </ng-template>
               <ng-template [ngIf]="visibleInsertButton == false">
-                <button class="btn btn-az-primary" id="btnCreateUser" type="submit"
+                <button class="btn btn-az-primary" id="btnUpdateUser" type="submit"
                   *ngIf="isWaitingInsertOrUpdate == false && checkedSystemUserUpdate == false">{{currentUser.UserId ? getLanguageValue('Update_User') : getLanguageValue('Add_User')}}</button>
                 <div class="grp-btn-action" *ngIf="checkedSystemUserUpdate == true">
                   <button mat-raised-button type="button" class="btn btn-az-primary" (click)="next($event,data)"
@@ -376,9 +369,9 @@
   </div>
   <!-- modal-dialog -->
 </div>
+<!-- User Modal End-->
+
 <!-- modal -->
-
-
 <!-- GÜNCELLEME ONAY -->
 
 <div class="modal" data-backdrop="static" id="modalShowQuestionPopupForUser" style=" overflow-y: hidden !important;">

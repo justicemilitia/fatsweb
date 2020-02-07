@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpResponse
+  HttpResponse,
+  HttpParams
 } from "@angular/common/http";
 import {
   SERVICE_URL,
@@ -42,7 +43,7 @@ export class UserService {
   constructor(
     private httpClient: HttpClient,
     private aService: AuthenticationService
-  ) {}
+  ) { }
 
   GetDepartments(callback) {
     this.httpClient
@@ -72,8 +73,8 @@ export class UserService {
 
   GetUsers(callback, failed) {
     this.httpClient
-      .get(SERVICE_URL + GET_USER_LIST,        
-        {headers: GET_HEADERS(this.aService.getToken())}
+      .get(SERVICE_URL + GET_USER_LIST,
+        { headers: GET_HEADERS(this.aService.getToken()) }
       )
       .subscribe(
         result => {
@@ -94,11 +95,36 @@ export class UserService {
       );
   }
 
+  GetUsersWithSearch(searchText: string, callback, failed) {
+    this.httpClient
+      .get(`${SERVICE_URL}${GET_USER_LIST}/${searchText}`,
+        { headers: GET_HEADERS(this.aService.getToken())}
+      )
+      .subscribe(
+        result => {
+          let response: Response = <Response>result;
+          let users: User[] = [];
+
+          (<User[]>response.ResultObject).forEach(e => {
+            let usr: User = new User();
+            Object.assign(usr, e);
+            users.push(usr);
+          });
+
+          callback(users);
+        },
+        (error: HttpErrorResponse) => {
+          failed(error);
+        }
+      );
+  }
+
+
   GetUsersByPagedList(_pageSize: number = 100, _currentPage: number = 1, callback, failed) {
     this.httpClient
-      .post(SERVICE_URL + GET_USER_PAGED_LIST, 
-        {PageSize: _pageSize, PageNumber: _currentPage},
-        {headers: GET_HEADERS(this.aService.getToken())}
+      .post(SERVICE_URL + GET_USER_PAGED_LIST,
+        { PageSize: _pageSize, PageNumber: _currentPage },
+        { headers: GET_HEADERS(this.aService.getToken()) }
       )
       .subscribe(
         (result: any) => {
@@ -109,7 +135,7 @@ export class UserService {
             let usr: User = new User();
             Object.assign(usr, e);
             users.push(usr);
-            
+
           });
           callback(users, result.TotalPage, result.TotalRecords);
         },
@@ -142,46 +168,46 @@ export class UserService {
         }
       );
   }
-  
-  GetUserByFirmId(firmId: number,success,failed) {
+
+  GetUserByFirmId(firmId: number, success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_USER_LIST_BY_FIRM_ID + "/" + firmId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(result=>{
-        let response:Response = <Response>result;
-        let users:User[]=[];
-        (<User[]>response.ResultObject).forEach(e=>{
-          let user:User=new User();
-          Object.assign(user,e);
-          users.push(user);  
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        let users: User[] = [];
+        (<User[]>response.ResultObject).forEach(e => {
+          let user: User = new User();
+          Object.assign(user, e);
+          users.push(user);
         });
-        success(users,response.LanguageKeyword);
-      },(error:HttpErrorResponse)=>{
+        success(users, response.LanguageKeyword);
+      }, (error: HttpErrorResponse) => {
         failed(error);
       });
   }
 
-  GetUserByDepartmentId(departmentId: number,success,failed) {
+  GetUserByDepartmentId(departmentId: number, success, failed) {
     this.httpClient
       .get(SERVICE_URL + GET_USER_BY_DEPARTMENT_ID + "/" + departmentId, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(result=>{
-        let response:Response = <Response>result;
-        let users:User[]=[];
-        
-        (<User[]>response.ResultObject).forEach(e=>{
-          let user:User=new User();
-          Object.assign(user,e);
-          users.push(user);  
+      .subscribe(result => {
+        let response: Response = <Response>result;
+        let users: User[] = [];
+
+        (<User[]>response.ResultObject).forEach(e => {
+          let user: User = new User();
+          Object.assign(user, e);
+          users.push(user);
         });
-        success(users,response.LanguageKeyword);
-      },(error:HttpErrorResponse)=>{
+        success(users, response.LanguageKeyword);
+      }, (error: HttpErrorResponse) => {
         failed(error);
       });
   }
-  
+
   GetRoles(callback) {
     this.httpClient
       .get(SERVICE_URL + GET_ROLE_LIST, {
@@ -221,12 +247,12 @@ export class UserService {
       .get(SERVICE_URL + GET_FIRM_LIST, {
         headers: GET_HEADERS(this.aService.getToken())
       })
-      .subscribe(        
+      .subscribe(
         result => {
-          let firms =[];
-          (<Firm[]>result["ResultObject"]).forEach(x=>{
+          let firms = [];
+          (<Firm[]>result["ResultObject"]).forEach(x => {
             let firm = new Firm();
-            Object.assign(firm,x);
+            Object.assign(firm, x);
             firms.push(firm);
           })
           callback(firms);
@@ -332,10 +358,10 @@ export class UserService {
         result => {
           let response: Response = <Response>result;
           if ((<[]>response.ResultObject).length == 0)
-            success(response.ResultObject, response.LanguageKeyword);          
+            success(response.ResultObject, response.LanguageKeyword);
           else
-            failed(<NotDeletedItem[]>response.ResultObject,getAnErrorResponse(response.LanguageKeyword));
- 
+            failed(<NotDeletedItem[]>response.ResultObject, getAnErrorResponse(response.LanguageKeyword));
+
         },
         error => {
           failed(error);
