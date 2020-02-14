@@ -22,7 +22,8 @@ import {
   GET_DEBITUSER_LIST,
   CHECK_USER_PASSWORD,
   GET_USER_BY_DEPARTMENT_ID,
-  GET_USER_PAGED_LIST
+  GET_USER_PAGED_LIST,
+  GET_SEARCH_USER_LIST
 } from "../../declarations/service-values";
 import { AuthenticationService } from "../authenticationService/authentication.service";
 import { User } from "../../models/User";
@@ -35,6 +36,7 @@ import { getAnErrorResponse } from "src/app/declarations/extends";
 import UserTitle from "src/app/models/UserTitle";
 import { FixedAssetUser } from 'src/app/models/FixedAssetUser';
 import { NotDeletedItem } from 'src/app/models/NotDeletedItem';
+import { UserFilterModel } from 'src/app/models/UserFilterModel';
 
 @Injectable({
   providedIn: "root"
@@ -98,7 +100,7 @@ export class UserService {
   GetUsersWithSearch(searchText: string, callback, failed) {
     this.httpClient
       .get(`${SERVICE_URL}${GET_USER_LIST}/${searchText}`,
-        { headers: GET_HEADERS(this.aService.getToken())}
+        { headers: GET_HEADERS(this.aService.getToken()) }
       )
       .subscribe(
         result => {
@@ -119,11 +121,10 @@ export class UserService {
       );
   }
 
-
-  GetUsersByPagedList(_pageSize: number = 100, _currentPage: number = 1, callback, failed) {
+  GetUsersByPagedList(searchUserModel: UserFilterModel, callback, failed) {
     this.httpClient
       .post(SERVICE_URL + GET_USER_PAGED_LIST,
-        { PageSize: _pageSize, PageNumber: _currentPage },
+        searchUserModel,
         { headers: GET_HEADERS(this.aService.getToken()) }
       )
       .subscribe(

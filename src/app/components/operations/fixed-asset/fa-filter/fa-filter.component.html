@@ -5,7 +5,7 @@
   </button>
 </div>
 
-<form name="form" #data="ngForm" (ngSubmit)="FilterFixedAsset(data)">
+<form name="form" #data="ngForm"  (ngSubmit)="FilterFixedAsset(data)">
   <div class="modal-body" style="width:900px;">
 
     <div class="row justify-content-center">
@@ -40,7 +40,7 @@
                   </div>
                 </div>
                 <div class="custom-dropdown" *ngIf="isFaCardDropdownOpen==true">
-                    <tree-grid-table (onClickItem)="onClickFaCard($event,item)" [dataTable]="dataTableFixedAssetCard"></tree-grid-table>
+                    <tree-grid-table (onClickItem)="onClickFaCard($event)" [dataTable]="dataTableFixedAssetCard"></tree-grid-table>
                 </div>
             </div>
 
@@ -188,12 +188,12 @@
                   </div>
               </div>
               <div class="custom-dropdown" *ngIf="isModelDropdownOpen==true">
-                      <tree-grid-table (onClickItem)="onClickModel($event,item)" [dataTable]="dataTableModel"></tree-grid-table>
+                      <tree-grid-table (onClickItem)="onClickModel($event)" [dataTable]="dataTableModel"></tree-grid-table>
               </div>
             </div>
 
             <!-- PERSONEL -->
-            <div class="col-md-4 form-group">
+            <!-- <div class="col-md-4 form-group">
               <div>
                   <label style="margin-bottom: 0;
                   font-weight: 700;" >{{getLanguageValue('Staff')}}</label>
@@ -205,8 +205,10 @@
               <div class="custom-dropdown" *ngIf="isUserDropdownOpen==true">
                       <tree-grid-table (onClickItem)="onClickUser($event,item)" [dataTable]="dataTableUser"></tree-grid-table>
               </div>
-            </div>
-
+            </div> -->
+            <user-auto-complete class="col-md-4 form-group" [searchUser]="searchUser" [labelText]="'Staff'"
+            (returnValueEvent)="onClickUser($event)">
+          </user-auto-complete>
           </div>
 
         </fieldset>

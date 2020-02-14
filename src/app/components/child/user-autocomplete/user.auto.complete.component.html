@@ -1,8 +1,13 @@
 <label style="margin-bottom: 0;
-        font-weight: 700;">{{getLanguageValue('Parent_User')}}</label>
+        font-weight: 700;">{{getLanguageValue(labelText)}}
+</label>
+
 <input type="text" #SearchUser="ngModel" name="SearchUser" class="form-control" autocomplete="off"
-    [(ngModel)]="searchUser" (input)="searchUserChanged($event)" />
-<div class="custom-dropdown" *ngIf="isParentUserDropdownOpen">
+    style="text-transform: uppercase;" [(ngModel)]="searchUser" (input)="searchUserChanged($event)"
+    placeholder="{{getLanguageValue('Search')}}" />
+<button *ngIf="isParentUserDropdownOpen && isMultipleSelectedActive" (click)="this.isParentUserDropdownOpen = false" style="float: right;">X</button>
+
+<div class="custom-dropdown" *ngIf="isParentUserDropdownOpen" class="table-scroll">
     <tree-grid-table [dataTable]="dataTableParentUser" (onClickItem)="onClickSelectUserItem($event)">
     </tree-grid-table>
 </div>

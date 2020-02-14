@@ -14,6 +14,7 @@ import { MatStepper } from '@angular/material';
 import { FixedAssetCardCategory } from 'src/app/models/FixedAssetCardCategory';
 import { Firm } from 'src/app/models/Firm';
 import { Page } from 'src/app/extends/TreeGridTable/models/Page';
+import { UserFilterModel } from 'src/app/models/UserFilterModel';
 
 @Component({
   selector: "app-user",
@@ -50,6 +51,9 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   /* Store the current edit user */
   currentUser: User = new User();
+
+  /* search the user list*/
+  userFilterModel: UserFilterModel = new UserFilterModel();
 
   /* Store all the table users */
   users: User[] = [];
@@ -323,6 +327,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.loadDropdownList();
 
     this.dataTable.isPagingActive = false;
+    this.dataTable.isFilterActive = false;
 
     //#region DataTable Property
     this.dataTableLocation.isPagingActive = false;
@@ -571,7 +576,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
     this.currentUser.RoleIds = this.currentUserRoles.map(x => x.RoleId);
     this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x => x.getId());
-    this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x => x.getId());
+    //this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x => x.getId());
     this.currentUser.FixedassetCardCategoryIds = <[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x => x.getId());
     this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x => x.getId());
 
@@ -617,7 +622,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     );
 
     this.currentUser.LocationIds = <[]>this.dataTableLocation.TGT_getSelectedItems().map(x => x.getId());
-    this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x => x.getId());
+    //this.currentUser.UserIds = <[]>this.dataTableUser.TGT_getSelectedItems().map(x => x.getId());
     this.currentUser.FixedassetCardCategoryIds = <[]>this.dataTableFixedAssetCategory.TGT_getSelectedItems().map(x => x.getId());
     this.currentUser.FirmIds = <[]>this.dataTableFirm.TGT_getSelectedItems().map(x => x.getId());
 
@@ -884,9 +889,14 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTable.TGT_clearData();
     this.dataTable.isLoading = true;
 
+    this.userFilterModel.PageSize = _perInPage;
+    this.userFilterModel.PageNumber = _currentPage;
+
     /* Load just user to table */
-    this.baseService.userService.GetUsersByPagedList(_perInPage, _currentPage,
+    this.baseService.userService.GetUsersByPagedList(this.userFilterModel,
       (usrs: User[], totalPage: number, totalRecords: number) => {
+        this.baseService.spinner.hide();
+
         this.users = usrs;
         this.dataTable.TGT_loadData(this.users);
 
@@ -1059,14 +1069,49 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.dataTable.isLoading = true;
 
     this.dataTable.TGT_clearData();
-
+    
+    this.userFilterModel = new UserFilterModel();
     await this.loadUsers();
 
     this.isTableRefreshing = false;
   }
 
-  receiveParentId($event){
-    console.log("$event =>", $event);
+  receiveParentId($event) {
     this.currentUser.ParentUserId = $event;
+  }
+
+  receiveStaffId($event) {
+    if ($event != null) {
+      if (this.currentUser.UserIds == null) {
+        this.currentUser.UserIds = [];
+      }
+
+      const index = this.currentUser.UserIds.indexOf($event);
+      if (index > 0) {
+        this.currentUser.UserIds.splice(index, 1);
+      } else {
+        this.currentUser.UserIds.push($event);
+      }
+    }
+  }
+
+  filterClear() {
+    this.baseService.popupService.ShowQuestionPopup('Filtreyi temizlemek istediğinize emin misiniz?',
+      (response) => {
+        if (response == false)
+          return;
+
+        this.userFilterModel = new UserFilterModel();
+      });
+  }
+
+  filterUserList(data: NgForm) {
+    this.baseService.spinner.show();
+    this.loadUsers();
+    $('#CloseModal').trigger('click');
+  }
+
+  FilterOperation() {
+    $("#showModal").trigger("click");
   }
 }

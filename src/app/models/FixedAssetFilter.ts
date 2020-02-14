@@ -46,7 +46,8 @@ export class FixedAssetFilter implements IData {
   RecordStatus: boolean;
   IsPassive:boolean;
   IsActive:boolean;
-
+  Barcode:string;
+  
   constructor() {
     this.FixedAssetPropertyArray = [];
     this.Barcodes=[];

@@ -64,6 +64,7 @@ export class User implements IData {
         this.RoleIds = [];
         this.UserTitle = new UserTitle();
         this.InverseParentUser = [];
+        this.UserIds = [];
     }
 
 }

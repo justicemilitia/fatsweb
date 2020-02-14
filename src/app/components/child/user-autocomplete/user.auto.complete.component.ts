@@ -7,15 +7,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'user-auto-complete',
-    templateUrl: 'user.auto.complete.component.html'
+    templateUrl: 'user.auto.complete.component.html',
+    styleUrls: ["./user.auto.complete.component.css"]
 })
 
 export class UserAutoCompleteComponent extends BaseComponent implements OnInit {
+    @Input() labelText: string;
     @Input() searchUser: string;
-    @Output() parentIdEvent = new EventEmitter<number>();
+    @Input() isMultipleSelectedActive: boolean = false;
+    @Output() returnValueEvent = new EventEmitter<number>();
 
     isParentUserDropdownOpen: boolean = false;
-
     public dataTableParentUser: TreeGridTable = new TreeGridTable(
         "user",
         [
@@ -55,7 +57,7 @@ export class UserAutoCompleteComponent extends BaseComponent implements OnInit {
         this.dataTableParentUser.isLoading = false;
         this.dataTableParentUser.isScrollActive = false;
         this.dataTableParentUser.isSelectAllWithChildrenActive = false;
-        this.dataTableParentUser.isMultipleSelectedActive = false;
+        this.dataTableParentUser.isMultipleSelectedActive = this.isMultipleSelectedActive;
         this.dataTableParentUser.isFilterActive = false;
 
     }
@@ -73,13 +75,17 @@ export class UserAutoCompleteComponent extends BaseComponent implements OnInit {
             );
         } else {
             this.isParentUserDropdownOpen = false;
-            this.parentIdEvent.emit(null);
+            this.returnValueEvent.emit(null);
         }
     }
 
     onClickSelectUserItem(item: User) {
-        this.parentIdEvent.emit(item.UserId);
-        this.searchUser = `${item.FirstName} ${item.LastName}`;
-        this.isParentUserDropdownOpen = false;
+        this.returnValueEvent.emit(item.UserId);
+        if (!this.isMultipleSelectedActive) {
+            this.searchUser = `${item.FirstName} ${item.LastName}`;
+            this.isParentUserDropdownOpen = false;
+        }        
+
+       console.log(this.dataTableParentUser.TGT_getSelectedItems())
     }
 }

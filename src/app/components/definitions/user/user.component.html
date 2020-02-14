@@ -6,10 +6,25 @@
         <span>{{getLanguageValue('Definitions')}}</span>
         <span>{{getLanguageValue('Users')}}</span>
       </div>
+
       <div class="card card-dashboard-twelve mg-b-20">
         <div class="card-header">
           <h2 class="az-content-title">{{getLanguageValue('Users')}}</h2>
           <div class="grp-btn-action">
+
+            <button class="btn btn-az-primary btn-filter-button" data-toggle="tooltip" data-placement="bottom"
+              title="{{getLanguageValue('Filter')}}" (click)="FilterOperation()" style="margin-right:10px">
+              <i class="fas fa-filter"></i>
+            </button>
+
+
+            <button class="btn btn-az-primary mr-2 btn-filter-button" data-toggle="tooltip" data-placement="bottom"
+              title="{{getLanguageValue('Reset_Filter')}}" (click)="refreshTable()">
+              <i class="fas fa-filter"></i>
+              <i class="fas fa-times"
+                style="position: absolute; margin-left: 10px; margin-top: 3px; font-size: 10px;"></i>
+            </button>
+
             <button type="button" (click)="exportAsExcelFile(dataTable)" class="btn btn-success btn-excel-custom"
               data-toggle="tooltip" data-placement="bottom" title="Excel">
               <i [ngClass]="{'far fa-file-excel':isTableExporting == false}"
@@ -175,8 +190,8 @@
                   </div>
                 </div>
 
-                <user-auto-complete class="form-group col-md-6" [searchUser]="searchUser"
-                  (parentIdEvent)="receiveParentId($event)">
+                <user-auto-complete class="form-group col-md-6" [searchUser]="searchUser" [labelText]="'Parent_User'"
+                  (returnValueEvent)="receiveParentId($event)">
                 </user-auto-complete>
               </div>
 
@@ -288,20 +303,9 @@
                     <div *ngIf="">{{getLanguageValue('This_value_is_required')}}</div>
                   </div>
                 </div>
-                <div class="form-group col-md-6">
-                  <div>
-                    <label style="margin-bottom: 0;
-                        font-weight: 700;">{{getLanguageValue('Staff')}}</label>
-                    <div style="display:flex;">
-                      <button id="btnUser" (click)="toggleDropdown('user')" class="dropdown-button"
-                        type="button">{{dataTableUser.TGT_getSelectedItems().length > 0 ? dataTableUser.TGT_getSelectedItems().length + " " +  getLanguageValue('The_Staff_Selected')  : getLanguageValue('Choose') }}</button>
-                      <!-- <span class="span-dropdown" class="typcn icon-default typcn-times span-dropdown"></span> -->
-                    </div>
-                  </div>
-                  <div class="custom-dropdown" *ngIf="isUserDropdownOpen==true">
-                    <tree-grid-table [dataTable]="dataTableUser"></tree-grid-table>
-                  </div>
-                </div>
+                <user-auto-complete class="form-group col-md-6" [labelText]="'Staff'" [searchUser]="searchUser"
+                  [isMultipleSelectedActive]="true" (returnValueEvent)="receiveStaffId($event)">
+                </user-auto-complete>
               </div>
               <div class="row justify-content-center">
                 <div class="form-group col-md-6">
@@ -458,3 +462,82 @@
     </div><!-- modal-content -->
   </div><!-- modal-dialog -->
 </div><!-- modal -->
+
+<!-- Filter modal-dialog -->
+<button style="display:none" id="showModal" data-toggle="modal" data-target="#modalOperation"></button>
+<div id="modalOperation" class="modal" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;" role="document">
+    <div class="modal-content modal-content-demo">
+
+      <div class="modal-header">
+        <h6 class="modal-title">{{getLanguageValue('Identify_filter_values')}}</h6>
+        <button id="CloseModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form name="form" #data="ngForm" (ngSubmit)="filterUserList(data)">
+        <div class="modal-body">
+          <div class="row justify-content-center">
+            <div class="col-md-4 form-group">
+              <label>{{getLanguageValue('User_Code')}}</label>
+              <input type="text" class="form-control" #UserCode="ngModel" name="UserCode"
+                [(ngModel)]="userFilterModel.UserCode" />
+            </div>
+            <div class="col-md-4 form-group">
+              <label>{{getLanguageValue('User_First_Name')}}</label>
+              <input type="text" class="form-control" #FirstName="ngModel" name="FirstName"
+                [(ngModel)]="userFilterModel.FirstName" />
+            </div>
+            <div class="col-md-4 form-group">
+              <label>{{getLanguageValue('User_Last_Name')}}</label>
+              <input type="text" class="form-control" #LastName="ngModel" name="LastName"
+                [(ngModel)]="userFilterModel.LastName" />
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-md-6 form-group">
+              <label>{{getLanguageValue('Location')}}</label>
+              <select #LocationId="ngModel" name="LocationId" class="form-control"
+                [(ngModel)]="userFilterModel.LocationId">
+                <option [ngValue]="-1">{{getLanguageValue('Choose')}}</option>
+                <option *ngFor="let location of locations" value="{{location.LocationId}}">
+                  {{ location.Name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6 form-group">
+              <label>{{getLanguageValue('Department')}}</label>
+              <select #DepartmentId="ngModel" name="DepartmentId" class="form-control"
+                [(ngModel)]="userFilterModel.DepartmentId">
+                <option [ngValue]="-1">{{getLanguageValue('Choose')}}</option>
+                <option *ngFor="let department of departments" value="{{department.DepartmentId}}">
+                  {{department.Name}}
+                </option>
+              </select>
+            </div>
+            <!-- <div class="col-md-4 form-group">
+              <label>{{getLanguageValue('Role')}}</label>
+              <select #RoleId="ngModel" name="RoleId" class="form-control" [(ngModel)]="userFilterModel.RoleId">
+                <option [ngValue]="-1">{{getLanguageValue('Choose')}}</option>
+                <option *ngFor="let role of roles" value="{{role.RoleId}}">
+                  {{role.Name}}
+                </option>
+              </select>
+            </div> -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="filterClear()">
+            {{getLanguageValue('Reset_Filter')}}
+          </button>
+          <button class="btn btn-az-primary" id="btnFilterFixedAsset" type="submit" data-toggle="modal"
+            data-target="#modalFilterFixedAsset">
+            {{getLanguageValue('Filter')}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Filter modal-dialog -->

@@ -70,7 +70,7 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
   visible:boolean = false;
   sameProperty:boolean =false;
   visiblePropertyName:boolean = false;
-
+  searchUser: string = '';
   //Dropdown Selected Items
   selectedFixedAssetCards: FixedAssetCard[] = [];
   selectedFixedAssetCardCategories: FixedAssetCardCategory[] = [];
@@ -121,30 +121,30 @@ export class FaFilterComponent extends BaseComponent implements OnInit {
     }
   );
 
-  public dataTableUser: TreeGridTable = new TreeGridTable(
-    "user",
-    [
-      {
-        columnDisplayName: this.getLanguageValue('User'),
-        columnName: ["|User"],
-        isActive: true,
-        classes: [],
-        placeholder: "",
-        type: "text",
-        formatter: value => {
-          if (value) {
-            return value.RegistrationNumber == null ? value.FirstName + " " + value.LastName : value.RegistrationNumber + " - " + value.FirstName + " " + value.LastName;
-          } else {
-            return "";
-          }
-        }
-      }
-    ],
-    {
-      isDesc: false,
-      column: ["|User"]
-    }
-  );
+  // public dataTableUser: TreeGridTable = new TreeGridTable(
+  //   "user",
+  //   [
+  //     {
+  //       columnDisplayName: this.getLanguageValue('User'),
+  //       columnName: ["|User"],
+  //       isActive: true,
+  //       classes: [],
+  //       placeholder: "",
+  //       type: "text",
+  //       formatter: value => {
+  //         if (value) {
+  //           return value.RegistrationNumber == null ? value.FirstName + " " + value.LastName : value.RegistrationNumber + " - " + value.FirstName + " " + value.LastName;
+  //         } else {
+  //           return "";
+  //         }
+  //       }
+  //     }
+  //   ],
+  //   {
+  //     isDesc: false,
+  //     column: ["|User"]
+  //   }
+  // );
 
   public dataTableLocation: TreeGridTable = new TreeGridTable(
     "location",
@@ -288,12 +288,12 @@ constructor(protected baseService: BaseService) {
     this.dataTablePropertyValue.isDeleteable = true;
 
     
-    this.dataTableUser.isPagingActive = false;
-    this.dataTableUser.isColumnOffsetActive = false;
-    this.dataTableUser.isDeleteable = false;
-    this.dataTableUser.isLoading = false;
-    this.dataTableUser.isHeaderVisible = false;
-    this.dataTableUser.isScrollActive = false;
+    // this.dataTableUser.isPagingActive = false;
+    // this.dataTableUser.isColumnOffsetActive = false;
+    // this.dataTableUser.isDeleteable = false;
+    // this.dataTableUser.isLoading = false;
+    // this.dataTableUser.isHeaderVisible = false;
+    // this.dataTableUser.isScrollActive = false;
 
     this.dataTableLocation.isPagingActive = false;
     this.dataTableLocation.isColumnOffsetActive = false;
@@ -605,15 +605,15 @@ constructor(protected baseService: BaseService) {
     );
 
     // User
-    this.baseService.userService.GetUsers(
-      (users: User[]) => {
-        this.users = users;
-        this.dataTableUser.TGT_loadData(this.users);                
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
+    // this.baseService.userService.GetUsers(
+    //   (users: User[]) => {
+    //     this.users = users;
+    //     this.dataTableUser.TGT_loadData(this.users);                
+    //   },
+    //   (error: HttpErrorResponse) => {
+    //     this.baseService.popupService.ShowErrorPopup(error);
+    //   }
+    // );
 
     //Brand
 
@@ -773,7 +773,7 @@ constructor(protected baseService: BaseService) {
     cloneItem.Statuses = (<FixedAsset[]>this.dataTableStatus.TGT_getSelectedItems()).map(x=>x.getId());
     cloneItem.Locations = (<FixedAsset[]>this.dataTableLocation.TGT_getSelectedItems()).map(x=>x.getId());
     cloneItem.Models = (<FixedAsset[]>this.dataTableModel.TGT_getSelectedItems()).map(x=>x.getId());
-    cloneItem.Users = (<FixedAsset[]>this.dataTableUser.TGT_getSelectedItems()).map(x=>x.getId());     
+    //cloneItem.Users = (<FixedAsset[]>this.dataTableUser.TGT_getSelectedItems()).map(x=>x.getId());     
     cloneItem.StartDate = this.fixedAsset.StartDate == null ? null : convertNgbDateToDateString(data.value.startDate);
     cloneItem.EndDate = this.fixedAsset.EndDate == null ? null : convertNgbDateToDateString(data.value.endDate);
     cloneItem.IsGuaranteed = data.value.IsGuaranteed;

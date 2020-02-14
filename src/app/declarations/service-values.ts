@@ -4,8 +4,8 @@ import { Service } from '../models/Service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 export const SERVICE_URL = "http://localhost:5000/api/";
- //export const SERVICE_URL = "http://localhost:11889/api/";
-// export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
+//export const SERVICE_URL = "http://localhost:11889/api/";
+//export const SERVICE_URL = "http://dev.fatsapi.com/api/"; 
 
 export const DOCUMENT_URL = "http://dev.fatsapi.com/Documents/";
 export const LANGUAGE_URL = "http://dev.fatsapi.com/Language/language.json";
@@ -88,6 +88,7 @@ export const GET_DEBITUSER_LIST = "FixedAssetUsers/GetFixedAssetUsersList";
 export const GET_DEBITUSER_BY_ID = "FixedAssetUsers/GetFixedAssetUserByFixedassetId";
 export const CHECK_USER_PASSWORD = "User/CheckUserIsValid";
 export const GET_USER_BY_DEPARTMENT_ID = "User/GetUsersByDepartmentId";
+export const GET_SEARCH_USER_LIST = "user/GetSearchUsersList";
 //#endregion
 //#region FixedAssetCards
 export const GET_FIXEDASSETCARD_LIST = "fixedAssetcard/GetFixedAssetsCardsList";
