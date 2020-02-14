@@ -85,7 +85,5 @@ export class UserAutoCompleteComponent extends BaseComponent implements OnInit {
             this.searchUser = `${item.FirstName} ${item.LastName}`;
             this.isParentUserDropdownOpen = false;
         }        
-
-       console.log(this.dataTableParentUser.TGT_getSelectedItems())
     }
 }

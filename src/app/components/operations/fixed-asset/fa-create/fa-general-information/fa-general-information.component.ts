@@ -22,26 +22,27 @@ import { MatStepper } from '@angular/material';
   templateUrl: './fa-general-information.component.html',
   styleUrls: ['./fa-general-information.component.css']
 })
-export class FaGeneralInformationComponent  extends BaseComponent implements OnInit, AfterViewInit {
+export class FaGeneralInformationComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     $(".select2").trigger("click");
   }
 
-  @Input() faCreate:FaCreateComponent; 
-  @Input() barcode:number;
-  @Input() firstBarcode:number;
+  @Input() faCreate: FaCreateComponent;
+  @Input() barcode: number;
+  @Input() firstBarcode: number;
 
-  @Output('reset') reset : EventEmitter<any> = new EventEmitter();
+  @Output('reset') reset: EventEmitter<any> = new EventEmitter();
 
-  fixedAsset:FixedAsset=new FixedAsset();
+  fixedAsset: FixedAsset = new FixedAsset();
 
+  searchUser: string = '';
   isLocationDropdownOpen: boolean = false;
-  isDepartmentDropdownOpen:boolean = false;
-  isFaCardDropdownOpen:boolean = false;
-  isFaCardCategoryDropdownOpen: boolean = false; 
+  isDepartmentDropdownOpen: boolean = false;
+  isFaCardDropdownOpen: boolean = false;
+  isFaCardCategoryDropdownOpen: boolean = false;
 
-  isWaitingValidBarcode:boolean = false;
+  isWaitingValidBarcode: boolean = false;
 
   BarcodeIsUnique: boolean = true;
   disabledBarcode: boolean = true;
@@ -56,11 +57,10 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   models: FixedAssetCardModel[] = [];
   fixedassetcategories: FixedAssetCardCategory[] = [];
   fixedassetcards: FixedAssetCard[] = [];
-  staffs: User[] = [];
-
-  isResetForm:boolean=false;
-  isRFIDBarcode:boolean = false;
-  prefix:string = "";
+  
+  isResetForm: boolean = false;
+  isRFIDBarcode: boolean = false;
+  prefix: string = "";
 
   public dataTableLocation: TreeGridTable = new TreeGridTable(
     "location",
@@ -97,7 +97,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       column: ["Name"]
     }
   );
-  
+
   public dataTableFixedAssetCategory: TreeGridTable = new TreeGridTable(
     "fixedassetcategory",
     [
@@ -137,66 +137,66 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   @ViewChild("stepper") stepper: MatStepper;
 
   constructor(protected baseService: BaseService, public HttpClient: HttpClient) {
-       
-        super(baseService);
 
-        this.loadDropdown();
+    super(baseService);
 
-        this.getValidBarcode();
+    this.loadDropdown();
 
-        //#region DataTable Properties
-    
-        this.dataTableLocation.isPagingActive = false;
-        this.dataTableLocation.isColumnOffsetActive = false;
-        this.dataTableLocation.isDeleteable = false;
-        this.dataTableLocation.isMultipleSelectedActive = false;
-        this.dataTableLocation.isLoading = false;
-        this.dataTableLocation.isHeaderVisible = false;
-        this.dataTableLocation.isScrollActive = false;
-    
-        this.dataTableDepartment.isPagingActive = false;
-        this.dataTableDepartment.isColumnOffsetActive = false;
-        this.dataTableDepartment.isDeleteable = false;
-        this.dataTableDepartment.isMultipleSelectedActive = false;
-        this.dataTableDepartment.isLoading = false;
-        this.dataTableDepartment.isHeaderVisible = false;
-        this.dataTableDepartment.isScrollActive = false;
-    
-        this.dataTableFixedAssetCategory.isPagingActive = false;
-        this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
-        this.dataTableFixedAssetCategory.isDeleteable = false;
-        this.dataTableFixedAssetCategory.isMultipleSelectedActive = false;
-        this.dataTableFixedAssetCategory.isLoading = false;
-        this.dataTableFixedAssetCategory.isHeaderVisible = false;
-        this.dataTableFixedAssetCategory.isScrollActive=false;
-    
-        this.dataTableFixedAssetCard.isPagingActive = false;
-        this.dataTableFixedAssetCard.isColumnOffsetActive = false;
-        this.dataTableFixedAssetCard.isDeleteable = false;
-        this.dataTableFixedAssetCard.isMultipleSelectedActive = false;
-        this.dataTableFixedAssetCard.isLoading = false;
-        this.dataTableFixedAssetCard.isHeaderVisible = false;
-        this.dataTableFixedAssetCard.isScrollActive = false;
-        //#endregion    
-    
-        $(document).on("click", e => {
-          if (
-            $(e.target).closest(".custom-dropdown").length == 0 &&
-            $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnDepartment").length == 0 
-            && $(e.target).closest("#btnFaCategory").length == 0  && $(e.target).closest("#btnFaCard").length == 0
-          ) {
-            this.isLocationDropdownOpen = false;
-            this.isDepartmentDropdownOpen = false;
-            this.isFaCardCategoryDropdownOpen=false;
-            this.isFaCardDropdownOpen=false;
-          }
-        });
-   }
+    this.getValidBarcode();
+
+    //#region DataTable Properties
+
+    this.dataTableLocation.isPagingActive = false;
+    this.dataTableLocation.isColumnOffsetActive = false;
+    this.dataTableLocation.isDeleteable = false;
+    this.dataTableLocation.isMultipleSelectedActive = false;
+    this.dataTableLocation.isLoading = false;
+    this.dataTableLocation.isHeaderVisible = false;
+    this.dataTableLocation.isScrollActive = false;
+
+    this.dataTableDepartment.isPagingActive = false;
+    this.dataTableDepartment.isColumnOffsetActive = false;
+    this.dataTableDepartment.isDeleteable = false;
+    this.dataTableDepartment.isMultipleSelectedActive = false;
+    this.dataTableDepartment.isLoading = false;
+    this.dataTableDepartment.isHeaderVisible = false;
+    this.dataTableDepartment.isScrollActive = false;
+
+    this.dataTableFixedAssetCategory.isPagingActive = false;
+    this.dataTableFixedAssetCategory.isColumnOffsetActive = false;
+    this.dataTableFixedAssetCategory.isDeleteable = false;
+    this.dataTableFixedAssetCategory.isMultipleSelectedActive = false;
+    this.dataTableFixedAssetCategory.isLoading = false;
+    this.dataTableFixedAssetCategory.isHeaderVisible = false;
+    this.dataTableFixedAssetCategory.isScrollActive = false;
+
+    this.dataTableFixedAssetCard.isPagingActive = false;
+    this.dataTableFixedAssetCard.isColumnOffsetActive = false;
+    this.dataTableFixedAssetCard.isDeleteable = false;
+    this.dataTableFixedAssetCard.isMultipleSelectedActive = false;
+    this.dataTableFixedAssetCard.isLoading = false;
+    this.dataTableFixedAssetCard.isHeaderVisible = false;
+    this.dataTableFixedAssetCard.isScrollActive = false;
+    //#endregion    
+
+    $(document).on("click", e => {
+      if (
+        $(e.target).closest(".custom-dropdown").length == 0 &&
+        $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnDepartment").length == 0
+        && $(e.target).closest("#btnFaCategory").length == 0 && $(e.target).closest("#btnFaCard").length == 0
+      ) {
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen = false;
+        this.isFaCardDropdownOpen = false;
+      }
+    });
+  }
 
   ngOnInit() {
   }
 
-  onSubmit(data:NgForm){
+  onSubmit(data: NgForm) {
 
     this.fixedAsset.FixedAssetCardCategory = this.selectedCategory;
 
@@ -208,30 +208,30 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
 
     console.log(this.barcode);
 
-    this.faCreate.addFaGeneralInformation(this.fixedAsset,data,this.selectedCategory);
+    this.faCreate.addFaGeneralInformation(this.fixedAsset, data, this.selectedCategory);
   }
 
-   resetForm(){
+  resetForm() {
 
     this.reset.emit();
-    
+
     this.fixedAsset = new FixedAsset();
 
     this.fixedAsset.Prefix = null;
 
-    this.fixedAsset.FixedAssetCardModelId = null; 
+    this.fixedAsset.FixedAssetCardModelId = null;
 
     this.fixedAsset.FixedAssetCardBrandId = null;
 
-    this.fixedAsset.SerialNumber= null;
+    this.fixedAsset.SerialNumber = null;
 
     this.fixedAsset.InsuranceCompanyId = null;
 
-    this.fixedAsset.UserId=null;
+    this.fixedAsset.UserId = null;
 
     this.fixedAsset.Quantity = 1;
 
-    this.fixedAsset.Description=null;
+    this.fixedAsset.Description = null;
 
     this.selectedCard = null;
 
@@ -239,7 +239,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
 
     this.selectedDepartment = null;
 
-    this.selectedLocation=null;
+    this.selectedLocation = null;
 
     this.isResetForm = true;
 
@@ -256,7 +256,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       result => {
         this.BarcodeIsUnique = false;
         this.errorMessage = "";
-      //this.barcode = Number(barcode);
+        //this.barcode = Number(barcode);
       },
       (error: HttpErrorResponse) => {
         this.BarcodeIsUnique = true;
@@ -264,11 +264,11 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       }
     );
 
-    if(this.isRFIDBarcode){
-    
-      let barcodeLength : number = Number(this.prefix.length) + Number(this.barcode.toString().length);
+    if (this.isRFIDBarcode) {
 
-     if(barcodeLength > 12){
+      let barcodeLength: number = Number(this.prefix.length) + Number(this.barcode.toString().length);
+
+      if (barcodeLength > 12) {
 
         return;
       }
@@ -285,7 +285,7 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
 
         this.barcode = barcode;
 
-        this.fixedAsset.Barcode=barcode;
+        this.fixedAsset.Barcode = barcode;
       },
       (error: HttpErrorResponse) => {
         this.baseService.popupService.ShowErrorPopup(error);
@@ -293,18 +293,18 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     );
   }
 
-  isRFID(event: any){
+  isRFID(event: any) {
     if (event.target.checked == true) {
-    this.isRFIDBarcode = true;
-    this.fixedAsset.Prefix = "";
-    this.barcode = null;
+      this.isRFIDBarcode = true;
+      this.fixedAsset.Prefix = "";
+      this.barcode = null;
     }
-    else{
+    else {
       this.isRFIDBarcode = false;
       this.getValidBarcode();
     }
   }
- 
+
 
   selectedLocation: Location;
   onClickLocation(item) {
@@ -316,71 +316,71 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
     this.selectedDepartment = item;
   }
 
-  selectedCategory:FixedAssetCardCategory;
-  onClickFaCategory(item){
-    this.selectedCategory=item;
+  selectedCategory: FixedAssetCardCategory;
+  onClickFaCategory(item) {
+    this.selectedCategory = item;
 
     this.selectedCard = null;
   }
 
-  selectedCard:FixedAssetCard;
-  onClickFaCard(item){
-    this.selectedCard=item;
+  selectedCard: FixedAssetCard;
+  onClickFaCard(item) {
+    this.selectedCard = item;
   }
 
-  toggleDropdown(key:string) {
+  toggleDropdown(key: string) {
 
     switch (key) {
-    case "location":
-    this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
-    this.isDepartmentDropdownOpen=false;
-    this.isFaCardDropdownOpen=false;
-    this.isFaCardCategoryDropdownOpen = false;
-    break;
+      case "location":
+        this.isLocationDropdownOpen = !this.isLocationDropdownOpen;
+        this.isDepartmentDropdownOpen = false;
+        this.isFaCardDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen = false;
+        break;
 
-    case "department":
-    this.isDepartmentDropdownOpen=!this.isDepartmentDropdownOpen;
-    this.isFaCardDropdownOpen=false;
-    this.isFaCardCategoryDropdownOpen = false;
-    this.isLocationDropdownOpen = false;
-    break;
-    
-    case "card":
-    this.isFaCardDropdownOpen=!this.isFaCardDropdownOpen;
-    this.isLocationDropdownOpen = false;
-    this.isDepartmentDropdownOpen=false;
-    this.isFaCardCategoryDropdownOpen = false;
-    this.loadFaCardByCategoryId();
+      case "department":
+        this.isDepartmentDropdownOpen = !this.isDepartmentDropdownOpen;
+        this.isFaCardDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen = false;
+        this.isLocationDropdownOpen = false;
+        break;
 
-    break;
+      case "card":
+        this.isFaCardDropdownOpen = !this.isFaCardDropdownOpen;
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen = false;
+        this.loadFaCardByCategoryId();
 
-    case "category":
-    this.isFaCardCategoryDropdownOpen = !this.isFaCardCategoryDropdownOpen;
-    this.isLocationDropdownOpen = false;
-    this.isDepartmentDropdownOpen=false;
-    this.isFaCardDropdownOpen=false;
-    break;
+        break;
+
+      case "category":
+        this.isFaCardCategoryDropdownOpen = !this.isFaCardCategoryDropdownOpen;
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen = false;
+        this.isFaCardDropdownOpen = false;
+        break;
     }
   }
 
-  resetDropdown(key:string){
-    switch(key){
+  resetDropdown(key: string) {
+    switch (key) {
       case "category":
-      this.selectedCategory = null;
-      this.selectedCard = null;     
-      break;
+        this.selectedCategory = null;
+        this.selectedCard = null;
+        break;
       case "card":
-      this.selectedCard = null;
-      this.dataTableFixedAssetCard.TGT_clearData();
-      break;
+        this.selectedCard = null;
+        this.dataTableFixedAssetCard.TGT_clearData();
+        break;
       case "location":
-      this.selectedLocation = null;
-      this.selectedDepartment=null;
-      this.dataTableDepartment.TGT_clearData();
-      break;
+        this.selectedLocation = null;
+        this.selectedDepartment = null;
+        this.dataTableDepartment.TGT_clearData();
+        break;
       case "department":
-      this.selectedDepartment = null;      
-      break;
+        this.selectedDepartment = null;
+        break;
     }
   }
 
@@ -424,15 +424,6 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       }
     );
 
-    this.baseService.userService.GetUsers(
-      (users: User[]) => {
-        this.staffs = users;
-      },
-      (error: HttpErrorResponse) => {
-        this.baseService.popupService.ShowErrorPopup(error);
-      }
-    );
-
     if (this.fixedassetcategories && this.fixedassetcategories.length == 0) {
       this.fixedassetcards = [];
 
@@ -453,9 +444,9 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
         (brands: FixedAssetCardBrand[]) => {
           this.brands = brands;
-          
+
         },
-        (error: HttpErrorResponse) => {}
+        (error: HttpErrorResponse) => { }
       );
     }
   }
@@ -499,21 +490,21 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
   }
 
   async loadFaCardByCategoryId() {
-    this.fixedassetcards = [];    
-  
-      this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
-        this.selectedCategory.FixedAssetCardCategoryId,
-        (fixedAssetCards: FixedAssetCard[]) => {
-          this.fixedassetcards = fixedAssetCards;
-          this.dataTableFixedAssetCard.TGT_loadData(this.fixedassetcards);
-        },
-        (error: HttpErrorResponse) => {
-          this.baseService.popupService.ShowErrorPopup(error);
-        }
-      ); 
+    this.fixedassetcards = [];
+
+    this.baseService.fixedAssetCardService.GetFixedAssetCardByCategoryId(
+      this.selectedCategory.FixedAssetCardCategoryId,
+      (fixedAssetCards: FixedAssetCard[]) => {
+        this.fixedassetcards = fixedAssetCards;
+        this.dataTableFixedAssetCard.TGT_loadData(this.fixedassetcards);
+      },
+      (error: HttpErrorResponse) => {
+        this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
-  nextTab(){
+  nextTab() {
     if (
       this.selectedCard != null &&
       this.selectedCategory != null &&
@@ -521,8 +512,12 @@ export class FaGeneralInformationComponent  extends BaseComponent implements OnI
       this.fixedAsset.StatusId != null &&
       this.fixedAsset.Barcode != ""
     ) {
-     this.faCreate.nextTab();
+      this.faCreate.nextTab();
     } else return;
+  }
+
+  receiveStaffId(userId) {
+    this.fixedAsset.UserId = userId;
   }
 
 }

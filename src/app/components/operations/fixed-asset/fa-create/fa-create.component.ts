@@ -38,9 +38,6 @@ import { convertNgbDateToDateString } from "src/app/declarations/extends";
 import { MatStepper } from "@angular/material";
 import { FixedAssetComponent } from "../fixed-asset.component";
 import { Agreement } from "src/app/models/Agreement";
-import { FaGeneralInformationComponent } from './fa-general-information/fa-general-information.component';
-import { FaPropertyInformationComponent } from './fa-property-information/fa-property-information.component';
-import { FaFinancialInformationComponent } from './fa-financial-information/fa-financial-information.component';
 
 
 const URL = "";
@@ -136,14 +133,7 @@ export class FaCreateComponent extends BaseComponent
 
   @Input() faComponent: FixedAssetComponent;
   @ViewChild("stepper") stepper: MatStepper;
-  @ViewChild(FaGeneralInformationComponent)
-  resetGeneral: FaGeneralInformationComponent;
-  @ViewChild(FaPropertyInformationComponent)
-  resetProperty: FaPropertyInformationComponent;
-  @ViewChild(FaFinancialInformationComponent)
-  resetFinancial: FaFinancialInformationComponent;
  
-
   public imagePath;
   imgURL: any;
   imageFile: any;
@@ -543,12 +533,6 @@ export class FaCreateComponent extends BaseComponent
 
     if(this.dataProperty)
     this.dataProperty.resetForm();
-
-    this.resetGeneral.resetForm();
-
-    this.resetProperty.resetForm();
-
-    this.resetFinancial.resetForm();
 
     this.stepper.reset();
 
