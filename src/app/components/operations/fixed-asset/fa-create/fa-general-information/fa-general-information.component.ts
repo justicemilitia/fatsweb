@@ -240,6 +240,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
     console.log(this.barcode);
 
     this.faCreate.addFaGeneralInformation(this.fixedAsset, data, this.selectedCategory);
+
   }
 
   resetForm() {
@@ -363,6 +364,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
 
   selectedBrand: FixedAssetCardBrand;
   onclickBrand(item) {
+    
     this.selectedBrand = item;
   }
 
@@ -530,7 +532,6 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
       this.fixedAsset.FixedAssetCardModel = new FixedAssetCardModel();
       return;
     }
-
    
       this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
         <number>event.FixedAssetCardBrandId,
