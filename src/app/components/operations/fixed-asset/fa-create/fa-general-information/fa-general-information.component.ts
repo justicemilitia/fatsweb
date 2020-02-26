@@ -410,8 +410,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         this.isLocationDropdownOpen = false;
         this.isDepartmentDropdownOpen = false;
         this.isFaCardDropdownOpen = false;
-        this.isFaCardCategoryDropdownOpen = false;
-        // this.loadModelByBrandId();
+        this.isFaCardCategoryDropdownOpen = false;       
         break;
     }
   }
