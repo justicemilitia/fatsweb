@@ -113,5 +113,6 @@ export class FixedAsset implements IData {
     this.FixedAssetCardCategory = new FixedAssetCardCategory();
     this.Location = new Location();
     this.Currency = new Currency();
+    this.FixedAssetCardModelId = -1;
   }
 }
