@@ -41,6 +41,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
   isDepartmentDropdownOpen: boolean = false;
   isFaCardDropdownOpen: boolean = false;
   isFaCardCategoryDropdownOpen: boolean = false;
+  isBrandOpen: boolean = false;
 
   isWaitingValidBarcode: boolean = false;
 
@@ -57,7 +58,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
   models: FixedAssetCardModel[] = [];
   fixedassetcategories: FixedAssetCardCategory[] = [];
   fixedassetcards: FixedAssetCard[] = [];
-  
+
   isResetForm: boolean = false;
   isRFIDBarcode: boolean = false;
   prefix: string = "";
@@ -103,6 +104,24 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
     [
       {
         columnDisplayName: this.getLanguageValue('Fixed_Asset_Category_Name'),
+        columnName: ["Name"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text"
+      }
+    ],
+    {
+      isDesc: false,
+      column: ["Name"]
+    }
+  );
+
+  public dataTableBrand: TreeGridTable = new TreeGridTable(
+    "fixedassetcategory",
+    [
+      {
+        columnDisplayName: this.getLanguageValue('Brand'),
         columnName: ["Name"],
         isActive: true,
         classes: [],
@@ -177,6 +196,14 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
     this.dataTableFixedAssetCard.isLoading = false;
     this.dataTableFixedAssetCard.isHeaderVisible = false;
     this.dataTableFixedAssetCard.isScrollActive = false;
+
+    this.dataTableBrand.isPagingActive = false;
+    this.dataTableBrand.isColumnOffsetActive = false;
+    this.dataTableBrand.isDeleteable = false;
+    this.dataTableBrand.isMultipleSelectedActive = false;
+    this.dataTableBrand.isLoading = false;
+    this.dataTableBrand.isHeaderVisible = false;
+    this.dataTableBrand.isScrollActive = false;
     //#endregion    
 
     $(document).on("click", e => {
@@ -184,11 +211,13 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         $(e.target).closest(".custom-dropdown").length == 0 &&
         $(e.target).closest("#btnLocation").length == 0 && $(e.target).closest("#btnDepartment").length == 0
         && $(e.target).closest("#btnFaCategory").length == 0 && $(e.target).closest("#btnFaCard").length == 0
+        && $(e.target).closest("#btnBrand").length == 0
       ) {
         this.isLocationDropdownOpen = false;
         this.isDepartmentDropdownOpen = false;
         this.isFaCardCategoryDropdownOpen = false;
         this.isFaCardDropdownOpen = false;
+        this.isBrandOpen = false;
       }
     });
   }
@@ -205,6 +234,8 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
     this.fixedAsset.Department = this.selectedDepartment;
 
     this.fixedAsset.FixedAssetCard = this.selectedCard;
+
+    this.fixedAsset.FixedAssetCardBrand = this.selectedBrand;
 
     console.log(this.barcode);
 
@@ -242,6 +273,8 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
     this.selectedLocation = null;
 
     this.isResetForm = true;
+
+    this.selectedBrand=null;
 
     this.getValidBarcode();
   }
@@ -328,6 +361,11 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
     this.selectedCard = item;
   }
 
+  selectedBrand: FixedAssetCardBrand;
+  onclickBrand(item) {
+    this.selectedBrand = item;
+  }
+
   toggleDropdown(key: string) {
 
     switch (key) {
@@ -336,6 +374,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         this.isDepartmentDropdownOpen = false;
         this.isFaCardDropdownOpen = false;
         this.isFaCardCategoryDropdownOpen = false;
+        this.isBrandOpen = false;
         break;
 
       case "department":
@@ -343,6 +382,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         this.isFaCardDropdownOpen = false;
         this.isFaCardCategoryDropdownOpen = false;
         this.isLocationDropdownOpen = false;
+        this.isBrandOpen = false;
         break;
 
       case "card":
@@ -350,6 +390,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         this.isLocationDropdownOpen = false;
         this.isDepartmentDropdownOpen = false;
         this.isFaCardCategoryDropdownOpen = false;
+        this.isBrandOpen = false;
         this.loadFaCardByCategoryId();
 
         break;
@@ -359,6 +400,16 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         this.isLocationDropdownOpen = false;
         this.isDepartmentDropdownOpen = false;
         this.isFaCardDropdownOpen = false;
+        this.isBrandOpen = false;
+        break;
+
+      case "brand":
+        this.isBrandOpen = !this.isBrandOpen;
+        this.isLocationDropdownOpen = false;
+        this.isDepartmentDropdownOpen = false;
+        this.isFaCardDropdownOpen = false;
+        this.isFaCardCategoryDropdownOpen = false;
+        // this.loadModelByBrandId();
         break;
     }
   }
@@ -379,6 +430,9 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         this.dataTableDepartment.TGT_clearData();
         break;
       case "department":
+        this.selectedDepartment = null;
+        break;
+      case "brand":
         this.selectedDepartment = null;
         break;
     }
@@ -444,6 +498,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
       this.baseService.fixedAssetCardBrandService.GetFixedAssetCardBrands(
         (brands: FixedAssetCardBrand[]) => {
           this.brands = brands;
+          this.dataTableBrand.TGT_loadData(this.brands);
 
         },
         (error: HttpErrorResponse) => { }
@@ -470,15 +525,15 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
   async loadModelByBrandId(event: any) {
     this.models = [];
 
-    if (!event.target.value || event.target.value == "") {
+    if (event == null || event.FixedAssetCardBrandId  == null) {
       this.fixedAsset.FixedAssetCardModelId = null;
       this.fixedAsset.FixedAssetCardModel = new FixedAssetCardModel();
       return;
     }
 
-    if (event.target.value) {
+   
       this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
-        <number>event.target.value,
+        <number>event.FixedAssetCardBrandId,
         (models: FixedAssetCardModel[]) => {
           this.models = models;
         },
@@ -486,7 +541,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
 
         }
       );
-    }
+    
   }
 
   async loadFaCardByCategoryId() {
