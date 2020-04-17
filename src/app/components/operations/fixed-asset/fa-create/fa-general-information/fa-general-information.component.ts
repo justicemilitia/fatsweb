@@ -275,7 +275,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
 
     this.isResetForm = true;
 
-    this.selectedBrand=null;
+    this.selectedBrand = null;
 
     this.getValidBarcode();
   }
@@ -364,8 +364,9 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
 
   selectedBrand: FixedAssetCardBrand;
   onclickBrand(item) {
-    
     this.selectedBrand = item;
+    this.isBrandOpen = false;
+    this.loadModelByBrandId();
   }
 
   toggleDropdown(key: string) {
@@ -410,7 +411,7 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         this.isLocationDropdownOpen = false;
         this.isDepartmentDropdownOpen = false;
         this.isFaCardDropdownOpen = false;
-        this.isFaCardCategoryDropdownOpen = false;       
+        this.isFaCardCategoryDropdownOpen = false;        
         break;
     }
   }
@@ -434,7 +435,8 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
         this.selectedDepartment = null;
         break;
       case "brand":
-        this.selectedDepartment = null;
+        this.selectedBrand = null;        
+        this.models = null;
         break;
     }
   }
@@ -523,25 +525,18 @@ export class FaGeneralInformationComponent extends BaseComponent implements OnIn
   //   }
   // }
 
-  async loadModelByBrandId(event: any) {
+  async loadModelByBrandId() {
     this.models = [];
 
-    if (event == null || event.FixedAssetCardBrandId  == null) {
-      this.fixedAsset.FixedAssetCardModelId = null;
-      this.fixedAsset.FixedAssetCardModel = new FixedAssetCardModel();
-      return;
-    }
-   
-      this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
-        <number>event.FixedAssetCardBrandId,
-        (models: FixedAssetCardModel[]) => {
-          this.models = models;
-        },
-        (error: HttpErrorResponse) => {
-
-        }
-      );
-    
+    this.baseService.fixedAssetCardModelService.GetFixedAssetsCardModelsByBrandId(
+      <number>this.selectedBrand.FixedAssetCardBrandId,
+      (models: FixedAssetCardModel[]) => {
+        this.models = models;
+      },
+      (error: HttpErrorResponse) => {
+        //this.baseService.popupService.ShowErrorPopup(error);
+      }
+    );
   }
 
   async loadFaCardByCategoryId() {

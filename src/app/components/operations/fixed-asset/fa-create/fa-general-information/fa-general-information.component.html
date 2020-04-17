@@ -156,7 +156,7 @@
         </div>  
       </div>
       <div class="custom-dropdown" *ngIf="isBrandOpen==true">
-        <tree-grid-table (onClickItem)="loadModelByBrandId($event)" [dataTable]="dataTableBrand">
+        <tree-grid-table (onClickItem)="onclickBrand($event)" [dataTable]="dataTableBrand">
         </tree-grid-table>
       </div>
 
@@ -200,7 +200,7 @@
       <label>{{getLanguageValue('Fixed_Asset_Model_Name')}}</label>
       <select [(ngModel)]="fixedAsset.FixedAssetCardModelId" name="FixedAssetCardModelId" style="width:100%;"
         class="form-control select2-no-search">
-        <option [ngValue]="null">{{getLanguageValue('Choose')}}</option>
+        <option [ngValue]="-1">{{getLanguageValue('Choose')}}</option>
         <option *ngFor="let model of models" value="{{model.FixedAssetCardModelId}}">{{model.Name}}</option>
       </select>
     </div>
