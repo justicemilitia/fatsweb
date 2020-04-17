@@ -146,8 +146,8 @@
     <div class="form-group col-md-3">
 
       <div>
-        <label>{{getLanguageValue('Fixed_Asset_Brand_Name')}}</label>        
-        <div style="display:flex;">
+        <label style="font-weight: bold;">{{getLanguageValue('Fixed_Asset_Brand_Name')}}</label>        
+        <div style="display:flex;margin-top: -8px;">
           <button id="btnBrand" (click)="toggleDropdown('brand') " class="dropdown-button" type="button"
             [class.dropdown-button-valid]="data.submitted && !selectedBrand" >
             {{selectedBrand ? selectedBrand.Name : getLanguageValue('Choose') }}</button>
