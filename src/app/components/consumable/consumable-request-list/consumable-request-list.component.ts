@@ -140,6 +140,17 @@ export class ConsumableRequestListComponent extends BaseComponent
         type: "text"
       },
       {
+        columnDisplayName: this.getLanguageValue('Consumable_Create_Date'),
+        columnName: ["ConsumableCard","CreationDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.CreationDate ? value.CreationDate.replace("T"," ").substring(0,16): "";
+        }
+      },
+      {
         columnDisplayName: this.getLanguageValue('Consumable_Category'),
         columnName: ["ConsumableCard","ConsumableCategory","ConsumableCategoryName"],
         isActive: true,
@@ -188,6 +199,17 @@ export class ConsumableRequestListComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Consumable_Create_Date'),
+        columnName: ["ConsumableLogDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.ConsumableLogDate ? value.ConsumableLogDate.replace("T"," ").substring(0,16): "";
+        }
       },
       {
         columnDisplayName: this.getLanguageValue('Consumable_Category'),
@@ -270,6 +292,17 @@ export class ConsumableRequestListComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Consumable_ConsumableLogDate'),
+        columnName: ["ConsumableLogDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.ConsumableLogDate ? value.ConsumableLogDate.replace("T"," ").substring(0,16): "";
+        }
       },
       {
         columnDisplayName: this.getLanguageValue('Consumable_Category'),
@@ -378,6 +411,17 @@ export class ConsumableRequestListComponent extends BaseComponent
         classes: [],
         placeholder: "",
         type: "text"
+      },
+      {
+        columnDisplayName: this.getLanguageValue('Consumable_Create_Date'),
+        columnName: ["ConsumableLogDate"],
+        isActive: true,
+        classes: [],
+        placeholder: "",
+        type: "text",
+        formatter: value => {
+          return value.ConsumableLogDate ? value.ConsumableLogDate.replace("T"," ").substring(0,16): "";
+        }
       },
       {
         columnDisplayName: this.getLanguageValue('Consumable_Category'),
