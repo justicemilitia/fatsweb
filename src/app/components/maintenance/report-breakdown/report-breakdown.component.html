@@ -43,11 +43,11 @@
             <input #breakdownPicture name="BreakdownPicture" (change)="changeFile($event)" id="BreakdownPicture" type="file"
               class="form-control-file" style="display:none" multiple>
             <label for="BreakdownPicture" class="custom-file">
-              <label class="custom-file-text" for="BreakdownPicture">{{getLanguageValue('Choose_File')}}</label>
+              <label class="custom-file-text" for="BreakdownPicture">{{getLanguageValue('Choose_Picture')}}</label>
             </label>
             <label class="custom-file-remove" (click)="clearPictures()"><span class="fa fa-times"></span></label>
           </div>
-          <div *ngIf="isMoreThanFive==true" style="color: red;">{{fileMessage}}</div>
+          <div *ngIf="isMoreThanFive" style="color: red;">{{fileMessage}}</div>
         </div>
       </div>
 
