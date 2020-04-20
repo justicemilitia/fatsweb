@@ -170,6 +170,10 @@ export class ReportBreakdownComponent extends BaseComponent implements OnInit {
         requestPic.MaintenanceRequestPictureId = (maintenanceRequestPicture.length + 1) * -1;     
         requestPic.Picture=this.maintenancePictures[i].name;
         maintenanceRequestPicture.push(requestPic);        
+        } else {
+          this.isMoreThanFive = true;
+          this.fileMessage = "Sadece png, jpg tipi resim yükleyebilirsiniz.";
+          break;
         }
       }
     }
