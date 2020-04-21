@@ -28,12 +28,12 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   isWaitingInsertOrUpdate: boolean = false;
 
   /* Is Table Refreshing */
-  isTableRefreshing:boolean = false;
+  isTableRefreshing: boolean = false;
 
   /* Is Table Exporting */
-  isTableExporting:boolean = false;
+  isTableExporting: boolean = false;
 
-  selectedCountry:boolean = false;
+  selectedCountry: boolean = false;
 
   /* List of countries */
   countries: Country[] = [];
@@ -49,9 +49,9 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   notDeletedBarcode: string = '';
   errorMessage: string = '';
-  
-  selectedItems:any[]=[];
-  
+
+  selectedItems: any[] = [];
+
   public dataTable: TreeGridTable = new TreeGridTable(
     "company",
     [
@@ -112,7 +112,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName:  this.getLanguageValue('Phone'),
+        columnDisplayName: this.getLanguageValue('Phone'),
         columnName: ["Phone"],
         isActive: true,
         classes: [],
@@ -128,7 +128,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName:  this.getLanguageValue('Fax'),
+        columnDisplayName: this.getLanguageValue('Fax'),
         columnName: ["SecondPhone"],
         isActive: true,
         classes: [],
@@ -136,7 +136,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         type: "text"
       },
       {
-        columnDisplayName:  this.getLanguageValue('Description'),
+        columnDisplayName: this.getLanguageValue('Description'),
         columnName: ["Description"],
         isActive: true,
         classes: [],
@@ -158,8 +158,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   ngOnInit() { }
 
   resetForm(data: NgForm, isNewItem: boolean) {
-    
-    this.selectedCountry=false;
+
+    this.selectedCountry = false;
 
     data.resetForm(this.company);
 
@@ -179,27 +179,33 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     if (this.company.CompanyId == null) {
       this.addCompany(data);
     } else {
+      /* cityid required field!! */
+      if (this.selectedCountry == true && !this.company.CityId) {
+        this.errorMessage = this.getLanguageValue("Please_Select_City");
+        this.popupComponent.ShowModal('#modalShowErrorPopup');
+        return;
+      }
+
       this.popupComponent.ShowModal('#modalShowQuestionPopupForCompany');
       this.popupComponent.CloseModal('#modalCompany');
     }
 
   }
 
-  onDelete(){
-    
-     /* get selected items from table */
-     this.selectedItems = this.dataTable.TGT_getSelectedItems();
-    
-     /* if count of items equals 0 show message for no selected item */
-     if (!this.selectedItems || this.selectedItems.length == 0) {
-       this.baseService.popupService.ShowAlertPopup(
-         "Lütfen en az bir şirket seçiniz"
-       );
-       return;
-     }
+  onDelete() {
+    /* get selected items from table */
+    this.selectedItems = this.dataTable.TGT_getSelectedItems();
+
+    /* if count of items equals 0 show message for no selected item */
+    if (!this.selectedItems || this.selectedItems.length == 0) {
+      this.baseService.popupService.ShowAlertPopup(
+        "Lütfen en az bir şirket seçiniz"
+      );
+      return;
+    }
     else
-    this.popupComponent.ShowModal('#modalShowDeletePopupForCompany');
-    
+      this.popupComponent.ShowModal('#modalShowDeletePopupForCompany');
+
   }
 
   async deleteCompanies() {
@@ -208,58 +214,57 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
     /* if count of items equals 0 show message for no selected item */
     if (!selectedItems || selectedItems.length == 0) {
-      this.baseService.popupService.ShowAlertPopup( this.getLanguageValue('Please_choose_at_least_one_record'));
+      this.baseService.popupService.ShowAlertPopup(this.getLanguageValue('Please_choose_at_least_one_record'));
       return;
     }
 
     /* Show Question Message */
     // await this.baseService.popupService.ShowQuestionPopupForDelete(() => {
-      
-      /* Activate the loading spinner */
-      this.baseService.spinner.show();
 
-      /* Convert items to ids */
-      let itemIds: number[] = selectedItems.map(x => x.getId());
+    /* Activate the loading spinner */
+    this.baseService.spinner.show();
 
-      /* Delete all */
-      this.baseService.companyService.DeleteCompanies(itemIds, () => {
-        
-        /* Deactive the spinner */
-        this.baseService.spinner.hide();
+    /* Convert items to ids */
+    let itemIds: number[] = selectedItems.map(x => x.getId());
 
-        /* if all of them removed */
-        if (itemIds.length == 1)
-          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
-        else
-          this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
+    /* Delete all */
+    this.baseService.companyService.DeleteCompanies(itemIds, () => {
 
-        /* Clear all the ids from table */
-        this.dataTable.TGT_removeItemsByIds(itemIds);
+      /* Deactive the spinner */
+      this.baseService.spinner.hide();
 
-        /* Get latest companies from table*/
-        this.companies = <Company[]>this.dataTable.TGT_copySource();
+      /* if all of them removed */
+      if (itemIds.length == 1)
+        this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('Delete_operation_successful'));
+      else
+        this.baseService.popupService.ShowSuccessPopup(this.getLanguageValue('All_records_deleted'));
 
-      }, (itemIds:NotDeletedItem[],error: HttpErrorResponse) => {
+      /* Clear all the ids from table */
+      this.dataTable.TGT_removeItemsByIds(itemIds);
 
-        let barcode:Company;
+      /* Get latest companies from table*/
+      this.companies = <Company[]>this.dataTable.TGT_copySource();
 
-        let notDeletedCodes : string[]=[];
+    }, (itemIds: NotDeletedItem[], error: HttpErrorResponse) => {
 
-        let companies = <Company[]>this.dataTable.TGT_copySource();
-        
-        /* Hide Loading Spinner */
-        this.baseService.spinner.hide();
+      let barcode: Company;
 
-        itemIds.forEach((e:NotDeletedItem) => {
-          for(let i=0; i<itemIds.length; i++){
-        barcode = companies.find(x=>x.CompanyId == e[i].Id);
-        }     
+      let notDeletedCodes: string[] = [];
+
+      let companies = <Company[]>this.dataTable.TGT_copySource();
+
+      /* Hide Loading Spinner */
+      this.baseService.spinner.hide();
+
+      itemIds.forEach((e: NotDeletedItem) => {
+        for (let i = 0; i < itemIds.length; i++) {
+          barcode = companies.find(x => x.CompanyId == e[i].Id);
+        }
         notDeletedCodes.push(barcode.CompanyCode);
-        });
+      });
 
-         /* Show error message */
-         if(itemIds.length>0)
-         {
+      /* Show error message */
+      if (itemIds.length > 0) {
         //  this.baseService.popupService.ShowDeletePopup(error,notDeletedCodes);
 
         notDeletedCodes.forEach((e, i) => {
@@ -267,18 +272,18 @@ export class CompanyComponent extends BaseComponent implements OnInit {
             e + (i == selectedItems.length - 1 ? "" : ", ");
         });
 
-         this.popupComponent.ShowModal('#modalShowWarningPopup');     
-        }
-        else{
+        this.popupComponent.ShowModal('#modalShowWarningPopup');
+      }
+      else {
         //  this.baseService.popupService.ShowErrorPopup(error);
-         this.errorMessage=error.message;
-         this.popupComponent.ShowModal('#modalShowErrorPopup');     
-          
-        }
+        this.errorMessage = error.message;
+        this.popupComponent.ShowModal('#modalShowErrorPopup');
 
-      });
-      this.popupComponent.CloseModal('#modalShowDeletePopupForCompany');      
-      
+      }
+
+    });
+    this.popupComponent.CloseModal('#modalShowDeletePopupForCompany');
+
     // });
   }
 
@@ -286,11 +291,11 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
     /* Activate the loading spinner */
     this.baseService.spinner.show();
-    
-    if(this.selectedCountry==true){
-      if(data.value.CityId == null)
-      return;      
-    } 
+
+    if (this.selectedCountry == true) {
+      if (data.value.CityId == null)
+        return;
+    }
     /* Bind Cities and Countries to table model note: ngModels return string so we have to cast them to number */
     if (this.company.CityId) {
       this.company.CityId = Number(this.company.CityId);
@@ -309,8 +314,8 @@ export class CompanyComponent extends BaseComponent implements OnInit {
     /* Insert Company service */
     await this.baseService.companyService.InsertCompany(this.company, (insertedItem: Company, message) => {
 
-     /* Deactive the spinner */
-     this.baseService.spinner.hide();
+      /* Deactive the spinner */
+      this.baseService.spinner.hide();
 
       /* close loading bar */
       this.isWaitingInsertOrUpdate = false;
@@ -329,10 +334,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
       $('#btnRefresh').trigger('click');
 
-      this.selectedCountry=false;
+      this.selectedCountry = false;
 
     }, (error: HttpErrorResponse) => {
-      
+
       /* Deactive the spinner */
       this.baseService.spinner.hide();
 
@@ -344,61 +349,58 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   }
 
   async updateCompany(data: NgForm) {
+    /* Activate the loading spinner */
+    this.baseService.spinner.show();
+    /* Say to user to wait */
+    this.isWaitingInsertOrUpdate = true;
 
-      /* Activate the loading spinner */
-      this.baseService.spinner.show();
-      
-      if(this.selectedCountry==true) return;
-        /* Say to user to wait */
-        this.isWaitingInsertOrUpdate = true;
+    let willUpdateItem = new Company();
+    Object.assign(willUpdateItem, this.company);
 
-        let willUpdateItem = new Company();
-        Object.assign(willUpdateItem, this.company);
-        
-        this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
+    this.baseService.companyService.UpdateCompany(this.company, (_company, message) => {
 
-          /* Deactive the spinner */
-          this.baseService.spinner.hide();
+      /* Deactive the spinner */
+      this.baseService.spinner.hide();
 
-          /* city and update binding */
-          if (this.company.CityId) {
-            let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
-            let country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
-            this.company.City.CityId = city.CityId;
-            this.company.City.Name = city.Name;
-            this.company.City.CountryId = country.CountryId;
-            this.company.City.Country.Name = country.Name;
-            this.company.City.Country.CountryId = country.CountryId;
-          }
+      /* city and update binding */
+      if (this.company.CityId) {
+        let city = this.cities.find(x => x.CityId == Number(this.company.CityId));
+        let country = this.countries.find(x => x.CountryId == Number(this.company.City.CountryId));
+        this.company.City.CityId = city.CityId;
+        this.company.City.Name = city.Name;
+        this.company.City.CountryId = country.CountryId;
+        this.company.City.Country.Name = country.Name;
+        this.company.City.Country.CountryId = country.CountryId;
+      }
 
-          /* Close loading */
-          this.isWaitingInsertOrUpdate = false;
+      /* Close loading */
+      this.isWaitingInsertOrUpdate = false;
 
-          /* Show pop up then update data in datatable */
-          this.baseService.popupService.ShowSuccessPopup(message);
+      /* Show pop up then update data in datatable */
+      this.baseService.popupService.ShowSuccessPopup(message);
 
-          /* Update table with updated company */
-          let updatedCompany = new Company();
-          Object.assign(updatedCompany, this.company);
-          this.dataTable.TGT_updateData(updatedCompany);
+      /* Update table with updated company */
+      let updatedCompany = new Company();
+      Object.assign(updatedCompany, this.company);
+      this.dataTable.TGT_updateData(updatedCompany);
 
-          /* Get original source from table */
-          this.companies = <Company[]>this.dataTable.TGT_copySource();
+      /* Get original source from table */
+      this.companies = <Company[]>this.dataTable.TGT_copySource();
 
-        }, (error: HttpErrorResponse) => {
+    }, (error: HttpErrorResponse) => {
 
-         /* Deactive the spinner */
-         this.baseService.spinner.hide();
+      /* Deactive the spinner */
+      this.baseService.spinner.hide();
 
-          this.errorMessage=this.getLanguageValue(error.statusText);
-          this.popupComponent.ShowModal('#modalShowErrorPopup');  
+      this.errorMessage = this.getLanguageValue(error.statusText);
+      this.popupComponent.ShowModal('#modalShowErrorPopup');
 
-          /* say user no more wait */
-          this.isWaitingInsertOrUpdate = false;
+      /* say user no more wait */
+      this.isWaitingInsertOrUpdate = false;
 
-        });
+    });
 
-        this.popupComponent.CloseModal('#modalShowQuestionPopupForCompany');     
+    this.popupComponent.CloseModal('#modalShowQuestionPopupForCompany');
   }
 
   async loadCompanies() {
@@ -410,7 +412,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
         /* Load Companies then refresh table */
         this.companies = companies;
         this.dataTable.TGT_loadData(this.companies);
-        if(companies.length==0){
+        if (companies.length == 0) {
           this.baseService.popupService.ShowWarningPopup(this.getLanguageValue('Record_not_found'));
         }
       },
@@ -442,10 +444,10 @@ export class CompanyComponent extends BaseComponent implements OnInit {
   async loadCityByCountryId(event: any) {
     this.cities = [];
 
-    if(event.target.selectedIndex == 0)
-      this.selectedCountry =false;
+    if (event.target.selectedIndex == 0)
+      this.selectedCountry = false;
     else
-      this.selectedCountry=true;
+      this.selectedCountry = true;
 
     /* if value is empty return to prevent error */
     if (!event.target.value || event.target.value == '' || event.target.selectedIndex == 0) {
@@ -532,7 +534,7 @@ export class CompanyComponent extends BaseComponent implements OnInit {
 
   }
 
-  closeModal(){
+  closeModal() {
     this.popupComponent.CloseModal('#modalShowErrorPopup');
   }
 }

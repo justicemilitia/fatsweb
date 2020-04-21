@@ -23,9 +23,14 @@ export class LanguageService {
   }
 
   LoadLanguages() {
-    this.httpclient.get(this.path).subscribe(data => {
-      this.languages = <Language[]>data;
-    });
+    if (!localStorage.getItem("Languages_Data")) {
+      this.httpclient.get(this.path).subscribe(data => {
+        this.languages = <Language[]>data;
+        localStorage.setItem("Languages_Data", JSON.stringify(this.languages));
+      });
+    } else {
+      this.languages = <Language[]>JSON.parse(localStorage.getItem("Languages_Data"));
+    }
   }
 
   setCulture(culture: string): void {
